@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { GrilleComponent } from './grille/grille.component';
 import { DefinitionsComponent } from './definitions/definitions.component';
 import { InformationsComponent } from './informations/informations.component';
+import { GridComponent } from './grid/grid.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { InformationsComponent } from './informations/informations.component';
     AppComponent,
     GrilleComponent,
     DefinitionsComponent,
-    InformationsComponent
+    InformationsComponent,
+    GridComponent
   ],
   imports: [
     BrowserModule
