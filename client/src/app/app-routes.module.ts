@@ -26,6 +26,9 @@ export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);
   imports: [
     CommonModule
   ],
+  exports: [
+
+  ],
   declarations: []
 })
 export class AppRoutesModule { }
