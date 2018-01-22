@@ -1,0 +1,19 @@
+    .box {
+        height: 600px;
+        display: inline-block;
+        width: 100%;
+        font-size: 30px;
+        padding-top: 50px;
+    }
+    
+    .left {
+        position: relative;
+        float: left;
+        margin-left: 26%;
+    }
+    
+    .right {
+        position: relative;
+        float: left;
+        margin-left: 26%;
+    }
