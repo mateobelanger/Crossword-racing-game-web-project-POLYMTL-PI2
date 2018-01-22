@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
-import { RouterModule } from '@angular/router';
+//import { RouterModule } from '@angular/router';
 
 import { AppComponent } from "./app.component";
 import { GameComponent } from "./racing-game/game-component/game.component";
