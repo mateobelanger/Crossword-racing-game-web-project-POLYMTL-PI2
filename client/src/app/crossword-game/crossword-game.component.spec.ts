@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CrosswordGameComponent } from './crossword-game.component';
+import { CrosswordGameModule } from './crossword-game.module';
+
 
 describe('CrosswordGameComponent', () => {
   let component: CrosswordGameComponent;
@@ -8,7 +10,7 @@ describe('CrosswordGameComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrosswordGameComponent ]
+      imports : [ CrosswordGameModule ]
     })
     .compileComponents();
   }));
