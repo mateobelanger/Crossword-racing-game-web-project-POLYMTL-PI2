@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CrosswordGameComponent } from './crossword-game.component';
+import { ConfigurationComponent } from './configuration/configuration.component';
 
 @NgModule({
   imports: [
@@ -9,6 +10,7 @@ import { CrosswordGameComponent } from './crossword-game.component';
   ],
   declarations: [
     CrosswordGameComponent,
+    ConfigurationComponent,
   ],
 
   exports: [
