@@ -30,9 +30,10 @@ import { routes } from './app-routes.module'
         HomepageModule,
         CrosswordGameModule,
         RacingGameModule,
+
     ],
     providers: [
-
+                
     ],
     bootstrap: [AppComponent]
 })

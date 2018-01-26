@@ -8,6 +8,9 @@ import { RacingGameComponent } from './racing-game.component';
 import { GameComponent } from "./game-component/game.component";
 import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
+import { TrackEditorComponent } from './track-editor/track-editor.component';
+import { TrackEditorRenderService } from './track-editor/track-editor-render.service';
+
 
 @NgModule({
   
@@ -19,7 +22,8 @@ import { BasicService } from "./basic.service";
 
   declarations: [
     RacingGameComponent,
-    GameComponent
+    GameComponent,
+    TrackEditorComponent
   ],
   
   exports: [
@@ -28,7 +32,8 @@ import { BasicService } from "./basic.service";
 
   providers: [
     RenderService,
-    BasicService
+    BasicService,
+    TrackEditorRenderService
   ],
 
 })
