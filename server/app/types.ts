@@ -3,5 +3,6 @@ export default  {
         Application: Symbol("Application"),
         Routes: Symbol("Routes"),
         ServiceLexical: Symbol("ServiceLexical"),
-        Index: Symbol("Index")
+        Index: Symbol("Index"),
+        Muse: Symbol("Muse")
 };

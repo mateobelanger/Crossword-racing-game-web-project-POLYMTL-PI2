@@ -40,6 +40,7 @@ export class Application {
         const router: express.Router = express.Router();
 
         router.use(this.api.routes);
+        router.use(this.serviceLexical.routes);
 
         this.app.use(router);
 
@@ -48,8 +49,6 @@ export class Application {
 
     public initserviceLexical(): void {
         const router: express.Router = express.Router();
-
-        router.use(this.serviceLexical.routes);
 
         this.app.use(router);
 

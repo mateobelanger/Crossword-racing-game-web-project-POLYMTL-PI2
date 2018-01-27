@@ -5,10 +5,10 @@ import { injectable, } from "inversify";
 
 const datamuse = require("datamuse");
 
-module Route {
+module Lexical {
 
     @injectable()
-    export class Index {
+    export class Muse {
 
         public helloWorld2(req: Request, res: Response, next: NextFunction): void {
             const message: Message = new Message();
@@ -29,4 +29,4 @@ module Route {
     }
 }
 
-export = Route;
+export = Lexical;

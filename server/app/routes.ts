@@ -15,9 +15,6 @@ export class Routes {
         router.get("/",
                    (req: Request, res: Response, next: NextFunction) => this.index.helloWorld(req, res, next));
 
-        router.get("/test/:criteria",
-                   (req: Request, res: Response, next: NextFunction) => this.index.helloWorld(req, res, next));
-
         return router;
     }
 }
