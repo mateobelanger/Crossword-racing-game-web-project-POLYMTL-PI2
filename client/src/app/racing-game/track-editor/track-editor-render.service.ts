@@ -18,7 +18,7 @@ export class TrackEditorRenderService {
 
   public constructor() { }
 
-  public initialise(container: HTMLDivElement): void { 
+  public initialize(container: HTMLDivElement): void { 
     this.container = container;
     this.createScene();
     this.startRenderingLoop();
