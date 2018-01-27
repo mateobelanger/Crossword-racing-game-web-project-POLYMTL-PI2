@@ -18,7 +18,7 @@ export class TrackEditorRenderService {
 
   public constructor() { }
 
-  public initialize(container: HTMLDivElement): void {
+  public initialise(container: HTMLDivElement): void { 
     this.container = container;
     this.createScene();
     this.startRenderingLoop();
@@ -36,18 +36,19 @@ export class TrackEditorRenderService {
       100 // and this line
     );
 
-    // TEST to find out if the scene is working
+    // TEST to find out if the scene is working////
     this.light = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.light);
 
     this.box = new THREE.Mesh(
-      new THREE.BoxGeometry(100, 100, 100),
-      new THREE.MeshBasicMaterial({color: 0xFF0000})
+        new THREE.BoxGeometry(100, 100, 100),
+        new THREE.MeshBasicMaterial({color: 0xFF0000})
     );
     this.box.position.z = -10;
 
     this.scene.add(this.box);
   }
+  ///////////////////////////////////////////////// 
 
   private startRenderingLoop(): void {
     this.renderer = new THREE.WebGLRenderer();
@@ -64,6 +65,7 @@ export class TrackEditorRenderService {
     // TODO : Delete this part with the cube (box)
     this.box.rotation.y += 0.005;
     this.box.rotation.x += 0.005;
+    ////////////////////////////////////////////////// 
   }
 
 

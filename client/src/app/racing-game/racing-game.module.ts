@@ -10,7 +10,7 @@ import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
 import { TrackEditorComponent } from './track-editor/track-editor.component';
 import { TrackEditorRenderService } from './track-editor/track-editor-render.service';
-
+import { TrackEditorService } from './track-editor/track-editor.service'; 
 
 @NgModule({
   
@@ -33,7 +33,8 @@ import { TrackEditorRenderService } from './track-editor/track-editor-render.ser
   providers: [
     RenderService,
     BasicService,
-    TrackEditorRenderService
+    TrackEditorRenderService,
+    TrackEditorService 
   ],
 
 })

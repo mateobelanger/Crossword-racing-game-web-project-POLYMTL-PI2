@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from "@angular/core";
+import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from "@angular/core"; 
+ 
+import { TrackEditorService } from './track-editor.service'; 
 
-import { TrackEditorRenderService } from './track-editor-render.service';
 
 
 @Component({
@@ -14,13 +15,15 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
   @ViewChild("container")
   private containerRef: ElementRef;
 
-// Je pense qu'on va devoir faire passser le service au complet et
-// non juste le renderServive quand il va y avoir d'autre componenet  */
-  public constructor (private trackEditorRenderService: TrackEditorRenderService) { }
 
-  public ngOnInit(): void {
-  }
+  private get container(): HTMLDivElement { 
+      return this.containerRef.nativeElement; 
+  } 
 
+  public constructor (private trackEditorService: TrackEditorService) { }    
+ 
+  public ngOnInit() {       
+  } 
 
   //TODO: We will need to add something that looks like that for the listener
   /*
@@ -48,8 +51,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 */
 
   public ngAfterViewInit(): void {
-      this.trackEditorRenderService
-          .initialize(this.containerRef.nativeElement);
+    this.trackEditorService.initialise(this.container); 
   }
 
 
