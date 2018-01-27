@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from "@angular/core"; 
- 
-import { TrackEditorService } from './track-editor.service'; 
+import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from "@angular/core";
+
+import { TrackEditorService } from './track-editor.service';
 
 
 
@@ -16,16 +16,16 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
   private containerRef: ElementRef;
 
 
-  private get container(): HTMLDivElement { 
-      return this.containerRef.nativeElement; 
-  } 
+  private get container(): HTMLDivElement {
+      return this.containerRef.nativeElement;
+  }
 
-  public constructor (private trackEditorService: TrackEditorService) { }    
- 
-  public ngOnInit() {       
-  } 
+  public constructor (private trackEditorService: TrackEditorService) { }
 
-  //TODO: We will need to add something that looks like that for the listener
+  public ngOnInit() {
+  }
+
+  // TODO: We will need to add something that looks like that for the listener
   /*
   public ngAfterViewInit(): void {
     this.trackEditorRenderService
@@ -51,7 +51,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 */
 
   public ngAfterViewInit(): void {
-    this.trackEditorService.initialise(this.container); 
+    this.trackEditorService.initialize(this.container);
   }
 
 
