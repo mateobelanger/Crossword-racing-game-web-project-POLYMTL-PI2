@@ -1,4 +1,6 @@
 {
+    "extends": ["tslint-angular"],
+    
     "rulesDirectory": [
         "node_modules/codelyzer",
         "node_modules/tslint-microsoft-contrib"
