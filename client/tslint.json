@@ -88,9 +88,7 @@
         ],
         "prefer-const": true,
         "quotemark": [
-            true,
-            "double",
-            "avoid-escape"
+            false
         ],
         "radix": true,
         "semicolon": [
@@ -191,7 +189,7 @@
         "newline-before-return": true,
         "no-angle-bracket-type-assertion": true,
         "no-boolean-literal-compare": true,
-        "no-consecutive-blank-lines": true,
+        "no-consecutive-blank-lines": false,
         "number-literal-format": true,
         "prefer-method-signature": true,
         "return-undefined": true,

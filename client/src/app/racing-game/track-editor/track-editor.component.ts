@@ -14,11 +14,11 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
   @ViewChild("container")
   private containerRef: ElementRef;
 
-// Je pense qu'on va devoir faire passser le service au complet et 
+// Je pense qu'on va devoir faire passser le service au complet et
 // non juste le renderServive quand il va y avoir d'autre componenet  */
-  public constructor (private trackEditorRenderService: TrackEditorRenderService) { }   
+  public constructor (private trackEditorRenderService: TrackEditorRenderService) { }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
   }
 
 
@@ -49,7 +49,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
   public ngAfterViewInit(): void {
       this.trackEditorRenderService
-          .initialize(this.containerRef.nativeElement)
+          .initialize(this.containerRef.nativeElement);
   }
 
 

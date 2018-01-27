@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-
-
 import * as THREE from 'three';
-
-
+/* tslint:disable:no-magic-numbers */
 @Injectable()
 export class TrackEditorRenderService {
 
@@ -19,9 +16,7 @@ export class TrackEditorRenderService {
 
   private light: THREE.AmbientLight;
 
-
   public constructor() { }
-
 
   public initialize(container: HTMLDivElement): void {
     this.container = container;
@@ -29,7 +24,6 @@ export class TrackEditorRenderService {
     this.startRenderingLoop();
   }
 
-  
   private createScene(): void {
     this.scene = new THREE.Scene();
 
@@ -38,27 +32,22 @@ export class TrackEditorRenderService {
       this.container.clientWidth / 2,
       this.container.clientHeight / 2,
       this.container.clientHeight / - 2,
-      1,  //TODO: Put the same number on this line to have a "plane"
+      1,  // TODO: Put the same number on this line to have a "plane"
       100 // and this line
     );
 
-  
-
     // TEST to find out if the scene is working
-    this.light = new THREE.AmbientLight(0xffffff);
+    this.light = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.light);
-    
+
     this.box = new THREE.Mesh(
-      new THREE.BoxGeometry(100,100,100),
+      new THREE.BoxGeometry(100, 100, 100),
       new THREE.MeshBasicMaterial({color: 0xFF0000})
     );
     this.box.position.z = -10;
 
     this.scene.add(this.box);
-  
   }
-
-
 
   private startRenderingLoop(): void {
     this.renderer = new THREE.WebGLRenderer();
@@ -68,14 +57,14 @@ export class TrackEditorRenderService {
     this.render();
   }
 
-
   private render(): void {
     requestAnimationFrame(() => this.render());
     this.renderer.render(this.scene, this.camera);
 
-    //TODO : Delete this part with the cube (box)
-    this.box.rotation.y +=0.005;
-    this.box.rotation.x +=0.005;
+    // TODO : Delete this part with the cube (box)
+    this.box.rotation.y += 0.005;
+    this.box.rotation.x += 0.005;
   }
+
 
 }
