@@ -4,6 +4,8 @@ import { TrackEditorRenderService } from './track-editor-render.service';
 @Injectable()
 export class TrackEditorService {
 
+
+
   private container: HTMLDivElement;
 
   public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
@@ -13,4 +15,14 @@ export class TrackEditorService {
       this.trackEditorRenderService.initialize(container);
   }
 
+  //
+  // TODO : HANDLING DES CLICS GAUCHE ET DROIT
+  //
+  public handleLeftClick(event: MouseEvent): void {
+    throw new Error("Method not implemented.");
+  }
+
+  public handleRightClick(event: MouseEvent): void {
+    throw new Error("Method not implemented.");
+  }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, OnInit, ElementRef } from "@angular/core";
+import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener } from "@angular/core";
 
 import { TrackEditorService } from './track-editor.service';
 
@@ -25,30 +25,23 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
   public ngOnInit() {
   }
 
-  // TODO: We will need to add something that looks like that for the listener
   /*
   public ngAfterViewInit(): void {
     this.trackEditorRenderService
         .initialize(this.containerRef.nativeElement)
-        .then(/* do nothing )
+        .then( do nothing )
         .catch((err) => console.error(err));
-   }
+} */
 
+  @HostListener("window:click", ["$event"])
+  public onLeftClick(event: MouseEvent): void {
+      this.trackEditorService.handleLeftClick(event);
+  }
 
-    @HostListener("window:resize", ["$event"])
-    public onResize(): void {
-        this.trackEditorRenderService.onResize();
-
-
-    @HostListener("window:keydown", ["$event"])
-    public onKeyDown(event: KeyboardEvent): void {
-        this.trackEditorRenderService.handleKeyDown(event);
-
-    @HostListener("window:keyup", ["$event"])
-    public onKeyUp(event: KeyboardEvent): void {
-        this.trackEditorRenderService.handleKeyUp(event);
-
-*/
+  @HostListener("window:auxclick", ["$event"])
+  public onRightClick(event: MouseEvent): void {
+      this.trackEditorService.handleRightClick(event);
+  }
 
   public ngAfterViewInit(): void {
     this.trackEditorService.initialize(this.container);
