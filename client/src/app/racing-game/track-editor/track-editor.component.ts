@@ -51,7 +51,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 */
 
   public ngAfterViewInit(): void {
-    this.trackEditorService.initialise(this.container); 
+    this.trackEditorService.initialize(this.container); 
   }
 
 

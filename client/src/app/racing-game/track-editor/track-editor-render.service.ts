@@ -12,13 +12,15 @@ export class TrackEditorRenderService {
 
   private scene: THREE.Scene;
 
-  private box: THREE.Mesh;
-
   private light: THREE.AmbientLight;
+
+  private dots: THREE.Geometry;
+
+  private lines: THREE.Line;
 
   public constructor() { }
 
-  public initialise(container: HTMLDivElement): void { 
+  public initialize(container: HTMLDivElement): void {
     this.container = container;
     this.createScene();
     this.startRenderingLoop();
@@ -36,19 +38,21 @@ export class TrackEditorRenderService {
       100 // and this line
     );
 
-    // TEST to find out if the scene is working////
+    // TEST to find out if the scene is working
     this.light = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.light);
 
-    this.box = new THREE.Mesh(
-        new THREE.BoxGeometry(100, 100, 100),
-        new THREE.MeshBasicMaterial({color: 0xFF0000})
-    );
-    this.box.position.z = -10;
+    const linematerial: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({color: 0x000, linewidth: 1});
 
-    this.scene.add(this.box);
+    this.dots = new THREE.Geometry();
+
+    for (let i: number = 0; i < 10 ; i++)
+      this.dots.vertices.push(new THREE.Vector3(i, 0, 0));
+
+    this.lines = new THREE.Line(this.dots, linematerial);
+
+    this.scene.add(this.lines);
   }
-  ///////////////////////////////////////////////// 
 
   private startRenderingLoop(): void {
     this.renderer = new THREE.WebGLRenderer();
@@ -61,11 +65,6 @@ export class TrackEditorRenderService {
   private render(): void {
     requestAnimationFrame(() => this.render());
     this.renderer.render(this.scene, this.camera);
-
-    // TODO : Delete this part with the cube (box)
-    this.box.rotation.y += 0.005;
-    this.box.rotation.x += 0.005;
-    ////////////////////////////////////////////////// 
   }
 
 
