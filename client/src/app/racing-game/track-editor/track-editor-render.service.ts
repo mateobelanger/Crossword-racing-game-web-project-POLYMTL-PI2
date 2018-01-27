@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+import {Vector3} from 'three';
+
 /* tslint:disable:no-magic-numbers */
 @Injectable()
 export class TrackEditorRenderService {
@@ -14,9 +16,11 @@ export class TrackEditorRenderService {
 
   private light: THREE.AmbientLight;
 
-  private dots: THREE.Geometry;
+  private geometry: THREE.Geometry;
 
   private lines: THREE.Line;
+
+  private dots: THREE.Points;
 
   public constructor() { }
 
@@ -27,7 +31,7 @@ export class TrackEditorRenderService {
     this.createScene();
     this.startRenderingLoop();
   }
-
+/* tslint:disable:max-func-body-length */
   private createScene(): void {
     this.scene = new THREE.Scene();
 
@@ -39,21 +43,26 @@ export class TrackEditorRenderService {
       1,  // TODO: Put the same number on this line to have a "plane"
       100 // and this line
     );
+    this.camera.position.set(0, 10, 0);
+    this.camera.lookAt(new Vector3(0, 0, 0));
 
     // TEST to find out if the scene is working
     this.light = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.light);
 
-    const linematerial: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({color: 0x000, linewidth: 1});
+    // BUILDING GEOMETRY
+    this.geometry = new THREE.Geometry();
+    for (let i: number = 0; i < 10 ; i++) {
+      this.geometry.vertices.push(new THREE.Vector3(i * 30, 0, 0));
+    }
 
-    this.dots = new THREE.Geometry();
-
-    for (let i: number = 0; i < 10 ; i++)
-      this.dots.vertices.push(new THREE.Vector3(i, 0, 0));
-
-    this.lines = new THREE.Line(this.dots, linematerial);
-
+    // BUILDING THE LINE
+    this.lines = new THREE.Line(this.geometry, new THREE.LineBasicMaterial({color: 0xffffff, linewidth: 100}));
     this.scene.add(this.lines);
+
+    // SHOWING DOTS
+    this.dots = new THREE.Points(this.geometry, new THREE.PointsMaterial( {color: 0x888888, size: 0.5} ));
+    this.scene.add(this.dots);
   }
 
   private startRenderingLoop(): void {
