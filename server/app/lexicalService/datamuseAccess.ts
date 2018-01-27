@@ -17,7 +17,7 @@ module Lexical {
             res.send(JSON.stringify(message));
         }
 
-        public searchPossibilities2(req: Request, res: Response, next: NextFunction): void {
+        public findWords(req: Request, res: Response, next: NextFunction): void {
             let criteria: String = req.param("criteria");
             while (criteria.includes("-")) {
                 criteria = criteria.replace("-", "?");

@@ -7,7 +7,7 @@ import * as cors from "cors";
 import Types from "./types";
 import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
-import { ServiceLexical } from "./serviceLexical";
+import { LexicalService } from "./lexicalService";
 
 @injectable()
 export class Application {
@@ -16,14 +16,14 @@ export class Application {
     public app: express.Application;
 
     constructor(@inject(Types.Routes) private api: Routes,
-                @inject(Types.ServiceLexical) private serviceLexical: ServiceLexical) {
+                @inject(Types.LexicalService) private lexicalService: LexicalService) {
         this.app = express();
 
         this.config();
 
-        this.routes();
+        this.initializeRoutes();
 
-        this.initserviceLexical();
+        //this.initserviceLexical();
     }
 
     private config(): void {
@@ -36,24 +36,24 @@ export class Application {
         this.app.use(cors());
     }
 
-    public routes(): void {
+    public initializeRoutes(): void {
         const router: express.Router = express.Router();
 
         router.use(this.api.routes);
-        router.use(this.serviceLexical.routes);
+        router.use(this.lexicalService.routes);
 
         this.app.use(router);
 
         this.errorHandeling();
     }
 
-    public initserviceLexical(): void {
+   /* public initserviceLexical(): void {
         const router: express.Router = express.Router();
 
         this.app.use(router);
 
         this.errorHandeling();
-    }
+    }*/
 
     private errorHandeling(): void {
         // Gestion des erreurs

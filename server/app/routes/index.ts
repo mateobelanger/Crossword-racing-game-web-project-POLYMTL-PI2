@@ -3,7 +3,6 @@ import { Message } from "../../../common/communication/message";
 import "reflect-metadata";
 import { injectable, } from "inversify";
 
-const datamuse = require("datamuse");
 
 module Route {
 

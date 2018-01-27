@@ -2,7 +2,7 @@ export default  {
         Server: Symbol("Server"),
         Application: Symbol("Application"),
         Routes: Symbol("Routes"),
-        ServiceLexical: Symbol("ServiceLexical"),
+        LexicalService: Symbol("LexicalService"),
         Index: Symbol("Index"),
         Muse: Symbol("Muse")
 };

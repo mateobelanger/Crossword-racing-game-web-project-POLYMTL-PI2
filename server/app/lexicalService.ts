@@ -2,10 +2,10 @@ import { injectable, inject } from "inversify";
 import { Router, Request, Response, NextFunction } from "express";
 
 import Types from "./types";
-import { Muse } from "./serviceLexical/datamuseAccess";
+import { Muse } from "./LexicalService/datamuseAccess";
 
 @injectable()
-export class ServiceLexical {
+export class LexicalService {
 
     public constructor(@inject(Types.Muse) private index: Muse) {}
 
@@ -13,7 +13,7 @@ export class ServiceLexical {
         const router: Router = Router();
 
         router.get("/lexicalservice/wordsearch/:criteria",
-                   (req: Request, res: Response, next: NextFunction) => this.index.searchPossibilities2(req, res, next));
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next));
 
         //router.get("/service/lexical/wordsearch/:criteria",
                    //(req: Request, res: Response, next: NextFunction) => this.index.helloWorld2(req, res, next));
