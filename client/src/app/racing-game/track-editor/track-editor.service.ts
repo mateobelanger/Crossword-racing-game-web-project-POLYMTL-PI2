@@ -10,7 +10,7 @@ export class TrackEditorService {
 
   public initialize(container: HTMLDivElement): void {
       this.container = container;
-      this.trackEditorRenderService.initialise(container);
+      this.trackEditorRenderService.initialize(container);
   }
 
 }
