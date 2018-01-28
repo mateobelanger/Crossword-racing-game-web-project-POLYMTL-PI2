@@ -1,45 +1,51 @@
 import {Track} from "./track";
 import { Vector3 } from "three";
+import { WayPoint} from './wayPoint';
 
 describe("Track", () => {
-    let dots : Vector3[] = [];
+    let wayPoints : WayPoint[] = [];
     let track: Track;
 
     beforeEach( () => {
         for (let i: number = 0; i < 10 ; i++) 
-            dots.push(new Vector3(i * 10, 0, 0));
-        track = new Track(dots);
+        wayPoints.push(new WayPoint(new Vector3(i * 10, 0, 0), i));
+        track = new Track(wayPoints);
     });
 
     afterEach(() => {
-        dots = []
+        wayPoints = []
         track = undefined;
     });
 
-    it("should be instantiable using default constructor", ()=>{
+    it("default constructor", ()=>{
         let aTrack: Track = new Track();
         expect(aTrack).toBeDefined();
         expect(aTrack.getWayPoints().length).toBe(0);
     });
 
-    it("should be instantiable using constructor with parameters", ()=>{   
+    it("constructor with parameters", ()=>{   
         expect(track).toBeDefined();
-        expect(track.getWayPoints()).toBe(dots);      
+        expect(track.getWayPoints()).toBe(wayPoints);      
     });
 
-    it("should add an element", () => {
-        track.addWayPoint(new Vector3 (1,1,1));
-        dots.push(new Vector3 (1,1,1));
-        expect(track.getWayPoints()).toBe(dots);
+    it("addWayPoint", () => {
+        let waypoint: WayPoint = new WayPoint( new Vector3 (1,1,1), 100)
+        track.addWayPoint(waypoint);
+        wayPoints.push(waypoint);
+        expect(track.getWayPoints()).toBe(wayPoints);
     });
 
-    it("should be able to remove an element", () => {
+    it("removeWayPoint", () => {
         expect(track.getWayPoints().length).toBe(10);
-        track.removeWayPoint(new Vector3(50,0,0));
+        track.removeWayPoint(1);
         expect(track.getWayPoints().length).toBe(9);
-
         //checking if the right one has been removed
-        track.removeWayPoint(new Vector3(50,0,0));
+        track.removeWayPoint(1);
         expect(track.getWayPoints().length).toBe(9);
+    });
+
+    it("modifyWayPointPosition", () => {
+        track.modifyWayPointPosition(2, new Vector3(0,5,0));
+        expect(track.getWaypoint(2).getPosition().y).toBe(5);
     });
 });

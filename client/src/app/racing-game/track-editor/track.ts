@@ -1,33 +1,40 @@
 
+import {WayPoint} from './wayPoint';
 import {Vector3} from 'three';
 
 export class Track 
 {
-    public constructor(private wayPoints : Vector3[] = []){
+    public constructor(private wayPoints : WayPoint[] = []){
     }
 
-    public getWayPoints() : Vector3[]
-    {
+    public getWayPoints() : WayPoint[]{
         return this.wayPoints;
     }
 
-    public addWayPoint(dot : Vector3){
-        this.wayPoints.push(dot);
+    public getWaypoint(id: number): WayPoint{
+        return this.wayPoints[this.findWayPointIndex(id)];
     }
 
-    public removeWayPoint(dot : Vector3): Vector3[]{
-        const index: number = this.findVector3Index(dot);
+    public addWayPoint(wayPoint : WayPoint){
+        this.wayPoints.push(wayPoint);
+    }
+
+    public removeWayPoint(id : number){
+        const index: number = this.findWayPointIndex(id);
         if (index !== -1) 
-            return this.wayPoints.splice(index, 1);
-        else
-            return undefined;
-
+            this.wayPoints.splice(index, 1);
     }
 
-    private findVector3Index(dot: Vector3): number {
-        let index: number = -1;
+    public modifyWayPointPosition(id: number, newPosition : Vector3){
+        const index: number = this.findWayPointIndex(id);
+        if(index !== -1)
+            this.wayPoints[index].setPosition(newPosition);     
+    }
+
+    private findWayPointIndex(id : number): number {
+        let index : number = -1;
         this.wayPoints.forEach((element, i) => {
-            if((element.x === dot.x) && (element.y === dot.y) && (element.z === dot.z))
+            if(element.getId() === id)
                 index = i;
         });
         return index;
