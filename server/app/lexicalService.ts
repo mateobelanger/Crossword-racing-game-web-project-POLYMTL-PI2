@@ -11,17 +11,17 @@ export class LexicalService {
 
     public get routes(): Router {
         const router: Router = Router();
-        let jsonFile: any;
+        //let jsonFile: any;
 
-        router.get("/lexicalservice/wordsearch/:criteria",
+        /*router.get("/lexicalservice/wordsearch/:criteria",
                    (req: Request, res: Response, next: NextFunction) => { jsonFile = this.index.findWords(req, res, next); next(); } ,
                    function (req, res, next) {
                     console.log('Res? ', jsonFile );    //jsonFile is undefined..
-                    }    );
+                    }    );*/
 
-        //router.get("/service/lexical/wordsearch/:criteria",
-                   //(req: Request, res: Response, next: NextFunction) => this.index.helloWorld2(req, res, next));
-                   
+        router.get("/service/lexical/wordsearch/:criteria",
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next));
+
         return router;
     }
 }

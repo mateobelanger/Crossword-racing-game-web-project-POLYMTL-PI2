@@ -25,10 +25,9 @@ export class Application {
 
         this.initializeRoutes();
 /**tester la lecture */
-        let reader : JsonReader = new JsonReader();
+        const reader: JsonReader = new JsonReader();
         reader.readData();
 
-        //this.initserviceLexical();
     }
 
     private config(): void {
@@ -51,15 +50,6 @@ export class Application {
 
         this.errorHandeling();
     }
-
-// ne servait à rien on dirait
-   /* public initserviceLexical(): void {
-        const router: express.Router = express.Router();
-
-        this.app.use(router);
-
-        this.errorHandeling();
-    }*/
 
     private errorHandeling(): void {
         // Gestion des erreurs

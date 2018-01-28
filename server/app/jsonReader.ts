@@ -1,16 +1,16 @@
 //import { LexicalService } from "./lexicalService";
-import { Word } from "./word";
+//import { Word } from "./word";
 //import {  } from "./words";
 
 export class JsonReader {
 
     constructor(){}
 
-    readData(){
-        var fs = require("fs");
-        var data = fs.readFileSync("./app/words.json");
-        var words1 = JSON.parse(data);
-        console.log(words1);
+    public readData(): void {
+        const fs = require("fs");
+        const data: string = fs.readFileSync("./app/words.json");
+        const words: JSON = JSON.parse(data);
+        console.log(words[0].word);
 
 //        var data = require("./app/words.json");
 
@@ -22,7 +22,6 @@ export class JsonReader {
             words.push(word);
         }
 
-
         data.words.forEach(element => {
             let word : Word = new Word(element.word, element.tags.f, element.defs);
             words.push(word);
@@ -33,10 +32,5 @@ export class JsonReader {
         });
 */
     }
-
-    
-
-
-
 
 }

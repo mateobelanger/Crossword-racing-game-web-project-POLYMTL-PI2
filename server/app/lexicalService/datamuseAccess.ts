@@ -10,25 +10,24 @@ module Lexical {
     @injectable()
     export class Muse {
 
-        public helloWorld2(req: Request, res: Response, next: NextFunction): void {
+        public helloWorld(req: Request, res: Response, next: NextFunction): void {
             const message: Message = new Message();
             message.title = "Hello";
             message.body = "World";
             res.send(JSON.stringify(message));
         }
 
-        public findWords(req: Request, res: Response, next: NextFunction): any {
+        public findWords(req: Request, res: Response, next: NextFunction): void {
             let criteria: String = req.params.criteria;
-            let jsonFile: any;
 
             while (criteria.includes("-")) {
                 criteria = criteria.replace("-", "?");
             }
-            
-            datamuse.request("words?sp=" + criteria + "&md=f,d").then((json: JSON) => { jsonFile = json; res.send(json)});
 
-
-            return jsonFile;
+            /*datamuse.request("words?sp=" + criteria + "&md=f").then((json: JSON) =>
+                res.send("Word: " + json[0].word + "\n" + "Score: " + String(json[0].score)) );*/
+            datamuse.request("words?sp=" + criteria + "&md=f").then((json: JSON) =>
+                res.send(json ));
         }
     }
 }
