@@ -1,5 +1,5 @@
 //import { LexicalService } from "./lexicalService";
-//import { Word } from "./word";
+import { Word } from "./word";
 //import {  } from "./words";
 
 export class JsonReader {
@@ -10,27 +10,26 @@ export class JsonReader {
         const fs = require("fs");
         const data: string = fs.readFileSync("./app/words.json");
         const words: JSON = JSON.parse(data);
-        console.log(words[0].word);
+        console.log(words[0].word + words[0].tags);
+
+
+        
 
 //        var data = require("./app/words.json");
 
-/*
-        let words : Word[] = new Array<Word>();
+        let separatedWords : Word[] = new Array<Word>();
 
-        for( let i : number = 0; i < Object.keys(data).length; i++){
-            let word : Word = new Word(data.words[i].word, data.words[i].tags[0], data.words[i].defs);
-            words.push(word);
+        for( let i : number = 0; i < Object.keys(words).length; i++){
+            let word : Word = new Word(words[i].word, words[i].tags, words[i].defs);
+            separatedWords.push(word);
         }
 
-        data.words.forEach(element => {
-            let word : Word = new Word(element.word, element.tags.f, element.defs);
-            words.push(word);
+
+        // test
+        separatedWords.forEach(element => {
+            console.log(element.name + "   " + element.isCommon.toString() + "   " );
         });
 
-        words.forEach(element => {
-            console.log(element.name + "   " + element.isCommon.toString() + "   " +  element.name + "/n");
-        });
-*/
     }
 
 }

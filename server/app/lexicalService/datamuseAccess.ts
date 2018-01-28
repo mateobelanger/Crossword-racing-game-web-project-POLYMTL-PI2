@@ -27,7 +27,7 @@ module Lexical {
             /*datamuse.request("words?sp=" + criteria + "&md=f").then((json: JSON) =>
                 res.send("Word: " + json[0].word + "\n" + "Score: " + String(json[0].score)) );*/
             datamuse.request("words?sp=" + criteria + "&md=f").then((json: JSON) =>
-                res.send(json ));
+                res.send( json ));
         }
     }
 }

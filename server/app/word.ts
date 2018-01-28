@@ -8,10 +8,10 @@ export class Word {
     //length : number;
     //indexOfDefinition : number;
 
-    constructor (name : String, frequency : number, definitions : String[]){
+    constructor (name : String, frequency : String, definitions : String[]){
 
         this.name = name;
-        this.isCommon = frequency < 10 ;
+        this.isCommon = Number(frequency.toString().substring(2)) > 10 ;
         this.definitions = definitions;
 
     }
