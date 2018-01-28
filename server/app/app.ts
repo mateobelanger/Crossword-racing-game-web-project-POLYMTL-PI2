@@ -9,6 +9,8 @@ import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService";
 
+import { JsonReader } from "./jsonReader";
+
 @injectable()
 export class Application {
 
@@ -22,6 +24,9 @@ export class Application {
         this.config();
 
         this.initializeRoutes();
+/**tester la lecture */
+        let reader : JsonReader = new JsonReader();
+        reader.readData();
 
         //this.initserviceLexical();
     }
@@ -47,6 +52,7 @@ export class Application {
         this.errorHandeling();
     }
 
+// ne servait à rien on dirait
    /* public initserviceLexical(): void {
         const router: express.Router = express.Router();
 

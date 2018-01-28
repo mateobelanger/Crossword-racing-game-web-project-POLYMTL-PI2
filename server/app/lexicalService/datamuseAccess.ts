@@ -17,14 +17,18 @@ module Lexical {
             res.send(JSON.stringify(message));
         }
 
-        public findWords(req: Request, res: Response, next: NextFunction): void {
-            let criteria: String = req.param("criteria");
+        public findWords(req: Request, res: Response, next: NextFunction): any {
+            let criteria: String = req.params.criteria;
+            let jsonFile: any;
+
             while (criteria.includes("-")) {
                 criteria = criteria.replace("-", "?");
             }
-            //res.send(criteria);
-            //res.send("words?sp=" + criteria + "&md=f");
-            datamuse.request("words?sp=" + criteria + "&md=f,d").then((json: JSON) => {res.send(json); });
+            
+            datamuse.request("words?sp=" + criteria + "&md=f,d").then((json: JSON) => { jsonFile = json; res.send(json)});
+
+
+            return jsonFile;
         }
     }
 }
