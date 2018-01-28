@@ -95,6 +95,7 @@ export class TrackEditorRenderService {
   }
 
   public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
+    this.updateMousePos(event);
     this.raycaster.setFromCamera(this.mouse, this.camera);
     return this.raycaster.intersectObjects(this.scene.children);
   }
@@ -102,6 +103,10 @@ export class TrackEditorRenderService {
   public updateMousePos(event: MouseEvent): void {
     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     this.mouse.y = ( event.clientY / window.innerHeight ) * 2 + 1;
+  }
+
+  public getMousePos() : THREE.Vector2 {
+    return this.mouse;
   }
 
 

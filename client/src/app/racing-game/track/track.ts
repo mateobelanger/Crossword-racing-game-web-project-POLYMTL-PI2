@@ -1,5 +1,4 @@
 
-import {WayPoint} from './wayPoint';
 import {Vector3} from 'three';
 
 export class Track 
@@ -38,5 +37,9 @@ export class Track
                 index = i;
         });
         return index;
+    }
+    
+        public removeLastWaypoint() : void {
+        this.waypoints.pop()
     }
 }
