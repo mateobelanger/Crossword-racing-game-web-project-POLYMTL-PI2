@@ -24,7 +24,7 @@ module Lexical {
                 criteria = criteria.replace("-", "?");
             }
 
-            /*datamuse.request("words?sp=" + criteria + "&md=f").then((json: JSON) =>
+            /*datamuse.request("words?sp=" + criteria + "&max=1000&md=f,d").then((json: JSON) =>
                 res.send("Word: " + json[0].word + "\n" + "Score: " + String(json[0].score)) );*/
             datamuse.request("words?sp=" + criteria + "&md=f").then((json: JSON) =>
                 res.send( json ));

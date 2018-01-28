@@ -26,7 +26,7 @@ export class Application {
         this.initializeRoutes();
 /**tester la lecture */
         const reader: JsonReader = new JsonReader();
-        reader.readData();
+        reader.getWordsBasedOnCommon(true);
 
     }
 
