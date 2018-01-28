@@ -17,7 +17,7 @@ export class TrackEditorService {
       this.container = container;
       this.track = new Track();
       this.dragDropActive = false;
-      this.trackEditorRenderService.initialize(container);
+      this.trackEditorRenderService.initialize(this.container);
   }
 
   public getTrack(): Track {
@@ -36,6 +36,10 @@ export class TrackEditorService {
         //
         this.selectedWaypoint = objectsSelected[0].object;
       } else {
+
+        //
+        // A MODFIER EN RAISON DE LA NOUVELLE CLASSE WAYPOINT
+        //
         this.track.addWaypoint(new Vector3(
                                           (event.clientX / window.innerWidth) * 2 - 1,
                                           0,
@@ -57,6 +61,8 @@ export class TrackEditorService {
   public handleMouseMove(event: MouseEvent): void {
     if(this.dragDropActive) {
       this.trackEditorRenderService.updateMousePos(event);
+
+      // À MODIFIER EN FONCTION DE LA MÉTHODE DANS TRACK
       this.track.moveWaypoint(this.selectedWaypoint, this.trackEditorRenderService.getMousePos);
     }
   }

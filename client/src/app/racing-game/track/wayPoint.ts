@@ -1,7 +1,7 @@
 
 import {Vector3} from 'three';
 
-export class WayPoint 
+export class Waypoint 
 {
     constructor(
         private position: Vector3 = new Vector3(0,0,0),
