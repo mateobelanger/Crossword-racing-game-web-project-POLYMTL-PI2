@@ -43,6 +43,11 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
       this.trackEditorService.handleRightClick(event);
   }
 
+  @HostListener("window:mousemove", ["$event"])
+  public onMouseMove(event: MouseEvent): void {
+    this.trackEditorService.handleMouseMove(event);
+  }
+
   public ngAfterViewInit(): void {
     this.trackEditorService.initialize(this.container);
   }

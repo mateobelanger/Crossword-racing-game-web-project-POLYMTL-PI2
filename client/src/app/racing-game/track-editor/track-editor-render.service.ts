@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import {Vector3} from 'three';
+import {Vector3, Raycaster} from 'three';
+import * as MESHLINE from 'three.meshline';
 
 /* tslint:disable:no-magic-numbers */
 @Injectable()
@@ -11,6 +12,10 @@ export class TrackEditorRenderService {
   private renderer: THREE.WebGLRenderer;
 
   private camera: THREE.OrthographicCamera;
+
+  private mouse: THREE.Vector2;
+
+  private raycaster: THREE.Raycaster;
 
   private scene: THREE.Scene;
 
@@ -34,6 +39,9 @@ export class TrackEditorRenderService {
 /* tslint:disable:max-func-body-length */
   private createScene(): void {
     this.scene = new THREE.Scene();
+
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
 
     this.camera = new THREE.OrthographicCamera (
       this.container.clientWidth / - 2,
@@ -63,6 +71,14 @@ export class TrackEditorRenderService {
     // SHOWING DOTS
     this.dots = new THREE.Points(this.geometry, new THREE.PointsMaterial( {color: 0x888888, size: 0.5} ));
     this.scene.add(this.dots);
+
+    
+    var line = new MESHLINE.MeshLine();
+    line.setGeometry( this.geometry );
+    var material = new MESHLINE.MeshLineMaterial();
+    var mesh = new THREE.Mesh( line.geometry, material ); // this syntax could definitely be improved!
+    this.scene.add( mesh );
+    
   }
 
   private startRenderingLoop(): void {
@@ -76,6 +92,16 @@ export class TrackEditorRenderService {
   private render(): void {
     requestAnimationFrame(() => this.render());
     this.renderer.render(this.scene, this.camera);
+  }
+
+  public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    return this.raycaster.intersectObjects(this.scene.children);
+  }
+
+  public updateMousePos(event: MouseEvent): void {
+    this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    this.mouse.y = ( event.clientY / window.innerHeight ) * 2 + 1;
   }
 
 
