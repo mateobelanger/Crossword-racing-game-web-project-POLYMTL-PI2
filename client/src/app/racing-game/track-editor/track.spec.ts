@@ -2,7 +2,7 @@ import {Track} from "./track";
 import { Vector3 } from "three";
 
 describe("Track", () => {
-    let dots : Vector3[];
+    let dots : Vector3[] = [];
     let track: Track;
 
     beforeEach( () => {
@@ -12,14 +12,14 @@ describe("Track", () => {
     });
 
     afterEach(() => {
-        dots.length = 0;
+        dots = []
         track = undefined;
     });
 
     it("should be instantiable using default constructor", ()=>{
         let aTrack: Track = new Track();
         expect(aTrack).toBeDefined();
-        expect(aTrack.getWayPoints()).toBe([]);
+        expect(aTrack.getWayPoints().length).toBe(0);
     });
 
     it("should be instantiable using constructor with parameters", ()=>{   
@@ -34,18 +34,12 @@ describe("Track", () => {
     });
 
     it("should be able to remove an element", () => {
-        let dotsMinusOne: Vector3[] = [
-            new Vector3(0,0,0),
-            new Vector3(10,0,0),
-            new Vector3(20,0,0),
-            new Vector3(30,0,0),
-            new Vector3(40,0,0),
-            new Vector3(60,0,0),
-            new Vector3(70,0,0),
-            new Vector3(80,0,0),
-            new Vector3(90,0,0),
-        ];
+        expect(track.getWayPoints().length).toBe(10);
         track.removeWayPoint(new Vector3(50,0,0));
-        expect(track.getWayPoints).toBe(dotsMinusOne);
+        expect(track.getWayPoints().length).toBe(9);
+
+        //checking if the right one has been removed
+        track.removeWayPoint(new Vector3(50,0,0));
+        expect(track.getWayPoints().length).toBe(9);
     });
 });
