@@ -25,11 +25,11 @@ export class Track
     }
 
     private findVector3Index(dot: Vector3): number {
-        let test: number = -1;
-        this.wayPoints.forEach((element, index) => {
+        let index: number = -1;
+        this.wayPoints.forEach((element, i) => {
             if((element.x === dot.x) && (element.y === dot.y) && (element.z === dot.z))
-                test = index;
+                index = i;
         });
-        return test;
+        return index;
     }
 }
