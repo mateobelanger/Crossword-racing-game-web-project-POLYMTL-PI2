@@ -3,6 +3,11 @@ import Stats = require("stats.js");
 import { PerspectiveCamera, WebGLRenderer, Scene, AmbientLight } from "three";
 import { Car } from "../car/car";
 
+
+//import { CameraService } from "../camera.service";
+
+import * as THREE from 'three';
+
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
 const FIELD_OF_VIEW: number = 70;
@@ -14,7 +19,7 @@ const RIGHT_KEYCODE: number = 68;       // d
 
 const INITIAL_CAMERA_POSITION_Y: number = 25;
 const WHITE: number = 0xFFFFFF;
-const AMBIENT_LIGHT_OPACITY: number = 0.5;
+const AMBIENT_LIGHT_OPACITY: number = 0.8;
 
 @Injectable()
 export class RenderService {
@@ -26,11 +31,18 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
 
+    private light: THREE.AmbientLight;
+    // AXES
+    private box1: THREE.Mesh;
+    private box2: THREE.Mesh;
+    private box3: THREE.Mesh;
+
+
     public get car(): Car {
         return this._car;
     }
 
-    public constructor() {
+    public constructor(/*private cameraService: CameraService*/) {
         this._car = new Car();
     }
 
@@ -41,7 +53,10 @@ export class RenderService {
 
         await this.createScene();
         this.initStats();
+        //this.cameraService.initialize(this.container, this._car.getObject3D());
         this.startRenderingLoop();
+
+
     }
 
     private initStats(): void {
@@ -56,6 +71,7 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
+    /* tslint.ignore:max-func-body-length*/
     private async createScene(): Promise<void> {
         this.scene = new Scene();
 
@@ -71,6 +87,36 @@ export class RenderService {
         this.camera.lookAt(this._car.position);
         this.scene.add(this._car);
         this.scene.add(new AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
+
+
+        // Axes : TEST to find out if the scene is working////
+        this.scene.add(this.light);
+
+        // ROUGE : Z
+        this.box1 = new THREE.Mesh(
+            new THREE.BoxGeometry(1,1,10),
+            new THREE.MeshBasicMaterial({color: 0xFF0000})
+        );
+        this.box1.position.z = 5;
+        this.scene.add(this.box1);
+
+        // VERT : Y
+        this.box2 = new THREE.Mesh(
+            new THREE.BoxGeometry(1,10,1),
+            new THREE.MeshBasicMaterial({color: 0x00FF00})
+        );
+        this.box2.position.y = 5;
+        this.scene.add(this.box2);
+
+        // BLEU : X
+        this.box3 = new THREE.Mesh(
+            new THREE.BoxGeometry(10,1,1),
+            new THREE.MeshBasicMaterial({color: 0x0000FF})
+        );
+        this.box3.position.x = 5;
+        this.scene.add(this.box3);
+        //////////////////////////////////////////////////
+
     }
 
     private getAspectRatio(): number {
@@ -90,6 +136,12 @@ export class RenderService {
     private render(): void {
         requestAnimationFrame(() => this.render());
         this.update();
+
+        this.camera.position.x = this._car.getMeshPosition().x;
+        this.camera.position.z = this._car.getMeshPosition().z;
+
+        //this.cameraService.cameraFollowCarPosition();
+        //this.renderer.render(this.scene, this.cameraService.getCamera());
         this.renderer.render(this.scene, this.camera);
         this.stats.update();
     }

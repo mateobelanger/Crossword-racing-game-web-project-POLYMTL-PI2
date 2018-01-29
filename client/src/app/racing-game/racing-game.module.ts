@@ -11,6 +11,7 @@ import { BasicService } from "./basic.service";
 import { TrackEditorComponent } from './track-editor/track-editor.component';
 import { TrackEditorRenderService } from './track-editor/track-editor-render.service';
 import { TrackEditorService } from './track-editor/track-editor.service'; 
+import { CameraService } from './camera.service'; 
 
 @NgModule({
   
@@ -34,7 +35,8 @@ import { TrackEditorService } from './track-editor/track-editor.service';
     RenderService,
     BasicService,
     TrackEditorRenderService,
-    TrackEditorService 
+    TrackEditorService, 
+    CameraService
   ],
 
 })
