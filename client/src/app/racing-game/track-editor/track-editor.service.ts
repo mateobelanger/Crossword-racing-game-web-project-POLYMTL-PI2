@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/track';
 import { Vector3 } from 'three';
-import { Waypoint } from '../track/wayPoint';
+import { Waypoint } from '../track/waypoint';
 
 @Injectable()
 export class TrackEditorService {

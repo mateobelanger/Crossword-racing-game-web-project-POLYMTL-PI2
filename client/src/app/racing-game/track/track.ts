@@ -1,6 +1,6 @@
 
 import {Vector3} from 'three';
-import {Waypoint} from './wayPoint';
+import {Waypoint} from './waypoint';
 
 export class Track 
 {

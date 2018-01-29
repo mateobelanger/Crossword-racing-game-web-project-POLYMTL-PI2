@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import {Vector3, Raycaster} from 'three';
-import * as MESHLINE from 'three.meshline';
+import {Vector3} from 'three';
 
 /* tslint:disable:no-magic-numbers */
 @Injectable()
@@ -70,15 +69,7 @@ export class TrackEditorRenderService {
 
     // SHOWING DOTS
     this.dots = new THREE.Points(this.geometry, new THREE.PointsMaterial( {color: 0x888888, size: 0.5} ));
-    this.scene.add(this.dots);
-
-    
-    var line = new MESHLINE.MeshLine();
-    line.setGeometry( this.geometry );
-    var material = new MESHLINE.MeshLineMaterial();
-    var mesh = new THREE.Mesh( line.geometry, material ); // this syntax could definitely be improved!
-    this.scene.add( mesh );
-    
+    this.scene.add(this.dots); 
   }
 
   private startRenderingLoop(): void {
