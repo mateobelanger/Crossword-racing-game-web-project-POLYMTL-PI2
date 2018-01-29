@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import {Vector3, Geometry, } from 'three'; // Raycaster
-//import * as MESHLINE from 'three.meshline';
-//import { Waypoint } from '../track/wayPoint';
-import { Track } from '../track/track';
+import {Vector3, Raycaster} from 'three';
+import * as MESHLINE from 'three.meshline';
 
 /* tslint:disable:no-magic-numbers */
 @Injectable()
@@ -15,9 +13,9 @@ export class TrackEditorRenderService {
 
   private camera: THREE.OrthographicCamera;
 
-  //private mouse: THREE.Vector2;
+  private mouse: THREE.Vector2;
 
-  //private raycaster: THREE.Raycaster;
+  private raycaster: THREE.Raycaster;
 
   private scene: THREE.Scene;
 
@@ -32,18 +30,18 @@ export class TrackEditorRenderService {
   public constructor() { }
 
 
-  public initialize(container: HTMLDivElement, track : Track = new Track()) {
+  public initialize(container: HTMLDivElement): void {
 
     this.container = container;
-    this.createScene(track);
+    this.createScene();
     this.startRenderingLoop();
   }
 /* tslint:disable:max-func-body-length */
-  private createScene(track : Track) {
+  private createScene(): void {
     this.scene = new THREE.Scene();
 
-    //this.raycaster = new THREE.Raycaster();
-    //this.mouse = new THREE.Vector2();
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
 
     this.camera = new THREE.OrthographicCamera (
       this.container.clientWidth / - 2,
@@ -75,11 +73,11 @@ export class TrackEditorRenderService {
     this.scene.add(this.dots);
 
     
-   /* var line = new MESHLINE.MeshLine();
+    var line = new MESHLINE.MeshLine();
     line.setGeometry( this.geometry );
     var material = new MESHLINE.MeshLineMaterial();
     var mesh = new THREE.Mesh( line.geometry, material ); // this syntax could definitely be improved!
-    this.scene.add( mesh );*/
+    this.scene.add( mesh );
     
   }
 
@@ -96,15 +94,7 @@ export class TrackEditorRenderService {
     this.renderer.render(this.scene, this.camera);
   }
 
-
-  private generateGeometry(track : Track): THREE.Geometry{
-    let geometry : THREE.Geometry = new THREE.Geometry();
-    track.getWaypoints().forEach(element => {
-      geometry.vertices.push(element.getPosition());
-    });
-    return geometry;
-  }
-  /*public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
+  public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
     this.updateMousePos(event);
     this.raycaster.setFromCamera(this.mouse, this.camera);
     return this.raycaster.intersectObjects(this.scene.children);
@@ -117,7 +107,7 @@ export class TrackEditorRenderService {
 
   public getMousePos() : THREE.Vector2 {
     return this.mouse;
-  }*/
+  }
 
 
 }
