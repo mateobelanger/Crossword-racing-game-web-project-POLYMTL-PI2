@@ -40,10 +40,10 @@ export class TrackEditorService {
         //
         // A MODFIER EN RAISON DE LA NOUVELLE CLASSE WAYPOINT
         //
-        this.track.addWaypoint(new Vector3(
+        this.track.addWaypoint(new Waypoint(new Vector3(
                                           (event.clientX / window.innerWidth) * 2 - 1,
                                           0,
-                                          (event.clientY / window.innerHeight) * 2 + 1))
+                                          (event.clientY / window.innerHeight) * 2 + 1)))
       }
       
     }   
