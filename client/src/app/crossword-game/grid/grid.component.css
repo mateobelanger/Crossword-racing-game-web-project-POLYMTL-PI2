@@ -1,22 +1,24 @@
-#wrapper {
-    width: 470px;
+.header {
+    background-color: gray;
+}
+
+.filled {
+    background: black;
+    font-size: 0px;
+}
+
+.grid {
+    width: 450px;
     height: 450px;
     margin: 0 auto;
 }
 
-.empty {
+.col {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 42px;
     width: 42px;
     height: 42px;
-    border: 1px solid black;
-    padding: 0;
-    margin: 0;
-    float: left;
-}
-
-.filled {
-    width: 42px;
-    height: 42px;
-    background: black;
     border: 1px solid black;
     padding: 0;
     margin: 0;
