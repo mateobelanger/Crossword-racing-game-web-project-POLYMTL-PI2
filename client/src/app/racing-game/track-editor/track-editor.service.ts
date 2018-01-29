@@ -23,7 +23,7 @@ export class TrackEditorService {
   public getTrack(): Track {
     return this.track;
   }
-
+  /*
   public handleLeftMouseDown(event: MouseEvent): void {
     let objectsSelected = this.trackEditorRenderService.getObjectsPointedByMouse(event);
 
@@ -66,5 +66,5 @@ export class TrackEditorService {
       this.track.moveWaypoint(this.selectedWaypoint, this.trackEditorRenderService.getMousePos);
     }
   }
-
+*/
 }
