@@ -50,7 +50,7 @@ export class Car extends Object3D {
         return this.mesh;
     }
     /* TODO: Check if it's legal  which one is better? */
-    public getMeshPosition(): Vector3 {
+    public getVectorPosition(): Vector3 {
         return this.mesh.position;
     }
 
