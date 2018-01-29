@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/track';
-import { Vector2, Vector3 } from 'three';
+import { Vector3 } from 'three';
+import { Waypoint } from '../track/wayPoint';
 
 @Injectable()
 export class TrackEditorService {
@@ -63,7 +64,7 @@ export class TrackEditorService {
       this.trackEditorRenderService.updateMousePos(event);
 
       // À MODIFIER EN FONCTION DE LA MÉTHODE DANS TRACK
-      this.track.moveWaypoint(this.selectedWaypoint, this.trackEditorRenderService.getMousePos);
+      //this.track.moveWaypoint(this.selectedWaypoint, this.trackEditorRenderService.getMousePos);
     }
   }
 
