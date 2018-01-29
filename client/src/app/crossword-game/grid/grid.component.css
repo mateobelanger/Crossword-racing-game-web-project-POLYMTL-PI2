@@ -1,0 +1,24 @@
+#wrapper {
+    width: 470px;
+    height: 450px;
+    margin: 0 auto;
+}
+
+.empty {
+    width: 42px;
+    height: 42px;
+    border: 1px solid black;
+    padding: 0;
+    margin: 0;
+    float: left;
+}
+
+.filled {
+    width: 42px;
+    height: 42px;
+    background: black;
+    border: 1px solid black;
+    padding: 0;
+    margin: 0;
+    float: left;
+}
