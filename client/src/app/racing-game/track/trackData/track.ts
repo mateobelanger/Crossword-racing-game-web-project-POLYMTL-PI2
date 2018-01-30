@@ -1,4 +1,3 @@
-
 import {Vector3} from 'three';
 import {Waypoint} from './waypoint';
 

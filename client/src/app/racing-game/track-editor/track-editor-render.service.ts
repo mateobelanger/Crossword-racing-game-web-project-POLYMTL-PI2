@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import {Vector3} from 'three';
-
+import {Track} from '../track/trackData/track';
+import {CircleHandler} from '../track/trackBuildingBlocks/circles'
 /* tslint:disable:no-magic-numbers */
 @Injectable()
 export class TrackEditorRenderService {
@@ -20,23 +21,19 @@ export class TrackEditorRenderService {
 
   private light: THREE.AmbientLight;
 
-  private geometry: THREE.Geometry;
-
-  private lines: THREE.Line;
-
-  private dots: THREE.Points;
+  private circleHandler : CircleHandler;
 
   public constructor() { }
 
 
-  public initialize(container: HTMLDivElement): void {
+  public initialize(container: HTMLDivElement, track : Track): void {
 
     this.container = container;
-    this.createScene();
+    this.createScene(track);
     this.startRenderingLoop();
   }
 /* tslint:disable:max-func-body-length */
-  private createScene(): void {
+  private createScene(track : Track): void {
     this.scene = new THREE.Scene();
 
     this.raycaster = new THREE.Raycaster();
@@ -57,19 +54,20 @@ export class TrackEditorRenderService {
     this.light = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.light);
 
-    // BUILDING GEOMETRY
-    this.geometry = new THREE.Geometry();
-    for (let i: number = 0; i < 10 ; i++) {
-      this.geometry.vertices.push(new THREE.Vector3(i * 30, 0, 0));
-    }
 
-    // BUILDING THE LINE
-    this.lines = new THREE.Line(this.geometry, new THREE.LineBasicMaterial({color: 0xffffff, linewidth: 100}));
-    this.scene.add(this.lines);
+    //INSTANCIATING CIRCLEHANDLER
+    this.circleHandler = new CircleHandler(this.scene);
+    this.circleHandler.generateCircles(track.getWaypoints());
 
-    // SHOWING DOTS
-    this.dots = new THREE.Points(this.geometry, new THREE.PointsMaterial( {color: 0x888888, size: 0.5} ));
-    this.scene.add(this.dots); 
+    //TEST REMOVE FROM CIRCLEHANDLER
+    let arrayTest : THREE.Mesh[] = [];
+    arrayTest.push(track.getWaypoints()[1].getCircle());
+    this.circleHandler.removeCircles(arrayTest);
+
+    //TEST TO MOVE A DOT
+    let shift : THREE.Vector3 = new THREE.Vector3(20,0,20);
+    this.circleHandler.moveCircle(track.getWaypoints()[4].getCircle(), shift);
+
   }
 
   private startRenderingLoop(): void {
@@ -99,6 +97,4 @@ export class TrackEditorRenderService {
   public getMousePos() : THREE.Vector2 {
     return this.mouse;
   }
-
-
 }

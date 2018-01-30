@@ -27,7 +27,6 @@
     "stats.js": "^0.17.0",
     "three": "~0.84.0",
     "three-dragcontrols": "^0.88.1",
-    "three.meshline": "^1.0.3",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
-import { Track } from '../track/track';
+import { Track } from '../track/trackData/track';
 import { Vector3 } from 'three';
-import { Waypoint } from '../track/waypoint';
+import { Waypoint } from '../track/trackData/waypoint';
 
 @Injectable()
 export class TrackEditorService {
@@ -17,8 +17,11 @@ export class TrackEditorService {
   public initialize(container: HTMLDivElement): void {
       this.container = container;
       this.track = new Track();
+      for (let i = 0; i < 10; i++) {
+        this.track.addWaypoint(new Waypoint(new Vector3(i*10,0, i*10),i));       
+      }
       this.dragDropActive = false;
-      this.trackEditorRenderService.initialize(this.container);
+      this.trackEditorRenderService.initialize(this.container, this.track);
   }
 
   public getTrack(): Track {
