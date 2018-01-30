@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DefinitionsComponent implements OnInit {
 
-  constructor() { }
+  private definitions: Array<string>;
+
+  constructor() {
+    this.definitions = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "K"];
+   }
 
   ngOnInit() {
   }
