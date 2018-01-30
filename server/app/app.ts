@@ -9,7 +9,7 @@ import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService";
 
-import { JsonReader } from "./jsonReader";
+// import { JsonReader } from "./jsonReader";
 
 @injectable()
 export class Application {
@@ -25,8 +25,8 @@ export class Application {
 
         this.initializeRoutes();
 /**tester la lecture */
-        const reader: JsonReader = new JsonReader();
-        reader.getWordsBasedOnCommon(true);
+        // const reader: JsonReader = new JsonReader();
+        // reader.getWordsBasedOnCommon(true);
 
     }
 

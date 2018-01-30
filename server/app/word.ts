@@ -1,21 +1,24 @@
 
+const COMMON_LIMIT: number = 10;
 
 export class Word {
 
-    name : String;
-    isCommon : boolean;
-    definitions : String[];
-    //length : number;
-    //indexOfDefinition : number;
+    private name: String;
+    private frequency: String;
+    private definitions: String[];
+    // length : number;
+    // indexOfDefinition : number;
 
-    constructor (name : String, frequency : String, definitions : String[]){
+    constructor (name: String, frequency: String, definitions: String[]) {
 
         this.name = name;
-        this.isCommon = Number(frequency.toString().substring(2)) > 10 ;
+        this.frequency = frequency;
         this.definitions = definitions;
 
     }
 
-
+    public isCommon(): boolean {
+        return Number(this.frequency.toString().substring(2)) > COMMON_LIMIT ;
+    }
 
 }

@@ -2,7 +2,7 @@ import { injectable, inject } from "inversify";
 import { Router, Request, Response, NextFunction } from "express";
 
 import Types from "./types";
-import { Muse } from "./LexicalService/datamuseAccess";
+import { Muse } from "./lexicalService/datamuseAccess";
 
 @injectable()
 export class LexicalService {
@@ -11,13 +11,19 @@ export class LexicalService {
 
     public get routes(): Router {
         const router: Router = Router();
-        //let jsonFile: any;
+        // let jsonFile: any;
 
         /*router.get("/lexicalservice/wordsearch/:criteria",
                    (req: Request, res: Response, next: NextFunction) => { jsonFile = this.index.findWords(req, res, next); next(); } ,
                    function (req, res, next) {
                     console.log('Res? ', jsonFile );    //jsonFile is undefined..
                     }    );*/
+
+        router.get("/service/lexical/wordsearch/:criteria/uncommon",
+                   (req: Request, res: Response, next: NextFunction) => this.index.findUncommonWords(req, res, next));
+
+        router.get("/service/lexical/wordsearch/:criteria/common",
+                   (req: Request, res: Response, next: NextFunction) => this.index.findCommonWords(req, res, next));
 
         router.get("/service/lexical/wordsearch/:criteria",
                    (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next));
