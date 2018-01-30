@@ -7,12 +7,13 @@ export class Word {
     private frequency: String;
     private definitions: String[];
     // length : number;
-    private definitionIndex : number = -1;
+    private definitionIndex : number;
 
     constructor (name: String, frequency: String, definitions: String[]) {
 
         this.name = name;
         this.frequency = frequency;
+        this.definitionIndex = -1;
         this.definitions = definitions;
 
     }

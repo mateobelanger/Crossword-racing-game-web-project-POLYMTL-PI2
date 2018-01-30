@@ -4,7 +4,7 @@ import { Server } from "./server";
 import { Application } from "./app";
 import { Index } from "./routes/index";
 import { Routes } from "./routes";
-import { LexicalService } from "./lexicalService";
+import { LexicalService } from "./lexicalService/lexicalService";
 import { Muse } from "./LexicalService/datamuseAccess";
 
 const container: Container = new Container();

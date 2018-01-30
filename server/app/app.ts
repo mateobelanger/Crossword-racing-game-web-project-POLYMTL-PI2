@@ -7,10 +7,10 @@ import * as cors from "cors";
 import Types from "./types";
 import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
-import { LexicalService } from "./lexicalService";
+import { LexicalService } from "./lexicalService/lexicalService";
 
-import { JsonReader } from "./jsonReader";
-import { WordValidator } from "./wordValidator";
+// import { JsonReader } from "./lexicalService/jsonReader";
+// import { WordValidator } from "./wordValidator";
 
 @injectable()
 export class Application {
@@ -25,11 +25,11 @@ export class Application {
         this.config();
 
         this.initializeRoutes();
-/**tester la lecture */
-        const reader: JsonReader = new JsonReader();
-        const wordValidator: WordValidator = new WordValidator();
-        // trouver un nom commun avec une definition alternative
-        wordValidator.findValidWord( true, reader.getWordsBasedOnRarity(true) );
+/**teste la lecture */
+        // const reader: JsonReader = new JsonReader();
+        // const wordValidator: WordValidator = new WordValidator();
+        // trouve un nom commun avec une definition alternative
+        // wordValidator.findValidWord( true, reader.getWordsBasedOnRarity(true) );
 
     }
 

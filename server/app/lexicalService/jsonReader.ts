@@ -1,5 +1,4 @@
-// import { LexicalService } from "./lexicalService";
-import { Word } from "./word";
+import { Word } from "../word";
 
 export class JsonReader {
 
@@ -22,21 +21,22 @@ export class JsonReader {
         return seperatedWords;
     }
 
-    // meilleur nom?
-    public getWordsBasedOnRarity(isCommon : boolean): Word[] {
+    public getWordsBasedOnRarity(words: JSON, isCommon: boolean): JSON {
 
-        let seperatedWords : Word[] = this.readData();
-        let foundWords : Word[] = new Array<Word>();
+        const seperatedWords: Word[] = this.readData(words);
+        const selectedWords: Word[] = new Array<Word>();
 
         // test
         seperatedWords.forEach(element => {
-            if(element.isCommon === isCommon){
-                foundWords.push(element);
-                console.log(element.name + "   " + element.isCommon + "   " );
-            } 
+            if (element.isCommon() === isCommon) {
+                selectedWords.push(element);
+                // console.log(element.name + "   " + element.isCommon + "   " );
+            }
         });
 
-        return foundWords;
+        return JSON.parse(JSON.stringify(selectedWords));
     }
 
 }
+
+// todo test getWords

@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
 import { Router, Request, Response, NextFunction } from "express";
 
-import Types from "./types";
-import { Muse } from "./lexicalService/datamuseAccess";
+import Types from "../types";
+import { Muse } from "./datamuseAccess";
 
 @injectable()
 export class LexicalService {
@@ -13,13 +13,13 @@ export class LexicalService {
         const router: Router = Router();
 
         router.get("/service/lexical/wordsearch/:criteria/uncommon",
-                   (req: Request, res: Response, next: NextFunction) => this.index.findUncommonWords(req, res, next));
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next, false));
 
         router.get("/service/lexical/wordsearch/:criteria/common",
-                   (req: Request, res: Response, next: NextFunction) => this.index.findCommonWords(req, res, next));
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next, true));
 
         router.get("/service/lexical/wordsearch/:criteria",
-                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next));
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next, true));
 
         return router;
     }

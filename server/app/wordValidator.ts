@@ -23,4 +23,5 @@ export class WordValidator {
     // TODO
     // cas ou aucun mot n'est trouve a traiter
     // s'assurer que mot n'est pas deja dans la grille
+    // 
 }
