@@ -1,15 +1,18 @@
+
+const COMMON_LIMIT: number = 10;
+
 export class Word {
 
-    name : String;
-    isCommon : boolean;
-    definitions : String[];
-    //length : number;
-    definitionIndex : number = -1;
+    private name: String;
+    private frequency: String;
+    private definitions: String[];
+    // length : number;
+    private definitionIndex : number = -1;
 
-    constructor (name : String, frequency : String, definitions : String[]){
+    constructor (name: String, frequency: String, definitions: String[]) {
 
         this.name = name;
-        this.isCommon = Number(frequency.toString().substring(2)) > 10 ;
+        this.frequency = frequency;
         this.definitions = definitions;
 
     }
@@ -46,6 +49,10 @@ export class Word {
         return this.definitions[definitionIndex].includes(this.name.toString());
         
     }
-    
-    
+
+    public isCommon(): boolean {
+        return Number(this.frequency.toString().substring(2)) > COMMON_LIMIT ;
+    }
+
+       
 }
