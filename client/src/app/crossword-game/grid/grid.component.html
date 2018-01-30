@@ -6,10 +6,9 @@
     end of grid component
 </p>
 
+
 <div class="grid">
-    <div *ngFor="let row of grid" class="row">
-        <div *ngFor="let block of row" class="col" [ngClass]="{'filled':block === '-'}">
-            {{block}}
-        </div>
+    <div *ngFor="let row of userGrid; let indexR = index;" class="row">
+        <input *ngFor="let block of row; let index=index;" onClick="this.select();" class="col" [(ngModel)]="userGrid[indexR][index]" [ngClass]="{'filled':block === '-'}" value={{block}} maxlength=1/>
     </div>
 </div>
