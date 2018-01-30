@@ -1,6 +1,5 @@
 //import { LexicalService } from "./lexicalService";
 import { Word } from "./word";
-//import {  } from "./words";
 
 export class JsonReader {
 
@@ -10,19 +9,6 @@ export class JsonReader {
         const fs = require("fs");
         const data: string = fs.readFileSync("./app/words.json");
         const words: JSON = JSON.parse(data);
-
-/*        let seperatedWords2 : Word[] = new Array<Word>();
-        const words2: JSON = JSON.parse(data, function(key, value) { 
-            if ( Number(value.tags.toString().substring(2)) > 10 ) 
-                seperatedWords2.push(value); 
-            return value; })
-            
-            
-        const words2: JSON = JSON.parse.filter(function (entry) {
-            return Number(entry.tags.toString().substring(2)) > 10;
-        });
-*/       
-
 
 //        var data = require("./app/words.json");
 
@@ -37,20 +23,20 @@ export class JsonReader {
     }
 
     // meilleur nom?
-    public getWordsBasedOnCommon(isCommon : boolean): Word[] {
+    public getWordsBasedOnRarity(isCommon : boolean): Word[] {
 
         let seperatedWords : Word[] = this.readData();
-        let searchedWords : Word[] = new Array<Word>();
+        let foundWords : Word[] = new Array<Word>();
 
         // test
         seperatedWords.forEach(element => {
-            if(element.isCommon == isCommon){
-                searchedWords.push(element);
+            if(element.isCommon === isCommon){
+                foundWords.push(element);
                 console.log(element.name + "   " + element.isCommon + "   " );
             } 
         });
 
-        return seperatedWords;
+        return foundWords;
     }
 
 }

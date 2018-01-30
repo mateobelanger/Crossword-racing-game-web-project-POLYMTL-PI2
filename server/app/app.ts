@@ -10,6 +10,7 @@ import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService";
 
 import { JsonReader } from "./jsonReader";
+import { WordValidator } from "./wordValidator";
 
 @injectable()
 export class Application {
@@ -26,7 +27,9 @@ export class Application {
         this.initializeRoutes();
 /**tester la lecture */
         const reader: JsonReader = new JsonReader();
-        reader.getWordsBasedOnCommon(true);
+        const wordValidator: WordValidator = new WordValidator();
+        // trouver un nom commun avec une definition alternative
+        wordValidator.findValidWord( true, reader.getWordsBasedOnRarity(true) );
 
     }
 
