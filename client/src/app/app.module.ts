@@ -29,7 +29,7 @@ import { routes } from './app-routes.module';
         routes,
         HomepageModule,
         CrosswordGameModule,
-        RacingGameModule,
+        RacingGameModule
 
     ],
     providers: [
