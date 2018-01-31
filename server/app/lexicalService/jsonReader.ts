@@ -1,15 +1,15 @@
 import { Word } from "../word";
 
+// change name of class?
 export class JsonReader {
 
     constructor() {}
 
-    private readData(words: JSON): Word[] {
+    // remettre private
+    public readData(words: JSON): Word[] {
         // const fs = require("fs");
         // const data: string = fs.readFileSync("./app/words.json");
         // const words: JSON = JSON.parse(data);
-
-//        var data = require("./app/words.json");
 
         const seperatedWords: Word[] = new Array<Word>();
 
@@ -21,16 +21,15 @@ export class JsonReader {
         return seperatedWords;
     }
 
-    public getWordsBasedOnRarity(words: JSON, isCommon: boolean): JSON {
-
-        const seperatedWords: Word[] = this.readData(words);
+    // test : into n'est pas la, bind n'est pas la
+    public getValidWordsBasedOnRarity(words: JSON, isCommon: boolean): JSON {
+        
+        // const seperatedWords: Word[] = this.readData(words);
         const selectedWords: Word[] = new Array<Word>();
 
-        // test
-        seperatedWords.forEach(element => {
-            if (element.isCommon() === isCommon) {
+        this.readData(words).forEach(element => {
+            if (element.isCommon() === isCommon && element.hasDefinitions()) {
                 selectedWords.push(element);
-                // console.log(element.name + "   " + element.isCommon + "   " );
             }
         });
 

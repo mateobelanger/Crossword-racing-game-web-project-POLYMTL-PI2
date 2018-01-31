@@ -26,7 +26,7 @@ module Lexical {
 
             const reader: JsonReader = new JsonReader();
             datamuse.request("words?sp=" + criteria + "&md=f,d").then((json: JSON) =>
-                res.send(reader.getWordsBasedOnRarity(json, isCommon)));
+                res.send(reader.getValidWordsBasedOnRarity(json, isCommon)));
         }
 
     }

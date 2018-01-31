@@ -1,6 +1,5 @@
 const COMMON_LIMIT: number = 10;
 const FREQUENCY_INDEX: number = 2;
-const QUOTATION_MARKS_ASCII_CODE: number = 34;
 
 export class Word {
 
@@ -48,8 +47,9 @@ export class Word {
     }
     // Ou l'appeler?
     public removeExempleFromDefinition(): void {
-        const indexOfQuotationMarks: number = this.definitions[this.definitionIndex].indexOf(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
-        if (indexOfQuotationMarks !== -1) {     // -1.. n'enlevera pas la , mais si juste exemple.. quoi faire?
+        const indexOfQuotationMarks: number = this.definitions[this.definitionIndex].indexOf(String.fromCharCode(34));
+        
+        if (indexOfQuotationMarks !== -1) {
             this.definitions[this.definitionIndex] = this.definitions[this.definitionIndex].substring(0, indexOfQuotationMarks - 1);
         }
 

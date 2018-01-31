@@ -2,22 +2,27 @@
         "word": "bear",
         "score": 17117,
         "tags": ["f:77.018290"],
-        "defs": ["n\tmassive plantigrade carnivorous or omnivorous mammals with long shaggy coats and strong claws",
-            "n\tan investor with a pessimistic market outlook; an investor who expects prices to fall and so sells now in order to buy later at a lower price",
-            "v\ttake on as one's own the expenses or debts of another person",
-            "v\thave rightfully; of rights, titles, and offices",
-            "v\thave",
-            "v\tmove while holding up or supporting",
+        "defs": ["n\tbearmassive plantigrade carnivorous or omnivorous mammals with long shaggy coats and strong claws",
+            "n\tbearan investor with a pessimistic market outlook; an investor who expects prices to fall and so sells now in order to buy later at a lower price",
+            "v\tbeartake on as one's own the expenses or debts of another person",
+            "v\tbearhave rightfully; of rights, titles, and offices",
+            "v\tbearhave",
+            "v\tbearmove while holding up or supporting",
             "v\tbring forth, \"The apple tree bore delicious apples this year\"",
-            "v\tcontain or hold; have within",
-            "v\thave on one's person",
-            "v\tbe pregnant with",
-            "v\tbring in",
-            "v\tbehave in a certain manner",
-            "v\tgive birth (to a newborn)",
-            "v\tsupport or hold in a certain manner",
-            "v\tput up with something or somebody unpleasant"
+            "v\tbearcontain or hold; have within",
+            "v\tbearhave on one's person",
+            "v\tbearbe pregnant with",
+            "v\tbearbring in",
+            "v\tbearbehave in a certain manner",
+            "v\tbeargive birth (to a newborn)",
+            "v\tbearsupport or hold in a certain manner",
+            "v\tbearput up with something or somebody unpleasant"
         ]
+    },
+    {
+        "word": "into",
+        "score": 123,
+        "tags": ["f:1807.532391"]
     },
     {
         "word": "over",
@@ -84,12 +89,7 @@
     }, {
         "word": "bind",
         "score": 4963,
-        "tags": ["f:15.343039"],
+        "tags": ["f:9.99"],
         "defs": ["n\tsomething that hinders as if with bonds", "v\tcreate social or emotional ties", "v\tform a chemical bond with", "v\tmake fast; tie or secure, with or as if with a rope", "v\twrap around with something so as to cover or enclose", "v\tprovide with a binding", "v\tcause to be constipated", "v\tbind by an obligation; cause to be indebted", "v\tfasten or secure with a rope, string, or cord", "v\tsecure with or as if with ropes", "v\tstick to firmly"]
-    }, {
-        "word": "ball",
-        "score": 4758,
-        "tags": ["f:57.246701"],
-        "defs": ["n\ta pitch that is not in the strike zone", "n\tround object that is hit or thrown or kicked in games", "n\ta spherical object used as a plaything", "n\ta more or less rounded anatomical body or mass; ball of the human foot or ball at the base of the thumb", "n\ta lavish formal dance", "n\ta compact mass", "n\tthe people assembled at a lavish formal dance", "n\tUnited States comedienne best known as the star of a popular television program (1911-1989)", "n\tan object with a spherical shape", "n\ta solid ball shot by a musket", "n\ta ball game played with a bat and ball between two teams of 9 players; teams take turns at bat trying to score run", "n\tone of the two male reproductive glands that produce spermatozoa and secrete androgens", "v\tform into a ball by winding or rolling"]
     }
 ]
