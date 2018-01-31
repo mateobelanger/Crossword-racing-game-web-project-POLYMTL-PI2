@@ -45,17 +45,15 @@ export class GridGenerator {
             for (let j: number = 0; j < this.nColumns; j++) {
                 if (this.isLoneCase(i, j)) {
                     this.fixLoneCase(i, j);
-                    //i = 0; j = 0;
+                    i = 0; j = 0;
                 }
                 if (this.isRowWithoutWords(i)) {
-                    console.log("row");
                     this.addWordToRow(i);
-                   // i = 0; j = 0;
+                    i = 0; j = 0;
                 }
                 if (this.isColumnWithoutWords(j)) {
-                    console.log("column");
                     this.addWordToColumn(j);
-                 //   i = 0; j = 0;
+                    i = 0; j = 0;
                 }
             }
         }
@@ -97,7 +95,7 @@ export class GridGenerator {
 
     // fills the first n cases of the grid.
     private fill(nBlackCases: number): [number, number] [] {
-        const blackCasesPosition: [number, number][] = [];    // array of pair
+        const blackCasesPosition: [number, number][] = [];    // array of pairs
 
         if (nBlackCases <= 0) {
             return blackCasesPosition;
@@ -171,7 +169,7 @@ export class GridGenerator {
         return true;
     }
 
-    // fix the lone case at position [row, col].
+    // fixes the lone case at position [row, col].
     private fixLoneCase (row: number, col: number): void {
         if (!this.isLoneCase(row, col)) {
             return;

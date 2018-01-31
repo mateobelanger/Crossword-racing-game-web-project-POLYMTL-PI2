@@ -1,4 +1,4 @@
-import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE } from "./grid-generator";
+import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE } from "./gridGenerator";
 import { Word } from "./word";
 
 const assert = require("chai").assert;
