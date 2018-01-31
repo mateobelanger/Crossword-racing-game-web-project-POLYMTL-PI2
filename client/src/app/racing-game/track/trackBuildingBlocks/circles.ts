@@ -1,8 +1,6 @@
 import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
 
-const PI = 3.14159265359;
-
 export class CircleHandler {
     
     private circleGeometry : THREE.Geometry[];
@@ -25,29 +23,37 @@ export class CircleHandler {
         });
       }
 
-    public removeCircles(meshsToRemove : THREE.Mesh[]){
-        meshsToRemove.forEach(meshToRemove => {
-            this.scene.remove(meshToRemove);
-            this.meshs = this.meshs.filter((mesh) => {meshToRemove !== mesh})
-        });
+    public removeCircle(meshId : number){
+        let meshToRemove : THREE.Mesh = this.findMesh(meshId);
+        this.scene.remove(meshToRemove);
+        let index : number = this.meshs.indexOf(meshToRemove);//no need to verify !=-1
+        this.meshs.splice(index, 1);
     }
 
-    //à revoir la bonne manière d'effecture les déplacements
-    public moveCircle(mesh : THREE.Mesh, position : THREE.Vector3){
-        mesh.rotateX(-PI*(3/2));
-        mesh.translateX(position.x);
-        mesh.translateY(position.y);
-        mesh.translateZ(-position.z);// "-" because of the position of the camera
-        mesh.rotateX(PI*(3/2));
+    public moveCircle(id : number, newPosition : THREE.Vector3){
+        let mesh : THREE.Mesh = this.findMesh(id);
+        let relativeMovement : THREE.Vector3 = newPosition.sub(mesh.position);
+        console.log(relativeMovement);
+        mesh.translateX(relativeMovement.x);
+        mesh.translateY(relativeMovement.y);
+        mesh.translateZ(relativeMovement.z);
+    }
+
+    private findMesh(id : number): THREE.Mesh{
+        let mesh : THREE.Mesh = null;
+        this.meshs.forEach((element)=> {
+            if(element.id === id)
+            mesh = element;
+        });
+        return mesh;
     }
 
     private bindMesh(mesh: THREE.Mesh, waypoint : Waypoint){
-        waypoint.setId(mesh.id);//je garde le id en attendant
-        waypoint.bindCircle(mesh);
+        waypoint.unbindCircle();
+        waypoint.bindCircle(mesh.id);
         mesh.translateX(waypoint.getPosition().x);
         mesh.translateY(waypoint.getPosition().y);
-        mesh.translateZ(-waypoint.getPosition().z);// "-" because of the position of the camera
-        mesh.rotateX(PI*(3/2)); //necessary to see the circle
+        mesh.translateZ(waypoint.getPosition().z);
     }
 
     private generateCircleGeometry(nCircles : number): THREE.Geometry[]{
@@ -60,7 +66,7 @@ export class CircleHandler {
       }
     
       private getCircleMaterial(): THREE.MeshBasicMaterial{
-        return new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+        return new THREE.MeshBasicMaterial( { color: 0xffff00} );
       }
 
 }
