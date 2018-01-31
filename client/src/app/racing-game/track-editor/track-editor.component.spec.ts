@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TrackEditorComponent } from './track-editor.component';
+import { TrackEditorService } from './track-editor.service';
+import { TrackEditorRenderService } from './track-editor-render.service';
 
 
 describe('TrackEditorComponent', () => {
@@ -9,7 +11,8 @@ describe('TrackEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrackEditorComponent ],      
+      declarations: [ TrackEditorComponent ],
+      providers: [TrackEditorService, TrackEditorRenderService]
     })
     .compileComponents();
   }));
