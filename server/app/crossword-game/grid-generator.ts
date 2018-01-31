@@ -8,32 +8,23 @@ export class GridGenerator {
     private nColumns: number;
     private blackCases: boolean[][];
 
-    constructor() {
+    public constructor() {
         this.blackCases = [];
     }
 
     public generate(nRows: number = DEFAULT_GRID_SIZE,
                     nColumns: number = DEFAULT_GRID_SIZE,
                     nBlackCases: number): Word[] {
+
         this.initialize(nRows, nColumns);
         this.spreadRandomly(this.fill(nBlackCases));
 
-        for (let i: number = 0; i < this.nRows; i++) {
-            for (let j: number = 0; j < this.nColumns; j++) {
-                if (this.isLoneCase(i, j)) {
-                    this.fixLoneCase(i, j);
-                    i = 0; j = 0;
-                }
-            }
-        }
+        this.fix();
+
         const horizontalWords: Word[] = this.generateHorizontalWords();
         const verticalWords: Word[] = this.generateVerticalWords();
 
         return horizontalWords.concat(verticalWords);
-    }
-
-    public get grid(): boolean[][] {
-        return this.blackCases;
     }
 
     private initialize(nRows: number, nCols: number): void {
@@ -49,6 +40,27 @@ export class GridGenerator {
         }
     }
 
+    private fix(): void {
+        for (let i: number = 0; i < this.nRows; i++) {
+            for (let j: number = 0; j < this.nColumns; j++) {
+                if (this.isLoneCase(i, j)) {
+                    this.fixLoneCase(i, j);
+                    //i = 0; j = 0;
+                }
+                if (this.isRowWithoutWords(i)) {
+                    console.log("row");
+                    this.addWordToRow(i);
+                   // i = 0; j = 0;
+                }
+                if (this.isColumnWithoutWords(j)) {
+                    console.log("column");
+                    this.addWordToColumn(j);
+                 //   i = 0; j = 0;
+                }
+            }
+        }
+    }
+
     private set(row: number, col: number, value: boolean): void {
         if (row >= this.nRows || row < 0) {
             return;
@@ -58,6 +70,29 @@ export class GridGenerator {
         }
 
         this.blackCases[row][col] = value;
+    }
+
+    private setRandomly(value: boolean): void {
+        let column: number;
+        let row: number;
+        do {
+            row = Math.floor(Math.random() * this.nRows);
+            column = Math.floor(Math.random() * this.nColumns);
+            if (this.isCorner(row, column)) {
+                continue;
+            }
+        } while (this.blackCases[column][row] === value);
+
+        this.set(row, column, value);
+    }
+
+    private isCorner(row: number, col: number): boolean {
+        if ((row < MIN_WORD_LENGTH || row > this.nRows - 1 - MIN_WORD_LENGTH)
+        && (col < MIN_WORD_LENGTH || col > this.nColumns - 1 - MIN_WORD_LENGTH)) {
+            return true;
+        }
+
+        return false;
     }
 
     // fills the first n cases of the grid.
@@ -73,8 +108,7 @@ export class GridGenerator {
             for (let j: number = 0; j < this.nColumns; j++) {
 
                 // ignores corners to prevent words too short.
-                if ((i < MIN_WORD_LENGTH || i > this.nRows - 1 - MIN_WORD_LENGTH)
-                        && (j < MIN_WORD_LENGTH || j > this.nColumns - 1 - MIN_WORD_LENGTH)) {
+                if (this.isCorner(i, j)) {
                     continue;
                 }
                 this.set(i, j, true);
@@ -98,8 +132,7 @@ export class GridGenerator {
 
         for (; i < this.nRows; i++) {
             for (; j < this.nColumns; j++) {
-                if ((i < MIN_WORD_LENGTH || i > this.nRows - 1 - MIN_WORD_LENGTH)
-                        && (j < MIN_WORD_LENGTH || j > this.nColumns - 1 - MIN_WORD_LENGTH)) {
+                if (this.isCorner(i, j)) {
                     continue;
                 }
                 const range: number = i * this.nColumns + j;
@@ -150,6 +183,86 @@ export class GridGenerator {
         } else {
             this.blackCases[row][col + 1] = false;
         }
+    }
+
+    private isRowWithoutWords(row: number): boolean {
+        let wordLength: number = 0;
+        for (let i: number = 0; i < this.nColumns; i++) {
+            if (this.blackCases[row][i]) {
+                wordLength = 0;
+                continue;
+            } else if (++wordLength === MIN_WORD_LENGTH) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private isColumnWithoutWords(column: number): boolean {
+        let wordLength: number = 0;
+        for (let i: number = 0; i < this.nRows; i++) {
+            if (this.blackCases[i][column]) {
+                wordLength = 0;
+                continue;
+            } else if (++wordLength === MIN_WORD_LENGTH) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private addWordToRow(row: number): void {
+        let noWhiteCase: boolean = true;
+        for (let i: number = row; i < this.nColumns; i++) {
+            if (this.blackCases[row][i]) {
+                continue;
+            }
+            noWhiteCase = false;
+            if (i > 0) {
+                this.set(row, --i, false);
+            } else {
+                this.set(row, ++i, false);
+            }
+            break;
+        }
+        if (noWhiteCase) {
+            const column: number = Math.floor(Math.random() * this.nColumns - 1);
+            this.set(row, column, false);
+            this.set(row, column + 1, false);
+            this.setRandomly(true);
+            this.setRandomly(true);
+
+            return;
+        }
+        this.setRandomly(true);
+    }
+
+    private addWordToColumn(column: number): void {
+        let noWhiteCase: boolean = true;
+        for (let i: number = column; i < this.nColumns; i++) {
+            if (this.blackCases[i][column]) {
+                continue;
+            }
+            noWhiteCase = false;
+            if (i > 0) {
+                this.set(--i, column, false);
+            } else {
+                this.set(++i, column, false);
+            }
+            break;
+        }
+        if (noWhiteCase) {
+            const row: number = Math.floor(Math.random() * this.nRows - 1);
+            this.set(row, column, false);
+            this.set(row + 1, column, false);
+            this.setRandomly(true);
+            this.setRandomly(true);
+ 
+            return;
+        }
+        this.setRandomly(true);
     }
 
     private generateHorizontalWords(): Word[] {
@@ -209,6 +322,10 @@ export class GridGenerator {
 
         return result;
     }
-}
 
-//module.exports = GridGenerator;
+    // for tests. to be removed.
+    public get grid(): boolean[][] {
+        return this.blackCases;
+    }
+
+}
