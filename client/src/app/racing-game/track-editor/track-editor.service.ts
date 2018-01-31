@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
-import { Vector3 } from 'three';
+import * as THREE from 'three';
 import { Waypoint } from '../track/trackData/waypoint';
 
 @Injectable()
@@ -18,15 +18,43 @@ export class TrackEditorService {
       this.container = container;
       this.track = new Track();
       for (let i = 0; i < 10; i++) {
-        this.track.addWaypoint(new Waypoint(new Vector3(i*10,0, i*10),i));       
+        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(i*20,i*10, 0));
+        this.track.addWaypoint(waypoint);       
       }
       this.dragDropActive = false;
       this.trackEditorRenderService.initialize(this.container, this.track);
+      //TESTS ----------------------------------------
+      this.addWaypoints(this.track.getWaypoints());
+      this.removeWaypoint();
+      this.moveWaypoint(9, new THREE.Vector3(-12, 250, 0 ));
   }
 
   public getTrack(): Track {
     return this.track;
   }
+
+  public addWaypoints(waypoints : Waypoint[]){
+    this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
+    //TODO ajouter un plan si pas premier point
+  }
+
+
+  public moveWaypoint(circleId: number, newPos : THREE.Vector3) {
+    let waypoint : Waypoint = this.track.getWaypoint(circleId);
+    waypoint.setPosition(newPos);
+    this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
+
+    // TODO: deplacer les plans en fonction du déplacement des points
+    //let dependantPlaneId : number[] = waypoint.getPlanesIds();
+  }
+
+  public removeWaypoint(){
+    let waypoint : Waypoint = this.track.removeWaypoint();
+    this.trackEditorRenderService.circleHandler.removeCircle(waypoint.getCircleId());
+
+    //TODO: supprimer le plan dépendant
+  }
+
 
   public handleLeftMouseDown(event: MouseEvent): void {
     let objectsSelected = this.trackEditorRenderService.getObjectsPointedByMouse(event);
@@ -44,7 +72,7 @@ export class TrackEditorService {
         //
         // A MODFIER EN RAISON DE LA NOUVELLE CLASSE WAYPOINT
         //
-        this.track.addWaypoint(new Waypoint(new Vector3(
+        this.track.addWaypoint(new Waypoint(new THREE.Vector3(
                                           (event.clientX / window.innerWidth) * 2 - 1,
                                           0,
                                           (event.clientY / window.innerHeight) * 2 + 1)))
@@ -59,7 +87,7 @@ export class TrackEditorService {
   }
 
   public handleRightMouseDown(event: MouseEvent): void {
-    this.track.removeLastWaypoint();
+    this.track.removeWaypoint();
   }
 
   public handleMouseMove(event: MouseEvent): void {

@@ -21,7 +21,7 @@ export class TrackEditorRenderService {
 
   private light: THREE.AmbientLight;
 
-  private circleHandler : CircleHandler;
+  public circleHandler : CircleHandler;
 
   public constructor() { }
 
@@ -47,7 +47,7 @@ export class TrackEditorRenderService {
       1,  // TODO: Put the same number on this line to have a "plane"
       100 // and this line
     );
-    this.camera.position.set(0, 10, 0);
+    this.camera.position.set(0, 0, 10);
     this.camera.lookAt(new Vector3(0, 0, 0));
 
     // TEST to find out if the scene is working
@@ -57,16 +57,10 @@ export class TrackEditorRenderService {
 
     //INSTANCIATING CIRCLEHANDLER
     this.circleHandler = new CircleHandler(this.scene);
-    this.circleHandler.generateCircles(track.getWaypoints());
-
-    //TEST REMOVE FROM CIRCLEHANDLER
-    let arrayTest : THREE.Mesh[] = [];
-    arrayTest.push(track.getWaypoints()[1].getCircle());
-    this.circleHandler.removeCircles(arrayTest);
 
     //TEST TO MOVE A DOT
-    let shift : THREE.Vector3 = new THREE.Vector3(20,0,20);
-    this.circleHandler.moveCircle(track.getWaypoints()[4].getCircle(), shift);
+    //let newPos : THREE.Vector3 = new THREE.Vector3(110,200,0);
+    ////this.circleHandler.moveCircle(12, newPos);
 
   }
 

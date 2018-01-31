@@ -33,7 +33,6 @@ export class CircleHandler {
     public moveCircle(id : number, newPosition : THREE.Vector3){
         let mesh : THREE.Mesh = this.findMesh(id);
         let relativeMovement : THREE.Vector3 = newPosition.sub(mesh.position);
-        console.log(relativeMovement);
         mesh.translateX(relativeMovement.x);
         mesh.translateY(relativeMovement.y);
         mesh.translateZ(relativeMovement.z);
