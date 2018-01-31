@@ -7,10 +7,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DefinitionsComponent implements OnInit {
 
-  private definitions: Array<string>;
+  private horizontalDefinitions: Array<Array<string>>;
+  private verticalDefinitions: Array<Array<string>>;
 
   constructor() {
-    this.definitions = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "K"];
+    this.horizontalDefinitions = [["massive plantigrade carnivorous or omnivorous mammals with long shaggy coats and strong claws", 
+                                   "from a particular thing or place or position"],
+                                  ["bound together on one edge",
+                                   "the sacred writings of the Christian religions",
+                                   "engage for a performance"],
+                                  ["color of the sky",
+                                   "color of the sun"],
+                                  ["part of an orchestra, a choir"]];
+    this.verticalDefinitions = [["not so massive plantigrade carnivorous or not with long shaggy coats and strong claws", 
+                                 "from a particular place or position or hell"],
+                                ["bound together on three edges",
+                                 "the sacred writings of the Muslim religions",
+                                 "engage for ..."],
+                                ["color of the sun",
+                                 "color of the sky"]];
    }
 
   ngOnInit() {

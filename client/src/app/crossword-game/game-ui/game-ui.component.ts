@@ -17,4 +17,3 @@ export class GameUiComponent implements OnInit {
   ngOnInit() {}
 
 }
-//ssw
