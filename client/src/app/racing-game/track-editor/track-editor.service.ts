@@ -10,7 +10,7 @@ export class TrackEditorService {
   private container: HTMLDivElement;
   private track: Track;
   private dragDropActive: boolean;
-  private selectedWaypoint: THREE.Object3D;
+  private selectedWaypoint: Waypoint;
 
   public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
 
@@ -33,6 +33,8 @@ export class TrackEditorService {
 
     if(objectsSelected.length > 0) {
       if(objectsSelected[0].object.type === "wayPpoint") {
+      let waypoint : Waypoint = this.track.getWaypoint(objectsSelected[0].object.id);
+      if(waypoint != undefined) {
         this.dragDropActive = true;
         //
         // Il faut changer le code pour faire interface entre l'objet raycasté (un 3dObject)

@@ -12,6 +12,7 @@ export class TrackEditorRenderService {
   private renderer: THREE.WebGLRenderer;
 
   private camera: THREE.OrthographicCamera;
+  private camera: THREE.PerspectiveCamera;
 
   private mouse: THREE.Vector2;
 
@@ -48,8 +49,9 @@ export class TrackEditorRenderService {
       100 // and this line
     );
     this.camera.position.set(0, 10, 0);
-    this.camera.lookAt(new Vector3(0, 0, 0));
+    this.camera = new THREE.PerspectiveCamera( 70, this.container.clientWidth / this.container.clientHeight, 1, 1000 );
 
+    this.camera.position.set(0, 200, 0);
     // TEST to find out if the scene is working
     this.light = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.light);
@@ -92,6 +94,8 @@ export class TrackEditorRenderService {
   public updateMousePos(event: MouseEvent): void {
     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     this.mouse.y = ( event.clientY / window.innerHeight ) * 2 + 1;
+    this.mouse.x = ( event.clientX / this.container.clientWidth ) * 2 - 1;
+    this.mouse.y = -( event.clientY / this.container.clientHeight ) * 2 + 1;
   }
 
   public getMousePos() : THREE.Vector2 {

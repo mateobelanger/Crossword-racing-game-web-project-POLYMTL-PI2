@@ -34,7 +34,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
         .catch((err) => console.error(err));
 } */
 
-  @HostListener("window:mousedown", ["$event"])
+  @HostListener("mousedown", ["$event"])
   public onMouseDown(event: MouseEvent): void {
     switch(event.button) {
       case LEFTMOUSEBTN:
@@ -46,13 +46,13 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     }
   }
 
-  @HostListener("window:mouseup", ["$event"])
+  @HostListener("mouseup", ["$event"])
   public onMouseUp(event: MouseEvent): void {
     if(event.button === LEFTMOUSEBTN)
         this.trackEditorService.handleLeftMouseUp(event);
   }
 
-  @HostListener("window:mousemove", ["$event"])
+  @HostListener("mousemove", ["$event"])
   public onMouseMove(event: MouseEvent): void {
     this.trackEditorService.handleMouseMove(event);
   }
