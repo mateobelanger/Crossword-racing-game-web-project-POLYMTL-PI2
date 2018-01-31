@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import {Vector3} from 'three';
 import {Track} from '../track/trackData/track';
-import {CircleHandler} from '../track/trackBuildingBlocks/circles'
+import {CircleHandler} from '../track/trackBuildingBlocks/circles';
+
 /* tslint:disable:no-magic-numbers */
+
 @Injectable()
 export class TrackEditorRenderService {
 
@@ -21,19 +22,19 @@ export class TrackEditorRenderService {
 
   private light: THREE.AmbientLight;
 
-  public circleHandler : CircleHandler;
+  public circleHandler: CircleHandler;
 
   public constructor() { }
 
 
-  public initialize(container: HTMLDivElement, track : Track): void {
+  public initialize(container: HTMLDivElement, track: Track): void {
 
     this.container = container;
     this.createScene(track);
     this.startRenderingLoop();
   }
 /* tslint:disable:max-func-body-length */
-  private createScene(track : Track): void {
+  private createScene(track: Track): void {
     this.scene = new THREE.Scene();
 
     this.raycaster = new THREE.Raycaster();
@@ -48,7 +49,7 @@ export class TrackEditorRenderService {
       100 // and this line
     );
     this.camera.position.set(0, 0, 10);
-    this.camera.lookAt(new Vector3(0, 0, 0));
+    this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     // TEST to find out if the scene is working
     this.light = new THREE.AmbientLight(0xFFFFFF);
@@ -80,6 +81,7 @@ export class TrackEditorRenderService {
   public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
     this.updateMousePos(event);
     this.raycaster.setFromCamera(this.mouse, this.camera);
+
     return this.raycaster.intersectObjects(this.scene.children);
   }
 
@@ -88,7 +90,7 @@ export class TrackEditorRenderService {
     this.mouse.y = ( event.clientY / window.innerHeight ) * 2 + 1;
   }
 
-  public getMousePos() : THREE.Vector2 {
+  public getMousePos(): THREE.Vector2 {
     return this.mouse;
   }
   /*

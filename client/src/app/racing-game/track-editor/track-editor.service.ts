@@ -16,17 +16,25 @@ export class TrackEditorService {
 
   public initialize(container: HTMLDivElement): void {
       this.container = container;
+      this.trackEditorRenderService.initialize(this.container, this.track);
       this.track = new Track();
-      for (let i = 0; i < 10; i++) {
-        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(i*20,i*10, 0));
+
+      this.dragDropActive = false;
+
+      // TODO: remove TESTS ----------------------------------------
+      //Axe X positif
+      for (let i = 0; i <= 24; i++) {
+        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(i*20,0, 0));
         this.track.addWaypoint(waypoint);       
       }
-      this.dragDropActive = false;
-      this.trackEditorRenderService.initialize(this.container, this.track);
-      //TESTS ----------------------------------------
+      //Axe Y positif
+      for (let i = 0; i <= 19; i++) {
+        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i*20, 0));
+        this.track.addWaypoint(waypoint);       
+      }
       this.addWaypoints(this.track.getWaypoints());
-      this.removeWaypoint();
-      this.moveWaypoint(9, new THREE.Vector3(-12, 250, 0 ));
+      //this.removeWaypoint();
+      
   }
 
   public getTrack(): Track {
