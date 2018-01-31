@@ -5,20 +5,19 @@ export class WordValidator {
 
     public constructor() {}
 
-    public findValidWord( isDifficult: boolean, words: Word[] ): Word {
+    public findValidWords( isDifficult: boolean, words: Word[] ): Word[] {
 
-        let word: Word;
+        let validWords: Word[];
 
         for (let i: number = 0; i < words.length; i++) {
             console.log(i);
             if (words[i].establishDefinitionIndex(isDifficult) != -1) {
-                words[i].removeExempleFromDefinition(); // appel ok ?? ou mettre
-                word = words[i];
-                break;
+                words[i].removeExampleFromDefinition(); // appel ok ?? ou mettre
+                validWords.push(words[i]);
             }
         }
 
-        return word;
+        return validWords;
     }
 
     // TODO

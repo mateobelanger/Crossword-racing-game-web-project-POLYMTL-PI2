@@ -47,7 +47,7 @@ export class Word {
         return this.definitionIndex;
     }
     // Ou l'appeler?
-    public removeExempleFromDefinition(): void {
+    public removeExampleFromDefinition(): void {
         const indexOfQuotationMarks: number = this.definitions[this.definitionIndex].indexOf(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
         if (indexOfQuotationMarks !== -1) {     // -1.. n'enlevera pas la , mais si juste exemple.. quoi faire?
             this.definitions[this.definitionIndex] = this.definitions[this.definitionIndex].substring(0, indexOfQuotationMarks - 1);
