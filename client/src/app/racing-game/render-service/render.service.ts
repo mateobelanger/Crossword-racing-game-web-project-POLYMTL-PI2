@@ -1,12 +1,10 @@
 import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
-import { WebGLRenderer, Scene,
-         AmbientLight, Mesh, BoxGeometry,
-         MeshBasicMaterial} from "three";
+import { WebGLRenderer, Scene, AmbientLight} from "three";
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
-
+import { TestAxes } from "../test-axes";
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
@@ -24,14 +22,8 @@ export class RenderService {
     private scene: Scene;
     private stats: Stats;
     private lastDate: number;
-
-
-    private light: AmbientLight;
-    // AXES
-    private box1: Mesh;
-    private box2: Mesh;
-    private box3: Mesh;
-
+    //TODO: ROMOVE : TEST_AXES
+    private axes: TestAxes;
 
     public get car(): Car {
         return this._car;
@@ -39,6 +31,8 @@ export class RenderService {
 
     public constructor(private cameraService: CameraService) {
         this._car = new Car();
+        //TODO: ROMOVE : TEST_AXES
+        this.axes = new TestAxes;
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -75,34 +69,11 @@ export class RenderService {
         this.cameraService.initialization(this.container, this._car.getVectorPosition());
         this.cameraService.initCameras();
 
-        
-        // AXES : TEST to find out if the scene is working////
-        this.scene.add(this.light);
-
-        // ROUGE : Z
-        this.box1 = new Mesh(
-            new BoxGeometry(1,1,10),
-            new MeshBasicMaterial({color: 0xFF0000})
-        );
-        this.box1.position.z = 5;
-        this.scene.add(this.box1);
-
-        // VERT : Y
-        this.box2 = new Mesh(
-            new BoxGeometry(1,10,1),
-            new MeshBasicMaterial({color: 0x00FF00})
-        );
-        this.box2.position.y = 5;
-        this.scene.add(this.box2);
-
-        // BLEU : X
-        this.box3 = new Mesh(
-            new BoxGeometry(10,1,1),
-            new MeshBasicMaterial({color: 0x0000FF})
-        );
-        this.box3.position.x = 5;
-        this.scene.add(this.box3);
-        /////////////////////////////////////////////////////
+        //TODO: ROMOVE : TEST_AXES
+        this.axes.createBoxAxes();
+        this.scene.add(this.axes.getBoxAxeX());
+        this.scene.add(this.axes.getBoxAxeY());
+        this.scene.add(this.axes.getBoxAxeZ());
 
     }
 
