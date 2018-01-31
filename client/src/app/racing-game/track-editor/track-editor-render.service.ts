@@ -91,8 +91,9 @@ export class TrackEditorRenderService {
   public getMousePos() : THREE.Vector2 {
     return this.mouse;
   }
-
+  /*
   private exportSceneForDebug() : void {
     (window as any).scene = this.scene;
   }
+  */
 }
