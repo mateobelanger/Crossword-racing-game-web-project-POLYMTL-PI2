@@ -3,13 +3,12 @@ import * as THREE from 'three';
 
 export class Waypoint 
 {
-    private circle: THREE.Mesh;
+    private circleId:number = null;
 
-    private planes: THREE.Mesh[];
+    private planesId: number[] = [];
 
     constructor(
         private position: THREE.Vector3 = new THREE.Vector3(0,0,0),
-        private id: number = -1 //probablement bientot une archive
     ){}
 
     public getPosition() : THREE.Vector3
@@ -22,29 +21,31 @@ export class Waypoint
         this.position = position;
     }
 
-    public getId(): number
-    {
-        return this.id;
+    public bindCircle( id : number){
+        if(this.circleId === null)
+            this.circleId = id;
     }
 
-    public setId(newId : number){
-        this.id = newId;
-    }
-
-    public bindCircle( object : THREE.Mesh){
-        this.circle = object;
-    }
-
-    public getCircle():THREE.Mesh{
-        return this.circle;
+    public getCircleId():number{
+        return this.circleId;
     }
     
-    public unBindCircle(){
-        this.circle = null;
+    public unbindCircle(){
+        this.circleId = null;
     }
 
-    public bindPlane(object : THREE.Mesh){
-        if(this.planes.length < 2)
-            this.planes.push(object);
+    public bindPlane(id : number){
+        if((this.planesId.length < 2) && (this.planesId.indexOf(id) == -1))
+            this.planesId.push(id);
+    }
+
+    public getPlanesIds(): number[]{
+        return this.planesId;
+    }
+
+    public unbindPlane(idToremove : number){
+        let index : number = this.planesId.indexOf(idToremove);
+        if( index > -1)
+            this.planesId.splice(index, 1);
     }
 }
