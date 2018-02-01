@@ -18,7 +18,7 @@ export class DefinitionsComponent implements OnInit {
                                    "engage for a performance"],
                                   ["color of the sky",
                                    "color of the sun"],
-                                  ["part of an orchestra, a choir"]];
+                                  ["part of an orchestra, a choir"],[],['yo boy']];
     this.verticalDefinitions = [["not so massive plantigrade carnivorous or not with long shaggy coats and strong claws", 
                                  "from a particular place or position or hell"],
                                 ["bound together on three edges",

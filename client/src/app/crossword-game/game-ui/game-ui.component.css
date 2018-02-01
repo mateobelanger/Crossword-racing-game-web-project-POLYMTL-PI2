@@ -1,0 +1,12 @@
+.game {
+    width: 98%;
+    padding: 3vw;
+}
+
+.grid {
+    float: left;
+}
+
+.definitions {
+    float: right;
+}

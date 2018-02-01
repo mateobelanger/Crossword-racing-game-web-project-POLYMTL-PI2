@@ -1,3 +1,13 @@
 li {
     list-style-type: none;
+    font-weight: normal;
+    padding-left: 1vw;
+}
+
+.table {
+    font-size: 1vw;
+}
+
+.index {
+    font-weight: bold;
 }

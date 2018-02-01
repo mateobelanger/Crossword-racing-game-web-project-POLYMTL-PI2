@@ -1,141 +1,28 @@
-<table class="table table-bordered">
+<table class="table">
     <thead>
-        <tr>
-            <th>Index</th>
-            <th>Horizontal</th>
-            <th>Vertical</th>
-        </tr>
+        <tr>Across</tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[0]; let indexI = index;">
+        <tr *ngFor="let row of horizontalDefinitions; let indexR = index;" class="index">
+            <div *ngIf="row.length > 0">{{indexR+1}}.
+                <li *ngFor="let definition of row; let indexI = index;">
                     [{{indexI+1}}] {{definition}}
                 </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[0]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
+            </div>
         </tr>
-        <tr>
-            <td>2</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[1]; let indexI = index;">
+    </tbody>
+</table>
+<table class="table">
+    <thead>
+        <tr>Down</tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of verticalDefinitions; let indexR = index;" class="index">
+            <div *ngIf="row.length > 0">{{indexR+1}}.
+                <li *ngFor="let definition of row; let indexI = index;">
                     [{{indexI+1}}] {{definition}}
                 </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[1]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[2]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[2]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[3]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[3]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[4]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[4]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[5]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[5]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[6]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[6]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[7]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[7]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[8]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[8]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td>
-                <li *ngFor="let definition of horizontalDefinitions[9]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
-            <td>
-                <li *ngFor="let definition of verticalDefinitions[9]; let indexI = index;">
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </td>
+            </div>
         </tr>
     </tbody>
 </table>
