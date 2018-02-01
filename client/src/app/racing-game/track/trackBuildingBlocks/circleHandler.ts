@@ -2,10 +2,6 @@ import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
 
 export class CircleHandler {
-    
-    private circleGeometry : THREE.Geometry[];
-
-    private material : THREE.MeshBasicMaterial;
 
     private meshs : THREE.Mesh[] = [];
 
@@ -13,10 +9,10 @@ export class CircleHandler {
     }
 
     public generateCircles(waypoints : Waypoint[]){
-        this.circleGeometry = this.generateCircleGeometry(waypoints.length);
-        this.material = this.getCircleMaterial();
-        this.circleGeometry.forEach((element,index) => {
-            let mesh = new THREE.Mesh( element, this.material )
+        let circleGeometry : THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
+        let material : THREE.MeshBasicMaterial = this.getCircleMaterial();
+        circleGeometry.forEach((element,index) => {
+            let mesh = new THREE.Mesh( element, material )
             this.meshs.push(mesh);
             this.scene.add(mesh);
             this.bindMesh(mesh, waypoints[index]);
@@ -65,7 +61,7 @@ export class CircleHandler {
       }
     
       private getCircleMaterial(): THREE.MeshBasicMaterial{
-        return new THREE.MeshBasicMaterial( { color: 0xffff00} );
+        return new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide} );
       }
 
 }
