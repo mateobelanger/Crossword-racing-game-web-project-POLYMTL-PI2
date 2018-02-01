@@ -1,37 +1,39 @@
 import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
-import { PerspectiveCamera, WebGLRenderer, Scene, AmbientLight } from "three";
-import { Car } from "../car/car";
+import { WebGLRenderer, Scene, AmbientLight} from "three";
 
-const FAR_CLIPPING_PLANE: number = 1000;
-const NEAR_CLIPPING_PLANE: number = 1;
-const FIELD_OF_VIEW: number = 70;
+import { Car } from "../car/car";
+import { CameraService } from "../camera.service";
+//TODO: ROMOVE : TEST_AXES
+import { TestAxes } from "../test-axes";
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 
-const INITIAL_CAMERA_POSITION_Y: number = 25;
 const WHITE: number = 0xFFFFFF;
-const AMBIENT_LIGHT_OPACITY: number = 0.5;
+const AMBIENT_LIGHT_OPACITY: number = 0.8;
 
 @Injectable()
 export class RenderService {
-    private camera: PerspectiveCamera;
     private container: HTMLDivElement;
     private _car: Car;
     private renderer: WebGLRenderer;
-    private scene: THREE.Scene;
+    private scene: Scene;
     private stats: Stats;
     private lastDate: number;
+    //TODO: ROMOVE : TEST_AXES
+    private axes: TestAxes;
 
     public get car(): Car {
         return this._car;
     }
 
-    public constructor() {
+    public constructor(private cameraService: CameraService) {
         this._car = new Car();
+        //TODO: ROMOVE : TEST_AXES
+        this.axes = new TestAxes;
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -56,21 +58,24 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
+    /* tslint.ignore:max-func-body-length*/
     private async createScene(): Promise<void> {
         this.scene = new Scene();
 
-        this.camera = new PerspectiveCamera(
-            FIELD_OF_VIEW,
-            this.getAspectRatio(),
-            NEAR_CLIPPING_PLANE,
-            FAR_CLIPPING_PLANE
-        );
-
         await this._car.init();
-        this.camera.position.set(0, INITIAL_CAMERA_POSITION_Y, 0);
-        this.camera.lookAt(this._car.position);
         this.scene.add(this._car);
+
         this.scene.add(new AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
+
+        this.cameraService.initialization(this.container, this._car.getVectorPosition());
+        this.cameraService.initCameras();
+
+        //TODO: ROMOVE : TEST_AXES
+        this.axes.createBoxAxes();
+        this.scene.add(this.axes.getBoxAxeX());
+        this.scene.add(this.axes.getBoxAxeY());
+        this.scene.add(this.axes.getBoxAxeZ());
+
     }
 
     private getAspectRatio(): number {
@@ -81,7 +86,6 @@ export class RenderService {
         this.renderer = new WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-
         this.lastDate = Date.now();
         this.container.appendChild(this.renderer.domElement);
         this.render();
@@ -89,14 +93,14 @@ export class RenderService {
 
     private render(): void {
         requestAnimationFrame(() => this.render());
+        this.cameraService.cameraFollowCarPosition();
         this.update();
-        this.renderer.render(this.scene, this.camera);
+        this.renderer.render(this.scene, this.cameraService.getCamera());
         this.stats.update();
     }
 
     public onResize(): void {
-        this.camera.aspect = this.getAspectRatio();
-        this.camera.updateProjectionMatrix();
+        this.cameraService.camerasOnResize(this.getAspectRatio());
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 

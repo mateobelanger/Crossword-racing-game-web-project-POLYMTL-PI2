@@ -1,4 +1,3 @@
-import {Vector3} from 'three';
 import {Waypoint} from './waypoint';
 
 export class Track 
@@ -10,36 +9,27 @@ export class Track
         return this.waypoints;
     }
 
-    public getWaypoint(id: number): Waypoint{
-        return this.waypoints[this.findWaypointIndex(id)];
+    public getWaypoint(CircleId: number): Waypoint{
+        const index: number = this.findWaypointIndex(CircleId);
+        if(index !== -1)
+            return this.waypoints[index];
+        return null;
     }
 
     public addWaypoint(wayPoint : Waypoint){
         this.waypoints.push(wayPoint);
     }
 
-    public removeWaypoint(id : number){
-        const index: number = this.findWaypointIndex(id);
-        if (index !== -1) 
-            this.waypoints.splice(index, 1);
-    }
-
-    public modifyWaypointPosition(id: number, newPosition : Vector3){
-        const index: number = this.findWaypointIndex(id);
-        if(index !== -1)
-            this.waypoints[index].setPosition(newPosition);     
+    public removeWaypoint() : Waypoint {
+        return this.waypoints.pop()
     }
 
     private findWaypointIndex(id : number): number {
         let index : number = -1;
         this.waypoints.forEach((element, i) => {
-            if(element.getId() === id)
+            if(element.getCircleId() === id)
                 index = i;
         });
         return index;
-    }
-    
-        public removeLastWaypoint() : void {
-        this.waypoints.pop()
     }
 }

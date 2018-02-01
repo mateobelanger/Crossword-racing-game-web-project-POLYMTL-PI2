@@ -36,7 +36,11 @@ describe("Track", () => {
         expect(track.getWaypoints().length).toBe(10);
     });
 
-    it("getWaypoint should return matching circle id waypoint", ()=>{
+    it("getWaypoint should return null", ()=>{
+        expect(track.getWaypoint(100)).toBeNull();
+    });
+
+    it("getWaypoint should return matching \"circleId\" waypoint", ()=>{
         expect(track.getWaypoint(2)).toBeDefined();
         expect(track.getWaypoint(2).getPosition()).toEqual(new Vector3(20, 0, 0));
     });
@@ -53,12 +57,5 @@ describe("Track", () => {
         expect(track.getWaypoints().length).toBe(10);
         track.removeWaypoint();
         expect(track.getWaypoints().length).toBe(9);
-    });
- 
-    it("modifyWaypointPosition", () => {
-        track.modifyWaypointPosition(2, new Vector3(0,5,0));
-        expect(track.getWaypoint(2).getPosition().y).toBe(5);
-    });
-
-    
+    });    
 });

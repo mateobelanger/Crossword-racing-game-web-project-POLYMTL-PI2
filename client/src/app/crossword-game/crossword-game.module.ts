@@ -3,14 +3,22 @@ import { CommonModule } from '@angular/common';
 
 import { CrosswordGameComponent } from './crossword-game.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
+import { GameUiComponent } from './game-ui/game-ui.component';
+import { GridComponent } from './grid/grid.component';
+import { DefinitionsComponent } from './definitions/definitions.component';
+import { routes } from '../app-routes.module';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    routes
   ],
   declarations: [
     CrosswordGameComponent,
     ConfigurationComponent,
+    GameUiComponent,
+    GridComponent,
+    DefinitionsComponent
   ],
 
   exports: [

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import {Vector3} from 'three';
 import {Track} from '../track/trackData/track';
-import {CircleHandler} from '../track/trackBuildingBlocks/circles'
+import {CircleHandler} from '../track/trackBuildingBlocks/circles';
+
 /* tslint:disable:no-magic-numbers */
+
 @Injectable()
 export class TrackEditorRenderService {
 
@@ -22,19 +23,19 @@ export class TrackEditorRenderService {
 
   private light: THREE.AmbientLight;
 
-  private circleHandler : CircleHandler;
+  public circleHandler: CircleHandler;
 
   public constructor() { }
 
 
-  public initialize(container: HTMLDivElement, track : Track): void {
+  public initialize(container: HTMLDivElement, track: Track): void {
 
     this.container = container;
     this.createScene(track);
     this.startRenderingLoop();
   }
 /* tslint:disable:max-func-body-length */
-  private createScene(track : Track): void {
+  private createScene(track: Track): void {
     this.scene = new THREE.Scene();
 
     this.raycaster = new THREE.Raycaster();
@@ -48,8 +49,8 @@ export class TrackEditorRenderService {
       1,  // TODO: Put the same number on this line to have a "plane"
       100 // and this line
     );
-    this.camera.position.set(0, 10, 0);
-    this.camera = new THREE.PerspectiveCamera( 70, this.container.clientWidth / this.container.clientHeight, 1, 1000 );
+    this.camera.position.set(0, 0, 10);
+    this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     this.camera.position.set(0, 200, 0);
     // TEST to find out if the scene is working
@@ -59,16 +60,10 @@ export class TrackEditorRenderService {
 
     //INSTANCIATING CIRCLEHANDLER
     this.circleHandler = new CircleHandler(this.scene);
-    this.circleHandler.generateCircles(track.getWaypoints());
-
-    //TEST REMOVE FROM CIRCLEHANDLER
-    let arrayTest : THREE.Mesh[] = [];
-    arrayTest.push(track.getWaypoints()[1].getCircle());
-    this.circleHandler.removeCircles(arrayTest);
 
     //TEST TO MOVE A DOT
-    let shift : THREE.Vector3 = new THREE.Vector3(20,0,20);
-    this.circleHandler.moveCircle(track.getWaypoints()[4].getCircle(), shift);
+    //let newPos : THREE.Vector3 = new THREE.Vector3(110,200,0);
+    ////this.circleHandler.moveCircle(12, newPos);
 
   }
 
@@ -88,6 +83,7 @@ export class TrackEditorRenderService {
   public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
     this.updateMousePos(event);
     this.raycaster.setFromCamera(this.mouse, this.camera);
+
     return this.raycaster.intersectObjects(this.scene.children);
   }
 
@@ -98,11 +94,12 @@ export class TrackEditorRenderService {
     this.mouse.y = -( event.clientY / this.container.clientHeight ) * 2 + 1;
   }
 
-  public getMousePos() : THREE.Vector2 {
+  public getMousePos(): THREE.Vector2 {
     return this.mouse;
   }
-
+  /*
   private exportSceneForDebug() : void {
     (window as any).scene = this.scene;
   }
+  */
 }
