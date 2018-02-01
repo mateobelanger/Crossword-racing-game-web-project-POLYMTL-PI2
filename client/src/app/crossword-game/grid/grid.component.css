@@ -9,20 +9,20 @@
 }
 
 .grid {
-    width: 450px;
-    height: 450px;
+    width: 50vw;
+    height: 50vw;
     margin: 0 auto;
 }
 
 .col {
     text-align: center;
     vertical-align: middle;
-    line-height: 42px;
-    width: 42px;
-    height: 42px;
+    width: 3vw;
+    height: 4.5vw;
     border: 1px solid black;
     padding: 0;
     margin: 0;
     float: left;
     text-transform: capitalize;
+    font-size: 3vw;
 }
