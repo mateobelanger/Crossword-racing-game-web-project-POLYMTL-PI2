@@ -27,13 +27,13 @@ export class Word {
         return this.definitions != null;
     }
 
-    public establishDefinitionIndex( isDifficult: boolean): number {
+    public establishDefinitionIndex( isEasy: boolean): number {
         let isFirstValidDefinition: boolean = true;
 
         for (let i: number = 0; i < this.definitions.length; i++) {
             if (!this.isNounOrVerb(i) || this.currentDefinitionContainsWordItself(i)) {
                 continue;
-            } else if (!isDifficult) {
+            } else if (isEasy) {
                     this.definitionIndex = i;
                     break;
             } else if (isFirstValidDefinition ) {
@@ -47,7 +47,7 @@ export class Word {
         return this.definitionIndex;
     }
     // Ou l'appeler?
-    public removeExampleFromDefinition(): void {
+    private removeExampleFromDefinition(): void {
         const indexOfQuotationMarks: number = this.definitions[this.definitionIndex].indexOf(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
         if (indexOfQuotationMarks !== -1) {     // -1.. n'enlevera pas la , mais si juste exemple.. quoi faire?
             this.definitions[this.definitionIndex] = this.definitions[this.definitionIndex].substring(0, indexOfQuotationMarks - 1);

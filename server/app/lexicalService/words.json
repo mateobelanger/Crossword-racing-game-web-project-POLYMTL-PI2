@@ -1,4 +1,14 @@
 [{
+        "word": "into",
+        "score": 123,
+        "tags": ["f:1807.532391"]
+    },
+    {
+        "word": "fork",
+        "score": 123,
+        "tags": ["f:0.003"]
+    },
+    {
         "word": "bear",
         "score": 17117,
         "tags": ["f:77.018290"],
@@ -18,11 +28,6 @@
             "v\tbearsupport or hold in a certain manner",
             "v\tbearput up with something or somebody unpleasant"
         ]
-    },
-    {
-        "word": "into",
-        "score": 123,
-        "tags": ["f:1807.532391"]
     },
     {
         "word": "over",

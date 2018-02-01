@@ -12,7 +12,6 @@ export class WordValidator {
         for (let i: number = 0; i < words.length; i++) {
             console.log(i);
             if (words[i].establishDefinitionIndex(isDifficult) != -1) {
-                words[i].removeExampleFromDefinition(); // appel ok ?? ou mettre
                 validWords.push(words[i]);
             }
         }
