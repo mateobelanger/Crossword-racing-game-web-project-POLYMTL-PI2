@@ -13,12 +13,12 @@
         "score": 17117,
         "tags": ["f:77.018290"],
         "defs": ["n\tbearmassive plantigrade carnivorous or omnivorous mammals with long shaggy coats and strong claws",
-            "n\tbearan investor with a pessimistic market outlook; an investor who expects prices to fall and so sells now in order to buy later at a lower price",
-            "v\tbeartake on as one's own the expenses or debts of another person",
-            "v\tbearhave rightfully; of rights, titles, and offices",
+            "n\tan investor with a pessimistic market outlook; an investor who expects prices to fall and so sells now in order to buy later at a lower price, bear",
+            "v\ttake on as one's own the expenses or bear debts of another person",
+            "v\thave rightfully; bear of rights, titles, and offices",
             "v\tbearhave",
             "v\tbearmove while holding up or supporting",
-            "v\tbring forth, \"The apple tree bore delicious apples this year\"",
+            "v\tbearbring forth, \"The apple tree bore delicious apples this year\"",
             "v\tbearcontain or hold; have within",
             "v\tbearhave on one's person",
             "v\tbearbe pregnant with",
@@ -91,6 +91,6 @@
         "word": "bind",
         "score": 4963,
         "tags": ["f:1.343039"],
-        "defs": ["n\tsomething that hinders as if with bonds", "v\tcreate social or emotional ties", "v\tform a chemical bond with", "v\tmake fast; tie or secure, with or as if with a rope", "v\twrap around with something so as to cover or enclose", "v\tprovide with a binding", "v\tcause to be constipated", "v\tbind by an obligation; cause to be indebted", "v\tfasten or secure with a rope, string, or cord", "v\tsecure with or as if with ropes", "v\tstick to firmly"]
+        "defs": ["n\t bindsomething that hinders as if with bonds", "v\tcreate social or emotional ties", "v\tform a chemical bond with", "v\tmake fast; tie or secure, with or as if with a rope", "v\twrap around with something so as to cover or enclose", "v\tprovide with a binding", "v\tcause to be constipated", "v\tbind by an obligation; cause to be indebted", "v\tfasten or secure with a rope, string, or cord", "v\tsecure with or as if with ropes", "v\tstick to firmly"]
     }
 ]

@@ -1,6 +1,6 @@
 const COMMON_LIMIT: number = 10;
 const FREQUENCY_INDEX: number = 2;
-const QUOTATION_MARKS_ASCII_CODE: number = 34;
+// const QUOTATION_MARKS_ASCII_CODE: number = 34;
 
 export class Word {
 
@@ -23,17 +23,25 @@ export class Word {
         return Number(this.frequency.toString().substring(FREQUENCY_INDEX)) > COMMON_LIMIT ;
     }
 
-    public hasDefinitions(): boolean {
-        return this.definitions != null;
+    public hasValidDefinition(isEasy: boolean): boolean {
+        if (this.definitions == null) {
+            this.definitionIndex = -1;
+            return false;
+        } else {
+            this.establishDefinitionIndex(isEasy);
+        }
+
+        return this.definitionIndex !== -1;
     }
 
-    public establishDefinitionIndex( isEasy: boolean): number {
+    private establishDefinitionIndex(isEasy: boolean): void {
         let isFirstValidDefinition: boolean = true;
 
         for (let i: number = 0; i < this.definitions.length; i++) {
             if (!this.isNounOrVerb(i) || this.currentDefinitionContainsWordItself(i)) {
                 continue;
-            } else if (isEasy) {
+            }
+            if (isEasy) {
                     this.definitionIndex = i;
                     break;
             } else if (isFirstValidDefinition ) {
@@ -43,18 +51,16 @@ export class Word {
                 break;
             }
         }
-
-        return this.definitionIndex;
     }
     // Ou l'appeler?
-    private removeExampleFromDefinition(): void {
-        const indexOfQuotationMarks: number = this.definitions[this.definitionIndex].indexOf(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
+/*    private removeExampleFromDefinition(): void {
+        const quotationMarksIndex: number = this.definitions[this.definitionIndex].indexOf(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
         if (indexOfQuotationMarks !== -1) {     // -1.. n'enlevera pas la , mais si juste exemple.. quoi faire?
             this.definitions[this.definitionIndex] = this.definitions[this.definitionIndex].substring(0, indexOfQuotationMarks - 1);
         }
 
     }
-
+*/
     private isNounOrVerb( definitionIndex: number): boolean {
         return this.definitions[definitionIndex].substr(0, 1) === "n" || this.definitions[definitionIndex].substr(0, 1) === "v";
     }

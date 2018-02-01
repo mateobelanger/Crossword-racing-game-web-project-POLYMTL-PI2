@@ -18,7 +18,7 @@ module Lexical {
             res.send(JSON.stringify(message));
         }
 
-        public findWords(req: Request, res: Response, next: NextFunction, isCommon: boolean): void {
+        public findWords(req: Request, res: Response, next: NextFunction, isCommon: boolean,  isEasy: boolean): void {
             let criteria: String = req.params.criteria;
             while (criteria.includes("-")) {
                 criteria = criteria.replace("-", "?");
@@ -26,7 +26,7 @@ module Lexical {
 
             const reader: JsonReader = new JsonReader();
             datamuse.request("words?sp=" + criteria + "&md=f,d").then((json: JSON) =>
-                res.send(reader.getValidWordsBasedOnRarity(json, isCommon)));
+                res.send(reader.getValidWordsBasedOnDifficulty(json, isCommon, isEasy)));
         }
 
     }

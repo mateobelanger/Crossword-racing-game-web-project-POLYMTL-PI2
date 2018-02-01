@@ -9,7 +9,7 @@ import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService/lexicalService";
 
- import { JsonReader } from "./lexicalService/jsonReader";
+// import { JsonReader } from "./lexicalService/jsonReader";
 // import { WordValidator } from "./wordValidator";
 
 @injectable()
@@ -26,10 +26,10 @@ export class Application {
 
         this.initializeRoutes();
 /**teste la lecture */
-        const reader: JsonReader = new JsonReader();
+        //const reader: JsonReader = new JsonReader();
         // const wordValidator: WordValidator = new WordValidator();
         // trouve un nom commun avec une definition alternative
-        console.log(reader.getValidWordsBasedOnRarity(require("./lexicalService/words.json"), true) );
+        //console.log(reader.getValidWordsBasedOnRarity(require("./lexicalService/words.json"), true) );
 
     }
 

@@ -1,68 +1,35 @@
 [{
-        "name": "bear",
-        "frequency": ["f:77.018290"],
-        "definitionIndex": -1,
-        "definitions": ["n\tbearmassive plantigrade carnivorous or omnivorous mammals with long shaggy coats and strong claws",
-            "n\tbearan investor with a pessimistic market outlook; an investor who expects prices to fall and so sells now in order to buy later at a lower price",
-            "v\tbeartake on as one's own the expenses or debts of another person",
-            "v\tbearhave rightfully; of rights, titles, and offices",
-            "v\tbearhave",
-            "v\tbearmove while holding up or supporting",
-            "v\tbring forth, \"The apple tree bore delicious apples this year\"",
-            "v\tbearcontain or hold; have within",
-            "v\tbearhave on one's person",
-            "v\tbearbe pregnant with",
-            "v\tbearbring in",
-            "v\tbearbehave in a certain manner",
-            "v\tbeargive birth (to a newborn)",
-            "v\tbearsupport or hold in a certain manner",
-            "v\tbearput up with something or somebody unpleasant"
-        ]
-    }, {
-        "name": "over",
-        "frequency": ["f:1066.743529"],
-        "definitionIndex": -1,
-        "definitions": ["n\t(cricket) the period during which a given number of balls (6 in England but 8 in Australia) are bowled at the batsman by one player from the other team from the same end of the pitch", "adv\tthroughout a period of time", "adv\tat or to a point across intervening space etc.", "adv\tthroughout an area", "adv\tin such a manner as to be understood and accepted"]
-    }, {
         "name": "bird",
         "frequency": ["f:43.366586"],
-        "definitionIndex": -1,
+        "definitionIndex": 1,
         "definitions": ["n\twarm-blooded egg-laying vertebrates characterized by feathers and forelimbs modified as wings", "n\tthe flesh of a bird or fowl (wild or domestic) used as food", "n\tbadminton equipment consisting of a ball of cork or rubber with a crown of feathers", "n\tinformal terms for a (young) woman", "n\ta cry or noise made to express displeasure or contempt", "v\twatch and study birds in their natural habitat"]
     },
     {
         "name": "blue",
         "frequency": ["f:112.811776"],
-        "definitionIndex": -1,
+        "definitionIndex": 3,
         "definitions": ["n\tany of numerous small chiefly blue butterflies of the family Lycaenidae", "n\tblue clothing", "n\tthe color of the clear sky in the daytime", "n\tany organization or party whose uniforms or badges are blue", "n\tthe sodium salt of amobarbital that is used as a barbiturate; used as a sedative and a hypnotic", "n\tthe sky as viewed during daylight", "n\tused to whiten laundry or hair or give it a bluish tinge", "v\tturn blue", "adj\tused to signify the Union forces in the Civil War (who wore blue uniforms)", "adj\tsuggestive of sexual impropriety", "adj\tcausing dejection", "adj\thaving a color similar to that of a clear unclouded sky", "adj\tlow in spirits", "adj\tcharacterized by profanity or cursing", "adj\tbelonging to or characteristic of the nobility or aristocracy"]
-    }, {
-        "name": "away",
-        "frequency": ["f:375.848199"],
-        "definitionIndex": -1,
-        "definitions": ["adj\tused of an opponent's ground", "adj\t(of a baseball pitch) on the far side of home plate from the batter", "adv\tfrom a particular thing or place or position (`forth' is obsolete)", "adv\tfrom one's possession", "adv\tout of existence", "adv\tindicating continuing action; continuously or steadily", "adv\tin a different direction", "adv\tin or into a proper place (especially for storage or safekeeping)", "adv\tso as to be removed or gotten rid of", "adv\tfreely or at will", "adv\tout of the way (especially away from one's thoughts)", "adv\tat a distance in space or time", "adv\tin reserve; not for immediate use"]
-    }, {
+    },
+    {
         "name": "book",
         "frequency": ["f:399.424767"],
-        "definitionIndex": -1,
+        "definitionIndex": 1,
         "definitions": ["n\tphysical objects consisting of a number of pages bound together", "n\ta number of sheets (ticket or stamps etc.) bound together on one edge", "n\ta major division of a long written composition", "n\ta written work or composition that has been published (printed on pages bound together)", "n\ta collection of rules or prescribed standards on the basis of which decisions are made", "n\ta written version of a play or other dramatic composition; used in preparing for a performance", "n\tthe sacred writings of the Christian religions", "n\ta compilation of the known facts regarding something or someone", "n\tthe sacred writings of Islam revealed by God to the prophet Muhammad during his life at Mecca and Medina", "n\ta record in which commercial accounts are recorded", "v\trecord a charge in a police register", "v\tregister in a hotel booker", "v\tengage for a performance", "v\tarrange for and reserve (something for someone else) in advance"]
-    }, {
-        "name": "acid",
-        "frequency": ["f:130.680696"],
-        "definitionIndex": -1,
-        "definitions": ["n\tstreet name for lysergic acid diethylamide", "n\tany of various water-soluble compounds having a sour taste and capable of turning litmus red and reacting with a base to form a salt", "adj\tcontaining acid", "adj\tharsh or corrosive in tone"]
-    }, {
+    },
+    {
         "name": "beat",
         "frequency": ["f:40.531696"],
-        "definitionIndex": -1,
+        "definitionIndex": 1,
         "definitions": ["n\tthe act of beating to windward; sailing as close as possible to the direction from which the wind is blowing", "n\ta stroke or blow", "n\ta regular rate of repetition", "n\tthe sound of stroke or blow", "n\ta regular route for a sentry or policeman", "n\ta single pulsation of an oscillation produced by adding two waves of different frequencies; has a frequency equal to the difference between the two oscillations", "n\tthe basic rhythmic unit in a piece of music", "n\ta member of the beat generation; a nonconformist in dress and behavior", "n\t(prosody) the accent in a metrical foot of verse", "n\tthe rhythmic contraction and expansion of the arteries with each beat of the heart", "v\tmove with a flapping motion", "v\tmove with a thrashing motion", "v\tglare or strike with great intensity", "v\tavoid paying", "v\tbe superior", "v\tcome out better in a competition, race, or conflict", "v\tgive a beating to; subject to a beating, either as a punishment or as an act of aggression", "v\thit repeatedly", "v\tstrike (water or bushes) repeatedly to rouse animals for hunting", "v\tstrike (a part of one's own body) repeatedly, as in great emotion or in accompaniment to music", "v\tstir vigorously", "v\tshape by beating", "v\tproduce a rhythm by striking repeatedly", "v\tmake by pounding or trampling", "v\tmove rhythmically", "v\tindicate by beating, as with the fingers or drumsticks", "v\tsail with much tacking or with difficulty", "v\tmake a rhythmic sound", "v\tmove with or as if with a regular alternating motion", "v\twear out completely", "v\tmake a sound like a clock or a timer", "v\tbeat through cleverness and wit", "v\tbe a mystery or bewildering to"]
     }, {
         "name": "bend",
         "frequency": ["f:15.954419"],
-        "definitionIndex": -1,
+        "definitionIndex": 1,
         "definitions": ["n\tcurved segment (of a road or river or railroad track etc.)", "n\tdiagonal line traversing a shield from the upper right corner to the lower left", "n\ta town in central Oregon at the eastern foot of the Cascade Range", "n\ta circular segment of a curve", "n\tmovement that causes the formation of a curve", "n\tan angular or rounded shape made by folding", "v\tchange direction", "v\tform a curve", "v\tcause (a plastic object) to assume a crooked or angular form", "v\tbend a joint", "v\tturn from a straight course , fixed direction, or line of interest", "v\tbend one's back forward from the waist on down"]
     }, {
         "word": "body",
         "frequency": ["f:390.636442"],
-        "definitionIndex": -1,
+        "definitionIndex": 1,
         "definitions": ["n\tthe external structure of a vehicle", "n\tthe entire physical structure of an organism (especially an animal or human being)", "n\tbody of a dead animal or person", "n\tthe central message of a communication", "n\ta group of persons associated by some common tie or occupation and regarded as an entity", "n\ta collection of particulars considered as a system", "n\tan individual 3-dimensional object that has mass and that is distinguishable from other objects", "n\tthe property of holding together and retaining its shape", "n\tthe body excluding the head and neck and limbs", "v\tinvest with or as with a body; give body to"]
     }
 ]

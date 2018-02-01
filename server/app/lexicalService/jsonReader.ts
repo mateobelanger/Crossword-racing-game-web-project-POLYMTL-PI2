@@ -3,7 +3,7 @@ import { Word } from "../word";
 // change name of class?
 export class JsonReader {
 
-    constructor() {}
+    public constructor() {}
 
     // remettre private
     public readData(words: JSON): Word[] {
@@ -22,13 +22,13 @@ export class JsonReader {
     }
 
     // test : into n'est pas la, bind n'est pas la
-    public getValidWordsBasedOnRarity(words: JSON, isCommon: boolean): JSON {
-        
+    public getValidWordsBasedOnDifficulty(words: JSON, isCommon: boolean, isEasy: boolean): JSON {
+
         // const seperatedWords: Word[] = this.readData(words);
         const selectedWords: Word[] = new Array<Word>();
 
         this.readData(words).forEach(element => {
-            if (element.isCommon() === isCommon && element.hasDefinitions()) {
+            if (element.isCommon() === isCommon && element.hasValidDefinition(isEasy)) {
                 selectedWords.push(element);
             }
         });
@@ -37,5 +37,3 @@ export class JsonReader {
     }
 
 }
-
-// todo test getWords
