@@ -13,7 +13,6 @@ export class TrackEditorRenderService {
   private renderer: THREE.WebGLRenderer;
 
   private camera: THREE.OrthographicCamera;
-  private camera: THREE.PerspectiveCamera;
 
   private mouse: THREE.Vector2;
 
@@ -88,8 +87,6 @@ export class TrackEditorRenderService {
   }
 
   public updateMousePos(event: MouseEvent): void {
-    this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    this.mouse.y = ( event.clientY / window.innerHeight ) * 2 + 1;
     this.mouse.x = ( event.clientX / this.container.clientWidth ) * 2 - 1;
     this.mouse.y = -( event.clientY / this.container.clientHeight ) * 2 + 1;
   }
