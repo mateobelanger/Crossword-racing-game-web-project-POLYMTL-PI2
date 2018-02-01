@@ -16,7 +16,7 @@ export class TrackEditorRenderService {
 
   private mouse: THREE.Vector2;
 
-  private raycaster: THREE.Raycaster;
+  private rayCaster: THREE.Raycaster;
 
   private scene: THREE.Scene;
 
@@ -37,7 +37,7 @@ export class TrackEditorRenderService {
   private createScene(track: Track): void {
     this.scene = new THREE.Scene();
 
-    this.raycaster = new THREE.Raycaster();
+    this.rayCaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
 
     this.camera = new THREE.OrthographicCamera (
@@ -51,7 +51,6 @@ export class TrackEditorRenderService {
     this.camera.position.set(0, 0, 10);
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-    this.camera.position.set(0, 200, 0);
     // TEST to find out if the scene is working
     this.light = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.light);
@@ -81,9 +80,9 @@ export class TrackEditorRenderService {
 
   public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
     this.updateMousePos(event);
-    this.raycaster.setFromCamera(this.mouse, this.camera);
+    this.rayCaster.setFromCamera(this.mouse, this.camera);
 
-    return this.raycaster.intersectObjects(this.scene.children);
+    return this.rayCaster.intersectObjects(this.scene.children);
   }
 
   public updateMousePos(event: MouseEvent): void {

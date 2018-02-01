@@ -58,7 +58,7 @@ export class CircleHandler {
     private generateCircleGeometry(nCircles : number): THREE.Geometry[]{
         let circleGeometrys : THREE.Geometry[] = [];
         for(let i = 0; i< nCircles ; i++){
-          let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(5);
+          let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(10);
           circleGeometrys.push(circleGeometry);          
           }
           return circleGeometrys;
