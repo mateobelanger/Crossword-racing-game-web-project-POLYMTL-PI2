@@ -1,0 +1,18 @@
+[{
+        "name": "back",
+        "frequency": ["f:0.173747"],
+        "definitionIndex": 1,
+        "definitions": ["n\tthe position of a player on a football team who is stationed behind the line of scrimmage", "n\ta support that you can lean against while sitting", "n\tthe part of a garment that covers your back", "n\tthe posterior part of a human (or animal) body from the neck to the end of the spine", "n\tthe part of something that is furthest from the normal viewer", "n\t(football) a person who plays in the backfield", "n\tthe side that goes last or is not normally seen", "n\tthe front and back covering of a book", "n\tthe series of vertebrae forming the axis of the skeleton and protecting the spinal cord", "v\testablish as valid or genuine", "v\tsupport financial backing for", "v\tbe behind; approve of", "v\tbe in back of", "v\tshift to a counterclockwise direction", "v\tstrengthen by providing with a back or backing", "v\ttravel backward", "v\tcause to travel backward", "v\tgive support or one's approval to", "v\tplace a bet on", "adv\tin or to or toward a past time", "adv\tat or to or toward the back or rear", "adv\tin repayment or retaliation", "adv\tin or to or toward a former location", "adv\tin or to or toward an original condition", "adv\tin answer"]
+    },
+    {
+        "name": "unit",
+        "frequency": ["f:9.727686"],
+        "definitionIndex": 1,
+        "definitions": ["n\ta single undivided whole", "n\tan organization regarded as part of a larger social group", "n\ta single undivided natural thing occurring in the composition of something else", "n\tan individual or group or structure or other entity regarded as a structural or functional constituent of a whole", "n\tany division of quantity accepted as a standard of measurement or exchange", "n\tan assemblage of parts that is regarded as a single entity"]
+    }, {
+        "name": "bind",
+        "frequency": ["f:1.343039"],
+        "definitionIndex": 2,
+        "definitions": ["n\t bind something that hinders as if with bonds", "v\tcreate social or emotional ties", "v\tform a chemical bond with", "v\tmake fast; tie or secure, with or as if with a rope", "v\twrap around with something so as to cover or enclose", "v\tprovide with a binding", "v\tcause to be constipated", "v\tbind by an obligation; cause to be indebted", "v\tfasten or secure with a rope, string, or cord", "v\tsecure with or as if with ropes", "v\tstick to firmly"]
+    }
+]
