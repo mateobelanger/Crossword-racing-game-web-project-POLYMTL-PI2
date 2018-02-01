@@ -21,6 +21,20 @@ export class JsonReader {
         return seperatedWords;
     }
 
+    public getWordsBasedOnRarity(words: JSON, isCommon: boolean): JSON {
+
+        // const seperatedWords: Word[] = this.readData(words);
+        const selectedWords: Word[] = new Array<Word>();
+
+        this.readData(words).forEach(element => {
+            if (element.isCommon() === isCommon) {
+                selectedWords.push(element);
+            }
+        });
+
+        return JSON.parse(JSON.stringify(selectedWords));
+    }
+
     // test : into n'est pas la, bind n'est pas la
     public getValidWordsBasedOnDifficulty(words: JSON, isCommon: boolean, isEasy: boolean): JSON {
 
@@ -35,5 +49,4 @@ export class JsonReader {
 
         return JSON.parse(JSON.stringify(selectedWords));
     }
-
 }

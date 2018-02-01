@@ -13,17 +13,23 @@ export class LexicalService {
         const router: Router = Router();
 
         router.get("/service/lexical/wordsearch/:criteria/hard",
-                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next, false, false));
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWordsBasedOnDifficulty(req, res, next, false, false));
 
         router.get("/service/lexical/wordsearch/:criteria/normal",
-                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next, true, false));
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWordsBasedOnDifficulty(req, res, next, true, false));
 
         router.get("/service/lexical/wordsearch/:criteria/easy",
-                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next, true, true));
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWordsBasedOnDifficulty(req, res, next, true, true));
 
-        // a game is easy by default
+        router.get("/service/lexical/wordsearch/:criteria/common",
+        (req: Request, res: Response, next: NextFunction) => this.index.findWordsBasedOnRarity(req, res, next, true));
+
+        router.get("/service/lexical/wordsearch/:criteria/uncommon",
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWordsBasedOnRarity(req, res, next, false));
+
+        // find all words respecting criteria
         router.get("/service/lexical/wordsearch/:criteria",
-                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next, true, true));
+                   (req: Request, res: Response, next: NextFunction) => this.index.findWords(req, res, next));
 
         return router;
     }
