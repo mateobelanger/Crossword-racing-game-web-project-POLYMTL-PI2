@@ -1,6 +1,6 @@
 import { JsonReader } from "./jsonReader";
+import { assert } from "chai";
 
-const assert = require("assert");
 const expectedResEasy: JSON = require("./expectedOutputTestEasy.json");
 const expectedResNormal: JSON = require("./expectedOutputTestNormal.json");
 const expectedResHard: JSON = require("./expectedOutputTestHard.json");
@@ -21,7 +21,8 @@ describe("Lexical service:", () => {
     describe("Searching for normal words in a given list", () => {
 
         it("should return the length of expected list", (done: MochaDone) => {
-            assert.equal(Object.keys(reader.getValidWordsBasedOnDifficulty(data, true, false)).length, Object.keys(expectedResNormal).length);
+            assert.equal(Object.keys(reader.getValidWordsBasedOnDifficulty(data, true, false)).length,
+                         Object.keys(expectedResNormal).length);
             done();
         });
     });
@@ -29,7 +30,8 @@ describe("Lexical service:", () => {
     describe("Searching for hard words in a given list", () => {
 
         it("should return the length of expected list", (done: MochaDone) => {
-            assert.equal(Object.keys(reader.getValidWordsBasedOnDifficulty(data, false, false)).length, Object.keys(expectedResHard).length);
+            assert.equal(Object.keys(reader.getValidWordsBasedOnDifficulty(data, false, false)).length,
+                         Object.keys(expectedResHard).length);
             done();
         });
     });
@@ -45,7 +47,9 @@ describe("Lexical service:", () => {
     });
 
     it("valid definition should not include the word itself", (done: MochaDone) => {
-        assert.equal(reader.getValidWordsBasedOnDifficulty(data, true, false)[2].definitionIndex, expectedResNormal[2].definitionIndex);
+        const index: number = 2;
+        assert.equal(reader.getValidWordsBasedOnDifficulty(data, true, false)[index].definitionIndex,
+                     expectedResNormal[index].definitionIndex);
         done();
     });
  /* *

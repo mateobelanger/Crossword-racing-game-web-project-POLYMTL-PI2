@@ -1,7 +1,6 @@
 import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE } from "./gridGenerator";
 import { Word } from "./word";
-
-const assert = require("chai").assert;
+import { assert } from "chai";
 
 describe("Grid generator:", () => {
     let generator: GridGenerator;

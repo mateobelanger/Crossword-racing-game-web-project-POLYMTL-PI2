@@ -3,8 +3,6 @@ import { Word } from "../word";
 // change name of class?
 export class JsonReader {
 
-    public constructor() {}
-
     // remettre private
     public readData(words: JSON): Word[] {
         // const fs = require("fs");
@@ -26,7 +24,7 @@ export class JsonReader {
         // const seperatedWords: Word[] = this.readData(words);
         const selectedWords: Word[] = new Array<Word>();
 
-        this.readData(words).forEach(element => {
+        this.readData(words).forEach( (element: Word) => {
             if (element.isCommon() === isCommon) {
                 selectedWords.push(element);
             }
@@ -41,7 +39,7 @@ export class JsonReader {
         // const seperatedWords: Word[] = this.readData(words);
         const selectedWords: Word[] = new Array<Word>();
 
-        this.readData(words).forEach(element => {
+        this.readData(words).forEach( (element: Word) => {
             if (element.isCommon() === isCommon && element.hasValidDefinition(isEasy)) {
                 selectedWords.push(element);
             }
