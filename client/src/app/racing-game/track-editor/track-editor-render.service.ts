@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import {Track} from '../track/trackData/track';
-import {CircleHandler} from '../track/trackBuildingBlocks/circles';
+import {CircleHandler} from '../track/trackBuildingBlocks/circleHandler';
+import { PlaneHandler } from '../track/trackBuildingBlocks/planeHandler';
 
 /* tslint:disable:no-magic-numbers */
 
@@ -23,6 +24,8 @@ export class TrackEditorRenderService {
   private light: THREE.AmbientLight;
 
   public circleHandler: CircleHandler;
+
+  public planeHandler: PlaneHandler;
 
   public constructor() { }
 
@@ -55,13 +58,15 @@ export class TrackEditorRenderService {
     this.light = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.light);
 
-
     //INSTANCIATING CIRCLEHANDLER
     this.circleHandler = new CircleHandler(this.scene);
 
+    //INSTANCIATING PLANEHANDLER
+    this.planeHandler = new PlaneHandler(this.scene);
+
     //TEST TO MOVE A DOT
     //let newPos : THREE.Vector3 = new THREE.Vector3(110,200,0);
-    ////this.circleHandler.moveCircle(12, newPos);
+    //this.circleHandler.moveCircle(12, newPos);
 
   }
 

@@ -9,10 +9,10 @@ export class CircleHandler {
     }
 
     public generateCircles(waypoints : Waypoint[]){
-        let circleGeometry : THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
+        let circleGeometries : THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
         let material : THREE.MeshBasicMaterial = this.getCircleMaterial();
-        circleGeometry.forEach((element,index) => {
-            let mesh = new THREE.Mesh( element, material )
+        circleGeometries.forEach((geometry,index) => {
+            let mesh = new THREE.Mesh( geometry, material );
             this.meshs.push(mesh);
             this.scene.add(mesh);
             this.bindMesh(mesh, waypoints[index]);
@@ -20,27 +20,26 @@ export class CircleHandler {
       }
 
     public removeCircle(meshId : number){
-        let meshToRemove : THREE.Mesh = this.findMesh(meshId);
-        this.scene.remove(meshToRemove);
-        let index : number = this.meshs.indexOf(meshToRemove);//no need to verify !=-1
+        let index : number = this.findMeshIndex(meshId);
+        this.scene.remove(this.meshs[index]);
         this.meshs.splice(index, 1);
     }
 
     public moveCircle(id : number, newPosition : THREE.Vector3){
-        let mesh : THREE.Mesh = this.findMesh(id);
+        let mesh : THREE.Mesh = this.meshs[this.findMeshIndex(id)];
         let relativeMovement : THREE.Vector3 = newPosition.sub(mesh.position);
         mesh.translateX(relativeMovement.x);
         mesh.translateY(relativeMovement.y);
         mesh.translateZ(relativeMovement.z);
     }
 
-    private findMesh(id : number): THREE.Mesh{
-        let mesh : THREE.Mesh = null;
-        this.meshs.forEach((element)=> {
+    private findMeshIndex(id : number): number{
+        let index : number = null;
+        this.meshs.forEach((element, i)=> {
             if(element.id === id)
-            mesh = element;
+                index = i;
         });
-        return mesh;
+        return index;
     }
 
     private bindMesh(mesh: THREE.Mesh, waypoint : Waypoint){
@@ -52,12 +51,12 @@ export class CircleHandler {
     }
 
     private generateCircleGeometry(nCircles : number): THREE.Geometry[]{
-        let circleGeometrys : THREE.Geometry[] = [];
+        let circleGeometries : THREE.Geometry[] = [];
         for(let i = 0; i< nCircles ; i++){
           let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(10);
-          circleGeometrys.push(circleGeometry);          
+          circleGeometries.push(circleGeometry);          
           }
-          return circleGeometrys;
+          return circleGeometries;
       }
     
       private getCircleMaterial(): THREE.MeshBasicMaterial{

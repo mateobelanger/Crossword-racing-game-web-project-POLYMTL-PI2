@@ -5,7 +5,7 @@ export class Waypoint
 {
     private circleId:number = null;
 
-    private planesId: number[] = [];
+    private planesId: number[] = [];//order of elements important
 
     constructor(
         private position: THREE.Vector3 = new THREE.Vector3(0,0,0),

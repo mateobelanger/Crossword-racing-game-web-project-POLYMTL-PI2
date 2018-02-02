@@ -23,13 +23,13 @@ export class TrackEditorService {
 
       // TODO: remove TESTS ----------------------------------------
       //Axe X positif
-      for (let i = 0; i <= 24; i++) {
-        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(i*20,0, 0));
+      for (let i = 0; i < 2; i++) {
+        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(i*60,0, 0));
         this.track.addWaypoint(waypoint);       
       }
       //Axe Y positif
-      for (let i = 0; i <= 19; i++) {
-        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i*20, 0));
+      for (let i = 0; i < 0; i++) {
+        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i*60, 0));
         this.track.addWaypoint(waypoint);       
       }
       this.addWaypoints(this.track.getWaypoints());
@@ -42,7 +42,8 @@ export class TrackEditorService {
   }
 
   public addWaypoints(waypoints : Waypoint[]){
-    this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
+    //this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
+    this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
     //TODO ajouter un plan si pas premier point
   }
 
@@ -51,7 +52,7 @@ export class TrackEditorService {
     let waypoint : Waypoint = this.track.getWaypoint(circleId);
     waypoint.setPosition(newPos);
     this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
-
+    this.trackEditorRenderService.planeHandler.moveWaypoint(waypoint.getPlanesIds(), newPos);
     // TODO: deplacer les plans en fonction du déplacement des points
     //let dependantPlaneId : number[] = waypoint.getPlanesIds();
   }
@@ -59,10 +60,8 @@ export class TrackEditorService {
   public removeWaypoint(){
     let waypoint : Waypoint = this.track.removeWaypoint();
     this.trackEditorRenderService.circleHandler.removeCircle(waypoint.getCircleId());
-
-    //TODO: supprimer le plan dépendant
+    this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[1]);
   }
-
 
   public handleLeftMouseDown(event: MouseEvent): void {
     let objectsSelected = this.trackEditorRenderService.getObjectsPointedByMouse(event);
