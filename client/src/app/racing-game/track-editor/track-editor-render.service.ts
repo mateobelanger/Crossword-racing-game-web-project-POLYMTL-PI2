@@ -20,8 +20,6 @@ export class TrackEditorRenderService {
 
   private scene: THREE.Scene;
 
-  private light: THREE.AmbientLight;
-
   public circleHandler: CircleHandler;
 
 
