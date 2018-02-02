@@ -1,4 +1,4 @@
-import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE } from "./gridGenerator";
+import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE } from "./GridGenerator";
 import { Word } from "./word";
 import { assert } from "chai";
 
