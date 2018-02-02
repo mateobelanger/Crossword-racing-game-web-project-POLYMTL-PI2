@@ -28,7 +28,7 @@ export class CircleHandler {
         let meshToRemove : THREE.Mesh = this.findMesh(meshId);
         this.scene.remove(meshToRemove);
         let index : number = this.meshs.indexOf(meshToRemove);//no need to verify !=-1
-        this.meshs.splice(index, 1);
+        this.meshs.splice(index, 1);        
     }
 
     public moveCircle(id : number, newPosition : THREE.Vector3){
@@ -67,7 +67,7 @@ export class CircleHandler {
       }
     
       private getCircleMaterial(): THREE.MeshBasicMaterial{
-        return new THREE.MeshBasicMaterial( { color: 0xffff00} );
+        return new THREE.MeshBasicMaterial( { color: 0xA8A8A8} );
       }
 
 }

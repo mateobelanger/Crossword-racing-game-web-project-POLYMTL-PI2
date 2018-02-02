@@ -45,10 +45,8 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
       case LEFTMOUSEBTN:
         this.trackEditorService.handleLeftMouseDown(event);
         console.log("Left click");
-        //console.log('mousedown', event);
-        //console.log('Position en X : ', event.layerX);
-        //console.log('Position en Y : ', event.layerY);
         break;
+        
       case RIGHTMOUSEBTN:
         this.trackEditorService.handleRightMouseDown(event);
         console.log("Righ click");

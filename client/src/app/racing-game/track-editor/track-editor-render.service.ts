@@ -100,6 +100,7 @@ export class TrackEditorRenderService {
     // PARTIE DES ENFANTS DE LA SCÈNE
     return this.raycaster.intersectObjects(this.scene.children);
   }
+  
 /*
   public updateMousePos(event: MouseEvent): void {
     this.mouse.x = (event.offsetX - (this.container.clientWidth / 2));
