@@ -29,15 +29,16 @@ export class Track
         this.waypoints.push(wayPointTemp);
     }
 
-    /*TODO : Ajouté temporairement pour tes */ 
-    public addWaypointWithMouse(position : THREE.Vector2){
-        let vectorTemp = new THREE.Vector3();
-        vectorTemp.x = position.x;
-        vectorTemp.y = position.y;
-        vectorTemp.z = 0; 
+    /*TODO : Ajouté temporairement pour test */ 
+    public addWaypointWithMouse(position : THREE.Vector3)  : Waypoint { 
+        
+        //TODO: Position des 
+        //position.z = 0;
         let wayPointTemp = new Waypoint();
-        wayPointTemp.setPosition(vectorTemp);
+        wayPointTemp.setPosition(position);
         this.waypoints.push(wayPointTemp);
+
+        return wayPointTemp;
     }
 
     public removeWaypoint() : Waypoint {

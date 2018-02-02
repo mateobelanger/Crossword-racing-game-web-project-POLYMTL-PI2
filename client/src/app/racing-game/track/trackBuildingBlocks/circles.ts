@@ -18,6 +18,7 @@ export class CircleHandler {
         this.circleGeometry.forEach((element,index) => {
             let mesh = new THREE.Mesh( element, this.material )
             this.meshs.push(mesh);
+            mesh.name = "point";
             this.scene.add(mesh);
             this.bindMesh(mesh, waypoints[index]);
         });
@@ -58,7 +59,8 @@ export class CircleHandler {
     private generateCircleGeometry(nCircles : number): THREE.Geometry[]{
         let circleGeometrys : THREE.Geometry[] = [];
         for(let i = 0; i< nCircles ; i++){
-          let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(15,30);
+          let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(15,300);
+
           circleGeometrys.push(circleGeometry);          
           }
           return circleGeometrys;

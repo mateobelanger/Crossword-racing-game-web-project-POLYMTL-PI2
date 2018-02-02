@@ -18,12 +18,14 @@ export class TrackEditorRenderService {
 
   private raycaster: THREE.Raycaster;
 
-  private scene: THREE.Scene;
+  //TODO: Mettre private
+  public scene: THREE.Scene;
 
   public circleHandler: CircleHandler;
 
+  private backgroundPlan: THREE.Mesh;
 
-  private boxAxeZ: THREE.Mesh;
+  //private boxAxeZ: THREE.Mesh;
 
   public constructor() { }
 
@@ -56,7 +58,7 @@ export class TrackEditorRenderService {
     //INSTANCIATING CIRCLEHANDLER
     this.circleHandler = new CircleHandler(this.scene);
 
-
+    /*
     //TODO: TEST 
     this.boxAxeZ = new THREE.Mesh(
       new THREE.BoxGeometry(200,200,20),
@@ -64,7 +66,16 @@ export class TrackEditorRenderService {
     );
     this.boxAxeZ.position.z = 10;
     this.scene.add(this.boxAxeZ);
-    
+*/
+
+    this.backgroundPlan = new THREE.Mesh(
+      new THREE.PlaneGeometry(1000,800,20),
+      new THREE.MeshBasicMaterial({color: 0x4A7023})
+    );
+    this.backgroundPlan.position.z = -3;
+    this.backgroundPlan.name = "backgroundPlan";
+    this.scene.add(this.backgroundPlan);
+
 
   }
 
@@ -82,22 +93,22 @@ export class TrackEditorRenderService {
   }
 
   public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
-    this.updateMousePos(event);
+    this.updateRayCastMousePos(event);
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
     //TODO: ATTENTION JE NE SAIS PAS SI LES CERCLE FONT OFFICIELLEMENT 
     // PARTIE DES ENFANTS DE LA SCÈNE
     return this.raycaster.intersectObjects(this.scene.children);
   }
-
+/*
   public updateMousePos(event: MouseEvent): void {
-
     this.mouse.x = (event.offsetX - (this.container.clientWidth / 2));
     this.mouse.y = ((this.container.clientHeight / 2) - event.offsetY);
+  }*/
 
-    // Ce qu'il y avait avant 
-    //this.mouse.x = ( event.clientX / this.container.clientWidth ) * 2 - 1;
-    //this.mouse.y = -( event.clientY / this.container.clientHeight ) * 2 + 1;
+  public updateRayCastMousePos(event: MouseEvent): void {
+    this.mouse.x = ( event.offsetX / this.container.clientWidth ) * 2 - 1;
+    this.mouse.y = -( event.offsetY / this.container.clientHeight ) * 2 + 1;
   }
 
   public getMousePos(): THREE.Vector2 {
