@@ -16,13 +16,16 @@ export class TrackEditorRenderService {
 
   private mouse: THREE.Vector2;
 
-  private rayCaster: THREE.Raycaster;
+  private raycaster: THREE.Raycaster;
 
   private scene: THREE.Scene;
 
   private light: THREE.AmbientLight;
 
   public circleHandler: CircleHandler;
+
+
+  private boxAxeZ: THREE.Mesh;
 
   public constructor() { }
 
@@ -32,12 +35,13 @@ export class TrackEditorRenderService {
     this.container = container;
     this.createScene(track);
     this.startRenderingLoop();
+
   }
 /* tslint:disable:max-func-body-length */
   private createScene(track: Track): void {
     this.scene = new THREE.Scene();
 
-    this.rayCaster = new THREE.Raycaster();
+    this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
 
     this.camera = new THREE.OrthographicCamera (
@@ -48,20 +52,21 @@ export class TrackEditorRenderService {
       1,  // TODO: Put the same number on this line to have a "plane"
       100 // and this line
     );
-    this.camera.position.set(0, 0, 10);
+    this.camera.position.set(0, 0, 50);
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-    // TEST to find out if the scene is working
-    this.light = new THREE.AmbientLight(0xFFFFFF);
-    this.scene.add(this.light);
-
 
     //INSTANCIATING CIRCLEHANDLER
     this.circleHandler = new CircleHandler(this.scene);
 
-    //TEST TO MOVE A DOT
-    //let newPos : THREE.Vector3 = new THREE.Vector3(110,200,0);
-    ////this.circleHandler.moveCircle(12, newPos);
+
+    //TODO: TEST 
+    this.boxAxeZ = new THREE.Mesh(
+      new THREE.BoxGeometry(200,200,20),
+      new THREE.MeshBasicMaterial({color: 0xFF0000})
+    );
+    this.boxAxeZ.position.z = 10;
+    this.scene.add(this.boxAxeZ);
+    
 
   }
 
@@ -80,14 +85,21 @@ export class TrackEditorRenderService {
 
   public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
     this.updateMousePos(event);
-    this.rayCaster.setFromCamera(this.mouse, this.camera);
+    this.raycaster.setFromCamera(this.mouse, this.camera);
 
-    return this.rayCaster.intersectObjects(this.scene.children);
+    //TODO: ATTENTION JE NE SAIS PAS SI LES CERCLE FONT OFFICIELLEMENT 
+    // PARTIE DES ENFANTS DE LA SCÈNE
+    return this.raycaster.intersectObjects(this.scene.children);
   }
 
   public updateMousePos(event: MouseEvent): void {
-    this.mouse.x = ( event.clientX / this.container.clientWidth ) * 2 - 1;
-    this.mouse.y = -( event.clientY / this.container.clientHeight ) * 2 + 1;
+
+    this.mouse.x = (event.offsetX - (this.container.clientWidth / 2));
+    this.mouse.y = ((this.container.clientHeight / 2) - event.offsetY);
+
+    // Ce qu'il y avait avant 
+    //this.mouse.x = ( event.clientX / this.container.clientWidth ) * 2 - 1;
+    //this.mouse.y = -( event.clientY / this.container.clientHeight ) * 2 + 1;
   }
 
   public getMousePos(): THREE.Vector2 {

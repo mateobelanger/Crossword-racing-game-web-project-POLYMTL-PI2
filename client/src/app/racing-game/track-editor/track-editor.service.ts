@@ -23,6 +23,7 @@ export class TrackEditorService {
 
       // TODO: remove TESTS ----------------------------------------
       //Axe X positif
+      /*
       for (let i = 0; i <= 24; i++) {
         let waypoint: Waypoint = new Waypoint(new THREE.Vector3(i*20,0, 0));
         this.track.addWaypoint(waypoint);       
@@ -32,6 +33,7 @@ export class TrackEditorService {
         let waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i*20, 0));
         this.track.addWaypoint(waypoint);       
       }
+      */
       this.addWaypoints(this.track.getWaypoints());
       //this.removeWaypoint();
       
@@ -45,7 +47,6 @@ export class TrackEditorService {
     this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
     //TODO ajouter un plan si pas premier point
   }
-
 
   public moveWaypoint(circleId: number, newPos : THREE.Vector3) {
     let waypoint : Waypoint = this.track.getWaypoint(circleId);
@@ -66,7 +67,17 @@ export class TrackEditorService {
 
   public handleLeftMouseDown(event: MouseEvent): void {
     let objectsSelected = this.trackEditorRenderService.getObjectsPointedByMouse(event);
+
      console.log("launching raycast");
+     //console.log(" X : " + this.trackEditorRenderService.getMousePos().x);
+     //console.log(" Y : " + this.trackEditorRenderService.getMousePos().y);
+     console.log(objectsSelected);
+     //console.log(this.trackEditorRenderService.scene.children);
+
+
+     this.track.addWaypointWithMouse(this.trackEditorRenderService.getMousePos());
+     this.addWaypoints(this.track.getWaypoints());
+     
     if(objectsSelected.length > 0) {
       console.log("SelectedObject:" + objectsSelected[0].object.type);
       if(objectsSelected[0].object.type === "wayPpoint") {
@@ -83,10 +94,12 @@ export class TrackEditorService {
           //
           // A MODFIER EN RAISON DE LA NOUVELLE CLASSE WAYPOINT
           //
+          /*
           this.track.addWaypoint(new Waypoint(new THREE.Vector3(
                                             (event.clientX / window.innerWidth) * 2 - 1,
                                             0,
-                                            (event.clientY / window.innerHeight) * 2 + 1)))
+                                            (event.clientY / window.innerHeight) * 2 + 1)));
+            */                                
         }
       }
     }   
