@@ -6,8 +6,12 @@ export class Track
     public constructor(private waypoints : Waypoint[] = []){
     }
 
-    public getWaypoints() : Waypoint[]{
+    public getWaypoints() : Waypoint[] {
         return this.waypoints;
+    }
+
+    public getWaypointsSize() : number {
+        return this.waypoints.length;
     }
 
     public getWaypoint(CircleId: number): Waypoint{

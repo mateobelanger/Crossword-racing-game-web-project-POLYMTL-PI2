@@ -28,8 +28,14 @@ export class TrackEditorService {
         return this.track;
     }
 
+    /*
     public addWaypoints(waypoints : Waypoint[]){
         this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
+        //TODO ajouter un plane si pas premier point
+    }
+*/
+    public addWaypoint(waypoint : Waypoint){
+        this.trackEditorRenderService.getCircleHandler().generateCircle(waypoint);
         //TODO ajouter un plane si pas premier point
     }
 
@@ -43,8 +49,10 @@ export class TrackEditorService {
     }
 
     public removeWaypoint(){
-        let waypoint : Waypoint = this.track.removeWaypoint();
-        this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
+        if(this.track.getWaypointsSize() > 0) {
+            let waypoint : Waypoint = this.track.removeWaypoint();
+            this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
+        }
         //TODO: supprimer le plane dépendant
     }
 
@@ -68,10 +76,9 @@ export class TrackEditorService {
                 // et on  ajoute deux plan et un point                    
             }
             else if (firstObjectName === "backgroundPlane")  {
-                //TODO: nb magique POSTION DU CERCLE 
                 objectsSelected[0].point.z = POINTS_POSITION_Z;
                 let newWaypoint : Waypoint = this.track.addWayPointWithMouse(objectsSelected[0].point);
-                this.addWaypoints([newWaypoint]);
+                this.addWaypoint(newWaypoint);
             }
         }   
     }
@@ -87,7 +94,6 @@ export class TrackEditorService {
 
         if(this.dragDropActive) {
             event.preventDefault();
-           //TODO COnstante position POINTS
             planeSelected[0].point.z = POINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);        
             this.trackEditorRenderService.getCircleHandler().moveCircle(this.selectedWaypoint.getCircleId(),  planeSelected[0].point);
