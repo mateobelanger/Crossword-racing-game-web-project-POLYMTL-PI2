@@ -13,7 +13,7 @@ export class CircleHandler {
 
     private meshs : THREE.Mesh[] = [];
 
-    constructor(private scene: THREE.Scene) { }
+    public constructor(private scene: THREE.Scene) { }
 
     //TODO : on peut delete c.était pour des tests
     public getCircleGeometry(): THREE.Geometry[] {
@@ -26,12 +26,13 @@ export class CircleHandler {
     // generateCircleGeometry() et generateCircle()
     // Différence : ces dernières n'ajoutent qu'un point à la fois comme la souris va le faire
     private generateCirclesGeometry(nCircles : number): THREE.Geometry[]{
-        let circleGeometries : THREE.Geometry[] = [];
-        for(let i = 0; i< nCircles ; i++){
-          let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(CIRCLERADIUS);
-          circleGeometries.push(circleGeometry);          
-          }
-          return circleGeometries;
+        let circleGeometries: THREE.Geometry[] = [];
+        for (let i = 0; i< nCircles ; i++){
+            const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLERADIUS);
+            circleGeometries.push(circleGeometry);
+        }
+
+        return circleGeometries;
     }
 
     public generateCircles(waypoints : Waypoint[]){
@@ -44,18 +45,20 @@ export class CircleHandler {
             this.bindMesh(mesh, waypoints[index]);
         });
     }
-      /// FIN PARTIE PO 
+    //
+    // FIN PARTIE PO 
+    //
 
     private generateCircleGeometry(): void {
-        let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(15,300);
-        this.circleGeometry.push(circleGeometry);          
+        const circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(15,300);
+        this.circleGeometry.push(circleGeometry);
     }
 
-    public generateCircle(waypoint : Waypoint){
+    public generateCircle(waypoint: Waypoint): void {
         this.generateCircleGeometry();
         this.material = this.getCircleMaterial();
         this.materialFirstCircle = this.getFirstCircleMaterial();
-    
+
         let mesh = new THREE.Mesh;
         mesh.geometry = this.circleGeometry[this.circleGeometry.length - 1];
 

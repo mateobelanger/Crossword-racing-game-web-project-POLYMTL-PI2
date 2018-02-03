@@ -44,24 +44,24 @@ export class TrackEditorRenderService {
         this.mouse = new THREE.Vector2();
 
         this.camera = new THREE.OrthographicCamera (
-          this.container.clientWidth / - 2,
+          this.container.clientWidth / -2,
           this.container.clientWidth / 2,
           this.container.clientHeight / 2,
-          this.container.clientHeight / - 2,
-          ORTHOGRAPHIC_CAMERA_NEAR_PLANE, 
-          ORTHOGRAPHIC_CAMERA_FAR_PLANE 
+          this.container.clientHeight / -2,
+          ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
+          ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
         this.camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 
-        //INSTANCIATING circleHandler
+        // INSTANCIATING circleHandler
         this.circleHandler = new CircleHandler(this.scene);
 
-        //INSTANCIATING PLANEHANDLER
+        // INSTANCIATING PLANEHANDLER
         this.planeHandler = new PlaneHandler(this.scene);
 
-        //TODO : VÉRIFIER S'IL EXISTE DES DEFINE. (POUR LES COULEURS)
+        // TODO : VÉRIFIER S'IL EXISTE DES DEFINE. (POUR LES COULEURS)
         this.backgroundPlane = new THREE.Mesh(
           new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight),
           new THREE.MeshBasicMaterial({color: 0x4A7023})
@@ -69,8 +69,6 @@ export class TrackEditorRenderService {
         this.backgroundPlane.position.z = BACKGROUND_PLANE_POSITION_Z;
         this.backgroundPlane.name = "backgroundPlane";
         this.scene.add(this.backgroundPlane);
-
-
     }
 
     private startRenderingLoop(): void {
@@ -88,14 +86,14 @@ export class TrackEditorRenderService {
 
     public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
         this.updateRaycastMousePos(event);
-  
+
         return this.raycaster.intersectObjects(this.scene.children);
     }
 
     public getBackgroundPlaneWithRaycast(): THREE.Intersection[] {
         return this.raycaster.intersectObject(this.backgroundPlane);
     }
-    
+
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
         this.mouse.x = ( event.offsetX / this.container.clientWidth ) * 2 - 1;
         this.mouse.y = -( event.offsetY / this.container.clientHeight ) * 2 + 1;
@@ -111,7 +109,7 @@ export class TrackEditorRenderService {
         return this.circleHandler;
     }
     //TODO : Remove ceci
-    /* 
+    /*
     private exportSceneForDebug() : void {
       (window as any).scene = this.scene;
     }
