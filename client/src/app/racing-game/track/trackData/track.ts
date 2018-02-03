@@ -21,23 +21,10 @@ export class Track
         this.waypoints.push(wayPoint);
     }
 
-    /*TODO : Ajouté temporairement pour tes */ 
-    public addWaypointEvent(event : MouseEvent){
-        let vectorTemp = new THREE.Vector3(event.layerX, event.layerY, 0 );
-        let wayPointTemp = new Waypoint();
-        wayPointTemp.setPosition(vectorTemp);
-        this.waypoints.push(wayPointTemp);
-    }
-
-    /*TODO : Ajouté temporairement pour test */ 
-    public addWaypointWithMouse(position : THREE.Vector3)  : Waypoint { 
-        
-        //TODO: Position des 
-        //position.z = 0;
+    public addWayPointWithMouse (position: THREE.Vector3): Waypoint {         
         let wayPointTemp = new Waypoint();
         wayPointTemp.setPosition(position);
         this.waypoints.push(wayPointTemp);
-
         return wayPointTemp;
     }
 
