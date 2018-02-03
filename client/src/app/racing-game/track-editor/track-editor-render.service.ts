@@ -64,10 +64,6 @@ export class TrackEditorRenderService {
     //INSTANCIATING PLANEHANDLER
     this.planeHandler = new PlaneHandler(this.scene);
 
-    //TEST TO MOVE A DOT
-    //let newPos : THREE.Vector3 = new THREE.Vector3(110,200,0);
-    //this.circleHandler.moveCircle(12, newPos);
-
   }
 
   private startRenderingLoop(): void {

@@ -1,6 +1,8 @@
 import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
+import { Vector3 } from "three";
 
+const CIRLEDIAMETER = 10;
 
 export class Plane {
 
@@ -8,9 +10,19 @@ export class Plane {
 
     private endPoint : THREE.Vector3;
 
+    private radianAngle : number = 0;
+
     constructor( private mesh: THREE.Mesh, waypoint1: Waypoint, waypoint2: Waypoint){
         this.beginPoint = waypoint1.getPosition();
         this.endPoint = waypoint2.getPosition();
+    }
+
+    public getRadianAngle(): number{
+        return this.radianAngle;
+    }
+
+    public setRadianAngle(radianAngle : number){
+        this.radianAngle = radianAngle;
     }
 
     public getId(): number{
@@ -22,7 +34,12 @@ export class Plane {
     }
 
     public getLength(): number{
-        return this.endPoint.distanceTo(this.endPoint);
+        return Math.sqrt(Math.pow(this.beginPoint.x-this.endPoint.x, 2) +  Math.pow(this.beginPoint.y-this.endPoint.y, 2) + Math.pow(this.beginPoint.z-this.endPoint.z, 2)) - CIRLEDIAMETER;
+    }
+
+    public getCenterPoint(): THREE.Vector3{
+        let centerPoint : THREE.Vector3 = new Vector3((this.endPoint.x-this.beginPoint.x)/2, (this.endPoint.y-this.beginPoint.y)/2, (this.endPoint.z-this.beginPoint.z)/2);
+        return centerPoint.add(this.beginPoint);
     }
 
     public setEndPoint(newPos : THREE.Vector3): THREE.Vector3{

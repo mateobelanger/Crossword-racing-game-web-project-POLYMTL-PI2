@@ -3,6 +3,7 @@ import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
 import * as THREE from 'three';
 import { Waypoint } from '../track/trackData/waypoint';
+//import { Vector3 } from 'three';
 
 @Injectable()
 export class TrackEditorService {
@@ -23,17 +24,18 @@ export class TrackEditorService {
 
       // TODO: remove TESTS ----------------------------------------
       //Axe X positif
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < 5; i++) {
         let waypoint: Waypoint = new Waypoint(new THREE.Vector3(i*60,0, 0));
         this.track.addWaypoint(waypoint);       
       }
       //Axe Y positif
-      for (let i = 0; i < 0; i++) {
+      for (let i = 0; i < 5; i++) {
         let waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i*60, 0));
-        this.track.addWaypoint(waypoint);       
+        this.track.addWaypoint(waypoint);     
       }
+      
       this.addWaypoints(this.track.getWaypoints());
-      //this.removeWaypoint();
+      //this.moveWaypoint(6, new Vector3(-200, -100 ,0));
       
   }
 
@@ -42,7 +44,7 @@ export class TrackEditorService {
   }
 
   public addWaypoints(waypoints : Waypoint[]){
-    //this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
+    this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
     this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
     //TODO ajouter un plan si pas premier point
   }
@@ -53,6 +55,7 @@ export class TrackEditorService {
     waypoint.setPosition(newPos);
     this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
     this.trackEditorRenderService.planeHandler.moveWaypoint(waypoint.getPlanesIds(), newPos);
+    console.log(waypoint.getPlanesIds());
     // TODO: deplacer les plans en fonction du déplacement des points
     //let dependantPlaneId : number[] = waypoint.getPlanesIds();
   }

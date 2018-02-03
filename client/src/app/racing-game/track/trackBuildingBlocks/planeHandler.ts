@@ -3,9 +3,11 @@ import * as THREE from "three";
 import {Plane} from "./plane";
 
 
-const trackWidth = 20;
+const TRACKWIDTH = 20;
 
-const trackLength = 1;
+const TRACKLENGTH = 1;
+
+const REFERENCEVECTOR = new THREE.Vector3(1,0,0);
 
 export class PlaneHandler {
 
@@ -19,12 +21,14 @@ export class PlaneHandler {
         let geometries : THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
         let material : THREE.MeshBasicMaterial = this.getPlaneMaterial();
         
-        for( let i = 0; i < waypoints.length-1; i++)
-        {
+        for( let i = 0; i < waypoints.length-1; i++){
             let plane: Plane = new Plane(new THREE.Mesh(geometries[i], material), waypoints[i], waypoints[i+1]);
             this.planes.push(plane);
             this.scene.add(plane.getMesh());
-            this.bindPlanes(plane, waypoints[i], waypoints[i+1]);
+            this.bindPlanes(plane.getId(), waypoints[i], waypoints[i+1]);
+            console.log(plane.getCenterPoint());
+            console.log(plane.getId());
+            console.log(plane.getRadianAngle());
         }
 
     }
@@ -45,7 +49,7 @@ export class PlaneHandler {
             else
                 planes[index] = null;               
         });
-        
+        console.log(planes);
         if(planes[0] ! == null){
             let oldWayPoint : THREE.Vector3 = planes[0].setBeginingPoint(newPos);
             let angle : number = oldWayPoint.angleTo(planes[0].getBeginingPoint());
@@ -60,7 +64,7 @@ export class PlaneHandler {
 
     private findPlaneIndex(id : number): number{
         let index : number = null;
-        this.planes.forEach((element, i)=> {
+        this.planes.forEach((element, i) => {
             if(element.getId() === id)
                 index = i;
         });
@@ -68,37 +72,67 @@ export class PlaneHandler {
     }
 
     //TODO: translate mesh
-    private bindPlanes(plane: Plane, waypoint1: Waypoint, waypoint2: Waypoint){
-        waypoint1.bindPlane(plane.getId());
-        waypoint2.bindPlane(plane.getId());
-        //mesh.translateX(waypoint.getPosition().x);
-        //mesh.translateY(waypoint.getPosition().y);
-        //mesh.translateZ(waypoint.getPosition().z);
+    private bindPlanes(planeId: number, waypoint1: Waypoint, waypoint2: Waypoint){
+        let index : number = this.findPlaneIndex(planeId);
+        waypoint1.bindPlane(this.planes[index].getId());
+        waypoint2.bindPlane(this.planes[index].getId());
+
+        let centerPoint : THREE.Vector3 = this.planes[index].getCenterPoint();
+        this.translatePlane(planeId, centerPoint);
+        this.orientPlane(this.planes[index]);
+        this.resizePlane(this.planes[index]);
+
     }
 
-    private rotateAroundWaypoint(plane: Plane, randianAngle: number, aroundFirstWaypoint: boolean){
+    //TODO: find better name
+    private orientPlane(plane : Plane){
+        this.setPlaneRadianAngle(plane);
+        plane.getMesh().rotateZ(-plane.getRadianAngle());
+    }
+
+    private setPlaneRadianAngle(plane: Plane){
+        let directionVector : THREE.Vector3 = new THREE.Vector3();
+        directionVector.subVectors(plane.getEndPoint(), plane.getBeginingPoint());
+        plane.setRadianAngle(directionVector.angleTo(REFERENCEVECTOR));
+    }
+
+    private rotateAroundWaypoint(plane: Plane, absoluteRandianAngle: number, aroundFirstWaypoint: boolean){
         let translation : number = plane.getLength()/2;
         if(aroundFirstWaypoint)
             translation *= -1;
 
-        plane.getMesh().translateY(-translation);
-        plane.getMesh().rotateZ(randianAngle);
-        plane.getMesh().translateY(translation);
+        plane.getMesh().translateX(-translation);
+        plane.getMesh().rotateZ(plane.getRadianAngle() - absoluteRandianAngle);
+        plane.setRadianAngle(absoluteRandianAngle);
+        plane.getMesh().translateX(translation);
     }
 
-    private resizePlane(plane : Plane, length : number){
-        plane.getMesh().scale.y = length;
+    private resizePlane(plane : Plane){
+        if(plane.getLength() === 0)
+            return;
+        plane.getMesh().scale.x = plane.getLength();
     }
 
     private generatePlaneGeometry(nPlanes : number) : THREE.PlaneGeometry[]{
         let planeGeometries : THREE.PlaneGeometry[] = [];
         for(let i = 0 ; i < nPlanes; i++)
-            planeGeometries.push(new THREE.PlaneGeometry(trackWidth, trackLength));
+            planeGeometries.push(new THREE.PlaneGeometry(TRACKLENGTH,TRACKWIDTH));
         return planeGeometries;
     }
     
 
     private getPlaneMaterial(): THREE.MeshBasicMaterial{
         return new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide} ); 
+    }
+
+    private translatePlane(planeId: number , absolutePosition : THREE.Vector3){
+        let index : number = this.findPlaneIndex(planeId);
+
+        let relativeMovement : THREE.Vector3 = new THREE.Vector3();
+        relativeMovement.subVectors(absolutePosition, this.planes[index].getMesh().position);
+
+        this.planes[index].getMesh().translateX(absolutePosition.x);
+        this.planes[index].getMesh().translateY(absolutePosition.y);
+        this.planes[index].getMesh().translateZ(absolutePosition.z);
     }
 }

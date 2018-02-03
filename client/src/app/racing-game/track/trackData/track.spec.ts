@@ -57,5 +57,6 @@ describe("Track", () => {
         expect(track.getWaypoints().length).toBe(10);
         track.removeWaypoint();
         expect(track.getWaypoints().length).toBe(9);
-    });    
+    });  
+
 });

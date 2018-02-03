@@ -1,6 +1,8 @@
 import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
 
+const CIRCLERADIUS = 5;
+
 export class CircleHandler {
 
     private meshs : THREE.Mesh[] = [];
@@ -25,9 +27,10 @@ export class CircleHandler {
         this.meshs.splice(index, 1);
     }
 
-    public moveCircle(id : number, newPosition : THREE.Vector3){
+    public moveCircle(id : number, absolutePosition : THREE.Vector3){
         let mesh : THREE.Mesh = this.meshs[this.findMeshIndex(id)];
-        let relativeMovement : THREE.Vector3 = newPosition.sub(mesh.position);
+        let relativeMovement : THREE.Vector3 = new THREE.Vector3();
+        relativeMovement.subVectors(absolutePosition, mesh.position);
         mesh.translateX(relativeMovement.x);
         mesh.translateY(relativeMovement.y);
         mesh.translateZ(relativeMovement.z);
@@ -45,15 +48,13 @@ export class CircleHandler {
     private bindMesh(mesh: THREE.Mesh, waypoint : Waypoint){
         waypoint.unbindCircle();
         waypoint.bindCircle(mesh.id);
-        mesh.translateX(waypoint.getPosition().x);
-        mesh.translateY(waypoint.getPosition().y);
-        mesh.translateZ(waypoint.getPosition().z);
+        this.moveCircle(mesh.id, waypoint.getPosition());
     }
 
     private generateCircleGeometry(nCircles : number): THREE.Geometry[]{
         let circleGeometries : THREE.Geometry[] = [];
         for(let i = 0; i< nCircles ; i++){
-          let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(10);
+          let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(CIRCLERADIUS);
           circleGeometries.push(circleGeometry);          
           }
           return circleGeometries;
