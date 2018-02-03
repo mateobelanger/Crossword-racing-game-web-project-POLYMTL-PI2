@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'app-configuration',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./configuration.component.css']
 })
 export class ConfigurationComponent implements OnInit {
+    private difficulty: string;
 
-  constructor() { }
+    public constructor() {}
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }
