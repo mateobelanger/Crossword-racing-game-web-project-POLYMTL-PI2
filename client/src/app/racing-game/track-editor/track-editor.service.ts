@@ -1,54 +1,52 @@
 import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
-import * as THREE from 'three';
 import { Waypoint } from '../track/trackData/waypoint';
-//import { Vector3 } from 'three';
+import * as THREE from 'three';
+
+const POINTS_POSITION_Z: number = 0;
 
 @Injectable()
 export class TrackEditorService {
 
-  private container: HTMLDivElement;
-  private track: Track;
-  private dragDropActive: boolean;
-  private selectedWaypoint: Waypoint;
+    private container: HTMLDivElement;
+    private track: Track;
+    private dragDropActive: boolean;
+    private selectedWaypoint: Waypoint;
 
-  public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
 
-  public initialize(container: HTMLDivElement): void {
-      this.container = container;
-      this.trackEditorRenderService.initialize(this.container, this.track);
-      this.track = new Track();
+    public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
 
-      this.dragDropActive = false;
+    public initialize(container: HTMLDivElement): void {
+        this.container = container;
+        this.trackEditorRenderService.initialize(this.container, this.track);
+        this.track = new Track();
+        this.dragDropActive = false;        
+    }
 
-      // TODO: remove TESTS ----------------------------------------
-      //Axe X positif
-      for (let i = 0; i < 5; i++) {
-        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(i*60,0, 0));
-        this.track.addWaypoint(waypoint);       
-      }
-      //Axe Y positif
-      for (let i = 0; i < 5; i++) {
-        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i*60, 0));
-        this.track.addWaypoint(waypoint);     
-      }
-      
-      this.addWaypoints(this.track.getWaypoints());
-      //this.moveWaypoint(6, new Vector3(-200, -100 ,0));
-      
-  }
+    public getTrack(): Track {
+        return this.track;
+    }
 
-  public getTrack(): Track {
-    return this.track;
-  }
+    /*
+    public addWaypoints(waypoints : Waypoint[]){
+        this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
+        //TODO ajouter un plane si pas premier point
+    }
+*/
+    public addWaypoint(waypoint : Waypoint){
+        this.trackEditorRenderService.getCircleHandler().generateCircle(waypoint);
+        //TODO ajouter un plane si pas premier point
+    }
 
-  public addWaypoints(waypoints : Waypoint[]){
-    this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
-    this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
-    //TODO ajouter un plan si pas premier point
-  }
+    public moveWaypoint(circleId: number, newPos : THREE.Vector3) {
+        let waypoint : Waypoint = this.track.getWaypoint(circleId);
+        waypoint.setPosition(newPos);
+        this.trackEditorRenderService.getCircleHandler().moveCircle(circleId, newPos);
 
+        // TODO: deplacer les planes en fonction du déplacement des points
+        //let dependantPlaneeId : number[] = waypoint.getPlaneesIds();
+    }
 
   public moveWaypoint(circleId: number, newPos : THREE.Vector3) {
     let waypoint : Waypoint = this.track.getWaypoint(circleId);
@@ -59,6 +57,17 @@ export class TrackEditorService {
     // TODO: deplacer les plans en fonction du déplacement des points
     //let dependantPlaneId : number[] = waypoint.getPlanesIds();
   }
+    public removeWaypoint(){
+        if(this.track.getWaypointsSize() > 0) {
+            let waypoint : Waypoint = this.track.removeWaypoint();
+            this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
+        }
+        //TODO: supprimer le plane dépendant
+    }
+
+    public handleRightMouseDown(event: MouseEvent): void {
+        this.removeWaypoint();
+    }
 
   public removeWaypoint(){
     let waypoint : Waypoint = this.track.removeWaypoint();
@@ -66,51 +75,45 @@ export class TrackEditorService {
     this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[1]);
   }
 
-  public handleLeftMouseDown(event: MouseEvent): void {
-    let objectsSelected = this.trackEditorRenderService.getObjectsPointedByMouse(event);
-     console.log("launching raycast");
-    if(objectsSelected.length > 0) {
-      console.log("SelectedObject:" + objectsSelected[0].object.type);
-      if(objectsSelected[0].object.type === "wayPpoint") {
-        let waypoint : Waypoint = this.track.getWaypoint(objectsSelected[0].object.id);
-        if(waypoint != undefined) {
-          this.dragDropActive = true;
-          //
-          // Il faut changer le code pour faire interface entre l'objet raycasté (un 3dObject)
-          // et le "waypoint" correspondant dans le array waypoints
-          //
-          //this.selectedWaypoint = objectsSelected[0].object;
-        } else {
-
-          //
-          // A MODFIER EN RAISON DE LA NOUVELLE CLASSE WAYPOINT
-          //
-          this.track.addWaypoint(new Waypoint(new THREE.Vector3(
-                                            (event.clientX / window.innerWidth) * 2 - 1,
-                                            0,
-                                            (event.clientY / window.innerHeight) * 2 + 1)))
-        }
-      }
-    }   
-  }
-
-
-  public handleLeftMouseUp(event: MouseEvent) : void {
-    this.selectedWaypoint = null;
-    this.dragDropActive = false;
-  }
-
-  public handleRightMouseDown(event: MouseEvent): void {
-    this.track.removeWaypoint();
-  }
-
-  public handleMouseMove(event: MouseEvent): void {
-    if(this.dragDropActive) {
-      this.trackEditorRenderService.updateMousePos(event);
-
-      // À MODIFIER EN FONCTION DE LA MÉTHODE DANS TRACK
-      //this.track.moveWaypoint(this.selectedWaypoint, this.trackEditorRenderService.getMousePos);
+    public handleLeftMouseDown(event: MouseEvent): void {
+        let objectsSelected = this.trackEditorRenderService.getObjectsPointedByMouse(event);
+        let firstObjectName = objectsSelected[0].object.name;
+        if(objectsSelected.length > 0) {
+            if (firstObjectName === "point") {
+                    this.selectedWaypoint = this.track.getWaypoint(objectsSelected[0].object.id);
+                    if(this.selectedWaypoint != undefined) {
+                        this.dragDropActive = true;
+                     } 
+            }
+            else if (firstObjectName === "road") {
+                //TODO : À compléter : Lorsqu'on click sur la piste on enlève le plan présent
+                // et on  ajoute deux plan et un point                    
+            }
+            else if (firstObjectName === "backgroundPlane")  {
+                objectsSelected[0].point.z = POINTS_POSITION_Z;
+                let newWaypoint : Waypoint = this.track.addWayPointWithMouse(objectsSelected[0].point);
+                this.addWaypoint(newWaypoint);
+            }
+        }   
     }
-  }
+
+    public handleLeftMouseUp(event: MouseEvent) : void {
+        this.selectedWaypoint = null;
+        this.dragDropActive = false;
+    }
+
+    public handleMouseMove(event: MouseEvent): void {
+        this.trackEditorRenderService.updateRaycastMousePos(event);
+        let planeSelected = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
+
+        if(this.dragDropActive) {
+            event.preventDefault();
+            planeSelected[0].point.z = POINTS_POSITION_Z;
+            this.trackEditorRenderService.updateRaycastMousePos(event);        
+            this.trackEditorRenderService.getCircleHandler().moveCircle(this.selectedWaypoint.getCircleId(),  planeSelected[0].point);
+
+        }
+    }
 
 }
+
