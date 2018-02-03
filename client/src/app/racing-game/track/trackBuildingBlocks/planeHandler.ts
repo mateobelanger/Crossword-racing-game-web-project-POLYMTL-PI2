@@ -7,7 +7,6 @@ const TRACKWIDTH = 20;
 
 const TRACKLENGTH = 1;
 
-const REFERENCEVECTOR = new THREE.Vector3(1,0,0);
 
 export class PlaneHandler {
 
@@ -26,9 +25,6 @@ export class PlaneHandler {
             this.planes.push(plane);
             this.scene.add(plane.getMesh());
             this.bindPlanes(plane.getId(), waypoints[i], waypoints[i+1]);
-            console.log(plane.getCenterPoint());
-            console.log(plane.getId());
-            console.log(plane.getRadianAngle());
         }
 
     }
@@ -41,15 +37,9 @@ export class PlaneHandler {
 
 
     //TODO : resize the plane to make it reach both waypoint
-    public moveWaypoint(planesId : number[], newPos: THREE.Vector3){//order of planeIds important!! 1st -> beginingPoint 2nd -> endPoint
-        let planes : Plane[] = [];
-        planesId.forEach((planeId, index)=> {
-            if(planesId !== null)
-                planes[index] = this.planes[this.findPlaneIndex(planeId)];
-            else
-                planes[index] = null;               
-        });
-        console.log(planes);
+    public movedWaypoint(waypoint : Waypoint, newPos: THREE.Vector3){//order of planeIds important!! 1st -> beginingPoint 2nd -> endPoint
+        
+        /*
         if(planes[0] ! == null){
             let oldWayPoint : THREE.Vector3 = planes[0].setBeginingPoint(newPos);
             let angle : number = oldWayPoint.angleTo(planes[0].getBeginingPoint());
@@ -59,7 +49,15 @@ export class PlaneHandler {
             let oldWayPoint : THREE.Vector3 = planes[1].setEndPoint(newPos);
             let angle : number = oldWayPoint.angleTo(planes[1].getEndPoint());
             this.rotateAroundWaypoint(planes[1], angle, false);
-        }
+        }*/
+    }
+
+    private connectPlaneWithWaypoint(planeId: number){
+        let plane : Plane = this.planes[this.findPlaneIndex(planeId)];
+        let centerPoint : THREE.Vector3 = plane.getCenterPoint();
+        this.translatePlane(planeId, centerPoint);
+        this.orientPlaneWithWaypoint(plane);
+        this.resizePlane(plane);
     }
 
     private findPlaneIndex(id : number): number{
@@ -71,46 +69,46 @@ export class PlaneHandler {
         return index;
     }
 
-    //TODO: translate mesh
     private bindPlanes(planeId: number, waypoint1: Waypoint, waypoint2: Waypoint){
-        let index : number = this.findPlaneIndex(planeId);
-        waypoint1.bindPlane(this.planes[index].getId());
-        waypoint2.bindPlane(this.planes[index].getId());
+        let plane : Plane = this.planes[this.findPlaneIndex(planeId)];
+        waypoint1.bindPlane(plane.getId());
+        waypoint2.bindPlane(plane.getId());
 
-        let centerPoint : THREE.Vector3 = this.planes[index].getCenterPoint();
-        this.translatePlane(planeId, centerPoint);
-        this.orientPlane(this.planes[index]);
-        this.resizePlane(this.planes[index]);
+        this.connectPlaneWithWaypoint(planeId);
 
     }
 
     //TODO: find better name
-    private orientPlane(plane : Plane){
-        this.setPlaneRadianAngle(plane);
-        plane.getMesh().rotateZ(-plane.getRadianAngle());
+    private orientPlaneWithWaypoint(plane : Plane){
+        this.orientPlaneWithReferenceVector(plane);
+        plane.getMesh().rotateZ(-plane.calculateRadianAngle());
+        plane.setPreviousAngle(plane.calculateRadianAngle());
     }
 
-    private setPlaneRadianAngle(plane: Plane){
-        let directionVector : THREE.Vector3 = new THREE.Vector3();
-        directionVector.subVectors(plane.getEndPoint(), plane.getBeginingPoint());
-        plane.setRadianAngle(directionVector.angleTo(REFERENCEVECTOR));
+    private orientPlaneWithReferenceVector(plane : Plane){
+        plane.getMesh().rotateZ(plane.getPreviousAngle());
     }
 
-    private rotateAroundWaypoint(plane: Plane, absoluteRandianAngle: number, aroundFirstWaypoint: boolean){
-        let translation : number = plane.getLength()/2;
-        if(aroundFirstWaypoint)
-            translation *= -1;
-
-        plane.getMesh().translateX(-translation);
-        plane.getMesh().rotateZ(plane.getRadianAngle() - absoluteRandianAngle);
-        plane.setRadianAngle(absoluteRandianAngle);
-        plane.getMesh().translateX(translation);
+    private unOrientPlaneWithReferenceVector(plane : Plane){
+        plane.getMesh().rotateZ(-plane.getPreviousAngle());
     }
 
     private resizePlane(plane : Plane){
         if(plane.getLength() === 0)
             return;
         plane.getMesh().scale.x = plane.getLength();
+    }
+
+    private translatePlane(planeId: number , absolutePosition : THREE.Vector3){
+        let plane : Plane = this.planes[this.findPlaneIndex(planeId)]
+        let relativeMovement : THREE.Vector3 = new THREE.Vector3();
+        relativeMovement.subVectors(absolutePosition, plane.getMesh().position);
+        
+        this.orientPlaneWithReferenceVector(plane);
+        plane.getMesh().translateX(absolutePosition.x);
+        plane.getMesh().translateY(absolutePosition.y);
+        plane.getMesh().translateZ(absolutePosition.z);
+        this.unOrientPlaneWithReferenceVector(plane);
     }
 
     private generatePlaneGeometry(nPlanes : number) : THREE.PlaneGeometry[]{
@@ -123,16 +121,5 @@ export class PlaneHandler {
 
     private getPlaneMaterial(): THREE.MeshBasicMaterial{
         return new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.DoubleSide} ); 
-    }
-
-    private translatePlane(planeId: number , absolutePosition : THREE.Vector3){
-        let index : number = this.findPlaneIndex(planeId);
-
-        let relativeMovement : THREE.Vector3 = new THREE.Vector3();
-        relativeMovement.subVectors(absolutePosition, this.planes[index].getMesh().position);
-
-        this.planes[index].getMesh().translateX(absolutePosition.x);
-        this.planes[index].getMesh().translateY(absolutePosition.y);
-        this.planes[index].getMesh().translateZ(absolutePosition.z);
     }
 }

@@ -4,25 +4,34 @@ import { Vector3 } from "three";
 
 const CIRLEDIAMETER = 10;
 
+const REFERENCEVECTOR = new THREE.Vector3(1,0,0);
+
+
 export class Plane {
 
     private beginPoint : THREE.Vector3;
 
     private endPoint : THREE.Vector3;
 
-    private radianAngle : number = 0;
+    private previousAngle : number = 0;
 
     constructor( private mesh: THREE.Mesh, waypoint1: Waypoint, waypoint2: Waypoint){
         this.beginPoint = waypoint1.getPosition();
         this.endPoint = waypoint2.getPosition();
     }
 
-    public getRadianAngle(): number{
-        return this.radianAngle;
+    public setPreviousAngle(newAngle : number){
+        this.previousAngle = newAngle;
     }
 
-    public setRadianAngle(radianAngle : number){
-        this.radianAngle = radianAngle;
+    public getPreviousAngle(){
+        return this.previousAngle;
+    }
+
+    public calculateRadianAngle(): number{
+        let directionVector : THREE.Vector3 = new THREE.Vector3();
+        directionVector.subVectors(this.endPoint, this.beginPoint);
+        return directionVector.angleTo(REFERENCEVECTOR);
     }
 
     public getId(): number{
