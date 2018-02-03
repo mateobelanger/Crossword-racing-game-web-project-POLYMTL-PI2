@@ -79,8 +79,8 @@ export class GridGenerator {
                 for (let j: number = 0; j < column.length; j++) {
                     this._grid[i][j] = column[j];
                 }
+                i = 0;
             }
-
         }
     }
 
@@ -186,25 +186,16 @@ export class GridGenerator {
     }
 
     private addWord(lane: string[]): void {
-        let noWhiteCase: boolean = true;
         for (let i: number = 0; i < lane.length; i++) {
             if (lane[i] === BLACK_CASE) {
                 continue;
             }
-            noWhiteCase = false;
             if (i > 0) {
                 lane[i - 1] = WHITE_CASE;
             } else {
                 lane[i + 1] = WHITE_CASE;
             }
             break;
-        }
-        if (noWhiteCase) {
-            const index: number = Math.floor(Math.random() * lane.length - 1);
-            lane[index] = WHITE_CASE;
-            lane[index + 1] = WHITE_CASE;
-
-            return;
         }
     }
 
