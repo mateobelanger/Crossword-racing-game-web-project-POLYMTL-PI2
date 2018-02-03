@@ -69,6 +69,8 @@ export class TrackEditorRenderService {
         this.backgroundPlane.position.z = BACKGROUND_PLANE_POSITION_Z;
         this.backgroundPlane.name = "backgroundPlane";
         this.scene.add(this.backgroundPlane);
+
+
     }
 
     private startRenderingLoop(): void {

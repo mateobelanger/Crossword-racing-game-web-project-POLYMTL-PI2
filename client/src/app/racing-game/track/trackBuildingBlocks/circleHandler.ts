@@ -1,6 +1,8 @@
 import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
 
+const CIRCLERADIUS = 5;
+
 export class CircleHandler {
     
     private circleGeometry : THREE.Geometry[] = [];
@@ -16,6 +18,37 @@ export class CircleHandler {
     //TODO : on peut delete c.était pour des tests
     public getCircleGeometry(): THREE.Geometry[] {
         return this.circleGeometry;
+    }
+
+    //TODO : Ces fonctions sont utilisées par P-O pour faire des tests
+    // elles étaient initialement prévu pour être les fonctions qui permettaient d'ajouter
+    // des "circles" dans la scène. Par contre celles-ci ont été  ajustées elle sont maintenant
+    // generateCircleGeometry() et generateCircle()
+    // Différence : ces dernières n'ajoutent qu'un point à la fois comme la souris va le faire
+    private generateCirclesGeometry(nCircles : number): THREE.Geometry[]{
+        let circleGeometries : THREE.Geometry[] = [];
+        for(let i = 0; i< nCircles ; i++){
+          let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(CIRCLERADIUS);
+          circleGeometries.push(circleGeometry);          
+          }
+          return circleGeometries;
+    }
+
+    public generateCircles(waypoints : Waypoint[]){
+        let circleGeometries : THREE.Geometry[] = this.generateCirclesGeometry(waypoints.length);
+        let material : THREE.MeshBasicMaterial = this.getCircleMaterial();
+        circleGeometries.forEach((geometry,index) => {
+            let mesh = new THREE.Mesh( geometry, material );
+            this.meshs.push(mesh);
+            this.scene.add(mesh);
+            this.bindMesh(mesh, waypoints[index]);
+        });
+    }
+      /// FIN PARTIE PO 
+
+    private generateCircleGeometry(): void {
+        let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(15,300);
+        this.circleGeometry.push(circleGeometry);          
     }
 
     public generateCircle(waypoint : Waypoint){
@@ -70,11 +103,6 @@ export class CircleHandler {
         mesh.translateX(waypoint.getPosition().x);
         mesh.translateY(waypoint.getPosition().y);
         mesh.translateZ(waypoint.getPosition().z);
-    }
-
-    private generateCircleGeometry(): void {
-        let circleGeometry  : THREE.Geometry = new THREE.CircleGeometry(15,300);
-        this.circleGeometry.push(circleGeometry);          
     }
   
     private getCircleMaterial(): THREE.MeshBasicMaterial{
