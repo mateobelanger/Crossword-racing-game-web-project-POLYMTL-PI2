@@ -1,4 +1,4 @@
-import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE } from "./GridGenerator";
+import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE, BLACK_CASE } from "./grid-generator";
 import { Word } from "./word";
 import { assert } from "chai";
 
@@ -14,7 +14,6 @@ describe("Grid generator:", () => {
 
     it("should have 10 rows.", () => {
         const result: number = generator.grid.length;
-
         assert.equal(result, DEFAULT_GRID_SIZE);
     });
 
@@ -28,10 +27,10 @@ describe("Grid generator:", () => {
         let result: number = 0;
 
         for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
-            const row: boolean[] = generator.grid[i];
+            const row: string[] = generator.grid[i];
 
-            row.forEach( (value: boolean) => {
-                if (value === true) {
+            row.forEach( (value: string) => {
+                if (value === BLACK_CASE) {
                     result++;
                 }
             });
