@@ -35,7 +35,7 @@ export class TrackEditorService {
       }
       
       this.addWaypoints(this.track.getWaypoints());
-      //this.moveWaypoint(6, new Vector3(-200, -100 ,0));
+      this.moveWaypoint(11, new THREE.Vector3(-200, -100 ,0));
       
   }
 
@@ -54,10 +54,8 @@ export class TrackEditorService {
     let waypoint : Waypoint = this.track.getWaypoint(circleId);
     waypoint.setPosition(newPos);
     this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
-    this.trackEditorRenderService.planeHandler.moveWaypoint(waypoint.getPlanesIds(), newPos);
+    this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
     console.log(waypoint.getPlanesIds());
-    // TODO: deplacer les plans en fonction du déplacement des points
-    //let dependantPlaneId : number[] = waypoint.getPlanesIds();
   }
 
   public removeWaypoint(){

@@ -38,18 +38,10 @@ export class PlaneHandler {
 
     //TODO : resize the plane to make it reach both waypoint
     public movedWaypoint(waypoint : Waypoint, newPos: THREE.Vector3){//order of planeIds important!! 1st -> beginingPoint 2nd -> endPoint
-        
-        /*
-        if(planes[0] ! == null){
-            let oldWayPoint : THREE.Vector3 = planes[0].setBeginingPoint(newPos);
-            let angle : number = oldWayPoint.angleTo(planes[0].getBeginingPoint());
-            this.rotateAroundWaypoint(planes[0], angle, true);
-        }
-        if(planes[1] ! == null){
-            let oldWayPoint : THREE.Vector3 = planes[1].setEndPoint(newPos);
-            let angle : number = oldWayPoint.angleTo(planes[1].getEndPoint());
-            this.rotateAroundWaypoint(planes[1], angle, false);
-        }*/
+        if(waypoint.getPlanesIds()[0] !== null)
+            this.connectPlaneWithWaypoint(waypoint.getPlanesIds()[0]);
+        if(waypoint.getPlanesIds()[1] !== null)
+            this.connectPlaneWithWaypoint(waypoint.getPlanesIds()[1]);   
     }
 
     private connectPlaneWithWaypoint(planeId: number){
