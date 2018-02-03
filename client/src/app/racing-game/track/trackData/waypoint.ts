@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 export class Waypoint 
 {
-    private circleId:number = null;
+    private circleId: number = null;
 
     private planesId: number[] = [];//order of elements important
 

@@ -48,15 +48,18 @@ export class TrackEditorService {
         //let dependantPlaneeId : number[] = waypoint.getPlaneesIds();
     }
 
+/*
   public moveWaypoint(circleId: number, newPos : THREE.Vector3) {
     let waypoint : Waypoint = this.track.getWaypoint(circleId);
     waypoint.setPosition(newPos);
     this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
-    this.trackEditorRenderService.planeHandler.moveWaypoint(waypoint.getPlanesIds(), newPos);
+    this.trackEditorRenderService.planeHandler.moveWaypoint(waypoint.getPlanesIds(), newPos);   //TODOICI !!!!!!!!!!!!!!!
     console.log(waypoint.getPlanesIds());
     // TODO: deplacer les plans en fonction du déplacement des points
     //let dependantPlaneId : number[] = waypoint.getPlanesIds();
   }
+  */
+
     public removeWaypoint(){
         if(this.track.getWaypointsSize() > 0) {
             let waypoint : Waypoint = this.track.removeWaypoint();
@@ -65,15 +68,20 @@ export class TrackEditorService {
         //TODO: supprimer le plane dépendant
     }
 
+
+/*
+    public removeWaypoint(){
+        let waypoint : Waypoint = this.track.removeWaypoint();
+        this.trackEditorRenderService.circleHandler.removeCircle(waypoint.getCircleId());
+        this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[1]);      //TODOICI !!!!!!!!!!!!!!!
+    }
+*/
+
+  
     public handleRightMouseDown(event: MouseEvent): void {
         this.removeWaypoint();
     }
 
-  public removeWaypoint(){
-    let waypoint : Waypoint = this.track.removeWaypoint();
-    this.trackEditorRenderService.circleHandler.removeCircle(waypoint.getCircleId());
-    this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[1]);
-  }
 
     public handleLeftMouseDown(event: MouseEvent): void {
         let objectsSelected = this.trackEditorRenderService.getObjectsPointedByMouse(event);

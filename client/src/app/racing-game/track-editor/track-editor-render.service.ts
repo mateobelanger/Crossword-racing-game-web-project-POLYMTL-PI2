@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Track } from '../track/trackData/track';
-import { CircleHandler} from '../track/trackBuildingBlocks/circles';
-//import { INITIAL_CAMERA_POSITION_Z } from '../constants';
-import * as THREE from 'three';
-import {Track} from '../track/trackData/track';
-import {CircleHandler} from '../track/trackBuildingBlocks/circleHandler';
+import { CircleHandler } from '../track/trackBuildingBlocks/circleHandler';
 import { PlaneHandler } from '../track/trackBuildingBlocks/planeHandler';
-
+import * as THREE from 'three';
 const INITIAL_CAMERA_POSITION_Z: number = 50;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
@@ -29,11 +25,9 @@ export class TrackEditorRenderService {
 
     private circleHandler: CircleHandler;
 
-    private backgroundPlan: THREE.Object3D;
+    private backgroundPlane: THREE.Object3D;
 
-  public planeHandler: PlaneHandler;
-
-  public constructor() { }
+    public planeHandler: PlaneHandler;
 
     public constructor() { }
 
@@ -60,16 +54,21 @@ export class TrackEditorRenderService {
         this.camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
+
+        //INSTANCIATING circleHandler
         this.circleHandler = new CircleHandler(this.scene);
 
+        //INSTANCIATING PLANEHANDLER
+        this.planeHandler = new PlaneHandler(this.scene);
+
         //TODO : VÉRIFIER S'IL EXISTE DES DEFINE. (POUR LES COULEURS)
-        this.backgroundPlan = new THREE.Mesh(
+        this.backgroundPlane = new THREE.Mesh(
           new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight),
           new THREE.MeshBasicMaterial({color: 0x4A7023})
         );
-        this.backgroundPlan.position.z = BACKGROUND_PLANE_POSITION_Z;
-        this.backgroundPlan.name = "backgroundPlane";
-        this.scene.add(this.backgroundPlan);
+        this.backgroundPlane.position.z = BACKGROUND_PLANE_POSITION_Z;
+        this.backgroundPlane.name = "backgroundPlane";
+        this.scene.add(this.backgroundPlane);
     }
 
     private startRenderingLoop(): void {
@@ -80,8 +79,6 @@ export class TrackEditorRenderService {
         this.render();
     }
 
-    //INSTANCIATING PLANEHANDLER
-    this.planeHandler = new PlaneHandler(this.scene);
     private render(): void {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
@@ -94,7 +91,7 @@ export class TrackEditorRenderService {
     }
 
     public getBackgroundPlaneWithRaycast(): THREE.Intersection[] {
-        return this.raycaster.intersectObject(this.backgroundPlan);
+        return this.raycaster.intersectObject(this.backgroundPlane);
     }
     
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
