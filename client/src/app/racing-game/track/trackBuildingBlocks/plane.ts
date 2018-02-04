@@ -1,7 +1,7 @@
 import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
 
-const CIRLEDIAMETER: number = 10;
+const CIRLEDIAMETER: number = 20;
 
 const REFERENCEVECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
 
