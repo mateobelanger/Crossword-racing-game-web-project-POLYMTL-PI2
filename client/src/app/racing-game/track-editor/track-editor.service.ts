@@ -48,8 +48,6 @@ export class TrackEditorService {
         this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
         if (waypoints.length === 1)
             waypoints.unshift(this.track.getPreviousWaypoint());
-            /*tslint:disable:no-console*/
-        console.log(waypoints);
         this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
         // TODO: ajouter un plan si pas premier point
       }
@@ -57,6 +55,8 @@ export class TrackEditorService {
     public moveWaypoint(circleId: number, newPos: THREE.Vector3): void {
         const waypoint: Waypoint = this.track.getWaypoint(circleId);
         waypoint.setPosition(newPos);
+        /*tslint:disable:no-console */
+        console.log(newPos);
         this.trackEditorRenderService.getCircleHandler().moveCircle(circleId, newPos);
         this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
     }
@@ -106,9 +106,7 @@ export class TrackEditorService {
             event.preventDefault();
             planeSelected[0].point.z = POINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);
-            this.trackEditorRenderService.getCircleHandler().moveCircle(this.selectedWaypoint.getCircleId(),  planeSelected[0].point);
-            this.trackEditorRenderService.planeHandler.movedWaypoint(this.selectedWaypoint, planeSelected[0].point);
-
+            this.moveWaypoint(this.selectedWaypoint.getCircleId(), planeSelected[0].point);
         }
     }
 

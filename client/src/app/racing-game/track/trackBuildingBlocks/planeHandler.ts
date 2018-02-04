@@ -36,7 +36,7 @@ export class PlaneHandler {
     }
 
 
-    // order of planeIds important!! 1st -> beginingPoint 2nd -> endPoint
+    // order of planeIds important!! 1st -> endPoint  2nd -> beginingPoint
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
         let firstPlane: Plane, secondPlane: Plane = null;
         if (waypoint.getPlanesIds()[0] != null) {
@@ -50,13 +50,14 @@ export class PlaneHandler {
             this.connectPlaneWithWaypoint(secondPlane.getId());
         }
     }
-
+    /*tslint:disable:no-console */
     private connectPlaneWithWaypoint(planeId: number): void {
         const plane: Plane = this.planes[this.findPlaneIndex(planeId)];
         const centerPoint: THREE.Vector3 = plane.getCenterPoint();
         this.translatePlane(planeId, centerPoint);
         this.orientPlaneWithWaypoint(plane);
         this.resizePlane(plane);
+        console.log("moving plane ...");
     }
 
     private findPlaneIndex(id: number): number {
