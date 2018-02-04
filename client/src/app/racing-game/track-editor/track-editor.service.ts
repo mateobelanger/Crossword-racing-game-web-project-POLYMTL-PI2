@@ -65,7 +65,7 @@ export class TrackEditorService {
         if (this.track.getWaypointsSize() > 0) {
             const waypoint: Waypoint = this.track.removeWaypoint();
             this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
-            this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[1]);
+            this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[0]);
         }
     }
 
