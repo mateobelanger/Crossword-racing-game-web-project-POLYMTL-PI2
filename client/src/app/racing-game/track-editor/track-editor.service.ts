@@ -5,7 +5,7 @@ import { Waypoint } from '../track/trackData/waypoint';
 import * as THREE from 'three';
 
 const POINTS_POSITION_Z: number = 0;
-
+/* tslint:disable:all */
 @Injectable()
 export class TrackEditorService {
 
@@ -37,7 +37,7 @@ export class TrackEditorService {
         }
 
         this.addWaypoints(this.track.getWaypoints());
-        // this.moveWaypoint(6, new Vector3(-200, -100 ,0));
+        this.moveWaypoint(9, new THREE.Vector3(-200, -100 ,0));
     }
 
     public getTrack(): Track {
@@ -49,52 +49,21 @@ export class TrackEditorService {
         this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
         // TODO: ajouter un plan si pas premier point
       }
-      //Axe Y positif
-      for (let i = 0; i < 5; i++) {
-        let waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i*60, 0));
-        this.track.addWaypoint(waypoint);     
-      }
-      
-      this.addWaypoints(this.track.getWaypoints());
-      this.moveWaypoint(8, new THREE.Vector3(-200, -100 ,0));
-      
-  }
 
     public moveWaypoint(circleId: number, newPos : THREE.Vector3): void {
         const waypoint: Waypoint = this.track.getWaypoint(circleId);
         waypoint.setPosition(newPos);
         this.trackEditorRenderService.getCircleHandler().moveCircle(circleId, newPos);
-
-        // TODO: deplacer les planes en fonction du déplacement des points
-        // let dependantPlaneeId : number[] = waypoint.getPlaneesIds();
+        this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
     }
-
-/*
-  public moveWaypoint(circleId: number, newPos : THREE.Vector3) {
-    let waypoint : Waypoint = this.track.getWaypoint(circleId);
-    waypoint.setPosition(newPos);
-    this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
-    this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
-  }
-  */
 
     public removeWaypoint(): void {
         if(this.track.getWaypointsSize() > 0) {
             const waypoint : Waypoint = this.track.removeWaypoint();
             this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
+            this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[1]);
         }
-        // TODO: supprimer le plane dépendant
     }
-
-
-/*
-    public removeWaypoint(){
-        let waypoint : Waypoint = this.track.removeWaypoint();
-        this.trackEditorRenderService.circleHandler.removeCircle(waypoint.getCircleId());
-        this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[1]);      //TODOPLAN !!!!!!!!!!!!!!!
-    }
-*/
-
 
     public handleRightMouseDown(event: MouseEvent): void {
         this.removeWaypoint();
@@ -115,8 +84,8 @@ export class TrackEditorService {
                 // et on  ajoute deux plan et un point
             } else if (firstObjectName === "backgroundPlane")  {
                 objectsSelected[0].point.z = POINTS_POSITION_Z;
-                const newWaypoint : Waypoint = this.track.addWayPointWithMouse(objectsSelected[0].point);
-                this.addWaypoint(newWaypoint);
+                const newWaypoint : Waypoint[] = [this.track.addWayPointWithMouse(objectsSelected[0].point)];
+                this.addWaypoints(newWaypoint);
             }
         }
     }
