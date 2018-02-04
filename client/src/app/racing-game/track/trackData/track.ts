@@ -1,6 +1,6 @@
 import {Waypoint} from './waypoint';
 import * as THREE from 'three';
-
+/*tslint:disable:all*/
 export class Track 
 {
     public constructor(private waypoints : Waypoint[] = []){
@@ -25,15 +25,19 @@ export class Track
         this.waypoints.push(wayPoint);
     }
 
-    public addWayPointWithMouse (position: THREE.Vector3): Waypoint {         
+    public addWayPointWithMouse (position: THREE.Vector3): Waypoint {
         let wayPointTemp = new Waypoint();
         wayPointTemp.setPosition(position);
         this.waypoints.push(wayPointTemp);
         return wayPointTemp;
     }
 
-    public removeWaypoint() : Waypoint {
-        return this.waypoints.pop()
+    public removeWaypoint(): Waypoint {
+        return this.waypoints.pop();
+    }
+
+    public getPreviousWaypoint(): Waypoint {
+        return this.waypoints[this.waypoints.length-2];
     }
 
     private findWaypointIndex(id : number): number {

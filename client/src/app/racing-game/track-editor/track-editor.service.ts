@@ -37,7 +37,7 @@ export class TrackEditorService {
         }
 
         this.addWaypoints(this.track.getWaypoints());
-        this.moveWaypoint(9, new THREE.Vector3(-200, -100 ,0));
+        //this.moveWaypoint(9, new THREE.Vector3(-200, -100 ,0));
     }
 
     public getTrack(): Track {
@@ -46,6 +46,10 @@ export class TrackEditorService {
 
     public addWaypoints(waypoints: Waypoint[]): void {
         this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
+        if (waypoints.length === 1)
+            waypoints.unshift(this.track.getPreviousWaypoint());
+            /*tslint:disable:no-console*/
+        console.log(waypoints);
         this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
         // TODO: ajouter un plan si pas premier point
       }
@@ -96,14 +100,14 @@ export class TrackEditorService {
     }
 
     public handleMouseMove(event: MouseEvent): void {
-        this.trackEditorRenderService.updateRaycastMousePos(event);
-        const planeSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
-
         if (this.dragDropActive) {
+            this.trackEditorRenderService.updateRaycastMousePos(event);
+            const planeSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
             event.preventDefault();
             planeSelected[0].point.z = POINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);
             this.trackEditorRenderService.getCircleHandler().moveCircle(this.selectedWaypoint.getCircleId(),  planeSelected[0].point);
+            this.trackEditorRenderService.planeHandler.movedWaypoint(this.selectedWaypoint, planeSelected[0].point);
 
         }
     }
