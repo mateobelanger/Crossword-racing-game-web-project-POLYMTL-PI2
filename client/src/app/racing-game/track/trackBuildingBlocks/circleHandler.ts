@@ -14,7 +14,7 @@ export class CircleHandler {
         const circleGeometries: THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
         const material: THREE.MeshBasicMaterial = this.getCircleMaterial();
         circleGeometries.forEach((geometry, index) => {
-            const mesh: THREE.Mesh = new THREE.Mesh( geometry, material );
+            const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ? this.getFirstCircleMaterial() : material );
             this.meshs.push(mesh);
             mesh.name = "point";
             this.scene.add(mesh);
@@ -61,6 +61,10 @@ export class CircleHandler {
           }
 
         return circleGeometries;
+      }
+
+    private getFirstCircleMaterial(): THREE.MeshBasicMaterial {
+        return new THREE.MeshBasicMaterial( { color: 0xFF0000, side: THREE.DoubleSide} );
       }
 
     private getCircleMaterial(): THREE.MeshBasicMaterial {

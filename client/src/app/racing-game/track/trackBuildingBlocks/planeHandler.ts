@@ -50,14 +50,13 @@ export class PlaneHandler {
             this.connectPlaneWithWaypoint(secondPlane.getId());
         }
     }
-    /*tslint:disable:no-console */
+
     private connectPlaneWithWaypoint(planeId: number): void {
         const plane: Plane = this.planes[this.findPlaneIndex(planeId)];
         const centerPoint: THREE.Vector3 = plane.getCenterPoint();
         this.translatePlane(planeId, centerPoint);
         this.orientPlaneWithWaypoint(plane);
         this.resizePlane(plane);
-        console.log("moving plane ...");
     }
 
     private findPlaneIndex(id: number): number {

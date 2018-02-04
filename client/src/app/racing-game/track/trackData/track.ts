@@ -25,13 +25,6 @@ export class Track
         this.waypoints.push(wayPoint);
     }
 
-    public addWayPointWithMouse (position: THREE.Vector3): Waypoint {
-        let wayPointTemp = new Waypoint();
-        wayPointTemp.setPosition(position);
-        this.waypoints.push(wayPointTemp);
-        return wayPointTemp;
-    }
-
     public removeWaypoint(): Waypoint {
         return this.waypoints.pop();
     }

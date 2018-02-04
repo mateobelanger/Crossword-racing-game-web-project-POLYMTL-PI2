@@ -36,8 +36,10 @@ export class TrackEditorService {
             this.track.addWaypoint(waypoint);
         }
 
-        this.addWaypoints(this.track.getWaypoints());
-        //this.moveWaypoint(9, new THREE.Vector3(-200, -100 ,0));
+        this.trackEditorRenderService.getCircleHandler().generateCircles(this.track.getWaypoints());
+        if (this.track.getWaypointsSize() > 1) {
+            this.trackEditorRenderService.planeHandler.generatePlanes(this.track.getWaypoints());
+        }
     }
 
     public getTrack(): Track {
@@ -45,18 +47,20 @@ export class TrackEditorService {
     }
 
     public addWaypoints(waypoints: Waypoint[]): void {
+        waypoints.forEach((waypoint) => {
+            this.track.addWaypoint(waypoint);
+        });
         this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
-        if (waypoints.length === 1)
-            waypoints.unshift(this.track.getPreviousWaypoint());
-        this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
-        // TODO: ajouter un plan si pas premier point
+        if (this.track.getWaypointsSize() > 1) {
+            if (waypoints.length === 1)
+                waypoints.unshift(this.track.getPreviousWaypoint());
+            this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
+        }
       }
 
     public moveWaypoint(circleId: number, newPos: THREE.Vector3): void {
         const waypoint: Waypoint = this.track.getWaypoint(circleId);
         waypoint.setPosition(newPos);
-        /*tslint:disable:no-console */
-        console.log(newPos);
         this.trackEditorRenderService.getCircleHandler().moveCircle(circleId, newPos);
         this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
     }
@@ -65,7 +69,8 @@ export class TrackEditorService {
         if (this.track.getWaypointsSize() > 0) {
             const waypoint: Waypoint = this.track.removeWaypoint();
             this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
-            this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[0]);
+            if (this.track.getWaypointsSize() > 0)
+                this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[0]);
         }
     }
 
@@ -88,7 +93,7 @@ export class TrackEditorService {
                 // et on  ajoute deux plan et un point
             } else if (firstObjectName === "backgroundPlane")  {
                 objectsSelected[0].point.z = POINTS_POSITION_Z;
-                const newWaypoint: Waypoint[] = [this.track.addWayPointWithMouse(objectsSelected[0].point)];
+                const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }
         }
