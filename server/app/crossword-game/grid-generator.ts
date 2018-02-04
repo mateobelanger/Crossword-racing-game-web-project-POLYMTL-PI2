@@ -1,4 +1,5 @@
 import { Word } from "./word";
+import { LexicalService } from "../lexicalService/lexicalService";
 
 export const MIN_WORD_LENGTH: number = 2;
 export const DEFAULT_GRID_SIZE: number = 10;
@@ -23,65 +24,25 @@ export class GridGenerator {
         this.fill(nBlackCases);
         this.fix();
 
-        let words: Word[] = [];
+        let emptyGrid: Word[] = [];
         for (let i: number = 0; i < this.nRows; i++) {
             const row: string[] = this._grid[i];
-            words = words.concat(this.generateWords(row, i, "horizontal"));
-        }
-        for (let i: number = 0; i < this.nColumns; i++) {
+            emptyGrid = emptyGrid.concat(this.generateEmptyWords(row, i, "horizontal"));
             const column: string[] = this.getColumn(i);
-            words = words.concat(this.generateWords(column, i, "vertical"));
+            emptyGrid = emptyGrid.concat(this.generateEmptyWords(column, i, "vertical"));
         }
-        // descending order.
-        words.sort( (word1: Word, word2: Word) => {
-            return word2.size - word1.size;
+        emptyGrid.sort((word1: Word, word2: Word) => {
+            return word1.size - word2.size;
         });
 
-        return words;
+        const filledGrid: Word[] = [];
+        this.placeWords(emptyGrid, filledGrid);
+
+        return filledGrid;
     }
 
     public get grid(): string[][] {
         return this._grid;
-    }
-
-    private initialize(nRows: number, nCols: number): void {
-        this.nRows = nRows;
-        this.nColumns = nCols;
-
-        for (let i: number = 0; i < nRows; i++) {
-            const row: string[] = [];
-            for (let j: number = 0; j < nCols; j++) {
-                row.push(WHITE_CASE);
-            }
-            this._grid.push(row);
-        }
-    }
-
-    private fix(): void {
-        for (let i: number = 0; i < this.nRows; i++) {
-            for (let j: number = 0; j < this.nColumns; j++) {
-                if (this.isLoneCase(i, j)) {
-                    this.fixLoneCase(i, j);
-                    i = 0; j = 0;
-                }
-            }
-            const row: string[] = this._grid[i];
-
-            if (!this.hasWords(row)) {
-                this.addWord(row);
-                this.setRandomly(BLACK_CASE);
-                i = 0;
-            }
-
-            const column: string[] = this.getColumn(i);
-            if (!this.hasWords(column)) {
-                this.addWord(column);
-                for (let j: number = 0; j < column.length; j++) {
-                    this._grid[i][j] = column[j];
-                }
-                i = 0;
-            }
-        }
     }
 
     private set(row: number, col: number, value: string): void {
@@ -124,10 +85,76 @@ export class GridGenerator {
         return column;
     }
 
+    private initialize(nRows: number, nCols: number): void {
+        this.nRows = nRows;
+        this.nColumns = nCols;
+
+        for (let i: number = 0; i < nRows; i++) {
+            const row: string[] = [];
+            for (let j: number = 0; j < nCols; j++) {
+                row.push(WHITE_CASE);
+            }
+            this._grid.push(row);
+        }
+    }
+
     private fill(nBlackCases: number): void {
         for (let i: number = 0; i < nBlackCases; i++) {
             this.setRandomly(BLACK_CASE);
         }
+    }
+
+    private fix(): void {
+        for (let i: number = 0; i < this.nRows; i++) {
+            for (let j: number = 0; j < this.nColumns; j++) {
+                if (this.isLoneCase(i, j)) {
+                    this.fixLoneCase(i, j);
+                    i = 0; j = 0;
+                }
+            }
+            const row: string[] = this._grid[i];
+
+            if (!this.hasWords(row)) {
+                this.addWord(row);
+                this.setRandomly(BLACK_CASE);
+                i = 0;
+            }
+
+            const column: string[] = this.getColumn(i);
+            if (!this.hasWords(column)) {
+                this.addWord(column);
+                for (let j: number = 0; j < column.length; j++) {
+                    this._grid[i][j] = column[j];
+                }
+                i = 0;
+            }
+        }
+    }
+
+    private placeWords(emptyWords: Word[], filledWords: Word[]): void {
+        if (emptyWords.length === 0) {
+            return;
+        }
+        const wordToPlace: Word = emptyWords.pop();
+        let wordSkeleton: string;
+        for (let i: number = 0; i < wordToPlace.size; i++) {
+            if (wordToPlace.direction === "horizontal") {
+                wordSkeleton += this._grid[wordToPlace.row][wordToPlace.column + i];
+            } else {
+                wordSkeleton += this._grid[wordToPlace.row + i][wordToPlace.column];
+            }
+        }
+        const result: Word = LexicalService.findWord(wordSkeleton);
+        if (result === null) {
+            emptyWords.push(wordToPlace);
+            emptyWords.push(filledWords.pop());
+        } else {
+            wordToPlace.value = result.value;
+            wordToPlace.definition = result.definition;
+            filledWords.push(wordToPlace);
+        }
+
+        return this.placeWords(emptyWords, filledWords);
     }
 
     private isCorner(row: number, col: number): boolean {
@@ -199,7 +226,7 @@ export class GridGenerator {
         }
     }
 
-    private generateWords(lane: string[], index: number, direction: string): Word[] {
+    private generateEmptyWords(lane: string[], index: number, direction: string): Word[] {
         const result: Word[] = [];
         for (let i: number = 0; i < lane.length; i++) {
             if (lane[i] === BLACK_CASE) {
