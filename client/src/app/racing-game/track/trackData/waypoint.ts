@@ -1,50 +1,48 @@
 import * as THREE from 'three';
 
-export class Waypoint 
-{
+export class Waypoint {
+
     private circleId: number = null;
 
-    private planesId: number[] = [];//order of elements important
+    private planesId: number[] = []; // order of elements important
 
-    constructor(
-        private position: THREE.Vector3 = new THREE.Vector3(0,0,0),
-    ){}
+    public constructor(
+        private position: THREE.Vector3 = new THREE.Vector3(0, 0, 0),
+    ) {}
 
-    public getPosition() : THREE.Vector3
-    {
+    public getPosition(): THREE.Vector3 {
         return this.position;
     }
 
-    public setPosition(position: THREE.Vector3)
-    {
+    public setPosition(position: THREE.Vector3): void {
         this.position = position;
     }
 
-    public bindCircle( id : number){
-        if(this.circleId === null)
+    public bindCircle( id: number): void {
+        if (this.circleId === null)
             this.circleId = id;
     }
 
-    public getCircleId():number{
+    public getCircleId(): number {
         return this.circleId;
     }
-    
-    public unbindCircle(){
+
+    public unbindCircle(): void {
         this.circleId = null;
     }
 
-    public bindPlane(id : number){
-        if((this.planesId.length < 2) && (this.planesId.indexOf(id) == -1))
+    public bindPlane(id: number): void {
+        if ((this.planesId.length < 2) && (this.planesId.indexOf(id) === -1))
             this.planesId.push(id);
     }
 
-    public getPlanesIds(): number[]{
+    public getPlanesIds(): number[] {
         return this.planesId;
     }
 
-    public unbindPlane(idToremove : number){
-        let index : number = this.planesId.indexOf(idToremove);
-        if( index > -1)
+    public unbindPlane(idToremove: number): void {
+        const index: number = this.planesId.indexOf(idToremove);
+        if ( index > -1)
             this.planesId.splice(index, 1);
     }
 }
