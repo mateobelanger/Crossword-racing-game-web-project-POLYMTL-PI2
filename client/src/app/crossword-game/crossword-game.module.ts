@@ -8,24 +8,26 @@ import { GameUiComponent } from './game-ui/game-ui.component';
 import { GridComponent } from './grid/grid.component';
 import { DefinitionsComponent } from './definitions/definitions.component';
 import { routes } from '../app-routes.module';
+import { InformationsComponent } from './informations/informations.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    routes,
-    FormsModule
-  ],
-  declarations: [
-    CrosswordGameComponent,
-    ConfigurationComponent,
-    GameUiComponent,
-    GridComponent,
-    DefinitionsComponent
-  ],
+    imports: [
+        CommonModule,
+        routes,
+        FormsModule
+    ],
+    declarations: [
+        CrosswordGameComponent,
+        ConfigurationComponent,
+        GameUiComponent,
+        GridComponent,
+        DefinitionsComponent,
+        InformationsComponent
+    ],
 
-  exports: [
-    CrosswordGameComponent,
-  ]
+    exports: [
+        CrosswordGameComponent,
+    ]
 
 
 })

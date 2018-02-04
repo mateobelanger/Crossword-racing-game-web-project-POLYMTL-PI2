@@ -22,7 +22,7 @@ export class GridComponent implements OnInit {
                          ["", "", "", "", "", "", "", "", "", ""]];
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
     }
 
     public trackByIndex(index: number, value: number): number {

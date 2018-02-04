@@ -11,7 +11,7 @@ export class DefinitionsComponent implements OnInit {
     private verticalDefinitions: Array<Array<string>>;
     public selectedDefinition: string;
 
-    constructor() {
+    public constructor() {
         this.horizontalDefinitions = [["massive plantigrade carnivorous or omnivorous mammals with long shaggy coats and strong claws",
                                        "from a particular thing or place or position"],
                                       ["bound together on one edge",
@@ -29,11 +29,7 @@ export class DefinitionsComponent implements OnInit {
                                      "color of the sky"]];
     }
 
-    ngOnInit(): void {
-    }
-
-    public onSelect(def: string): void {
-        this.selectedDefinition = def;
+    public ngOnInit(): void {
     }
 
 }

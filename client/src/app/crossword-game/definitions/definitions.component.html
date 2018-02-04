@@ -5,8 +5,7 @@
     <tbody>
         <tr *ngFor="let row of horizontalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span>
-                <li *ngFor="let definition of row; let indexI = index;" 
-                    [class.selected]="definition===selectedDefinition" (click)="onSelect(definition)">
+                <li *ngFor="let definition of row; let indexI = index;">
 
                     [{{indexI+1}}] {{definition}}
                 </li>

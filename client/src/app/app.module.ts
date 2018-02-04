@@ -8,9 +8,9 @@ import { AppComponent } from "./app.component";
 
 
 // Module
-import { HomepageModule} from './homepage/homepage.module';
-import { CrosswordGameModule} from './crossword-game/crossword-game.module';
-import { RacingGameModule} from './racing-game/racing-game.module';
+import { HomepageModule } from './homepage/homepage.module';
+import { CrosswordGameModule } from './crossword-game/crossword-game.module';
+import { RacingGameModule } from './racing-game/racing-game.module';
 
 
 
@@ -20,8 +20,7 @@ import { routes } from './app-routes.module';
 
 @NgModule({
     declarations: [
-        AppComponent,
-
+        AppComponent
     ],
     imports: [
         BrowserModule,
@@ -32,9 +31,7 @@ import { routes } from './app-routes.module';
         RacingGameModule
 
     ],
-    providers: [
-
-    ],
+    providers: [ ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

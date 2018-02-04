@@ -25,13 +25,13 @@ export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);
 
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  exports: [
+    imports: [
+        CommonModule
+    ],
+    exports: [
 
-  ],
-  declarations: []
+    ],
+    declarations: []
 })
 export class AppRoutesModule { }
 

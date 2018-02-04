@@ -1,4 +1,3 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,12 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameUiComponent implements OnInit {
 
-    private difficulty: string = "default";
+    public constructor() {}
 
-    public constructor(private activatedRoute: ActivatedRoute) {
-        this.difficulty = this.activatedRoute.snapshot.paramMap.get('difficulty');
-    }
-
-    ngOnInit(): void {}
+    public ngOnInit(): void {}
 
 }

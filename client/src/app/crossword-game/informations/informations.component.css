@@ -1,0 +1,30 @@
+.informations {
+    display: block;
+    width: 32%;
+    margin: 0 0 3vh 0;
+}
+
+.difficulty {
+    display: block;
+    font-weight: bold;
+    font-size: 1.3vw;
+}
+
+.player {
+    display: inline-block;
+    font-size: 1.1vw;
+    font-weight: bold;
+}
+
+#p1 {
+    color: blue;
+}
+
+#p2 {
+    color: red;
+    float: right;
+}
+
+button {
+   display: block;
+}

@@ -1,12 +1,13 @@
-.selected {
-    background: lightblue;
-    color: darkblue;
-}
 
 li {
     list-style-type: none;
     font-weight: normal;
     padding: 0px 3vw;
+}
+
+li:hover {
+    background: lightblue;
+    cursor: pointer;
 }
 
 .table {

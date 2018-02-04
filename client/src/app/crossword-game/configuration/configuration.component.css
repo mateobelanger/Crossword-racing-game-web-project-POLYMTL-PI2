@@ -1,8 +1,10 @@
 
 .configuration {
     width: 20%;
-    height: 40%;
-    margin: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 9%;
 }
 
 h4 {
