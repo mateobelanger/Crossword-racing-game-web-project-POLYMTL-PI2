@@ -31,7 +31,10 @@ export class Plane {
     public calculateRadianAngle(): number{
         let directionVector : THREE.Vector3 = new THREE.Vector3();
         directionVector.subVectors(this.endPoint, this.beginPoint);
-        return directionVector.angleTo(REFERENCEVECTOR);
+        let angle : number = directionVector.angleTo(REFERENCEVECTOR);
+        if((directionVector.y < REFERENCEVECTOR.y) && (this.beginPoint.y > this.endPoint.y))
+            angle *= -1;
+        return angle; 
     }
 
     public getId(): number{

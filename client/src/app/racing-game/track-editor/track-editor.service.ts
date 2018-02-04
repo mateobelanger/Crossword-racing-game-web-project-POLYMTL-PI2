@@ -35,7 +35,7 @@ export class TrackEditorService {
       }
       
       this.addWaypoints(this.track.getWaypoints());
-      this.moveWaypoint(11, new THREE.Vector3(-200, -100 ,0));
+      this.moveWaypoint(8, new THREE.Vector3(-200, -100 ,0));
       
   }
 
@@ -55,7 +55,6 @@ export class TrackEditorService {
     waypoint.setPosition(newPos);
     this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
     this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
-    console.log(waypoint.getPlanesIds());
   }
 
   public removeWaypoint(){

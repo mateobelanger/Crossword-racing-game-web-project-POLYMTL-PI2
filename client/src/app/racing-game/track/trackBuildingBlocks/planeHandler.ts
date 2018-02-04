@@ -38,10 +38,19 @@ export class PlaneHandler {
 
     //TODO : resize the plane to make it reach both waypoint
     public movedWaypoint(waypoint : Waypoint, newPos: THREE.Vector3){//order of planeIds important!! 1st -> beginingPoint 2nd -> endPoint
-        if(waypoint.getPlanesIds()[0] !== null)
-            this.connectPlaneWithWaypoint(waypoint.getPlanesIds()[0]);
-        if(waypoint.getPlanesIds()[1] !== null)
-            this.connectPlaneWithWaypoint(waypoint.getPlanesIds()[1]);   
+        let firstPlane, secondPlane : Plane = null;
+        if(waypoint.getPlanesIds()[0] != null){
+            firstPlane = this.planes[this.findPlaneIndex(waypoint.getPlanesIds()[0])];
+            firstPlane.setEndPoint(waypoint.getPosition());
+            console.log("FIRST PLANE")
+            this.connectPlaneWithWaypoint(firstPlane.getId());
+        }
+        if(waypoint.getPlanesIds()[1] != null){
+            secondPlane = this.planes[this.findPlaneIndex(waypoint.getPlanesIds()[1])];
+            secondPlane.setBeginingPoint(waypoint.getPosition());
+            console.log("SECOND PLANE")
+            this.connectPlaneWithWaypoint(secondPlane.getId());  
+        }
     }
 
     private connectPlaneWithWaypoint(planeId: number){
@@ -73,16 +82,16 @@ export class PlaneHandler {
     //TODO: find better name
     private orientPlaneWithWaypoint(plane : Plane){
         this.orientPlaneWithReferenceVector(plane);
-        plane.getMesh().rotateZ(-plane.calculateRadianAngle());
+        plane.getMesh().rotateZ(plane.calculateRadianAngle());
         plane.setPreviousAngle(plane.calculateRadianAngle());
     }
 
     private orientPlaneWithReferenceVector(plane : Plane){
-        plane.getMesh().rotateZ(plane.getPreviousAngle());
+        plane.getMesh().rotateZ(-plane.getPreviousAngle());
     }
 
     private unOrientPlaneWithReferenceVector(plane : Plane){
-        plane.getMesh().rotateZ(-plane.getPreviousAngle());
+        plane.getMesh().rotateZ(plane.getPreviousAngle());
     }
 
     private resizePlane(plane : Plane){
@@ -95,11 +104,10 @@ export class PlaneHandler {
         let plane : Plane = this.planes[this.findPlaneIndex(planeId)]
         let relativeMovement : THREE.Vector3 = new THREE.Vector3();
         relativeMovement.subVectors(absolutePosition, plane.getMesh().position);
-        
         this.orientPlaneWithReferenceVector(plane);
-        plane.getMesh().translateX(absolutePosition.x);
-        plane.getMesh().translateY(absolutePosition.y);
-        plane.getMesh().translateZ(absolutePosition.z);
+        plane.getMesh().translateX(relativeMovement.x);
+        plane.getMesh().translateY(relativeMovement.y);
+        plane.getMesh().translateZ(relativeMovement.z);
         this.unOrientPlaneWithReferenceVector(plane);
     }
 
