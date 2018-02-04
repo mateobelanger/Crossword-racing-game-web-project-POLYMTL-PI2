@@ -5,7 +5,7 @@ import { Waypoint } from '../track/trackData/waypoint';
 import * as THREE from 'three';
 
 const POINTS_POSITION_Z: number = 0;
-/* tslint:disable:all */
+
 @Injectable()
 export class TrackEditorService {
 
@@ -30,7 +30,7 @@ export class TrackEditorService {
             const waypoint: Waypoint = new Waypoint(new THREE.Vector3(i * 60, 0, 0));
             this.track.addWaypoint(waypoint);
         }
-        //Axe Y positif
+        // Axe Y positif
         for (let i = 0; i < 5; i++) {
             const waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i * 60, 0));
             this.track.addWaypoint(waypoint);
@@ -50,7 +50,7 @@ export class TrackEditorService {
         // TODO: ajouter un plan si pas premier point
       }
 
-    public moveWaypoint(circleId: number, newPos : THREE.Vector3): void {
+    public moveWaypoint(circleId: number, newPos: THREE.Vector3): void {
         const waypoint: Waypoint = this.track.getWaypoint(circleId);
         waypoint.setPosition(newPos);
         this.trackEditorRenderService.getCircleHandler().moveCircle(circleId, newPos);
@@ -58,8 +58,8 @@ export class TrackEditorService {
     }
 
     public removeWaypoint(): void {
-        if(this.track.getWaypointsSize() > 0) {
-            const waypoint : Waypoint = this.track.removeWaypoint();
+        if (this.track.getWaypointsSize() > 0) {
+            const waypoint: Waypoint = this.track.removeWaypoint();
             this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
             this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[1]);
         }
@@ -76,7 +76,7 @@ export class TrackEditorService {
         if (objectsSelected.length > 0) {
             if (firstObjectName === "point") {
                     this.selectedWaypoint = this.track.getWaypoint(objectsSelected[0].object.id);
-                    if(this.selectedWaypoint != undefined) {
+                    if (this.selectedWaypoint != undefined) {
                         this.dragDropActive = true;
                      }
             } else if (firstObjectName === "road") {
@@ -84,13 +84,13 @@ export class TrackEditorService {
                 // et on  ajoute deux plan et un point
             } else if (firstObjectName === "backgroundPlane")  {
                 objectsSelected[0].point.z = POINTS_POSITION_Z;
-                const newWaypoint : Waypoint[] = [this.track.addWayPointWithMouse(objectsSelected[0].point)];
+                const newWaypoint: Waypoint[] = [this.track.addWayPointWithMouse(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }
         }
     }
 
-    public handleLeftMouseUp(event: MouseEvent) : void {
+    public handleLeftMouseUp(event: MouseEvent): void {
         this.selectedWaypoint = null;
         this.dragDropActive = false;
     }
