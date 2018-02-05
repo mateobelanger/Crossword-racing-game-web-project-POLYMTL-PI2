@@ -5,6 +5,8 @@ import * as THREE from "three";
 const TRACKWIDTH: number = 20;
 const TRACKLENGTH: number = 1;
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
+const PLANE_POSITION_Z: number = -1;
+
 
 
 export class PlaneHandler {
@@ -48,6 +50,7 @@ export class PlaneHandler {
 
     // order of planeIds important!! 1st -> endPoint  2nd -> beginingPoint
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
+        newPos.z = PLANE_POSITION_Z;
         let firstPlaneId: number, secondPlaneId: number;
         [firstPlaneId, secondPlaneId] = waypoint.getPlanesIds();
 
