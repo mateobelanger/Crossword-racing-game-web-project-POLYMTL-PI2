@@ -1,6 +1,6 @@
 import { Word } from "./word";
 //import { LexicalService } from "../lexicalService/lexicalService";
-import { DatamuseService } from "../lexicalService2/datamuseService";
+//import { DatamuseService } from "../lexicalService2/datamuseService";
 
 export const MIN_WORD_LENGTH: number = 1;
 export const DEFAULT_GRID_SIZE: number = 4;
@@ -45,7 +45,7 @@ export class GridGenerator {
         const filledGrid: Word[] = [];
 
         this.indicesToUseForResults.push(0);        //
-        this.placeWords(emptyGrid, filledGrid, difficulty);     //** difficulty: à lier à configurer une partie.. attribut ? */
+        //this.placeWords(emptyGrid, filledGrid, difficulty);     //** difficulty: à lier à configurer une partie.. attribut ? */
         console.log("goes through placeWords");
 
         //while(filledGrid.length === 0){};
@@ -59,7 +59,7 @@ export class GridGenerator {
     }
 
 
-    async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<any> {
+/*    async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<any> {
         if (emptyWords.length === 0) {
             return "done";
         }
@@ -122,11 +122,10 @@ export class GridGenerator {
             if(word.value === searchedWord) {
                 return true;
             }
-        });*/
-
+        });
         return false;
     }
-
+*/
 
     public get grid(): string[][] {
         return this._grid;
