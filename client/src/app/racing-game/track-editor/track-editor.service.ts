@@ -26,6 +26,7 @@ export class TrackEditorService {
         this.trackEditorRenderService.initialize(this.container, this.track);
         this.track = new Track();
         this.dragDropActive = false;
+        this.closedTrack = false;
     }
 
     public getTrack(): Track {
@@ -101,15 +102,9 @@ export class TrackEditorService {
         if (objectsSelected.length > 0) {
             if (firstObjectName === "point") {
                     this.selectedWaypoint = this.track.getWaypoint(objectsSelected[0].object.id);
-                    if (this.selectedWaypoint !== undefined) {
-                        if (this.isTrackClosable()) {
-                            this.closedTrack = true;
-                            this.closeTrack();
-                            this.selectedWaypoint = null;
-                        } else {
+                    if (this.selectedWaypoint != null) {
                             this.dragDropActive = true;
                         }
-                     }
             } else if (!this.closedTrack && firstObjectName === "backgroundPlane")  {
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
@@ -118,6 +113,10 @@ export class TrackEditorService {
     }
 
     public handleLeftMouseUp(event: MouseEvent): void {
+        if (this.selectedWaypoint != null && this.isTrackClosable()) {
+            this.closedTrack = true;
+            this.closeTrack();
+        }
         this.selectedWaypoint = null;
         this.dragDropActive = false;
     }
