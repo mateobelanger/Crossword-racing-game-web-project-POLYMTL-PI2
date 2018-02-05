@@ -36,8 +36,12 @@ export class Track
         return this.waypoints.pop();
     }
 
-    public getPreviousWaypoint(): Waypoint {
+    public getPreviousToLastWaypoint(): Waypoint {
         return this.waypoints[this.waypoints.length-2];
+    }
+
+    public getLastWaypoint(): Waypoint {
+        return this.waypoints[this.waypoints.length-1];
     }
 
     private findWaypointIndex(id : number): number {

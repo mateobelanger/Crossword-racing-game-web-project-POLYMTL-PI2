@@ -19,17 +19,16 @@ export class PlaneHandler {
 
     public generatePlanes(waypoints: Waypoint[], closingTrack: boolean): void {
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
-        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial();
-        
+
         if (closingTrack) {
             // Binding last waypoint to starting point
-            const plane: Plane = new Plane(new THREE.Mesh(geometries[0], material),
-                                           waypoints[waypoints.length - 1],
-                                           waypoints[0]
-                                          );
+            const plane: Plane = new Plane(waypoints[0], waypoints[1]);
+            const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.getLength());
+            const mesh: THREE.Mesh = new THREE.Mesh(geometries[0], material);
+            plane.setMesh(mesh);
             this.planes.push(plane);
             this.scene.add(plane.getMesh());
-            this.bindPlanes(plane.getId(), waypoints[waypoints.length - 1], waypoints[0]);
+            this.bindClosingPlanes(plane.getId(), waypoints[0], waypoints[1]);
         } else {
             for ( let i: number = 0; i < waypoints.length - 1; i++) {
             const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
@@ -91,6 +90,14 @@ export class PlaneHandler {
 
         this.connectPlaneWithWaypoint(planeId);
 
+    }
+
+    private bindClosingPlanes(planeId: number, waypoint1: Waypoint, startEndWaypoint: Waypoint): void {
+        const plane: Plane = this.planes[this.findPlaneIndex(planeId)];
+        waypoint1.bindPlane(plane.getId());
+        startEndWaypoint.bindClosingPlane(plane.getId());
+
+        this.connectPlaneWithWaypoint(planeId);
     }
 
     private orientPlaneWithWaypoint(plane: Plane): void {

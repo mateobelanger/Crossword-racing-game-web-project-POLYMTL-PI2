@@ -40,6 +40,10 @@ export class Waypoint {
             this.planesId.push(id);
     }
 
+    public bindClosingPlane(id: number): void {
+        this.planesId.unshift(id);
+    }
+
     public bindNoPlane(): void {
         this.planesId.unshift(null);
     }

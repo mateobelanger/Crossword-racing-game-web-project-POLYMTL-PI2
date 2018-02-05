@@ -60,10 +60,12 @@ export class TrackEditorService {
         this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
         if (this.track.getWaypointsSize() > 1) {
             if (waypoints.length === 1)
-                waypoints.unshift(this.track.getPreviousWaypoint());
+                waypoints.unshift(this.track.getPreviousToLastWaypoint());
             this.trackEditorRenderService.planeHandler.generatePlanes(waypoints, false);
         } else {
-            waypoints[0].bindNoPlane();
+            // TODO: Attention si on remet la ligne ça fuckup le binding pour le point de 
+            // départ
+            //this.track.getFirstWaypoint().bindNoPlane();
         }
       }
 
@@ -83,13 +85,20 @@ export class TrackEditorService {
         }
     }
 
+    public isTrackClosable(): boolean {
+        return !this.closedTrack && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId()) && this.track.getWaypointsSize() >= N_MIN_WAYPOINTS_FOR_POLYGON
+    }
+
     public closeTrack(): void {
-        console.log("closing track");
-        this.trackEditorRenderService.planeHandler.generatePlanes([this.track.getFirstWaypoint()], true);
+        const waypoints: Waypoint[] = [this.track.getLastWaypoint(), this.track.getFirstWaypoint()];
+        this.trackEditorRenderService.planeHandler.generatePlanes(waypoints, true);
     }
 
     public uncloseTrack(): void {
-        //this.trackEditorRenderService.planeHandler.removePlane();
+        const lastPlaneId: number= this.track.getLastWaypoint().getPlanesIds()[1];
+        console.log(lastPlaneId);
+        this.trackEditorRenderService.planeHandler.removePlane(lastPlaneId);
+        this.track.getLastWaypoint().unbindPlane(lastPlaneId);
     }
 
     public handleRightMouseDown(event: MouseEvent): void {
@@ -109,7 +118,7 @@ export class TrackEditorService {
             if (firstObjectName === "point") {
                     this.selectedWaypoint = this.track.getWaypoint(objectsSelected[0].object.id);
                     if (this.selectedWaypoint !== undefined) {
-                        if (this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId()) && this.track.getWaypointsSize() >= N_MIN_WAYPOINTS_FOR_POLYGON) {
+                        if (this.isTrackClosable()) {
                             this.closedTrack = true;
                             this.closeTrack();
                             this.selectedWaypoint = null;
