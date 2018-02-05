@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Track } from '../track/trackData/track';
 import { CircleHandler } from '../track/trackBuildingBlocks/circleHandler';
 import { PlaneHandler } from '../track/trackBuildingBlocks/planeHandler';
+import { BackgroundPlane } from '../track/trackBuildingBlocks/backgroundPlane';
 import * as THREE from 'three';
 const INITIAL_CAMERA_POSITION_Z: number = 50;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
-const BACKGROUND_PLANE_POSITION_Z: number = -3;
 
 @Injectable()
 export class TrackEditorRenderService {
@@ -25,9 +25,9 @@ export class TrackEditorRenderService {
 
     private circleHandler: CircleHandler;
 
-    private backgroundPlane: THREE.Object3D;
-
     public planeHandler: PlaneHandler;
+
+    private backgroundPlane: BackgroundPlane;
 
     public constructor() { }
 
@@ -54,21 +54,14 @@ export class TrackEditorRenderService {
         this.camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-
-        // INSTANCIATING circleHandler
         this.circleHandler = new CircleHandler(this.scene);
 
-        // INSTANCIATING PLANEHANDLER
         this.planeHandler = new PlaneHandler(this.scene);
 
-        // TODO : VÉRIFIER S'IL EXISTE DES DEFINE. (POUR LES COULEURS)
-        this.backgroundPlane = new THREE.Mesh(
-          new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight),
-          new THREE.MeshBasicMaterial({color: 0x4A7023})
-        );
-        this.backgroundPlane.position.z = BACKGROUND_PLANE_POSITION_Z;
-        this.backgroundPlane.name = "backgroundPlane";
-        this.scene.add(this.backgroundPlane);
+        this.backgroundPlane = new BackgroundPlane(this.scene, this.container);
+
+        this.backgroundPlane.generateBackgroundPlan();
+
     }
 
     private startRenderingLoop(): void {
@@ -91,7 +84,7 @@ export class TrackEditorRenderService {
     }
 
     public getBackgroundPlaneWithRaycast(): THREE.Intersection[] {
-        return this.raycaster.intersectObject(this.backgroundPlane);
+        return this.raycaster.intersectObject(this.backgroundPlane.getBackgroundPlane());
     }
 
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
