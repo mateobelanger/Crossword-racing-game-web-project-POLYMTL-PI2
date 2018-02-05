@@ -33,11 +33,7 @@ export class CameraService {
      }
 
     public changeCamera(): void {
-        if (this.camera === CameraType.PERSPECTIVE) {
-            this.camera = CameraType.ORTHOGRAPHIC;
-        } else {
-            this.camera = CameraType.PERSPECTIVE;
-        }
+        this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
     }
 
     public getCamera(): Camera {
