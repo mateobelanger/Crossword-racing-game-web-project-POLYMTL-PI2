@@ -66,6 +66,10 @@ export class PlaneHandler {
         }
     }
 
+    public getPlanes(): Plane[] {
+        return this.planes;
+    }
+
     private connectPlaneWithWaypoint(planeId: number): void {
         const plane: Plane = this.planes[this.findPlaneIndex(planeId)];
         const centerPoint: THREE.Vector3 = plane.getCenterPoint();
