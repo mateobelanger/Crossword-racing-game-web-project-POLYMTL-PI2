@@ -1,6 +1,7 @@
 import * as THREE from "three";
+import { BACKGROUND_PLANE_POSITION_Z } from '../../constants';
 
-const BACKGROUND_PLANE_POSITION_Z: number = -3;
+
 const REAPEAT_IMAGE: number = 2;
 
 export class BackgroundPlane {

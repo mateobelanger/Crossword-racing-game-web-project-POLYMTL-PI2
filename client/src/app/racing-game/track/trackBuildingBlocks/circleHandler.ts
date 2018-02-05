@@ -1,7 +1,7 @@
 import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
 
-const CIRCLERADIUS: number = 10;
+const CIRCLE_RADIUS: number = 10;
 
 export class CircleHandler {
 
@@ -56,7 +56,7 @@ export class CircleHandler {
     private generateCircleGeometry(nCircles: number): THREE.Geometry[] {
         const circleGeometries: THREE.Geometry[] = [];
         for (let i: number = 0; i < nCircles ; i++) {
-          const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLERADIUS);
+          const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLE_RADIUS);
           circleGeometries.push(circleGeometry);
           }
 

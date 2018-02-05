@@ -1,13 +1,12 @@
 import { Waypoint } from "../trackData/waypoint";
+import { PLANE_POSITION_Z } from '../../constants';
 import * as THREE from "three";
 
 const EXPOSANT_CARRE: number = 2;
 const DIVISEUR_MOYENNE: number = 2;
-const CIRLEDIAMETER: number = 10;
+const PIVOT_POINT_SHIFT: number = 10;
 const REFERENCE_VECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
 const DEFAULT_WAYPOINT_VECTOR: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-const PLANE_POSITION_Z: number = -1;
-
 
 
 export class Plane {
@@ -64,7 +63,7 @@ export class Plane {
         return Math.sqrt(Math.pow(this.beginingPoint.x - this.endPoint.x, EXPOSANT_CARRE)
                                 + Math.pow(this.beginingPoint.y - this.endPoint.y, EXPOSANT_CARRE)
                                 + Math.pow(this.beginingPoint.z - this.endPoint.z, EXPOSANT_CARRE))
-                                - CIRLEDIAMETER;
+                                - PIVOT_POINT_SHIFT;
     }
 
     public getCenterPoint(): THREE.Vector3 {

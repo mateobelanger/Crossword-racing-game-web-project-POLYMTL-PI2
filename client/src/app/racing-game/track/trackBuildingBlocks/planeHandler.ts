@@ -1,11 +1,11 @@
 import {Waypoint} from "../trackData/waypoint";
 import {Plane} from "./plane";
+import { PLANE_POSITION_Z } from '../../constants';
 import * as THREE from "three";
 
 const TRACKWIDTH: number = 20;
 const TRACKLENGTH: number = 1;
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
-const PLANE_POSITION_Z: number = -1;
 
 
 export class PlaneHandler {

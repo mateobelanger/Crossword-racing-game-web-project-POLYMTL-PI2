@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
 import { Waypoint } from '../track/trackData/waypoint';
+import { POINTS_POSITION_Z } from '../constants';
+
 import * as THREE from 'three';
 
-const POINTS_POSITION_Z: number = 0;
-const N_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
+const NB_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
 
 @Injectable()
 export class TrackEditorService {
@@ -33,6 +34,7 @@ export class TrackEditorService {
 
     public addWaypoints(waypoints: Waypoint[]): void {
         waypoints.forEach((waypoint) => {
+            waypoint.setPositionZ(POINTS_POSITION_Z);
             this.track.addWaypoint(waypoint);
         });
         this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
@@ -66,7 +68,7 @@ export class TrackEditorService {
     public isTrackClosable(): boolean {
         return !this.closedTrack
                && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId())
-               && this.track.getWaypointsSize() >= N_MIN_WAYPOINTS_FOR_POLYGON;
+               && this.track.getWaypointsSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON;
     }
 
     public closeTrack(): void {
@@ -76,7 +78,6 @@ export class TrackEditorService {
 
     public uncloseTrack(): void {
         const lastPlaneId: number = this.track.getLastWaypoint().getPlanesIds()[1];
-        console.log(lastPlaneId);
         this.trackEditorRenderService.planeHandler.removePlane(lastPlaneId);
         this.track.getLastWaypoint().unbindPlane(lastPlaneId);
     }
@@ -107,7 +108,6 @@ export class TrackEditorService {
                         }
                      }
             } else if (!this.closedTrack && firstObjectName === "backgroundPlane")  {
-                objectsSelected[0].point.z = POINTS_POSITION_Z;
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }

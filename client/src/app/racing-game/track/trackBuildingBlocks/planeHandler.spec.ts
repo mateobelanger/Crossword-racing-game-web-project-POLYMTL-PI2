@@ -1,6 +1,6 @@
 import { Waypoint } from "..//trackData/waypoint";
 import { PlaneHandler } from "./planeHandler";
-import { Plane } from "./plane";
+//import { Plane } from "./plane";
 import * as THREE from 'three';
 
 /* tslint:disable: no-magic-numbers */
