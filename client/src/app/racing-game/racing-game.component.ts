@@ -9,7 +9,7 @@ export class RacingGameComponent implements OnInit {
 
   public constructor() { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
   }
 
 }
