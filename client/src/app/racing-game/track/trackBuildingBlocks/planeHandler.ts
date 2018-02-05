@@ -125,7 +125,7 @@ export class PlaneHandler {
 
     private getPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = THREE.ImageUtils.loadTexture("../../../../assets/road/road_texture.png");
+        createTexture = new THREE.TextureLoader().load("../../../../assets/road/road_texture.png");
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
         createTexture.repeat.set( planeLenght / RATIO_IMAGE_PER_PLANE_LENGTH, 1);

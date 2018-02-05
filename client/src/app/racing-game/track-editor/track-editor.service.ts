@@ -41,7 +41,6 @@ export class TrackEditorService {
             this.trackEditorRenderService.planeHandler.generatePlanes(this.track.getWaypoints());
         }
         this.track.getWaypoints()[0].bindNoPlane();
-        console.log(this.track.getWaypoints()[0]);
     }
 
     public getTrack(): Track {
