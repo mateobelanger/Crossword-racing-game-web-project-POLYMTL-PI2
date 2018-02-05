@@ -43,7 +43,7 @@ export class Waypoint {
     }
 
     public bindClosingPlane(id: number): void {
-        this.planesId.unshift(id);
+        this.planesId[0] = id;
     }
 
     public bindNoPlane(): void {
@@ -58,5 +58,11 @@ export class Waypoint {
         const index: number = this.planesId.indexOf(idToremove);
         if ( index > -1)
             this.planesId.splice(index, 1);
+    }
+
+    public unbindClosingPlane(idToremove: number): void {
+        const index: number = this.planesId.indexOf(idToremove);
+        if( index > -1)
+            this.planesId[0] = null;
     }
 }
