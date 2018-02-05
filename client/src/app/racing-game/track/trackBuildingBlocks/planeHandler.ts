@@ -1,12 +1,12 @@
 import {Waypoint} from "../trackData/waypoint";
-import * as THREE from "three";
 import {Plane} from "./plane";
-
-const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
+import * as THREE from "three";
 
 const TRACKWIDTH: number = 20;
 
 const TRACKLENGTH: number = 1;
+
+const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
 
 
 export class PlaneHandler {
@@ -19,7 +19,7 @@ export class PlaneHandler {
 
     public generatePlanes(waypoints: Waypoint[]): void {
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
-        
+
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
             const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
             const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.getLength());

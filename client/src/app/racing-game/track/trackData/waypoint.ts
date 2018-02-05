@@ -18,6 +18,10 @@ export class Waypoint {
         this.position = position;
     }
 
+    public setPositionZ(positionZ: number): void {
+        this.position.z = positionZ;
+    }
+
     public bindCircle( id: number): void {
         if (this.circleId === null)
             this.circleId = id;

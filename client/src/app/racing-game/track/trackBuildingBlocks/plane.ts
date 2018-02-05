@@ -1,9 +1,10 @@
 import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
 
-const CIRLEDIAMETER: number = 20;
 
+const CIRLEDIAMETER: number = 10;
 const REFERENCEVECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+const PLANE_POSITION_Z: number = -1;
 
 
 export class Plane {
@@ -17,6 +18,8 @@ export class Plane {
     private mesh: THREE.Mesh;
 
     public constructor(waypoint1: Waypoint, waypoint2: Waypoint) {
+        waypoint1.setPositionZ(PLANE_POSITION_Z);
+        waypoint2.setPositionZ(PLANE_POSITION_Z);
         this.beginPoint = waypoint1.getPosition();
         this.endPoint = waypoint2.getPosition();
         this.mesh = null;
