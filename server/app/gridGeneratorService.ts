@@ -1,26 +1,30 @@
-/*import { injectable, inject } from "inversify";
+import { injectable/*, inject */} from "inversify";
 import { Router, Request, Response, NextFunction } from "express";
-import * as requestPromise from "request-promise";
+//import * as requestPromise from "request-promise";
 
-import Types from "./types";
-import { LexicalService } from "./lexicalService";
+//import Types from "./types";
+//import { LexicalService } from "./lexicalService/lexicalService";
+
+import { GridGenerator, DEFAULT_GRID_SIZE } from "./crossword-game/grid-generator";
 
 @injectable()
 export class GridGeneratorService {
 
-    public constructor(@inject(Types.LexicalService) private index: LexicalService) {}
+    public constructor() {}
 
     public get routes(): Router {
+        const generator: GridGenerator = new GridGenerator();
         const router: Router = Router();
 
-        router.get("/service/gridGenerator/:criteria",
-                   (req: Request, res: Response) => {
-                       requestPromise("http://localhost:3000/service/lexical/wordsearch/:criteria")
-                       .then( (response: string) => res.render("wordValidator", {data: JSON.parse(response)}))
-                       .catch((err: string) => res.send("error")/*handleServerError(res.err)*//*)
-                   });
+        router.get("/service/gridGenerator/:difficulty",
+            (req: Request, res: Response, next: NextFunction) => {console.log("test1"); generator.generate(DEFAULT_GRID_SIZE, DEFAULT_GRID_SIZE, 1, "easy")});
 
+            /*async (req: Request, res: Response) => {
+                    let x: any;
+                    x = await Grid(req.params.criteria);
+                    res.send(x)
+                });*/
         return router;
+
     }
 }
-*/

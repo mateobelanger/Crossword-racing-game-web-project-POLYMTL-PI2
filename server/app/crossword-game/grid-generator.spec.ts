@@ -9,7 +9,7 @@ describe("Grid generator:", () => {
 
     beforeEach(() => {
         generator = new GridGenerator();
-        words = generator.generate(DEFAULT_GRID_SIZE, DEFAULT_GRID_SIZE, nBlackCases);
+        words = generator.generate(DEFAULT_GRID_SIZE, DEFAULT_GRID_SIZE, nBlackCases, "easy");
     });
 
     it("should have 10 rows.", () => {

@@ -9,6 +9,7 @@ import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService/lexicalService";
 
+import { GridGeneratorService } from "./gridGeneratorService";
 // import { JsonReader } from "./lexicalService/jsonReader";
 // import { WordValidator } from "./wordValidator";
 
@@ -19,7 +20,8 @@ export class Application {
     public app: express.Application;
 
     constructor(@inject(Types.Routes) private api: Routes,
-                @inject(Types.LexicalService) private lexicalService: LexicalService) {
+                @inject(Types.LexicalService) private lexicalService: LexicalService,
+                @inject(Types.GridGeneratorService) private gridGeneratorService: GridGeneratorService) {
         this.app = express();
 
         this.config();
@@ -48,7 +50,8 @@ export class Application {
 
         router.use(this.api.routes);
         router.use(this.lexicalService.routes);
-
+        router.use(this.gridGeneratorService.routes);
+        
         this.app.use(router);
 
         this.errorHandeling();

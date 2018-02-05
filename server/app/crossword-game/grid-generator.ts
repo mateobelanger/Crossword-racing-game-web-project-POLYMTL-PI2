@@ -1,28 +1,35 @@
 import { Word } from "./word";
-import { LexicalService } from "../lexicalService/lexicalService";
+//import { LexicalService } from "../lexicalService/lexicalService";
+import { DatamuseService } from "../lexicalService2/datamuseService";
 
-export const MIN_WORD_LENGTH: number = 2;
-export const DEFAULT_GRID_SIZE: number = 10;
+export const MIN_WORD_LENGTH: number = 1;
+export const DEFAULT_GRID_SIZE: number = 4;
 
 export const BLACK_CASE: string = "#";
 export const WHITE_CASE: string = "-";
+
+
 
 export class GridGenerator {
     private nRows: number;
     private nColumns: number;
     private _grid: string[][];
+    private indicesToUseForResults: number[];
 
     public constructor() {
         this._grid = [];
+        this.indicesToUseForResults = [];
     }
 
     public generate(nRows: number = DEFAULT_GRID_SIZE,
                     nColumns: number = DEFAULT_GRID_SIZE,
-                    nBlackCases: number): Word[] {
+                    nBlackCases: number,
+                    difficulty: string): Word[] {
 
         this.initialize(nRows, nColumns);
         this.fill(nBlackCases);
         this.fix();
+        console.log("fix works");
 
         let emptyGrid: Word[] = [];
         for (let i: number = 0; i < this.nRows; i++) {
@@ -36,10 +43,90 @@ export class GridGenerator {
         });
 
         const filledGrid: Word[] = [];
-        this.placeWords(emptyGrid, filledGrid);
+
+        this.indicesToUseForResults.push(0);        //
+        this.placeWords(emptyGrid, filledGrid, difficulty);     //** difficulty: à lier à configurer une partie.. attribut ? */
+        console.log("goes through placeWords");
+
+        //while(filledGrid.length === 0){};
+        
+        console.log("devrait s'imprimer en dernier..");
+
+        console.log("nombre de mots dans la grille: " + filledGrid.length);
+
 
         return filledGrid;
     }
+
+
+    async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<any> {
+        if (emptyWords.length === 0) {
+            return "done";
+        }
+        const wordToPlace: Word = emptyWords.pop();
+        let wordSkeleton: string;
+        for (let i: number = 0; i < wordToPlace.size; i++) {
+            if (wordToPlace.direction === "horizontal") {
+                wordSkeleton += this._grid[wordToPlace.row][wordToPlace.column + i];
+            } else {
+                wordSkeleton += this._grid[wordToPlace.row + i][wordToPlace.column];
+            }
+        }
+        
+        let datamuse: DatamuseService = new DatamuseService();
+        // let reader: JsonReader = new JsonReader();
+        // let json: JSON;
+        await datamuse.requestWordInfo(wordSkeleton, difficulty)
+            .then( () => {
+                console.log("test4");
+                console.log(datamuse.requestData[0]);
+
+                let lastItem = this.indicesToUseForResults.length - 1;
+                let indexToUse = this.indicesToUseForResults[lastItem];
+                    
+                if (datamuse.requestData === null || this.indicesToUseForResults[lastItem] === Object.keys(datamuse.requestData).length ) {
+                    emptyWords.push(wordToPlace);
+                    emptyWords.push(filledWords.pop());
+                    this.indicesToUseForResults.pop();
+                    
+                } else if (this.isInGrid(datamuse.requestData[indexToUse].name, filledWords)){
+                    
+                    emptyWords.push(wordToPlace);
+                    emptyWords.push(filledWords.pop());
+                    this.indicesToUseForResults[lastItem]++;
+                // traiter les cas ou le ++ depasse le nombre de mots du json (?) et
+                //  cas ou toutes les possibilite ont ete traitees sans succes?
+                    
+                } else {
+                    wordToPlace.value = datamuse.requestData[this.indicesToUseForResults[lastItem]].name;
+                    wordToPlace.definition = datamuse.requestData[indexToUse].definitions[datamuse.requestData[indexToUse].definitionIndex];
+
+                    console.log("testData");
+                    console.log(wordToPlace);
+
+                    filledWords.push(wordToPlace);
+                    this.indicesToUseForResults[this.indicesToUseForResults.length - 1]++;
+                    this.indicesToUseForResults.push(0);
+                   
+                }
+ 
+                return this.placeWords(emptyWords, filledWords, difficulty);
+            });
+
+
+    }
+
+    private isInGrid(searchedWord: string, words: Word[]): boolean {
+
+        /*words.forEach(word => {
+            if(word.value === searchedWord) {
+                return true;
+            }
+        });*/
+
+        return false;
+    }
+
 
     public get grid(): string[][] {
         return this._grid;
@@ -129,32 +216,6 @@ export class GridGenerator {
                 i = 0;
             }
         }
-    }
-
-    private placeWords(emptyWords: Word[], filledWords: Word[]): void {
-        if (emptyWords.length === 0) {
-            return;
-        }
-        const wordToPlace: Word = emptyWords.pop();
-        let wordSkeleton: string;
-        for (let i: number = 0; i < wordToPlace.size; i++) {
-            if (wordToPlace.direction === "horizontal") {
-                wordSkeleton += this._grid[wordToPlace.row][wordToPlace.column + i];
-            } else {
-                wordSkeleton += this._grid[wordToPlace.row + i][wordToPlace.column];
-            }
-        }
-        const result: Word = LexicalService.findWord(wordSkeleton);
-        if (result === null) {
-            emptyWords.push(wordToPlace);
-            emptyWords.push(filledWords.pop());
-        } else {
-            wordToPlace.value = result.value;
-            wordToPlace.definition = result.definition;
-            filledWords.push(wordToPlace);
-        }
-
-        return this.placeWords(emptyWords, filledWords);
     }
 
     private isCorner(row: number, col: number): boolean {
