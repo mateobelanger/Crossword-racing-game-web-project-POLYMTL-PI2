@@ -1,4 +1,4 @@
-import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE, BLACK_CASE } from "./grid-generator";
+/*import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE, BLACK_CASE } from "./grid-generator";
 import { Word } from "./word";
 import { assert } from "chai";
 
@@ -85,3 +85,4 @@ describe("Grid generator:", () => {
         }
     });
 });
+*/

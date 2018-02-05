@@ -5,7 +5,7 @@ import { Application } from "./app";
 import { Index } from "./routes/index";
 import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService/lexicalService";
-import { Muse } from "./LexicalService/datamuseAccess";
+import { DatamuseWordFinder } from "./LexicalService/datamuseWordFinder";
 
 import { GridGeneratorService } from "./gridGeneratorService";
 
@@ -17,7 +17,7 @@ container.bind(Types.Routes).to(Routes);
 container.bind(Types.LexicalService).to(LexicalService);
 
 container.bind(Types.Index).to(Index);
-container.bind(Types.Muse).to(Muse);
+container.bind(Types.DatamuseWordFinder).to(DatamuseWordFinder);
 container.bind(Types.GridGeneratorService).to(GridGeneratorService);
 
 export { container };

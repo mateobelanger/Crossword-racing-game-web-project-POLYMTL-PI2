@@ -4,6 +4,6 @@ export default  {
         Routes: Symbol("Routes"),
         LexicalService: Symbol("LexicalService"),
         Index: Symbol("Index"),
-        Muse: Symbol("Muse"),
+        DatamuseWordFinder: Symbol("DatamuseWordFinder"),
         GridGeneratorService: Symbol("GridGeneratorService")
 };
