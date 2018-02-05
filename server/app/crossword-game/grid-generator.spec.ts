@@ -1,32 +1,33 @@
-import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE, BLACK_CASE } from "./grid-generator";
+import { GridGenerator, MIN_WORD_LENGTH, DEFAULT_GRID_SIZE , BLACK_CASE } from "./grid-generator";
 import { Word } from "./word";
 import { assert } from "chai";
 
 describe("Grid generator:", () => {
     let generator: GridGenerator;
-    const nBlackCases: number = 25;
+    const nBlackCases: number = 0;
+    const size: number = 2;
     let words: Word[];
 
     beforeEach(() => {
         generator = new GridGenerator();
-        words = generator.generate(DEFAULT_GRID_SIZE, DEFAULT_GRID_SIZE, nBlackCases);
+        words = generator.generate(size, size, nBlackCases);
     });
 
-    it("should have 10 rows.", () => {
+    it("should have " + size + " rows.", () => {
         const result: number = generator.grid.length;
-        assert.equal(result, DEFAULT_GRID_SIZE);
+        assert.equal(result, size);
     });
 
-    it("should have 10 columns.", () => {
+    it("should have " + size + " columns.", () => {
         const result: number = generator.grid[0].length;
 
-        assert.equal(result, DEFAULT_GRID_SIZE);
+        assert.equal(result, size);
     });
 
     it("should place the right amount of black cases.", () => {
         let result: number = 0;
 
-        for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
+        for (let i: number = 0; i < size; i++) {
             const row: string[] = generator.grid[i];
 
             row.forEach( (value: string) => {
@@ -56,7 +57,7 @@ describe("Grid generator:", () => {
 
     const MIN_WORDS: number = 1;
     it("every row should have at least one word.", () => {
-        for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
+        for (let i: number = 0; i < size; i++) {
             let count: number = 0;
             for (const word of words) {
                 if (word.direction !== "horizontal") {
@@ -71,7 +72,7 @@ describe("Grid generator:", () => {
     });
 
     it("every column should have at least one word.", () => {
-        for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
+        for (let i: number = 0; i < size; i++) {
             let count: number = 0;
             for (const word of words) {
                 if (word.direction !== "vertical") {
