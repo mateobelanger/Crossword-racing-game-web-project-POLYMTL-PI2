@@ -2,13 +2,13 @@ import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener }
 
 import { TrackEditorService } from './track-editor.service';
 
-const LEFTMOUSEBTN: number = 0;
-const RIGHTMOUSEBTN: number = 2;
+const LEFT_MOUSE_BTN: number = 0;
+const RIGHT_MOUSE_BTN: number = 2;
 
 @Component({
-  selector: 'app-track-editor',
-  templateUrl: './track-editor.component.html',
-  styleUrls: ['./track-editor.component.css']
+    selector: 'app-track-editor',
+    templateUrl: './track-editor.component.html',
+    styleUrls: ['./track-editor.component.css']
 })
 export class TrackEditorComponent implements AfterViewInit, OnInit {
 
@@ -34,10 +34,10 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     @HostListener("mousedown", ["$event"])
     public onMouseDown(event: MouseEvent): void {
         switch (event.button) {
-            case LEFTMOUSEBTN:
+            case LEFT_MOUSE_BTN:
                 this.trackEditorService.handleLeftMouseDown(event);
                 break;
-            case RIGHTMOUSEBTN:
+            case RIGHT_MOUSE_BTN:
                 this.trackEditorService.handleRightMouseDown(event);
                 break;
             default:
@@ -47,11 +47,9 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     @HostListener("mouseup", ["$event"])
     public onMouseUp(event: MouseEvent): void {
-        if (event.button === LEFTMOUSEBTN)
+        if (event.button === LEFT_MOUSE_BTN)
             this.trackEditorService.handleLeftMouseUp(event);
     }
-
-
 
     @HostListener("mousemove", ["$event"])
     public onMouseMove(event: MouseEvent): void {

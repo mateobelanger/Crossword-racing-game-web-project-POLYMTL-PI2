@@ -3,9 +3,7 @@ import {Plane} from "./plane";
 import * as THREE from "three";
 
 const TRACKWIDTH: number = 20;
-
 const TRACKLENGTH: number = 1;
-
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
 
 
@@ -125,7 +123,7 @@ export class PlaneHandler {
 
     private getPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/road/road_texture.png");
+        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/road_texture.png");
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
         createTexture.repeat.set( planeLenght / RATIO_IMAGE_PER_PLANE_LENGTH, 1);

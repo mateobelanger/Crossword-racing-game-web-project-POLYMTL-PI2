@@ -1,6 +1,7 @@
 import * as THREE from "three";
 
 const BACKGROUND_PLANE_POSITION_Z: number = -3;
+const REAPEAT_IMAGE: number = 2;
 
 export class BackgroundPlane {
 
@@ -27,11 +28,11 @@ export class BackgroundPlane {
 
     private getBackgroundMaterial(): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/road/background_gif_texture_.gif");
+        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/background_texture.png");
 
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
-        createTexture.repeat.set( 2, 2);
+        createTexture.repeat.set( REAPEAT_IMAGE, REAPEAT_IMAGE);
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }

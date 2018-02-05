@@ -1,5 +1,4 @@
 import {Waypoint} from './waypoint';
-//import * as THREE from 'three';
 /*tslint:disable:all*/
 export class Track 
 {

@@ -4,6 +4,7 @@ import { CircleHandler } from '../track/trackBuildingBlocks/circleHandler';
 import { PlaneHandler } from '../track/trackBuildingBlocks/planeHandler';
 import { BackgroundPlane } from '../track/trackBuildingBlocks/backgroundPlane';
 import * as THREE from 'three';
+
 const INITIAL_CAMERA_POSITION_Z: number = 50;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
@@ -91,6 +92,7 @@ export class TrackEditorRenderService {
         this.mouse.x = ( event.offsetX / this.container.clientWidth ) * 2 - 1;
         this.mouse.y = -( event.offsetY / this.container.clientHeight ) * 2 + 1;
         this.raycaster.setFromCamera(this.mouse, this.camera);
+
         return this.mouse;
     }
 
@@ -101,10 +103,5 @@ export class TrackEditorRenderService {
     public getCircleHandler (): CircleHandler {
         return this.circleHandler;
     }
-    //TODO : Remove ceci
-    /*
-    private exportSceneForDebug() : void {
-      (window as any).scene = this.scene;
-    }
-    */
+
 }

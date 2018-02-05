@@ -17,30 +17,12 @@ export class TrackEditorService {
 
     public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
 
+
     public initialize(container: HTMLDivElement): void {
         this.container = container;
         this.trackEditorRenderService.initialize(this.container, this.track);
         this.track = new Track();
         this.dragDropActive = false;
-
-
-        // TODO: remove TESTS PLAN ----------------------------------------
-        // Axe X positif
-        for (let i = 0; i < 5; i++) {
-            const waypoint: Waypoint = new Waypoint(new THREE.Vector3(i * 60, 0, 0));
-            this.track.addWaypoint(waypoint);
-        }
-        // Axe Y positif
-        for (let i = 0; i < 5; i++) {
-            const waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i * 60, 0));
-            this.track.addWaypoint(waypoint);
-        }
-
-        this.trackEditorRenderService.getCircleHandler().generateCircles(this.track.getWaypoints());
-        if (this.track.getWaypointsSize() > 1) {
-            this.trackEditorRenderService.planeHandler.generatePlanes(this.track.getWaypoints());
-        }
-        this.track.getWaypoints()[0].bindNoPlane();
     }
 
     public getTrack(): Track {
@@ -88,12 +70,9 @@ export class TrackEditorService {
         if (objectsSelected.length > 0) {
             if (firstObjectName === "point") {
                     this.selectedWaypoint = this.track.getWaypoint(objectsSelected[0].object.id);
-                    if (this.selectedWaypoint != undefined) {
+                    if (this.selectedWaypoint !== undefined) {
                         this.dragDropActive = true;
                      }
-            } else if (firstObjectName === "road") {
-                // TODO : À compléter : Lorsqu'on click sur la piste on enlève le plan présent
-                // et on  ajoute deux plan et un point
             } else if (firstObjectName === "backgroundPlane")  {
                 objectsSelected[0].point.z = POINTS_POSITION_Z;
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
@@ -110,11 +89,11 @@ export class TrackEditorService {
     public handleMouseMove(event: MouseEvent): void {
         if (this.dragDropActive) {
             this.trackEditorRenderService.updateRaycastMousePos(event);
-            const planeSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
+            const backgroundPlaneSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
             event.preventDefault();
-            planeSelected[0].point.z = POINTS_POSITION_Z;
+            backgroundPlaneSelected[0].point.z = POINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);
-            this.moveWaypoint(this.selectedWaypoint.getCircleId(), planeSelected[0].point);
+            this.moveWaypoint(this.selectedWaypoint.getCircleId(), backgroundPlaneSelected[0].point);
         }
     }
 

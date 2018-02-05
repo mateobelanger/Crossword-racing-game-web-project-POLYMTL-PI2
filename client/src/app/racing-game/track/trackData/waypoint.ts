@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+const MAX_BINDED_PLANES: number = 2;
+
 export class Waypoint {
 
     private circleId: number = null;
@@ -36,7 +38,7 @@ export class Waypoint {
     }
 
     public bindPlane(id: number): void {
-        if ((this.planesId.length < 2) && (this.planesId.indexOf(id) === -1))
+        if ((this.planesId.length < MAX_BINDED_PLANES) && (this.planesId.indexOf(id) === -1))
             this.planesId.push(id);
     }
 

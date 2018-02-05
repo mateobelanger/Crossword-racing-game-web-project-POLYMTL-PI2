@@ -64,8 +64,8 @@ export class Plane {
 
     public getCenterPoint(): THREE.Vector3 {
         const centerPoint: THREE.Vector3 = new THREE.Vector3((this.endPoint.x - this.beginPoint.x) / 2,
-                                                           (this.endPoint.y - this.beginPoint.y) / 2,
-                                                           (this.endPoint.z - this.beginPoint.z) / 2
+                                                             (this.endPoint.y - this.beginPoint.y) / 2,
+                                                             (this.endPoint.z - this.beginPoint.z) / 2
                                                     );
 
         return centerPoint.add(this.beginPoint);
