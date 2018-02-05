@@ -65,7 +65,7 @@ export class CircleHandler {
 
     private getFirstCircleMaterial(): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture.png");
+        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture_3.png");
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
