@@ -67,9 +67,16 @@ export class CircleHandler {
         return new THREE.MeshBasicMaterial( { color: 0xFF0000, side: THREE.DoubleSide} );
       }
 
+    private getFirstCircleMaterial(): THREE.MeshBasicMaterial {
+        let createTexture: THREE.Texture = new THREE.Texture;
+        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture.png");
+
+        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+    }
+
     private getCircleMaterial(): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/button_texture.png");
+        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture.png");
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
