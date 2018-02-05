@@ -41,13 +41,20 @@ module Lexical {
 
         public findWordsBasedOnDifficulty(req: Request, res: Response, next: NextFunction, isCommon: boolean,  isEasy: boolean): void {
             let criteria: String = req.params.criteria;
+            const isCompleteWord: boolean = (!criteria.includes("-"));
             while (criteria.includes("-")) {
                 criteria = criteria.replace("-", "?");
             }
 
             const reader: JsonReader = new JsonReader();
             datamuse.request("words?sp=" + criteria + "&md=f,d").then((json: JSON) =>
-                res.send(reader.getValidWordsBasedOnDifficulty(json, isCommon, isEasy)));
+                {
+                    if(isCompleteWord) {
+                        res.send(reader.confirmWordBasedOnDifficulty(json, isCommon, isEasy, criteria));
+                    } else {
+                        res.send(reader.getValidWordsBasedOnDifficulty(json, isCommon, isEasy));
+                    }
+                });
         }
 
     }

@@ -47,4 +47,18 @@ export class JsonReader {
 
         return JSON.parse(JSON.stringify(selectedWords));
     }
+
+    public confirmWordBasedOnDifficulty(words: JSON, isCommon: boolean, isEasy: boolean, word: String): JSON {
+
+        // const seperatedWords: Word[] = this.readData(words);
+        const selectedWords: Word[] = new Array<Word>();
+
+        const element: Word = this.readData(words)[0];
+        if (element.isCommon() === isCommon && element.hasValidDefinition(isEasy) && element.name === word) {
+            selectedWords.push(element);
+        }
+
+        return JSON.parse(JSON.stringify(selectedWords));
+    }
+
 }
