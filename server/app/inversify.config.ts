@@ -7,6 +7,8 @@ import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService/lexicalService";
 import { Muse } from "./LexicalService/datamuseAccess";
 
+import { GridGeneratorService } from "./gridGeneratorService";
+
 const container: Container = new Container();
 
 container.bind(Types.Server).to(Server);
@@ -16,5 +18,6 @@ container.bind(Types.LexicalService).to(LexicalService);
 
 container.bind(Types.Index).to(Index);
 container.bind(Types.Muse).to(Muse);
+container.bind(Types.GridGeneratorService).to(GridGeneratorService);
 
 export { container };
