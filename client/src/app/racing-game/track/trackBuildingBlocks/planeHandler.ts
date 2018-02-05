@@ -8,13 +8,13 @@ const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
 const PLANE_POSITION_Z: number = -1;
 
 
-
 export class PlaneHandler {
 
 
-    private planes: Plane[] = [];
+    private planes: Plane[];
 
     public constructor(private scene: THREE.Scene) {
+        this.planes = [];
     }
 
     public generatePlanes(waypoints: Waypoint[], closingTrack: boolean): void {
