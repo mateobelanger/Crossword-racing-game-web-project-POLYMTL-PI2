@@ -1,5 +1,6 @@
 import { Word } from "./word";
-import { LexicalService } from "../lexicalService/lexicalService";
+
+const requestPromise = require("request-promise-native");
 
 export const MIN_WORD_LENGTH: number = 2;
 export const DEFAULT_GRID_SIZE: number = 10;
@@ -15,9 +16,10 @@ export class GridGenerator {
         this._grid = [];
     }
 
-    public generate(nRows: number = DEFAULT_GRID_SIZE,
-                    nColumns: number = DEFAULT_GRID_SIZE,
-                    nBlackCases: number): Word[] {
+    public async generate(nRows: number = DEFAULT_GRID_SIZE,
+                          nColumns: number = DEFAULT_GRID_SIZE,
+                          nBlackCases: number,
+                          difficulty: string): Promise<Word[]> {
         this.initialize(nRows, nColumns);
         this.placeBlackCases(nBlackCases);
         this.fixIssues();
@@ -33,7 +35,7 @@ export class GridGenerator {
             return word1.size - word2.size;
         });
         const filledGrid: Word[] = [];
-        this.placeWords(emptyGrid, filledGrid);
+        await this.placeWords(emptyGrid, filledGrid, difficulty);
 
         return filledGrid;
     }
@@ -124,20 +126,20 @@ export class GridGenerator {
         }
     }
 
-    private placeWords(emptyWords: Word[], filledWords: Word[]): boolean {
+    private async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<boolean> {
         if (emptyWords.length === 0) {
             return true;
         }
         filledWords.push(emptyWords.pop());
         const wordTemplate: string = this.createTemplate(filledWords[filledWords.length - 1]);
-        const results: string[] = this.findWord(wordTemplate);
-        for (const result of results) {
-            if (this.contains(result, filledWords)) {
+        const results: JSON = await this.getWords(wordTemplate, difficulty);
+        for (let i: number = 0; i < Object.keys(results).length; i++) {
+            if (this.contains(results[i], filledWords)) {
                 continue;
             }
-            filledWords[filledWords.length - 1].value = result;
+            filledWords[filledWords.length - 1].value = results[i];
             this.updateGrid(filledWords[filledWords.length - 1]);
-            if (this.placeWords(emptyWords, filledWords)) {
+            if (this.placeWords(emptyWords, filledWords, difficulty)) {
                 return true;
             }
         }
@@ -284,10 +286,22 @@ export class GridGenerator {
         return result;
     }
 
-
+    private async getWords(wordSkeleton: String, difficulty: String): Promise<JSON> {
+        const url: String = "http://localhost:3000/service/lexical/wordsearch/" + wordSkeleton + "/" + difficulty;
+        const options = {
+            method: "GET",
+            headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            json: true, uri: url
+          };
+        try {
+            return await requestPromise(options);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 
     // tslint:disable-next-line:max-func-body-length
-    private findWord(template: string): string[] {
+/*    private findWord(template: string): string[] {
         const results: string[] = [];
         switch (template) {
             case "--": {
@@ -344,5 +358,6 @@ export class GridGenerator {
         }
 
         return results;
-    }
+    } 
+    */
 }
