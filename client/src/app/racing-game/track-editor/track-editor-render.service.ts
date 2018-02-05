@@ -98,6 +98,7 @@ export class TrackEditorRenderService {
         this.mouse.x = ( event.offsetX / this.container.clientWidth ) * 2 - 1;
         this.mouse.y = -( event.offsetY / this.container.clientHeight ) * 2 + 1;
         this.raycaster.setFromCamera(this.mouse, this.camera);
+
         return this.mouse;
     }
 

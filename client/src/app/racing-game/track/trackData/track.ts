@@ -1,5 +1,4 @@
 import {Waypoint} from './waypoint';
-//import * as THREE from 'three';
 /*tslint:disable:all*/
 export class Track 
 {
@@ -29,6 +28,10 @@ export class Track
         return this.findWaypointIndex(circleId) === 0;
     }
 
+    public getFirstWaypoint(): Waypoint {
+        return this.waypoints[0];
+    }
+
     public removeWaypoint(): Waypoint {
         return this.waypoints.pop();
     }
@@ -45,4 +48,5 @@ export class Track
         });
         return index;
     }
+
 }

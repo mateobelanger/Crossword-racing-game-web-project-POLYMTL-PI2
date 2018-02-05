@@ -17,10 +17,21 @@ export class PlaneHandler {
     public constructor(private scene: THREE.Scene) {
     }
 
-    public generatePlanes(waypoints: Waypoint[]): void {
+    public generatePlanes(waypoints: Waypoint[], closingTrack: boolean): void {
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
-
-        for ( let i: number = 0; i < waypoints.length - 1; i++) {
+        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial();
+        
+        if (closingTrack) {
+            // Binding last waypoint to starting point
+            const plane: Plane = new Plane(new THREE.Mesh(geometries[0], material),
+                                           waypoints[waypoints.length - 1],
+                                           waypoints[0]
+                                          );
+            this.planes.push(plane);
+            this.scene.add(plane.getMesh());
+            this.bindPlanes(plane.getId(), waypoints[waypoints.length - 1], waypoints[0]);
+        } else {
+            for ( let i: number = 0; i < waypoints.length - 1; i++) {
             const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
             const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.getLength());
             const mesh: THREE.Mesh = new THREE.Mesh(geometries[i], material);
@@ -28,8 +39,8 @@ export class PlaneHandler {
             this.planes.push(plane);
             this.scene.add(plane.getMesh());
             this.bindPlanes(plane.getId(), waypoints[i], waypoints[i + 1]);
+          }
         }
-
     }
 
     public removePlane(meshId: number): void {
@@ -37,7 +48,6 @@ export class PlaneHandler {
         this.scene.remove(this.planes[index].getMesh());
         this.planes.splice(index, 1);
     }
-
 
     // order of planeIds important!! 1st -> endPoint  2nd -> beginingPoint
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
