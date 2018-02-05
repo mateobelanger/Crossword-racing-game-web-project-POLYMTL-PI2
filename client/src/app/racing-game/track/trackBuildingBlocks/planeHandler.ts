@@ -2,6 +2,7 @@ import {Waypoint} from "../trackData/waypoint";
 import * as THREE from "three";
 import {Plane} from "./plane";
 
+const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
 
 const TRACKWIDTH: number = 20;
 
@@ -18,10 +19,12 @@ export class PlaneHandler {
 
     public generatePlanes(waypoints: Waypoint[]): void {
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
-        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial();
-
+        
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
-            const plane: Plane = new Plane(new THREE.Mesh(geometries[i], material), waypoints[i], waypoints[i + 1]);
+            const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
+            const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.getLength());
+            const mesh: THREE.Mesh = new THREE.Mesh(geometries[i], material);
+            plane.setMesh(mesh);
             this.planes.push(plane);
             this.scene.add(plane.getMesh());
             this.bindPlanes(plane.getId(), waypoints[i], waypoints[i + 1]);
@@ -118,7 +121,13 @@ export class PlaneHandler {
     }
 
 
-    private getPlaneMaterial(): THREE.MeshBasicMaterial {
-        return new THREE.MeshBasicMaterial( { color: 0xFFFF00, side: THREE.DoubleSide} );
+    private getPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
+        let createTexture: THREE.Texture = new THREE.Texture;
+        createTexture = THREE.ImageUtils.loadTexture("../../../../assets/road/road_texture.png");
+        createTexture.wrapS = THREE.RepeatWrapping;
+        createTexture.wrapT = THREE.RepeatWrapping;
+        createTexture.repeat.set( planeLenght / RATIO_IMAGE_PER_PLANE_LENGTH, 1);
+
+        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 }

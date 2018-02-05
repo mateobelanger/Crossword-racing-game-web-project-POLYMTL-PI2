@@ -14,9 +14,12 @@ export class Plane {
 
     private previousAngle: number = 0;
 
-    public constructor( private mesh: THREE.Mesh, waypoint1: Waypoint, waypoint2: Waypoint) {
+    private mesh: THREE.Mesh;
+
+    public constructor(waypoint1: Waypoint, waypoint2: Waypoint) {
         this.beginPoint = waypoint1.getPosition();
         this.endPoint = waypoint2.getPosition();
+        this.mesh = null;
     }
 
     public setPreviousAngle(newAngle: number): void {
@@ -43,6 +46,10 @@ export class Plane {
 
     public getMesh(): THREE.Mesh {
         return this.mesh;
+    }
+
+    public setMesh(mesh: THREE.Mesh): void {
+        this.mesh = mesh;
     }
 
     public getLength(): number {
