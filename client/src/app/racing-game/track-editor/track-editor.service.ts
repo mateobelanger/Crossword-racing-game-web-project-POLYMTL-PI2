@@ -40,6 +40,8 @@ export class TrackEditorService {
         if (this.track.getWaypointsSize() > 1) {
             this.trackEditorRenderService.planeHandler.generatePlanes(this.track.getWaypoints());
         }
+        this.track.getWaypoints()[0].bindNoPlane();
+        console.log(this.track.getWaypoints()[0]);
     }
 
     public getTrack(): Track {
@@ -55,6 +57,8 @@ export class TrackEditorService {
             if (waypoints.length === 1)
                 waypoints.unshift(this.track.getPreviousWaypoint());
             this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
+        } else {
+            waypoints[0].bindNoPlane();
         }
       }
 

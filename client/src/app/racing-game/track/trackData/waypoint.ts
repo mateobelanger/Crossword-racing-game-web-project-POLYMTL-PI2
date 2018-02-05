@@ -36,6 +36,10 @@ export class Waypoint {
             this.planesId.push(id);
     }
 
+    public bindNoPlane(): void {
+        this.planesId.unshift(null);
+    }
+
     public getPlanesIds(): number[] {
         return this.planesId;
     }
