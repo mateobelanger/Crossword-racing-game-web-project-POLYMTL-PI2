@@ -10,13 +10,13 @@ import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
 import { TrackEditorComponent } from './track-editor/track-editor.component';
 import { TrackEditorRenderService } from './track-editor/track-editor-render.service';
-import { TrackEditorService } from './track-editor/track-editor.service'; 
-import { CameraService } from './camera.service'; 
+import { TrackEditorService } from './track-editor/track-editor.service';
+import { CameraService } from './camera.service';
 import { AdminComponent } from '../admin/admin.component';
 import { routes } from '../app-routes.module';
 
 @NgModule({
-  
+
   imports: [
     CommonModule,
     BrowserModule,
@@ -27,10 +27,10 @@ import { routes } from '../app-routes.module';
   declarations: [
     RacingGameComponent,
     GameComponent,
-    TrackEditorComponent, 
+    TrackEditorComponent,
     AdminComponent
   ],
-  
+
   exports: [
     RacingGameComponent,
   ],
@@ -39,7 +39,7 @@ import { routes } from '../app-routes.module';
     RenderService,
     BasicService,
     TrackEditorRenderService,
-    TrackEditorService, 
+    TrackEditorService,
     CameraService
   ],
 

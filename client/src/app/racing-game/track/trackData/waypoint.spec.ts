@@ -1,7 +1,8 @@
 import { Waypoint } from "./waypoint";
 import {Vector3} from 'three';
 
-describe("Waypoint", () =>{
+/* tslint:disable: no-magic-numbers */
+describe("Waypoint", () => {
     let waypoint: Waypoint ;
 
     beforeEach(() => {
@@ -22,52 +23,52 @@ describe("Waypoint", () =>{
         expect(aWaypoint).toBeDefined();
     });
 
-    it("getPosition", () => {
+    it("should getPosition", () => {
         expect(waypoint.getPosition().x).toBe(1);
         expect(waypoint.getPosition().y).toBe(2);
         expect(waypoint.getPosition().z).toBe(3);
     });
 
-    it("bindCircle should bind to a circle id", () => {
+    it("should bind to a circle id with bindCircle", () => {
         waypoint.bindCircle(8);
         expect(waypoint.getCircleId()).toBe(8);
     });
 
-    it("unbindCircle", () => {
+    it("should unbindCircle", () => {
         waypoint.bindCircle(8);
         waypoint.unbindCircle();
         expect(waypoint.getCircleId()).toBe(null);
     });
 
-    it("bindCircle should not allow binding if already binded", () => {
+    it("should not allow binding if already binded with bindCircle", () => {
         waypoint.bindCircle(8);
         waypoint.bindCircle(9);
         expect(waypoint.getCircleId()).toBe(8);
     });
 
-    it("bindPlanes should accept 1 or 2 elements", () => {
+    it("should accept 1 or 2 elements with bindPlanes", () => {
         waypoint.bindPlane(1);
         expect(waypoint.getPlanesIds()).toEqual([1]);
         waypoint.bindPlane(2);
-        expect(waypoint.getPlanesIds()).toEqual([1,2]);
+        expect(waypoint.getPlanesIds()).toEqual([1, 2]);
     });
 
-    it("bindPLanes should not accept more than 2 elements", () => {
+    it("should not accept more than 2 elements with bindPLanes", () => {
         waypoint.bindPlane(1);
         waypoint.bindPlane(2);
         waypoint.bindPlane(3);
-        expect(waypoint.getPlanesIds()).toEqual([1,2]);
+        expect(waypoint.getPlanesIds()).toEqual([1, 2]);
     });
 
 
-    it("unbindPlanes should unbind plane with matching ids", () => {
+    it("should unbind plane with matching ids with unbindPlanes", () => {
         waypoint.bindPlane(1);
         waypoint.bindPlane(2);
         waypoint.unbindPlane(1);
         expect(waypoint.getPlanesIds()).toEqual([2]);
     });
 
-    it("bindPlanes should refuse to have twice a plane id", () => {
+    it("should refuse to have twice a plane id with bindPlanes", () => {
         waypoint.bindPlane(1);
         waypoint.bindPlane(1);
         expect(waypoint.getPlanesIds()).toEqual([1]);

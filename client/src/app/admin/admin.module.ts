@@ -9,7 +9,7 @@ import { TrackEditorService } from '../racing-game/track-editor/track-editor.ser
     routes,
   ],
   declarations: [
-    
+
   ],
   providers: [
     TrackEditorService

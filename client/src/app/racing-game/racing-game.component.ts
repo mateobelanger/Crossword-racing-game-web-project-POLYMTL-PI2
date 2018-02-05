@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RacingGameComponent implements OnInit {
 
-  constructor() { }
+  public constructor() { }
 
   ngOnInit() {
   }

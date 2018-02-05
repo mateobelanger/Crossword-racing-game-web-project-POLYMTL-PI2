@@ -1,10 +1,13 @@
-import {Waypoint} from "../trackData/waypoint";
+import { Waypoint } from "../trackData/waypoint";
 import * as THREE from "three";
 
-
+const EXPOSANT_CARRE: number = 2;
+const DIVISEUR_MOYENNE: number = 2;
 const CIRLEDIAMETER: number = 10;
-const REFERENCEVECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+const REFERENCE_VECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+const DEFAULT_WAYPOINT_VECTOR: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 const PLANE_POSITION_Z: number = -1;
+
 
 
 export class Plane {
@@ -13,11 +16,13 @@ export class Plane {
 
     private endPoint: THREE.Vector3;
 
-    private previousAngle: number = 0;
+    private previousAngle: number;
 
     private mesh: THREE.Mesh;
 
-    public constructor(waypoint1: Waypoint, waypoint2: Waypoint) {
+    public constructor(waypoint1: Waypoint = new Waypoint(DEFAULT_WAYPOINT_VECTOR),
+                       waypoint2: Waypoint = new Waypoint(DEFAULT_WAYPOINT_VECTOR)) {
+        this.previousAngle = 0;
         waypoint1.setPositionZ(PLANE_POSITION_Z);
         waypoint2.setPositionZ(PLANE_POSITION_Z);
         this.beginPoint = waypoint1.getPosition();
@@ -36,8 +41,8 @@ export class Plane {
     public calculateRadianAngle(): number {
         const directionVector: THREE.Vector3 = new THREE.Vector3();
         directionVector.subVectors(this.endPoint, this.beginPoint);
-        let angle: number = directionVector.angleTo(REFERENCEVECTOR);
-        if (directionVector.y < REFERENCEVECTOR.y)
+        let angle: number = directionVector.angleTo(REFERENCE_VECTOR);
+        if (directionVector.y < REFERENCE_VECTOR.y)
             angle *= -1;
 
         return angle;
@@ -56,16 +61,16 @@ export class Plane {
     }
 
     public getLength(): number {
-        return Math.sqrt(Math.pow(this.beginPoint.x - this.endPoint.x, 2)
-                                + Math.pow(this.beginPoint.y - this.endPoint.y, 2)
-                                + Math.pow(this.beginPoint.z - this.endPoint.z, 2))
+        return Math.sqrt(Math.pow(this.beginPoint.x - this.endPoint.x, EXPOSANT_CARRE)
+                                + Math.pow(this.beginPoint.y - this.endPoint.y, EXPOSANT_CARRE)
+                                + Math.pow(this.beginPoint.z - this.endPoint.z, EXPOSANT_CARRE))
                                 - CIRLEDIAMETER;
     }
 
     public getCenterPoint(): THREE.Vector3 {
-        const centerPoint: THREE.Vector3 = new THREE.Vector3((this.endPoint.x - this.beginPoint.x) / 2,
-                                                             (this.endPoint.y - this.beginPoint.y) / 2,
-                                                             (this.endPoint.z - this.beginPoint.z) / 2
+        const centerPoint: THREE.Vector3 = new THREE.Vector3((this.endPoint.x - this.beginPoint.x) / DIVISEUR_MOYENNE,
+                                                             (this.endPoint.y - this.beginPoint.y) / DIVISEUR_MOYENNE,
+                                                             (this.endPoint.z - this.beginPoint.z) / DIVISEUR_MOYENNE
                                                     );
 
         return centerPoint.add(this.beginPoint);

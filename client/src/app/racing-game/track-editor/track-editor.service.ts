@@ -64,7 +64,9 @@ export class TrackEditorService {
     }
 
     public isTrackClosable(): boolean {
-        return !this.closedTrack && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId()) && this.track.getWaypointsSize() >= N_MIN_WAYPOINTS_FOR_POLYGON
+        return !this.closedTrack
+               && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId())
+               && this.track.getWaypointsSize() >= N_MIN_WAYPOINTS_FOR_POLYGON;
     }
 
     public closeTrack(): void {
@@ -73,7 +75,7 @@ export class TrackEditorService {
     }
 
     public uncloseTrack(): void {
-        const lastPlaneId: number= this.track.getLastWaypoint().getPlanesIds()[1];
+        const lastPlaneId: number = this.track.getLastWaypoint().getPlanesIds()[1];
         console.log(lastPlaneId);
         this.trackEditorRenderService.planeHandler.removePlane(lastPlaneId);
         this.track.getLastWaypoint().unbindPlane(lastPlaneId);
