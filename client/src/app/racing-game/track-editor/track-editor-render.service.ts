@@ -63,6 +63,8 @@ export class TrackEditorRenderService {
 
         this.backgroundPlane.generateBackgroundPlan();
 
+        (window as any).scene = this.scene;
+
     }
 
     private startRenderingLoop(): void {

@@ -45,6 +45,13 @@ export class Track
         return this.waypoints[this.waypoints.length-1];
     }
 
+    public getWaypointBindedToPlane(planeId: number): Waypoint {
+         return this.waypoints.find((waypoint: Waypoint) => {
+            const ids: number[] = waypoint.getPlanesIds();
+            return (ids[0] === planeId || ids[1] === planeId);
+        });
+    }
+
     private findWaypointIndex(id : number): number {
         let index : number = -1;
         this.waypoints.forEach((element, i) => {

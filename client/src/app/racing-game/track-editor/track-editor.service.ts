@@ -43,9 +43,7 @@ export class TrackEditorService {
                 waypoints.unshift(this.track.getPreviousToLastWaypoint());
             this.trackEditorRenderService.planeHandler.generatePlanes(waypoints, false);
         } else {
-            // TODO: Attention si on remet la ligne ça fuckup le binding pour le point de 
-            // départ
-            //this.track.getFirstWaypoint().bindNoPlane();
+            this.track.getFirstWaypoint().bindNoPlane();
         }
       }
 
@@ -60,8 +58,11 @@ export class TrackEditorService {
         if (this.track.getWaypointsSize() > 0) {
             const waypoint: Waypoint = this.track.removeWaypoint();
             this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
-            if (this.track.getWaypointsSize() > 0)
-                this.trackEditorRenderService.planeHandler.removePlane(waypoint.getPlanesIds()[0]);
+            if (this.track.getWaypointsSize() > 0) {
+                const planeId: number = waypoint.getPlanesIds()[0];
+                this.trackEditorRenderService.planeHandler.removePlane(planeId);
+                this.track.getWaypointBindedToPlane(planeId).unbindPlane(planeId);
+            }
         }
     }
 
@@ -79,6 +80,8 @@ export class TrackEditorService {
     public uncloseTrack(): void {
         const lastPlaneId: number = this.track.getLastWaypoint().getPlanesIds()[1];
         this.trackEditorRenderService.planeHandler.removePlane(lastPlaneId);
+
+        this.track.getFirstWaypoint().unbindClosingPlane(lastPlaneId);
         this.track.getLastWaypoint().unbindPlane(lastPlaneId);
     }
 
@@ -87,7 +90,7 @@ export class TrackEditorService {
             this.uncloseTrack();
             this.closedTrack = false;
         } else {
-        this.removeWaypoint();
+            this.removeWaypoint();
         }
     }
 
