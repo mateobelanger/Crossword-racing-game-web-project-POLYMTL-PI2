@@ -61,10 +61,10 @@ export class CameraService {
     public initCameras(): void {
 
         this.orthographicCamera = new OrthographicCamera (
-            this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2, 
+            this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2,
             this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / 2,
             this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / 2,
-            this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2, 
+            this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2,
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );

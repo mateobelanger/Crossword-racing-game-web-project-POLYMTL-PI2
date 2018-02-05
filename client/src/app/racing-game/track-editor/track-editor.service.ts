@@ -19,34 +19,12 @@ export class TrackEditorService {
 
     public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
 
+
     public initialize(container: HTMLDivElement): void {
         this.container = container;
         this.trackEditorRenderService.initialize(this.container, this.track);
         this.track = new Track();
         this.dragDropActive = false;
-        this.closedTrack = false;
-
-
-        // TODO: remove TESTS PLAN ----------------------------------------
-        // Axe X positif
-        /*
-        for (let i = 0; i < 5; i++) {
-            const waypoint: Waypoint = new Waypoint(new THREE.Vector3(i * 60, 0, 0));
-            this.track.addWaypoint(waypoint);
-        }
-        // Axe Y positif
-        for (let i = 0; i < 5; i++) {
-            const waypoint: Waypoint = new Waypoint(new THREE.Vector3(0, i * 60, 0));
-            this.track.addWaypoint(waypoint);
-        }
-
-        this.trackEditorRenderService.getCircleHandler().generateCircles(this.track.getWaypoints());
-        if (this.track.getWaypointsSize() > 1) {
-            this.trackEditorRenderService.planeHandler.generatePlanes(this.track.getWaypoints(), false);
-        }
-        this.track.getWaypoints()[0].bindNoPlane();
-        console.log(this.track.getWaypoints()[0]);
-        */
     }
 
     public getTrack(): Track {
@@ -142,11 +120,11 @@ export class TrackEditorService {
     public handleMouseMove(event: MouseEvent): void {
         if (this.dragDropActive) {
             this.trackEditorRenderService.updateRaycastMousePos(event);
-            const planeSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
+            const backgroundPlaneSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
             event.preventDefault();
-            planeSelected[0].point.z = POINTS_POSITION_Z;
+            backgroundPlaneSelected[0].point.z = POINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);
-            this.moveWaypoint(this.selectedWaypoint.getCircleId(), planeSelected[0].point);
+            this.moveWaypoint(this.selectedWaypoint.getCircleId(), backgroundPlaneSelected[0].point);
         }
     }
 

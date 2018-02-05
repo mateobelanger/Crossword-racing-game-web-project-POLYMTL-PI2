@@ -4,25 +4,25 @@ import {Vector3} from 'three';
 describe("Waypoint", () =>{
     let waypoint: Waypoint ;
 
-    beforeEach(()=> {
-        waypoint = new Waypoint( new Vector3(1,2,3));
+    beforeEach(() => {
+        waypoint = new Waypoint( new Vector3(1, 2, 3));
     });
 
     afterEach(() => {
-        waypoint= null;
+        waypoint = null;
     });
 
-    it("should be instantiable using default constructor",() =>{
-        let aWaypoint: Waypoint = new Waypoint();
-        expect(aWaypoint).toBeDefined();       
-    });
-
-    it("should be instantiable using constructor with parameters", () => {
-        let aWaypoint: Waypoint = new Waypoint( new Vector3(1,1,1));
+    it("should be instantiable using default constructor", () => {
+        const aWaypoint: Waypoint = new Waypoint();
         expect(aWaypoint).toBeDefined();
     });
 
-    it("getPosition", () => {        
+    it("should be instantiable using constructor with parameters", () => {
+        const aWaypoint: Waypoint = new Waypoint( new Vector3(1, 1, 1));
+        expect(aWaypoint).toBeDefined();
+    });
+
+    it("getPosition", () => {
         expect(waypoint.getPosition().x).toBe(1);
         expect(waypoint.getPosition().y).toBe(2);
         expect(waypoint.getPosition().z).toBe(3);
@@ -52,7 +52,7 @@ describe("Waypoint", () =>{
         expect(waypoint.getPlanesIds()).toEqual([1,2]);
     });
 
-    it("bindPLanes should not accept more than 2 elements", ()=>{
+    it("bindPLanes should not accept more than 2 elements", () => {
         waypoint.bindPlane(1);
         waypoint.bindPlane(2);
         waypoint.bindPlane(3);
@@ -60,14 +60,14 @@ describe("Waypoint", () =>{
     });
 
 
-    it("unbindPlanes should unbind plane with matching ids",() => {
+    it("unbindPlanes should unbind plane with matching ids", () => {
         waypoint.bindPlane(1);
         waypoint.bindPlane(2);
         waypoint.unbindPlane(1);
         expect(waypoint.getPlanesIds()).toEqual([2]);
     });
 
-    it("bindPlanes should refuse to have twice a plane id",() => {
+    it("bindPlanes should refuse to have twice a plane id", () => {
         waypoint.bindPlane(1);
         waypoint.bindPlane(1);
         expect(waypoint.getPlanesIds()).toEqual([1]);
