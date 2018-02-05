@@ -14,8 +14,8 @@ export class Track
         return this.waypoints.length;
     }
 
-    public getWaypoint(CircleId: number): Waypoint{
-        const index: number = this.findWaypointIndex(CircleId);
+    public getWaypoint(circleId: number): Waypoint{
+        const index: number = this.findWaypointIndex(circleId);
         if(index !== -1)
             return this.waypoints[index];
         return null;
@@ -23,6 +23,10 @@ export class Track
 
     public addWaypoint(wayPoint : Waypoint){
         this.waypoints.push(wayPoint);
+    }
+
+    public isFirstWaypoint(circleId: number): boolean {
+        return this.findWaypointIndex(circleId) === 0;
     }
 
     public removeWaypoint(): Waypoint {
