@@ -16,6 +16,7 @@ export class TrackEditorService {
     private dragDropActive: boolean;
     private closedTrack: boolean;
     private selectedWaypoint: Waypoint;
+    private selectedWaypointInitialPos: THREE.Vector3;
 
 
     public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
@@ -68,7 +69,8 @@ export class TrackEditorService {
     public isTrackClosable(): boolean {
         return !this.closedTrack
                && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId())
-               && this.track.getTrackSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON;
+               && this.track.getTrackSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON
+               && this.selectedWaypoint.getPosition() === this.selectedWaypointInitialPos;
     }
 
     public closeTrack(): void {
@@ -101,6 +103,7 @@ export class TrackEditorService {
             if (firstObjectName === "point") {
                     this.selectedWaypoint = this.track.getWaypoint(objectsSelected[0].object.id);
                     if (this.selectedWaypoint != null) {
+                            this.selectedWaypointInitialPos = this.selectedWaypoint.getPosition();
                             this.dragDropActive = true;
                         }
             } else if (!this.closedTrack && firstObjectName === "backgroundPlane")  {
