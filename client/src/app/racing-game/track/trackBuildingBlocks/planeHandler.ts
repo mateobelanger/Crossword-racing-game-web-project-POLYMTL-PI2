@@ -52,7 +52,8 @@ export class PlaneHandler {
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
         newPos.z = PLANE_POSITION_Z;
         let firstPlaneId: number, secondPlaneId: number;
-        [firstPlaneId, secondPlaneId] = waypoint.getPlanesIds();
+        firstPlaneId = waypoint.getIncomingPlaneId();
+        secondPlaneId = waypoint.getOutgoingPlaneId();
 
         if (firstPlaneId !== null && firstPlaneId !== undefined) {
             const firstPlane: Plane = this.planes[this.findPlaneIndex(firstPlaneId)];
@@ -90,8 +91,8 @@ export class PlaneHandler {
 
     private bindPlanes(planeId: number, waypoint1: Waypoint, waypoint2: Waypoint): void {
         const plane: Plane = this.planes[this.findPlaneIndex(planeId)];
-        waypoint1.bindPlane(plane.getId());
-        waypoint2.bindPlane(plane.getId());
+        waypoint1.bindOutgoingPlane(plane.getId());
+        waypoint2.bindIncomingPlane(plane.getId());
 
         this.connectPlaneWithWaypoint(planeId);
 
@@ -99,8 +100,8 @@ export class PlaneHandler {
 
     private bindClosingPlanes(planeId: number, waypoint1: Waypoint, startEndWaypoint: Waypoint): void {
         const plane: Plane = this.planes[this.findPlaneIndex(planeId)];
-        waypoint1.bindPlane(plane.getId());
-        startEndWaypoint.bindClosingPlane(plane.getId());
+        waypoint1.bindOutgoingPlane(plane.getId());
+        startEndWaypoint.bindIncomingPlane(plane.getId());
 
         this.connectPlaneWithWaypoint(planeId);
     }

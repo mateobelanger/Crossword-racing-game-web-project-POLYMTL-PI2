@@ -10,7 +10,7 @@ export class Track
         return this.waypoints;
     }
 
-    public getWaypointsSize() : number {
+    public getTrackSize() : number {
         return this.waypoints.length;
     }
 
@@ -47,8 +47,7 @@ export class Track
 
     public getWaypointBindedToPlane(planeId: number): Waypoint {
          return this.waypoints.find((waypoint: Waypoint) => {
-            const ids: number[] = waypoint.getPlanesIds();
-            return (ids[0] === planeId || ids[1] === planeId);
+            return (waypoint.getIncomingPlaneId() === planeId|| waypoint.getOutgoingPlaneId() === planeId);
         });
     }
 
