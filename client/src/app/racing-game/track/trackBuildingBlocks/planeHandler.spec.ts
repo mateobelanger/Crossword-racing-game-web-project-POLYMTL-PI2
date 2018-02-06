@@ -1,12 +1,11 @@
 import { Waypoint } from "..//trackData/waypoint";
 import { PlaneHandler } from "./planeHandler";
-//import { Plane } from "./plane";
 import * as THREE from 'three';
 
 /* tslint:disable: no-magic-numbers */
 describe("PlaneHandlerHandler", () => {
 
-    const waypoints: Waypoint[] = [];
+    let waypoints: Waypoint[] = [];
     let planeHandler: PlaneHandler;
     const scene: THREE.Scene = new THREE.Scene();
 
@@ -16,24 +15,28 @@ describe("PlaneHandlerHandler", () => {
             waypoint.bindCircle(i);
             waypoints.push(waypoint);
         }
+        planeHandler = new PlaneHandler(scene);
+    });
+
+    afterEach(() => {
+        waypoints = [];
+        planeHandler = null;
     });
 
 
     it("should be instantiated correctly when passing parameters", () => {
-        planeHandler = new PlaneHandler(scene);
         expect(planeHandler).toBeDefined();
     });
 
-    //TODO: Ajuster test devrait être 9 au lieu de 19
     it("should generate planes properly", () => {
-        planeHandler.generatePlanes(waypoints, false);
-        expect(planeHandler.getPlanes().length).toEqual(19);
+        planeHandler.generatePlanes(waypoints);
+        expect(planeHandler.getPlanes().length).toEqual(9);
     });
-/*
-     //TODO: Ajuster test devrait être 8 au lieu de 18
+
     it("should remove planes properly", () => {
-        planeHandler.removePlane(waypoints[2].getPlanesIds());
+        planeHandler.removePlane(waypoints[2].getIncomingPlaneId());
         expect(planeHandler.getPlanes().length).toEqual(18);
     });
-*/
+
+
 });
