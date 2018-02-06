@@ -11,46 +11,33 @@ const data: JSON = require("./testFiles/words.json");
 
 describe("Lexical service:", () => {
 
-    describe("Searching for easy words in a given list", () => {
+    describe("Searching for words in a given list", () => {
 
-        it("should return the length expected list", (done: MochaDone) => {
+        it("should return the length expected list for easy words", (done: MochaDone) => {
             assert.equal(Object.keys(WordSelector.getValidWordsBasedOnDifficulty(data, true, true)).length, 
                          Object.keys(expectedResultEasy).length);
             done();
         });
-    });
 
-    describe("Searching for normal words in a given list", () => {
-
-        it("should return the length of expected list", (done: MochaDone) => {
+        it("should return the length of expected list for normal words", (done: MochaDone) => {
             assert.equal(Object.keys(WordSelector.getValidWordsBasedOnDifficulty(data, true, false)).length,
                          Object.keys(expectedResultNormal).length);
             done();
         });
-    });
 
-    describe("Searching for hard words in a given list", () => {
-
-        it("should return the length of expected list", (done: MochaDone) => {
+        it("should return the length of expected list for hard words", (done: MochaDone) => {
             assert.equal(Object.keys(WordSelector.getValidWordsBasedOnDifficulty(data, false, false)).length,
                          Object.keys(expectedResultHard).length);
             done();
         });
-    });
 
-
-    describe("Searching for common words in a given list", () => {
-
-        it("should return the length expected list", (done: MochaDone) => {
+        it("should return the length expected list for common words", (done: MochaDone) => {
             assert.equal(Object.keys(WordSelector.getWordsBasedOnRarity(data, true)).length, 
                          Object.keys(expectedResultCommon).length);
             done();
         });
-    });
 
-    describe("Searching for uncommon words in a given list", () => {
-
-        it("should return the length of expected list", (done: MochaDone) => {
+        it("should return the length of expected list for uncommon words", (done: MochaDone) => {
             assert.equal(Object.keys(WordSelector.getWordsBasedOnRarity(data, false)).length,
                          Object.keys(expectedResultUncommon).length);
             done();
@@ -81,7 +68,5 @@ describe("Lexical service:", () => {
                      expectedResultNormal[index].definitionIndex);
         done();
     });
-
-    
 
 });

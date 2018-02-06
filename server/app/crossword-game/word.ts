@@ -7,4 +7,6 @@ export class Word {
 
     public value: string;
     public definition: string;
+
+    public constructor () {}
 }
