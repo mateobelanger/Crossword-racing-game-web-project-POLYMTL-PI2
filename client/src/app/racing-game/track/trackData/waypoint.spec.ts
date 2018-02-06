@@ -46,31 +46,26 @@ describe("Waypoint", () => {
         expect(waypoint.getCircleId()).toBe(8);
     });
 
-    it("should accept 1 or 2 elements with bindPlanes", () => {
-        waypoint.bindPlane(1);
-        expect(waypoint.getPlanesIds()).toEqual([1]);
-        waypoint.bindPlane(2);
-        expect(waypoint.getPlanesIds()).toEqual([1, 2]);
+    it("bindIncomingPlane", () => {
+        waypoint.bindIncomingPlane(9);
+        expect(waypoint.getIncomingPlaneId()).toBe(9);
     });
 
-    it("should not accept more than 2 elements with bindPLanes", () => {
-        waypoint.bindPlane(1);
-        waypoint.bindPlane(2);
-        waypoint.bindPlane(3);
-        expect(waypoint.getPlanesIds()).toEqual([1, 2]);
+    it("unbindIncomingPlane", () => {
+        waypoint.bindIncomingPlane(9);
+        waypoint.unbindIncomingPlane();
+        expect(waypoint.getIncomingPlaneId()).toBeNull();
     });
 
-
-    it("should unbind plane with matching ids with unbindPlanes", () => {
-        waypoint.bindPlane(1);
-        waypoint.bindPlane(2);
-        waypoint.unbindPlane(1);
-        expect(waypoint.getPlanesIds()).toEqual([2]);
+    it("bindOutgoingPlane", () => {
+        waypoint.bindOutgoingPlane(9);
+        expect(waypoint.getOutgoingPlaneId()).toBe(9);
     });
 
-    it("should refuse to have twice a plane id with bindPlanes", () => {
-        waypoint.bindPlane(1);
-        waypoint.bindPlane(1);
-        expect(waypoint.getPlanesIds()).toEqual([1]);
+    it("unbindOutcomingPlane", () => {
+        waypoint.bindOutgoingPlane(9);
+        waypoint.unbindOutgoingPlane();
+        expect(waypoint.getOutgoingPlaneId()).toBeNull();
     });
+
 });
