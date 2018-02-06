@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import "reflect-metadata";
 import { injectable, } from "inversify";
 import { WordSelector } from "./wordSelector";
-//import { RequestAPI } from "request";
 
 const DATAMUSE = require("datamuse");
 const DATAMUSE_OPTIONS: string[] = ["words?sp=", "&md=f,d&max=250"];
@@ -30,7 +29,7 @@ module Lexical {
             let criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);
             const isCompleteWord: boolean = (!criteria.includes("?"));
            
-            DATAMUSE.request("words?sp=" + criteria +  "&md=f,d&max=250").then((response: JSON) =>
+            DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria +  DATAMUSE_OPTIONS[1]).then((response: JSON) =>
                 {
                     if(isCompleteWord) {
                         res.send(WordSelector.confirmWordBasedOnDifficulty(response, isCommon, isEasy, criteria));

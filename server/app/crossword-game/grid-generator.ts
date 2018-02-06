@@ -1,9 +1,10 @@
+import { Response } from "express";
 import { Word } from "./word";
 
 const requestPromise = require("request-promise-native");
 
-export const MIN_WORD_LENGTH: number = 2;
-export const DEFAULT_GRID_SIZE: number = 10;
+export const MIN_WORD_LENGTH: number = 1;
+export const DEFAULT_GRID_SIZE: number = 3;
 export const BLACK_CASE: string = "#";
 export const WHITE_CASE: string = "-";
 
@@ -19,8 +20,8 @@ export class GridGenerator {
 
     }
 
-    public async generate(nBlackCases: number,
-                          difficulty: string): Promise<Word[]> {
+    public generate(nBlackCases: number,
+                          difficulty: string): Word[] {
         this.initialize(this.nRows, this.nColumns);
         this.placeBlackCases(nBlackCases);
         this.fixIssues();
@@ -32,113 +33,13 @@ export class GridGenerator {
             const column: string[] = this.getColumn(i);
             wordsToFill = wordsToFill.concat(this.generateEmptyWords(column, i, "vertical"));
         }
-        /* wordsToFill.sort((word1: Word, word2: Word) => {
+        wordsToFill.sort((word1: Word, word2: Word) => {
             return word1.size - word2.size;
-        }); */
-        const filledWords: Word[] = [];
- /*       
-        wordsToFill[wordsToFill.length - 1].value = "abcde";
-        this.updateGrid(wordsToFill[wordsToFill.length - 1]);
-        console.log(this._grid);
-*/
-
-        await this.placeWords(wordsToFill, filledWords, difficulty, "");
-
-        console.log(this._grid);
-        return filledWords;
-    }
-    
-    private async placeWords(wordsToFill: Word[], filledWords: Word[],
-                             difficulty: string, lastTemplate: string): Promise<boolean> {
-        if (wordsToFill.length === 0) {
-            return true;
-        }
-        filledWords.push(wordsToFill.pop());
-        const wordTemplate: string = this.createTemplate(filledWords[filledWords.length - 1]);
-        try {
-            const results: JSON = await this.getWords(wordTemplate, difficulty);
-            for (let i: number = 0; i < Object.keys(results).length; i++) {
-                        if (this.contains(results[i].name, filledWords)) {
-                            continue;
-                        }
-                        filledWords[filledWords.length - 1].value = results[i].name;
-
-                        console.log(results[i].name);
-
-                        this.updateGrid(filledWords);
-                        if (await this.placeWords(wordsToFill, filledWords, difficulty, wordTemplate)) {
-                            return true;
-                        }
-            }
-            
-            const lastEntry: Word = filledWords.pop();
-            if (lastEntry !== undefined) {
-                lastEntry.value = lastTemplate;
-                wordsToFill.push(lastEntry);
-                this.updateGrid(filledWords);
-                // console.log(this._grid);
-            }
-
-            //console.log("false")
-            return false;
-        }
-        catch (e){
-            console.log("error");
-            return false;
-        }
+        }); 
         
-
-        //console.log(Object.keys(results).length);
-        
-
+        return wordsToFill;
     }
-
-    private createTemplate(word: Word): string {
-        let template: string = "";
-        for (let i: number = 0; i < word.size; i++) {
-            if (word.direction === "horizontal") {
-                template += this._grid[word.row][word.column + i];
-            } else {
-                template += this._grid[word.row + i][word.column];
-            }
-        }
-
-        console.log("template: " + template);
-        return template;
-    }
-
-    private updateGrid(filledWords: Word[]): void {
-        for (let i: number = 0; i < this.nRows; i++) {
-            for (let j: number = 0; j < this.nColumns; j++) {
-                if (this._grid[i][j] !== BLACK_CASE) {
-                    this.grid[i][j] = WHITE_CASE;
-                }
-            }
-        }
-        for (const word of filledWords) {
-            for (let i: number = 0; i < word.value.length; i++) {
-                if (word.direction === "horizontal") {
-                    this._grid[word.row][word.column + i] = word.value[i];
-                } else {
-                    this._grid[word.row + i][word.column] = word.value[i];
-                }
-            }
-        }
-        console.log(this._grid);
-    }
-
-    private contains(word: string, words: Word[]): boolean {
-        for (const w of words) {
-            if (w.value === word) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-
+   
     public get grid(): string[][] {
         return this._grid;
     }
@@ -224,32 +125,42 @@ export class GridGenerator {
             }
         }
     }
-/*
-    private async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<boolean> {
-        if (emptyWords.length === 0) {
+ 
+    public async placeWords(wordsToFill: Word[], filledWords: Word[], difficulty: string,
+                            lastTemplate: string, res: Response): Promise<boolean> {
+        if (wordsToFill.length === 0) {
+            res.send(filledWords);
             return true;
         }
-        filledWords.push(emptyWords.pop());
+        filledWords.push(wordsToFill.pop());
         const wordTemplate: string = this.createTemplate(filledWords[filledWords.length - 1]);
-        const results: JSON = await this.getWords(wordTemplate, difficulty);
-        for (let i: number = 0; i < Object.keys(results).length; i++) {
-            if (this.contains(results[i], filledWords)) {
-                continue;
+        try {
+            const results: JSON = await this.getWords(wordTemplate, difficulty);
+            for (let i: number = 0; i < Object.keys(results).length; i++) {
+                        if (this.contains(results[i].name, filledWords)) {
+                            continue;
+                        }
+                        filledWords[filledWords.length - 1].value = results[i].name;
+                        filledWords[filledWords.length - 1].definition = results[i].definitions[results[i].definitionIndex];
+                        this.updateGrid(filledWords);
+                        if (await this.placeWords(wordsToFill, filledWords, difficulty, wordTemplate, res)) {
+                            return true;
+                        }
             }
-            filledWords[filledWords.length - 1].value = results[i].name;
-            this.updateGrid(filledWords[filledWords.length - 1]);
-            if (this.placeWords(emptyWords, filledWords, difficulty)) {
-                return true;
+            
+            const lastEntry: Word = filledWords.pop();
+            if (lastEntry !== undefined) {
+                lastEntry.value = lastTemplate;
+                wordsToFill.push(lastEntry);
+                this.updateGrid(filledWords);
             }
-        }
-        const lastEntry: Word = filledWords.pop();
-        if (lastEntry !== undefined) {
-            lastEntry.value = "";
-            emptyWords.push(lastEntry);
-            this.updateGrid(lastEntry);
-        }
 
-        return false;
+            return false;
+        }
+        catch (e){
+            return false;
+        }
+        
     }
 
     private createTemplate(word: Word): string {
@@ -261,22 +172,24 @@ export class GridGenerator {
                 template += this._grid[word.row + i][word.column];
             }
         }
-
         return template;
     }
 
-    private updateGrid(word: Word): void {
-        if (word.value.length === 0) {
-            word.value = "";
-            for (let i: number = 0; i < word.size; i++) {
-                word.value += WHITE_CASE;
+    private updateGrid(filledWords: Word[]): void {
+        for (let i: number = 0; i < this.nRows; i++) {
+            for (let j: number = 0; j < this.nColumns; j++) {
+                if (this._grid[i][j] !== BLACK_CASE) {
+                    this.grid[i][j] = WHITE_CASE;
+                }
             }
         }
-        for (let i: number = 0; i < word.size; i++) {
-            if (word.direction === "horizontal") {
-                this._grid[word.row][word.column + i] = word.value[i];
-            } else {
-                this._grid[word.row + i][word.column] = word.value[i];
+        for (const word of filledWords) {
+            for (let i: number = 0; i < word.value.length; i++) {
+                if (word.direction === "horizontal") {
+                    this._grid[word.row][word.column + i] = word.value[i];
+                } else {
+                    this._grid[word.row + i][word.column] = word.value[i];
+                }
             }
         }
     }
@@ -290,7 +203,7 @@ export class GridGenerator {
 
         return false;
     }
-*/
+    
     private isCorner(row: number, col: number): boolean {
         return ((row < MIN_WORD_LENGTH || row > this.nRows - 1 - MIN_WORD_LENGTH)
             && (col < MIN_WORD_LENGTH || col > this.nColumns - 1 - MIN_WORD_LENGTH));
@@ -399,64 +312,4 @@ export class GridGenerator {
         }
     }
 
-    // tslint:disable-next-line:max-func-body-length
-/*    private findWord(template: string): string[] {
-        const results: string[] = [];
-        switch (template) {
-            case "--": {
-                results.push("to");
-                results.push("at");
-                results.push("al");
-                results.push("lo");
-                break;
-            }
-            case "to": {
-                results.push("to");
-                break;
-            }
-            case "at": {
-                results.push("at");
-                break;
-            }
-            case "al": {
-                results.push("al");
-                break;
-            }
-            case "lo": {
-                results.push("lo");
-                break;
-            }
-            case "-t": {
-                results.push("at");
-                break;
-            }
-            case "-o": {
-                results.push("to");
-                results.push("lo");
-                break;
-            }
-            case "-l": {
-                results.push("al");
-                break;
-            }
-            case "t-": {
-                results.push("to");
-                break;
-            }
-            case "a-": {
-                results.push("al");
-                results.push("at");
-                break;
-            }
-            case "l-": {
-                results.push("lo");
-                break;
-            }
-
-            default: break;
-        }
-
-        return results;
-    } 
-    */
 }

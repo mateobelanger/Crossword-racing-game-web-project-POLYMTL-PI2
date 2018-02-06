@@ -4,14 +4,12 @@ import * as logger from "morgan";
 import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
+
 import Types from "./types";
 import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService/lexicalService";
-
 import { GridGeneratorService } from "./gridGeneratorService";
-// import { JsonReader } from "./lexicalService/jsonReader";
-// import { WordValidator } from "./wordValidator";
 
 @injectable()
 export class Application {
@@ -27,12 +25,6 @@ export class Application {
         this.config();
 
         this.initializeRoutes();
-/**teste la lecture */
-        //const reader: JsonReader = new JsonReader();
-        // const wordValidator: WordValidator = new WordValidator();
-        // trouve un nom commun avec une definition alternative
-        //console.log(reader.getValidWordsBasedOnRarity(require("./lexicalService/words.json"), true) );
-
     }
 
     private config(): void {

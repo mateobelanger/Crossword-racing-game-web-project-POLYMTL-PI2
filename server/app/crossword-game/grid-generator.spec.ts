@@ -1,4 +1,3 @@
-/*
 import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE } from "./grid-generator";
 import { Word } from "./word";
 import { assert } from "chai";
@@ -6,7 +5,7 @@ import { assert } from "chai";
 describe("Grid generator:", () => {
     let generator: GridGenerator;
     const nBlackCases: number = 0;
-    const size: number = 2;
+    const size: number = 3;
     let words: Word[];
     const difficulty: string = "easy";
 
@@ -88,4 +87,3 @@ describe("Grid generator:", () => {
         }
     });
 });
-*/

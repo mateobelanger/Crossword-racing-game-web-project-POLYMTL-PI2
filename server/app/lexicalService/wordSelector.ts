@@ -39,7 +39,7 @@ export class WordSelector {
         return JSON.parse(JSON.stringify(selectedWords));
     }
 
-    // used when a word is directly search
+    // used when a word is directly searched
     public static confirmWordBasedOnDifficulty(words: JSON, isCommon: boolean, isEasy: boolean, word: String): JSON {
 
         const selectedWords: DictionaryEntry[] = new Array<DictionaryEntry>();
