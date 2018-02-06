@@ -1,0 +1,28 @@
+.header {
+    background-color: gray;
+}
+
+.filled {
+    background: black;
+    font-size: 0px;
+    pointer-events: none;
+}
+
+.grid {
+    width: 57vh;
+    height: 0vh;
+    margin-left: 4%;
+}
+
+.col {
+    text-align: center;
+    width: 3vh;
+    height: 5.5vh;
+    border: 1px solid black;
+    padding: 0;
+    margin: 0;
+    float: left;
+    text-transform: capitalize;
+    font-size: 3vh;
+    cursor: pointer;
+}

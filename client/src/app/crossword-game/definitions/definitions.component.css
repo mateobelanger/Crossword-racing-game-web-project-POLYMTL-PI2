@@ -1,0 +1,29 @@
+
+li {
+    list-style-type: none;
+    font-weight: normal;
+    padding: 0px 3vw;
+}
+
+li:hover {
+    background: lightblue;
+    cursor: pointer;
+}
+
+.table {
+    font-size: 1vw;
+    border: 2px solid black;
+}
+
+span {
+    margin: 1vw;
+    color: black;
+    font-weight: bold;
+}
+
+.title {
+    color: black;
+    padding: 1vh;
+    border: none;
+}
+

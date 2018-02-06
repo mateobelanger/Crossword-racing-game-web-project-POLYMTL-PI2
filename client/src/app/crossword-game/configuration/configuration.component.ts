@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-configuration',
-  templateUrl: './configuration.component.html',
-  styleUrls: ['./configuration.component.css']
+    selector: 'app-configuration',
+    templateUrl: './configuration.component.html',
+    styleUrls: ['./configuration.component.css']
 })
+
 export class ConfigurationComponent implements OnInit {
+    public difficulty: string;
 
-  constructor() { }
+    public constructor() {}
 
-  ngOnInit() {
-  }
+    public ngOnInit(): void {
+    }
 
 }

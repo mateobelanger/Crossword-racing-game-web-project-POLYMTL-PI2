@@ -1,0 +1,17 @@
+.game {
+    width: 98%;
+    padding: 1vw 3vw;
+    padding-left: 100px;
+}
+
+.grid {
+    float: left;
+}
+
+.definitions {
+    float: right;
+}
+
+button {
+    margin-left: 100px;
+}

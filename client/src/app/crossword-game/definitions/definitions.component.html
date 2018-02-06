@@ -1,3 +1,29 @@
-<p>
-    definitions works!
-</p>
+<table class="table">
+    <thead>
+        <th class="title">Across:</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of horizontalDefinitions; let indexR = index;" class="index">
+            <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span>
+                <li *ngFor="let definition of row; let indexI = index;">
+
+                    [{{indexI+1}}] {{definition}}
+                </li>
+            </div>
+        </tr>
+    </tbody>
+</table>
+<table class="table">
+    <thead>
+        <th class="title">Down:</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of verticalDefinitions; let indexR = index;" class="index">
+            <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span> 
+                <li *ngFor="let definition of row; let indexI = index;" (click)="onSelect(definition)">
+                    [{{indexI+1}}] {{definition}}
+                </li>
+            </div>
+        </tr>
+    </tbody>
+</table>

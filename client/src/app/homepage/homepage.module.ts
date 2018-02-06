@@ -6,18 +6,18 @@ import { HomepageComponent } from './homepage.component';
 import { routes } from '../app-routes.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    routes
-  ],
+    imports: [
+        CommonModule,
+        routes
+    ],
 
-  declarations: [
-    HomepageComponent,
-  ],
+    declarations: [
+        HomepageComponent,
+    ],
 
-  exports: [
-    HomepageComponent,
-  ]
+    exports: [
+        HomepageComponent,
+    ]
 
 
 
