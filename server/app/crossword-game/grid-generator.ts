@@ -3,11 +3,9 @@ import { Word } from "./word";
 const requestPromise = require("request-promise-native");
 
 export const MIN_WORD_LENGTH: number = 2;
-export const DEFAULT_GRID_SIZE: number = 10;
+export const DEFAULT_GRID_SIZE: number = 5;
 export const BLACK_CASE: string = "#";
 export const WHITE_CASE: string = "-";
-
-
 
 export class GridGenerator {
     private nRows: number;
@@ -40,8 +38,86 @@ export class GridGenerator {
         const filledWords: Word[] = [];
         await this.placeWords(wordsToFill, filledWords, difficulty);
 
+        console.log(this._grid);
         return filledWords;
     }
+    
+    private async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<boolean> {
+        if (emptyWords.length === 0) {
+            return true;
+        }
+        filledWords.push(emptyWords.pop());
+        const wordTemplate: string = this.createTemplate(filledWords[filledWords.length - 1]);
+        const results: JSON = await this.getWords(wordTemplate, difficulty);
+
+        //console.log(Object.keys(results).length);
+        for (let i: number = 0; i < Object.keys(results).length; i++) {
+            if (this.contains(results[i].name, filledWords)) {
+                continue;
+            }
+            filledWords[filledWords.length - 1].value = results[i].name;
+
+            console.log(results[i].name);
+
+            this.updateGrid(filledWords[filledWords.length - 1]);
+            if (await this.placeWords(emptyWords, filledWords, difficulty)) {
+                return true;
+            } else {
+                continue;
+            }
+        }
+        const lastEntry: Word = filledWords.pop();
+        if (lastEntry !== undefined) {
+            lastEntry.value = "";
+            emptyWords.push(lastEntry);
+            this.updateGrid(lastEntry);
+        }
+
+        //console.log("false")
+        return false;
+    }
+
+    private createTemplate(word: Word): string {
+        let template: string = "";
+        for (let i: number = 0; i < word.size; i++) {
+            if (word.direction === "horizontal") {
+                template += this._grid[word.row][word.column + i];
+            } else {
+                template += this._grid[word.row + i][word.column];
+            }
+        }
+
+        console.log("template: " + template);
+        return template;
+    }
+
+    private updateGrid(word: Word): void {
+        if (word.value.length === 0) {
+            word.value = "";
+            for (let i: number = 0; i < word.size; i++) {
+                word.value += WHITE_CASE;
+            }
+        }
+        for (let i: number = 0; i < word.size; i++) {
+            if (word.direction === "horizontal") {
+                this._grid[word.row][word.column + i] = word.value[i];
+            } else {
+                this._grid[word.row + i][word.column] = word.value[i];
+            }
+        }
+    }
+
+    private contains(word: string, words: Word[]): boolean {
+        for (const w of words) {
+            if (w.value === word) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     public get grid(): string[][] {
         return this._grid;
@@ -128,7 +204,7 @@ export class GridGenerator {
             }
         }
     }
-
+/*
     private async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<boolean> {
         if (emptyWords.length === 0) {
             return true;
@@ -140,7 +216,7 @@ export class GridGenerator {
             if (this.contains(results[i], filledWords)) {
                 continue;
             }
-            filledWords[filledWords.length - 1].value = results[i];
+            filledWords[filledWords.length - 1].value = results[i].name;
             this.updateGrid(filledWords[filledWords.length - 1]);
             if (this.placeWords(emptyWords, filledWords, difficulty)) {
                 return true;
@@ -194,7 +270,7 @@ export class GridGenerator {
 
         return false;
     }
-
+*/
     private isCorner(row: number, col: number): boolean {
         return ((row < MIN_WORD_LENGTH || row > this.nRows - 1 - MIN_WORD_LENGTH)
             && (col < MIN_WORD_LENGTH || col > this.nColumns - 1 - MIN_WORD_LENGTH));
