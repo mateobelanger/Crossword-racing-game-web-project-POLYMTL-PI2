@@ -1,10 +1,9 @@
 import { Word } from "./word";
-//import { LexicalService } from "../lexicalService/lexicalService";
-import { DatamuseService } from "../lexicalService2/datamuseService";
 
-export const MIN_WORD_LENGTH: number = 1;
-export const DEFAULT_GRID_SIZE: number = 4;
+const requestPromise = require("request-promise-native");
 
+export const MIN_WORD_LENGTH: number = 2;
+export const DEFAULT_GRID_SIZE: number = 10;
 export const BLACK_CASE: string = "#";
 export const WHITE_CASE: string = "-";
 
@@ -14,132 +13,58 @@ export class GridGenerator {
     private nRows: number;
     private nColumns: number;
     private _grid: string[][];
-    private indicesToUseForResults: number[];
 
     public constructor() {
         this._grid = [];
-        this.indicesToUseForResults = [];
+        this.nRows = DEFAULT_GRID_SIZE;
+        this.nColumns = DEFAULT_GRID_SIZE
+
     }
 
-    public generate(nRows: number = DEFAULT_GRID_SIZE,
-                    nColumns: number = DEFAULT_GRID_SIZE,
-                    nBlackCases: number,
-                    difficulty: string): Word[] {
+    public async generate(nBlackCases: number,
+                          difficulty: string): Promise<Word[]> {
+        this.initialize(this.nRows, this.nColumns);
+        this.placeBlackCases(nBlackCases);
+        this.fixIssues();
 
-        this.initialize(nRows, nColumns);
-        this.fill(nBlackCases);
-        this.fix();
-        console.log("fix works");
-
-        let emptyGrid: Word[] = [];
+        let wordsToFill: Word[] = [];
         for (let i: number = 0; i < this.nRows; i++) {
             const row: string[] = this._grid[i];
-            emptyGrid = emptyGrid.concat(this.generateEmptyWords(row, i, "horizontal"));
+            wordsToFill = wordsToFill.concat(this.generateEmptyWords(row, i, "horizontal"));
             const column: string[] = this.getColumn(i);
-            emptyGrid = emptyGrid.concat(this.generateEmptyWords(column, i, "vertical"));
+            wordsToFill = wordsToFill.concat(this.generateEmptyWords(column, i, "vertical"));
         }
-        emptyGrid.sort((word1: Word, word2: Word) => {
+        wordsToFill.sort((word1: Word, word2: Word) => {
             return word1.size - word2.size;
         });
+        const filledWords: Word[] = [];
+        await this.placeWords(wordsToFill, filledWords, difficulty);
 
-        const filledGrid: Word[] = [];
-
-        this.indicesToUseForResults.push(0);        //
-        this.placeWords(emptyGrid, filledGrid, difficulty);     //** difficulty: à lier à configurer une partie.. attribut ? */
-        console.log("goes through placeWords");
-
-        //while(filledGrid.length === 0){};
-        
-        console.log("devrait s'imprimer en dernier..");
-
-        console.log("nombre de mots dans la grille: " + filledGrid.length);
-
-
-        return filledGrid;
+        return filledWords;
     }
-
-
-    async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<any> {
-        if (emptyWords.length === 0) {
-            return "done";
-        }
-        const wordToPlace: Word = emptyWords.pop();
-        let wordSkeleton: string;
-        for (let i: number = 0; i < wordToPlace.size; i++) {
-            if (wordToPlace.direction === "horizontal") {
-                wordSkeleton += this._grid[wordToPlace.row][wordToPlace.column + i];
-            } else {
-                wordSkeleton += this._grid[wordToPlace.row + i][wordToPlace.column];
-            }
-        }
-        
-        let datamuse: DatamuseService = new DatamuseService();
-        // let reader: JsonReader = new JsonReader();
-        // let json: JSON;
-        await datamuse.requestWordInfo(wordSkeleton, difficulty)
-            .then( () => {
-                console.log("test4");
-                console.log(datamuse.requestData[0]);
-
-                let lastItem = this.indicesToUseForResults.length - 1;
-                let indexToUse = this.indicesToUseForResults[lastItem];
-                    
-                if (datamuse.requestData === null || this.indicesToUseForResults[lastItem] === Object.keys(datamuse.requestData).length ) {
-                    emptyWords.push(wordToPlace);
-                    emptyWords.push(filledWords.pop());
-                    this.indicesToUseForResults.pop();
-                    
-                } else if (this.isInGrid(datamuse.requestData[indexToUse].name, filledWords)){
-                    
-                    emptyWords.push(wordToPlace);
-                    emptyWords.push(filledWords.pop());
-                    this.indicesToUseForResults[lastItem]++;
-                // traiter les cas ou le ++ depasse le nombre de mots du json (?) et
-                //  cas ou toutes les possibilite ont ete traitees sans succes?
-                    
-                } else {
-                    wordToPlace.value = datamuse.requestData[this.indicesToUseForResults[lastItem]].name;
-                    wordToPlace.definition = datamuse.requestData[indexToUse].definitions[datamuse.requestData[indexToUse].definitionIndex];
-
-                    console.log("testData");
-                    console.log(wordToPlace);
-
-                    filledWords.push(wordToPlace);
-                    this.indicesToUseForResults[this.indicesToUseForResults.length - 1]++;
-                    this.indicesToUseForResults.push(0);
-                   
-                }
- 
-                return this.placeWords(emptyWords, filledWords, difficulty);
-            });
-
-
-    }
-
-    private isInGrid(searchedWord: string, words: Word[]): boolean {
-
-        /*words.forEach(word => {
-            if(word.value === searchedWord) {
-                return true;
-            }
-        });*/
-
-        return false;
-    }
-
 
     public get grid(): string[][] {
         return this._grid;
     }
 
+    private initialize(nRows: number, nCols: number): void {
+        this.nRows = nRows;
+        this.nColumns = nCols;
+
+        for (let i: number = 0; i < nRows; i++) {
+            const row: string[] = [];
+            for (let j: number = 0; j < nCols; j++) {
+                row.push(WHITE_CASE);
+            }
+            this._grid.push(row);
+        }
+    }
+
     private set(row: number, col: number, value: string): void {
-        if (value.length > 1) {
+        if (value.length !== 1) {
             return;
         }
-        if (row >= this.nRows || row < 0) {
-            return;
-        }
-        if (col >= this.nColumns || col < 0) {
+        if (row >= this.nRows || row < 0 || col >= this.nColumns || col < 0) {
             return;
         }
         this._grid[row][col] = value;
@@ -172,26 +97,13 @@ export class GridGenerator {
         return column;
     }
 
-    private initialize(nRows: number, nCols: number): void {
-        this.nRows = nRows;
-        this.nColumns = nCols;
-
-        for (let i: number = 0; i < nRows; i++) {
-            const row: string[] = [];
-            for (let j: number = 0; j < nCols; j++) {
-                row.push(WHITE_CASE);
-            }
-            this._grid.push(row);
-        }
-    }
-
-    private fill(nBlackCases: number): void {
+    private placeBlackCases(nBlackCases: number): void {
         for (let i: number = 0; i < nBlackCases; i++) {
             this.setRandomly(BLACK_CASE);
         }
     }
 
-    private fix(): void {
+    private fixIssues(): void {
         for (let i: number = 0; i < this.nRows; i++) {
             for (let j: number = 0; j < this.nColumns; j++) {
                 if (this.isLoneCase(i, j)) {
@@ -200,34 +112,94 @@ export class GridGenerator {
                 }
             }
             const row: string[] = this._grid[i];
-
             if (!this.hasWords(row)) {
                 this.addWord(row);
                 this.setRandomly(BLACK_CASE);
                 i = 0;
             }
-
             const column: string[] = this.getColumn(i);
             if (!this.hasWords(column)) {
                 this.addWord(column);
                 for (let j: number = 0; j < column.length; j++) {
-                    this._grid[i][j] = column[j];
+                    this._grid[j][i] = column[j];
                 }
+                this.setRandomly(BLACK_CASE);
                 i = 0;
             }
         }
     }
 
-    private isCorner(row: number, col: number): boolean {
-        if ((row < MIN_WORD_LENGTH || row > this.nRows - 1 - MIN_WORD_LENGTH)
-            && (col < MIN_WORD_LENGTH || col > this.nColumns - 1 - MIN_WORD_LENGTH)) {
+    private async placeWords(emptyWords: Word[], filledWords: Word[], difficulty: string): Promise<boolean> {
+        if (emptyWords.length === 0) {
             return true;
+        }
+        filledWords.push(emptyWords.pop());
+        const wordTemplate: string = this.createTemplate(filledWords[filledWords.length - 1]);
+        const results: JSON = await this.getWords(wordTemplate, difficulty);
+        for (let i: number = 0; i < Object.keys(results).length; i++) {
+            if (this.contains(results[i], filledWords)) {
+                continue;
+            }
+            filledWords[filledWords.length - 1].value = results[i];
+            this.updateGrid(filledWords[filledWords.length - 1]);
+            if (this.placeWords(emptyWords, filledWords, difficulty)) {
+                return true;
+            }
+        }
+        const lastEntry: Word = filledWords.pop();
+        if (lastEntry !== undefined) {
+            lastEntry.value = "";
+            emptyWords.push(lastEntry);
+            this.updateGrid(lastEntry);
         }
 
         return false;
     }
 
-    // Returns true if a white case is surrounded by black cases.
+    private createTemplate(word: Word): string {
+        let template: string = "";
+        for (let i: number = 0; i < word.size; i++) {
+            if (word.direction === "horizontal") {
+                template += this._grid[word.row][word.column + i];
+            } else {
+                template += this._grid[word.row + i][word.column];
+            }
+        }
+
+        return template;
+    }
+
+    private updateGrid(word: Word): void {
+        if (word.value.length === 0) {
+            word.value = "";
+            for (let i: number = 0; i < word.size; i++) {
+                word.value += WHITE_CASE;
+            }
+        }
+        for (let i: number = 0; i < word.size; i++) {
+            if (word.direction === "horizontal") {
+                this._grid[word.row][word.column + i] = word.value[i];
+            } else {
+                this._grid[word.row + i][word.column] = word.value[i];
+            }
+        }
+    }
+
+    private contains(word: string, words: Word[]): boolean {
+        for (const w of words) {
+            if (w.value === word) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private isCorner(row: number, col: number): boolean {
+        return ((row < MIN_WORD_LENGTH || row > this.nRows - 1 - MIN_WORD_LENGTH)
+            && (col < MIN_WORD_LENGTH || col > this.nColumns - 1 - MIN_WORD_LENGTH));
+    }
+
     private isLoneCase(row: number, col: number): boolean {
         if (this._grid[row][col] === BLACK_CASE) {
             return false;
@@ -258,7 +230,6 @@ export class GridGenerator {
         }
     }
 
-    // returns whether a row or col has words or no words in it.
     private hasWords(lane: string[]): boolean {
         let wordLength: number = 0;
         for (let i: number = 0; i < this.nColumns; i++) {
@@ -302,7 +273,6 @@ export class GridGenerator {
                 word.column = index;
             }
             word.direction = direction;
-
             let length: number = 0;
             while (lane[i] === WHITE_CASE) {
                 length++;
@@ -318,4 +288,79 @@ export class GridGenerator {
 
         return result;
     }
+
+    private async getWords(wordSkeleton: String, difficulty: String): Promise<JSON> {
+        const url: String = "http://localhost:3000/service/lexical/wordsearch/" + wordSkeleton + "/" + difficulty;
+        const options = {
+            method: "GET",
+            headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            json: true, uri: url
+          };
+        try {
+            return await requestPromise(options);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    // tslint:disable-next-line:max-func-body-length
+/*    private findWord(template: string): string[] {
+        const results: string[] = [];
+        switch (template) {
+            case "--": {
+                results.push("to");
+                results.push("at");
+                results.push("al");
+                results.push("lo");
+                break;
+            }
+            case "to": {
+                results.push("to");
+                break;
+            }
+            case "at": {
+                results.push("at");
+                break;
+            }
+            case "al": {
+                results.push("al");
+                break;
+            }
+            case "lo": {
+                results.push("lo");
+                break;
+            }
+            case "-t": {
+                results.push("at");
+                break;
+            }
+            case "-o": {
+                results.push("to");
+                results.push("lo");
+                break;
+            }
+            case "-l": {
+                results.push("al");
+                break;
+            }
+            case "t-": {
+                results.push("to");
+                break;
+            }
+            case "a-": {
+                results.push("al");
+                results.push("at");
+                break;
+            }
+            case "l-": {
+                results.push("lo");
+                break;
+            }
+
+            default: break;
+        }
+
+        return results;
+    } 
+    */
 }

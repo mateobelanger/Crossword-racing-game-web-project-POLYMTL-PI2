@@ -5,7 +5,7 @@ import { Router, Request, Response, NextFunction } from "express";
 //import Types from "./types";
 //import { LexicalService } from "./lexicalService/lexicalService";
 
-import { GridGenerator, DEFAULT_GRID_SIZE } from "./crossword-game/grid-generator";
+import { GridGenerator } from "./crossword-game/grid-generator";
 
 @injectable()
 export class GridGeneratorService {
@@ -17,7 +17,7 @@ export class GridGeneratorService {
         const router: Router = Router();
 
         router.get("/service/gridGenerator/:difficulty",
-            (req: Request, res: Response, next: NextFunction) => {console.log("test1"); generator.generate(DEFAULT_GRID_SIZE, DEFAULT_GRID_SIZE, 1, "easy")});
+            (req: Request, res: Response, next: NextFunction) => {console.log("test1"); generator.generate(1, "easy")});
 
             /*async (req: Request, res: Response) => {
                     let x: any;
