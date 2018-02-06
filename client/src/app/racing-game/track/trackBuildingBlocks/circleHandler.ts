@@ -37,6 +37,10 @@ export class CircleHandler {
         mesh.translateZ(relativeMovement.z);
     }
 
+    public getCircles(): THREE.Mesh[] {
+        return this.meshs;
+    }
+
     private findMeshIndex(id: number): number {
         let index: number = null;
         this.meshs.forEach((element, i) => {

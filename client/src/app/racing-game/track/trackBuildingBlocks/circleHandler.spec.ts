@@ -1,12 +1,12 @@
 import { Waypoint } from "..//trackData/waypoint";
-import { PlaneHandler } from "./planeHandler";
+import { CircleHandler } from "./circleHandler";
 import * as THREE from 'three';
 
 /* tslint:disable: no-magic-numbers */
-describe("PlaneHandlerHandler", () => {
+describe("CircleHandler", () => {
 
     let waypoints: Waypoint[] = [];
-    let planeHandler: PlaneHandler;
+    let circleHandler: CircleHandler;
     const scene: THREE.Scene = new THREE.Scene();
 
     beforeEach( () => {
@@ -15,27 +15,27 @@ describe("PlaneHandlerHandler", () => {
             waypoint.bindCircle(i);
             waypoints.push(waypoint);
         }
-        planeHandler = new PlaneHandler(scene);
-        planeHandler.generatePlanes(waypoints);
+        circleHandler = new CircleHandler(scene);
+        circleHandler.generateCircles(waypoints);
     });
 
     afterEach(() => {
         waypoints = [];
-        planeHandler = null;
+        circleHandler = null;
     });
 
 
     it("should be instantiated correctly when passing parameters", () => {
-        expect(planeHandler).toBeDefined();
+        expect(circleHandler).toBeDefined();
     });
 
-    it("should generate planes properly", () => {
-        expect(planeHandler.getPlanes().length).toEqual(9);
+    it("should generate circles properly", () => {
+        expect(circleHandler.getCircles().length).toEqual(10);
     });
 
-    it("should remove planes properly", () => {
-        planeHandler.removePlane(waypoints[2].getIncomingPlaneId());
-        expect(planeHandler.getPlanes().length).toEqual(8);
+    it("should remove circles properly", () => {
+        circleHandler.removeCircle(waypoints[2].getCircleId());
+        expect(circleHandler.getCircles().length).toEqual(9);
     });
 
 
