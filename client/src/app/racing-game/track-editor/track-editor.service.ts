@@ -39,7 +39,7 @@ export class TrackEditorService {
             waypoint.setPositionZ(POINTS_POSITION_Z);
             this.track.addWaypoint(waypoint);
         });
-        this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
+        this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
         if (this.track.getTrackSize() > 1) {
             if (waypoints.length === 1)
                 waypoints.unshift(this.track.getPreviousToLastWaypoint());
@@ -50,14 +50,14 @@ export class TrackEditorService {
     public moveWaypoint(circleId: number, newPos: THREE.Vector3): void {
         const waypoint: Waypoint = this.track.getWaypoint(circleId);
         waypoint.setPosition(newPos);
-        this.trackEditorRenderService.getCircleHandler().moveCircle(circleId, newPos);
+        this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
         this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
     }
 
     public removeWaypoint(): void {
         if (this.track.getTrackSize() > 0) {
             const waypoint: Waypoint = this.track.removeWaypoint();
-            this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
+            this.trackEditorRenderService.circleHandler.removeCircle(waypoint.getCircleId());
             if (this.track.getTrackSize() > 0) {
                 const planeId: number = waypoint.getIncomingPlaneId();
                 this.trackEditorRenderService.planeHandler.removePlane(planeId);

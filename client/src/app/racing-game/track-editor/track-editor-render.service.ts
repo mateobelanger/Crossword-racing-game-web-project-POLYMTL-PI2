@@ -24,7 +24,7 @@ export class TrackEditorRenderService {
 
     private scene: THREE.Scene;
 
-    private circleHandler: CircleHandler;
+    public circleHandler: CircleHandler;
 
     public planeHandler: PlaneHandler;
 
@@ -103,10 +103,6 @@ export class TrackEditorRenderService {
 
     public getMousePos(): THREE.Vector2 {
         return this.mouse;
-    }
-
-    public getCircleHandler (): CircleHandler {
-        return this.circleHandler;
     }
 
 }
