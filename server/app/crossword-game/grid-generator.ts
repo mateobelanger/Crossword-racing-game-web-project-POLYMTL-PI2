@@ -3,7 +3,7 @@ import { Word } from "./word";
 const requestPromise = require("request-promise-native");
 
 export const MIN_WORD_LENGTH: number = 2;
-export const DEFAULT_GRID_SIZE: number = 5;
+export const DEFAULT_GRID_SIZE: number = 10;
 export const BLACK_CASE: string = "#";
 export const WHITE_CASE: string = "-";
 
@@ -32,9 +32,9 @@ export class GridGenerator {
             const column: string[] = this.getColumn(i);
             wordsToFill = wordsToFill.concat(this.generateEmptyWords(column, i, "vertical"));
         }
-        wordsToFill.sort((word1: Word, word2: Word) => {
+        /* wordsToFill.sort((word1: Word, word2: Word) => {
             return word1.size - word2.size;
-        });
+        }); */
         const filledWords: Word[] = [];
  /*       
         wordsToFill[wordsToFill.length - 1].value = "abcde";
@@ -65,7 +65,7 @@ export class GridGenerator {
 
                         console.log(results[i].name);
 
-                        this.updateGrid(filledWords[filledWords.length - 1]);
+                        this.updateGrid(filledWords);
                         if (await this.placeWords(wordsToFill, filledWords, difficulty, wordTemplate)) {
                             return true;
                         }
@@ -75,7 +75,7 @@ export class GridGenerator {
             if (lastEntry !== undefined) {
                 lastEntry.value = lastTemplate;
                 wordsToFill.push(lastEntry);
-                this.updateGrid(lastEntry);
+                this.updateGrid(filledWords);
                 // console.log(this._grid);
             }
 
@@ -84,6 +84,7 @@ export class GridGenerator {
         }
         catch (e){
             console.log("error");
+            return false;
         }
         
 
@@ -106,18 +107,21 @@ export class GridGenerator {
         return template;
     }
 
-    private updateGrid(word: Word): void {
-        if (word.value.length === 0) {
-            word.value = "";
-            for (let i: number = 0; i < word.size; i++) {
-                word.value += WHITE_CASE;
+    private updateGrid(filledWords: Word[]): void {
+        for (let i: number = 0; i < this.nRows; i++) {
+            for (let j: number = 0; j < this.nColumns; j++) {
+                if (this._grid[i][j] !== BLACK_CASE) {
+                    this.grid[i][j] = WHITE_CASE;
+                }
             }
         }
-        for (let i: number = 0; i < word.value.length; i++) {
-            if (word.direction === "horizontal") {
-                this._grid[word.row][word.column + i] = word.value[i];
-            } else {
-                this._grid[word.row + i][word.column] = word.value[i];
+        for (const word of filledWords) {
+            for (let i: number = 0; i < word.value.length; i++) {
+                if (word.direction === "horizontal") {
+                    this._grid[word.row][word.column + i] = word.value[i];
+                } else {
+                    this._grid[word.row + i][word.column] = word.value[i];
+                }
             }
         }
         console.log(this._grid);

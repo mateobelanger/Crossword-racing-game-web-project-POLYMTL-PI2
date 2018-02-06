@@ -17,7 +17,7 @@ export class GridGeneratorService {
         const router: Router = Router();
 
         router.get("/service/gridGenerator/:difficulty",
-            (req: Request, res: Response, next: NextFunction) => {console.log("test1"); generator.generate(4, "easy")});
+            (req: Request, res: Response, next: NextFunction) => {console.log("test1"); generator.generate(25, "easy")});
 
             /*async (req: Request, res: Response) => {
                     let x: any;
