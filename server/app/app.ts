@@ -4,9 +4,12 @@ import * as logger from "morgan";
 import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
+
 import Types from "./types";
 import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
+import { LexicalService } from "./lexicalService/lexicalService";
+import { GridGeneratorService } from "./gridGeneratorService";
 
 @injectable()
 export class Application {
@@ -14,12 +17,14 @@ export class Application {
     private readonly internalError: number = 500;
     public app: express.Application;
 
-    constructor(@inject(Types.Routes) private api: Routes) {
+    constructor(@inject(Types.Routes) private api: Routes,
+                @inject(Types.LexicalService) private lexicalService: LexicalService,
+                @inject(Types.GridGeneratorService) private gridGeneratorService: GridGeneratorService) {
         this.app = express();
 
         this.config();
 
-        this.routes();
+        this.initializeRoutes();
     }
 
     private config(): void {
@@ -32,11 +37,13 @@ export class Application {
         this.app.use(cors());
     }
 
-    public routes(): void {
+    public initializeRoutes(): void {
         const router: express.Router = express.Router();
 
         router.use(this.api.routes);
-
+        router.use(this.lexicalService.routes);
+        router.use(this.gridGeneratorService.routes);
+        
         this.app.use(router);
 
         this.errorHandeling();
