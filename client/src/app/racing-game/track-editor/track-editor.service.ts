@@ -42,7 +42,7 @@ export class TrackEditorService {
         if (this.track.getTrackSize() > 1) {
             if (waypoints.length === 1)
                 waypoints.unshift(this.track.getPreviousToLastWaypoint());
-            this.trackEditorRenderService.planeHandler.generatePlanes(waypoints, false);
+            this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
         }
       }
 
@@ -73,7 +73,7 @@ export class TrackEditorService {
 
     public closeTrack(): void {
         const waypoints: Waypoint[] = [this.track.getLastWaypoint(), this.track.getFirstWaypoint()];
-        this.trackEditorRenderService.planeHandler.generatePlanes(waypoints, true);
+        this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
     }
 
     public uncloseTrack(): void {
