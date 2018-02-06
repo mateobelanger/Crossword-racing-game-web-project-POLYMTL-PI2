@@ -1,4 +1,4 @@
-{
+{    
     "rulesDirectory": [
         "node_modules/codelyzer",
         "node_modules/tslint-microsoft-contrib"
@@ -11,7 +11,7 @@
             true,
             "check-space"
         ],
-        "curly": true,
+        "curly": false,
         "deprecation": {
             "severity": "warn"
         },

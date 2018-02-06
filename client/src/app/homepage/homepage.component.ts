@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
     })
     export class HomepageComponent implements OnInit {
 
-    public constructor() { }
+  public constructor() { }
 
-    public ngOnInit(): void {
-    }
+  public ngOnInit(): void {
+  }
 
 }

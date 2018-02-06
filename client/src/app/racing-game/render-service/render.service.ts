@@ -4,6 +4,7 @@ import { WebGLRenderer, Scene, AmbientLight} from "three";
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
+//TODO: ROMOVE : TEST_AXES
 import { TestAxes } from "../test-axes";
 
 const ACCELERATE_KEYCODE: number = 87;  // w

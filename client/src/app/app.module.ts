@@ -8,9 +8,10 @@ import { AppComponent } from "./app.component";
 
 
 // Module
-import { HomepageModule } from './homepage/homepage.module';
-import { CrosswordGameModule } from './crossword-game/crossword-game.module';
-import { RacingGameModule } from './racing-game/racing-game.module';
+import { HomepageModule} from './homepage/homepage.module';
+import { CrosswordGameModule} from './crossword-game/crossword-game.module';
+import { RacingGameModule} from './racing-game/racing-game.module';
+import { AdminModule} from './admin/admin.module';
 
 
 
@@ -29,7 +30,6 @@ import { routes } from './app-routes.module';
         HomepageModule,
         CrosswordGameModule,
         RacingGameModule,
-        FormsModule
 
     ],
     providers: [ ],

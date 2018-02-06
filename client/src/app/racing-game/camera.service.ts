@@ -6,7 +6,7 @@ const NEAR_CLIPPING_PLANE: number = 1;
 const FIELD_OF_VIEW: number = 70;
 const INITIAL_CAMERA_POSITION_Y: number = 25;
 
-const ORTHOGRAPHIC_CAMERA_VIEW_RATIO: number = 25;
+const ORTHOGRAPHIC_CAMERA_VIEW_RATIO: number = 15;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
 
@@ -20,22 +20,20 @@ export class CameraService {
 
     private camera: CameraType;
 
-    public orthographicCamera: OrthographicCamera;
+    private orthographicCamera: OrthographicCamera;
 
-    public perspectiveCamera: PerspectiveCamera;
+    private perspectiveCamera: PerspectiveCamera;
 
-    public carVectorToFollow: Vector3;
+    private carVectorToFollow: Vector3;
+
+    private initialAspectRatio: number;
 
     public constructor() {
         this.camera = CameraType.ORTHOGRAPHIC;
      }
 
     public changeCamera(): void {
-        if (this.camera === CameraType.PERSPECTIVE) {
-            this.camera = CameraType.ORTHOGRAPHIC;
-        } else {
-            this.camera = CameraType.PERSPECTIVE;
-        }
+        this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
     }
 
     public getCamera(): Camera {
@@ -48,6 +46,7 @@ export class CameraService {
             this.container = container;
         }
         this.carVectorToFollow = carVectorToFollow;
+        this.initialAspectRatio = this.getAspectRatio();
     }
 
 
@@ -56,16 +55,16 @@ export class CameraService {
     }
 
     public initCameras(): void {
-
+        /*tslint:disable:no-magic-numbers */
         this.orthographicCamera = new OrthographicCamera (
-            this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / - 2,
-            this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / 2,
-            this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / 2,
-            this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / - 2,
+            this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2,
+            this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / 2,
+            this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / 2,
+            this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2,
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
-
+        /*tslint:enable:no-magic-numbers*/
         this.orthographicCamera.position.x = this.carVectorToFollow.x;
         this.orthographicCamera.position.y = INITIAL_CAMERA_POSITION_Y;
         this.orthographicCamera.position.z = this.carVectorToFollow.z;
@@ -99,6 +98,7 @@ export class CameraService {
     }
 
     public camerasOnResize(aspectRatio: number): void {
+
         this.orthographicCamera.left   =  this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / - 2,
         this.orthographicCamera.right  =  this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / 2,
         this.orthographicCamera.top    =  this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / 2,
@@ -108,7 +108,5 @@ export class CameraService {
         this.perspectiveCamera.aspect = aspectRatio;
         this.perspectiveCamera.updateProjectionMatrix();
     }
-
-
 
 }

@@ -13,7 +13,7 @@ describe("BasicService", () => {
             ],
             providers: [
                 { provide: APP_BASE_HREF,
-                useValue: '/'
+                  useValue: '/'
             }
             ]
         });

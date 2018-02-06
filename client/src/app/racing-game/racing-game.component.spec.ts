@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RacingGameComponent } from './racing-game.component';
-//import { GameComponent } from './game-component/game.component';
-//import { RenderService } from './render-service/render.service';
 import { RacingGameModule } from './racing-game.module';
 
 describe('RacingGameComponent', () => {
