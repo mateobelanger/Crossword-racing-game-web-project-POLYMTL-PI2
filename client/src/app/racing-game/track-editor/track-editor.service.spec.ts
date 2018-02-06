@@ -6,9 +6,9 @@ import { Vector3 } from 'three';
 
 describe('TrackEditorService', () => {
 
-  let dummyElement = document.createElement('div');
-  let trackRender: TrackEditorRenderService = new TrackEditorRenderService();
-  let editorService: TrackEditorService = new TrackEditorService(trackRender);
+  const dummyElement: HTMLDivElement = document.createElement('div');
+  const trackRender: TrackEditorRenderService = new TrackEditorRenderService();
+  const editorService: TrackEditorService = new TrackEditorService(trackRender);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,13 +16,13 @@ describe('TrackEditorService', () => {
     });
 
     editorService.initialize(dummyElement);
-    let waypoints: Waypoint[] = new Array<Waypoint>();
-
+    const waypoints: Waypoint[] = new Array<Waypoint>();
+    // tslint:disable:no-magic-numbers
     waypoints.push(new Waypoint(new Vector3(0, 0, 0)));
     waypoints.push(new Waypoint(new Vector3(1, 1, 0)));
     waypoints.push(new Waypoint(new Vector3(2, 2, 0)));
     waypoints.push(new Waypoint(new Vector3(3, 10, 0)));
-
+    // tslint:disable:no-magic-numbers
     editorService.addWaypoints(waypoints);
   });
 
