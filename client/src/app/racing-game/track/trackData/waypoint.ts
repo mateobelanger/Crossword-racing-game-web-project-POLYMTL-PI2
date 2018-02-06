@@ -1,15 +1,20 @@
 import * as THREE from 'three';
 
-const MAX_BINDED_PLANES: number = 2;
+//const MAX_BINDED_PLANES: number = 2;
 
 export class Waypoint {
 
     private circleId: number = null;
 
-    private planesId: number[] = []; // order of elements important
+    private incomingPlaneId: number = null;
+
+    private outgoingPlaneId: number = null;
+
+    //a enelever
+    //private planesId: number[] = []; // order of elements important
 
     public constructor(
-        private position: THREE.Vector3 = new THREE.Vector3(0, 0, 0),
+        private position: THREE.Vector3 = new THREE.Vector3(0, 0, 0)
     ) {}
 
     public getPosition(): THREE.Vector3 {
@@ -37,32 +42,44 @@ export class Waypoint {
         this.circleId = null;
     }
 
-    public bindPlane(id: number): void {
+    public bindIncomingPlane(id: number): void {
+        if (this.incomingPlaneId === null)
+        this.incomingPlaneId = id;
+    }
+
+    public unbindIncomingPlane(): void {
+        this.incomingPlaneId = null;
+    }
+
+    public getIncomingPlaneId(): number {
+        return this.incomingPlaneId;
+    }
+
+    public bindOutgoingPlane(id: number): void {
+        if (this.outgoingPlaneId === null)
+        this.outgoingPlaneId = id;
+    }
+
+    public unbindOutgoingPlane(): void {
+        this.outgoingPlaneId = null;
+    }
+
+    public getOutgoingPlaneId(): number {
+        return this.outgoingPlaneId;
+    }
+
+    //a changer
+   /* public bindPlane(id: number): void {
         if ((this.planesId.length < MAX_BINDED_PLANES) && (this.planesId.indexOf(id) === -1))
             this.planesId.push(id);
-    }
+    }*/
 
-    public bindClosingPlane(id: number): void {
-        this.planesId[0] = id;
-    }
-
-    public bindNoPlane(): void {
+    //a decaliss
+    /*public bindNoPlane(): void {
         this.planesId.unshift(null);
-    }
+    }*/
 
-    public getPlanesIds(): number[] {
+    /*public getPlanesIds(): number[] {
         return this.planesId;
-    }
-
-    public unbindPlane(idToremove: number): void {
-        const index: number = this.planesId.indexOf(idToremove);
-        if ( index > -1)
-            this.planesId.splice(index, 1);
-    }
-
-    public unbindClosingPlane(idToremove: number): void {
-        const index: number = this.planesId.indexOf(idToremove);
-        if( index > -1)
-            this.planesId[0] = null;
-    }
+    }*/
 }
