@@ -67,19 +67,4 @@ export class Waypoint {
     public getOutgoingPlaneId(): number {
         return this.outgoingPlaneId;
     }
-
-    //a changer
-   /* public bindPlane(id: number): void {
-        if ((this.planesId.length < MAX_BINDED_PLANES) && (this.planesId.indexOf(id) === -1))
-            this.planesId.push(id);
-    }*/
-
-    //a decaliss
-    /*public bindNoPlane(): void {
-        this.planesId.unshift(null);
-    }*/
-
-    /*public getPlanesIds(): number[] {
-        return this.planesId;
-    }*/
 }
