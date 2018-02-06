@@ -37,7 +37,6 @@ export class PlaneHandler {
         this.planes.splice(index, 1);
     }
 
-    // order of planeIds important!! 1st -> endPoint  2nd -> beginingPoint
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
         newPos.z = PLANE_POSITION_Z;
         const firstPlane: Plane = this.getPlane(waypoint.getIncomingPlaneId());
@@ -142,7 +141,8 @@ export class PlaneHandler {
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
+    /*tslint:disable:no-any*/
     private isDefined(object: any): boolean {
         return ((object !== null) && (object !== undefined));
-    }
+    }/*tslint:enable:no-any*/
 }

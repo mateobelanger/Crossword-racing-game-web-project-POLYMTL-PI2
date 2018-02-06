@@ -43,7 +43,7 @@ export class TrackEditorRenderService {
 
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
-
+        /*tslint:disable:no-magic-numbers*/
         this.camera = new THREE.OrthographicCamera (
           this.container.clientWidth / -2,
           this.container.clientWidth / 2,
@@ -52,6 +52,7 @@ export class TrackEditorRenderService {
           ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
           ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
+        /*tslint:enable:no-magic-numbers*/
         this.camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -62,9 +63,9 @@ export class TrackEditorRenderService {
         this.backgroundPlane = new BackgroundPlane(this.scene, this.container);
 
         this.backgroundPlane.generateBackgroundPlan();
-
+        /*tslint:disable:no-any*/
         (window as any).scene = this.scene;
-
+        /*tslint:enable:no-any*/
     }
 
     private startRenderingLoop(): void {
@@ -91,8 +92,10 @@ export class TrackEditorRenderService {
     }
 
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
+        /*tslint:disable:no-magic-numbers*/
         this.mouse.x = ( event.offsetX / this.container.clientWidth ) * 2 - 1;
         this.mouse.y = -( event.offsetY / this.container.clientHeight ) * 2 + 1;
+        /*tslint:enable:no-magic-numbers*/
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         return this.mouse;

@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 
-//const MAX_BINDED_PLANES: number = 2;
-
 export class Waypoint {
 
     private circleId: number = null;
@@ -9,9 +7,6 @@ export class Waypoint {
     private incomingPlaneId: number = null;
 
     private outgoingPlaneId: number = null;
-
-    //a enelever
-    //private planesId: number[] = []; // order of elements important
 
     public constructor(
         private position: THREE.Vector3 = new THREE.Vector3(0, 0, 0)
