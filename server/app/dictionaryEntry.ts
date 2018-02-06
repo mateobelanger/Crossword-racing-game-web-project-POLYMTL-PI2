@@ -1,16 +1,15 @@
 const COMMON_LIMIT: number = 10;
 const FREQUENCY_INDEX: number = 2;
-// const QUOTATION_MARKS_ASCII_CODE: number = 34;
+const QUOTATION_MARKS_ASCII_CODE: number = 34;
 
-export class Word {
+export class DictionaryEntry {
 
-    // TODO remettre prive
-    public name: String;
-    private frequency: String;
-    public definitions: String[];
-    public definitionIndex: number;
+    private name: string;
+    private frequency: string;
+    private definitions: string[];
+    private definitionIndex: number;
 
-    public constructor (name: String, frequency: String, definitions: String[]) {
+    public constructor (name: string, frequency: string, definitions: string[]) {
 
         this.name = name;
         this.frequency = frequency;
@@ -19,7 +18,23 @@ export class Word {
 
     }
 
+    public getName(): string {
+
+        return this.name;
+    }
+    
+    public getDefinitions(): string[] {
+
+        return this.definitions;
+    }
+    
+    public getDefinitionIndex(): number {
+
+        return this.definitionIndex;
+    }
+   
     public isCommon(): boolean {
+
         return Number(this.frequency.toString().substring(FREQUENCY_INDEX)) > COMMON_LIMIT ;
     }
 
@@ -38,7 +53,8 @@ export class Word {
         let isFirstValidDefinition: boolean = true;
 
         for (let i: number = 0; i < this.definitions.length; i++) {
-            if (!this.isNounOrVerb(i) || this.currentDefinitionContainsWordItself(i)) {
+            if (!this.isNounOrVerb(i) || this.currentDefinitionContainsWordItself(i)
+                || this.currentDefinitionContainsExemple(i)) {
                 continue;
             }
             if (isEasy) {
@@ -52,21 +68,20 @@ export class Word {
             }
         }
     }
-    // Ou l'appeler?
-/*    private removeExampleFromDefinition(): void {
-        const quotationMarksIndex: number = this.definitions[this.definitionIndex].indexOf(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
-        if (indexOfQuotationMarks !== -1) {     // -1.. n'enlevera pas la , mais si juste exemple.. quoi faire?
-            this.definitions[this.definitionIndex] = this.definitions[this.definitionIndex].substring(0, indexOfQuotationMarks - 1);
-        }
 
-    }
-*/
-    private isNounOrVerb( definitionIndex: number): boolean {
-        return this.definitions[definitionIndex].substr(0, 1) === "n" || this.definitions[definitionIndex].substr(0, 1) === "v";
+    private isNounOrVerb(definitionIndex: number): boolean {
+
+        return this.definitions[definitionIndex].substr(0, 1) === "n" ||
+               this.definitions[definitionIndex].substr(0, 1) === "v";
     }
 
-    private currentDefinitionContainsWordItself( definitionIndex: number): boolean {
+    private currentDefinitionContainsWordItself(definitionIndex: number): boolean {
+
         return this.definitions[definitionIndex].includes(this.name.toString());
     }
 
+    private currentDefinitionContainsExemple(definitionIndex: number): boolean {
+        return this.definitions[definitionIndex].includes(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
+
+    }
 }
