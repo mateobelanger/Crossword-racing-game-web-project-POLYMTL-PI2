@@ -55,7 +55,7 @@ export class CameraService {
     }
 
     public initCameras(): void {
-
+        /*tslint:disable:no-magic-numbers */
         this.orthographicCamera = new OrthographicCamera (
             this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2,
             this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / 2,
@@ -64,7 +64,7 @@ export class CameraService {
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
-
+        /*tslint:enable:no-magic-numbers*/
         this.orthographicCamera.position.x = this.carVectorToFollow.x;
         this.orthographicCamera.position.y = INITIAL_CAMERA_POSITION_Y;
         this.orthographicCamera.position.z = this.carVectorToFollow.z;
