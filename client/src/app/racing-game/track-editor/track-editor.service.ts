@@ -39,10 +39,12 @@ export class TrackEditorService {
             this.track.addWaypoint(waypoint);
         });
         this.trackEditorRenderService.getCircleHandler().generateCircles(waypoints);
-        if (this.track.getTrackSize() > 1) {
+        if (this.track.getWaypointsSize() > 1) {
             if (waypoints.length === 1)
                 waypoints.unshift(this.track.getPreviousToLastWaypoint());
             this.trackEditorRenderService.planeHandler.generatePlanes(waypoints, false);
+        } else {
+            this.track.getFirstWaypoint().bindNoPlane();
         }
       }
 
@@ -54,13 +56,13 @@ export class TrackEditorService {
     }
 
     public removeWaypoint(): void {
-        if (this.track.getTrackSize() > 0) {
+        if (this.track.getWaypointsSize() > 0) {
             const waypoint: Waypoint = this.track.removeWaypoint();
             this.trackEditorRenderService.getCircleHandler().removeCircle(waypoint.getCircleId());
-            if (this.track.getTrackSize() > 0) {
-                const planeId: number = waypoint.getIncomingPlaneId();
+            if (this.track.getWaypointsSize() > 0) {
+                const planeId: number = waypoint.getPlanesIds()[0];
                 this.trackEditorRenderService.planeHandler.removePlane(planeId);
-                this.track.getWaypointBindedToPlane(planeId).unbindOutgoingPlane();
+                this.track.getWaypointBindedToPlane(planeId).unbindPlane(planeId);
             }
         }
     }
@@ -68,7 +70,7 @@ export class TrackEditorService {
     public isTrackClosable(): boolean {
         return !this.closedTrack
                && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId())
-               && this.track.getTrackSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON;
+               && this.track.getWaypointsSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON;
     }
 
     public closeTrack(): void {
@@ -77,11 +79,11 @@ export class TrackEditorService {
     }
 
     public uncloseTrack(): void {
-        const lastPlaneId: number = this.track.getLastWaypoint().getOutgoingPlaneId();
+        const lastPlaneId: number = this.track.getLastWaypoint().getPlanesIds()[1];
         this.trackEditorRenderService.planeHandler.removePlane(lastPlaneId);
 
-        this.track.getFirstWaypoint().unbindIncomingPlane();
-        this.track.getLastWaypoint().unbindOutgoingPlane();
+        this.track.getFirstWaypoint().unbindClosingPlane(lastPlaneId);
+        this.track.getLastWaypoint().unbindPlane(lastPlaneId);
     }
 
     public handleRightMouseDown(event: MouseEvent): void {
