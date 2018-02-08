@@ -1,4 +1,3 @@
-
 <div class="configuration">
     <h4>Game Configuration</h4>
     <div class="difficuly">
@@ -6,17 +5,17 @@
             Select difficulty:
         </p>
 
-        <input type="radio" [(ngModel)]="difficulty" value="Easy">  Easy <br>
-        <input type="radio" [(ngModel)]="difficulty" value="Normal">  Normal <br>
-        <input type="radio" [(ngModel)]="difficulty" value="Hard">  Hard <br>
+        <input type="radio" [(ngModel)]="difficulty" value="Easy"> Easy <br>
+        <input type="radio" [(ngModel)]="difficulty" value="Normal"> Normal <br>
+        <input type="radio" [(ngModel)]="difficulty" value="Hard"> Hard <br>
 
-        <div *ngIf="difficulty; else elseBlock"> 
+        <div *ngIf="difficulty; else elseBlock">
             <button routerLink="{{difficulty}}/ui">Create Game</button>
         </div>
 
         <ng-template #elseBlock>
             <button disabled="true">Create Game</button>
         </ng-template>
-    
+
     </div>
-</div>  
+</div>
