@@ -4,6 +4,7 @@ import { GameUiComponent } from './game-ui.component';
 import { InformationsComponent } from '../informations/informations.component';
 import { GridComponent } from '../grid/grid.component';
 import { DefinitionsComponent } from '../definitions/definitions.component';
+import { FormsModule } from '@angular/forms';
 
 describe('GameUiComponent', () => {
     let component: GameUiComponent;
@@ -16,7 +17,8 @@ describe('GameUiComponent', () => {
             InformationsComponent,
             GridComponent,
             DefinitionsComponent
-         ]
+        ],
+        imports: [ FormsModule]
         })
         .compileComponents();
     }));
