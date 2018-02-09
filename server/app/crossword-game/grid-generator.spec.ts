@@ -1,12 +1,12 @@
 import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE } from "./grid-generator";
-import { Word } from "./word";
+import { GridEntry } from "./word";
 import { assert } from "chai";
 
 describe("Grid generator:", () => {
     let generator: GridGenerator;
     const nBlackCases: number = 0;
     const size: number = 3;
-    let words: Word[];
+    let words: GridEntry[];
     const difficulty: string = "easy";
 
     beforeEach(() => {
@@ -48,7 +48,7 @@ describe("Grid generator:", () => {
         let result: boolean = true;
 
         for (const word of words) {
-            if (word.size < MIN_WORD_LENGTH) {
+            if (word.word.size < MIN_WORD_LENGTH) {
                 result = false;
                 break;
             }
@@ -61,10 +61,10 @@ describe("Grid generator:", () => {
         for (let i: number = 0; i < size; i++) {
             let count: number = 0;
             for (const word of words) {
-                if (word.direction !== "horizontal") {
+                if (word.word.direction !== "horizontal") {
                     continue;
                 }
-                if (word.row === i) {
+                if (word.word.row === i) {
                     count++;
                 }
             }
@@ -76,10 +76,10 @@ describe("Grid generator:", () => {
         for (let i: number = 0; i < size; i++) {
             let count: number = 0;
             for (const word of words) {
-                if (word.direction !== "vertical") {
+                if (word.word.direction !== "vertical") {
                     continue;
                 }
-                if (word.column === i) {
+                if (word.word.column === i) {
                     count++;
                 }
             }
