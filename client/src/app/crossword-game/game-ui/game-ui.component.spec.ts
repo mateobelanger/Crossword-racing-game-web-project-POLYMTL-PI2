@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { APP_BASE_HREF } from '@angular/common';
 
 import { GameUiComponent } from './game-ui.component';
 import { InformationsComponent } from '../informations/informations.component';
@@ -6,6 +7,7 @@ import { GridComponent } from '../grid/grid.component';
 import { DefinitionsComponent } from '../definitions/definitions.component';
 import { FormsModule } from '@angular/forms';
 import { routes } from '../../app-routes.module';
+import { AppModule } from '../../app.module';
 
 describe('GameUiComponent', () => {
     let component: GameUiComponent;
@@ -13,13 +15,10 @@ describe('GameUiComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-        declarations: [
-            GameUiComponent,
-            InformationsComponent,
-            GridComponent,
-            DefinitionsComponent
-        ],
-        imports: [ FormsModule, routes ]
+       imports: [routes, AppModule],
+       providers: [{provide: APP_BASE_HREF, useValue : '/' }]
+
+
         })
         .compileComponents();
     }));
