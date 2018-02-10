@@ -32,4 +32,8 @@ export class DefinitionsComponent implements OnInit {
     public ngOnInit(): void {
     }
 
+    public onSelect(def: string): void {
+        this.selectedDefinition = def;
+    }
+
 }
