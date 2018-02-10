@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { PerspectiveCamera, OrthographicCamera, Camera, Vector3} from 'three';
+import { PerspectiveCamera, OrthographicCamera, Camera, Object3D } from 'three';
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
 const FIELD_OF_VIEW: number = 70;
-const INITIAL_CAMERA_POSITION_Y: number = 25;
+const INITIAL_CAMERA_POSITION_Y: number = 10;
 
 const ORTHOGRAPHIC_CAMERA_VIEW_RATIO: number = 15;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
@@ -24,12 +24,12 @@ export class CameraService {
 
     private perspectiveCamera: PerspectiveCamera;
 
-    private carVectorToFollow: Vector3;
+    private carToFollow: Object3D;
 
     private initialAspectRatio: number;
 
     public constructor() {
-        this.camera = CameraType.ORTHOGRAPHIC;
+        this.camera = CameraType.PERSPECTIVE;
      }
 
     public changeCamera(): void {
@@ -41,11 +41,11 @@ export class CameraService {
     }
 
 
-    public initialization(container: HTMLDivElement, carVectorToFollow: Vector3): void {
+    public initialization(container: HTMLDivElement, carToFollow: Object3D): void {
         if (container) {
             this.container = container;
         }
-        this.carVectorToFollow = carVectorToFollow;
+        this.carToFollow = carToFollow;
         this.initialAspectRatio = this.getAspectRatio();
     }
 
@@ -65,11 +65,11 @@ export class CameraService {
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
         /*tslint:enable:no-magic-numbers*/
-        this.orthographicCamera.position.x = this.carVectorToFollow.x;
+        this.orthographicCamera.position.x = this.carToFollow.position.x;
         this.orthographicCamera.position.y = INITIAL_CAMERA_POSITION_Y;
-        this.orthographicCamera.position.z = this.carVectorToFollow.z;
+        this.orthographicCamera.position.z = this.carToFollow.position.z;
 
-        this.orthographicCamera.lookAt(this.carVectorToFollow);
+        this.orthographicCamera.lookAt(this.carToFollow.position);
 
 
         this.perspectiveCamera = new PerspectiveCamera (
@@ -81,19 +81,27 @@ export class CameraService {
 
         // TODO: PerspectivveCamera :
         // INITIALIZE PERSPECTIVE CAMERA'S POSITION
-        this.perspectiveCamera.position.set(0, INITIAL_CAMERA_POSITION_Y, 0);
-        this.perspectiveCamera.lookAt(this.carVectorToFollow);
+        this.perspectiveCamera.position.set(this.carToFollow.position.x, INITIAL_CAMERA_POSITION_Y, this.carToFollow.position.z);
+        this.perspectiveCamera.lookAt(this.carToFollow.position);
+
     }
 
     public cameraFollowCarPosition(): void {
 
-       this.orthographicCamera.position.x = this.carVectorToFollow.x;
-       this.orthographicCamera.position.z = this.carVectorToFollow.z;
+       this.orthographicCamera.position.x = this.carToFollow.position.x;
+       this.orthographicCamera.position.z = this.carToFollow.position.z;
 
        // TODO for PerspectivveCamera :
-       // Change it when perspective Camera is gonna be set.
-       this.perspectiveCamera.position.x = this.carVectorToFollow.x;
-       this.perspectiveCamera.position.z = this.carVectorToFollow.z;
+       //// Change it when perspective Camera is gonna be set.
+       //this.perspectiveCamera.position.x = this.carToFollow.position.x;
+       //this.perspectiveCamera.position.z = this.carToFollow.position.z;
+      // this.perspectiveCamera.position.set(10, INITIAL_CAMERA_POSITION_Y, 0);
+
+
+       this.perspectiveCamera.position.x = this.carToFollow.position.x + 20;
+       this.perspectiveCamera.position.y = INITIAL_CAMERA_POSITION_Y;
+       this.perspectiveCamera.position.z = this.carToFollow.position.z;
+       this.perspectiveCamera.lookAt(this.carToFollow.position);
 
     }
 

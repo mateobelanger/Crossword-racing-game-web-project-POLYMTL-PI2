@@ -67,7 +67,7 @@ export class RenderService {
 
         this.scene.add(new AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
-        this.cameraService.initialization(this.container, this._car.getVectorPosition());
+        this.cameraService.initialization(this.container, this._car.getMesh());
         this.cameraService.initCameras();
 
         //TODO: ROMOVE : TEST_AXES
