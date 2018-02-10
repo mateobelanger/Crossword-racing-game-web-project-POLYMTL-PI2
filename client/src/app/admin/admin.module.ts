@@ -5,6 +5,7 @@ import { TrackEditorService } from '../racing-game/track-editor/track-editor.ser
 import { TrackEditorComponent } from '../racing-game/track-editor/track-editor.component';
 import { TrackEditorRenderService } from '../racing-game/track-editor/track-editor-render.service';
 import { AdminComponent } from './admin.component';
+import { TrackEditorUiComponent } from './track-editor-ui/track-editor-ui.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { AdminComponent } from './admin.component';
   ],
   declarations: [
     AdminComponent,
-    TrackEditorComponent
+    TrackEditorComponent,
+    TrackEditorUiComponent
   ],
   exports: [
     AdminComponent,

@@ -1,0 +1,49 @@
+h3 {
+    text-align: center;
+}
+
+.left {
+    position: relative;
+    float: left;
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    background-color: aqua;
+}
+
+.right {
+    position: relative;
+    float: right;
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    background-color: blueviolet;
+}
+
+.track-informations {
+    margin: 280px 0;
+}
+
+.track-editor {
+    margin-left: 13%;
+    padding: 0;
+    /* 
+    Notice : the size of the track-editor is defined in 
+    track-editor.component. The width and the height defined bellow
+    are there just to make sure the div is the same size of the track-editor.component
+    */
+    width: 750px;
+    height: 600px;
+    background: red;
+}
+
+.save-button {
+    margin-top: 30px;
+    margin-left: 40%;
+    background-color: brown;
+    width: 140px;
+}
+
+.btn {
+    padding: 20px 30px;
+}
