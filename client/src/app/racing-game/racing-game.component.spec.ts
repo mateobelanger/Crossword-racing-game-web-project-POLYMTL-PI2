@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 
 import { RacingGameComponent } from './racing-game.component';
-import { RacingGameModule } from './racing-game.module';
 import { routes } from '../app-routes.module';
 import { AppModule } from '../app.module';
 
