@@ -1,17 +1,17 @@
 import { Point } from "./point";
 
-export default class LineEquation {
+export class LineEquation {
 
     // y = ax + b
-    private slope: number;
+    private _slope: number;
 
-    private b: number;
+    private _b: number;
 
     private _lowerBound: number;
 
     private _higherBound: number;
 
-    private isVerticalLine: boolean = false;
+    private _isVerticalLine: boolean = false;
 
     public constructor() {
     }
@@ -20,7 +20,7 @@ export default class LineEquation {
         this._lowerBound = firstPoint.x;
         this._higherBound = secondPoint.x;
         if ( firstPoint.x === secondPoint.x )
-            this.isVerticalLine = true;
+            this._isVerticalLine = true;
         this.calculateLineEquation(firstPoint, secondPoint);
     }
 
@@ -32,16 +32,28 @@ export default class LineEquation {
         return this._lowerBound;
     }
 
+    public get slope(): number {
+        return this._slope;
+    }
+
+    public get b(): number {
+        return this._b;
+    }
+
+    public get isVerticalLine(): boolean {
+        return this._isVerticalLine;
+    }
+
     private calculateLineEquation(firstPoint: Point, secondPoint: Point): void {
-        this.calculateSlope(firstPoint, secondPoint);
-        this.calculateB(firstPoint);
+        this._slope = this.calculateSlope(firstPoint, secondPoint);
+        this._b = this.calculateB(firstPoint);
     }
 
     private calculateSlope(firstPoint: Point, secondPoint: Point): number {
-        return this.isVerticalLine ? NaN : ((secondPoint.y - firstPoint.y) / (secondPoint.x - firstPoint.x));
+        return this._isVerticalLine ? NaN : ((secondPoint.y - firstPoint.y) / (secondPoint.x - firstPoint.x));
     }
 
     private calculateB(point: Point): number {
-        return this.isVerticalLine ? NaN : point.y - this.slope * point.x;
+        return this._isVerticalLine ? NaN : point.y - this._slope * point.x;
     }
 }
