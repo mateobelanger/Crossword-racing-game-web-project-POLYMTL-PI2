@@ -92,12 +92,7 @@ export class CameraService {
        this.orthographicCamera.position.z = this.carToFollow.position.z;
 
        // TODO for PerspectivveCamera :
-       //// Change it when perspective Camera is gonna be set.
-       //this.perspectiveCamera.position.x = this.carToFollow.position.x;
-       //this.perspectiveCamera.position.z = this.carToFollow.position.z;
-      // this.perspectiveCamera.position.set(10, INITIAL_CAMERA_POSITION_Y, 0);
-
-
+       // Tourner caméra quand auto tourne
        this.perspectiveCamera.position.x = this.carToFollow.position.x + 20;
        this.perspectiveCamera.position.y = INITIAL_CAMERA_POSITION_Y;
        this.perspectiveCamera.position.z = this.carToFollow.position.z;
