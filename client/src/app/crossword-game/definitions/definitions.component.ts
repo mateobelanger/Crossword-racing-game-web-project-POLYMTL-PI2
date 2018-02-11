@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WordSelectionService } from '../word-selection.service';
 
 @Component({
   selector: 'app-definitions',
@@ -9,9 +10,8 @@ export class DefinitionsComponent implements OnInit {
 
     private horizontalDefinitions: Array<Array<string>>;
     private verticalDefinitions: Array<Array<string>>;
-    public selectedDefinition: string;
 
-    public constructor() {
+    public constructor(private wordSelection: WordSelectionService) {
         this.horizontalDefinitions = [["massive plantigrade carnivorous or omnivorous mammals with long shaggy coats and strong claws",
                                        "from a particular thing or place or position"],
                                       ["bound together on one edge",
@@ -20,7 +20,7 @@ export class DefinitionsComponent implements OnInit {
                                       ["color of the sky",
                                        "color of the sun"],
                                       ["part of an orchestra, a choir"], [], ['yo boy']];
-        this.verticalDefinitions = [["not so massive plantigrade carnivorous or not with long shaggy coats and strong claws", 
+        this.verticalDefinitions = [["not so massive plantigrade carnivorous or not with long shaggy coats and strong claws",
                                      "from a particular place or position or hell"],
                                     ["bound together on three edges",
                                      "the sacred writings of the Muslim religions",
@@ -33,7 +33,11 @@ export class DefinitionsComponent implements OnInit {
     }
 
     public onSelect(def: string): void {
-        this.selectedDefinition = def;
+        this.wordSelection.setDefinition(def);
+    }
+
+    public getSelectedDefinition(): string {
+        return this.wordSelection.getDefinition();
     }
 
 }

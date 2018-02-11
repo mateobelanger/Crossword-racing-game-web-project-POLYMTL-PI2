@@ -1,13 +1,15 @@
 
 li {
+    color: black;
     list-style-type: none;
     font-weight: normal;
     padding: 0px 3vw;
+    cursor: pointer;
 }
 
 li:hover {
     background: lightblue;
-    cursor: pointer;
+    color: black;
 }
 
 .table {
@@ -16,7 +18,13 @@ li:hover {
 }
 
 .selected {
-    color: red;
+    background: rgb(66, 120, 163);
+    color: white;
+}
+
+.selected:hover {
+    background: rgb(56, 110, 133);
+    color: white;
 }
 
 span {
