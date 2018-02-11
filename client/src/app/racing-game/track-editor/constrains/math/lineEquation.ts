@@ -55,14 +55,14 @@ export class LineEquation {
     }
 
     public xInDomain(x: number): boolean {
-        return (this.beginPoint.x <= x || this.endPoint.x >= x);
+        return (this.beginPoint.x <= x && this.endPoint.x >= x);
     }
 
     public lineInImage(line: LineEquation): boolean {
         return (line.beginPoint.y <= this.endPoint.y && line.endPoint.y >= this.beginPoint.y);
     }
     public yInImage(y: number): boolean {
-        return (this.beginPoint.y <= y || this.endPoint.y >= y);
+        return (this.beginPoint.y <= y && this.endPoint.y >= y);
     }
 
     public intersection(line: LineEquation): Point {
