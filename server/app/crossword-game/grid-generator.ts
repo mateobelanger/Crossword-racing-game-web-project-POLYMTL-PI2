@@ -3,8 +3,8 @@ import { Word, GridEntry, HORIZONTAL, VERTICAL } from "./word";
 
 const requestPromise = require("request-promise-native");
 
-export const MIN_WORD_LENGTH: number = 1;
-export const DEFAULT_GRID_SIZE: number = 3;
+export const MIN_WORD_LENGTH: number = 2;
+export const DEFAULT_GRID_SIZE: number = 5;
 export const BLACK_CASE: string = "#";
 export const WHITE_CASE: string = "-";
 
@@ -12,11 +12,12 @@ export class GridGenerator {
     private nRows: number;
     private nColumns: number;
     private _grid: string[][];
+    private cacheWords: Map<string,JSON> = new Map();
 
     public constructor() {
         this._grid = [];
         this.nRows = DEFAULT_GRID_SIZE;
-        this.nColumns = DEFAULT_GRID_SIZE
+        this.nColumns = DEFAULT_GRID_SIZE;
 
     }
 
@@ -136,6 +137,9 @@ export class GridGenerator {
         const wordTemplate: string = this.createTemplate(filledWords[filledWords.length - 1].word);
         try {
             const results: JSON = await this.getWords(wordTemplate, difficulty);
+            if(Object.keys(results).length === 0) {
+                return false;
+            }
             for (let i: number = 0; i < Object.keys(results).length; i++) {
                 if (this.contains(results[i].name, filledWords)) {
                     continue;
@@ -204,7 +208,8 @@ export class GridGenerator {
                     this._grid[entry.word.row + i][entry.word.column] = entry.word.value[i];
                 }
             }
-        }
+        }        
+        console.log(this.grid);
     }
 
     private contains(word: string, entries: GridEntry[]): boolean {
@@ -311,7 +316,10 @@ export class GridGenerator {
         return result;
     }
 
-    private async getWords(wordSkeleton: String, difficulty: String): Promise<JSON> {
+    private async getWords(wordSkeleton: string, difficulty: string): Promise<JSON> {
+        if (this.cacheWords.has(wordSkeleton)) {
+            return this.cacheWords.get(wordSkeleton);
+        }
         const url: String = "http://localhost:3000/service/lexical/wordsearch/" + wordSkeleton + "/" + difficulty;
         const options = {
             method: "GET",
@@ -319,7 +327,9 @@ export class GridGenerator {
             json: true, uri: url
           };
         try {
-            return await requestPromise(options);
+            const possibleWords: JSON = await requestPromise(options);
+            this.cacheWords.set(wordSkeleton, possibleWords);
+            return possibleWords;
         } catch (error) {
             return Promise.reject(error);
         }

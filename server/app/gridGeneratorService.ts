@@ -15,7 +15,7 @@ export class GridGeneratorService {
 
         router.get("/service/gridGenerator/:difficulty",
             (req: Request, res: Response, next: NextFunction) => {
-                generator.placeWords(generator.generate(0, "easy"), filledWords, req.params.difficulty, "", res);
+                generator.placeWords(generator.generate(5, req.params.difficulty), filledWords, req.params.difficulty, "", res);
             });
 
         return router;

@@ -84,4 +84,16 @@ export class DictionaryEntry {
         return this.definitions[definitionIndex].includes(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
 
     }
+
+    public isValidWithTemplate (template: string): boolean {
+        if (template.length !== this.name.length) {
+            return false;
+        }
+        for (let i: number = 0; i < template.length; i++) {
+            if (template[i] !== "?" && template[i] !== this.name[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
