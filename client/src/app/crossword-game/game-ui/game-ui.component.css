@@ -1,17 +1,31 @@
 .game {
-    width: 98%;
+    display: grid;
+    grid-template-columns: 29em 50%;
+    grid-column-gap: 10em;
     padding: 1vw 3vw;
-    padding-left: 100px;
+    padding-left: 6em;
+}
+
+.informations {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: auto;
 }
 
 .grid {
-    float: left;
+    grid-column: 1;
+    grid-row: 2/4;
+    width: 27em;
+    margin-left: 1em;
 }
 
 .definitions {
-    float: right;
+    grid-column: 2;
+    grid-row: 1 / 4;
+    margin-top: 3em;
 }
 
 button {
-    margin-left: 100px;
+    margin-left: 6em;
 }

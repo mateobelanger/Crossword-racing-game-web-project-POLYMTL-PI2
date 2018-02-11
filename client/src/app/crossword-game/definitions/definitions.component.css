@@ -1,4 +1,28 @@
 
+thead, tbody {
+    display: block;
+    font-size: 1vw;
+    border: 1.5px solid black;
+}
+
+.title {
+    color: black;
+    padding: 1vh;
+}
+
+tbody {
+    border-top: none; 
+    height: 14.5em;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+span {
+    margin: 1vw;
+    color: black;
+    font-weight: bold;
+}
+
 li {
     color: black;
     list-style-type: none;
@@ -12,19 +36,6 @@ li:hover {
     color: black;
 }
 
-thead, tbody {
-    display: block;
-    font-size: 1vw;
-    border: 1.5px solid black;
-}
-
-tbody {
-    border-top: none; 
-    height: 14.5em;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 .selected {
     background: rgb(66, 120, 163);
     color: white;
@@ -34,16 +45,3 @@ tbody {
     background: rgb(56, 110, 133);
     color: white;
 }
-
-span {
-    margin: 1vw;
-    color: black;
-    font-weight: bold;
-}
-
-.title {
-    color: black;
-    padding: 1vh;
-    border: none;
-}
-
