@@ -131,6 +131,7 @@ export class GridGenerator {
                             lastTemplate: string, res: Response): Promise<boolean> {
         if (wordsToFill.length === 0) {
             res.send(filledWords);
+            console.log("DONE!");
             return true;
         }
         filledWords.push(wordsToFill.pop());
@@ -148,11 +149,12 @@ export class GridGenerator {
                 addedEntry.word.value = results[i].name;
                 addedEntry.word.definition = results[i].definitions[results[i].definitionIndex];
                 this.updateGrid(filledWords);
-                this.updateWeights(addedEntry, filledWords);
+                this.updateWeights(wordsToFill, filledWords);
                 filledWords.sort((entry1: GridEntry, entry2: GridEntry) => {
                     return entry1.weight - entry2.weight;
                 });
                 if (await this.placeWords(wordsToFill, filledWords, difficulty, wordTemplate, res)) {
+                    console.log(this._grid);
                     return true;
                 }
             }
@@ -161,23 +163,15 @@ export class GridGenerator {
             if (lastEntry !== undefined) {
                 lastEntry.word.value = lastTemplate;
                 wordsToFill.push(lastEntry);
-                this.updateGrid(filledWords);
+                this.updateGrid(wordsToFill);
+                this.updateWeights(wordsToFill, filledWords);
             }
 
             return false;
         }
         catch (e){
             return false;
-        }
-        
-    }
-
-    private updateWeights(addedWord: GridEntry, emptyWords: GridEntry[]): void {
-        for (const entry of emptyWords) {
-            if (addedWord.crosses(entry)) {
-                entry.weight++;
-            }
-        }
+        }   
     }
 
     private createTemplate(word: Word): string {
@@ -210,6 +204,19 @@ export class GridGenerator {
             }
         }        
         console.log(this.grid);
+    }
+
+    private updateWeights(empty: GridEntry[], filled: GridEntry[]): void {
+        for (const entry of empty) {
+            entry.weight = 0;
+        }
+        for (const word of filled) {
+            for (const entry of empty) {
+                if (entry.crosses(word)) {
+                    entry.weight++;
+                }
+            }
+        }
     }
 
     private contains(word: string, entries: GridEntry[]): boolean {
