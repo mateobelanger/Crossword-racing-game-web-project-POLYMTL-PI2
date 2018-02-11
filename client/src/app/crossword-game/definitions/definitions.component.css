@@ -12,9 +12,17 @@ li:hover {
     color: black;
 }
 
-.table {
+thead, tbody {
+    display: block;
     font-size: 1vw;
-    border: 2px solid black;
+    border: 1.5px solid black;
+}
+
+tbody {
+    border-top: none; 
+    height: 14.5em;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .selected {

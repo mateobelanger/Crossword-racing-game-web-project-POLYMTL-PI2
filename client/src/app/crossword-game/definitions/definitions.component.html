@@ -1,6 +1,8 @@
 <table class="table">
     <thead>
-        <th class="title">Across:</th>
+        <tr>
+            <th class="title">Across:</th>
+        </tr>
     </thead>
     <tbody>
         <tr *ngFor="let row of horizontalDefinitions; let indexR = index;" class="index">
@@ -16,7 +18,9 @@
 </table>
 <table class="table">
     <thead>
-        <th class="title">Down:</th>
+        <tr>
+            <th class="title">Down:</th>
+        </tr>
     </thead>
     <tbody>
         <tr *ngFor="let row of verticalDefinitions; let indexR = index;" class="index">
