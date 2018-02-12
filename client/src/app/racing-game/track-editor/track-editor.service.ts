@@ -3,7 +3,7 @@ import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
 import { Waypoint } from '../track/trackData/waypoint';
 import { POINTS_POSITION_Z } from '../constants';
-
+import { Constraints } from "./constrains/constraints";
 import * as THREE from 'three';
 
 const NB_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
@@ -17,6 +17,7 @@ export class TrackEditorService {
     private closedTrack: boolean;
     private selectedWaypoint: Waypoint;
     private selectedWaypointInitialPos: THREE.Vector3;
+    private constraints: Constraints;
 
 
     public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
@@ -28,6 +29,7 @@ export class TrackEditorService {
         this.track = new Track();
         this.dragDropActive = false;
         this.closedTrack = false;
+        this.constraints = new Constraints();
     }
 
     public getTrack(): Track {
@@ -44,6 +46,8 @@ export class TrackEditorService {
             if (waypoints.length === 1)
                 waypoints.unshift(this.track.getPreviousToLastWaypoint());
             this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
+            this.constraints.addRoads(waypoints);
+            this.updateValidityOfTrack();
         }
       }
 
@@ -52,6 +56,8 @@ export class TrackEditorService {
         waypoint.setPosition(newPos);
         this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
         this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
+        this.constraints.movedWaypoint(waypoint, newPos);
+        this.updateValidityOfTrack();
     }
 
     public removeWaypoint(): void {
@@ -61,8 +67,10 @@ export class TrackEditorService {
             if (this.track.getTrackSize() > 0) {
                 const planeId: number = waypoint.getIncomingPlaneId();
                 this.trackEditorRenderService.planeHandler.removePlane(planeId);
+                this.constraints.removeRoad(planeId);
                 this.track.getWaypointBindedToPlane(planeId).unbindOutgoingPlane();
             }
+            this.updateValidityOfTrack();
         }
     }
 
@@ -76,6 +84,9 @@ export class TrackEditorService {
     public closeTrack(): void {
         const waypoints: Waypoint[] = [this.track.getLastWaypoint(), this.track.getFirstWaypoint()];
         this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
+        this.constraints.addRoads(waypoints);
+        this.constraints.closeRoad();
+        this.updateValidityOfTrack();
     }
 
     public uncloseTrack(): void {
@@ -131,6 +142,26 @@ export class TrackEditorService {
             this.trackEditorRenderService.updateRaycastMousePos(event);
             this.moveWaypoint(this.selectedWaypoint.getCircleId(), backgroundPlaneSelected[0].point);
         }
+    }
+    // tslint:disable:no-console
+    private updateValidityOfTrack(): void {
+        const invalidsPlanesId: number[] = this.getInvalidPlanesId();
+        console.log(invalidsPlanesId);
+        if (invalidsPlanesId.length === 0) {
+            this.track.isValid = true;
+        }
+        else{
+            this.track.isValid = false;
+            // TO DO : MODIFY TEXTURES
+        }
+        console.log("validity of track");
+        console.log(this.track.isValid);
+    }
+
+    private getInvalidPlanesId(): number[] {
+        this.constraints.updateInvalidPlanes();
+
+        return this.constraints.invalidPlanesId;
     }
 
 }

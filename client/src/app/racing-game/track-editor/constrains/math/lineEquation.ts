@@ -13,18 +13,18 @@ export class LineEquation {
 
     private _endPoint: Point;
 
-    public constructor( beginPoint: Point = new Point(new THREE.Vector3()),
-                        endPoint: Point= new Point(new THREE.Vector3())) {
-        if (beginPoint.x < endPoint.y) {
+    public constructor() {
+    }
+
+    public initialize(  beginPoint: Point = new Point(new THREE.Vector3(0, 0, 0)),
+                        endPoint: Point= new Point(new THREE.Vector3(0, 0, 0))): void {
+        if (beginPoint.x <= endPoint.y) {
             this._beginPoint = beginPoint;
             this._endPoint = endPoint;
         } else {
             this._beginPoint = endPoint;
             this._endPoint = beginPoint;
         }
-    }
-
-    public initialize(): void {
         if ( this.beginPoint.x === this.endPoint.x )
             this._isVerticalLine = true;
         this.calculateLineEquation(this._beginPoint, this._endPoint);
@@ -55,14 +55,14 @@ export class LineEquation {
     }
 
     public xInDomain(x: number): boolean {
-        return (this.beginPoint.x <= x && this.endPoint.x >= x);
+        return (this.beginPoint.x < x && this.endPoint.x > x);
     }
 
     public lineInImage(line: LineEquation): boolean {
         return (line.beginPoint.y <= this.endPoint.y && line.endPoint.y >= this.beginPoint.y);
     }
     public yInImage(y: number): boolean {
-        return (this.beginPoint.y <= y && this.endPoint.y >= y);
+        return (this.beginPoint.y < y && this.endPoint.y > y);
     }
 
     public intersection(line: LineEquation): Point {

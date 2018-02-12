@@ -3,7 +3,17 @@ import {Waypoint} from './waypoint';
 
 export class Track {
 
+    private _isValid: boolean = true;
+
     public constructor(private waypoints: Waypoint[] = []) {
+    }
+
+    public get isValid(): boolean {
+        return this._isValid;
+    }
+
+    public set isValid(validity: boolean) {
+        this._isValid = validity;
     }
 
     public getWaypoints(): Waypoint[] {
