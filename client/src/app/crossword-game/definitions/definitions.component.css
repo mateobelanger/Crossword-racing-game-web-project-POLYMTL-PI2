@@ -1,7 +1,10 @@
+table {
+    width: 100%;
+}
 
 thead, tbody {
     display: block;
-    font-size: 1vw;
+    font-size: 16px;
     border: 1.5px solid black;
 }
 

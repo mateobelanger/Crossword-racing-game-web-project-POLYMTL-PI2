@@ -1,9 +1,8 @@
 .game {
     display: grid;
     grid-template-columns: 29em 50%;
-    grid-column-gap: 10em;
-    padding: 1vw 3vw;
-    padding-left: 6em;
+    grid-column-gap: 8vw;
+    padding-left: 10em;
 }
 
 .informations {
@@ -21,6 +20,7 @@
 }
 
 .definitions {
+    width: 40vw;
     grid-column: 2;
     grid-row: 1 / 4;
     margin-top: 3em;

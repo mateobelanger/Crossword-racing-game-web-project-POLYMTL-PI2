@@ -2,13 +2,13 @@
 .difficulty {
     display: block;
     font-weight: bold;
-    font-size: 1.3vw;
+    font-size: 20px;
     padding-top: 2em;
 }
 
 .player {
     display: inline-block;
-    font-size: 1.2vw;
+    font-size: 19px;
     font-weight: bold;
 }
 
