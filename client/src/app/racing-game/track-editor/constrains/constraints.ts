@@ -61,19 +61,22 @@ export class Constraints {
 
     private isRoadInvalid(road: Road): boolean {
         let roadInvalid: boolean = false;
-        console.log("ROAD: ")
-        console.log(road)
-        console.log("road.validAngle()");
-        console.log(road.validAngle());
-        console.log("road.validWidthHeightRatio()");
-        console.log(road.validWidthHeightRatio());
-        if (!(road.validAngle() && road.validWidthHeightRatio()))
+        
+        if (!(road.validAngle() && road.validWidthHeightRatio())) {
+            console.log("ROAD: ");
+            console.log(road)
+            console.log("road.validAngle()");
+            console.log(road.validAngle());
+            console.log("road.validWidthHeightRatio()");
+            console.log(road.validWidthHeightRatio());
+            console.log("road linear equation : ");
+            console.log(road.lineEquation);
             roadInvalid = true;
-        else {
+        } else {
             this.roads.forEach((element) => {
                 if (element.intersects(road)) {
-                    console.log("road intersects with ");
-                    console.log(element);
+                    // console.log("road intersects with ");
+                    // console.log(element);
                     roadInvalid = true;
                 }
             });

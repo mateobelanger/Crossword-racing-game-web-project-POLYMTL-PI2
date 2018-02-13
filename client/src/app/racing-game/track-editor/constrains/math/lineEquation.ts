@@ -18,12 +18,12 @@ export class LineEquation {
 
     public initialize(  beginPoint: Point = new Point(new THREE.Vector3(0, 0, 0)),
                         endPoint: Point= new Point(new THREE.Vector3(0, 0, 0))): void {
-        if (beginPoint.x <= endPoint.y) {
+        if (beginPoint.x <= endPoint.x) {
             this._beginPoint = beginPoint;
             this._endPoint = endPoint;
         } else {
-            this._beginPoint = endPoint;
             this._endPoint = beginPoint;
+            this._beginPoint = endPoint;
         }
         if ( this.beginPoint.x === this.endPoint.x )
             this._isVerticalLine = true;
