@@ -1,11 +1,13 @@
 import { Road } from "./road";
 import * as THREE from "three";
 import { Waypoint } from "../../track/trackData/waypoint";
+import { ErrorType } from "../../constants";
+import { ConstraintsError } from "./constraintsError";
 
 export class Constraints {
 
     // TODO: find better name
-    private _invalidPlanesId: number[] = [];
+    private _invalidPlanesErrors: ConstraintsError[] = [];
 
     private roads: Road[] = [];
 
@@ -27,8 +29,8 @@ export class Constraints {
         this.roads[0].previousRoad = this.roads[this.roads.length - 1];
     }
 
-    public get invalidPlanesId(): number[] {
-        return this._invalidPlanesId;
+    public get invalidPlanesErrors(): ConstraintsError[] {
+        return this._invalidPlanesErrors;
     }
 
     public removeRoad(roadId: number): void {
@@ -51,38 +53,26 @@ export class Constraints {
     }
 
     public updateInvalidPlanes(): void {
-        this._invalidPlanesId = [];
+        this._invalidPlanesErrors = [];
         this.roads.forEach((road) => {
             road.initialize();
-            if (this.isRoadInvalid(road))
-                this.invalidPlanesId.push(road.id);
+            this.validityCheck(road);
         });
     }
 
-    private isRoadInvalid(road: Road): boolean {
-        let roadInvalid: boolean = false;
-        
-        if (!(road.validAngle() && road.validWidthHeightRatio())) {
-            console.log("ROAD: ");
-            console.log(road)
-            console.log("road.validAngle()");
-            console.log(road.validAngle());
-            console.log("road.validWidthHeightRatio()");
-            console.log(road.validWidthHeightRatio());
-            console.log("road linear equation : ");
-            console.log(road.lineEquation);
-            roadInvalid = true;
-        } else {
-            this.roads.forEach((element) => {
-                if (element.intersects(road)) {
-                    // console.log("road intersects with ");
-                    // console.log(element);
-                    roadInvalid = true;
-                }
-            });
-        }
+    private validityCheck(road: Road): void {
 
-        return roadInvalid;
+        if (!road.validAngle() ) {
+            this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.ANGLE, road.id, road.previousRoad.id));
+        }
+        if (!road.validWidthHeightRatio()) {
+            this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.WIDTHLENGTHRATIO, road.id));
+        }
+        this.roads.forEach((element) => {
+            if (element.intersects(road)) {
+                this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.INTERSECTS, road.id, element.id));
+            }
+        });
     }
 
     private findRoadIndex(id: number): number {

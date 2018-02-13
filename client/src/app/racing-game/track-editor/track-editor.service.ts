@@ -5,6 +5,7 @@ import { Waypoint } from '../track/trackData/waypoint';
 import { POINTS_POSITION_Z } from '../constants';
 import { Constraints } from "./constrains/constraints";
 import * as THREE from 'three';
+import { ConstraintsError } from "./constrains/constraintsError";
 
 const NB_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
 
@@ -145,12 +146,12 @@ export class TrackEditorService {
     }
     // tslint:disable:no-console
     private updateValidityOfTrack(): void {
-        const invalidsPlanesId: number[] = this.getInvalidPlanesId();
+        const invalidsPlanesId: ConstraintsError[] = this.getInvalidPlanesId();
         console.log(invalidsPlanesId);
         if (invalidsPlanesId.length === 0) {
             this.track.isValid = true;
         }
-        else{
+        else {
             this.track.isValid = false;
             // TO DO : MODIFY TEXTURES
         }
@@ -158,10 +159,10 @@ export class TrackEditorService {
         console.log(this.track.isValid);
     }
 
-    private getInvalidPlanesId(): number[] {
+    private getInvalidPlanesId(): ConstraintsError[] {
         this.constraints.updateInvalidPlanes();
 
-        return this.constraints.invalidPlanesId;
+        return this.constraints.invalidPlanesErrors;
     }
 
 }

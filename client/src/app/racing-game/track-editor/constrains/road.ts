@@ -75,7 +75,7 @@ export class Road {
 
     public intersects(road: Road): boolean {
         let intersects: boolean = false;
-        if (!(this === road || road === this.previousRoad)) {
+        if (!(this === road || road === this.previousRoad || road.previousRoad === this)) {
             if (this.lineEquation.isVerticalLine || road.lineEquation.isVerticalLine) {
                 intersects = this.verticalLineIntersection(road);
             } else {
