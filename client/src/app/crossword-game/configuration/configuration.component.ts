@@ -14,4 +14,5 @@ export class ConfigurationComponent implements OnInit {
     public ngOnInit(): void {
     }
 
+    // faire des fonctions get et set et les tester dans spec.ts + PRIVATE
 }

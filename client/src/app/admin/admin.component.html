@@ -1,8 +1,248 @@
-<p>
-    admin works! ACCUEIL
-</p>
+<!--
+<div class="container">
+
+    <div class="row">
+
+        <div class="col" *ngFor="let track of tracks; let trackIndex = index;" class="">
+            <table>
+                <tr class="">
+                    <li class="admin-button">
+                        <a routerLink="../admin/track-editor" class="btn ">Edit track</a>
+                    </li>
+                    <li class="admin-button">
+                        <a routerLink="../admin/track-editor" class="btn "> Delete track</a>
+                    </li>
+                </tr>
+                <tr class="trackName">
+
+                    <th>
+                        {{track.name}}
+                    </th>
+                </tr>
+                <tr class="">
+
+                    <td>
+                        <li class="left"> Description </li>
+                        <li> {{track.description}} </li>
+                    </td>
+                </tr>
+                <tr class="">
+
+                    <td>
+                        Played {{track.timesPlayed}} times
+
+                    </td>
+                </tr>
+                <tr class="">
+
+                    <td>
+                        <li>
+                            <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
+                                <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
+                            </div>
+                        </li>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
 
 
-<div class="admin-button">
-    <a routerLink="../admin/track-editor" class="btn btn-warning">Edit track</a>
+    </div>
+
+
 </div>
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="trackList">
+
+
+
+    <table>
+
+        <tr>
+            <td *ngFor="let track of tracks; let trackIndex = index;" class="track">
+                <table>
+                    <tr class="trackName">
+
+                        <th>
+                            {{trackIndex+1}}) {{track.name}}
+                        </th>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            <li class="left"> Description </li>
+                            <li> {{track.description}} </li>
+                        </td>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            Played {{track.timesPlayed}} times
+
+                        </td>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            <li>
+                                <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
+                                    <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
+                                </div>
+                            </li>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td *ngFor="let track of tracks; let trackIndex = index;" class="track">
+                <table>
+                    <tr class="trackName">
+
+                        <th>
+                            {{trackIndex+1}}) {{track.name}}
+                        </th>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            <li class="left"> Description </li>
+                            <li> {{track.description}} </li>
+                        </td>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            Played {{track.timesPlayed}} times
+
+                        </td>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            <li>
+                                <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
+                                    <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
+                                </div>
+                            </li>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td *ngFor="let track of tracks; let trackIndex = index;" class="track">
+                <table>
+                    <tr class="trackName">
+
+                        <th>
+                            {{trackIndex+1}}) {{track.name}}
+                        </th>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            <li class="left"> Description </li>
+                            <li> {{track.description}} </li>
+                        </td>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            Played {{track.timesPlayed}} times
+
+                        </td>
+                    </tr>
+                    <tr class="">
+
+                        <td>
+                            <li>
+                                <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
+                                    <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
+                                </div>
+                            </li>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+
+
+        <!--
+        <tr class="trackName">
+
+            <th *ngFor="let track of tracks; let trackIndex = index;" class="">
+                {{trackIndex+1}}) {{track.name}}
+            </th>
+        </tr>
+        <tr class="">
+
+            <td *ngFor="let track of tracks;" class="">
+                <li class="left"> Description </li>
+                <li> {{track.description}} </li>
+            </td>
+        </tr>
+        <tr class="">
+
+            <td *ngFor="let track of tracks;" class="">
+                Played {{track.timesPlayed}} times
+
+            </td>
+        </tr>
+        <tr class="">
+
+            <td *ngFor="let track of tracks; let trackIndex = index;" class="">
+                <li>
+                    <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
+                        <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
+                    </div>
+                </li>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+-->
+
+<!--
+<div>
+    <table>
+        <tr *ngFor= "let trackIndex = index;" class="trackName">
+
+            <th *ngFor="let track of tracks; let trackIndex = index;" class="">
+                {{trackIndex+1}}) {{track.name}}
+            </th>
+        </tr>
+
+    </table>
+
+
+
+
+</div>
+
+-->

@@ -28,6 +28,9 @@
 }
 
 .selected {
+    /* outline: 2px dashed red;
+    box-shadow: 0 0 0 2px blue;
+    border: 0px simple;*/
     border-color: blue;
-    border-style: solid;
+    border-style: dotted;
 }
