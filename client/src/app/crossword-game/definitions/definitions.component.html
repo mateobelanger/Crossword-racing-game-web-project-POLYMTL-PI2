@@ -8,8 +8,12 @@
         <tr *ngFor="let row of horizontalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span>
                 <li *ngFor="let definition of row; let indexI = index;"
+<<<<<<< HEAD
                     (click)="onSelect(definition); $event.stopPropagation()" 
                     [class.selected]="definition===getSelectedDefinition()">
+=======
+                    (click)="onSelect(definition); $event.stopPropagation()" [class.selected]="definition===getSelectedDefinition()">
+>>>>>>> refs/remotes/origin/features/SelectWord
 
                     [{{indexI+1}}] {{definition}}
                 </li>
@@ -27,8 +31,12 @@
         <tr *ngFor="let row of verticalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span> 
                 <li *ngFor="let definition of row; let indexI = index;"
+<<<<<<< HEAD
                     (click)="onSelect(definition); $event.stopPropagation()" 
                     [class.selected]="definition===getSelectedDefinition()">
+=======
+                    (click)="onSelect(definition); $event.stopPropagation()" [class.selected]="definition===getSelectedDefinition()">
+>>>>>>> refs/remotes/origin/features/SelectWord
                     
                     [{{indexI+1}}] {{definition}}
                 </li>
