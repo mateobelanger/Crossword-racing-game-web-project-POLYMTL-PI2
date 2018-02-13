@@ -8,12 +8,12 @@
   <div *ngFor="let row of userGrid; let indexR = index;" class="row">
     <!--first cell with index!-->
     <div class="col header">{{indexR+1}}</div>
-    <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex" 
-            onClick="this.select();" 
-            class="col" [(ngModel)]="userGrid[indexR][indexC]" 
-            [ngClass]="{'filled':block === '-'}" value={{block}} 
-            maxlength=1 type="text" 
-            onkeypress='return (event.charCode >= 65 && event.charCode <= 90 || event.charCode >= 97 && event.charCode <= 122 )'
-            tabindex="-1" />
+    <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex"
+            type="text" value={{block}}
+            maxlength=1 tabindex="-1" 
+            [(ngModel)]="userGrid[indexR][indexC]" 
+            (keypress)="isValidEntry($event.charCode)"
+            class="col"
+            [class.filled]="block === '-'">
   </div>
 </div>
