@@ -70,7 +70,7 @@ export class Constraints {
         }
         this.roads.forEach((element) => {
             if (element.intersects(road)) {
-                this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.INTERSECTS, road.id, element.id));
+                this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.INTERSECTS, road.id));
             }
         });
     }

@@ -6,7 +6,6 @@ export class ConstraintsError {
                             private _secondPlaneId: number = null) {
         }
 
-        // TODO: is const array ok
         public get planesId(): number[] {
             const ids: number[] = [this._firstPlaneId];
             if (this.isDefined(this._secondPlaneId))
