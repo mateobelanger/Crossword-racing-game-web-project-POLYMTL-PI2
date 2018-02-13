@@ -90,6 +90,10 @@ export class DictionaryEntry {
             return false;
         }
         for (let i: number = 0; i < template.length; i++) {
+            //can only contain letters
+            if(this.name.charCodeAt(i) < 97 && this.name.charCodeAt(i) > 122) {
+                return false;
+            }
             if (template[i] !== "?" && template[i] !== this.name[i]) {
                 return false;
             }
