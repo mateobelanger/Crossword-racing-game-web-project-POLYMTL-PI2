@@ -5,5 +5,6 @@ export default  {
         LexicalService: Symbol("LexicalService"),
         Index: Symbol("Index"),
         DatamuseWordFinder: Symbol("DatamuseWordFinder"),
-        GridGeneratorService: Symbol("GridGeneratorService")
+        GridGeneratorService: Symbol("GridGeneratorService"),
+        MongoDBService: Symbol("MongoDBService")
 };
