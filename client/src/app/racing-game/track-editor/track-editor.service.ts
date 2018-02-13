@@ -88,6 +88,7 @@ export class TrackEditorService {
         this.constraints.addRoads(waypoints);
         this.constraints.closeRoad();
         this.updateValidityOfTrack();
+        this.track.isClosed = true;
     }
 
     public uncloseTrack(): void {
@@ -96,6 +97,8 @@ export class TrackEditorService {
 
         this.track.getFirstWaypoint().unbindIncomingPlane();
         this.track.getLastWaypoint().unbindOutgoingPlane();
+
+        this.track.isClosed = false;
     }
 
     public handleRightMouseDown(event: MouseEvent): void {
@@ -155,8 +158,8 @@ export class TrackEditorService {
             this.track.isValid = false;
             // TO DO : MODIFY TEXTURES
         }
-        console.log("validity of track");
-        console.log(this.track.isValid);
+
+        console.log(this.track);
     }
 
     private getInvalidPlanesId(): ConstraintsError[] {

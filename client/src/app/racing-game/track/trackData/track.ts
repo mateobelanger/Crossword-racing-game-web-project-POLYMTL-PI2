@@ -5,6 +5,8 @@ export class Track {
 
     private _isValid: boolean = true;
 
+    private _isClosed: boolean = false;
+
     public constructor(private waypoints: Waypoint[] = []) {
     }
 
@@ -14,6 +16,14 @@ export class Track {
 
     public set isValid(validity: boolean) {
         this._isValid = validity;
+    }
+
+    public get isClosed(): boolean {
+        return this._isClosed;
+    }
+
+    public set isClosed(isClosed: boolean) {
+        this._isClosed = isClosed;
     }
 
     public getWaypoints(): Waypoint[] {
