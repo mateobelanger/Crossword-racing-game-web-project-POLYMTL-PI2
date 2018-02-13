@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 29em 50%;
     grid-column-gap: 8vw;
-    padding-left: 10em;
+    padding-left: 10vw;
 }
 
 .informations {
