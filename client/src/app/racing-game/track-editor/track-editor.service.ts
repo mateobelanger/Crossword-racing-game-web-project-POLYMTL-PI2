@@ -15,7 +15,6 @@ export class TrackEditorService {
     private container: HTMLDivElement;
     private track: Track;
     private dragDropActive: boolean;
-    private closedTrack: boolean;
     private selectedWaypoint: Waypoint;
     private selectedWaypointInitialPos: THREE.Vector3;
     private constraints: Constraints;
@@ -29,7 +28,7 @@ export class TrackEditorService {
         this.trackEditorRenderService.initialize(this.container, this.track);
         this.track = new Track();
         this.dragDropActive = false;
-        this.closedTrack = false;
+        this.track.isClosed = false;
         this.constraints = new Constraints();
     }
 
@@ -76,7 +75,7 @@ export class TrackEditorService {
     }
 
     public isTrackClosable(): boolean {
-        return !this.closedTrack
+        return !this.track.isClosed
                && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId())
                && this.track.getTrackSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON
                && this.selectedWaypoint.getPosition() === this.selectedWaypointInitialPos;
@@ -102,9 +101,9 @@ export class TrackEditorService {
     }
 
     public handleRightMouseDown(event: MouseEvent): void {
-        if (this.closedTrack) {
+        if (this.track.isClosed) {
             this.uncloseTrack();
-            this.closedTrack = false;
+            this.track.isClosed = false;
         } else {
             this.removeWaypoint();
         }
@@ -121,7 +120,7 @@ export class TrackEditorService {
                             this.selectedWaypointInitialPos = this.selectedWaypoint.getPosition();
                             this.dragDropActive = true;
                         }
-            } else if (!this.closedTrack && firstObjectName === "backgroundPlane")  {
+            } else if (!this.track.isClosed && firstObjectName === "backgroundPlane")  {
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }
@@ -130,7 +129,7 @@ export class TrackEditorService {
 
     public handleLeftMouseUp(event: MouseEvent): void {
         if (this.selectedWaypoint != null && this.isTrackClosable()) {
-            this.closedTrack = true;
+            this.track.isClosed = true;
             this.closeTrack();
         }
         this.selectedWaypoint = null;
