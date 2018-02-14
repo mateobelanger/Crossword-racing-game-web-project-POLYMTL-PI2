@@ -1,3 +1,147 @@
+.containerAdmin {
+    background-image: url("../../assets/admin/bg-2.jpg");
+    min-height: 95vh;
+    /* Problem : when I put 96 to fit the page perfecly it adds the scroll bar!?!*/
+    height: auto;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h4 {
+    font-size: 1.1em;
+}
+
+h5 {
+    font-size: 1em;
+}
+
+.right {
+    position: relative;
+    float: right;
+}
+
+.left {
+    position: relative;
+    float: left;
+}
+
+.clearfix::after {
+    content: " ";
+    clear: both;
+    display: block;
+    visibility: none;
+}
+
+.caneva {
+    background-color: yellow;
+    border-style: solid;
+    padding: 0;
+    margin: 0;
+    max-width: 300px;
+    min-width: 285px;
+    height: 310px;
+}
+
+th,
+td {
+    text-align: left;
+}
+
+.trackNameBlock {
+    text-align: left;
+    background-color: rgb(176, 205, 231);
+    width: 75%;
+    height: 60px;
+}
+
+.trackName {
+    margin: 10px 0 0 10px;
+}
+
+.descriptionBlock {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.descriptionTitleBloc {
+    height: 35px;
+    background: brown;
+    overflow: hidden;
+}
+
+.descriptionTitle {
+    margin-top: 8px;
+}
+
+.descriptionText {
+    margin-top: 2px;
+}
+
+.caneva-ft {
+    height: 50px;
+}
+
+.timePlayed {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.bestTimes {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.button {
+    background-color: turquoise;
+    margin-right: 15px;
+    height: 100%;
+    width: 20%;
+}
+
+.buttons {
+    background-color: green;
+    vertical-align: middle;
+    width: 25%;
+    height: 30px;
+    margin-top: 10px;
+}
+
+li {
+    list-style-type: none;
+    font-weight: normal;
+    display: inline;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+}
+
+left {
+    text-align: left;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.orange {
+    background-color: orange;
+}
+
+.pink {
+    background-color: pink;
+}
+
+.purple {
+    background-color: purple;
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////
 table {
     width: 300px;
     height: 350px;
@@ -7,35 +151,12 @@ table {
     margin: 10px;
 }
 
-th,
-td {
-    border: none;
-    padding: 15px;
-    text-align: left;
-    padding: 5px;
-}
-
-.trackName {
-    border: none;
-    padding: 15px;
-    text-align: left;
-    background-color: rgb(176, 205, 231);
-    /*background-color: rgb(188, 204, 219);*/
-}
-
-li {
-    list-style-type: none;
-    font-weight: normal;
-    display: inline;
-    text-align: right;
-}
-
-left {
-    text-align: left;
-}
 
 
-/* Popup container - can be anything you want */
+*/
+
+
+/* Popup container - can be anything you want 
 
 .popup {
     position: relative;
@@ -46,9 +167,10 @@ left {
     -ms-user-select: none;
     user-select: none;
 }
+*/
 
 
-/* The actual popup */
+/* The actual popup 
 
 .popup .popuptext {
     visibility: hidden;
@@ -64,12 +186,14 @@ left {
     left: 50%;
     margin-left: -80px;
 }
+*/
 
 
-/* Toggle this class - hide and show the popup */
+/* Toggle this class - hide and show the popup 
 
 .popup .show {
     visibility: visible;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
 }
+*/

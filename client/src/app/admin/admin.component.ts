@@ -7,14 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AdminComponent implements OnInit {
- /* private tracks: JSON ;
-  private tracks2: JSON ;
-  private tracks3: JSON ;*/
+  //private tracks: JSON ;
 
-  public constructor() {/*
-    this.tracks = require("./fakeTracks.json");
-    this.tracks2 = require("./ft2.json");
-    this.tracks3 = require("./ft3.json");*/
+
+  public constructor() {
+    //this.tracks = require("./fakeTracks.json");
   }
 
   public ngOnInit(): void {
