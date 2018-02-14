@@ -1,19 +1,16 @@
-.containerAdmin {
-    background-image: url("../../assets/admin/bg-2.jpg");
-    min-height: 95vh;
-    /* Problem : when I put 96 to fit the page perfecly it adds the scroll bar!?!*/
-    height: auto;
-    margin: 0;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 h4 {
     font-size: 1.1em;
 }
 
 h5 {
     font-size: 1em;
+}
+
+.clearfix::after {
+    content: " ";
+    clear: both;
+    display: block;
+    visibility: none;
 }
 
 .right {
@@ -26,33 +23,42 @@ h5 {
     float: left;
 }
 
-.clearfix::after {
-    content: " ";
-    clear: both;
-    display: block;
-    visibility: none;
+.containerAdmin {
+    background-image: url("../../assets/admin/bg-2.jpg");
+    background-position: center;
+    min-height: 95vh;
+    /* Problem : when I put 96 to fit the page perfecly it adds the scroll bar!?!*/
+    height: auto;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .caneva {
-    background-color: yellow;
-    border-style: solid;
+    /* border-style: outset;*/
     padding: 0;
     margin: 0;
     max-width: 300px;
     min-width: 285px;
     height: 310px;
+    margin: 25px;
+    color: antiquewhite;
+    border-color: rgba(179, 180, 180, 0.8);
+    font-family: "Lucida Sans Unicode", Arial, sans-serif;
 }
 
-th,
-td {
-    text-align: left;
+.canevaHeader {
+    background-color: rgba(49, 49, 49, 0.9);
 }
 
 .trackNameBlock {
-    text-align: left;
-    background-color: rgb(176, 205, 231);
     width: 75%;
     height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
 }
 
 .trackName {
@@ -66,11 +72,11 @@ td {
     align-items: center;
     flex-direction: column;
     text-align: center;
+    background-color: rgba(127, 127, 127, 0.7);
 }
 
 .descriptionTitleBloc {
     height: 35px;
-    background: brown;
     overflow: hidden;
 }
 
@@ -80,10 +86,12 @@ td {
 
 .descriptionText {
     margin-top: 2px;
+    font-size: 1em;
 }
 
-.caneva-ft {
+.canevaFooter {
     height: 50px;
+    background-color: rgba(105, 105, 105, 0.9);
 }
 
 .timePlayed {
@@ -97,18 +105,16 @@ td {
 }
 
 .button {
-    background-color: turquoise;
     margin-right: 15px;
     height: 100%;
     width: 20%;
+    margin-top: 20px;
 }
 
-.buttons {
-    background-color: green;
+.buttonsBlock {
     vertical-align: middle;
     width: 25%;
-    height: 30px;
-    margin-top: 10px;
+    height: 60px;
 }
 
 li {
@@ -119,81 +125,3 @@ li {
     padding: 0;
     margin: 0;
 }
-
-left {
-    text-align: left;
-}
-
-.blue {
-    background-color: blue;
-}
-
-.orange {
-    background-color: orange;
-}
-
-.pink {
-    background-color: pink;
-}
-
-.purple {
-    background-color: purple;
-}
-
-
-/*//////////////////////////////////////////////////////////////////////////////////////////////////
-table {
-    width: 300px;
-    height: 350px;
-    border-style: solid;
-    border-color: rgb(77, 72, 72);
-    background-color: aliceblue;
-    margin: 10px;
-}
-
-
-
-*/
-
-
-/* Popup container - can be anything you want 
-
-.popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-*/
-
-
-/* The actual popup 
-
-.popup .popuptext {
-    visibility: hidden;
-    width: 300%;
-    background-color: rgb(126, 199, 144);
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
-}
-*/
-
-
-/* Toggle this class - hide and show the popup 
-
-.popup .show {
-    visibility: visible;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-*/

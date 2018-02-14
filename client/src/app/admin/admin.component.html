@@ -8,34 +8,36 @@
 
     <div class="container">
         <div class="row">
-            <div class="col col-md-3 caneva" *ngFor="let track of tracks; let trackIndex = index;">
-                <div class="blue clearfix">
-                    <li class="trackNameBlock left">
-                        <h4 class="trackName"> {{track.name}} </h4>
-                    </li>
-                    <div class="buttons right">
-                        <li class="button  right"> <a routerLink="../admin/track-editor" class=" ">D</a> </li>
-                        <li class="button  right"> <a routerLink="../admin/track-editor" class=" ">E</a> </li>
-                    </div>
-
-                </div>
-
-                <div class="descriptionBlock">
-                    <div class="descriptionTitleBloc">
-                        <div>
-                            <h5 class="descriptionTitle"> Description </h5>
+            <div class="col col-md-4 caneva" *ngFor="let track of tracks; let trackIndex = index;">
+                <div class="">
+                    <!-- If we want to make it work with col-md-4 -->
+                    <div class="canevaHeader clearfix">
+                        <li class="trackNameBlock left">
+                            <h4 class="trackName"> {{track.name}} </h4>
+                        </li>
+                        <div class="buttonsBlock right">
+                            <li class="button  right"> <a routerLink="../admin/track-editor" class=" ">D</a> </li>
+                            <li class="button  right"> <a routerLink="../admin/track-editor" class=" ">E</a> </li>
                         </div>
+
                     </div>
-                    <div class="descriptionText "> {{track.description}} </div>
+
+                    <div class="descriptionBlock">
+                        <div class="descriptionTitleBloc">
+                            <div>
+                                <h5 class="descriptionTitle"> Description </h5>
+                            </div>
+                        </div>
+                        <div class="descriptionText "> {{track.description}} </div>
+                    </div>
+
+
+                    <div class="canevaFooter clearfix">
+                        <div class="left timePlayed"> Played {{track.timesPlayed}} times </div>
+                        <div class="right bestTimes "> Best Times </div>
+                    </div>
+
                 </div>
-
-
-                <div class="orange caneva-ft clearfix">
-                    <div class="left timePlayed"> Played {{track.timesPlayed}} times </div>
-                    <div class="right bestTimes "> Best Times </div>
-                </div>
-
-
             </div>
         </div>
     </div>
@@ -46,240 +48,4 @@
 <!-- 
 <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
         <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
--->
-
-
-<!-- Fonctionnel avec table
-<div class="container">
-    <div class="row">
-        <div class="col" *ngFor="let track of tracks; let trackIndex = index;" class="">
-            <table>
-                <tr class="blue">
-                    <li class="admin-button">
-                        <a routerLink="../admin/track-editor" class="btn ">Edit track</a>
-                    </li>
-                    <li class="admin-button">
-                        <a routerLink="../admin/track-editor" class="btn "> Delete track</a>
-                    </li>
-                </tr>
-                <tr class="trackName">
-                    <th> {{track.name}} </th>
-                </tr>
-                <tr class="pink">
-                    <td>
-                        <p class="left"> Description </p>
-                        <li> {{track.description}} </li>
-                    </td>
-                </tr>
-                <tr class="orange">
-                    <td>
-                        Played {{track.timesPlayed}} times
-
-                    </td>
-                </tr>
-                <tr class="purple">
-                    <td>
-                        <li>
-                            <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
-                                <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
-                            </div>
-                        </li>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<div class="trackList">
-
-
-
-    <table>
-
-        <tr>
-            <td *ngFor="let track of tracks; let trackIndex = index;" class="track">
-                <table>
-                    <tr class="trackName">
-
-                        <th>
-                            {{trackIndex+1}}) {{track.name}}
-                        </th>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            <li class="left"> Description </li>
-                            <li> {{track.description}} </li>
-                        </td>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            Played {{track.timesPlayed}} times
-
-                        </td>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            <li>
-                                <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
-                                    <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
-                                </div>
-                            </li>
-                        </td>
-                    </tr>
-
-                </table>
-            </td>
-        </tr>
-
-        <tr>
-            <td *ngFor="let track of tracks; let trackIndex = index;" class="track">
-                <table>
-                    <tr class="trackName">
-
-                        <th>
-                            {{trackIndex+1}}) {{track.name}}
-                        </th>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            <li class="left"> Description </li>
-                            <li> {{track.description}} </li>
-                        </td>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            Played {{track.timesPlayed}} times
-
-                        </td>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            <li>
-                                <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
-                                    <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
-                                </div>
-                            </li>
-                        </td>
-                    </tr>
-
-                </table>
-            </td>
-        </tr>
-
-        <tr>
-            <td *ngFor="let track of tracks; let trackIndex = index;" class="track">
-                <table>
-                    <tr class="trackName">
-
-                        <th>
-                            {{trackIndex+1}}) {{track.name}}
-                        </th>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            <li class="left"> Description </li>
-                            <li> {{track.description}} </li>
-                        </td>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            Played {{track.timesPlayed}} times
-
-                        </td>
-                    </tr>
-                    <tr class="">
-
-                        <td>
-                            <li>
-                                <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
-                                    <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
-                                </div>
-                            </li>
-                        </td>
-                    </tr>
-
-                </table>
-            </td>
-        </tr>
-
-
-        <!--
-        <tr class="trackName">
-
-            <th *ngFor="let track of tracks; let trackIndex = index;" class="">
-                {{trackIndex+1}}) {{track.name}}
-            </th>
-        </tr>
-        <tr class="">
-
-            <td *ngFor="let track of tracks;" class="">
-                <li class="left"> Description </li>
-                <li> {{track.description}} </li>
-            </td>
-        </tr>
-        <tr class="">
-
-            <td *ngFor="let track of tracks;" class="">
-                Played {{track.timesPlayed}} times
-
-            </td>
-        </tr>
-        <tr class="">
-
-            <td *ngFor="let track of tracks; let trackIndex = index;" class="">
-                <li>
-                    <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
-                        <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
-                    </div>
-                </li>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-
-</div>
--->
-
-<!--
-<div>
-    <table>
-        <tr *ngFor= "let trackIndex = index;" class="trackName">
-
-            <th *ngFor="let track of tracks; let trackIndex = index;" class="">
-                {{trackIndex+1}}) {{track.name}}
-            </th>
-        </tr>
-
-    </table>
-
-
-
-
-</div>
-
 -->
