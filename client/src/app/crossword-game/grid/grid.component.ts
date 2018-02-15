@@ -36,7 +36,7 @@ export class GridComponent implements OnInit {
                 keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z );
     }
 
-    public trackByIndex(index: number, value: number): number {
+    public trackByIndex(index: number): number {
         return index;
     }
 
