@@ -31,7 +31,7 @@ export class GridComponent implements OnInit {
     public ngOnInit(): void {
     }
 
-    public isValidEntry(keyCode: number): boolean {
+    public isLetter(keyCode: number): boolean {
         return (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z ||
                 keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z );
     }
