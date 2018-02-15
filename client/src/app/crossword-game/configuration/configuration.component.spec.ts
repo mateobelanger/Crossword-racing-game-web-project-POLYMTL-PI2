@@ -1,7 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {APP_BASE_HREF} from '@angular/common';
 
 import { ConfigurationComponent } from './configuration.component';
-import { FormsModule } from '@angular/forms';
+import { routes } from '../../app-routes.module';
+import { AppModule } from '../../app.module';
+
 
 describe('ConfigurationComponent', () => {
     let component: ConfigurationComponent;
@@ -9,8 +12,8 @@ describe('ConfigurationComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-        declarations: [ ConfigurationComponent ],
-        imports: [FormsModule]
+        imports: [routes, AppModule],
+        providers: [{provide: APP_BASE_HREF, useValue : '/' }]
         })
         .compileComponents();
     }));

@@ -19,3 +19,8 @@
     font-size: 1.3em;
     cursor: pointer;
 }
+
+.selected {
+    border-color: blue;
+    border-style: solid;
+}

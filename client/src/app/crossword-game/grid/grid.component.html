@@ -10,8 +10,10 @@
     <div class="col header">{{indexR+1}}</div>
     <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex"
             type="text" value={{block}}
+            [attr.id]="indexR * 10 + indexC"
             class="col" [class.filled]="block === '-'"
             [(ngModel)]="userGrid[indexR][indexC]" 
+            (click)="changeCssOnSelection(indexR * 10 + indexC)"
             (keypress)="isLetter($event.charCode)"
             maxlength=1 tabindex="-1">
   </div>

@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { APP_BASE_HREF } from '@angular/common';
 
 import { RacingGameComponent } from './racing-game.component';
-import { RacingGameModule } from './racing-game.module';
+import { routes } from '../app-routes.module';
+import { AppModule } from '../app.module';
 
 describe('RacingGameComponent', () => {
   let component: RacingGameComponent;
@@ -9,7 +11,8 @@ describe('RacingGameComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports : [RacingGameModule]
+      imports: [routes, AppModule],
+      providers: [{provide: APP_BASE_HREF, useValue : '/' }]
     })
     .compileComponents();
   }));
