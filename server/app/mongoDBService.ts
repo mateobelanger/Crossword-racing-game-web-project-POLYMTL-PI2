@@ -16,6 +16,17 @@ export class MongoDBService {
                 mongoDBAccess.helloWorld(res);
             });
 
+
+        router.get("/service/mongoDB/test",
+            (req: Request, res: Response, next: NextFunction) => {
+                mongoDBAccess.testConnection(res);
+            });
+
+        router.get("/service/mongoDB/test2",
+            (req: Request, res: Response, next: NextFunction) => {
+                mongoDBAccess.testElement(res);
+            });
+
         return router;
 
     }
