@@ -35,11 +35,7 @@ export class DefinitionsComponent implements OnInit {
     public onSelect(def: string): void {
         this.wordSelection.setDefinition(def);
     }
-
-    public deselect(): void {
-        this.wordSelection.deselect();
-    }
-
+    
     public getSelectedDefinition(): string {
         return this.wordSelection.getDefinition();
     }
