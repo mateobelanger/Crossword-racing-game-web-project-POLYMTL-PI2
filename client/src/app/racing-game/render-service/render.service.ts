@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
 import { WebGLRenderer, Scene, AmbientLight} from "three";
 
+import * as THREE from 'three';
+
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 //TODO: ROMOVE : TEST_AXES
@@ -25,6 +27,7 @@ export class RenderService {
     private lastDate: number;
     //TODO: ROMOVE : TEST_AXES
     private axes: TestAxes;
+    private cameraHelper: THREE.CameraHelper;
 
     public get car(): Car {
         return this._car;
@@ -65,10 +68,14 @@ export class RenderService {
         await this._car.init();
         this.scene.add(this._car);
 
+
         this.scene.add(new AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
         this.cameraService.initialization(this.container, this._car.getMesh());
         this.cameraService.initCameras();
+
+        this._car.add(this.cameraService.getperspectiveCamera());
+
 
         //TODO: ROMOVE : TEST_AXES
         this.axes.createBoxAxes();
@@ -76,6 +83,10 @@ export class RenderService {
         this.scene.add(this.axes.getBoxAxeY());
         this.scene.add(this.axes.getBoxAxeZ());
 
+/*
+        this.cameraHelper = new THREE.CameraHelper( this.cameraService.getCamera() );
+        this.scene.add( this.cameraHelper );
+*/
     }
 
     private getAspectRatio(): number {
@@ -100,7 +111,7 @@ export class RenderService {
     }
 
     public onResize(): void {
-        this.cameraService.camerasOnResize(this.getAspectRatio());
+        //this.cameraService.camerasOnResize(this.getAspectRatio());
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 
