@@ -4,7 +4,7 @@ import { WebGLRenderer, Scene, AmbientLight} from "three";
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
-//TODO: ROMOVE : TEST_AXES
+// TODO: REMOVE : TEST_AXES
 import { TestAxes } from "../test-axes";
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -23,7 +23,7 @@ export class RenderService {
     private scene: Scene;
     private stats: Stats;
     private lastDate: number;
-    //TODO: ROMOVE : TEST_AXES
+    // TODO: REMOVE : TEST_AXES
     private axes: TestAxes;
 
     public get car(): Car {
@@ -32,7 +32,7 @@ export class RenderService {
 
     public constructor(private cameraService: CameraService) {
         this._car = new Car();
-        //TODO: ROMOVE : TEST_AXES
+        // TODO: REMOVE : TEST_AXES
         this.axes = new TestAxes;
     }
 
@@ -58,7 +58,7 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
-    /* tslint.ignore:max-func-body-length*/
+
     private async createScene(): Promise<void> {
         this.scene = new Scene();
 
@@ -70,7 +70,7 @@ export class RenderService {
         this.cameraService.initialization(this.container, this._car.getVectorPosition());
         this.cameraService.initCameras();
 
-        //TODO: ROMOVE : TEST_AXES
+        // TODO: REMOVE : TEST_AXES
         this.axes.createBoxAxes();
         this.scene.add(this.axes.getBoxAxeX());
         this.scene.add(this.axes.getBoxAxeY());
@@ -104,7 +104,7 @@ export class RenderService {
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 
-    // TODO: Create an event handler service.
+    //  TODO: Create an event handler service.
     public handleKeyDown(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
@@ -124,7 +124,7 @@ export class RenderService {
         }
     }
 
-    // TODO: Create an event handler service.
+    //  TODO: Create an event handler service.
     public handleKeyUp(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:

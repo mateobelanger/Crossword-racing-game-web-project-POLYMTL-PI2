@@ -19,13 +19,13 @@ export class PlaneHandler {
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
-        const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
-        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.getLength());
-        const mesh: THREE.Mesh = new THREE.Mesh(geometries[i], material);
-        plane.setMesh(mesh);
-        this.planes.push(plane);
-        this.scene.add(plane.getMesh());
-        this.bindPlanes(plane.getId(), waypoints[i], waypoints[i + 1]);
+            const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
+            const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.getLength());
+            const mesh: THREE.Mesh = new THREE.Mesh(geometries[i], material);
+            plane.setMesh(mesh);
+            this.planes.push(plane);
+            this.scene.add(plane.getMesh());
+            this.bindPlanes(plane.getId(), waypoints[i], waypoints[i + 1]);
         }
     }
 
@@ -63,13 +63,9 @@ export class PlaneHandler {
     }
 
     private findPlaneIndex(id: number): number {
-        let index: number = null;
-        this.planes.forEach((element, i) => {
-            if (element.getId() === id)
-                index = i;
+        return this.planes.findIndex((element) => {
+            return element.getId() === id;
         });
-
-        return index;
     }
 
     private getPlane(id: number): Plane {

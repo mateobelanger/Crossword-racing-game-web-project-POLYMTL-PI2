@@ -113,15 +113,15 @@ export class TrackEditorService {
 
     public handleLeftMouseDown(event: MouseEvent): void {
         const objectsSelected: THREE.Intersection[] = this.trackEditorRenderService.getObjectsPointedByMouse(event);
-        const firstObjectName: string = objectsSelected[0].object.name;
         if (objectsSelected.length > 0) {
+            const firstObjectName: string = objectsSelected[0].object.name;
             if (firstObjectName === "point") {
                     this.selectedWaypoint = this.track.getWaypoint(objectsSelected[0].object.id);
                     if (this.selectedWaypoint != null) {
-                            this.selectedWaypointInitialPos = this.selectedWaypoint.getPosition();
-                            this.dragDropActive = true;
-                        }
-            } else if (!this.track.isClosed && firstObjectName === "backgroundPlane")  {
+                        this.selectedWaypointInitialPos = this.selectedWaypoint.getPosition();
+                        this.dragDropActive = true;
+                    }
+            } else if (!this.closedTrack && firstObjectName === "backgroundPlane")  {
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }
@@ -141,7 +141,7 @@ export class TrackEditorService {
         if (this.dragDropActive) {
             this.trackEditorRenderService.updateRaycastMousePos(event);
             const backgroundPlaneSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
-            event.preventDefault();
+            event.stopPropagation();
             backgroundPlaneSelected[0].point.z = POINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);
             this.moveWaypoint(this.selectedWaypoint.getCircleId(), backgroundPlaneSelected[0].point);
