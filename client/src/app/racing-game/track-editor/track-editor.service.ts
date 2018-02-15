@@ -8,6 +8,7 @@ import * as THREE from 'three';
 import { ConstraintsError } from "./constrains/constraintsError";
 
 const NB_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
+const MIN_MOVEMENT_TRESHOLD: number = 2;
 
 @Injectable()
 export class TrackEditorService {
@@ -78,7 +79,7 @@ export class TrackEditorService {
         return !this.track.isClosed
                && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId())
                && this.track.getTrackSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON
-               && this.selectedWaypoint.getPosition() === this.selectedWaypointInitialPos;
+               && (this.selectedWaypoint.getPosition().distanceTo(this.selectedWaypointInitialPos) <= MIN_MOVEMENT_TRESHOLD);
     }
 
     public closeTrack(): void {
