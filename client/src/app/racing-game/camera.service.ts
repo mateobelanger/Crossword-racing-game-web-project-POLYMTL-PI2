@@ -29,7 +29,7 @@ export class CameraService {
     private initialAspectRatio: number;
 
     public constructor() {
-        this.camera = CameraType.ORTHOGRAPHIC;
+        this.camera = CameraType.PERSPECTIVE;
      }
 
     public changeCamera(): void {
@@ -92,8 +92,10 @@ export class CameraService {
 
        // TODO for PerspectivveCamera :
        // Change it when perspective Camera is gonna be set.
-       this.perspectiveCamera.position.x = this.carVectorToFollow.x;
+       this.perspectiveCamera.position.x = this.carVectorToFollow.x + 20;
        this.perspectiveCamera.position.z = this.carVectorToFollow.z;
+       this.perspectiveCamera.position.y = 0;
+       this.perspectiveCamera.lookAt(this.carVectorToFollow);
 
     }
 

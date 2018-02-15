@@ -4,6 +4,8 @@ import { WebGLRenderer, Scene, AmbientLight} from "three";
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
+import { SkyboxService } from '../skybox.service';
+
 //TODO: ROMOVE : TEST_AXES
 import { TestAxes } from "../test-axes";
 
@@ -23,6 +25,7 @@ export class RenderService {
     private scene: Scene;
     private stats: Stats;
     private lastDate: number;
+
     //TODO: ROMOVE : TEST_AXES
     private axes: TestAxes;
 
@@ -30,7 +33,8 @@ export class RenderService {
         return this._car;
     }
 
-    public constructor(private cameraService: CameraService) {
+    public constructor(private cameraService: CameraService,
+                       private skyboxService: SkyboxService ) {
         this._car = new Car();
         //TODO: ROMOVE : TEST_AXES
         this.axes = new TestAxes;
@@ -58,6 +62,7 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
+
     /* tslint.ignore:max-func-body-length*/
     private async createScene(): Promise<void> {
         this.scene = new Scene();
@@ -70,6 +75,9 @@ export class RenderService {
         this.cameraService.initialization(this.container, this._car.getVectorPosition());
         this.cameraService.initCameras();
 
+        this.skyboxService.initialization(this.scene);
+        this.skyboxService.generateSkybox();
+
         //TODO: ROMOVE : TEST_AXES
         this.axes.createBoxAxes();
         this.scene.add(this.axes.getBoxAxeX());
@@ -77,7 +85,6 @@ export class RenderService {
         this.scene.add(this.axes.getBoxAxeZ());
 
     }
-
     private getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
     }
