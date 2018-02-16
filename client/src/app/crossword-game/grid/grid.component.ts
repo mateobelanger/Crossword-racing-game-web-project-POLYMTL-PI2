@@ -16,7 +16,7 @@ export class GridComponent implements OnInit {
     private userGrid: Array<Array<string>>;
 
     public constructor() {
-        this.userGrid = [["", "", "", "", "", "", "", "", "", ""],
+        this.userGrid = [["H", "I", "T", "L", "E", "R", "-", "-", "-", "-"],
                          ["", "", "", "", "", "", "", "", "", ""],
                          ["", "", "", "", "", "", "", "", "", ""],
                          ["", "", "", "", "", "", "", "", "", ""],

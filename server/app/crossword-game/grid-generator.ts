@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { Word } from "./word";
+import { Word } from "../../../common/word";
 
 const requestPromise = require("request-promise-native");
 
