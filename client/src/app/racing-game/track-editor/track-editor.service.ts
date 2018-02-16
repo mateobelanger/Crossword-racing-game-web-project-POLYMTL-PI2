@@ -3,10 +3,12 @@ import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
 import { Waypoint } from '../track/trackData/waypoint';
 import { POINTS_POSITION_Z } from '../constants';
-
+import { Constraints } from "./constrains/constraints";
 import * as THREE from 'three';
+import { ConstraintsError } from "./constrains/constraintsError";
 
 const NB_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
+const MIN_MOVEMENT_TRESHOLD: number = 2;
 
 @Injectable()
 export class TrackEditorService {
@@ -14,9 +16,9 @@ export class TrackEditorService {
     private container: HTMLDivElement;
     private track: Track;
     private dragDropActive: boolean;
-    private closedTrack: boolean;
     private selectedWaypoint: Waypoint;
     private selectedWaypointInitialPos: THREE.Vector3;
+    private constraints: Constraints;
 
 
     public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
@@ -27,7 +29,8 @@ export class TrackEditorService {
         this.trackEditorRenderService.initialize(this.container, this.track);
         this.track = new Track();
         this.dragDropActive = false;
-        this.closedTrack = false;
+        this.track.isClosed = false;
+        this.constraints = new Constraints();
     }
 
     public getTrack(): Track {
@@ -44,6 +47,8 @@ export class TrackEditorService {
             if (waypoints.length === 1)
                 waypoints.unshift(this.track.getPreviousToLastWaypoint());
             this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
+            this.constraints.addRoads(waypoints);
+            this.updateValidityOfTrack();
         }
       }
 
@@ -52,6 +57,8 @@ export class TrackEditorService {
         waypoint.setPosition(newPos);
         this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
         this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
+        this.constraints.movedWaypoint(waypoint, newPos);
+        this.updateValidityOfTrack();
     }
 
     public removeWaypoint(): void {
@@ -61,21 +68,27 @@ export class TrackEditorService {
             if (this.track.getTrackSize() > 0) {
                 const planeId: number = waypoint.getIncomingPlaneId();
                 this.trackEditorRenderService.planeHandler.removePlane(planeId);
+                this.constraints.removeRoad(planeId);
                 this.track.getWaypointBindedToPlane(planeId).unbindOutgoingPlane();
             }
+            this.updateValidityOfTrack();
         }
     }
 
     public isTrackClosable(): boolean {
-        return !this.closedTrack
+        return !this.track.isClosed
                && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId())
                && this.track.getTrackSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON
-               && this.selectedWaypoint.getPosition() === this.selectedWaypointInitialPos;
+               && (this.selectedWaypoint.getPosition().distanceTo(this.selectedWaypointInitialPos) <= MIN_MOVEMENT_TRESHOLD);
     }
 
     public closeTrack(): void {
         const waypoints: Waypoint[] = [this.track.getLastWaypoint(), this.track.getFirstWaypoint()];
         this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
+        this.constraints.addRoads(waypoints);
+        this.constraints.closeRoad();
+        this.updateValidityOfTrack();
+        this.track.isClosed = true;
     }
 
     public uncloseTrack(): void {
@@ -84,12 +97,14 @@ export class TrackEditorService {
 
         this.track.getFirstWaypoint().unbindIncomingPlane();
         this.track.getLastWaypoint().unbindOutgoingPlane();
+
+        this.track.isClosed = false;
     }
 
     public handleRightMouseDown(event: MouseEvent): void {
-        if (this.closedTrack) {
+        if (this.track.isClosed) {
             this.uncloseTrack();
-            this.closedTrack = false;
+            this.track.isClosed = false;
         } else {
             this.removeWaypoint();
         }
@@ -106,7 +121,7 @@ export class TrackEditorService {
                             this.selectedWaypointInitialPos = this.selectedWaypoint.getPosition();
                             this.dragDropActive = true;
                         }
-            } else if (!this.closedTrack && firstObjectName === "backgroundPlane")  {
+            } else if (!this.track.isClosed && firstObjectName === "backgroundPlane")  {
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }
@@ -115,7 +130,7 @@ export class TrackEditorService {
 
     public handleLeftMouseUp(event: MouseEvent): void {
         if (this.selectedWaypoint != null && this.isTrackClosable()) {
-            this.closedTrack = true;
+            this.track.isClosed = true;
             this.closeTrack();
         }
         this.selectedWaypoint = null;
@@ -131,6 +146,26 @@ export class TrackEditorService {
             this.trackEditorRenderService.updateRaycastMousePos(event);
             this.moveWaypoint(this.selectedWaypoint.getCircleId(), backgroundPlaneSelected[0].point);
         }
+    }
+    // tslint:disable:no-console
+    private updateValidityOfTrack(): void {
+        const invalidsPlanesId: ConstraintsError[] = this.getInvalidPlanesId();
+        console.log(invalidsPlanesId);
+        if (invalidsPlanesId.length === 0) {
+            this.track.isValid = true;
+        }
+        else {
+            this.track.isValid = false;
+            // TO DO : MODIFY TEXTURES
+        }
+
+        console.log(this.track);
+    }
+
+    private getInvalidPlanesId(): ConstraintsError[] {
+        this.constraints.updateInvalidPlanes();
+
+        return this.constraints.invalidPlanesErrors;
     }
 
 }

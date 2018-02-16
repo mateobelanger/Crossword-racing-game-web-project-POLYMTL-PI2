@@ -29,4 +29,8 @@ export class GridComponent implements OnInit {
         return index;
     }
 
+    public changeCssOnSelection(id: number): void {
+        document.getElementById(id.toString()).setAttribute("class", "selected col");
+    }
+
 }
