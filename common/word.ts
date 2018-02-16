@@ -1,12 +1,15 @@
 
+export enum Direction {
+    Horizontal,
+    Vertical
+}
+
 export interface Word {
     row: number;
     column: number;
-    direction: string;
+    direction: Direction;
     size: number;
 
     value: string;
     definition: string;
-
-    constructor ();
 }
