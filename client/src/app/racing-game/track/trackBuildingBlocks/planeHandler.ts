@@ -20,18 +20,18 @@ export class PlaneHandler {
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
         const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
-        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.getLength());
+        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length);
         const mesh: THREE.Mesh = new THREE.Mesh(geometries[i], material);
-        plane.setMesh(mesh);
+        plane.mesh = (mesh);
         this._planes.push(plane);
-        this.scene.add(plane.getMesh());
-        this.bindPlanes(plane.getId(), waypoints[i], waypoints[i + 1]);
+        this.scene.add(plane.mesh);
+        this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
         }
     }
 
     public removePlane(meshId: number): void {
         const index: number = this.findPlaneIndex(meshId);
-        this.scene.remove(this._planes[index].getMesh());
+        this.scene.remove(this._planes[index].mesh);
         this._planes.splice(index, 1);
     }
 
@@ -41,12 +41,12 @@ export class PlaneHandler {
         const secondPlane: Plane = this.getPlane(waypoint.getOutgoingPlaneId());
 
         if (this.isDefined(firstPlane)) {
-            firstPlane.setEndPoint(waypoint.getPosition());
-            this.connectPlaneWithWaypoint(firstPlane.getId());
+            firstPlane.endPoint = waypoint.getPosition();
+            this.connectPlaneWithWaypoint(firstPlane.id);
         }
         if (this.isDefined(secondPlane)) {
-            secondPlane.setBeginingPoint(waypoint.getPosition());
-            this.connectPlaneWithWaypoint(secondPlane.getId());
+            secondPlane.beginingPoint = waypoint.getPosition();
+            this.connectPlaneWithWaypoint(secondPlane.id);
         }
     }
 
@@ -56,7 +56,7 @@ export class PlaneHandler {
 
     private connectPlaneWithWaypoint(planeId: number): void {
         const plane: Plane = this.getPlane(planeId);
-        const centerPoint: THREE.Vector3 = plane.getCenterPoint();
+        const centerPoint: THREE.Vector3 = plane.centerPoint;
         this.translatePlane(planeId, centerPoint);
         this.orientPlaneWithWaypoint(plane);
         this.resizePlane(plane);
@@ -65,7 +65,7 @@ export class PlaneHandler {
     private findPlaneIndex(id: number): number {
         let index: number = null;
         this._planes.forEach((element, i) => {
-            if (element.getId() === id)
+            if (element.id === id)
                 index = i;
         });
 
@@ -82,8 +82,8 @@ export class PlaneHandler {
 
     private bindPlanes(planeId: number, waypoint1: Waypoint, waypoint2: Waypoint): void {
         const plane: Plane = this.getPlane(planeId);
-        waypoint1.bindOutgoingPlane(plane.getId());
-        waypoint2.bindIncomingPlane(plane.getId());
+        waypoint1.bindOutgoingPlane(plane.id);
+        waypoint2.bindIncomingPlane(plane.id);
 
         this.connectPlaneWithWaypoint(planeId);
 
@@ -91,32 +91,32 @@ export class PlaneHandler {
 
     private orientPlaneWithWaypoint(plane: Plane): void {
         this.orientPlaneWithReferenceVector(plane);
-        plane.getMesh().rotateZ(plane.calculateRadianAngle());
-        plane.setPreviousAngle(plane.calculateRadianAngle());
+        plane.mesh.rotateZ(plane.calculateRadianAngle());
+        plane.previousAngle = plane.calculateRadianAngle();
     }
 
     private orientPlaneWithReferenceVector(plane: Plane): void {
-        plane.getMesh().rotateZ(-plane.getPreviousAngle());
+        plane.mesh.rotateZ(-plane.previousAngle);
     }
 
     private unOrientPlaneWithReferenceVector(plane: Plane): void {
-        plane.getMesh().rotateZ(plane.getPreviousAngle());
+        plane.mesh.rotateZ(plane.previousAngle);
     }
 
     private resizePlane(plane: Plane): void {
-        if (plane.getLength() === 0)
+        if (plane.length === 0)
             return;
-        plane.getMesh().scale.x = plane.getLength();
+        plane.mesh.scale.x = plane.length;
     }
 
     private translatePlane (planeId: number , absolutePosition: THREE.Vector3): void {
         const plane: Plane = this.getPlane(planeId);
         const relativeMovement: THREE.Vector3 = new THREE.Vector3();
-        relativeMovement.subVectors(absolutePosition, plane.getMesh().position);
+        relativeMovement.subVectors(absolutePosition, plane.mesh.position);
         this.orientPlaneWithReferenceVector(plane);
-        plane.getMesh().translateX(relativeMovement.x);
-        plane.getMesh().translateY(relativeMovement.y);
-        plane.getMesh().translateZ(relativeMovement.z);
+        plane.mesh.translateX(relativeMovement.x);
+        plane.mesh.translateY(relativeMovement.y);
+        plane.mesh.translateZ(relativeMovement.z);
         this.unOrientPlaneWithReferenceVector(plane);
     }
 
