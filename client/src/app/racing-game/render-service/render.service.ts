@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
-import { WebGLRenderer, Scene, AmbientLight} from "three";
-
 import * as THREE from 'three';
 
 import { Car } from "../car/car";
@@ -21,13 +19,13 @@ const AMBIENT_LIGHT_OPACITY: number = 0.8;
 export class RenderService {
     private container: HTMLDivElement;
     private _car: Car;
-    private renderer: WebGLRenderer;
-    private scene: Scene;
+    private renderer: THREE.WebGLRenderer;
+    private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
     //TODO: ROMOVE : TEST_AXES
     private axes: TestAxes;
-    private cameraHelper: THREE.CameraHelper;
+    // private cameraHelper: THREE.CameraHelper;
 
     public get car(): Car {
         return this._car;
@@ -63,13 +61,13 @@ export class RenderService {
 
     /* tslint.ignore:max-func-body-length*/
     private async createScene(): Promise<void> {
-        this.scene = new Scene();
+        this.scene = new THREE.Scene();
 
         await this._car.init();
         this.scene.add(this._car);
 
 
-        this.scene.add(new AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
+        this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
         this.cameraService.initialization(this.container, this._car.getMesh());
         this.cameraService.initCameras();
@@ -89,12 +87,12 @@ export class RenderService {
 */
     }
 
-    private getAspectRatio(): number {
+    /*private getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
-    }
+    }*/
 
     private startRenderingLoop(): void {
-        this.renderer = new WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.lastDate = Date.now();

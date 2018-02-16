@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { PerspectiveCamera, OrthographicCamera, Camera, Object3D } from 'three';
+// import { PerspectiveCamera, OrthographicCamera, Camera, Object3D } from 'three';
 import * as THREE from 'three';
 
-const FAR_CLIPPING_PLANE: number = 1000;
+const FAR_CLIPPING_PLANE: number = 100;
 const NEAR_CLIPPING_PLANE: number = 1;
-const FIELD_OF_VIEW: number = 70;
-
-
+const FIELD_OF_VIEW: number = 40;
 
 const INITIAL_CAMERA_POSITION_Y: number = 80;
 
-const ORTHOGRAPHIC_CAMERA_VIEW_RATIO: number = 1;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
 
@@ -24,37 +21,34 @@ export class CameraService {
 
     private camera: CameraType;
 
-    private orthographicCamera: OrthographicCamera;
+    private orthographicCamera: THREE.OrthographicCamera;
 
-    private perspectiveCamera: PerspectiveCamera;
+    private perspectiveCamera: THREE.PerspectiveCamera;
 
-    private carToFollow: Object3D;
-
-    private initialAspectRatio: number;
+    private carToFollow: THREE.Object3D;
 
     public constructor() {
-        this.camera = CameraType.ORTHOGRAPHIC;
+        this.camera = CameraType.PERSPECTIVE;
      }
 
     public changeCamera(): void {
         this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
     }
 
-    public getCamera(): Camera {
+    public getCamera(): THREE.Camera {
         return this.camera === CameraType.ORTHOGRAPHIC ? this.orthographicCamera : this.perspectiveCamera;
     }
 
 
-    public getperspectiveCamera(): PerspectiveCamera {
+    public getperspectiveCamera(): THREE.PerspectiveCamera {
         return this.perspectiveCamera;
     }
 
-    public initialization(container: HTMLDivElement, carToFollow: Object3D): void {
+    public initialization(container: HTMLDivElement, carToFollow: THREE.Object3D): void {
         if (container) {
             this.container = container;
         }
         this.carToFollow = carToFollow;
-        this.initialAspectRatio = this.getAspectRatio();
     }
 
 
@@ -65,11 +59,11 @@ export class CameraService {
     public initCameras(): void {
         /*tslint:disable:no-magic-numbers */
 
-        this.orthographicCamera = new OrthographicCamera (
-            30 / - 2,
-            30 / 2,
-            30 / this.getAspectRatio() / 2,
-            30 / this.getAspectRatio() / - 2,
+        this.orthographicCamera = new THREE.OrthographicCamera (
+            40 / - 2,
+            40 / 2,
+            40 / this.getAspectRatio() / 2,
+            40 / this.getAspectRatio() / - 2,
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
@@ -81,7 +75,7 @@ export class CameraService {
         this.orthographicCamera.lookAt(this.carToFollow.position);
 
 
-        this.perspectiveCamera = new PerspectiveCamera (
+        this.perspectiveCamera = new THREE.PerspectiveCamera (
             FIELD_OF_VIEW,
             this.getAspectRatio(),
             NEAR_CLIPPING_PLANE,
@@ -90,9 +84,6 @@ export class CameraService {
 
         // TODO: PerspectivveCamera :
         // INITIALIZE PERSPECTIVE CAMERA'S POSITION
-        this.perspectiveCamera.position.set(this.carToFollow.position.x, INITIAL_CAMERA_POSITION_Y, this.carToFollow.position.z);
-        this.perspectiveCamera.lookAt(this.carToFollow.position);
-
     }
 
     public cameraFollowCarPosition(): void {
@@ -104,14 +95,16 @@ export class CameraService {
        // TODO for PerspectivveCamera :
        // Tourner caméra quand auto tourne
 
-       var matrix = new THREE.Matrix4();
-       matrix.extractRotation( this.carToFollow.matrix );
-/*
-       this.perspectiveCamera.position.x = this.carToFollow.position.x + 20;
-       this.perspectiveCamera.position.y = INITIAL_CAMERA_POSITION_Y;
-       this.perspectiveCamera.position.z = this.carToFollow.position.z;
+       // const matrix: THREE.Matrix4 = new THREE.Matrix4();
+       // matrix.extractRotation( this.carToFollow.matrix );
+       const relativeCameraOffset: THREE.Vector3 = new THREE.Vector3(0, 0, 10);
+
+       const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4( this.carToFollow.matrix );
+
+       this.perspectiveCamera.position.x = cameraOffset.x;
+       this.perspectiveCamera.position.z = cameraOffset.y;
+       this.perspectiveCamera.position.y = cameraOffset.z;
        this.perspectiveCamera.lookAt(this.carToFollow.position);
-*/
     }
 
     public camerasOnResize(aspectRatio: number): void {
