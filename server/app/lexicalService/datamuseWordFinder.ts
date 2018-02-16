@@ -34,7 +34,7 @@ module Lexical {
                     if(isCompleteWord) {
                         res.send(WordSelector.confirmWordBasedOnDifficulty(response, isCommon, isEasy, criteria));
                     } else {
-                        res.send(WordSelector.getValidWordsBasedOnDifficulty(response, isCommon, isEasy));
+                        res.send(WordSelector.getValidWordsBasedOnDifficulty(response, criteria, isCommon, isEasy));
                     }
                 });
         }

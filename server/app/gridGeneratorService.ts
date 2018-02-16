@@ -1,7 +1,7 @@
 import { injectable} from "inversify";
 import { Router, Request, Response, NextFunction } from "express";
 import { GridGenerator } from "./crossword-game/grid-generator";
-import { Word } from "./crossword-game/word";
+import { GridEntry } from "./crossword-game/word";
 
 @injectable()
 export class GridGeneratorService {
@@ -11,11 +11,11 @@ export class GridGeneratorService {
     public get routes(): Router {
         const generator: GridGenerator = new GridGenerator();
         const router: Router = Router();
-        const filledWords: Word[] = [];
+        const filledWords: GridEntry[] = [];
 
         router.get("/service/gridGenerator/:difficulty",
             (req: Request, res: Response, next: NextFunction) => {
-                generator.placeWords(generator.generate(1, "easy"), filledWords, req.params.difficulty, "", res);
+                generator.placeWords(generator.generate(5, req.params.difficulty), filledWords, req.params.difficulty, "", res);
             });
 
         return router;
