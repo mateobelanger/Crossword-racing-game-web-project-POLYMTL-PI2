@@ -9,10 +9,10 @@ export const TRACKLENGTH: number = 1;
 export class PlaneHandler {
 
 
-    private planes: Plane[];
+    private _planes: Plane[];
 
     public constructor(private scene: THREE.Scene) {
-        this.planes = [];
+        this._planes = [];
     }
 
     public generatePlanes(waypoints: Waypoint[]): void {
@@ -23,7 +23,7 @@ export class PlaneHandler {
         const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.getLength());
         const mesh: THREE.Mesh = new THREE.Mesh(geometries[i], material);
         plane.setMesh(mesh);
-        this.planes.push(plane);
+        this._planes.push(plane);
         this.scene.add(plane.getMesh());
         this.bindPlanes(plane.getId(), waypoints[i], waypoints[i + 1]);
         }
@@ -31,8 +31,8 @@ export class PlaneHandler {
 
     public removePlane(meshId: number): void {
         const index: number = this.findPlaneIndex(meshId);
-        this.scene.remove(this.planes[index].getMesh());
-        this.planes.splice(index, 1);
+        this.scene.remove(this._planes[index].getMesh());
+        this._planes.splice(index, 1);
     }
 
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
@@ -50,8 +50,8 @@ export class PlaneHandler {
         }
     }
 
-    public getPlanes(): Plane[] {
-        return this.planes;
+    public get planes(): Plane[] {
+        return this._planes;
     }
 
     private connectPlaneWithWaypoint(planeId: number): void {
@@ -64,7 +64,7 @@ export class PlaneHandler {
 
     private findPlaneIndex(id: number): number {
         let index: number = null;
-        this.planes.forEach((element, i) => {
+        this._planes.forEach((element, i) => {
             if (element.getId() === id)
                 index = i;
         });
@@ -75,7 +75,7 @@ export class PlaneHandler {
     private getPlane(id: number): Plane {
         let plane: Plane = null;
         if (this.isDefined(id))
-            plane = this.planes[this.findPlaneIndex(id)];
+            plane = this._planes[this.findPlaneIndex(id)];
 
         return plane;
     }
