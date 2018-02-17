@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
 import { Waypoint } from '../track/trackData/waypoint';
-import { POINTS_POSITION_Z } from '../constants';
+import { POINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from '../constants';
 import { Constraints } from "./constrains/constraints";
 import * as THREE from 'three';
 import { ConstraintsError } from "./constrains/constraintsError";
@@ -115,13 +115,13 @@ export class TrackEditorService {
         const objectsSelected: THREE.Intersection[] = this.trackEditorRenderService.getObjectsPointedByMouse(event);
         const firstObjectName: string = objectsSelected[0].object.name;
         if (objectsSelected.length > 0) {
-            if (firstObjectName === "point") {
+            if (firstObjectName === POINT) {
                     this._selectedWaypoint = this._track.getWaypoint(objectsSelected[0].object.id);
                     if (this._selectedWaypoint != null) {
                             this._selectedWaypointInitialPos = this._selectedWaypoint.getPosition();
                             this._dragDropActive = true;
                         }
-            } else if (!this._track.isClosed && firstObjectName === "backgroundPlane")  {
+            } else if (!this._track.isClosed && firstObjectName === BACKGROUND_PLANE)  {
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }
@@ -153,8 +153,7 @@ export class TrackEditorService {
         console.log(invalidsPlanesId);
         if (invalidsPlanesId.length === 0) {
             this._track.isValid = true;
-        }
-        else {
+        } else {
             this._track.isValid = false;
             // TO DO : MODIFY TEXTURES
         }
