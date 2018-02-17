@@ -121,7 +121,7 @@ export class TrackEditorService {
                         this.selectedWaypointInitialPos = this.selectedWaypoint.getPosition();
                         this.dragDropActive = true;
                     }
-            } else if (!this.closedTrack && firstObjectName === "backgroundPlane")  {
+            } else if (!this.track.isClosed && firstObjectName === "backgroundPlane")  {
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }

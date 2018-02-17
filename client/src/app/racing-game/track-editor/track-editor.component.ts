@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener } from "@angular/core";
 
 import { TrackEditorService } from './track-editor.service';
+import { TracksProxyService } from '../tracks-proxy.service';
 
 const LEFT_MOUSE_BTN: number = 0;
 const RIGHT_MOUSE_BTN: number = 2;
@@ -21,9 +22,10 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
         return this.containerRef.nativeElement;
     }
 
-    public constructor (private trackEditorService: TrackEditorService) { }
+    public constructor (private trackEditorService: TrackEditorService, private proxy: TracksProxyService) { }
 
     public ngOnInit(): void {
+        this.proxy.test();
     }
 
     public ngAfterViewInit(): void {
