@@ -14,6 +14,8 @@ export const POINTS_POSITION_Z: number = 0;
 export const PLANE_POSITION_Z: number = -1;
 export const BACKGROUND_PLANE_POSITION_Z: number = -3;
 export const TRACKWIDTH: number = 20;
+export const BACKGROUND_PLANE: string = "backgroundPlane";
+export const POINT: string = "point";
 
 // CONSTRAINTS
 export enum ErrorType {WIDTHLENGTHRATIO, ANGLE, INTERSECTS}
