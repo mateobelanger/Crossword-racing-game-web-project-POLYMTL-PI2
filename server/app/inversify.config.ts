@@ -8,6 +8,7 @@ import { LexicalService } from "./lexicalService/lexicalService";
 import { DatamuseWordFinder } from "./LexicalService/datamuseWordFinder";
 
 import { GridGeneratorService } from "./gridGeneratorService";
+import { MongoDBService } from "./mongoDBService";
 
 const container: Container = new Container();
 
@@ -19,5 +20,6 @@ container.bind(Types.LexicalService).to(LexicalService);
 container.bind(Types.Index).to(Index);
 container.bind(Types.DatamuseWordFinder).to(DatamuseWordFinder);
 container.bind(Types.GridGeneratorService).to(GridGeneratorService);
+container.bind(Types.MongoDBService).to(MongoDBService);
 
 export { container };
