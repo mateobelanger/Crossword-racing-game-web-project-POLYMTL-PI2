@@ -4,6 +4,7 @@ table {
 
 thead, tbody {
     display: block;
+    width: 100%;
     font-size: 16px;
     border: 1.5px solid black;
 }
@@ -13,9 +14,9 @@ thead, tbody {
     padding: 1vh;
 }
 
-tbody {
-    border-top: none; 
+tbody { 
     height: 14.5em;
+    border-top: none;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -26,11 +27,17 @@ span {
     font-weight: bold;
 }
 
+tr, div {
+    width: 100%;
+}
+
 li {
     color: black;
+    width: 40vw;
     list-style-type: none;
     font-weight: normal;
     padding: 0px 3vw;
+    margin: 0 0.5px;
     cursor: pointer;
 }
 

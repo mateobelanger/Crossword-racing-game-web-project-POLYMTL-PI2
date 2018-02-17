@@ -9,7 +9,7 @@ import { GridComponent } from './grid/grid.component';
 import { DefinitionsComponent } from './definitions/definitions.component';
 import { routes } from '../app-routes.module';
 import { InformationsComponent } from './informations/informations.component';
-import { WordSelectionService } from './word-selection.service';
+import { WordService } from './word.service';
 
 @NgModule({
     imports: [
@@ -27,7 +27,7 @@ import { WordSelectionService } from './word-selection.service';
     ],
 
     providers: [
-        WordSelectionService
+        WordService
     ],
 
     exports: [

@@ -10,11 +10,16 @@
     <div class="col header">{{indexR+1}}</div>
     <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex"
             type="text" value={{block}}
-            [attr.id]="indexR * 10 + indexC"
+            [attr.id]="calculateId(indexR, indexC)"
             class="col" [class.filled]="block === '-'"
+            [class.selected]="isSelectedWord(calculateId(indexR, indexC))"
             [(ngModel)]="userGrid[indexR][indexC]" 
-            (click)="changeCssOnSelection(indexR * 10 + indexC)"
             (keypress)="isLetter($event.charCode)"
+<<<<<<< HEAD
+            (click)="selectWord(indexR, indexC); $event.stopPropagation()"
+=======
+            (click)="selectWord(indexR, indexC)"
+>>>>>>> e6aedf05f4962c8cd7c24cbd506d01725ca46099
             maxlength=1 tabindex="-1">
   </div>
 </div>
