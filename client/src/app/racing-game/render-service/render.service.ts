@@ -25,7 +25,6 @@ export class RenderService {
     private lastDate: number;
     //TODO: ROMOVE : TEST_AXES
     private axes: TestAxes;
-    // private cameraHelper: THREE.CameraHelper;
 
     public get car(): Car {
         return this._car;
@@ -59,7 +58,6 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
-    /* tslint.ignore:max-func-body-length*/
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
@@ -69,10 +67,7 @@ export class RenderService {
 
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
-        this.cameraService.initialization(this.container, this._car.getMesh());
-        this.cameraService.initCameras();
-
-        this._car.add(this.cameraService.getperspectiveCamera());
+        this.cameraService.initialize(this.container, this._car.mesh);
 
 
         //TODO: ROMOVE : TEST_AXES
@@ -80,16 +75,7 @@ export class RenderService {
         this.scene.add(this.axes.getBoxAxeX());
         this.scene.add(this.axes.getBoxAxeY());
         this.scene.add(this.axes.getBoxAxeZ());
-
-/*
-        this.cameraHelper = new THREE.CameraHelper( this.cameraService.getCamera() );
-        this.scene.add( this.cameraHelper );
-*/
     }
-
-    /*private getAspectRatio(): number {
-        return this.container.clientWidth / this.container.clientHeight;
-    }*/
 
     private startRenderingLoop(): void {
         this.renderer = new THREE.WebGLRenderer();
@@ -102,14 +88,13 @@ export class RenderService {
 
     private render(): void {
         requestAnimationFrame(() => this.render());
-        this.cameraService.cameraFollowCarPosition();
+        this.cameraService.updatePosition();
         this.update();
         this.renderer.render(this.scene, this.cameraService.getCamera());
         this.stats.update();
     }
 
     public onResize(): void {
-        //this.cameraService.camerasOnResize(this.getAspectRatio());
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 

@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 // import { PerspectiveCamera, OrthographicCamera, Camera, Object3D } from 'three';
 import * as THREE from 'three';
 
-const FAR_CLIPPING_PLANE: number = 100;
+
+// PERSPECTIVE_CAMERA
 const NEAR_CLIPPING_PLANE: number = 1;
-const FIELD_OF_VIEW: number = 40;
+const FAR_CLIPPING_PLANE: number = 100;
+const PERSPECTIVE_FIELD_OF_VIEW: number = 40;
+const PERSPECTIVE_INITIAL_POSITION_Y: number = 10;
+const PERSPECTIVE_INITIAL_POSITION_Z: number = 30;
 
-const INITIAL_CAMERA_POSITION_Y: number = 80;
-
+// ORTHOGRAPHIC_CAMERA
+const ORTHOGRAPHIC_INITIAL_POSITION_Y: number = 100;
+const ORTHOGRAPHIC_FIELD_OF_VIEW: number = 50;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
 
@@ -17,106 +22,72 @@ enum CameraType { PERSPECTIVE, ORTHOGRAPHIC }
 @Injectable()
 export class CameraService {
 
-    private container: HTMLDivElement;
-
     private camera: CameraType;
-
     private orthographicCamera: THREE.OrthographicCamera;
-
     private perspectiveCamera: THREE.PerspectiveCamera;
-
-    private carToFollow: THREE.Object3D;
+    private target: THREE.Object3D;
+    private container: HTMLDivElement;
 
     public constructor() {
         this.camera = CameraType.PERSPECTIVE;
      }
 
-    public changeCamera(): void {
-        this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
+    public initialize(container: HTMLDivElement, target: THREE.Object3D): void {
+        this.container = container;
+        this.target = target;
+        this.initializeCameras();
     }
 
     public getCamera(): THREE.Camera {
         return this.camera === CameraType.ORTHOGRAPHIC ? this.orthographicCamera : this.perspectiveCamera;
     }
 
-
-    public getperspectiveCamera(): THREE.PerspectiveCamera {
-        return this.perspectiveCamera;
+    public changeCamera(): void {
+        this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
     }
-
-    public initialization(container: HTMLDivElement, carToFollow: THREE.Object3D): void {
-        if (container) {
-            this.container = container;
-        }
-        this.carToFollow = carToFollow;
-    }
-
 
     private getAspectRatio(): number {
       return this.container.clientWidth / this.container.clientHeight;
     }
 
-    public initCameras(): void {
+    public initializeCameras(): void {
         /*tslint:disable:no-magic-numbers */
-
         this.orthographicCamera = new THREE.OrthographicCamera (
-            40 / - 2,
-            40 / 2,
-            40 / this.getAspectRatio() / 2,
-            40 / this.getAspectRatio() / - 2,
+            ORTHOGRAPHIC_FIELD_OF_VIEW / - 2,
+            ORTHOGRAPHIC_FIELD_OF_VIEW / 2,
+            ORTHOGRAPHIC_FIELD_OF_VIEW / this.getAspectRatio() / 2,
+            ORTHOGRAPHIC_FIELD_OF_VIEW / this.getAspectRatio() / - 2,
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
         /*tslint:enable:no-magic-numbers*/
-        this.orthographicCamera.position.x = this.carToFollow.position.x;
-        this.orthographicCamera.position.y = INITIAL_CAMERA_POSITION_Y;
-        this.orthographicCamera.position.z = this.carToFollow.position.z;
+        this.orthographicCamera.position.x = this.target.position.x;
+        this.orthographicCamera.position.y = ORTHOGRAPHIC_INITIAL_POSITION_Y;
+        this.orthographicCamera.position.z = this.target.position.z;
 
-        this.orthographicCamera.lookAt(this.carToFollow.position);
+        this.orthographicCamera.lookAt(this.target.position);
 
 
         this.perspectiveCamera = new THREE.PerspectiveCamera (
-            FIELD_OF_VIEW,
+            PERSPECTIVE_FIELD_OF_VIEW,
             this.getAspectRatio(),
             NEAR_CLIPPING_PLANE,
             FAR_CLIPPING_PLANE
         );
-
-        // TODO: PerspectivveCamera :
-        // INITIALIZE PERSPECTIVE CAMERA'S POSITION
     }
 
-    public cameraFollowCarPosition(): void {
+    public updatePosition(): void {
+       this.orthographicCamera.position.x = this.target.position.x;
+       this.orthographicCamera.position.z = this.target.position.z;
 
 
-       this.orthographicCamera.position.x = this.carToFollow.position.x;
-       this.orthographicCamera.position.z = this.carToFollow.position.z;
-
-       // TODO for PerspectivveCamera :
-       // Tourner caméra quand auto tourne
-
-       // const matrix: THREE.Matrix4 = new THREE.Matrix4();
-       // matrix.extractRotation( this.carToFollow.matrix );
-       const relativeCameraOffset: THREE.Vector3 = new THREE.Vector3(0, 0, 10);
-
-       const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4( this.carToFollow.matrix );
+       const relativeCameraOffset: THREE.Vector3 = new THREE.Vector3(0, PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z);
+       const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4( this.target.matrix );
 
        this.perspectiveCamera.position.x = cameraOffset.x;
-       this.perspectiveCamera.position.z = cameraOffset.y;
-       this.perspectiveCamera.position.y = cameraOffset.z;
-       this.perspectiveCamera.lookAt(this.carToFollow.position);
-    }
-
-    public camerasOnResize(aspectRatio: number): void {
-
-        //this.orthographicCamera.left   =  this.container.clientWidth   / aspectRatio / - 2,
-        //this.orthographicCamera.right  =  this.container.clientWidth   / aspectRatio / 2,
-        //this.orthographicCamera.top    =  this.container.clientHeight  / aspectRatio / 2,
-        //this.orthographicCamera.bottom =  this.container.clientHeight  / aspectRatio / - 2,
-        //this.orthographicCamera.updateProjectionMatrix();
-
-        this.perspectiveCamera.aspect = aspectRatio;
-        this.perspectiveCamera.updateProjectionMatrix();
+       this.perspectiveCamera.position.z = cameraOffset.z;
+       this.perspectiveCamera.position.y = cameraOffset.y;
+       this.perspectiveCamera.lookAt(this.target.position);
     }
 
 }
