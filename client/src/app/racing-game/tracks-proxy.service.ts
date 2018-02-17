@@ -16,6 +16,7 @@ export class TracksProxyService {
   public test(): void {
     console.log("aalllo");
     this._http.get("https://jsonplaceholder.typicode.com/posts").subscribe((data) => {console.log(data)});
+  
   }
 
 }
