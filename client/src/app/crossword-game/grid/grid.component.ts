@@ -6,7 +6,10 @@ const UPPERCASE_A: number = 65;
 const UPPERCASE_Z: number = 90;
 const LOWERCASE_A: number = 97;
 const LOWERCASE_Z: number = 122;
+const GRID_SIZE: number = 10;
+
 const BLACK_CASE: string = '-';
+
 
 @Component({
     selector: 'app-grid',
@@ -20,9 +23,9 @@ export class GridComponent implements OnInit {
 
     public constructor(private wordService: WordService) {
         this.userGrid = [];
-        for (let i: number = 0; i < 10; i++) {
+        for (let i: number = 0; i < GRID_SIZE; i++) {
             const row: string[] = []
-            for (let j: number = 0; j < 10; j++) {
+            for (let j: number = 0; j < GRID_SIZE; j++) {
                 row.push(BLACK_CASE);
             }
             this.userGrid.push(row);
@@ -43,10 +46,10 @@ export class GridComponent implements OnInit {
     }
 
     public calculateId(rowIndex: number, columnIndex: number): number {
-        return rowIndex * 10 + columnIndex;
+        return rowIndex * GRID_SIZE + columnIndex;
     }
 
-    public selectWord(rowIndex: number, columnIndex: number) {
+    public selectWord(rowIndex: number, columnIndex: number): void {
         this.wordService.selectWord(rowIndex, columnIndex);
     }
 
@@ -55,8 +58,8 @@ export class GridComponent implements OnInit {
         if (word === null) {
             return false;
         }
-        const row: number = Math.floor(id / 10);
-        const col: number = id - row * 10;
+        const row: number = Math.floor(id / GRID_SIZE);
+        const col: number = id - row * GRID_SIZE;
         if (word.direction === Direction.Horizontal) {
             return row === word.row && col >= word.column && col < word.column + word.size;
         } else {

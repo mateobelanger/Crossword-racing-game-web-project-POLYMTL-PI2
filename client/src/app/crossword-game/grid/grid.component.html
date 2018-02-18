@@ -15,11 +15,7 @@
             [class.selected]="isSelectedWord(calculateId(indexR, indexC))"
             [(ngModel)]="userGrid[indexR][indexC]" 
             (keypress)="isLetter($event.charCode)"
-<<<<<<< HEAD
-            (click)="selectWord(indexR, indexC); $event.stopPropagation()"
-=======
-            (click)="selectWord(indexR, indexC)"
->>>>>>> e6aedf05f4962c8cd7c24cbd506d01725ca46099
-            maxlength=1 tabindex="-1">
+            (click)="selectWord(indexR, indexC); $event.stopPropagation()" maxlength=1 tabindex="-1"
+    >
   </div>
 </div>

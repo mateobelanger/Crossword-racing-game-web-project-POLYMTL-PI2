@@ -18,11 +18,11 @@ export class WordService {
         })
     }
 
-    public get selectedWord() {
+    public get selectedWord(): Word {
         return this._selectedWord;
     }
 
-    public get words() {
+    public get words(): Word[] {
         return this._words;
     }
 
@@ -38,19 +38,22 @@ export class WordService {
         for (const word of this._words) {
             if (word.definition === definition) {
                 this._selectedWordChange.next(word);
+
                 return;
             }
         }
     }
-    
+
     public selectWord(row: number, column: number): void {
         for (const word of words) {
             if (word.direction === Direction.Horizontal){
                 if (word.row === row && column >= word.column && column < word.column + word.size) {
+                    if (this._selectedWord === word) continue;
                     this._selectedWord = word;
                     break;
                 }
             } else if (column === word.column && row >= word.row && row < word.row + word.size) {
+                if (this._selectedWord === word) continue;
                 this._selectedWord = word;
                 break;
             }
@@ -78,7 +81,7 @@ export class WordService {
     }
 
     public deselect(): void {
-        this._selectedWord = null
+        this._selectedWord = undefined;
     }
 
 }

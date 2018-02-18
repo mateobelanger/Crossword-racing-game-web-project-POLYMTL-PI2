@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { WordService } from '../word.service';
-import { Direction } from '../../../../../common/word'
+import { Direction } from '../../../../../common/word';
 
 @Component({
   selector: 'app-definitions',
