@@ -6,8 +6,8 @@ import * as THREE from 'three';
 const NEAR_CLIPPING_PLANE: number = 1;
 const FAR_CLIPPING_PLANE: number = 100;
 const PERSPECTIVE_FIELD_OF_VIEW: number = 40;
-const PERSPECTIVE_INITIAL_POSITION_Y: number = 10;
-const PERSPECTIVE_INITIAL_POSITION_Z: number = 30;
+export const PERSPECTIVE_INITIAL_POSITION_Y: number = 10;
+export const PERSPECTIVE_INITIAL_POSITION_Z: number = 30;
 
 // ORTHOGRAPHIC_CAMERA
 export const ORTHOGRAPHIC_INITIAL_POSITION_Y: number = 100;
