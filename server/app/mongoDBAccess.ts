@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { TrackData } from '../../common/communication/trackData'
 // import {} from "./schemas/trackSchema";
 
 // mLab account:
@@ -59,31 +60,17 @@ export class MongoDBAccess {
     }
 
 
-
-// doesn't work yet
     static getAll(req: Request, res: Response) : void {
-        // MONGOOSE.connect(MONGODB_URI);
-        // let connection: any = MONGOOSE.connection;
-        // res.send(Track.find());
-
-        // Track.find({}, {limit:10}).toArray(function(err: any, docs: any) {
-        //     console.dir(docs);
-        //   });
-
-
         MONGOOSE.connect(MONGODB_URI);
-        let connection: any = MONGOOSE.connection;
-        connection.once("open", () => 
-            Track.find({}, 'name', function(err: any, tracks: any){
-                if(err){
-                console.log(err);
-                } else{
-                    res.render('user-list', tracks);
-                    console.log('retrieved list of names', tracks.length, tracks[0].name);
-                }
-            })
-        );
-
+        let db: any = MONGOOSE.connection;
+        db.once("open", () => {
+            Track.find( function(error: any, test : TrackData[]){
+                if(error) return console.error(error);
+                res.send(test);
+            });
+            
+        });
+        
     } 
     
 
