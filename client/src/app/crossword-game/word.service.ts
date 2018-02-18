@@ -1,21 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Word, Direction } from '../../../../common/word';
 import { words } from './mock-words';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class WordService {
     private _words: Word[];
     private _selectedWord: Word;
-    public _selectedWordChange: Subject<Word> = new Subject<Word>();
 
     public constructor() {
         this._words = words;
         this._selectedWord = null;
-
-        this._selectedWordChange.subscribe((word: Word) => {
-            this._selectedWord = word;
-        })
     }
 
     public get selectedWord(): Word {
@@ -37,7 +31,7 @@ export class WordService {
     public set definition(definition: string) {
         for (const word of this._words) {
             if (word.definition === definition) {
-                this._selectedWordChange.next(word);
+                this._selectedWord = word;
 
                 return;
             }
@@ -46,14 +40,15 @@ export class WordService {
 
     public selectWord(row: number, column: number): void {
         for (const word of words) {
+            if (word === this._selectedWord) {
+                continue;
+            }
             if (word.direction === Direction.Horizontal){
                 if (word.row === row && column >= word.column && column < word.column + word.size) {
-                    if (this._selectedWord === word) continue;
                     this._selectedWord = word;
                     break;
                 }
             } else if (column === word.column && row >= word.row && row < word.row + word.size) {
-                if (this._selectedWord === word) continue;
                 this._selectedWord = word;
                 break;
             }
@@ -81,7 +76,7 @@ export class WordService {
     }
 
     public deselect(): void {
-        this._selectedWord = undefined;
+        this._selectedWord = null;
     }
 
 }
