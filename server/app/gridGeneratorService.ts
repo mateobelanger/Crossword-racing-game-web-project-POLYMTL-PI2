@@ -1,7 +1,7 @@
 import { injectable} from "inversify";
 import { Router, Request, Response, NextFunction } from "express";
 import { GridGenerator } from "./crossword-game/grid-generator";
-import { GridEntry } from "./crossword-game/word";
+import { GridEntry } from "../../common/crosswordsInterfaces/word";
 
 @injectable()
 export class GridGeneratorService {

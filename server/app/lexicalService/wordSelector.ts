@@ -1,57 +1,62 @@
-import { DictionaryEntry } from "../dictionaryEntry";
+import { DatamuseResponse } from "./IdatamuseResponse";
+import { Word } from "../../../common/crosswordsInterfaces/word"
 
 export class WordSelector {
 
-    private static readData(words: JSON): DictionaryEntry[] {
-        const seperatedWords: DictionaryEntry[] = new Array<DictionaryEntry>();
+    /*private static readData(datamuseResponse: DatamuseResponse): Word {
+        let word: Word;
 
-        for ( let i: number = 0; i < Object.keys(words).length; i++) {
-            const word: DictionaryEntry = new DictionaryEntry(words[i].word, words[i].tags, words[i].defs);
-            seperatedWords.push(word);
-        }
+        word.row = NO_VALUE;
+        word.column = NO_VALUE;
+        word.value = datamuseResponse.word;
 
         return seperatedWords;
-    }
+    }*/
 
-    public static getWordsBasedOnRarity(words: JSON, isCommon: boolean): JSON {
+    public static getWordsBasedOnRarity(words: Array<DatamuseResponse>, isCommon: boolean): Array<DatamuseResponse> {
 
-        const selectedWords: DictionaryEntry[] = new Array<DictionaryEntry>();
+        const selectedWords: Array<DatamuseResponse> = new Array<DatamuseResponse>();
 
-        this.readData(words).forEach( (element: DictionaryEntry) => {
+        words.forEach( (element: DatamuseResponse) => {
             if (element.isCommon() === isCommon) {
                 selectedWords.push(element);
             }
         });
 
-        return JSON.parse(JSON.stringify(selectedWords));
+        return selectedWords;
     }
 
-    public static getValidWordsBasedOnDifficulty(words: JSON, criteria: string,  isCommon: boolean, isEasy: boolean): JSON {
-
-        const selectedWords: DictionaryEntry[] = new Array<DictionaryEntry>();
-
-        this.readData(words).forEach( (element: DictionaryEntry) => {
-            if (element.isValidWithTemplate(criteria) && element.isCommon() === isCommon && element.hasValidDefinition(isEasy)) {
-                selectedWords.push(element);
+    public static getValidWordsBasedOnDifficulty(words: Array<DatamuseResponse>, criteria: string,  isCommon: boolean, isEasy: boolean): Array<Word> {
+        const selectedWords: Array<Word> = new Array<Word>();
+        for(let i: number = 0; i < words.length; i++) {
+            let definitionIndex: number = words[i].findDefinitionIndex(isEasy);
+            if (words[i].isValidWithTemplate(criteria) && words[i].isCommon() === isCommon && definitionIndex !== -1) {
+                selectedWords.push(this.datamuseResponseToWord(words[i], definitionIndex));
             }
-        });
+        }
 
-        return JSON.parse(JSON.stringify(selectedWords));
+        return selectedWords;
     }
 
     // used when a word is directly searched
-    public static confirmWordBasedOnDifficulty(words: JSON, isCommon: boolean, isEasy: boolean, word: string): JSON {
+    public static confirmWordBasedOnDifficulty(words: Array<DatamuseResponse>, isCommon: boolean, isEasy: boolean, word: string): Array<Word> {
 
-        const selectedWords: DictionaryEntry[] = new Array<DictionaryEntry>();
+        const selectedWords: Array<Word> = new Array<Word>();
         if(Object.keys(words).length === 0) {
-            return JSON.parse(JSON.stringify(selectedWords));
+            return selectedWords;
         }
-        const element: DictionaryEntry = this.readData(words)[0];
-        if (element.isValidWithTemplate(word) && element.isCommon() === isCommon && element.hasValidDefinition(isEasy)) {
-                selectedWords.push(element );
+        const element: DatamuseResponse = words[0];
+        let definitionIndex: number = element.findDefinitionIndex(isEasy);
+        if (element.isValidWithTemplate(word) && element.isCommon() === isCommon &&
+            definitionIndex !== -1) {
+                selectedWords.push(this.datamuseResponseToWord(element, definitionIndex));
         }
 
-        return JSON.parse(JSON.stringify(selectedWords));
+        return selectedWords;
+    }
+
+    private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): Word {
+        return new Word(datamuseResponse.word, datamuseResponse.defs[definitionIndex]);
     }
 
 }

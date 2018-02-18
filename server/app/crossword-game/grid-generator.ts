@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { Word, GridEntry, HORIZONTAL, VERTICAL } from "./word";
+import { GridEntry, Direction, Word } from "../../../common/crosswordsInterfaces/word";
 
 const requestPromise = require("request-promise-native");
 
@@ -12,13 +12,12 @@ export class GridGenerator {
     private nRows: number;
     private nColumns: number;
     private _grid: string[][];
-    private cacheWords: Map<string,JSON> = new Map();
+    private cacheWords: Map<string,Array<Word>> = new Map();
 
     public constructor() {
         this._grid = [];
         this.nRows = DEFAULT_GRID_SIZE;
         this.nColumns = DEFAULT_GRID_SIZE;
-
     }
 
     public generate(nBlackCases: number,
@@ -27,17 +26,16 @@ export class GridGenerator {
         this.placeBlackCases(nBlackCases);
         this.fixIssues();
 
-        let wordsToFill: GridEntry[] = [];
+        let wordsToFill: Array<GridEntry> = new Array<GridEntry>();
         for (let i: number = 0; i < this.nRows; i++) {
             const row: string[] = this._grid[i];
-            wordsToFill = wordsToFill.concat(this.generateEmptyWords(row, i, HORIZONTAL));
+            wordsToFill = wordsToFill.concat(this.generateEmptyWords(row, i, Direction.HORIZONTAL));
             const column: string[] = this.getColumn(i);
-            wordsToFill = wordsToFill.concat(this.generateEmptyWords(column, i, VERTICAL));
+            wordsToFill = wordsToFill.concat(this.generateEmptyWords(column, i, Direction.VERTICAL));
         }
         wordsToFill.sort((entry1: GridEntry, entry2: GridEntry) => {
-            return entry1.word.size - entry2.word.size;
-        }); 
-        
+            return entry1.word.value.length - entry2.word.value.length;
+        });
         return wordsToFill;
     }
    
@@ -135,19 +133,19 @@ export class GridGenerator {
             return true;
         }
         filledWords.push(wordsToFill.pop());
-        const wordTemplate: string = this.createTemplate(filledWords[filledWords.length - 1].word);
+        const wordTemplate: string = this.createTemplate(filledWords[filledWords.length - 1]);
         try {
-            const results: JSON = await this.getWords(wordTemplate, difficulty);
+            const results: Array<Word> = await this.getWords(wordTemplate, difficulty);
             if(Object.keys(results).length === 0) {
                 return false;
             }
             for (let i: number = 0; i < Object.keys(results).length; i++) {
-                if (this.contains(results[i].name, filledWords)) {
+                if (this.contains(results[i].value, filledWords)) {
                     continue;
                 }
-                const addedEntry = filledWords[filledWords.length -1];
-                addedEntry.word.value = results[i].name;
-                addedEntry.word.definition = results[i].definitions[results[i].definitionIndex];
+                // const addedEntry: GridEntry = filledWords[filledWords.length -1];
+                // addedEntry.word.value = results[i].value;
+                // addedEntry.word.definition = results[i].definitions[results[i].definitionIndex];
                 this.updateGrid(filledWords);
                 this.updateWeights(wordsToFill, filledWords);
                 filledWords.sort((entry1: GridEntry, entry2: GridEntry) => {
@@ -174,13 +172,15 @@ export class GridGenerator {
         }   
     }
 
-    private createTemplate(word: Word): string {
+    private createTemplate(gridEntry: GridEntry): string {
         let template: string = "";
-        for (let i: number = 0; i < word.size; i++) {
-            if (word.direction === HORIZONTAL) {
-                template += this._grid[word.row][word.column + i];
+        console.log("'" + gridEntry.word.value + "'");
+        console.log(gridEntry.word.value.length);
+        for (let i: number = 0; i < gridEntry.word.value.length; i++) {
+            if (gridEntry.direction === Direction.HORIZONTAL) {
+                template += this._grid[gridEntry.row][gridEntry.column + i];
             } else {
-                template += this._grid[word.row + i][word.column];
+                template += this._grid[gridEntry.row + i][gridEntry.column];
             }
         }
         return template;
@@ -196,10 +196,10 @@ export class GridGenerator {
         }
         for (const entry of filledWords) {
             for (let i: number = 0; i < entry.word.value.length; i++) {
-                if (entry.word.direction === HORIZONTAL) {
-                    this._grid[entry.word.row][entry.word.column + i] = entry.word.value[i];
+                if (entry.direction === Direction.HORIZONTAL) {
+                    this._grid[entry.row][entry.column + i] = entry.word.value[i];
                 } else {
-                    this._grid[entry.word.row + i][entry.word.column] = entry.word.value[i];
+                    this._grid[entry.row + i][entry.column] = entry.word.value[i];
                 }
             }
         }        
@@ -292,38 +292,43 @@ export class GridGenerator {
         }
     }
 
-    private generateEmptyWords(lane: string[], index: number, direction: string): GridEntry[] {
-        const result: GridEntry[] = [];
+    private generateEmptyWords(lane: string[], index: number, direction: Direction): Array<GridEntry> {
+        const result: Array<GridEntry> = new Array<GridEntry>();
+        let row: number;
+        let column: number;
+        let wordDirection: Direction;
+        let value: string = "";
+        const definition: string = "";
         for (let i: number = 0; i < lane.length; i++) {
             if (lane[i] === BLACK_CASE) {
                 continue;
             }
-            const word: Word = new Word();
-            if (direction === HORIZONTAL) {
-                word.row = index;
-                word.column = i;
+            if (direction === Direction.HORIZONTAL) {
+                row = index;
+                column = i;
             } else {
-                word.row = i;
-                word.column = index;
+                row = i;
+                column = index;
             }
-            word.direction = direction;
+            wordDirection = direction;
             let length: number = 0;
+            value = "";
             while (lane[i] === WHITE_CASE) {
                 length++;
+                value += " ";
                 if (++i >= lane.length) {
                     break;
                 }
             }
             if (length >= MIN_WORD_LENGTH) {
-                word.size = length;
-                result.push(new GridEntry(word));
+                result.push(new GridEntry(row, column, wordDirection, value, definition));
             }
         }
 
         return result;
     }
 
-    private async getWords(wordSkeleton: string, difficulty: string): Promise<JSON> {
+    private async getWords(wordSkeleton: string, difficulty: string): Promise<Array<Word>> {
         if (this.cacheWords.has(wordSkeleton)) {
             return this.cacheWords.get(wordSkeleton);
         }
@@ -334,7 +339,7 @@ export class GridGenerator {
             json: true, uri: url
           };
         try {
-            const possibleWords: JSON = await requestPromise(options);
+            const possibleWords: Array<Word> = await requestPromise(options);
             this.cacheWords.set(wordSkeleton, possibleWords);
             return possibleWords;
         } catch (error) {

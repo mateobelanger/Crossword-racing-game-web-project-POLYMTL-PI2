@@ -1,4 +1,4 @@
-import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE, DEFAULT_GRID_SIZE } from "./grid-generator";
+/*import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE, DEFAULT_GRID_SIZE } from "./grid-generator";
 import { GridEntry } from "./word";
 import { assert } from "chai";
 
@@ -85,4 +85,4 @@ describe("Grid generator:", () => {
             assert.isAtLeast(count, MIN_WORDS);
         }
     });
-});
+});*/
