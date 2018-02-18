@@ -6,16 +6,18 @@ import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from '../skybox.service';
 
-//TODO: ROMOVE : TEST_AXES
-import { TestAxes } from "../test-axes";
-
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
+const CAMERA_KEYCODE: number = 86;      // v
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.8;
+
+// Helper for tests
+const HELPER_AXES_SIZE: number = 500;
+const HELPER_GRID_SIZE: number = 50;
 
 @Injectable()
 export class RenderService {
@@ -26,8 +28,9 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
 
-    //TODO: ROMOVE : TEST_AXES
-    private axes: TestAxes;
+    // Helper for tests
+    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
+    private gridHelper: THREE.GridHelper = new THREE.GridHelper( HELPER_GRID_SIZE, HELPER_GRID_SIZE );
 
     public get car(): Car {
         return this._car;
@@ -36,8 +39,6 @@ export class RenderService {
     public constructor(private cameraService: CameraService,
                        private skyboxService: SkyboxService ) {
         this._car = new Car();
-        //TODO: ROMOVE : TEST_AXES
-        this.axes = new TestAxes;
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -73,15 +74,12 @@ export class RenderService {
 
         this.cameraService.initialize(this.container, this._car.mesh);
 
+        // Helper for tests
+        this.scene.add(this.axesHelper);
+        this.scene.add(this.gridHelper);
 
         this.skyboxService.initialization(this.scene);
         this.skyboxService.generateSkybox();
-
-        //TODO: ROMOVE : TEST_AXES
-        this.axes.createBoxAxes();
-        this.scene.add(this.axes.getBoxAxeX());
-        this.scene.add(this.axes.getBoxAxeY());
-        this.scene.add(this.axes.getBoxAxeZ());
     }
 
     private startRenderingLoop(): void {
@@ -137,6 +135,9 @@ export class RenderService {
                 break;
             case BRAKE_KEYCODE:
                 this._car.releaseBrakes();
+                break;
+            case CAMERA_KEYCODE:
+                this.cameraService.changeCamera();
                 break;
             default:
                 break;

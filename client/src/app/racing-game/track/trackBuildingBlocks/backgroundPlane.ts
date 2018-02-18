@@ -16,7 +16,7 @@ export class BackgroundPlane {
         return this.backgroundPlane;
     }
 
-    public generateBackgroundPlan (): void {
+    public generateBackgroundPlane (): void {
         const material: THREE.MeshBasicMaterial = this.getBackgroundMaterial();
         this.backgroundPlane = new THREE.Mesh(
             new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight), material

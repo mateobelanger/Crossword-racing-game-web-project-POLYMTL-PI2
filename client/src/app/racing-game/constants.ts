@@ -13,3 +13,10 @@ export const PI_OVER_2: number = Math.PI / 2;
 export const POINTS_POSITION_Z: number = 0;
 export const PLANE_POSITION_Z: number = -1;
 export const BACKGROUND_PLANE_POSITION_Z: number = -3;
+
+// SKYBOX for now & others in the future
+export const LAND_WIDTH: number = 500;
+export const LAND_HEIGHT: number = 400;
+export const BACKGROUND_PLANE_POSITION_Y: number = -3;
+
+

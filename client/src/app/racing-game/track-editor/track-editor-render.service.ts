@@ -62,7 +62,7 @@ export class TrackEditorRenderService {
 
         this.backgroundPlane = new BackgroundPlane(this.scene, this.container);
 
-        this.backgroundPlane.generateBackgroundPlan();
+        this.backgroundPlane.generateBackgroundPlane();
         /*tslint:disable:no-any*/
         (window as any).scene = this.scene;
         /*tslint:enable:no-any*/
