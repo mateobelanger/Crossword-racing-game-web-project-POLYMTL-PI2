@@ -4,6 +4,8 @@ import * as THREE from 'three';
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
+import { SkyboxService } from '../skybox.service';
+
 //TODO: ROMOVE : TEST_AXES
 import { TestAxes } from "../test-axes";
 
@@ -23,6 +25,7 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
+
     //TODO: ROMOVE : TEST_AXES
     private axes: TestAxes;
 
@@ -30,7 +33,8 @@ export class RenderService {
         return this._car;
     }
 
-    public constructor(private cameraService: CameraService) {
+    public constructor(private cameraService: CameraService,
+                       private skyboxService: SkyboxService ) {
         this._car = new Car();
         //TODO: ROMOVE : TEST_AXES
         this.axes = new TestAxes;
@@ -69,6 +73,9 @@ export class RenderService {
 
         this.cameraService.initialize(this.container, this._car.mesh);
 
+
+        this.skyboxService.initialization(this.scene);
+        this.skyboxService.generateSkybox();
 
         //TODO: ROMOVE : TEST_AXES
         this.axes.createBoxAxes();
