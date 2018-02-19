@@ -79,7 +79,7 @@ export class DatamuseResponse implements IDatamuseResponse {
         }
         for (let i: number = 0; i < template.length; i++) {
             //can only contain letters
-            if(this.word.charCodeAt(i) < 97 && this.word.charCodeAt(i) > 122) {
+            if(this.word.charCodeAt(i) < 97 || this.word.charCodeAt(i) > 122) {
                 return false;
             }
             if (template[i] !== "?" && template[i] !== this.word[i]) {
