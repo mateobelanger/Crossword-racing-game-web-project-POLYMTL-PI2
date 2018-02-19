@@ -6,13 +6,13 @@ const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 
 @Injectable()
 export class TracksProxyService {
-//tslint:disable:all
+
   private _tracks: TrackData[];
 
   public constructor( private _http: HttpClient) { }
 
   public async initialize(): Promise<void> {
-    await this.fetchTracks().then(data => {this._tracks = data}); 
+    await this.fetchTracks().then((data) => {this._tracks = data; });
   }
 
   public get tracks(): TrackData[] {
