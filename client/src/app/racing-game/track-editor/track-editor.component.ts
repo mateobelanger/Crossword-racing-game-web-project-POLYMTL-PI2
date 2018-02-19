@@ -26,8 +26,9 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public ngOnInit(): void {
     }
 
-    public ngAfterViewInit(): void {
+    public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
+        await this.proxy.initialize();
     }
 
 

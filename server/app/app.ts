@@ -10,6 +10,7 @@ import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexicalService } from "./lexicalService/lexicalService";
 import { GridGeneratorService } from "./gridGeneratorService";
+import { MongoDBService } from "./mongoDBService";
 
 @injectable()
 export class Application {
@@ -19,7 +20,8 @@ export class Application {
 
     constructor(@inject(Types.Routes) private api: Routes,
                 @inject(Types.LexicalService) private lexicalService: LexicalService,
-                @inject(Types.GridGeneratorService) private gridGeneratorService: GridGeneratorService) {
+                @inject(Types.GridGeneratorService) private gridGeneratorService: GridGeneratorService,
+                @inject(Types.MongoDBService) private mongoDBService: MongoDBService) {
         this.app = express();
 
         this.config();
@@ -43,6 +45,7 @@ export class Application {
         router.use(this.api.routes);
         router.use(this.lexicalService.routes);
         router.use(this.gridGeneratorService.routes);
+        router.use(this.mongoDBService.routes);
         
         this.app.use(router);
 
