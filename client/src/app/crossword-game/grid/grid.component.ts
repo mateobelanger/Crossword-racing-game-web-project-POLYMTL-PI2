@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { WordService } from '../word.service'
-import { Word, Direction } from '../../../../../common/word'
+import { Component, OnInit } from "@angular/core";
+import { WordService } from "../word.service";
+import { Word, Direction } from "../../../../../common/word";
 
 const UPPERCASE_A: number = 65;
 const UPPERCASE_Z: number = 90;
@@ -12,9 +12,9 @@ const BLACK_CASE: string = '-';
 
 
 @Component({
-    selector: 'app-grid',
-    templateUrl: './grid.component.html',
-    styleUrls: ['./grid.component.css']
+    selector: "app-grid",
+    templateUrl: "./grid.component.html",
+    styleUrls: ["./grid.component.css"]
 })
 
 export class GridComponent implements OnInit {
@@ -24,7 +24,7 @@ export class GridComponent implements OnInit {
     public constructor(private wordService: WordService) {
         this.userGrid = [];
         for (let i: number = 0; i < GRID_SIZE; i++) {
-            const row: string[] = []
+            const row: string[] = [];
             for (let j: number = 0; j < GRID_SIZE; j++) {
                 row.push(BLACK_CASE);
             }

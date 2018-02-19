@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Word, Direction } from '../../../../common/word';
-import { words } from './mock-words';
+import { Injectable } from "@angular/core";
+import { Word, Direction } from "../../../../common/word";
+import { words } from "./mock-words";
+// following line causes circular dependencies:
+// import { GRID_SIZE } from "./grid/grid.component";
+const GRID_SIZE: number = 10;
 
 @Injectable()
 export class WordService {
@@ -43,7 +46,7 @@ export class WordService {
             if (word === this._selectedWord) {
                 continue;
             }
-            if (word.direction === Direction.Horizontal){
+            if (word.direction === Direction.Horizontal) {
                 if (word.row === row && column >= word.column && column < word.column + word.size) {
                     this._selectedWord = word;
                     break;
@@ -57,7 +60,7 @@ export class WordService {
 
     public getDefinitions(direction: Direction): string[][] {
         const definitions: string[][] = [];
-        for (let i: number = 0; i < 10; i++) {
+        for (let i: number = 0; i < GRID_SIZE; i++) {
             definitions.push([]);
         }
 
