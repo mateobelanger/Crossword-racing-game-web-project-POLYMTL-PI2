@@ -1,5 +1,5 @@
-/*import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE, DEFAULT_GRID_SIZE } from "./grid-generator";
-import { GridEntry } from "./word";
+import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE, DEFAULT_GRID_SIZE } from "./grid-generator";
+import { GridEntry, Direction } from "../../../common/crosswordsInterfaces/word";
 import { assert } from "chai";
 
 describe("Grid generator:", () => {
@@ -47,7 +47,7 @@ describe("Grid generator:", () => {
         let result: boolean = true;
 
         for (const word of words) {
-            if (word.word.size < MIN_WORD_LENGTH) {
+            if (word.word.value.length < MIN_WORD_LENGTH) {
                 result = false;
                 break;
             }
@@ -60,10 +60,10 @@ describe("Grid generator:", () => {
         for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
             let count: number = 0;
             for (const word of words) {
-                if (word.word.direction !== "horizontal") {
+                if (word.direction !== Direction.HORIZONTAL) {
                     continue;
                 }
-                if (word.word.row === i) {
+                if (word.row === i) {
                     count++;
                 }
             }
@@ -75,14 +75,14 @@ describe("Grid generator:", () => {
         for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
             let count: number = 0;
             for (const word of words) {
-                if (word.word.direction !== "vertical") {
+                if (word.direction !== Direction.VERTICAL) {
                     continue;
                 }
-                if (word.word.column === i) {
+                if (word.column === i) {
                     count++;
                 }
             }
             assert.isAtLeast(count, MIN_WORDS);
         }
     });
-});*/
+});
