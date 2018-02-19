@@ -75,7 +75,7 @@ h5 {
     background-color: rgba(127, 127, 127, 0.7);
 }
 
-.descriptionTitleBloc {
+.descriptionTitleBlock {
     height: 35px;
     overflow: hidden;
 }
@@ -94,7 +94,7 @@ h5 {
     background-color: rgba(105, 105, 105, 0.9);
 }
 
-.timePlayed {
+.timesPlayed {
     margin-top: 10px;
     margin-left: 10px;
 }
