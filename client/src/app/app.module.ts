@@ -4,8 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 
-
-
+import { TracksProxyService } from "./racing-game/tracks-proxy.service";
 // Module
 import { HomepageModule} from './homepage/homepage.module';
 import { CrosswordGameModule} from './crossword-game/crossword-game.module';
@@ -32,7 +31,7 @@ import { routes } from './app-routes.module';
         AdminModule
 
     ],
-    providers: [ ],
+    providers: [ TracksProxyService ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
