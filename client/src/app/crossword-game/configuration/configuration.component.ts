@@ -7,11 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class ConfigurationComponent implements OnInit {
-    public difficulty: string;
+    public link: string;
 
     public constructor() {}
 
     public ngOnInit(): void {
+    }
+
+    public updateLink(difficulty: string): void {
+        this.link = difficulty + "/ui";
     }
 
 }

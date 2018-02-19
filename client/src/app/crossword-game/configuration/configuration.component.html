@@ -5,12 +5,12 @@
             Select difficulty:
         </p>
 
-        <input type="radio" [(ngModel)]="difficulty" value="Easy"> Easy <br>
-        <input type="radio" [(ngModel)]="difficulty" value="Normal"> Normal <br>
-        <input type="radio" [(ngModel)]="difficulty" value="Hard"> Hard <br>
+        <input type="radio" (click)="updateLink('easy')"> Easy <br>
+        <input type="radio" (click)="updateLink('normal')"> Normal <br>
+        <input type="radio" (click)="updateLink('hard')"> Hard <br>
 
-        <div *ngIf="difficulty; else elseBlock">
-            <button routerLink="{{difficulty}}/ui">Create Game</button>
+        <div *ngIf="link; else elseBlock">
+            <button routerLink={{link}}>Create Game</button>
         </div>
 
         <ng-template #elseBlock>
