@@ -89,7 +89,7 @@ export class Car extends Object3D {
 
         this.engine = engine;
         this.rearWheel = rearWheel;
-        this.wheelbase = wheelbase;0
+        this.wheelbase = wheelbase;
         this.mass = mass;
         this.dragCoefficient = dragCoefficient;
 

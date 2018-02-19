@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 // import {Observable} from 'rxjs/Observable';
-// import { TrackData } from "../../../../common/communication/trackData";
 import { HttpClient } from '@angular/common/http';
 import { TrackData } from "../../../../common/communication/trackData";
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
@@ -12,26 +11,18 @@ export class TracksProxyService {
 
   public constructor( private _http: HttpClient) { }
 
-  public initialize(): void {
-    this._tracks = this.getTracks();
-    
+  public async initialize(): Promise<void> {
+    await this.fetchTracks().then(data => {this._tracks = data}); 
   }
 
-  private getTracks(): TrackData[] {
-    let trackDatas: TrackData[];
-    this._http.get<TrackData[]>(URI_MONGO_DB).subscribe(data => console.log(data) );
-    console.log("les pistes: ");
-    console.log(trackDatas);
-    return trackDatas;
+  public get tracks(): TrackData[] {
+    return this._tracks;
+  }
+
+  private fetchTracks(): Promise<TrackData[]> {
+    return this._http.get<TrackData[]>(URI_MONGO_DB).toPromise();
   }
 
 
-//tslint:disable:all
-  /*public test(): void {
-    console.log("aalllo");
-    this._http.get<TrackData[]>(URI_MONGO_DB).subscribe((data) => {
-      data.forEach((elem) => {console.log(elem) }) });
-  
-  }*/
 
 }
