@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WordService } from '../word.service';
 
 @Component({
     selector: 'app-game-ui',
@@ -7,8 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameUiComponent implements OnInit {
 
-    public constructor() {}
+    public constructor(private wordSelection: WordService) {}
 
     public ngOnInit(): void {}
+
+    public deselect(): void {
+        this.wordSelection.deselect();
+    }
 
 }
