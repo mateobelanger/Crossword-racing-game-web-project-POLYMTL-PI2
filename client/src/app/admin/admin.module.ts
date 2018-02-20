@@ -6,11 +6,13 @@ import { TrackEditorComponent } from '../racing-game/track-editor/track-editor.c
 import { TrackEditorRenderService } from '../racing-game/track-editor/track-editor-render.service';
 import { AdminComponent } from './admin.component';
 import { TrackEditorUiComponent } from './track-editor-ui/track-editor-ui.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     routes,
+    FormsModule
   ],
   declarations: [
     AdminComponent,
