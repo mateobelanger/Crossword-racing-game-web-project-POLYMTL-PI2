@@ -32,8 +32,10 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
         await this.proxy.initialize();
-        const aString: string = "gen veut tester";
-        const trackData: TrackData = {name : "fuckoff", description :  aString, timesPlayed : 1, bestTimes: [["nobody", 0]],
+        const aString: string = "anotha one";
+        const genny: [string, number][] = [["anotha one", 1], ["and anotha one", 1]];
+
+        const trackData: TrackData = {name : "fuckoff", description :  aString, timesPlayed : 1, bestTimes: genny,
                                       waypoints: [[1, 1, 1]]};
 
         this.proxy.addTrack(trackData);
