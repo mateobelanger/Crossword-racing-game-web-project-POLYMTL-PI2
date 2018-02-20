@@ -1,11 +1,15 @@
-<table class="table">
+<table>
     <thead>
-        <th class="title">Across:</th>
+        <tr>
+            <th class="title">Across:</th>
+        </tr>
     </thead>
     <tbody>
         <tr *ngFor="let row of horizontalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span>
-                <li *ngFor="let definition of row; let indexI = index;">
+                <li *ngFor="let definition of row; let indexI = index;"
+                    (click)="onSelect(definition); $event.stopPropagation()" 
+                    [class.selected]="definition===getSelectedDefinition()">
 
                     [{{indexI+1}}] {{definition}}
                 </li>
@@ -13,14 +17,19 @@
         </tr>
     </tbody>
 </table>
-<table class="table">
+<table>
     <thead>
-        <th class="title">Down:</th>
+        <tr>
+            <th class="title">Down:</th>
+        </tr>
     </thead>
     <tbody>
         <tr *ngFor="let row of verticalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span> 
-                <li *ngFor="let definition of row; let indexI = index;" (click)="onSelect(definition)">
+                <li *ngFor="let definition of row; let indexI = index;"
+                    (click)="onSelect(definition); $event.stopPropagation()" 
+                    [class.selected]="definition===getSelectedDefinition()">
+                    
                     [{{indexI+1}}] {{definition}}
                 </li>
             </div>

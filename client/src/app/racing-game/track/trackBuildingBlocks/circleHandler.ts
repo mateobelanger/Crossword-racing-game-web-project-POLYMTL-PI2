@@ -1,4 +1,5 @@
-import {Waypoint} from "../trackData/waypoint";
+import { Waypoint } from "../trackData/waypoint";
+import { POINT } from "../../constants";
 import * as THREE from "three";
 
 const CIRCLE_RADIUS: number = 10;
@@ -16,7 +17,7 @@ export class CircleHandler {
         circleGeometries.forEach((geometry, index) => {
             const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ? this.getFirstCircleMaterial() : material );
             this.meshs.push(mesh);
-            mesh.name = "point";
+            mesh.name = POINT;
             this.scene.add(mesh);
             this.bindMesh(mesh, waypoints[index]);
         });

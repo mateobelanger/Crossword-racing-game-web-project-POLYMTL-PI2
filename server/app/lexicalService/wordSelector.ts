@@ -26,12 +26,12 @@ export class WordSelector {
         return JSON.parse(JSON.stringify(selectedWords));
     }
 
-    public static getValidWordsBasedOnDifficulty(words: JSON, isCommon: boolean, isEasy: boolean): JSON {
+    public static getValidWordsBasedOnDifficulty(words: JSON, criteria: string,  isCommon: boolean, isEasy: boolean): JSON {
 
         const selectedWords: DictionaryEntry[] = new Array<DictionaryEntry>();
 
         this.readData(words).forEach( (element: DictionaryEntry) => {
-            if (element.isCommon() === isCommon && element.hasValidDefinition(isEasy)) {
+            if (element.isValidWithTemplate(criteria) && element.isCommon() === isCommon && element.hasValidDefinition(isEasy)) {
                 selectedWords.push(element);
             }
         });
@@ -40,13 +40,15 @@ export class WordSelector {
     }
 
     // used when a word is directly searched
-    public static confirmWordBasedOnDifficulty(words: JSON, isCommon: boolean, isEasy: boolean, word: String): JSON {
+    public static confirmWordBasedOnDifficulty(words: JSON, isCommon: boolean, isEasy: boolean, word: string): JSON {
 
         const selectedWords: DictionaryEntry[] = new Array<DictionaryEntry>();
-
+        if(Object.keys(words).length === 0) {
+            return JSON.parse(JSON.stringify(selectedWords));
+        }
         const element: DictionaryEntry = this.readData(words)[0];
-        if (element.isCommon() === isCommon && element.hasValidDefinition(isEasy) && element.getName() === word) {
-            selectedWords.push(element);
+        if (element.isValidWithTemplate(word) && element.isCommon() === isCommon && element.hasValidDefinition(isEasy)) {
+                selectedWords.push(element );
         }
 
         return JSON.parse(JSON.stringify(selectedWords));

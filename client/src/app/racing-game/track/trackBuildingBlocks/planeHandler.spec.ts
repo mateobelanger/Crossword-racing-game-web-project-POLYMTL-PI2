@@ -30,12 +30,12 @@ describe("PlaneHandlerHandler", () => {
     });
 
     it("should generate planes properly", () => {
-        expect(planeHandler.getPlanes().length).toEqual(9);
+        expect(planeHandler.planes.length).toEqual(9);
     });
 
     it("should remove planes properly", () => {
         planeHandler.removePlane(waypoints[2].getIncomingPlaneId());
-        expect(planeHandler.getPlanes().length).toEqual(8);
+        expect(planeHandler.planes.length).toEqual(8);
     });
 
 

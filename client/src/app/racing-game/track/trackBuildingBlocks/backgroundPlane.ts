@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BACKGROUND_PLANE_POSITION_Z } from '../../constants';
+import { BACKGROUND_PLANE, BACKGROUND_PLANE_POSITION_Z } from "../../constants";
 
 
 const REAPEAT_IMAGE: number = 2;
@@ -22,7 +22,7 @@ export class BackgroundPlane {
             new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight), material
         );
         this.backgroundPlane.position.z = BACKGROUND_PLANE_POSITION_Z;
-        this.backgroundPlane.name = "backgroundPlane";
+        this.backgroundPlane.name = BACKGROUND_PLANE;
         this.scene.add(this.backgroundPlane);
 
     }
