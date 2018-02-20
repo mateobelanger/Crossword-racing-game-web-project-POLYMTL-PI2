@@ -97,12 +97,12 @@ export class MongoDBAccess {
     // } 
 
     // à vérifier
-    static update(trackName: string, res: Response) : void {
+    static incrementTimesPlayed(trackName: string, res: Response) : void {
         
         MONGOOSE.connect(MONGODB_URI);
         let db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.update({name : trackName}, {timesPlayed: 8}, 
+            Track.update({name : trackName}, {$inc:{timesPlayed: 1}}, 
                 function(err: any, numAffected: number){
                     if(err) return console.error(err);
                 } 
