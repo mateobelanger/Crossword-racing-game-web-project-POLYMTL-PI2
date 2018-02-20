@@ -41,7 +41,7 @@ export class MongoDBAccess {
 
         let track = new Track({
             // name: req.body.name, ..
-            name: "track",
+            name: "track1",
             description: "bla bla",
             timesPlayed: 0,
             test: [0,2,3],
@@ -61,23 +61,26 @@ export class MongoDBAccess {
 
 
     static getAll(req: Request, res: Response) : void {
+
         MONGOOSE.connect(MONGODB_URI);
         let db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.find( function(error: any, test : TrackData[]){
+            Track.find( function(error: any, trackData : TrackData[]){
                 if(error) return console.error(error);
-                res.send(test);
-            });
-            
+                res.send(trackData);
+            })
         });
-        
     } 
     
 
-    static remove(/*req: Request, */res: Response, trackName: string) : void {
-        console.log("deleting " + trackName);
-        Track.find({ name: trackName }).remove( (err: any) =>{ if (err) return console.error(err); }).exec();
-        res.send("removed");
+    static remove(trackName: string, res: Response) : void {
+        
+        MONGOOSE.connect(MONGODB_URI);
+        let db: any = MONGOOSE.connection;
+        db.once("open", () => {
+            Track.findOne({ name: trackName }).remove( (err: any) =>{ if (err) return console.error(err); }).exec();
+            res.send("removed");               
+    });
     } 
 
     // static remove(/*req: Request, */res: Response, trackName: string) : void {
@@ -92,6 +95,17 @@ export class MongoDBAccess {
         
     //     res.send("removed");
     // } 
+
+    // à vérifier
+    static update(trackName: string, res: Response) : void {
+        
+        MONGOOSE.connect(MONGODB_URI);
+        let db: any = MONGOOSE.connection;
+        db.once("open", () => {
+            Track.update({"name" : trackName}, {$set: {"timesPlayed": 10}} );
+            res.send(trackName);               
+    });
+    } 
 
     static testConnection(res: Response): void {
         MONGOOSE.connect(MONGODB_URI);

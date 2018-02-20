@@ -29,7 +29,8 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
         await this.proxy.initialize();
-        console.log(this.proxy.tracks)
+        //this.proxy.deleteTrack("track");
+        //console.log("track deleted?")
     }
 
 
@@ -57,5 +58,8 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public onMouseMove(event: MouseEvent): void {
         this.trackEditorService.handleMouseMove(event);
     }
+
+
+    //public saveTrack()
 
 }

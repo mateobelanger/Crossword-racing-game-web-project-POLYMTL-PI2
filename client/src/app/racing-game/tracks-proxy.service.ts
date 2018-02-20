@@ -19,10 +19,32 @@ export class TracksProxyService {
     return this._tracks;
   }
 
-  private fetchTracks(): Promise<TrackData[]> {
-    return this._http.get<TrackData[]>(URI_MONGO_DB).toPromise();
+  public addTrack(): void {
+    this._tracks.push();
   }
 
+  public deleteTrack(trackName: string): void {
+    const url: string = URI_MONGO_DB + "/" + trackName;
+    this._http.delete<TrackData>(url);
+  }
 
+  public updateTrack(trackName: string): void {
+    // const url: string = URI_MONGO_DB + "/" + trackName;
+    // this._http.put<TrackData>(url);
+  }
+
+  public findTrack(trackName: string): TrackData {
+    let track: TrackData;
+    this._tracks.forEach((elem) => {
+      if (elem.name === trackName)
+        track = elem;
+    });
+
+    return track;
+  }
+
+  private fetchTracks(): Promise<TrackData[]> {
+      return this._http.get<TrackData[]>(URI_MONGO_DB).toPromise();
+    }
 
 }

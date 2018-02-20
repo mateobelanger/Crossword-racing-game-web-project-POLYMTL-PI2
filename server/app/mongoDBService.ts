@@ -24,7 +24,13 @@ export class MongoDBService {
         
         router.delete(  "/service/mongoDB/:name", 
                         (req: Request, res: Response) =>
-                            MongoDBAccess.remove(res, req.params.name)
+                            {MongoDBAccess.remove(req.params.name, res)
+                            console.log(req.params.name)}
+                        );
+
+        router.put(  "/service/mongoDB/:name", 
+                        (req: Request, res: Response) =>
+                            {MongoDBAccess.update(req.params.name, res)}
                         );
         
         // custom 404 page
