@@ -1,7 +1,8 @@
 import { Response } from "express";
 import { GridEntry, Direction, Word } from "../../../common/crosswordsInterfaces/word";
 import { INVALID_TRIPLES } from "./invalidTriples";
-
+import { INVALID_DOUBLES } from "./invalidDoubles";
+ 
 const requestPromise = require("request-promise-native");
 
 export const MIN_WORD_LENGTH: number = 2;
@@ -15,12 +16,14 @@ export class GridGenerator {
     private _grid: string[][];
     private cacheWords: Map<string,Array<Word>> = new Map();
     private invalidTriples: Set<string>;
+    private invalidDoubles: Set<string>;
 
     public constructor() {
         this._grid = [];
         this.nRows = DEFAULT_GRID_SIZE;
         this.nColumns = DEFAULT_GRID_SIZE;
         this.invalidTriples = this.arrayToSet(INVALID_TRIPLES);
+        this.invalidDoubles = this.arrayToSet(INVALID_DOUBLES)
     }
 
     public generate(nBlackCases: number,
@@ -328,7 +331,7 @@ export class GridGenerator {
     private async getWords(wordSkeleton: string, difficulty: string): Promise<Array<Word>> {
         if (this.cacheWords.has(wordSkeleton)) {
             return this.cacheWords.get(wordSkeleton);
-        } else if (this.isInvalidTriple(wordSkeleton)) {
+        } else if (this.containsImpossibleCombinations(wordSkeleton, 2) || this.containsImpossibleCombinations(wordSkeleton, 3)) {
             this.cacheWords.set(wordSkeleton, []);
             return [];
         }
@@ -347,18 +350,35 @@ export class GridGenerator {
         }
     }
 
-    private isInvalidTriple (template: string): boolean{
-        if(template.length >= 3) {
-            for(let i: number = 0; i < template.length - 2; i++) {
-                if(this.invalidTriples.has(template.substr(i, 3))) {
-                    return true;
-                }
+    private containsImpossibleCombinations (template: string, sizeCombination: number = 2): boolean {
+        let currentIndex: number = 0;
+
+        while(currentIndex <= template.length - sizeCombination) {
+            while(template[currentIndex] === "-" || template[currentIndex + 1] === "-" ) { currentIndex++; }
+
+            switch(sizeCombination) {
+                case 2:
+                    if (this.invalidDoubles.has(template.substr(currentIndex, 2))) { return true; }
+                    currentIndex++;
+                    break;
+                case 3:
+                    if (template[currentIndex + 1] !== "-" && template[currentIndex + 2] !== "-") {
+                        if (this.invalidTriples.has(template.substr(currentIndex, 3))) { 
+                            console.log(template + "is impossible")
+                            return true; }
+                    }
+                    currentIndex++;
+                    break;
+                default:
+                    break;
             }
         }
-        return false;
+    console.log(template + "is not impossible")
+    return false;
     }
 
     private arrayToSet (file: Array<string>): Set<string> {
+        console.log("generating set")
         const result: Set<string> = new Set<string>();
         file.forEach(element => {
             result.add(element);
