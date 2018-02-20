@@ -102,7 +102,11 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         let db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.update({"name" : trackName}, {$set: {"timesPlayed": 10}} );
+            Track.update({name : trackName}, {timesPlayed: 8}, 
+                function(err: any, numAffected: number){
+                    if(err) return console.error(err);
+                } 
+            );
             res.send(trackName);               
     });
     } 
