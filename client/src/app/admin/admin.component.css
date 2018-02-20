@@ -25,13 +25,14 @@ h5 {
 
 .containerAdmin {
     background-image: url("../../assets/admin/bg-2.jpg");
+    background-size: 100%;
     background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     min-height: 95vh;
     /* Problem : when I put 96 to fit the page perfecly it adds the scroll bar!?!*/
     height: auto;
     margin: 0;
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .caneva {
@@ -55,14 +56,16 @@ h5 {
     width: 75%;
     height: 60px;
     display: flex;
+    flex-direction: column;
+    float: left;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     text-align: center;
 }
 
 .trackName {
     margin: 10px 0 0 10px;
+    overflow-y: hidden;
 }
 
 .descriptionBlock {
@@ -104,18 +107,33 @@ h5 {
     margin-top: 10px;
 }
 
-.button {
-    margin-right: 15px;
-    height: 100%;
-    width: 20%;
-    margin-top: 20px;
-}
-
-.buttonsBlock {
+.iconsBlock {
+    float: right;
     vertical-align: middle;
     width: 25%;
     height: 60px;
 }
+
+.icon {
+    background-repeat: no-repeat !important;
+    background-size: 16px !important;
+    height: 20px;
+    width: 20px;
+    margin: 31% 15%;
+}
+
+.icon-edit {
+    background: url("icon-edit.png");
+    float: left;
+    margin-right: 3px;
+}
+
+.icon-delete {
+    background: url("icon-delete.png");
+    float: right;
+    margin-left: 3px;
+}
+
 
 li {
     list-style-type: none;

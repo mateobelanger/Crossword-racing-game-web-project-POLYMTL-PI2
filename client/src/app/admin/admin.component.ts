@@ -7,19 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AdminComponent implements OnInit {
-  //private tracks: JSON ;
+    private tracks: JSON;
 
 
-  public constructor() {
-    //this.tracks = require("./fakeTracks.json");
-  }
+    public constructor() {
+        this.tracks = require("./fakeTracks.json");
+    }
 
-  public ngOnInit(): void {
-  }
+    public ngOnInit(): void {
+    }
 
-  public popUpFunction(trackIndex: number): void {
-    const popup: HTMLElement = document.getElementById(trackIndex.toString());
-    popup.classList.toggle("show");
-  }
+    public popUpFunction(trackIndex: number): void {
+        const popup: HTMLElement = document.getElementById(trackIndex.toString());
+        popup.classList.toggle("show");
+    }
 
 }
