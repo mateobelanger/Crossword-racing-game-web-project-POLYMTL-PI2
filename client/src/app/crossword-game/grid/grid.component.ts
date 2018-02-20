@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { WordService } from "../word.service";
 import { Word, Direction } from "../../../../../common/word";
 
@@ -17,7 +17,7 @@ const BLACK_CASE: string = '-';
     styleUrls: ["./grid.component.css"]
 })
 
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, AfterViewInit {
 
     private userGrid: string[][];
 
@@ -36,9 +36,21 @@ export class GridComponent implements OnInit {
         this.fillGrid();
     }
 
+    public ngAfterViewInit(): void {
+        const element = document.getElementById('0');
+        element.focus();
+        this.wordService.selectWord(0, 0);
+    }
+
     public isLetter(keyCode: number): boolean {
-        return (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z ||
-                keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z );
+        if (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z ||
+            keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z ) {
+                this.wordService.focusOnFirstEmptyCell(this.userGrid);
+
+                return true;
+        } else {
+            return false;
+        }
     }
 
     public trackByIndex(index: number): number {
@@ -51,6 +63,8 @@ export class GridComponent implements OnInit {
 
     public selectWord(rowIndex: number, columnIndex: number): void {
         this.wordService.selectWord(rowIndex, columnIndex);
+
+        this.wordService.focusOnFirstEmptyCell(this.userGrid);
     }
 
     public isSelectedWord(id: number): boolean {
@@ -80,7 +94,7 @@ export class GridComponent implements OnInit {
                     row = word.row + i;
                     col = word.column;
                 }
-                this.userGrid[row][col] = word.value[i];
+                this.userGrid[row][col] = ""; // word.value[i];
             }
         }
 

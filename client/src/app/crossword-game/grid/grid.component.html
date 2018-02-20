@@ -1,21 +1,14 @@
 <div>
-  <!--row of index!-->
-  <div class="row">
-    <div class="col header"></div>
-    <div *ngFor="let block of userGrid[0]; let index = index;" class="col header">{{index+1}}</div>
-  </div>
+    <!--row of index!-->
+    <div class="row">
+        <div class="col header"></div>
+        <div *ngFor="let block of userGrid[0]; let index = index;" class="col header">{{index+1}}</div>
+    </div>
 
-  <div *ngFor="let row of userGrid; let indexR = index;" class="row">
-    <!--first cell with index!-->
-    <div class="col header">{{indexR+1}}</div>
-    <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex"
-            type="text" value={{block}}
-            [attr.id]="calculateId(indexR, indexC)"
-            class="col" [class.filled]="block === '-'"
-            [class.selected]="isSelectedWord(calculateId(indexR, indexC))"
-            [(ngModel)]="userGrid[indexR][indexC]" 
-            (keypress)="isLetter($event.charCode)"
-            (click)="selectWord(indexR, indexC); $event.stopPropagation()" maxlength=1 tabindex="-1"
-    >
-  </div>
+    <div *ngFor="let row of userGrid; let indexR = index;" class="row">
+        <!--first cell with index!-->
+        <div class="col header">{{indexR+1}}</div>
+        <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex" type="text" value={{block}} [attr.id]="calculateId(indexR, indexC)" class="col" [class.filled]="block === '-'" [class.selected]="isSelectedWord(calculateId(indexR, indexC))" [(ngModel)]="userGrid[indexR][indexC]"
+            (keyup)="isLetter($event.charCode)" (click)="selectWord(indexR, indexC); $event.stopPropagation()" maxlength=1 tabindex="-1">
+    </div>
 </div>

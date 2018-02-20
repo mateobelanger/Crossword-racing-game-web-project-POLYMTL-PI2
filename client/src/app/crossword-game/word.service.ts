@@ -36,6 +36,8 @@ export class WordService {
             if (word.definition === definition) {
                 this._selectedWord = word;
 
+                // this.focusOnFirstEmptyCell();
+
                 return;
             }
         }
@@ -82,4 +84,22 @@ export class WordService {
         this._selectedWord = null;
     }
 
+    public focusOnFirstEmptyCell(userGrid: Array<Array<string>>): void {
+        let rowIndex: number = this._selectedWord.row;
+        let columnIndex: number = this._selectedWord.column;
+        while (userGrid[rowIndex][columnIndex] !== "") {
+            if (this._selectedWord.direction === Direction.Horizontal) {
+                if (++columnIndex === (this._selectedWord.row + this._selectedWord.value.length)) {
+                    break;
+                }
+            } else {
+                if (++rowIndex === (this._selectedWord.column + this._selectedWord.value.length)) {
+                    break;
+                }
+            }
+        }
+        const id: number = (rowIndex * 10) + columnIndex;
+        const element: HTMLElement = document.getElementById(id.toString());
+        element.focus();
+    }
 }
