@@ -83,7 +83,6 @@ export class GridComponent implements OnInit {
                 this.userGrid[row][col] = word.value[i];
             }
         }
-
     }
 
 }
