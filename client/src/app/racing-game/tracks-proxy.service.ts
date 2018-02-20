@@ -19,8 +19,9 @@ export class TracksProxyService {
     return this._tracks;
   }
 
-  public addTrack(): void {
-    this._tracks.push();
+  public addTrack(track: TrackData): void {
+    this._http.post<TrackData>(URI_MONGO_DB, track)
+    .subscribe((validTrack: TrackData) => {this.tracks.push(validTrack); });
   }
 
   public deleteTrack(trackName: string): void {
@@ -42,6 +43,7 @@ export class TracksProxyService {
 
     return track;
   }
+
 
   private fetchTracks(): Promise<TrackData[]> {
       return this._http.get<TrackData[]>(URI_MONGO_DB).toPromise();

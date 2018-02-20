@@ -39,21 +39,14 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         let connection: any = MONGOOSE.connection;
 
-        let track = new Track({
-            // name: req.body.name, ..
-            name: "track1",
-            description: "bla bla",
-            timesPlayed: 0,
-            test: [0,2,3],
-            bestTimes: [["player1", 2.0], ["player2", 3.0]],
-            waypoints: [[1,2,0], [4,5,0]]
+        let track = new Track(req.body);
 
-        });
+        console.log(track);
        
         connection.once("open", () => 
             track.save( (err: any, track: any) => {
                     if (err) return console.error(err);
-                    res.send("test2");
+                    res.send(req.body);
                 })
         );
         
@@ -78,7 +71,9 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         let db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.findOne({ name: trackName }).remove( (err: any) =>{ if (err) return console.error(err); }).exec();
+            Track.findOne({ name: trackName })
+            .remove( (err: any) =>{ if (err) return console.error(err); })
+            .exec();
             res.send("removed");               
     });
     } 
