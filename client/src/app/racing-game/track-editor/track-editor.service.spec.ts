@@ -32,20 +32,20 @@ describe('TrackEditorService', () => {
   }));
 
   it('track should have 4 waypoints', () => {
-    expect(editorService.getTrack().getTrackSize()).toBe(4);
+    expect(editorService.track.getTrackSize()).toBe(4);
   });
 
   it('should correctly delete last waypoint', () => {
-    const deletedWaypoint: Waypoint = editorService.getTrack().getLastWaypoint();
+    const deletedWaypoint: Waypoint = editorService.track.getLastWaypoint();
     editorService.removeWaypoint();
-    expect(editorService.getTrack().getTrackSize()).toBe(3);
-    expect(editorService.getTrack().getLastWaypoint().getOutgoingPlaneId()).toBeNull();
-    expect(editorService.getTrack()).not.toContain(deletedWaypoint);
+    expect(editorService.track.getTrackSize()).toBe(3);
+    expect(editorService.track.getLastWaypoint().getOutgoingPlaneId()).toBeNull();
+    expect(editorService.track).not.toContain(deletedWaypoint);
   });
 
   it('track sould be closable', () => {
     editorService.closeTrack();
-    expect(editorService.getTrack().getFirstWaypoint().getIncomingPlaneId())
-    .toBe(editorService.getTrack().getLastWaypoint().getOutgoingPlaneId());
+    expect(editorService.track.getFirstWaypoint().getIncomingPlaneId())
+    .toBe(editorService.track.getLastWaypoint().getOutgoingPlaneId());
   });
 });

@@ -12,97 +12,90 @@ const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
 @Injectable()
 export class TrackEditorRenderService {
 
-    private container: HTMLDivElement;
+    public _circleHandler: CircleHandler;
+    public _planeHandler: PlaneHandler;
 
-    private renderer: THREE.WebGLRenderer;
-
-    private camera: THREE.OrthographicCamera;
-
-    private mouse: THREE.Vector2;
-
-    private raycaster: THREE.Raycaster;
-
-    private scene: THREE.Scene;
-
-    public circleHandler: CircleHandler;
-
-    public planeHandler: PlaneHandler;
-
-    private backgroundPlane: BackgroundPlane;
+    private _container: HTMLDivElement;
+    private _renderer: THREE.WebGLRenderer;
+    private _camera: THREE.OrthographicCamera;
+    private _mouse: THREE.Vector2;
+    private _raycaster: THREE.Raycaster;
+    private _scene: THREE.Scene;
+    private _backgroundPlane: BackgroundPlane;
 
     public constructor() { }
 
     public initialize(container: HTMLDivElement, track: Track): void {
-        this.container = container;
+        this._container = container;
         this.createScene(track);
         this.startRenderingLoop();
     }
 
     private createScene(track: Track): void {
-        this.scene = new THREE.Scene();
+        this._scene = new THREE.Scene();
 
-        this.raycaster = new THREE.Raycaster();
-        this.mouse = new THREE.Vector2();
+        this._raycaster = new THREE.Raycaster();
+        this._mouse = new THREE.Vector2();
         /*tslint:disable:no-magic-numbers*/
-        this.camera = new THREE.OrthographicCamera (
-          this.container.clientWidth / -2,
-          this.container.clientWidth / 2,
-          this.container.clientHeight / 2,
-          this.container.clientHeight / -2,
+        this._camera = new THREE.OrthographicCamera (
+          this._container.clientWidth / -2,
+          this._container.clientWidth / 2,
+          this._container.clientHeight / 2,
+          this._container.clientHeight / -2,
           ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
           ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
         /*tslint:enable:no-magic-numbers*/
-        this.camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
-        this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+        this._camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
+        this._camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-        this.circleHandler = new CircleHandler(this.scene);
+        this._circleHandler = new CircleHandler(this._scene);
 
-        this.planeHandler = new PlaneHandler(this.scene);
+        this._planeHandler = new PlaneHandler(this._scene);
 
-        this.backgroundPlane = new BackgroundPlane(this.scene, this.container);
+        this._backgroundPlane = new BackgroundPlane(this._scene, this._container);
 
-        this.backgroundPlane.generateBackgroundPlan();
+        this._backgroundPlane.generateBackgroundPlan();
         /*tslint:disable:no-any*/
-        (window as any).scene = this.scene;
+        (window as any).scene = this._scene;
         /*tslint:enable:no-any*/
     }
 
     private startRenderingLoop(): void {
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setPixelRatio(devicePixelRatio);
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-        this.container.appendChild(this.renderer.domElement);
+        this._renderer = new THREE.WebGLRenderer();
+        this._renderer.setPixelRatio(devicePixelRatio);
+        this._renderer.setSize(this._container.clientWidth, this._container.clientHeight);
+        this._container.appendChild(this._renderer.domElement);
         this.render();
     }
 
     private render(): void {
         requestAnimationFrame(() => this.render());
-        this.renderer.render(this.scene, this.camera);
+        this._renderer.render(this._scene, this._camera);
     }
 
     public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
         this.updateRaycastMousePos(event);
 
-        return this.raycaster.intersectObjects(this.scene.children);
+        return this._raycaster.intersectObjects(this._scene.children);
     }
 
     public getBackgroundPlaneWithRaycast(): THREE.Intersection[] {
-        return this.raycaster.intersectObject(this.backgroundPlane.getBackgroundPlane());
+        return this._raycaster.intersectObject(this._backgroundPlane.getBackgroundPlane());
     }
 
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
         /*tslint:disable:no-magic-numbers*/
-        this.mouse.x = ( event.offsetX / this.container.clientWidth ) * 2 - 1;
-        this.mouse.y = -( event.offsetY / this.container.clientHeight ) * 2 + 1;
+        this._mouse.x = ( event.offsetX / this._container.clientWidth ) * 2 - 1;
+        this._mouse.y = -( event.offsetY / this._container.clientHeight ) * 2 + 1;
         /*tslint:enable:no-magic-numbers*/
-        this.raycaster.setFromCamera(this.mouse, this.camera);
+        this._raycaster.setFromCamera(this._mouse, this._camera);
 
-        return this.mouse;
+        return this._mouse;
     }
 
     public getMousePos(): THREE.Vector2 {
-        return this.mouse;
+        return this._mouse;
     }
 
 }

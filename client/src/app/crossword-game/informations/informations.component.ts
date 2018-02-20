@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
     styleUrls: ['./informations.component.css']
 })
 export class InformationsComponent implements OnInit {
-    private difficulty: string;
+    public difficulty: string;
     private isMultiplayer: boolean;
     private names: string[];
     private scores: number[];

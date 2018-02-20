@@ -1,4 +1,4 @@
-<div class="informations">
+<div>
 
   <div class="difficulty">Difficulty: {{difficulty}}</div>
 
@@ -6,10 +6,10 @@
     <span>{{names[0]}}</span>: {{scores[0]}}
 
   </div>
-  <div *ngIf="isMultiplayer===true" class="player" id="p2">
+  <div *ngIf="isMultiplayer" class="player" id="p2">
     <span>{{names[1]}}</span>: {{scores[1]}}
   </div>
 
-  <button (click)="switchMode()">Switch Mode (test)</button>
+  <!--<button (click)="switchMode()">Switch Mode (test)</button> -->
 
 </div>

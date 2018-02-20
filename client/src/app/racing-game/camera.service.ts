@@ -16,63 +16,58 @@ enum CameraType { PERSPECTIVE, ORTHOGRAPHIC }
 @Injectable()
 export class CameraService {
 
-    private container: HTMLDivElement;
-
-    private camera: CameraType;
-
-    private orthographicCamera: OrthographicCamera;
-
-    private perspectiveCamera: PerspectiveCamera;
-
-    private carVectorToFollow: Vector3;
-
-    private initialAspectRatio: number;
+    private _container: HTMLDivElement;
+    private _camera: CameraType;
+    private _orthographicCamera: OrthographicCamera;
+    private _perspectiveCamera: PerspectiveCamera;
+    private _carVectorToFollow: Vector3;
+    private _initialAspectRatio: number;
 
     public constructor() {
-        this.camera = CameraType.ORTHOGRAPHIC;
+        this._camera = CameraType.ORTHOGRAPHIC;
      }
 
     public changeCamera(): void {
-        this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
+        this._camera === CameraType.PERSPECTIVE ? this._camera = CameraType.ORTHOGRAPHIC : this._camera = CameraType.PERSPECTIVE;
     }
 
-    public getCamera(): Camera {
-        return this.camera === CameraType.ORTHOGRAPHIC ? this.orthographicCamera : this.perspectiveCamera;
+    public get camera(): Camera {
+        return this._camera === CameraType.ORTHOGRAPHIC ? this._orthographicCamera : this._perspectiveCamera;
     }
 
 
     public initialization(container: HTMLDivElement, carVectorToFollow: Vector3): void {
         if (container) {
-            this.container = container;
+            this._container = container;
         }
-        this.carVectorToFollow = carVectorToFollow;
-        this.initialAspectRatio = this.getAspectRatio();
+        this._carVectorToFollow = carVectorToFollow;
+        this._initialAspectRatio = this.getAspectRatio();
     }
 
 
     private getAspectRatio(): number {
-      return this.container.clientWidth / this.container.clientHeight;
+      return this._container.clientWidth / this._container.clientHeight;
     }
 
     public initCameras(): void {
         /*tslint:disable:no-magic-numbers */
-        this.orthographicCamera = new OrthographicCamera (
-            this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2,
-            this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / 2,
-            this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / 2,
-            this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this.initialAspectRatio / - 2,
+        this._orthographicCamera = new OrthographicCamera (
+            this._container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this._initialAspectRatio / - 2,
+            this._container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this._initialAspectRatio / 2,
+            this._container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this._initialAspectRatio / 2,
+            this._container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / this._initialAspectRatio / - 2,
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
         /*tslint:enable:no-magic-numbers*/
-        this.orthographicCamera.position.x = this.carVectorToFollow.x;
-        this.orthographicCamera.position.y = INITIAL_CAMERA_POSITION_Y;
-        this.orthographicCamera.position.z = this.carVectorToFollow.z;
+        this._orthographicCamera.position.x = this._carVectorToFollow.x;
+        this._orthographicCamera.position.y = INITIAL_CAMERA_POSITION_Y;
+        this._orthographicCamera.position.z = this._carVectorToFollow.z;
 
-        this.orthographicCamera.lookAt(this.carVectorToFollow);
+        this._orthographicCamera.lookAt(this._carVectorToFollow);
 
 
-        this.perspectiveCamera = new PerspectiveCamera (
+        this._perspectiveCamera = new PerspectiveCamera (
             FIELD_OF_VIEW,
             this.getAspectRatio(),
             NEAR_CLIPPING_PLANE,
@@ -81,32 +76,32 @@ export class CameraService {
 
         // TODO: PerspectivveCamera :
         // INITIALIZE PERSPECTIVE CAMERA'S POSITION
-        this.perspectiveCamera.position.set(0, INITIAL_CAMERA_POSITION_Y, 0);
-        this.perspectiveCamera.lookAt(this.carVectorToFollow);
+        this._perspectiveCamera.position.set(0, INITIAL_CAMERA_POSITION_Y, 0);
+        this._perspectiveCamera.lookAt(this._carVectorToFollow);
     }
 
     public cameraFollowCarPosition(): void {
 
-       this.orthographicCamera.position.x = this.carVectorToFollow.x;
-       this.orthographicCamera.position.z = this.carVectorToFollow.z;
+       this._orthographicCamera.position.x = this._carVectorToFollow.x;
+       this._orthographicCamera.position.z = this._carVectorToFollow.z;
 
        // TODO for PerspectivveCamera :
        // Change it when perspective Camera is gonna be set.
-       this.perspectiveCamera.position.x = this.carVectorToFollow.x;
-       this.perspectiveCamera.position.z = this.carVectorToFollow.z;
+       this._perspectiveCamera.position.x = this._carVectorToFollow.x;
+       this._perspectiveCamera.position.z = this._carVectorToFollow.z;
 
     }
 
     public camerasOnResize(aspectRatio: number): void {
 
-        this.orthographicCamera.left   =  this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / - 2,
-        this.orthographicCamera.right  =  this.container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / 2,
-        this.orthographicCamera.top    =  this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / 2,
-        this.orthographicCamera.bottom =  this.container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / - 2,
-        this.orthographicCamera.updateProjectionMatrix();
+        this._orthographicCamera.left   =  this._container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / - 2,
+        this._orthographicCamera.right  =  this._container.clientWidth  / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / 2,
+        this._orthographicCamera.top    =  this._container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / 2,
+        this._orthographicCamera.bottom =  this._container.clientHeight / ORTHOGRAPHIC_CAMERA_VIEW_RATIO / aspectRatio / - 2,
+        this._orthographicCamera.updateProjectionMatrix();
 
-        this.perspectiveCamera.aspect = aspectRatio;
-        this.perspectiveCamera.updateProjectionMatrix();
+        this._perspectiveCamera.aspect = aspectRatio;
+        this._perspectiveCamera.updateProjectionMatrix();
     }
 
 }
