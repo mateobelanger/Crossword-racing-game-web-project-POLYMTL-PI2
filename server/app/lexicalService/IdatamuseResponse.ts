@@ -10,10 +10,10 @@ const FREQUENCY_INDEX: number = 2;
 const QUOTATION_MARKS_ASCII_CODE: number = 34;
 
 export class DatamuseResponse implements IDatamuseResponse {
-    word: string;
-    score: number;
-    tags: Array<string>;
-    defs: Array<string>;
+    public word: string;
+    public score: number;
+    public tags: Array<string>;
+    public defs: Array<string>;
 
     constructor(data: IDatamuseResponse) {
         this.word = data.word;
@@ -23,7 +23,6 @@ export class DatamuseResponse implements IDatamuseResponse {
     }
 
     public isCommon(): boolean {
-        
         return Number(this.tags[0].substring(FREQUENCY_INDEX)) > COMMON_LIMIT ;
     }
 
@@ -54,17 +53,16 @@ export class DatamuseResponse implements IDatamuseResponse {
                 break;
             }
         }
+
         return definitionIndex;
     }
 
     private isNounOrVerb(definitionIndex: number): boolean {
-
         return this.defs[definitionIndex].substr(0, 1) === "n" ||
                this.defs[definitionIndex].substr(0, 1) === "v";
     }
 
     private currentDefinitionContainsWordItself(definitionIndex: number): boolean {
-
         return this.defs[definitionIndex].includes(this.word);
     }
 
@@ -78,14 +76,16 @@ export class DatamuseResponse implements IDatamuseResponse {
             return false;
         }
         for (let i: number = 0; i < template.length; i++) {
-            //can only contain letters
-            if(this.word.charCodeAt(i) < 97 || this.word.charCodeAt(i) > 122) {
+            // can only contain letters
+            if (this.word.charCodeAt(i) > "a".charCodeAt(0) ||
+                this.word.charCodeAt(i) < "z".charCodeAt(0)) {
                 return false;
             }
             if (template[i] !== "?" && template[i] !== this.word[i]) {
                 return false;
             }
         }
+
         return true;
     }
 }

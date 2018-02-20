@@ -4,7 +4,7 @@ import { Server } from "./server";
 import { Application } from "./app";
 import { Index } from "./routes/index";
 import { Routes } from "./routes";
-import { LexicalService } from "./lexicalService/lexicalService";
+import { LexicalService } from "./lexicalService/lexical.service";
 import { DatamuseWordFinder } from "./LexicalService/datamuseWordFinder";
 
 import { GridGeneratorService } from "./gridGeneratorService";

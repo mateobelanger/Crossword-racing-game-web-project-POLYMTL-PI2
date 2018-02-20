@@ -8,7 +8,7 @@ import * as cors from "cors";
 import Types from "./types";
 import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
-import { LexicalService } from "./lexicalService/lexicalService";
+import { LexicalService } from "./lexicalService/lexical.service";
 import { GridGeneratorService } from "./gridGeneratorService";
 
 @injectable()
@@ -43,7 +43,7 @@ export class Application {
         router.use(this.api.routes);
         router.use(this.lexicalService.routes);
         router.use(this.gridGeneratorService.routes);
-        
+
         this.app.use(router);
 
         this.errorHandeling();

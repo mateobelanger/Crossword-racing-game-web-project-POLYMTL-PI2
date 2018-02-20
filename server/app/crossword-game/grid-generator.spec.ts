@@ -1,5 +1,6 @@
 import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE, DEFAULT_GRID_SIZE } from "./grid-generator";
-import { GridEntry, Direction } from "../../../common/crosswordsInterfaces/word";
+import { GridEntry } from "./GridEntry";
+import { Direction } from "../../../common/crosswordsInterfaces/word";
 import { assert } from "chai";
 
 describe("Grid generator:", () => {
@@ -59,11 +60,11 @@ describe("Grid generator:", () => {
     it("every row should have at least one word.", () => {
         for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
             let count: number = 0;
-            for (const word of words) {
-                if (word.direction !== Direction.HORIZONTAL) {
+            for (const entry of words) {
+                if (entry.word.direction !== Direction.HORIZONTAL) {
                     continue;
                 }
-                if (word.row === i) {
+                if (entry.word.row === i) {
                     count++;
                 }
             }
@@ -74,11 +75,11 @@ describe("Grid generator:", () => {
     it("every column should have at least one word.", () => {
         for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
             let count: number = 0;
-            for (const word of words) {
-                if (word.direction !== Direction.VERTICAL) {
+            for (const entry of words) {
+                if (entry.word.direction !== Direction.VERTICAL) {
                     continue;
                 }
-                if (word.column === i) {
+                if (entry.word.column === i) {
                     count++;
                 }
             }
