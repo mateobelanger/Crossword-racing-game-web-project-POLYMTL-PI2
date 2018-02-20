@@ -6,7 +6,8 @@ import { Car } from './car/car';
 import { Object3D, Vector3 } from 'three';
 import { Engine } from './car/engine';
 
-const MS_BETWEEN_FRAMES: number = 16.6667;
+const DELTA_X: number = 25;
+const DELTA_Z: number = 35;
 
 /* tslint:disable: no-magic-numbers */
 
@@ -29,10 +30,6 @@ describe('CameraService', () => {
     });
     car = new Car(new MockEngine());
     await car.init();
-
-    car.isAcceleratorPressed = true;
-    car.update(MS_BETWEEN_FRAMES);
-    car.isAcceleratorPressed = false;
 
     target = car.mesh;
     cameraService.initialize(dummyElement, target);
@@ -64,31 +61,25 @@ describe('CameraService', () => {
   });
 
   it('should have the same position after car moved for orthographic camera and target', () => {
-    // TODO : verify : the car is not turning right (x value doesn't change)
-    car.isAcceleratorPressed = true;
-    car.steerRight();
-    car.update(2000);
-    car.isAcceleratorPressed = false;
-    car.releaseSteering();
+    car.mesh.position.x = DELTA_X;
+    car.mesh.position.z = DELTA_Z;
+    car.update(1);
 
     cameraService.updatePosition();
 
-    expect(cameraService.orthographicCamera.position.x).toBeCloseTo(target.position.x);
-    expect(cameraService.orthographicCamera.position.z).toBeCloseTo(target.position.z);
+    expect(cameraService.orthographicCamera.position.x).toBeCloseTo(DELTA_X);
+    expect(cameraService.orthographicCamera.position.z).toBeCloseTo(DELTA_Z);
   });
 
   it('should have the expected position after car moved for perspective camera and target', () => {
-    // TODO : verify : the car is not turning right (x value doesn't change)
-    car.isAcceleratorPressed = true;
-    car.steerRight();
-    car.update(4000);
-    car.isAcceleratorPressed = false;
-    car.releaseSteering();
-
-    const relativeCameraOffset: Vector3 = new Vector3(0, PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z);
-    const cameraOffset: Vector3 = relativeCameraOffset.applyMatrix4( car.mesh.matrix /*target.matrix*/ );
+    car.mesh.position.x = DELTA_X;
+    car.mesh.position.z = DELTA_Z;
+    car.update(1);
 
     cameraService.updatePosition();
+
+    const relativeCameraOffset: Vector3 = new Vector3(0, PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z);
+    const cameraOffset: Vector3 = relativeCameraOffset.applyMatrix4(target.matrix);
 
     expect(cameraService.perspectiveCamera.position.x).toBeCloseTo(cameraOffset.x);
     expect(cameraService.perspectiveCamera.position.z).toBeCloseTo(cameraOffset.z);
