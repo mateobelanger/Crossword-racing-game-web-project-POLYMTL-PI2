@@ -10,6 +10,7 @@ import { DefinitionsComponent } from './definitions/definitions.component';
 import { routes } from '../app-routes.module';
 import { InformationsComponent } from './informations/informations.component';
 import { WordService } from './word.service';
+import { InputValidationService } from './input-validation.service';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { WordService } from './word.service';
     ],
 
     providers: [
-        WordService
+        WordService,
+        InputValidationService
     ],
 
     exports: [
