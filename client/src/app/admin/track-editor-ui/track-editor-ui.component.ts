@@ -5,11 +5,14 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './track-editor-ui.component.html',
   styleUrls: ['./track-editor-ui.component.css']
 })
+
 export class TrackEditorUiComponent implements OnInit {
 
-  constructor() { }
+  public track: string;
 
-  ngOnInit() {
+  public constructor() { }
+
+  public ngOnInit(): void {
   }
 
 }

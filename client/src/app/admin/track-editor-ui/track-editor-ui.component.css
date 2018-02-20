@@ -8,7 +8,6 @@ h3 {
     width: 50%;
     padding: 0;
     margin: 0;
-    background-color: aqua;
 }
 
 .right {
@@ -17,11 +16,6 @@ h3 {
     width: 50%;
     padding: 0;
     margin: 0;
-    background-color: blueviolet;
-}
-
-.track-informations {
-    margin: 280px 0;
 }
 
 .track-editor {
@@ -37,13 +31,73 @@ h3 {
     background: red;
 }
 
-.save-button {
-    margin-top: 30px;
-    margin-left: 40%;
-    background-color: brown;
-    width: 140px;
+h4 {
+    font-size: 1.1em;
 }
 
-.btn {
+h5 {
+    font-size: 1em;
+}
+
+.caneva {
+    /* border-style: outset;*/
+    padding: 0;
+    max-width: 300px;
+    min-width: 285px;
+    height: 310px;
+    margin: 25px;
+    color: rgb(241, 240, 240);
+    border-color: rgba(179, 180, 180, 0.8);
+    font-family: "Lucida Sans Unicode", Arial, sans-serif;
+}
+
+.canevaHeader {
+    background-color: rgba(49, 49, 49, 0.9);
+}
+
+.trackNameBlock {
+    width: 75%;
+    height: 60px;
+    text-align: center;
+}
+
+.trackName {
+    margin: 2px 0 0 10px;
+}
+
+.descriptionBlock {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: rgba(127, 127, 127, 0.7);
+}
+
+.descriptionTitleBlock {
+    height: 35px;
+    overflow: hidden;
+}
+
+.descriptionTitle {
+    margin-top: 8px;
+}
+
+.descriptionText {
+    margin-top: 2px;
+    font-size: 1em;
+}
+
+.button {
+    margin-right: 25px;
+    height: 100%;
+    width: 20%;
+    margin-top: 20px;
     padding: 20px 30px;
+}
+
+input {
+    height: 95%;
+    width: 95%;
 }

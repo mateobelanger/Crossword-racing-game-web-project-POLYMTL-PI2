@@ -1,8 +1,33 @@
-<h3> Un Bô P'tit Titre</h3>
+<h3> Track Edition </h3>
 
 <div class="left">
-    <div class="track-informations">
-        <h3> Proposition de même vous pourriez mettre vos trucs ici ^^ </h3>
+    <div class="">
+        <div class="caneva right">
+            <div class="">
+                <!-- If we want to make it work with col-md-4 -->
+                <div class="canevaHeader clearfix">
+                    <h4 class="trackName"> Track name </h4>
+
+                    <input class="trackName" type="text" value="change name" [(ngModel)]="track">
+
+                </div>
+
+                <div class="descriptionBlock">
+                    <div class="descriptionTitleBlock">
+                        <div>
+                            <h5 class="descriptionTitle"> Description </h5>
+                        </div>
+                    </div>
+                    <input class="descriptionText" type="text" maxlength="300" value="change name">
+                    <!-- <textarea class="descriptionText" name="Text1" cols="25" rows="6"></textarea> -->
+                </div>
+                <div>
+                    <a routerLink="/admin" class="btn btn-success">Save track</a>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -12,8 +37,7 @@
     </div>
 </div>
 
-<!-- Faudra clean après la class right sinon vous aller avoir des 
+<!--  [(ngModel)]="track"  ** ng-valid et ng-invalid
+    
+    Faudra clean après la class right sinon vous aller avoir des 
 éléments qui vont se retrouver en dessous des div right et left-->
-<div class="save-button">
-    <a routerLink="#" class="btn btn-success">Save track</a>
-</div>
