@@ -25,8 +25,13 @@ export class MongoDBService {
                                                            console.log(req.params.name); }
                         );
 
-        router.put(  "/service/mongoDB/:name",
-                     (req: Request, res: Response) => {MongoDBAccess.update(req.params.name, res)}
+        /*router.put(  "/service/mongoDB/:name",
+                        (req: Request, res: Response) =>
+                            {MongoDBAccess.update(req.params.name, res)}
+        );*/
+
+        router.patch(  "/service/mongoDB/:name",
+                        (req: Request, res: Response) => {MongoDBAccess.incrementTimesPlayed(req.params.name, res);}
                         );
 
         // custom 404 page

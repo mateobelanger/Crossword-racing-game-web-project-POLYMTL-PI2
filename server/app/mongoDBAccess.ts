@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { TrackData } from '../../common/communication/trackData'
+import { TrackData } from "../../common/communication/trackData"
 // import {} from "./schemas/trackSchema";
 
 // mLab account:
@@ -11,9 +11,9 @@ const userName: string = "admin";
 const password: string = "admin";
 const dbName: string = "log2990-equipe4";
 const MONGODB_URI: string = "mongodb://" + userName + ":" + password + "@ds115436.mlab.com:15436/" + dbName;
-// let Track = require("./schemas/Track.model"); 
+// let Track = require("./schemas/Track.model");
 
-const MONGOOSE: any = require('mongoose');
+const MONGOOSE: any = require("mongoose");
 
 const trackSchema = MONGOOSE.Schema({
     name: String,
@@ -35,21 +35,14 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const connection: any = MONGOOSE.connection;
 
-        let track = new Track({
-            // name: req.body.name, ..
-            name: "track1",
-            description: "bla bla",
-            timesPlayed: 0,
-            test: [0,2,3],
-            bestTimes: [["player1", 2.0], ["player2", 3.0]],
-            waypoints: [[1,2,0], [4,5,0]]
+        let track = new Track(req.body);
 
-        });
+        console.log(track);
 
         connection.once("open", () =>
             track.save( (err: any, track: any) => {
                     if (err) { return console.error(err); }
-                    res.send("test2");
+                    res.send(req.body);
                 })
         );
 
@@ -72,18 +65,24 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.findOne({ name: trackName }).remove( (err: any) => { if (err) { return console.error(err); } }).exec();
+            Track.findOne({ name: trackName })
+            .remove( (err: any) => { if (err) { return console.error(err); } })
+            .exec();
             res.send("removed");
     });
     }
 
     // à vérifier
-    public static update(trackName: string, res: Response): void {
+    static incrementTimesPlayed(trackName: string, res: Response) : void {
 
         MONGOOSE.connect(MONGODB_URI);
-        const connection: any = MONGOOSE.connection;
-        connection.once("open", () => {
-            Track.update({"name" : trackName}, {$set: {"timesPlayed": 10}} );
+        const db: any = MONGOOSE.connection;
+        db.once("open", () => {
+            Track.update({name : trackName}, {$inc: {timesPlayed: 1}},
+                         function(err: any, numAffected: number) {
+                    if (err) { return console.error(err); }
+                }
+            );
             res.send(trackName);
     });
     }

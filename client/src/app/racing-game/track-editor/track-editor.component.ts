@@ -2,6 +2,9 @@ import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener }
 
 import { TrackEditorService } from './track-editor.service';
 import { TracksProxyService } from "../tracks-proxy.service";
+
+import { TrackData } from "../../../../../common/communication/trackData";
+
 const LEFT_MOUSE_BTN: number = 0;
 const RIGHT_MOUSE_BTN: number = 2;
 
@@ -29,8 +32,15 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
         await this.proxy.initialize();
-        //this.proxy.deleteTrack("track");
-        //console.log("track deleted?")
+        const aString: string = "anotha one";
+        const genny: [string, number][] = [["anotha one", 1], ["and anotha one", 1]];
+
+        const trackData: TrackData = {name : "fuckoff", description :  aString, timesPlayed : 1, bestTimes: genny,
+                                      waypoints: [[1, 1, 1]]};
+
+        this.proxy.addTrack(trackData);
+        // this.proxy.deleteTrack("track");
+        // console.log("track deleted?")
     }
 
 
@@ -58,8 +68,4 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public onMouseMove(event: MouseEvent): void {
         this.trackEditorService.handleMouseMove(event);
     }
-
-
-    //public saveTrack()
-
 }
