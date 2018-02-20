@@ -9,12 +9,11 @@ import { TrackData } from '../../common/communication/trackData'
 // Connection URL
 const userName: string = "admin";
 const password: string = "admin";
-const dbName = "log2990-equipe4";
+const dbName: string = "log2990-equipe4";
 const MONGODB_URI: string = "mongodb://" + userName + ":" + password + "@ds115436.mlab.com:15436/" + dbName;
 // let Track = require("./schemas/Track.model"); 
 
 const MONGOOSE: any = require('mongoose');
-
 
 const trackSchema = MONGOOSE.Schema({
     name: String,
@@ -26,18 +25,15 @@ const trackSchema = MONGOOSE.Schema({
 
 const Track = MONGOOSE.model("Track", trackSchema);
 
-
-
 export class MongoDBAccess {
-    
 
-    public constructor() { }
- 
+    public constructor() {}
+
     // to do: change it according to req.body
-    static addTrack(req: Request, res: Response): void {
-        
+    public static addTrack(req: Request, res: Response): void {
+
         MONGOOSE.connect(MONGODB_URI);
-        let connection: any = MONGOOSE.connection;
+        const connection: any = MONGOOSE.connection;
 
         let track = new Track({
             // name: req.body.name, ..
@@ -49,69 +45,56 @@ export class MongoDBAccess {
             waypoints: [[1,2,0], [4,5,0]]
 
         });
-       
-        connection.once("open", () => 
+
+        connection.once("open", () =>
             track.save( (err: any, track: any) => {
-                    if (err) return console.error(err);
+                    if (err) { return console.error(err); }
                     res.send("test2");
                 })
         );
-        
+
     }
 
-
-    static getAll(req: Request, res: Response) : void {
+    public static getAll(req: Request, res: Response): void {
 
         MONGOOSE.connect(MONGODB_URI);
-        let db: any = MONGOOSE.connection;
+        const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.find( function(error: any, trackData : TrackData[]){
-                if(error) return console.error(error);
+            Track.find( function(error: any, trackData : TrackData[]) {
+                if (error) { { return console.error(error); } }
                 res.send(trackData);
-            })
+            });
         });
-    } 
-    
+    }
 
-    static remove(trackName: string, res: Response) : void {
-        
+    public static remove(trackName: string, res: Response): void {
+
         MONGOOSE.connect(MONGODB_URI);
-        let db: any = MONGOOSE.connection;
+        const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.findOne({ name: trackName }).remove( (err: any) =>{ if (err) return console.error(err); }).exec();
-            res.send("removed");               
+            Track.findOne({ name: trackName }).remove( (err: any) => { if (err) { return console.error(err); } }).exec();
+            res.send("removed");
     });
-    } 
-
-    // static remove(/*req: Request, */res: Response, trackName: string) : void {
-    //     console.log("deleting " + trackName);
-    //     MONGOOSE.connect(MONGODB_URI);
-    //     let connection: any = MONGOOSE.connection;
-    //     connection.once("open", () => 
-    //         Track.find({ name: trackName }).remove( (err: any) =>
-    //                     { if (err) return console.error(err); }
-    //                 ).exec()
-    //     );
-        
-    //     res.send("removed");
-    // } 
+    }
 
     // à vérifier
-    static update(trackName: string, res: Response) : void {
-        
-        MONGOOSE.connect(MONGODB_URI);
-        let db: any = MONGOOSE.connection;
-        db.once("open", () => {
-            Track.update({"name" : trackName}, {$set: {"timesPlayed": 10}} );
-            res.send(trackName);               
-    });
-    } 
+    public static update(trackName: string, res: Response): void {
 
-    static testConnection(res: Response): void {
         MONGOOSE.connect(MONGODB_URI);
-        let connection: any = MONGOOSE.connection;
+        const connection: any = MONGOOSE.connection;
+        connection.once("open", () => {
+            Track.update({"name" : trackName}, {$set: {"timesPlayed": 10}} );
+            res.send(trackName);
+    });
+    }
+
+    public static testConnection(res: Response): void {
+        MONGOOSE.connect(MONGODB_URI);
+        const connection: any = MONGOOSE.connection;
         connection.once("open", () => res.send("connection works"));
-        
+
     }
 
 }
+
+// connection dans une fonction? mieux de toujours etre connecte???
