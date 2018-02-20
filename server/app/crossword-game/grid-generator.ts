@@ -23,7 +23,7 @@ export class GridGenerator {
         this.nRows = DEFAULT_GRID_SIZE;
         this.nColumns = DEFAULT_GRID_SIZE;
         this.invalidTriples = this.arrayToSet(INVALID_TRIPLES);
-        this.invalidDoubles = this.arrayToSet(INVALID_DOUBLES)
+        this.invalidDoubles = this.arrayToSet(INVALID_DOUBLES);
     }
 
     public generate(nBlackCases: number,
@@ -329,12 +329,14 @@ export class GridGenerator {
     }
 
     private async getWords(wordSkeleton: string, difficulty: string): Promise<Array<Word>> {
+        console.log("testy")
         if (this.cacheWords.has(wordSkeleton)) {
             return this.cacheWords.get(wordSkeleton);
         } else if (this.containsImpossibleCombinations(wordSkeleton, 2) || this.containsImpossibleCombinations(wordSkeleton, 3)) {
             this.cacheWords.set(wordSkeleton, []);
             return [];
         }
+        console.log("testy")
         const url: String = "http://localhost:3000/service/lexical/wordsearch/" + wordSkeleton + "/" + difficulty;
         const options = {
             method: "GET",
