@@ -2,11 +2,11 @@ import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { WordService } from "../word.service";
 import { Word, Direction } from "../../../../../common/word";
 
-const BACKSPACE: number = 48;
-const UPPERCASE_A: number = 65;
-const UPPERCASE_Z: number = 90;
-const LOWERCASE_A: number = 97;
-const LOWERCASE_Z: number = 122;
+const KEY_BACKSPACE: number = 8;
+const KEY_DELETE: number = 46;
+const KEY_A: number = 65;
+const KEY_Z: number = 90;
+
 const GRID_SIZE: number = 10;
 
 const BLACK_CASE: string = '-';
@@ -43,14 +43,11 @@ export class GridComponent implements OnInit, AfterViewInit {
         this.wordService.selectWord(0, 0);
     }
 
-    public isLetter(keyCode: number, row: number, column: number): boolean {
-        if (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z ||
-            keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z ) {
-
-            this.wordService.focusOnFirstEmptyCell(this.userGrid);
+    public isValidInput(keyCode: number, row: number, column: number): boolean {
+        if (keyCode >= KEY_A && keyCode <= KEY_Z) {
 
             return true;
-        } else if (keyCode === BACKSPACE) {
+        } else if (keyCode === KEY_BACKSPACE || keyCode === KEY_DELETE) {
             this.backspace(row, column);
 
             return false;
@@ -59,6 +56,7 @@ export class GridComponent implements OnInit, AfterViewInit {
         }
     }
 
+    // TODO : avons-nous absolument besoin de passer par cette fonction?
     public trackByIndex(index: number): number {
         return index;
     }

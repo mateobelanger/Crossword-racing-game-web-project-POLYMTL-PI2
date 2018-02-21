@@ -36,8 +36,6 @@ export class WordService {
             if (word.definition === definition) {
                 this._selectedWord = word;
 
-                // this.focusOnFirstEmptyCell();
-
                 return;
             }
         }
@@ -87,18 +85,27 @@ export class WordService {
     public focusOnFirstEmptyCell(userGrid: Array<Array<string>>): void {
         let rowIndex: number = this._selectedWord.row;
         let columnIndex: number = this._selectedWord.column;
+        let selectedRow: number = this._selectedWord.row;
+        let selectedColumn: number = this._selectedWord.column;
+
         while (userGrid[rowIndex][columnIndex] !== "") {
             if (this._selectedWord.direction === Direction.Horizontal) {
-                if (++columnIndex === (this._selectedWord.row + this._selectedWord.value.length - 1)) {
+                if (selectedRow === 0) {
+                    selectedRow++;
+                }
+                if (++columnIndex === (selectedRow + this._selectedWord.value.length - 2)) {
                     break;
                 }
             } else {
-                if (++rowIndex === (this._selectedWord.column + this._selectedWord.value.length - 1)) {
+                if (selectedColumn === 0) {
+                    selectedColumn++;
+                }
+                if (++rowIndex === (selectedColumn + this._selectedWord.value.length - 2)) {
                     break;
                 }
             }
         }
-        const id: number = (rowIndex * 10) + columnIndex;
+        const id: number = (rowIndex * GRID_SIZE) + columnIndex;
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
     }
