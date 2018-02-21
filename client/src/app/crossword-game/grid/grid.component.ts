@@ -37,7 +37,7 @@ export class GridComponent implements OnInit, AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        const element = document.getElementById('0');
+        const element: HTMLElement = document.getElementById('0');
         element.focus();
         this.wordService.selectWord(0, 0);
     }
@@ -45,6 +45,7 @@ export class GridComponent implements OnInit, AfterViewInit {
     public isLetter(keyCode: number): boolean {
         if (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z ||
             keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z ) {
+
                 this.wordService.focusOnFirstEmptyCell(this.userGrid);
 
                 return true;

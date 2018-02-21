@@ -89,11 +89,11 @@ export class WordService {
         let columnIndex: number = this._selectedWord.column;
         while (userGrid[rowIndex][columnIndex] !== "") {
             if (this._selectedWord.direction === Direction.Horizontal) {
-                if (++columnIndex === (this._selectedWord.row + this._selectedWord.value.length)) {
+                if (++columnIndex === (this._selectedWord.row + this._selectedWord.value.length - 1)) {
                     break;
                 }
             } else {
-                if (++rowIndex === (this._selectedWord.column + this._selectedWord.value.length)) {
+                if (++rowIndex === (this._selectedWord.column + this._selectedWord.value.length - 1)) {
                     break;
                 }
             }
