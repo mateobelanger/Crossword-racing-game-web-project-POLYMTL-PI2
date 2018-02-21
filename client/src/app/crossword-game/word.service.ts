@@ -108,6 +108,7 @@ export class WordService {
         const id: number = (rowIndex * GRID_SIZE) + columnIndex;
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
+        console.log(this.validateWord(userGrid));
     }
 
     public focusOnPreviousCell(row: number, column: number): void {
@@ -125,5 +126,20 @@ export class WordService {
         const id: number = (row * 10) + column;
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
+    }
+
+    private validateWord(userGrid: Array<Array<string>>): boolean {
+        let isValid: boolean = true;
+        const rowIndex: number = this.selectedWord.row;
+        const columnIndex: number = this.selectedWord.column;
+        for (let i: number = 0; i < this.selectedWord.value.length && isValid; i++) {
+            if (this.selectedWord.direction === Direction.Horizontal) {
+                isValid = (this.selectedWord.value[i] === userGrid[rowIndex][columnIndex + i]);
+            } else {
+                isValid = (this.selectedWord.value[i] === userGrid[rowIndex + i][columnIndex]);
+            }
+        }
+
+        return isValid;
     }
 }
