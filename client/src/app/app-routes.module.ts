@@ -21,7 +21,7 @@ export const appRoutes: Routes = [
   { path : 'crossword-game/:difficulty/ui', component: GameUiComponent },
   { path : 'racing-game', component: RacingGameComponent },
   { path : 'admin', component: AdminComponent },
-  { path : 'admin/track-editor', component: TrackEditorUiComponent }
+  { path : 'admin/track-editor/:trackName', component: TrackEditorUiComponent }
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);

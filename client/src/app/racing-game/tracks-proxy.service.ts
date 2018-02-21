@@ -37,8 +37,6 @@ export class TracksProxyService {
       this.addTrack(track);
     }
 
-    // const url: string = URI_MONGO_DB + "/" + trackName;
-    // this._http.put<TrackData>(url);
   }
 
   public findTrack(trackName: string): TrackData {
@@ -51,9 +49,11 @@ export class TracksProxyService {
     return track;
   }
 
-
   private fetchTracks(): Promise<TrackData[]> {
       return this._http.get<TrackData[]>(URI_MONGO_DB).toPromise();
-    }
+  }
 
 }
+
+
+// .subscribe() ... ??????? pcq ne fonctionnait pas avant

@@ -1,4 +1,7 @@
 <h3> Track Edition </h3>
+<!-- tests -->
+<!-- <input class="trackName" type="text" value="change name" [(ngModel)]="trackName"> -->
+
 
 <div class="left">
     <div class="">
@@ -6,38 +9,43 @@
             <div class="">
                 <!-- If we want to make it work with col-md-4 -->
                 <div class="canevaHeader clearfix">
-                    <h4 class="trackName"> Track name </h4>
+                    <h4 class="trackName "> Track name </h4>
 
-                    <input class="trackName" type="text" value="change name" [(ngModel)]="track">
+                    <input class="trackName " type="text" value={{name}} [(ngModel)]="name">
 
                 </div>
 
-                <div class="descriptionBlock">
-                    <div class="descriptionTitleBlock">
+                <div class="descriptionBlock ">
+                    <div class="descriptionTitleBlock ">
                         <div>
-                            <h5 class="descriptionTitle"> Description </h5>
+                            <h5 class="descriptionTitle "> Description </h5>
                         </div>
                     </div>
-                    <input class="descriptionText" type="text" maxlength="300" value="change name">
-                    <!-- <textarea class="descriptionText" name="Text1" cols="25" rows="6"></textarea> -->
+                    <input class="descriptionText " type="text " maxlength="300 " value="change description ">
+                    <!-- <textarea class="descriptionText " name="Text1 " cols="25 " rows="6 "></textarea> -->
                 </div>
                 <div>
-                    <a routerLink="/admin" class="btn btn-success">Save track</a>
+                    <a routerLink="/admin " class="btn btn-success ">Save track</a>
                 </div>
 
             </div>
         </div>
 
     </div>
+
+    <!-- tester que les valeurs sont vrm changees -->
+    <input class="trackName " type="text " value={{name}}>
+
 </div>
 
-<div class="right">
-    <div class="track-editor">
+<div class="right ">
+    <div class="track-editor ">
         <app-track-editor></app-track-editor>
     </div>
 </div>
 
-<!--  [(ngModel)]="track"  ** ng-valid et ng-invalid
+<!--  [(ngModel)]="track "  ** ng-valid et ng-invalid
+    comment acceder a track.name ?
     
     Faudra clean après la class right sinon vous aller avoir des 
 éléments qui vont se retrouver en dessous des div right et left-->

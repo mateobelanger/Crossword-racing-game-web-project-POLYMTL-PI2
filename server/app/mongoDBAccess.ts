@@ -35,7 +35,7 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const connection: any = MONGOOSE.connection;
 
-        let track = new Track(req.body);
+        const track: any = new Track(req.body);
 
         // console.log(track);
 
@@ -60,6 +60,18 @@ export class MongoDBAccess {
             });
         });
     }
+
+    // public static getTrack(trackName: string, res: Response): void {
+
+    //     MONGOOSE.connect(MONGODB_URI);
+    //     const db: any = MONGOOSE.connection;
+    //     db.once("open", () => {
+    //         Track.find( {name: trackName}, (error: any, trackData: TrackData) => {
+    //             if (error) { { return console.error(error); } }
+    //             res.send(trackData);
+    //         });
+    //     });
+    // }
 
     public static remove(trackName: string, res: Response): void {
 
@@ -90,7 +102,7 @@ export class MongoDBAccess {
     }
 
     // à vérifier
-    public static incrementTimesPlayed(trackName: string, res: Response) : void {
+    public static incrementTimesPlayed(trackName: string, res: Response): void {
 
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
@@ -114,4 +126,5 @@ export class MongoDBAccess {
 }
 
 // connection dans une fonction? mieux de toujours etre connecte???
-// track schema a la bonne place? 
+// track schema a la bonne place?
+// besoin de req? besoin de trackName en string?

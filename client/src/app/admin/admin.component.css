@@ -43,7 +43,7 @@ h5 {
     min-width: 285px;
     height: 310px;
     margin: 25px;
-    color: antiquewhite;
+    color: whitesmoke;
     border-color: rgba(179, 180, 180, 0.8);
     font-family: "Lucida Sans Unicode", Arial, sans-serif;
 }
@@ -133,7 +133,6 @@ h5 {
     float: right;
     margin-left: 3px;
 }
-
 
 li {
     list-style-type: none;

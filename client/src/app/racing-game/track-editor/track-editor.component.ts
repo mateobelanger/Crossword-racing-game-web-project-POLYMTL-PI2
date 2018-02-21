@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener }
 import { TrackEditorService } from './track-editor.service';
 import { TracksProxyService } from "../tracks-proxy.service";
 
-import { TrackData } from "../../../../../common/communication/trackData";
+// import { TrackData } from "../../../../../common/communication/trackData";
 
 const LEFT_MOUSE_BTN: number = 0;
 const RIGHT_MOUSE_BTN: number = 2;
@@ -15,6 +15,9 @@ const RIGHT_MOUSE_BTN: number = 2;
 })
 export class TrackEditorComponent implements AfterViewInit, OnInit {
 
+    // public tracks: TrackData[];
+    // public track: TrackData;
+    // public name: string;
 
     @ViewChild("container")
     private containerRef: ElementRef;
@@ -32,18 +35,22 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
         await this.proxy.initialize();
-        const aString: string = "track description";
-        const genny: [string, number][] = [["player1", 1], ["player2", 1]];
 
-        const trackData: TrackData = {name: "track2", description:  aString, timesPlayed: 13, bestTimes: genny,
-                                      waypoints: [[1, 1, 1]]};
-
+        // this.tracks = this.proxy.tracks;
+        // this.track = this.proxy.findTrack(window.location.href.split("/")[window.location.href.split("/").length - 1]);
+        // this.name = this.track.name;
 
 
-        this.proxy.updateTrack(trackData);
+        // POUR AJOUTER UNE TRACK, DECOMMENTER:
+        // const aString: string = "track description";
+        // const genny: [string, number][] = [["player1", 1]];
+        // const trackData: TrackData = {name: "track4", description:  aString, timesPlayed: 13, bestTimes: genny,
+        //                               waypoints: [[1, 1, 1]]};
+
+        // // this.proxy.updateTrack(trackData);
         // this.proxy.addTrack(trackData);
-        // this.proxy.deleteTrack("track1");
-        // console.log("track deleted?")
+        // // this.proxy.deleteTrack("track1");
+        // // console.log("track deleted?")
     }
 
 

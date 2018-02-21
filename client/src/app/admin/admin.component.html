@@ -17,10 +17,10 @@
                         </li>
                         <div class="iconsBlock right">
                             <li>
-                                <a routerLink="../admin/track-editor"><i class="icon icon-edit"></i></a> 
+                                <a routerLink="../admin/track-editor/{{track.name}}"><i class="icon icon-edit"></i></a>
                             </li>
                             <li>
-                                <a routerLink="../admin/track-editor"><i class="icon icon-delete"></i></a> 
+                                <div (click)="deleteTrack('track5')"><i class="icon icon-delete"></i></div>
                             </li>
                         </div>
 
@@ -50,6 +50,13 @@
 </div>
 
 <!-- 
+
+    ; let trackName = track.name
+    deleteTrack(trackName)
+
+
+
+
 <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
         <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
 -->
