@@ -26,12 +26,13 @@ export class TracksProxyService {
 
   public deleteTrack(trackName: string): void {
     const url: string = URI_MONGO_DB + "/" + trackName;
-    this._http.delete<TrackData>(url);
+    this._http.delete<TrackData>(url).subscribe();
   }
 
   public updateTrack(track: TrackData): void {
-    if ( this.findTrack(track.name).name !== track.name) {
-      this._http.put<TrackData>(URI_MONGO_DB, track);
+    // console.log(this.findTrack(track.name).name);
+    if ( this.findTrack(track.name) !== null) {
+      this._http.put<TrackData>(URI_MONGO_DB, track).subscribe();
     } else {
       this.addTrack(track);
     }
@@ -41,7 +42,7 @@ export class TracksProxyService {
   }
 
   public findTrack(trackName: string): TrackData {
-    let track: TrackData;
+    let track: TrackData = null;
     this._tracks.forEach((elem) => {
       if (elem.name === trackName)
         track = elem;

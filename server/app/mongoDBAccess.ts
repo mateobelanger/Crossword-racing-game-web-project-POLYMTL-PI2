@@ -114,3 +114,4 @@ export class MongoDBAccess {
 }
 
 // connection dans une fonction? mieux de toujours etre connecte???
+// track schema a la bonne place? 
