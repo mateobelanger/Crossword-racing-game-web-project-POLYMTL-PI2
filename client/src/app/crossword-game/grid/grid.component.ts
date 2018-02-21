@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { WordService } from "../word.service";
 import { Word, Direction } from "../../../../../common/word";
 
+const BACKSPACE: number = 48;
 const UPPERCASE_A: number = 65;
 const UPPERCASE_Z: number = 90;
 const LOWERCASE_A: number = 97;
@@ -42,13 +43,17 @@ export class GridComponent implements OnInit, AfterViewInit {
         this.wordService.selectWord(0, 0);
     }
 
-    public isLetter(keyCode: number): boolean {
+    public isLetter(keyCode: number, row: number, column: number): boolean {
         if (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z ||
             keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z ) {
 
-                this.wordService.focusOnFirstEmptyCell(this.userGrid);
+            this.wordService.focusOnFirstEmptyCell(this.userGrid);
 
-                return true;
+            return true;
+        } else if (keyCode === BACKSPACE) {
+            this.backspace(row, column);
+
+            return false;
         } else {
             return false;
         }
@@ -80,6 +85,20 @@ export class GridComponent implements OnInit, AfterViewInit {
         } else {
             return col === word.column && row >= word.row && row < word.row + word.size;
         }
+    }
+
+    public backspace(row: number, column: number): void {
+        this.userGrid[row][column] = "";
+        if (this.wordService.selectedWord.direction === Direction.Horizontal) {
+            if (column !== this.wordService.selectedWord.column) {
+                this.userGrid[row][column - 1] = "";
+            }
+        } else {
+            if (row !== this.wordService.selectedWord.row) {
+                this.userGrid[row - 1][column] = "";
+            }
+        }
+        this.wordService.focusOnPreviousCell(row, column);
     }
 
     private fillGrid(): void {

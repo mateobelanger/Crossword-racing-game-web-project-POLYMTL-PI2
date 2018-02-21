@@ -102,4 +102,21 @@ export class WordService {
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
     }
+
+    public focusOnPreviousCell(row: number, column: number): void {
+        if (this._selectedWord.direction === Direction.Horizontal) {
+            if (column === this._selectedWord.column) {
+                return;
+            }
+            column--;
+        } else {
+            if (row === this._selectedWord.row) {
+                return;
+            }
+            row--;
+        }
+        const id: number = (row * 10) + column;
+        const element: HTMLElement = document.getElementById(id.toString());
+        element.focus();
+    }
 }
