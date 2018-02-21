@@ -20,7 +20,7 @@
                                 <a routerLink="../admin/track-editor/{{track.name}}"><i class="icon icon-edit"></i></a>
                             </li>
                             <li>
-                                <div (click)="deleteTrack('track5')"><i class="icon icon-delete"></i></div>
+                                <div (click)="deleteTrack(track.name)"><i class="icon icon-delete"></i></div>
                             </li>
                         </div>
 
@@ -50,13 +50,6 @@
 </div>
 
 <!-- 
-
-    ; let trackName = track.name
-    deleteTrack(trackName)
-
-
-
-
 <div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
         <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
 -->

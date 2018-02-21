@@ -3,7 +3,9 @@ import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener }
 import { TrackEditorService } from './track-editor.service';
 import { TracksProxyService } from "../tracks-proxy.service";
 
-// import { TrackData } from "../../../../../common/communication/trackData";
+import { TrackData } from "../../../../../common/communication/trackData";
+import { Waypoint } from "../track/trackData/waypoint";
+import * as THREE from 'three';
 
 const LEFT_MOUSE_BTN: number = 0;
 const RIGHT_MOUSE_BTN: number = 2;
@@ -15,9 +17,9 @@ const RIGHT_MOUSE_BTN: number = 2;
 })
 export class TrackEditorComponent implements AfterViewInit, OnInit {
 
-    // public tracks: TrackData[];
-    // public track: TrackData;
-    // public name: string;
+    public track: TrackData;
+    public name: string;
+    public waypoints: Waypoint[];
 
     @ViewChild("container")
     private containerRef: ElementRef;
@@ -34,12 +36,21 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
-        await this.proxy.initialize();
+        // await this.proxy.initialize();
 
-        // this.tracks = this.proxy.tracks;
-        // this.track = this.proxy.findTrack(window.location.href.split("/")[window.location.href.split("/").length - 1]);
-        // this.name = this.track.name;
+        this.track = this.proxy.findTrack(window.location.href.split("/")[window.location.href.split("/").length - 1]);
+        this.name = this.track.name;
 
+
+        this.track.waypoints.forEach( (element) => {
+            const waypoint: Waypoint = new Waypoint();
+            waypoint.setPosition( new THREE.Vector3(element[0], element[1], element[1 + 1]) );
+            this.waypoints.push(waypoint);
+        });
+
+        this.trackEditorService.addWaypoints(this.waypoints);
+
+        // this.waypoints = ;
 
         // POUR AJOUTER UNE TRACK, DECOMMENTER:
         // const aString: string = "track description";
