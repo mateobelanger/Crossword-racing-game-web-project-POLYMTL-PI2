@@ -21,18 +21,19 @@ export class MongoDBService {
                     });
 
         router.delete(  "/service/mongoDB/:name",
-                        (req: Request, res: Response) => { MongoDBAccess.remove(req.params.name, res);
-                                                           console.log(req.params.name); }
-                        );
+                        (req: Request, res: Response) => {
+                            MongoDBAccess.remove(req.params.name, res);
+                        });
 
-        /*router.put(  "/service/mongoDB/:name",
-                        (req: Request, res: Response) =>
-                            {MongoDBAccess.update(req.params.name, res)}
-        );*/
+        router.put( "/service/mongoDB",
+                    (req: Request, res: Response) => {
+                        MongoDBAccess.updateExistingTrack(req, res);
+                    });
 
-        router.patch(  "/service/mongoDB/:name",
-                        (req: Request, res: Response) => {MongoDBAccess.incrementTimesPlayed(req.params.name, res);}
-                        );
+        router.patch(   "/service/mongoDB/:name",
+                        (req: Request, res: Response) => {
+                            MongoDBAccess.incrementTimesPlayed(req.params.name, res);
+                        });
 
         // custom 404 page
         router.use((req: Request, res: Response) => {

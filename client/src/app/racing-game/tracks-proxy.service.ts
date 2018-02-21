@@ -29,7 +29,13 @@ export class TracksProxyService {
     this._http.delete<TrackData>(url);
   }
 
-  public updateTrack(trackName: string): void {
+  public updateTrack(track: TrackData): void {
+    if ( this.findTrack(track.name).name !== track.name) {
+      this._http.put<TrackData>(URI_MONGO_DB, track);
+    } else {
+      this.addTrack(track);
+    }
+
     // const url: string = URI_MONGO_DB + "/" + trackName;
     // this._http.put<TrackData>(url);
   }

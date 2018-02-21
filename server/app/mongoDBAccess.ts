@@ -19,8 +19,8 @@ const trackSchema = MONGOOSE.Schema({
     name: String,
     description: String,
     timesPlayed: Number,
-    bestTimes:[[String, Number]],
-    waypoints:[[Number, Number, Number]]
+    bestTimes: [[String, Number]],
+    waypoints: [[Number, Number, Number]]
 });
 
 const Track = MONGOOSE.model("Track", trackSchema);
@@ -37,8 +37,9 @@ export class MongoDBAccess {
 
         let track = new Track(req.body);
 
-        console.log(track);
+        // console.log(track);
 
+        // add : track.set({ timesPlayed: 0 });    ????
         connection.once("open", () =>
             track.save( (err: any, track: any) => {
                     if (err) { return console.error(err); }
@@ -53,7 +54,7 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.find( function(error: any, trackData : TrackData[]) {
+            Track.find( (error: any, trackData: TrackData[]) => {
                 if (error) { { return console.error(error); } }
                 res.send(trackData);
             });
@@ -72,14 +73,30 @@ export class MongoDBAccess {
     });
     }
 
+    public static updateExistingTrack(req: Request, res: Response): void {
+
+        const track: any = new Track(req.body);
+
+        MONGOOSE.connect(MONGODB_URI);
+        const db: any = MONGOOSE.connection;
+        db.once("open", () => {
+            Track.update({name : track.name},
+                         {$set: {description: track.description, timesPlayed: 0, bestTimes: track.bestTimes, waypoints: track.waypoints} },
+                         (err: any, numAffected: number) => { if (err) { return console.error(err); }
+                }
+            );
+            res.send(track.name);
+        });
+    }
+
     // à vérifier
-    static incrementTimesPlayed(trackName: string, res: Response) : void {
+    public static incrementTimesPlayed(trackName: string, res: Response) : void {
 
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
             Track.update({name : trackName}, {$inc: {timesPlayed: 1}},
-                         function(err: any, numAffected: number) {
+                         (err: any, numAffected: number) => {
                     if (err) { return console.error(err); }
                 }
             );
