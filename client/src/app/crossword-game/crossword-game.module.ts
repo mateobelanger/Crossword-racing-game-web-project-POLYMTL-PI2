@@ -33,7 +33,7 @@ import { InputValidationService } from './input-validation.service';
     ],
 
     exports: [
-        CrosswordGameComponent,
+        CrosswordGameComponent
     ]
 
 
