@@ -26,13 +26,13 @@ export class AdminComponent implements OnInit, AfterViewInit {
         this.tracks = this.proxy.tracks;
 
         // POUR AJOUTER UNE TRACK, DECOMMENTER:
-        const aString: string = "track description";
-        const genny: [string, number][] = [["player1", 1]];
+        // const aString: string = "track description";
+        // const genny: [string, number][] = [["player1", 1]];
 
-        const trackData: TrackData = {name: "track7", description:  aString, timesPlayed: 5, bestTimes: genny,
-                                      waypoints: [[1, 1, 1]]};
-        // this.proxy.updateTrack(trackData);
-        this.proxy.addTrack(trackData);
+        // const trackData: TrackData = {name: "track8", description:  aString, timesPlayed: 5, bestTimes: genny,
+        //                               waypoints: [[1, 1, 1]]};
+        // // this.proxy.updateTrack(trackData);
+        // this.proxy.addTrack(trackData);
     }
 
 

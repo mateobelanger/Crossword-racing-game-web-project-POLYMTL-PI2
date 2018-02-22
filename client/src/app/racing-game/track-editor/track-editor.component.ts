@@ -19,7 +19,8 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     public track: TrackData;
     public name: string;
-    public waypoints: Waypoint[];
+    public description: string;
+    public waypoints: Waypoint[] = [];
 
     @ViewChild("container")
     private containerRef: ElementRef;
@@ -36,11 +37,16 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
-        // await this.proxy.initialize();
+        await this.proxy.initialize();
 
-        this.track = this.proxy.findTrack(window.location.href.split("/")[window.location.href.split("/").length - 1]);
+        const track: TrackData = this.proxy.findTrack( this.getTrackNameFromURL() );
+        if (this.track !== null) {
+            // TODO ne pas traiter si trackData est vide et faire quoi.. ? popup?
+        }
+        this.track = {name: track.name, description: track.description, timesPlayed: track.timesPlayed,
+                      bestTimes: track.bestTimes, waypoints: track.waypoints};
         this.name = this.track.name;
-
+        this.description = this.track.description;
 
         this.track.waypoints.forEach( (element) => {
             const waypoint: Waypoint = new Waypoint();
@@ -49,6 +55,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
         });
 
         this.trackEditorService.addWaypoints(this.waypoints);
+        this.trackEditorService.closeTrack();
 
         // this.waypoints = ;
 
@@ -62,6 +69,42 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
         // this.proxy.addTrack(trackData);
         // // this.proxy.deleteTrack("track1");
         // // console.log("track deleted?")
+    }
+
+    private getTrackNameFromURL(): string {
+        const trackNameInURL: string = window.location.href.split("/")[window.location.href.split("/").length - 1];
+
+        return trackNameInURL.replace(/%20/g, " ");
+
+    }
+
+
+    public saveTrack(): void  {
+        this.track.name = this.name;
+        this.track.description = this.description;
+        this.addWaypointsToTrack( this.trackEditorService.track.getWaypoints() );
+        console.log(this.track);
+        this.proxy.updateTrack(this.track);
+
+    }
+
+    private addWaypointsToTrack(waypoints: Waypoint[]): void  {
+
+        // enlever les points initiaux de la track
+        this.track.waypoints.length = 0;
+        console.log(this.track.waypoints);
+
+        // ajouter les points actuels
+        waypoints.forEach((waypoint) => {
+            const positionVector: THREE.Vector3 = waypoint.getPosition();
+            const position: [number, number, number] = [positionVector.x, positionVector.y, positionVector.z];
+            this.track.waypoints.push(position);
+        });
+
+        // test: prendre la 2e track et faire un click de droit puis save.. rajoute un point
+        // random
+
+        // test: si on ferme la track avant de save c'est correct..
     }
 
 

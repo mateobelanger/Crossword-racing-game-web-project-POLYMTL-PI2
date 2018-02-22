@@ -21,20 +21,17 @@
                             <h5 class="descriptionTitle "> Description </h5>
                         </div>
                     </div>
-                    <input class="descriptionText " type="text " maxlength="300 " value="change description ">
+                    <input class="descriptionText " type="text " maxlength="300 " value=track.description [(ngModel)]="description">
                     <!-- <textarea class="descriptionText " name="Text1 " cols="25 " rows="6 "></textarea> -->
                 </div>
-                <div>
-                    <a routerLink="/admin " class="btn btn-success ">Save track</a>
+                <div (click)="saveTrack()" class="btn btn-success ">
+                    Save track
                 </div>
 
             </div>
         </div>
 
     </div>
-
-    <!-- tester que les valeurs sont vrm changees -->
-    <input class="trackName " type="text " value={{name}}>
 
 </div>
 

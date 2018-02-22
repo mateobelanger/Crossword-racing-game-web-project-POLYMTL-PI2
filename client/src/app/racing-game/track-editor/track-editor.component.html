@@ -1,1 +1,47 @@
-<div #container oncontextmenu="return false;"></div>
+<h3> Track Edition </h3>
+<!-- tests -->
+<!-- <input class="trackName" type="text" value="change name" [(ngModel)]="trackName"> -->
+
+
+<div class="left">
+    <div class="">
+        <div class="caneva right">
+            <div class="">
+                <!-- If we want to make it work with col-md-4 -->
+                <div class="canevaHeader clearfix">
+                    <h4 class="trackName "> Track name </h4>
+
+                    <input class="trackName " type="text" value=track.name [(ngModel)]="name">
+
+                </div>
+
+                <div class="descriptionBlock ">
+                    <div class="descriptionTitleBlock ">
+                        <div>
+                            <h5 class="descriptionTitle "> Description </h5>
+                        </div>
+                    </div>
+                    <input class="descriptionText " type="text " maxlength="300 " value=track.description [(ngModel)]="description">
+                    <!-- <textarea class="descriptionText " name="Text1 " cols="25 " rows="6 "></textarea> -->
+                </div>
+                <div (click)="saveTrack()" class="btn btn-success ">
+                    Save track
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="right ">
+    <div class="track-editor trackDrawer" #container oncontextmenu="return false;"></div>
+</div>
+
+
+
+<!-- <div class="track-editor " #container oncontextmenu="return false;"></div>
+<div (click)="saveTrack()" class="btn btn-success button">
+    Save track
+</div> -->

@@ -92,7 +92,7 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.update({name : track.name},
+            Track.update({name : track.name}, // ???? mettre aucuns bestTimes?
                          {$set: {description: track.description, timesPlayed: 0, bestTimes: track.bestTimes, waypoints: track.waypoints} },
                          (err: any, numAffected: number) => { if (err) { return console.error(err); }
                 }
@@ -125,6 +125,6 @@ export class MongoDBAccess {
 
 }
 
-// connection dans une fonction? mieux de toujours etre connecte???
-// track schema a la bonne place?
-// besoin de req? besoin de trackName en string?
+// TODO connection dans une fonction? mieux de toujours etre connecte???
+// TODO track schema a la bonne place?
+// TODO besoin de req? besoin de trackName en string?
