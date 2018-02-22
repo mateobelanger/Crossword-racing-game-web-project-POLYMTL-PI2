@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { WordService } from "../word.service";
 import { Word, Direction } from "../../../../../common/word";
 
@@ -18,7 +18,7 @@ const BLACK_CASE: string = '-';
     styleUrls: ["./grid.component.css"]
 })
 
-export class GridComponent implements OnInit, AfterViewInit {
+export class GridComponent implements OnInit {
 
     private userGrid: string[][];
     private validated: boolean[][];
@@ -40,12 +40,6 @@ export class GridComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
         this.fillGrid();
-    }
-
-    public ngAfterViewInit(): void {
-        const element: HTMLElement = document.getElementById('0');
-        element.focus();
-        this.wordService.selectWord(0, 0);
     }
 
     public isValidInput(keyCode: number, row: number, column: number): boolean {
