@@ -3,10 +3,16 @@
     cursor: default !important;
 }
 
+.validated {
+    background-color: green;
+    color: white;
+}
+
 .filled {
     background: black;
     font-size: 0px;
     pointer-events: none;
+    color: black;
 }
 
 .col {

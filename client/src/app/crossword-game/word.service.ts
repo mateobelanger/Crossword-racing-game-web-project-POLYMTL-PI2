@@ -82,19 +82,13 @@ export class WordService {
         this._selectedWord = null;
     }
 
-    public focusOnCell(row: number, column: number): void {
-        const id: number = (row * GRID_SIZE) + column;
-        const element: HTMLElement = document.getElementById(id.toString());
-        element.focus();
-    }
-
-    public focusOnFirstCell(): void {
+    /*public focusOnFirstCell(): void {
         const id: number = (this.selectedWord.row * GRID_SIZE) + this.selectedWord.column;
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
-    }
+    }*/
 
-    public focusOnNextCell(row: number, column: number): void {
+    /*public focusOnNextCell(row: number, column: number): void {
         if (this._selectedWord.direction === Direction.Horizontal) {
             if (column === this._selectedWord.column + this.selectedWord.value.length) {
                 return;
@@ -109,9 +103,9 @@ export class WordService {
         const id: number = (row * 10) + column;
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
-    }
+    }*/
 
-    public focusOnPreviousCell(row: number, column: number): void {
+    /*public focusOnPreviousCell(row: number, column: number): void {
         if (this._selectedWord.direction === Direction.Horizontal) {
             if (column === this._selectedWord.column) {
                 return;
@@ -126,6 +120,6 @@ export class WordService {
         const id: number = (row * 10) + column;
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
-    }
+    }*/
 
 }

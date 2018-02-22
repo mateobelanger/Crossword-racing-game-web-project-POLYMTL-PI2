@@ -21,15 +21,20 @@ const BLACK_CASE: string = '-';
 export class GridComponent implements OnInit, AfterViewInit {
 
     private userGrid: string[][];
+    private validated: boolean[][];
 
     public constructor(private wordService: WordService) {
         this.userGrid = [];
+        this.validated = [];
         for (let i: number = 0; i < GRID_SIZE; i++) {
             const row: string[] = [];
+            const rowValidated: boolean[] = [];
             for (let j: number = 0; j < GRID_SIZE; j++) {
                 row.push(BLACK_CASE);
+                rowValidated.push(true);
             }
             this.userGrid.push(row);
+            this.validated.push(rowValidated);
         }
     }
 
@@ -68,30 +73,7 @@ export class GridComponent implements OnInit, AfterViewInit {
     public selectWord(rowIndex: number, columnIndex: number): void {
         this.wordService.selectWord(rowIndex, columnIndex);
 
-        rowIndex = this.wordService.selectedWord.row;
-        columnIndex = this.wordService.selectedWord.column;
-
-        let selectedRow: number = this.wordService.selectedWord.row;
-        let selectedColumn: number = this.wordService.selectedWord.column;
-
-        while (this.userGrid[rowIndex][columnIndex] !== "") {
-            if (this.wordService.selectedWord.direction === Direction.Horizontal) {
-                if (selectedRow === 0) {
-                    selectedRow++;
-                }
-                if (++columnIndex === (selectedRow + this.wordService.selectedWord.value.length - 2)) {
-                    break;
-                }
-            } else {
-                if (selectedColumn === 0) {
-                    selectedColumn++;
-                }
-                if (++rowIndex === (selectedColumn + this.wordService.selectedWord.value.length - 2)) {
-                    break;
-                }
-            }
-        }
-        this.wordService.focusOnCell(rowIndex, columnIndex);
+        this.focusOnCell(this.idOfFirstEmptyCell());
     }
 
     public isSelectedWord(id: number): boolean {
@@ -115,21 +97,21 @@ export class GridComponent implements OnInit, AfterViewInit {
             if (column !== word.column + word.value.length - 1) {
                 if (column !== word.column) {
                     this.userGrid[row][column - 1] = "";
-                    this.wordService.focusOnPreviousCell(row, column);
+                    this.focusOnCell(this.idOfFirstEmptyCell());
                 }
             } else if (this.userGrid[row][column] === "") {
                 this.userGrid[row][column - 1] = "";
-                this.wordService.focusOnPreviousCell(row, column);
+                this.focusOnCell(this.idOfFirstEmptyCell());
             }
         } else {
             if (row !== word.row + word.value.length - 1) {
                 if (row !== word.row) {
                     this.userGrid[row - 1][column] = "";
-                    this.wordService.focusOnPreviousCell(row, column);
+                    this.focusOnCell(this.idOfFirstEmptyCell());
                 }
             } else if (this.userGrid[row][column] === "") {
                 this.userGrid[row - 1][column] = "";
-                this.wordService.focusOnPreviousCell(row, column);
+                this.focusOnCell(this.idOfFirstEmptyCell());
             }
         }
     }
@@ -148,6 +130,7 @@ export class GridComponent implements OnInit, AfterViewInit {
                     col = word.column;
                 }
                 this.userGrid[row][col] = ""; // word.value[i];
+                this.validated[row][col] = false;
             }
         }
 
@@ -170,19 +153,64 @@ export class GridComponent implements OnInit, AfterViewInit {
 
     public keyUp(keyCode: number, row: number, column: number): void {
         const word: Word = this.wordService.selectedWord;
-        if (keyCode >= KEY_A && keyCode <= KEY_Z) {
+        if (keyCode >= KEY_A && keyCode <= KEY_Z && this.userGrid[row][column] !== "") {
             if (word.direction === Direction.Horizontal) {
                 if (word.column + word.value.length - 1 !== column) {
-                    this.wordService.focusOnNextCell(row, column);
-                } else {
-                    console.log(this.validateWord());
+                    this.focusOnCell(this.idOfFirstEmptyCell());
                 }
             } else {
                 if (word.row + word.value.length - 1 !== row) {
-                    this.wordService.focusOnNextCell(row, column);
-                } else {
-                    console.log(this.validateWord());
+                    this.focusOnCell(this.idOfFirstEmptyCell());
                 }
+            }
+
+            // TODO : disable input when word validated
+            if (this.validateWord()) {
+                this.updateValidated();
+            }
+        }
+    }
+
+    private idOfFirstEmptyCell(): number {
+        let rowIndex: number = this.wordService.selectedWord.row;
+        let columnIndex: number = this.wordService.selectedWord.column;
+
+        let selectedRow: number = this.wordService.selectedWord.row;
+        let selectedColumn: number = this.wordService.selectedWord.column;
+
+        while (this.userGrid[rowIndex][columnIndex] !== "") {
+            if (this.wordService.selectedWord.direction === Direction.Horizontal) {
+                if (selectedRow === 0) {
+                    selectedRow++;
+                }
+                if (++columnIndex === (selectedRow + this.wordService.selectedWord.value.length - 2)) {
+                    break;
+                }
+            } else {
+                if (selectedColumn === 0) {
+                    selectedColumn++;
+                }
+                if (++rowIndex === (selectedColumn + this.wordService.selectedWord.value.length - 2)) {
+                    break;
+                }
+            }
+        }
+
+        return this.calculateId(rowIndex, columnIndex);
+    }
+
+    private focusOnCell(id: number): void {
+        const element: HTMLElement = document.getElementById(id.toString());
+        element.focus();
+    }
+
+    private updateValidated() {
+        const word: Word = this.wordService.selectedWord;
+        for (let i: number = 0; i < word.value.length; i++) {
+            if (word.direction === Direction.Horizontal) {
+                this.validated[word.row][word.column + i] = true;
+            } else {
+                this.validated[word.row + i][word.column] = true;
             }
         }
     }
