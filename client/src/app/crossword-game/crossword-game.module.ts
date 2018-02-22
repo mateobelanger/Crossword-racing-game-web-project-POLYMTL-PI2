@@ -11,6 +11,7 @@ import { routes } from '../app-routes.module';
 import { InformationsComponent } from './informations/informations.component';
 import { WordService } from './word.service';
 import { InputValidationService } from './input-validation.service';
+import { GridService } from './grid.service';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import { InputValidationService } from './input-validation.service';
 
     providers: [
         WordService,
-        InputValidationService
+        InputValidationService,
+        GridService
     ],
 
     exports: [
