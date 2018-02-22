@@ -91,8 +91,16 @@ export class GridComponent implements OnInit, AfterViewInit {
     }
 
     public backspace(row: number, column: number): void {
-        const word: Word = this.wordService.selectedWord;
-        this.userGrid[row][column] = "";
+        // const word: Word = this.wordService.selectedWord;
+        if (this.userGrid[row][column] === "") {
+            const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
+            this.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
+            this.focusOnCell(this.idOfFirstEmptyCell());
+        } else {
+            this.userGrid[row][column] = "";
+        }
+
+        /*
         if (word.direction === Direction.Horizontal) {
             if (column !== word.column + word.value.length - 1) {
                 if (column !== word.column) {
@@ -113,7 +121,7 @@ export class GridComponent implements OnInit, AfterViewInit {
                 this.userGrid[row - 1][column] = "";
                 this.focusOnCell(this.idOfFirstEmptyCell());
             }
-        }
+        }*/
     }
 
     private fillGrid(): void {
@@ -164,7 +172,6 @@ export class GridComponent implements OnInit, AfterViewInit {
                 }
             }
 
-            // TODO : disable input when word validated
             if (this.validateWord()) {
                 this.updateValidated();
             }
@@ -204,7 +211,7 @@ export class GridComponent implements OnInit, AfterViewInit {
         element.focus();
     }
 
-    private updateValidated() {
+    private updateValidated(): void {
         const word: Word = this.wordService.selectedWord;
         for (let i: number = 0; i < word.value.length; i++) {
             if (word.direction === Direction.Horizontal) {
@@ -213,6 +220,28 @@ export class GridComponent implements OnInit, AfterViewInit {
                 this.validated[word.row + i][word.column] = true;
             }
         }
+        this.wordService.deselect();
+    }
+
+    private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
+        let rowIndex: number = row;
+        let columnIndex: number = column;
+
+        do {
+            if (this.wordService.selectedWord.direction === Direction.Horizontal) {
+                if (--columnIndex < this.wordService.selectedWord.column) {
+                    columnIndex = column;
+                    break;
+                }
+            } else {
+                if (--rowIndex < this.wordService.selectedWord.row) {
+                    rowIndex = row;
+                    break;
+                }
+            }
+        } while (this.validated[rowIndex][columnIndex]);
+
+        return [rowIndex, columnIndex];
     }
 
 }
