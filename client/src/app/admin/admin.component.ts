@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TRACKS } from './fakeTracks';
 
 @Component({
     selector: 'app-admin',
@@ -7,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AdminComponent implements OnInit {
-    private tracks: JSON;
+    private tracks: any;
 
 
     public constructor() {
-        this.tracks = require("./fakeTracks.json");
+        this.tracks = TRACKS;
     }
 
     public ngOnInit(): void {

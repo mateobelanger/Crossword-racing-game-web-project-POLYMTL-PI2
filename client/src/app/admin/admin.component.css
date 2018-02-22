@@ -24,11 +24,9 @@ h5 {
 }
 
 .containerAdmin {
-    background-image: url("../../assets/admin/bg-2.jpg");
-    background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background: url("../../assets/admin/bg-2.jpg") no-repeat fixed;
+    background-size: 1540px 800px;
+    background-position-y: 0px;
     min-height: 95vh;
     /* Problem : when I put 96 to fit the page perfecly it adds the scroll bar!?!*/
     height: auto;
@@ -123,13 +121,13 @@ h5 {
 }
 
 .icon-edit {
-    background: url("icon-edit.png");
+    background: url("../../assets/admin/icon-edit.png");
     float: left;
     margin-right: 3px;
 }
 
 .icon-delete {
-    background: url("icon-delete.png");
+    background: url("../../assets/admin/icon-delete.png");
     float: right;
     margin-left: 3px;
 }

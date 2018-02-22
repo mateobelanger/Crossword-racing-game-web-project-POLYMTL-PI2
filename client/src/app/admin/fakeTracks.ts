@@ -1,4 +1,4 @@
-[{
+export const TRACKS = [{
         "name": "The HardestThe Harde stThe HardestThe ivyivf super long fucking title yooooooooo",
         "description": "blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa ",
         "timesPlayed": 12,
