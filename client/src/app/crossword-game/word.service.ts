@@ -82,33 +82,33 @@ export class WordService {
         this._selectedWord = null;
     }
 
-    public focusOnFirstEmptyCell(userGrid: Array<Array<string>>): void {
-        let rowIndex: number = this._selectedWord.row;
-        let columnIndex: number = this._selectedWord.column;
-        let selectedRow: number = this._selectedWord.row;
-        let selectedColumn: number = this._selectedWord.column;
-
-        while (userGrid[rowIndex][columnIndex] !== "") {
-            if (this._selectedWord.direction === Direction.Horizontal) {
-                if (selectedRow === 0) {
-                    selectedRow++;
-                }
-                if (++columnIndex === (selectedRow + this._selectedWord.value.length - 2)) {
-                    break;
-                }
-            } else {
-                if (selectedColumn === 0) {
-                    selectedColumn++;
-                }
-                if (++rowIndex === (selectedColumn + this._selectedWord.value.length - 2)) {
-                    break;
-                }
-            }
-        }
-        const id: number = (rowIndex * GRID_SIZE) + columnIndex;
+    public focusOnCell(row: number, column: number): void {
+        const id: number = (row * GRID_SIZE) + column;
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
-        console.log(this.validateWord(userGrid));
+    }
+
+    public focusOnFirstCell(): void {
+        const id: number = (this.selectedWord.row * GRID_SIZE) + this.selectedWord.column;
+        const element: HTMLElement = document.getElementById(id.toString());
+        element.focus();
+    }
+
+    public focusOnNextCell(row: number, column: number): void {
+        if (this._selectedWord.direction === Direction.Horizontal) {
+            if (column === this._selectedWord.column + this.selectedWord.value.length) {
+                return;
+            }
+            column++;
+        } else {
+            if (row === this._selectedWord.row + this.selectedWord.value.length) {
+                return;
+            }
+            row++;
+        }
+        const id: number = (row * 10) + column;
+        const element: HTMLElement = document.getElementById(id.toString());
+        element.focus();
     }
 
     public focusOnPreviousCell(row: number, column: number): void {
@@ -128,18 +128,4 @@ export class WordService {
         element.focus();
     }
 
-    private validateWord(userGrid: Array<Array<string>>): boolean {
-        let isValid: boolean = true;
-        const rowIndex: number = this.selectedWord.row;
-        const columnIndex: number = this.selectedWord.column;
-        for (let i: number = 0; i < this.selectedWord.value.length && isValid; i++) {
-            if (this.selectedWord.direction === Direction.Horizontal) {
-                isValid = (this.selectedWord.value[i] === userGrid[rowIndex][columnIndex + i]);
-            } else {
-                isValid = (this.selectedWord.value[i] === userGrid[rowIndex + i][columnIndex]);
-            }
-        }
-
-        return isValid;
-    }
 }
