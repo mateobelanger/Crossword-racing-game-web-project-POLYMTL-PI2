@@ -38,7 +38,10 @@ export class SkyboxService {
     }
 
     public generateBackgroundView(): void {
-      const texture: THREE.Texture = new THREE.TextureLoader().load('../../../assets/skybox/' + this.skyboxName + '/' + this.skyboxSate + '/bottom.png');
+      const texture: THREE.Texture = new THREE.TextureLoader().load('../../../assets/skybox/'
+                                                                    + this.skyboxName + '/'
+                                                                    + this.skyboxSate + '/bottom.png');
+
       const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
       this.backgroundPlane = new THREE.Mesh(new THREE.PlaneGeometry(LAND_WIDTH, LAND_HEIGHT), material);
       this.backgroundPlane.position.y = BACKGROUND_PLANE_POSITION_Y;
