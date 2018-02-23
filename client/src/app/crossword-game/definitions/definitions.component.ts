@@ -40,24 +40,8 @@ export class DefinitionsComponent {
         this.gridService.focusOnSelectedWord();
     }
 
-    public getSelectedDefinition(): string {
-        return this.wordService.definition;
-    }
-
-    public validateHorizontalWord(row: number, index: number): boolean {
-        this.updateValidatedWords();
-
-        return this.isValidatedHorizontalDefinition[row][index];
-    }
-
-    public validateVerticalWord(column: number, index: number): boolean {
-        this.updateValidatedWords();
-
-        return this.isValidatedVerticalDefinition[column][index];
-    }
-
-    private updateValidatedWords(): void {
-        if (this.wordService.selectedWord !== null && this.gridService.validateWord()) {
+    public updateValidatedWords(): void {
+        if (this.wordService.selectedWord !== null && this.gridService.validateWord(this.wordService.selectedWord)) {
             horizontal_loop:
             for (let i: number = 0; i < this.horizontalDefinitions.length; i++) {
                 for (let j: number = 0; j < this.horizontalDefinitions[i].length; j++) {
@@ -77,6 +61,10 @@ export class DefinitionsComponent {
                 }
             }
         }
+    }
+
+    public isSelectedDefinition(definition: string): boolean {
+        return definition === this.wordService.definition;
     }
 
 }

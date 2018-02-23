@@ -57,18 +57,18 @@ export class GridService {
     public keyUp(keyCode: number, row: number, column: number): void {
         const word: Word = this.wordService.selectedWord;
         if (this.userGrid[row][column] !== "") {
-            if (word.direction === Direction.HORIZONTAL) {
-                if (word.column + word.value.length - 1 !== column) {
+            if (word.direction === Direction.HORIZONTAL && 
+                word.column + word.value.length - 1 !== column) {
+
                     this.focusOnSelectedWord();
-                }
-            } else if (word.direction === Direction.VERTICAL) {
-                if (word.row + word.value.length - 1 !== row) {
+            } else if (word.row + word.value.length - 1 !== row) {
                     this.focusOnSelectedWord();
-                }
             }
-            if (this.validateWord()) {
-                this.updateValidatedCells();
+
+            if (this.validateWord(word)) {
+                this.updateValidatedCells(word);
             }
+            this.validatePerpendicularWord(row, column, word.direction);
         }
     }
 
@@ -102,22 +102,49 @@ export class GridService {
             return col === word.column && row >= word.row && row < word.row + word.size;
         }
     }
-
+    
     public focusOnSelectedWord(): void {
         this.focusOnCell(this.idOfFirstEmptyCell());
     }
 
-    public validateWord(): boolean {
+    public validateWord(selectedWord: Word): boolean {
         let isValid: boolean = true;
-        const rowIndex: number = this.wordService.selectedWord.row;
-        const columnIndex: number = this.wordService.selectedWord.column;
-        for (let i: number = 0; i < this.wordService.selectedWord.value.length && isValid; i++) {
-            this.wordService.selectedWord.direction === Direction.HORIZONTAL ?
-                isValid = (this.wordService.selectedWord.value[i] === this.userGrid[rowIndex][columnIndex + i]) :
-                isValid = (this.wordService.selectedWord.value[i] === this.userGrid[rowIndex + i][columnIndex]);
+        const rowIndex: number = selectedWord.row;
+        const columnIndex: number = selectedWord.column;
+
+        for (let i: number = 0; i < selectedWord.value.length && isValid; i++) {
+            selectedWord.direction === Direction.HORIZONTAL ?
+                isValid = (selectedWord.value[i] === this.userGrid[rowIndex][columnIndex + i]) :
+                isValid = (selectedWord.value[i] === this.userGrid[rowIndex + i][columnIndex]);
         }
 
         return isValid;
+    }
+
+    public validatePerpendicularWord(row: number, column: number, direction: Direction) {
+
+        for (let word of this.wordService.words) {
+            if(direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
+                if (word.column === column) {
+                    if (word.row <= row && word.row + word.value.length - 1 >= row) {
+                        if (this.validateWord(word)) {
+                            this.updateValidatedCells(word);
+                        }
+                        break;
+                    }
+                }
+            } else if(word.direction === Direction.HORIZONTAL) {
+                if (word.row === row) {
+                    if (word.column <= column && word.column + word.value.length - 1 >= column) {
+                        if (this.validateWord(word)) {
+                            this.updateValidatedCells(word);
+                        }
+                        break;
+                    }
+                }
+            } 
+        }
+    
     }
 
     public generateId (rowIndex: number, columnIndex: number): number {
@@ -170,8 +197,7 @@ export class GridService {
         return this.generateId(rowIndex, columnIndex);
     }
 
-    private updateValidatedCells(): void {
-        const word: Word = this.wordService.selectedWord;
+    private updateValidatedCells(word: Word): void {
         for (let i: number = 0; i < word.value.length; i++) {
             if (word.direction === Direction.HORIZONTAL) {
                 this.validatedCells[word.row][word.column + i] = true;
@@ -179,7 +205,7 @@ export class GridService {
                 this.validatedCells[word.row + i][word.column] = true;
             }
         }
-        this.wordService.deselect();
+        // todo : this.wordService.deselect();
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
