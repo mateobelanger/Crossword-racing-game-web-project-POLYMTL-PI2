@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WordService } from './word.service';
 import { Word, Direction } from '../../../../common/word';
 import { GRID_SIZE } from '../../../../common/constants';
+// import { DefinitionsService } from './definitions.service';
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;
@@ -57,7 +58,7 @@ export class GridService {
     public keyUp(keyCode: number, row: number, column: number): void {
         const word: Word = this.wordService.selectedWord;
         if (this.userGrid[row][column] !== "") {
-            if (word.direction === Direction.HORIZONTAL && 
+            if (word.direction === Direction.HORIZONTAL &&
                 word.column + word.value.length - 1 !== column) {
 
                     this.focusOnSelectedWord();
@@ -67,6 +68,7 @@ export class GridService {
 
             if (this.validateWord(word)) {
                 this.updateValidatedCells(word);
+                // this.updateValidatedDefinition(word);
             }
             this.validatePerpendicularWord(row, column, word.direction);
         }
@@ -102,7 +104,7 @@ export class GridService {
             return col === word.column && row >= word.row && row < word.row + word.size;
         }
     }
-    
+
     public focusOnSelectedWord(): void {
         this.focusOnCell(this.idOfFirstEmptyCell());
     }
@@ -121,10 +123,10 @@ export class GridService {
         return isValid;
     }
 
-    public validatePerpendicularWord(row: number, column: number, direction: Direction) {
+    public validatePerpendicularWord(row: number, column: number, direction: Direction): void {
 
-        for (let word of this.wordService.words) {
-            if(direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
+        for (const word of this.wordService.words) {
+            if (direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
                 if (word.column === column) {
                     if (word.row <= row && word.row + word.value.length - 1 >= row) {
                         if (this.validateWord(word)) {
@@ -133,7 +135,7 @@ export class GridService {
                         break;
                     }
                 }
-            } else if(word.direction === Direction.HORIZONTAL) {
+            } else if (word.direction === Direction.HORIZONTAL) {
                 if (word.row === row) {
                     if (word.column <= column && word.column + word.value.length - 1 >= column) {
                         if (this.validateWord(word)) {
@@ -142,9 +144,9 @@ export class GridService {
                         break;
                     }
                 }
-            } 
+            }
         }
-    
+
     }
 
     public generateId (rowIndex: number, columnIndex: number): number {
@@ -228,5 +230,11 @@ export class GridService {
 
         return [rowIndex, columnIndex];
     }
+
+    /*private updateValidatedWords(word: Word): void {
+        if (word.direction === Direction.HORIZONTAL) {
+            
+        }
+    }*/
 
 }

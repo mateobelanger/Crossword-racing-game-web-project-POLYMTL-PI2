@@ -10,7 +10,7 @@
                 <li *ngFor="let definition of row; let indexI = index;" 
                 (click)="onSelect(definition); $event.stopPropagation()" 
                 [class.selected]="isSelectedDefinition(definition)" 
-                [class.validated]="isValidatedHorizontalDefinition[indexR][indexI]">
+                [class.validated]="definitionsService.isValidatedHorizontalDefinition[indexR][indexI]">
 
                     [{{indexI+1}}] {{definition}}
                 </li>
@@ -30,7 +30,7 @@
                 <li *ngFor="let definition of row; let indexI = index;" 
                 (click)="onSelect(definition); $event.stopPropagation()" 
                 [class.selected]="isSelectedDefinition(definition)" 
-                [class.validated]="isValidatedVerticalDefinition[indexR][indexI]">
+                [class.validated]="definitionsService.isValidatedVerticalDefinition[indexR][indexI]">
 
                     [{{indexI+1}}] {{definition}}
                 </li>
