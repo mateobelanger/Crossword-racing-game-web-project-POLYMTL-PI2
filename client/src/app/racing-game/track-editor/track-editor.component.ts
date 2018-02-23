@@ -7,6 +7,8 @@ import { TrackData } from "../../../../../common/communication/trackData";
 import { Waypoint } from "../track/trackData/waypoint";
 import * as THREE from 'three';
 
+import { TrackNotFound } from "./errors/errors";
+
 const LEFT_MOUSE_BTN: number = 0;
 const RIGHT_MOUSE_BTN: number = 2;
 
@@ -46,6 +48,8 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
             this.getTrackFromProxy();
             this.renderTrack();
         } catch (e) {
+            e.handleError();
+
             return;
         }
     }
@@ -55,7 +59,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     private getTrackFromProxy(): void {
         const track: TrackData = this.proxy.findTrack( this.getTrackNameFromURL() );
         if (this.trackData == null) {
-                // TODO ne pas traiter si trackData est vide et faire quoi.. ? popup?
+                throw new TrackNotFound();
             }
         this.trackData = {  name: track.name, description: track.description, timesPlayed: track.timesPlayed,
                             bestTimes: track.bestTimes, waypoints: track.waypoints};
