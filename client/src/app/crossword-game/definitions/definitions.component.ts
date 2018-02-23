@@ -20,8 +20,7 @@ export class DefinitionsComponent {
         this.isValidatedHorizontalDefinition = [];
         for (const row of this.horizontalDefinitions) {
             const rowCon: boolean[] = [];
-            // TODO : problem : not using element 
-            for (const element of row) {
+            for (let i: number = 0; i < row.length; i++) {
                 rowCon.push(false);
             }
             this.isValidatedHorizontalDefinition.push(rowCon);
@@ -29,8 +28,7 @@ export class DefinitionsComponent {
         this.isValidatedVerticalDefinition = [];
         for (const column of this.verticalDefinitions) {
             const columnCon: boolean[] = [];
-            // TODO : problem : not using element 
-            for (const element of column) {
+            for (let i: number = 0; i < column.length; i++) {
                 columnCon.push(false);
             }
             this.isValidatedVerticalDefinition.push(columnCon);

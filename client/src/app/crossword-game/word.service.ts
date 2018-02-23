@@ -1,30 +1,20 @@
 import { Injectable } from "@angular/core";
 import { Word, Direction } from "../../../../common/word";
 import { words } from "./mock-words";
-// TODO : following line causes circular dependencies:
-// import { GRID_SIZE } from "./grid/grid.component";
-const GRID_SIZE: number = 10;
+import { GRID_SIZE } from '../../../../common/constants';
 
 @Injectable()
 export class WordService {
-    private _words: Word[];
+    public words: Word[];
     private _selectedWord: Word;
 
-    // TODO : we should probably put this._words = words;
-    // in an other function like initialize because
-    // when we are gonna have the gridgenerator we wont have
-    // the words right away
     public constructor() {
-        this._words = words;
+        this.words = words;
         this._selectedWord = null;
     }
 
     public get selectedWord(): Word {
         return this._selectedWord;
-    }
-
-    public get words(): Word[] {
-        return this._words;
     }
 
     public get definition(): string {
@@ -36,7 +26,7 @@ export class WordService {
     }
 
     public set definition(definition: string) {
-        for (const word of this._words) {
+        for (const word of this.words) {
             if (word.definition === definition) {
                 this._selectedWord = word;
 
@@ -68,7 +58,7 @@ export class WordService {
             definitions.push([]);
         }
 
-        for (const word of this._words) {
+        for (const word of this.words) {
             if (word.direction !== direction) {
                 continue;
             }

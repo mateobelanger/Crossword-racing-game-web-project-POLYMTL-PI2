@@ -25,7 +25,7 @@ describe('GridService', () => {
     });
 
     wordService = new WordService();
-    wordService["_words"] = words;
+    wordService["words"] = words;
 
     gridService = new  GridService(wordService);
 
