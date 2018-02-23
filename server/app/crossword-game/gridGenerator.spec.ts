@@ -1,4 +1,4 @@
-import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE, DEFAULT_GRID_SIZE } from "./grid-generator";
+import { GridGenerator, MIN_WORD_LENGTH, BLACK_CELL, DEFAULT_GRID_SIZE } from "./gridGenerator";
 import { GridEntry } from "./GridEntry";
 import { Direction } from "../../../common/crosswordsInterfaces/word";
 import { assert } from "chai";
@@ -32,7 +32,7 @@ describe("Grid generator:", () => {
             const row: string[] = generator.grid[i];
 
             row.forEach( (value: string) => {
-                if (value === BLACK_CASE) {
+                if (value === BLACK_CELL) {
                     result++;
                 }
             });

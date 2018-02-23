@@ -1,6 +1,6 @@
 import { DatamuseResponse } from "./IDatamuseResponse";
 import { IWord } from "../../../common/crosswordsInterfaces/word";
-import { MIN_WORD_LENGTH } from "../crossword-game/grid-generator";
+import { MIN_WORD_LENGTH } from "../crossword-game/gridGenerator";
 import { WORDS } from "./words";
 
 export const MAX_WORDS_PER_RESPONSE: number = 250;
@@ -15,9 +15,9 @@ export class WordSelector {
             positions.push(i);
         }
 
-        const words: string[] = this.shuffle(WORDS[template.length - MIN_WORD_LENGTH]);
+        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH];
         if (positions.length === 0) {
-            return words.splice(0, MAX_WORDS_PER_RESPONSE);
+            return this.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
         }
         const validWords: string[] = [];
         for (const word of words) {
@@ -30,11 +30,10 @@ export class WordSelector {
             }
             if (isValid) {
                 validWords.push(word);
-                if (validWords.length >= MAX_WORDS_PER_RESPONSE) { break; }
             }
         }
 
-        return validWords;
+        return this.shuffle(validWords).splice(0, MAX_WORDS_PER_RESPONSE);
     }
 
     public static getWordsByRarity(words: Array<DatamuseResponse>, isCommon: boolean): Array<DatamuseResponse> {
@@ -84,7 +83,7 @@ export class WordSelector {
     private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): IWord {
         return { value: datamuseResponse.word, definition: datamuseResponse.defs[definitionIndex] };
     }
-
+ 
     private static shuffle(array: Array<string>): Array<string> {
         for (let i: number = array.length - 1; i > 0; i--) {
             const j: number = Math.floor(Math.random() * (i + 1));
