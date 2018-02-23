@@ -56,9 +56,8 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     private getTrackFromProxy(): void {
         const track: TrackData = this.proxy.findTrack( this.getTrackNameFromURL() );
-        if (this.trackData == null) {
+        if (track === undefined) {
                 throw new Error("track not found");
-                console.log('problem sti');
             }
         this.trackData = {  name: track.name, description: track.description, timesPlayed: track.timesPlayed,
                             bestTimes: track.bestTimes, waypoints: track.waypoints};
