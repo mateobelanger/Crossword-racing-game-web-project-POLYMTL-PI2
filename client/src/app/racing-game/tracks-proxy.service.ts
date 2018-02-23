@@ -10,7 +10,7 @@ export class TracksProxyService {
   private _tracks: TrackData[];
 
   public constructor( private _http: HttpClient) { }
-
+  
   public async initialize(): Promise<void> {
     await this.fetchTracks().then((data) => {this._tracks = data; });
   }
@@ -40,7 +40,7 @@ export class TracksProxyService {
   }
 
   public findTrack(trackName: string): TrackData {
-    let track: TrackData;
+    let track: TrackData = null;
     this._tracks.forEach((elem) => {
       if (elem.name === trackName)
         track = elem;

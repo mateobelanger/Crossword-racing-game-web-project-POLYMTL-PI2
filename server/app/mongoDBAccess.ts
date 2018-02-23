@@ -27,7 +27,7 @@ const Track = MONGOOSE.model("Track", trackSchema);
 
 export class MongoDBAccess {
 
-    public constructor() {}
+    public constructor() { }
 
     // to do: change it according to req.body
     public static addTrack(req: Request, res: Response): void {
@@ -41,10 +41,12 @@ export class MongoDBAccess {
 
         // add : track.set({ timesPlayed: 0 });    ????
         connection.once("open", () =>
-            track.save( (err: any, track: any) => {
-                    if (err) { return console.error(err); }
-                    res.send(req.body);
-                })
+            track.save((err: any, track: any) => {
+                if (err) {
+                    return console.error(err);
+                }
+                res.send(req.body);
+            })
         );
 
     }
@@ -54,7 +56,7 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.find( (error: any, trackData: TrackData[]) => {
+            Track.find((error: any, trackData: TrackData[]) => {
                 if (error) { { return console.error(error); } }
                 res.send(trackData);
             });
@@ -79,25 +81,36 @@ export class MongoDBAccess {
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
             Track.findOne({ name: trackName })
-            .remove( (err: any) => { if (err) { return console.error(err); } })
-            .exec();
+                .remove((err: any) => { if (err) { return console.error(err); } })
+                .exec();
             res.send("removed");
-    });
+        });
     }
 
-    public static updateExistingTrack(req: Request, res: Response): void {
-
-        const track: any = new Track(req.body);
-
+    public static updateExistingTrack(track: TrackData): Promise<string> {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
-        db.once("open", () => {
-            Track.update({name : track.name}, // ???? mettre aucuns bestTimes?
-                         {$set: {description: track.description, timesPlayed: 0, bestTimes: track.bestTimes, waypoints: track.waypoints} },
-                         (err: any, numAffected: number) => { if (err) { return console.error(err); }
-                }
-            );
-            res.send(track.name);
+
+        return new Promise((resolve, reject) => {
+            db.once("open", () => {
+                Track.update(
+                    { name: track.name }, // ???? mettre aucuns bestTimes?
+                    {
+                        $set: {
+                            description: track.description, timesPlayed: 0,
+                            bestTimes: track.bestTimes, waypoints: track.waypoints
+                        }
+                    },
+                    (err: any, numAffected: number) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                        resolve(track.name);
+                    }
+                );
+
+                resolve(track.name);
+            });
         });
     }
 
@@ -107,13 +120,13 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.update({name : trackName}, {$inc: {timesPlayed: 1}},
-                         (err: any, numAffected: number) => {
+            Track.update({ name: trackName }, { $inc: { timesPlayed: 1 } },
+                (err: any, numAffected: number) => {
                     if (err) { return console.error(err); }
                 }
             );
             res.send(trackName);
-    });
+        });
     }
 
     public static testConnection(res: Response): void {

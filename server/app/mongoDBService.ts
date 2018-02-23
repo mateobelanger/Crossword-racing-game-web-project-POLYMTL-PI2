@@ -1,6 +1,7 @@
 import { injectable} from "inversify";
 import { Router, Request, Response } from "express";
 import { MongoDBAccess } from "./mongoDBAccess";
+import { TrackData } from "../../common/communication/trackData";
 
 @injectable()
 export class MongoDBService {
@@ -31,8 +32,10 @@ export class MongoDBService {
                         });
 
         router.put( "/service/mongoDB",
-                    (req: Request, res: Response) => {
-                        MongoDBAccess.updateExistingTrack(req, res);
+                    async (req: Request, res: Response) => {
+                        const trackName: string = await MongoDBAccess.updateExistingTrack(req.body as TrackData);
+
+                        res.send(trackName);
                     });
 
         router.patch(   "/service/mongoDB/:name",

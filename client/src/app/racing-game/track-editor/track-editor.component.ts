@@ -29,6 +29,8 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     @ViewChild("container")
     private containerRef: ElementRef;
 
+    // @Input() public waypoints: Waypoint[];
+
 
     private get container(): HTMLDivElement {
         return this.containerRef.nativeElement;
@@ -51,8 +53,6 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
             return;
         }
     }
-
-
 
     private getTrackFromProxy(): void {
         const track: TrackData = this.proxy.findTrack( this.getTrackNameFromURL() );
