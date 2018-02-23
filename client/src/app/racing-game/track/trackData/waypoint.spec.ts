@@ -24,26 +24,26 @@ describe("Waypoint", () => {
     });
 
     it("should getPosition", () => {
-        expect(waypoint.getPosition().x).toBe(1);
-        expect(waypoint.getPosition().y).toBe(2);
-        expect(waypoint.getPosition().z).toBe(3);
+        expect(waypoint.position.x).toBe(1);
+        expect(waypoint.position.y).toBe(2);
+        expect(waypoint.position.z).toBe(3);
     });
 
     it("should bind to a circle id with bindCircle", () => {
         waypoint.bindCircle(8);
-        expect(waypoint.getCircleId()).toBe(8);
+        expect(waypoint.circleId).toBe(8);
     });
 
     it("should unbindCircle", () => {
         waypoint.bindCircle(8);
         waypoint.unbindCircle();
-        expect(waypoint.getCircleId()).toBe(null);
+        expect(waypoint.circleId).toBe(null);
     });
 
     it("should not allow binding if already binded with bindCircle", () => {
         waypoint.bindCircle(8);
         waypoint.bindCircle(9);
-        expect(waypoint.getCircleId()).toBe(8);
+        expect(waypoint.circleId).toBe(8);
     });
 
     it("bindIncomingPlane", () => {

@@ -151,7 +151,7 @@ export class TrackEditorService {
     // tslint:disable:no-console
     private updateValidityOfTrack(): void {
         const invalidsPlanesId: ConstraintsError[] = this.getInvalidPlanesId();
-        // console.log(invalidsPlanesId);
+        console.log(invalidsPlanesId);
         if (invalidsPlanesId.length === 0) {
             this._track.isValid = true;
         } else {
@@ -159,7 +159,7 @@ export class TrackEditorService {
             // TO DO : MODIFY TEXTURES
         }
 
-        // console.log(this._track);
+        console.log(this._track);
     }
 
     private getInvalidPlanesId(): ConstraintsError[] {
