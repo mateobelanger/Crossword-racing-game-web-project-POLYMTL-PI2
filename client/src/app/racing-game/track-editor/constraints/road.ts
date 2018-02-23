@@ -3,7 +3,7 @@ import { LineEquation } from "./math/lineEquation";
 import * as THREE from "three";
 import { TRACKWIDTH, DEG_TO_RAD } from '../../constants';
 // tslint:disable:no-magic-numbers
-const MAXANGLE: number = DEG_TO_RAD * 45;
+const MAXANGLE: number = DEG_TO_RAD * 135;
 const MINIMUMRATIO: number = 2;
 // tslint:enable:no-magic-numbers
 export class Road {

@@ -94,6 +94,7 @@ export class TrackEditorService {
     public uncloseTrack(): void {
         const lastPlaneId: number = this._track.getLastWaypoint().getOutgoingPlaneId();
         this.trackEditorRenderService._planeHandler.removePlane(lastPlaneId);
+        this._constraints.removeRoad(lastPlaneId);
 
         this._track.getFirstWaypoint().unbindIncomingPlane();
         this._track.getLastWaypoint().unbindOutgoingPlane();

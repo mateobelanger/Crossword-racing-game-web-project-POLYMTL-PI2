@@ -17,28 +17,28 @@ describe("Road", () => {
         expect(aRoad).toBeDefined();
     });
 
-    it("validWidthHeightRatio should be false", () => {
-        expect(road.validWidthHeightRatio()).not.toBeTruthy();
+    it("hasValidWidthHeightRatio should be false", () => {
+        expect(road.hasValidWidthHeightRatio()).not.toBeTruthy();
     });
 
-    it("validWidthHeightRatio should be true", () => {
+    it("hasValidWidthHeightRatio should be true", () => {
         const aRoad: Road = new Road(new THREE.Vector3(0, 0, 0), new THREE.Vector3(100, 100, 0), 1);
         aRoad.initialize();
-        expect(aRoad.validWidthHeightRatio()).toBeTruthy();
+        expect(aRoad.hasValidWidthHeightRatio()).toBeTruthy();
     });
 
-    it("validAngle should be true", () => {
+    it("hasValidAngle should be true", () => {
         const aRoad: Road = new Road(new THREE.Vector3(0, 0, 0), new THREE.Vector3(100, 10, 0), 1);
         aRoad.initialize();
         road.previousRoad = aRoad;
-        expect(road.validAngle()).toBeTruthy();
+        expect(road.hasValidAngle()).toBeTruthy();
     });
 
-    it("validAngle should be false", () => {
+    it("hasValidAngle should be false", () => {
         const aRoad: Road = new Road(new THREE.Vector3(0, 0, 0), new THREE.Vector3(100, -1, 0), 1);
         aRoad.initialize();
         road.previousRoad = aRoad;
-        expect(road.validAngle()).not.toBeTruthy();
+        expect(road.hasValidAngle()).not.toBeTruthy();
     });
 
     it("intersect function normal lineEquation - crossing in domain", () => {

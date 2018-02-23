@@ -59,7 +59,7 @@ export class Track {
     }
 
     public getPreviousToLastWaypoint(): Waypoint {
-        return this.waypoints[this.waypoints.length - 2];
+        return this.waypoints[this.waypoints.length - (1 + 1)];
     }
 
     public getLastWaypoint(): Waypoint {
