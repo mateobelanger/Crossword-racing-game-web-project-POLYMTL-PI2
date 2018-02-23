@@ -22,6 +22,7 @@ export class Constraints {
             road.initialize();
             this.roads.push(road);
             previousRoad = road;
+
         }
     }
 
