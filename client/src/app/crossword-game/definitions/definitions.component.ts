@@ -15,28 +15,30 @@ export class DefinitionsComponent {
     public isValidatedVerticalDefinition: boolean[][];
 
     public constructor(private wordService: WordService, private gridService: GridService) {
-        this.horizontalDefinitions = this.wordService.getDefinitions(Direction.Horizontal);
-        this.verticalDefinitions = this.wordService.getDefinitions(Direction.Vertical);
+        this.horizontalDefinitions = this.wordService.getDefinitions(Direction.HORIZONTAL);
+        this.verticalDefinitions = this.wordService.getDefinitions(Direction.VERTICAL);
         this.isValidatedHorizontalDefinition = [];
         for (const row of this.horizontalDefinitions) {
             const rowCon: boolean[] = [];
+            // TODO : problem : not using element 
             for (const element of row) {
                 rowCon.push(false);
             }
             this.isValidatedHorizontalDefinition.push(rowCon);
         }
         this.isValidatedVerticalDefinition = [];
-        for (const row of this.verticalDefinitions) {
-            const rowCon: boolean[] = [];
-            for (const element of row) {
-                rowCon.push(false);
+        for (const column of this.verticalDefinitions) {
+            const columnCon: boolean[] = [];
+            // TODO : problem : not using element 
+            for (const element of column) {
+                columnCon.push(false);
             }
-            this.isValidatedVerticalDefinition.push(rowCon);
+            this.isValidatedVerticalDefinition.push(columnCon);
         }
     }
 
-    public onSelect(def: string): void {
-        this.wordService.definition = def;
+    public onSelect(definition: string): void {
+        this.wordService.definition = definition;
         this.gridService.focusOnSelectedWord();
     }
 
