@@ -51,7 +51,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
             this.track.waypoints.forEach( (element) => {
                     const waypoint: Waypoint = new Waypoint();
-                    waypoint.setPosition( new THREE.Vector3(element[0], element[1], element[1 + 1]) );
+                    waypoint.position = new THREE.Vector3(element[0], element[1], element[1 + 1]) ;
                     this.waypoints.push(waypoint);
                 });
 
@@ -76,9 +76,9 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
         // }
         this.track.name = this.name;
         this.track.description = this.description;
-        this.addWaypointsToTrack( this.trackEditorService.track.getWaypoints() );
+        this.addWaypointsToTrack( this.trackEditorService.track.waypoints );
         console.log(this.track);
-        this.proxy.updateTrack(this.track);
+        this.proxy.saveTrack(this.track);
 
     }
 
@@ -121,7 +121,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
         // ajouter les points actuels
         waypoints.forEach((waypoint) => {
-            const positionVector: THREE.Vector3 = waypoint.getPosition();
+            const positionVector: THREE.Vector3 = waypoint.position;
             const position: [number, number, number] = [positionVector.x, positionVector.y, positionVector.z];
             this.track.waypoints.push(position);
         });

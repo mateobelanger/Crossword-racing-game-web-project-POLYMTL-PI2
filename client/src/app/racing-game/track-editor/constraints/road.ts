@@ -54,22 +54,22 @@ export class Road {
     }
 
 
-    public validWidthHeightRatio(): boolean {
+    public hasValidWidthHeightRatio(): boolean {
         return this.getLength() / TRACKWIDTH >= MINIMUMRATIO;
     }
 
     // tslint:disable:prefer-const
-    public validAngle(): boolean {
-        let validAngle: boolean = true;
+    public hasValidAngle(): boolean {
+        let hasValidAngle: boolean = true;
         if (this.isDefined(this.previousRoad)) {
             let previousRoadVector: THREE.Vector3 = new THREE.Vector3();
             previousRoadVector.subVectors(this.previousRoad.endPoint, this.previousRoad.beginPoint );
             let thisRoadVector: THREE.Vector3 = new THREE.Vector3();
             thisRoadVector.subVectors(this.endPoint, this.beginPoint);
-            validAngle = thisRoadVector.angleTo(previousRoadVector) <= MAXANGLE;
+            hasValidAngle = thisRoadVector.angleTo(previousRoadVector) <= MAXANGLE;
         }
 
-        return validAngle;
+        return hasValidAngle;
     }
     // tslint:enable:prefer-const
 

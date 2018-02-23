@@ -40,7 +40,7 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
     // const trackData: TrackData = {name: "track5", description:  aString, timesPlayed: 5, bestTimes: genny,
     //                               waypoints: [[1, 1, 1]]};
-    // // this.proxy.updateTrack(trackData);
+    // // this.proxy.saveTrack(trackData);
     // this.proxy.addTrack(trackData);
   }
 
@@ -49,11 +49,11 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     this.track.description = this.description;
 
     console.log(this.track);
-    this.proxy.updateTrack(this.track);
+    this.proxy.saveTrack(this.track);
 
     // this.newTrack.name = this.name;
     // console.log(this.newTrack);
-    // this.proxy.updateTrack(this.newTrack);
+    // this.proxy.saveTrack(this.newTrack);
     // await this.proxy.initialize();
     // this.tracks = this.proxy.tracks;
 

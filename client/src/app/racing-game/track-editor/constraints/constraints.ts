@@ -17,7 +17,7 @@ export class Constraints {
     public addRoads(waypoints: Waypoint[]): void {
         let previousRoad: Road = this.roads[this.roads.length - 1];
         for (let i: number = 0; i < waypoints.length - 1; i++) {
-            const road: Road = new Road(waypoints[i].getPosition(), waypoints[i + 1].getPosition(),
+            const road: Road = new Road(waypoints[i].position, waypoints[i + 1].position,
                                         waypoints[i].getOutgoingPlaneId(), previousRoad);
             road.initialize();
             this.roads.push(road);
@@ -43,11 +43,11 @@ export class Constraints {
         const secondRoad: Road = this.getRoad(waypoint.getOutgoingPlaneId());
 
         if (this.isDefined(firstRoad)) {
-            firstRoad.endPoint = waypoint.getPosition();
+            firstRoad.endPoint = waypoint.position;
             firstRoad.initialize();
         }
         if (this.isDefined(secondRoad)) {
-            secondRoad.beginPoint = waypoint.getPosition();
+            secondRoad.beginPoint = waypoint.position;
             secondRoad.initialize();
         }
     }
@@ -62,10 +62,10 @@ export class Constraints {
 
     private validityCheck(road: Road): void {
 
-        if (!road.validAngle() ) {
+        if (!road.hasValidAngle() ) {
             this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.ANGLE, road.id, road.previousRoad.id));
         }
-        if (!road.validWidthHeightRatio()) {
+        if (!road.hasValidWidthHeightRatio()) {
             this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.WIDTHLENGTHRATIO, road.id));
         }
         this.roads.forEach((element) => {

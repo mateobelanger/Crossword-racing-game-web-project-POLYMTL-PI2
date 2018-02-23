@@ -24,8 +24,8 @@ export class Plane {
         this._previousAngle = 0;
         waypoint1.setPositionZ(PLANE_POSITION_Z);
         waypoint2.setPositionZ(PLANE_POSITION_Z);
-        this._beginingPoint = waypoint1.getPosition();
-        this._endPoint = waypoint2.getPosition();
+        this._beginingPoint = waypoint1.position;
+        this._endPoint = waypoint2.position;
         this._mesh = null;
     }
 

@@ -43,11 +43,11 @@ export class PlaneHandler {
         const secondPlane: Plane = this.getPlane(waypoint.getOutgoingPlaneId());
 
         if (this.isDefined(firstPlane)) {
-            firstPlane.endPoint = waypoint.getPosition();
+            firstPlane.endPoint = waypoint.position;
             this.connectPlaneWithWaypoint(firstPlane.id);
         }
         if (this.isDefined(secondPlane)) {
-            secondPlane.beginingPoint = waypoint.getPosition();
+            secondPlane.beginingPoint = waypoint.position;
             this.connectPlaneWithWaypoint(secondPlane.id);
         }
     }

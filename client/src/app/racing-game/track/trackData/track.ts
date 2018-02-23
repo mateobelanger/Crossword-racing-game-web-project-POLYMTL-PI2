@@ -3,12 +3,11 @@ import {Waypoint} from './waypoint';
 
 export class Track {
 
-    // TODO real setters and getters
     private _isValid: boolean = true;
 
     private _isClosed: boolean = false;
 
-    public constructor(private waypoints: Waypoint[] = []) {
+    public constructor(private _waypoints: Waypoint[] = []) {
     }
 
     public get isValid(): boolean {
@@ -27,8 +26,8 @@ export class Track {
         this._isClosed = isClosed;
     }
 
-    public getWaypoints(): Waypoint[] {
-        return this.waypoints;
+    public get waypoints(): Waypoint[] {
+        return this._waypoints;
     }
 
     public getTrackSize(): number {
@@ -76,7 +75,7 @@ export class Track {
     private findWaypointIndex(id: number): number {
         let index: number = -1;
         this.waypoints.forEach((element, i) => {
-            if (element.getCircleId() === id)
+            if (element.circleId === id)
                 index = i;
         });
 

@@ -29,7 +29,7 @@ export class TracksProxyService {
     this._http.delete<TrackData>(url).subscribe();
   }
 
-  public updateTrack(track: TrackData): void {
+  public saveTrack(track: TrackData): void {
     // console.log(this.findTrack(track.name).name);
     if ( this.findTrack(track.name) !== null) {
       this._http.put<TrackData>(URI_MONGO_DB, track).subscribe();
