@@ -4,7 +4,7 @@ import { GridEntry } from "./GridEntry";
 import { WordSelector } from "../lexicalService/wordSelector";
 
 export const MIN_WORD_LENGTH: number = 3;
-export const DEFAULT_GRID_SIZE: number = 4;
+export const DEFAULT_GRID_SIZE: number = 5;
 export const BLACK_CELL: string = "#";
 export const WHITE_CELL: string = "-";
 
@@ -21,14 +21,15 @@ export class GridGenerator {
 
     public get grid(): string[][] {
         return this._grid;
-        }
+    }
 
     public generate(nBlackCells: number,
                     difficulty: string): GridEntry[] {
         this.initialize();
         this.placeBlackCells(nBlackCells);
         this.fixIssues();
-        let wordsToFill: Array<GridEntry> = new Array<GridEntry>();
+
+        let wordsToFill: GridEntry[] = [];
         for (let i: number = 0; i < this.nRows; i++) {
             const row: string[] = this._grid[i];
             wordsToFill = wordsToFill.concat(this.generateEmptyWords(row, i, Direction.HORIZONTAL));
@@ -48,39 +49,35 @@ export class GridGenerator {
 
         if (wordsToFill.length === 0) {
             res.send(filledWords);
-            console.log(this._grid);
             return true;
         }
         const current: GridEntry = wordsToFill.pop();
         const template: string = this.createTemplate(current);
-        try {            
-            const results: Array<string> = await WordSelector.getWords(template);
-            for (let i: number = 0; i < Object.keys(results).length; i++) {
-                if (this.contains(results[i], filledWords)) {
-                    continue;
-                }
-                current.word.value = results[i];
-                filledWords.push(current);
-                this.updateGrid(filledWords);
-                this.updateWeights(wordsToFill, filledWords);
-                
-                filledWords.sort((entry1: GridEntry, entry2: GridEntry) => {
-                    return entry1.weight - entry2.weight;
-                });
-
-                if (await this.placeWords(wordsToFill, filledWords, difficulty, res)) {
-                    return true;
-                } else {
-                    filledWords.pop();
-                }
+   
+        const results: Array<string> = await WordSelector.getWords(template);
+        for (let i: number = 0; i < Object.keys(results).length; i++) {
+            if (this.contains(results[i], filledWords)) {
+                continue;
             }
-            wordsToFill.push(current);
+            current.word.value = results[i];
+            filledWords.push(current);
             this.updateGrid(filledWords);
+            this.updateWeights(wordsToFill, filledWords);
+            
+            filledWords.sort((entry1: GridEntry, entry2: GridEntry) => {
+                return entry1.weight - entry2.weight;
+            });
 
-            return false;
-        } catch (e) {
-            return false;
+            if (await this.placeWords(wordsToFill, filledWords, difficulty, res)) {
+                return true;
+            } else {
+                filledWords.pop();
+            }
         }
+        wordsToFill.push(current);
+        this.updateGrid(filledWords);
+
+        return false;
     }
 
     private initialize(): void {
@@ -110,13 +107,16 @@ export class GridGenerator {
         }
         
         for (; n > 0; n--){
-            let column: number = 0;
-            let row: number = 0;
+            let row: number;
+            let column: number;
             do {
-                row = Math.floor(Math.random() * this.nRows);
-                column = Math.floor(Math.random() * this.nColumns);
+                const id = Math.floor(Math.random() * (this.nColumns * this.nRows) );
+                row = Math.floor(id / this.nRows);
+                column = id - row * this.nRows;
+                console.log(id);
+                console.log(row);
+                console.log(column);
             } while (this.isCorner(row, column) || this._grid[row][column] === value);
-
             this.set(row, column, value);
         }
     }
@@ -234,10 +234,10 @@ export class GridGenerator {
         if (this._grid[row][col] === BLACK_CELL) {
             return false;
         }
-        return (row > 0 && (this._grid[row - 1][col] === BLACK_CELL) &&
-                row < this.nRows - 1 && (this._grid[row + 1][col] === BLACK_CELL) &&
-                col > 0 && (this._grid[row][col - 1] === BLACK_CELL) &&
-                col < this.nColumns - 1 && (this._grid[row][col + 1] === BLACK_CELL)) 
+        return !(row > 0 && (this._grid[row - 1][col] === WHITE_CELL) ||
+                row < this.nRows - 1 && (this._grid[row + 1][col] === WHITE_CELL) ||
+                col > 0 && (this._grid[row][col - 1] === WHITE_CELL) ||
+                col < this.nColumns - 1 && (this._grid[row][col + 1] === WHITE_CELL));
     }
 
     private fixLoneCell (row: number, col: number): void {
@@ -298,7 +298,7 @@ export class GridGenerator {
             if (lane[i] === BLACK_CELL) { 
                 continue; 
             }
-            
+
             const headIndex: number = i;
             let value: string = "";
             while (lane[i] === WHITE_CELL) {
@@ -308,7 +308,6 @@ export class GridGenerator {
                 }
             }
             if (value.length < MIN_WORD_LENGTH) {
-                value = "";
                 continue;
             }
             let row: number, column: number;

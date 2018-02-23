@@ -9,7 +9,7 @@ const expectedResultCommon: JSON = require("./testFiles/expectedOutputTestCommon
 const expectedResultUncommon: JSON = require("./testFiles/expectedOutputTestUncommon.json");
 
 const data: Array<DatamuseResponse> = require("./testFiles/words.json");
-const usableData: Array<DatamuseResponse> = new Array<DatamuseResponse>();
+const usableData: Array<DatamuseResponse> = [];
 
 data.forEach((element: IDatamuseResponse) => {
     usableData.push(new DatamuseResponse(element));

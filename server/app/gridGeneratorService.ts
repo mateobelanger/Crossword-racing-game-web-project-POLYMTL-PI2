@@ -15,7 +15,7 @@ export class GridGeneratorService {
                    (req: Request, res: Response) => {
                         generator = new GridGenerator();
                         filledWords = [];
-                        generator.placeWords(generator.generate(0, req.params.difficulty), filledWords, req.params.difficulty, res)
+                        generator.placeWords(generator.generate(4, req.params.difficulty), filledWords, req.params.difficulty, res)
                             .catch(() =>{ console.log("fail");});
             });
 
