@@ -37,49 +37,43 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
-        await this.proxy.initialize();
+        try {
+            await this.proxy.initialize();
 
-        const track: TrackData = this.proxy.findTrack( this.getTrackNameFromURL() );
-        if (this.track !== null) {
-            // TODO ne pas traiter si trackData est vide et faire quoi.. ? popup?
+            const track: TrackData = this.proxy.findTrack( this.getTrackNameFromURL() );
+            if (this.track !== null) {
+                    // TODO ne pas traiter si trackData est vide et faire quoi.. ? popup?
+                }
+            this.track = {  name: track.name, description: track.description, timesPlayed: track.timesPlayed,
+                            bestTimes: track.bestTimes, waypoints: track.waypoints};
+            this.name = this.track.name;
+            this.description = this.track.description;
+
+            this.track.waypoints.forEach( (element) => {
+                    const waypoint: Waypoint = new Waypoint();
+                    waypoint.setPosition( new THREE.Vector3(element[0], element[1], element[1 + 1]) );
+                    this.waypoints.push(waypoint);
+                });
+
+            this.trackEditorService.addWaypoints(this.waypoints);
+            this.trackEditorService.closeTrack();
+        } catch (e) {
+            return;
         }
-        this.track = {name: track.name, description: track.description, timesPlayed: track.timesPlayed,
-                      bestTimes: track.bestTimes, waypoints: track.waypoints};
-        this.name = this.track.name;
-        this.description = this.track.description;
 
-        this.track.waypoints.forEach( (element) => {
-            const waypoint: Waypoint = new Waypoint();
-            waypoint.setPosition( new THREE.Vector3(element[0], element[1], element[1 + 1]) );
-            this.waypoints.push(waypoint);
-        });
 
-        this.trackEditorService.addWaypoints(this.waypoints);
-        this.trackEditorService.closeTrack();
-
-        // this.waypoints = ;
-
-        // POUR AJOUTER UNE TRACK, DECOMMENTER:
-        // const aString: string = "track description";
-        // const genny: [string, number][] = [["player1", 1]];
-        // const trackData: TrackData = {name: "track4", description:  aString, timesPlayed: 13, bestTimes: genny,
-        //                               waypoints: [[1, 1, 1]]};
-
-        // // this.proxy.updateTrack(trackData);
-        // this.proxy.addTrack(trackData);
-        // // this.proxy.deleteTrack("track1");
-        // // console.log("track deleted?")
     }
 
     private getTrackNameFromURL(): string {
-        const trackNameInURL: string = window.location.href.split("/")[window.location.href.split("/").length - 1];
-
-        return trackNameInURL.replace(/%20/g, " ");
-
+        return window.location.href.split("/")[window.location.href.split("/").length - 1].replace(/%20/g, " ");
     }
 
 
     public saveTrack(): void  {
+        // UNCOMMENT ONCE TRACK CAN BE VALID
+        // if (!this.trackEditorService.track.isValid) {
+        //    return;
+        // }
         this.track.name = this.name;
         this.track.description = this.description;
         this.addWaypointsToTrack( this.trackEditorService.track.getWaypoints() );
@@ -88,25 +82,12 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     }
 
-    private addWaypointsToTrack(waypoints: Waypoint[]): void  {
-
-        // enlever les points initiaux de la track
-        this.track.waypoints.length = 0;
-        console.log(this.track.waypoints);
-
-        // ajouter les points actuels
-        waypoints.forEach((waypoint) => {
-            const positionVector: THREE.Vector3 = waypoint.getPosition();
-            const position: [number, number, number] = [positionVector.x, positionVector.y, positionVector.z];
-            this.track.waypoints.push(position);
-        });
-
-        // test: prendre la 2e track et faire un click de droit puis save.. rajoute un point
-        // random
-
-        // test: si on ferme la track avant de save c'est correct..
+    public popUpFunction(): void {
+        const popup: HTMLElement = document.getElementById("popup");
+        if (!this.trackEditorService.track.isValid) {
+            popup.classList.toggle("show");
+        }
     }
-
 
     @HostListener("mousedown", ["$event"])
     public onMouseDown(event: MouseEvent): void {
@@ -131,5 +112,23 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     @HostListener("mousemove", ["$event"])
     public onMouseMove(event: MouseEvent): void {
         this.trackEditorService.handleMouseMove(event);
+    }
+
+    private addWaypointsToTrack(waypoints: Waypoint[]): void  {
+
+        // enlever les points initiaux de la track
+        this.track.waypoints.length = 0;
+
+        // ajouter les points actuels
+        waypoints.forEach((waypoint) => {
+            const positionVector: THREE.Vector3 = waypoint.getPosition();
+            const position: [number, number, number] = [positionVector.x, positionVector.y, positionVector.z];
+            this.track.waypoints.push(position);
+        });
+
+        // test: prendre la 2e track et faire un click de droit puis save.. rajoute un point
+        // random
+
+        // test: si on ferme la track avant de save c'est correct..
     }
 }

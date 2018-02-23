@@ -3,6 +3,7 @@ import {Waypoint} from './waypoint';
 
 export class Track {
 
+    // TODO real setters and getters
     private _isValid: boolean = true;
 
     private _isClosed: boolean = false;

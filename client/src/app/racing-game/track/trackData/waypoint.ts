@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 export class Waypoint {
 
+    // TODO real setters and getters
     private circleId: number = null;
 
     private incomingPlaneId: number = null;
