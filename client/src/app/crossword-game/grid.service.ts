@@ -132,6 +132,7 @@ export class GridService {
           }
 
           if (this.validateWord()) {
+              this.wordService.selectedWord.definition = "";
               this.updateValidated();
           }
       }
