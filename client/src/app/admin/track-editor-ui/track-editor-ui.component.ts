@@ -59,9 +59,9 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
   public saveTrack(): void {
     // UNCOMMENT ONCE TRACK CAN BE VALID
-    // if (!this.trackEditorService.track.isValid) {
-    //    return;
-    // }
+    if (!this.trackEditorService.track.isValid) {
+       return;
+    }
     this.trackData.name = this.name;
     this.trackData.description = this.description;
     this.addWaypointsToTrackData(this.trackEditorService.track.waypoints);

@@ -1,11 +1,13 @@
 h3 {
     text-align: center;
+    padding-bottom: 3%;
+    padding-top: 1.5%;
 }
 
 .left {
     position: relative;
     float: left;
-    width: 50%;
+    width: 30%;
     padding: 0;
     margin: 0;
 }
@@ -13,13 +15,13 @@ h3 {
 .right {
     position: relative;
     float: right;
-    width: 50%;
+    width: 70%;
     padding: 0;
     margin: 0;
 }
 
 .track-editor {
-    margin-left: 13%;
+    margin-left: 20%;
     padding: 0;
     /* 
     Notice : the size of the track-editor is defined in 
@@ -100,4 +102,44 @@ h5 {
 input {
     height: 95%;
     width: 95%;
+}
+
+
+/* Popup container - can be anything you want */
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* The actual popup */
+
+.popup .popuptext {
+    visibility: hidden;
+    width: 300%;
+    background-color: rgb(126, 199, 144);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+
+/* Toggle this class - hide and show the popup */
+
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
 }
