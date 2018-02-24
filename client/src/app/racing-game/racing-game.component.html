@@ -1,10 +1,40 @@
-<p>
-    racing-game works!
-</p>
+<div class="containerTrackList">
 
-<div class="admin-button">
-    <a routerLink="../admin" class="btn btn-warning">Admin</a>
+
+    <div class="admin-button">
+        <a routerLink="../admin" class="btn btn-warning">Admin</a>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-4 caneva" *ngFor="let track of tracks; let trackIndex = index;">
+                <div class="">
+                    <!-- If we want to make it work with col-md-4 -->
+                    <div class="canevaHeader clearfix">
+                        <li class="trackNameBlock left">
+                            <h4 class="trackName"> {{track.name}} </h4>
+                        </li>
+                    </div>
+
+                    <div class="descriptionBlock">
+                        <div class="descriptionTitleBlock">
+                            <div>
+                                <h5 class="descriptionTitle"> Description </h5>
+                            </div>
+                        </div>
+                        <div class="descriptionText "> {{track.description}} </div>
+                    </div>
+
+
+                    <div class="canevaFooter clearfix">
+                        <div class="left timesPlayed"> Played {{track.timesPlayed}} times </div>
+                        <div class="right bestTimes "> Best Times </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
-
-
-<app-game-component></app-game-component>
