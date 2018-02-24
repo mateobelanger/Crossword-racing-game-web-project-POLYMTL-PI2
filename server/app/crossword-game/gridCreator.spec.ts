@@ -2,7 +2,7 @@ import { GridCreator, MIN_WORD_LENGTH, BLACK_CELL, DEFAULT_GRID_SIZE } from "./g
 import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
 import { assert } from "chai";
 
-describe("Grid generator:", () => {
+describe("Grid creator:", () => {
     let generator: GridCreator;
     const nBlackCases: number = 0;
     let words: GridWord[];
