@@ -19,3 +19,4 @@ export const POINT: string = "point";
 
 // CONSTRAINTS
 export enum ErrorType {WIDTHLENGTHRATIO, ANGLE, INTERSECTS}
+export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE}

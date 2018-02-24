@@ -1,11 +1,16 @@
 import {Waypoint} from "../trackData/waypoint";
 import {Plane} from "./plane";
-import { PLANE_POSITION_Z, TRACKWIDTH } from '../../constants';
+import { PLANE_POSITION_Z, TRACKWIDTH, PlaneType } from '../../constants';
 import * as THREE from "three";
 
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
 const RATIO_IMAGE_PER_FIRST_PLANE_LENGTH: number = 70;
+const ASSETS_FOLDER: string = "../../../../assets/track_editor_texture/";
+const ASSETS_NAME: string[] = ["first_road_texture.png", "first_road_texture_red.png",
+                               "road_texture.png", "road_texture_red.png"];
+
 export const TRACKLENGTH: number = 1;
+
 
 export class PlaneHandler {
 
@@ -21,7 +26,7 @@ export class PlaneHandler {
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
         const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
-        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length);
+        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
         const mesh: THREE.Mesh = new THREE.Mesh( geometries[i],
                                                  this._planes.length === 0 ? this.getFirstPlaneMaterial(plane.length) : material );
         plane.mesh = (mesh);
@@ -131,9 +136,9 @@ export class PlaneHandler {
     }
 
 
-    private getPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
+    public getPlaneMaterial(planeLenght: number, planeType: PlaneType): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/road_texture.png");
+        createTexture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
         createTexture.repeat.set( planeLenght / RATIO_IMAGE_PER_PLANE_LENGTH, 1);
@@ -141,7 +146,7 @@ export class PlaneHandler {
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
-    private getFirstPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
+    public getFirstPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
         createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_road_texture.png");
         createTexture.wrapS = THREE.RepeatWrapping;
@@ -150,7 +155,6 @@ export class PlaneHandler {
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
-
 
     /*tslint:disable:no-any*/
     private isDefined(object: any): boolean {

@@ -31,7 +31,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
         return this.containerRef.nativeElement;
     }
 
-    public constructor (private trackEditorService: TrackEditorService, private proxy: TracksProxyService) { 
+    public constructor (private trackEditorService: TrackEditorService, private proxy: TracksProxyService) {
         this.waypoints = [];
     }
 
