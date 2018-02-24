@@ -39,7 +39,7 @@
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                  <p>{{track.bestTimes}}</p>
+                  <div *ngFor="let entry of track.bestTimes; let entryIndex = index;">Time: {{entry[1]}} - Player: {{entry[0]}}</div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
