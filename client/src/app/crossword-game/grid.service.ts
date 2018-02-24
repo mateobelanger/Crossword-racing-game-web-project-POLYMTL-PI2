@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { WordService } from './word.service';
 import { Word, Direction } from '../../../../common/word';
 import { GRID_SIZE } from '../../../../common/constants';
-// import { DefinitionsService } from './definitions.service';
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;
@@ -52,25 +51,6 @@ export class GridService {
             return false;
         } else {
             return false;
-        }
-    }
-
-    public keyUp(keyCode: number, row: number, column: number): void {
-        const word: Word = this.wordService.selectedWord;
-        if (this.userGrid[row][column] !== "") {
-            if (word.direction === Direction.HORIZONTAL &&
-                word.column + word.value.length - 1 !== column) {
-
-                    this.focusOnSelectedWord();
-            } else if (word.row + word.value.length - 1 !== row) {
-                    this.focusOnSelectedWord();
-            }
-
-            if (this.validateWord(word)) {
-                this.updateValidatedCells(word);
-                // this.updateValidatedDefinition(word);
-            }
-            this.validatePerpendicularWord(row, column, word.direction);
         }
     }
 
@@ -199,7 +179,7 @@ export class GridService {
         return this.generateId(rowIndex, columnIndex);
     }
 
-    private updateValidatedCells(word: Word): void {
+    public updateValidatedCells(word: Word): void {
         for (let i: number = 0; i < word.value.length; i++) {
             if (word.direction === Direction.HORIZONTAL) {
                 this.validatedCells[word.row][word.column + i] = true;
@@ -207,7 +187,7 @@ export class GridService {
                 this.validatedCells[word.row + i][word.column] = true;
             }
         }
-        // todo : this.wordService.deselect();
+        // TODO : this.wordService.deselect();
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
@@ -231,10 +211,5 @@ export class GridService {
         return [rowIndex, columnIndex];
     }
 
-    /*private updateValidatedWords(word: Word): void {
-        if (word.direction === Direction.HORIZONTAL) {
-            
-        }
-    }*/
 
 }
