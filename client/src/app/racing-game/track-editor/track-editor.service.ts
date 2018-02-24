@@ -105,7 +105,6 @@ export class TrackEditorService {
     public handleRightMouseDown(event: MouseEvent): void {
         if (this._track.isClosed) {
             this.uncloseTrack();
-            this._track.isClosed = false;
         } else {
             this.removeWaypoint();
         }
