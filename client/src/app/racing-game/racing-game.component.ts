@@ -17,4 +17,9 @@ export class RacingGameComponent implements AfterViewInit {
     this.tracks = this.proxy.tracks;
   }
 
+  public selectModalId(button: HTMLElement, track: TrackData): void {
+    button.setAttribute("data-target", "#" + track.name);
+    console.log(button)
+  }
+
 }

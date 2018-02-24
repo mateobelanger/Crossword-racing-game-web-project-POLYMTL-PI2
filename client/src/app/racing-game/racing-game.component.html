@@ -1,40 +1,56 @@
 <div class="containerTrackList">
 
 
-    <div class="admin-button">
-        <a routerLink="../admin" class="btn btn-warning">Admin</a>
-    </div>
+  <div class="admin-bar">
+    <a routerLink="../admin" class="admin-btn btn btn-warning">Admin</a>
+  </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col col-md-4 caneva" *ngFor="let track of tracks; let trackIndex = index;">
-                <div class="">
-                    <!-- If we want to make it work with col-md-4 -->
-                    <div class="canevaHeader clearfix">
-                        <li class="trackNameBlock left">
-                            <h4 class="trackName"> {{track.name}} </h4>
-                        </li>
-                    </div>
+  <div class="container">
+    <div class="row">
+      <div class="col col-md-4 caneva" *ngFor="let track of tracks; let trackIndex = index;">
+        <div class="">
+          <!-- If we want to make it work with col-md-4 -->
+          <div class="canevaHeader clearfix">
+            <li class="trackNameBlock left">
+              <h4 class="trackName"> {{track.name}} </h4>
+            </li>
+          </div>
 
-                    <div class="descriptionBlock">
-                        <div class="descriptionTitleBlock">
-                            <div>
-                                <h5 class="descriptionTitle"> Description </h5>
-                            </div>
-                        </div>
-                        <div class="descriptionText "> {{track.description}} </div>
-                    </div>
-
-
-                    <div class="canevaFooter clearfix">
-                        <div class="left timesPlayed"> Played {{track.timesPlayed}} times </div>
-                        <div class="right bestTimes "> Best Times </div>
-                    </div>
-
-                </div>
+          <div class="descriptionBlock">
+            <div class="descriptionTitleBlock">
+              <div>
+                <h5 class="descriptionTitle"> Description </h5>
+              </div>
             </div>
+            <div class="descriptionText "> {{track.description}} </div>
+          </div>
+
+
+          <div class="canevaFooter clearfix">
+            <div class="left timesPlayed"> Played {{track.timesPlayed}} times </div>
+            <button type="button" class="right bestTimes btn btn-sm" data-toggle="modal" attr.data-target=#{{track.name}}> Best Times</button>
+          </div>
+
+          <div class="modal fade" attr.id={{track.name}} role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Best Times</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p>{{track.bestTimes}}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
+      </div>
     </div>
-
-
+  </div>
 </div>
+
