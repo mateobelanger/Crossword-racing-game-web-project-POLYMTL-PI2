@@ -1,6 +1,6 @@
 import { DatamuseResponse } from "./IDatamuseResponse";
 import { IWord } from "../../../common/crosswordsInterfaces/word";
-import { MIN_WORD_LENGTH, WHITE_CELL as ANY_CHAR } from "../crossword-game/gridGenerator";
+import { MIN_WORD_LENGTH, WHITE_CELL as ANY_CHAR } from "../crossword-game/gridCreator";
 import { WORDS } from "./words";
 import { Helper } from "./helper";
 import { INVALID_DOUBLES } from "./invalidDoubles";
