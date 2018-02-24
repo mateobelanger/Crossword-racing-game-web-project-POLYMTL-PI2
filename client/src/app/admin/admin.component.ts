@@ -36,6 +36,13 @@ export class AdminComponent implements OnInit, AfterViewInit {
     }
 
 
+    // public async updateCurrentTrack(trackName: string): Promise<void> {
+    //     await this.proxy.initialize();
+    //     this.proxy.currentTrack = this.proxy.findTrack(trackName);
+    //     console.log("test");
+    //     console.log(this.proxy.currentTrack);
+    // }
+
     public async deleteTrack(trackName: string): Promise<void>  {
         this.proxy.deleteTrack(trackName);
 

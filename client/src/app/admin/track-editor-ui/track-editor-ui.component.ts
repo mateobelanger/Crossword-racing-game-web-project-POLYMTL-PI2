@@ -3,6 +3,7 @@ import { TracksProxyService } from "../../racing-game/tracks-proxy.service";
 import { TrackData } from "../../../../../common/communication/trackData";
 
 import { TrackEditorService } from '../../racing-game/track-editor/track-editor.service';
+import { ActivatedRoute } from '@angular/router';
 
 import { Waypoint } from "../../racing-game/track/trackData/waypoint";
 import * as THREE from 'three';
@@ -15,13 +16,13 @@ import * as THREE from 'three';
 
 export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
-  public tracks: TrackData[];
+  // public tracks: TrackData[];
   public name: string;
   public description: string;
 
-  public trackData: TrackData;
+  public track: TrackData;
 
-  public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService) {
+  public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
   }
 
   public ngOnInit(): void {
@@ -31,7 +32,6 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     try {
       await this.proxy.initialize();
       this.getTrackFromProxy();
-      // this.renderTrack();
     } catch (e) {
       console.log(e);
 
@@ -39,34 +39,17 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private getTrackFromProxy(): void {
-    const track: TrackData = this.proxy.findTrack(this.getTrackNameFromURL());
-    if (track === null) {
-      throw new Error("track not found");
-    }
-    this.trackData = {
-      name: track.name, description: track.description, timesPlayed: track.timesPlayed,
-      bestTimes: track.bestTimes, waypoints: track.waypoints
-    };
-    this.name = this.trackData.name;
-    this.description = this.trackData.description;
-  }
-
-  private getTrackNameFromURL(): string {
-    return window.location.href.split("/")[window.location.href.split("/").length - 1].replace(/%20/g, " ");
-  }
 
 
   public saveTrack(): void {
-    // UNCOMMENT ONCE TRACK CAN BE VALID
     if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
        return;
     }
-    this.trackData.name = this.name;
-    this.trackData.description = this.description;
-    this.addWaypointsToTrackData(this.trackEditorService.track.waypoints);
-    console.log(this.trackData);
-    this.proxy.saveTrack(this.trackData);
+    this.track.name = this.name;
+    this.track.description = this.description;
+    this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
+    console.log(this.track);
+    this.proxy.saveTrack(this.track);
 
   }
 
@@ -77,22 +60,32 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private addWaypointsToTrackData(waypoints: Waypoint[]): void {
+  private getTrackFromProxy(): void {
+    const track: TrackData = this.proxy.findTrack( this.route.snapshot.paramMap.get("trackName") );
+    if (track === null) {
+      throw new Error("track not found");
+    }
+    this.track = {
+      name: track.name, description: track.description,
+      timesPlayed: track.timesPlayed,
+      bestTimes: track.bestTimes, waypoints: track.waypoints
+    };
+    this.name = track.name;
+    this.description = track.description;
+  }
 
-    // enlever les points initiaux de la track
-    this.trackData.waypoints.length = 0;
+  private addWaypointsToTrack(waypoints: Waypoint[]): void {
 
-    // ajouter les points actuels
+    // remove initial track waypoints(from server)
+    this.track.waypoints.length = 0;
+
+    // add current waypoints(from track-editor-service)
     waypoints.forEach((waypoint) => {
       const positionVector: THREE.Vector3 = waypoint.position;
       const position: [number, number, number] = [positionVector.x, positionVector.y, positionVector.z];
-      this.trackData.waypoints.push(position);
+      this.track.waypoints.push(position);
     });
 
-    // test: prendre la 2e track et faire un click de droit puis save.. rajoute un point
-    // random
-
-    // test: si on ferme la track avant de save c'est correct..
   }
 
 

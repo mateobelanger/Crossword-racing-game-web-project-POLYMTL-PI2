@@ -8,9 +8,10 @@ const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 export class TracksProxyService {
 
   private _tracks: TrackData[];
+  public currentTrack: TrackData;
 
   public constructor( private _http: HttpClient) { }
-  
+
   public async initialize(): Promise<void> {
     await this.fetchTracks().then((data) => {this._tracks = data; });
   }

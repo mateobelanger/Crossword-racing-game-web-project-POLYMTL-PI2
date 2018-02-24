@@ -4,6 +4,7 @@ import { TrackEditorService } from './track-editor.service';
 import { TracksProxyService } from "../tracks-proxy.service";
 
 import { TrackData } from "../../../../../common/communication/trackData";
+import { ActivatedRoute } from '@angular/router';
 import { Waypoint } from "../track/trackData/waypoint";
 import * as THREE from 'three';
 
@@ -21,7 +22,7 @@ const Z: number = 2;
 })
 export class TrackEditorComponent implements AfterViewInit, OnInit {
 
-    public trackData: TrackData;
+    public track: TrackData;
     public waypoints: Waypoint[];
 
     @ViewChild("container")
@@ -31,7 +32,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
         return this.containerRef.nativeElement;
     }
 
-    public constructor (private trackEditorService: TrackEditorService, private proxy: TracksProxyService) {
+    public constructor (private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
         this.waypoints = [];
     }
 
@@ -79,18 +80,19 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
 
     private getTrackFromProxy(): void {
-        const track: TrackData = this.proxy.findTrack( this.getTrackNameFromURL() );
+        const track: TrackData = this.proxy.findTrack(  this.route.snapshot.paramMap.get("trackName")  );
         if (track === undefined) {
                 throw new Error("track not found");
             }
-        this.trackData = {  name: track.name, description: track.description, timesPlayed: track.timesPlayed,
-                            bestTimes: track.bestTimes, waypoints: track.waypoints};
+        this.track = {  name: track.name, description: track.description, timesPlayed: track.timesPlayed,
+                        bestTimes: track.bestTimes, waypoints: track.waypoints};
 
-        this.trackData.waypoints.forEach( (element) => {
+        this.track.waypoints.forEach( (element) => {
                 const waypoint: Waypoint = new Waypoint();
                 waypoint.position =  new THREE.Vector3(element[X], element[Y], element[Z]);
                 this.waypoints.push(waypoint);
             });
+
     }
 
     private renderTrack(): void {
@@ -98,8 +100,5 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
             this.trackEditorService.closeTrack();
         }
 
-    private getTrackNameFromURL(): string {
-        return window.location.href.split("/")[window.location.href.split("/").length - 1].replace(/%20/g, " ");
-    }
 
 }
