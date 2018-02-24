@@ -43,7 +43,7 @@ export class Application {
         router.use(this.api.routes);
         router.use(this.lexicalService.routes);
         router.use(this.gridGeneratorService.routes);
-        
+
         this.app.use(router);
 
         this.errorHandeling();

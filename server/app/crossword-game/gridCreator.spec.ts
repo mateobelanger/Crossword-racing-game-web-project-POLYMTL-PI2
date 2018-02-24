@@ -1,16 +1,15 @@
-import { GridGenerator, MIN_WORD_LENGTH, BLACK_CASE, DEFAULT_GRID_SIZE } from "./grid-generator";
-import { GridEntry } from "./word";
+import { GridCreator, MIN_WORD_LENGTH, BLACK_CELL, DEFAULT_GRID_SIZE } from "./gridCreator";
+import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
 import { assert } from "chai";
 
-describe("Grid generator:", () => {
-    let generator: GridGenerator;
+describe("Grid creator:", () => {
+    let generator: GridCreator;
     const nBlackCases: number = 0;
-    let words: GridEntry[];
-    const difficulty: string = "easy";
+    let words: GridWord[];
 
     beforeEach(() => {
-        generator = new GridGenerator();
-        words = generator.generate(nBlackCases, difficulty);
+        generator = new GridCreator();
+        words = generator.create(nBlackCases);
     });
 
     it("should have " + DEFAULT_GRID_SIZE + " rows.", () => {
@@ -31,7 +30,7 @@ describe("Grid generator:", () => {
             const row: string[] = generator.grid[i];
 
             row.forEach( (value: string) => {
-                if (value === BLACK_CASE) {
+                if (value === BLACK_CELL) {
                     result++;
                 }
             });
@@ -47,7 +46,7 @@ describe("Grid generator:", () => {
         let result: boolean = true;
 
         for (const word of words) {
-            if (word.word.size < MIN_WORD_LENGTH) {
+            if (word.value.length < MIN_WORD_LENGTH) {
                 result = false;
                 break;
             }
@@ -60,10 +59,10 @@ describe("Grid generator:", () => {
         for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
             let count: number = 0;
             for (const word of words) {
-                if (word.word.direction !== "horizontal") {
+                if (word.direction !== Direction.HORIZONTAL) {
                     continue;
                 }
-                if (word.word.row === i) {
+                if (word.row === i) {
                     count++;
                 }
             }
@@ -75,10 +74,10 @@ describe("Grid generator:", () => {
         for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
             let count: number = 0;
             for (const word of words) {
-                if (word.word.direction !== "vertical") {
+                if (word.direction !== Direction.VERTICAL) {
                     continue;
                 }
-                if (word.word.column === i) {
+                if (word.column === i) {
                     count++;
                 }
             }
