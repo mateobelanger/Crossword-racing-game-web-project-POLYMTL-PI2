@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-// import {Observable} from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { TrackData } from "../../../../common/trackData";
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
@@ -7,7 +7,7 @@ const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 @Injectable()
 export class TracksProxyService {
 
-  private _tracks: TrackData[];
+  private _tracks: TrackData[] = [];
 
   public constructor( private _http: HttpClient) { }
 
@@ -19,18 +19,18 @@ export class TracksProxyService {
     return this._tracks;
   }
 
-  public addTrack(track: TrackData): void {
-    this._http.post<TrackData>(URI_MONGO_DB, track)
-    .subscribe((validTrack: TrackData) => {this.tracks.push(validTrack); });
+  public async addTrack(track: TrackData): Promise<void> {
+    return this._http.post<TrackData>(URI_MONGO_DB, track).toPromise()
+    .then((validTrack: TrackData) => {this.tracks.push(validTrack); });
   }
 
-  public deleteTrack(trackName: string): void {
+  public async deleteTrack(trackName: string): Promise<TrackData> {
     const url: string = URI_MONGO_DB + "/" + trackName;
-    this._http.delete<TrackData>(url).subscribe();
+
+    return this._http.delete<TrackData>(url).toPromise();
   }
 
-  public saveTrack(track: TrackData): void {
-    // console.log(this.findTrack(track.name).name);
+  public async saveTrack(track: TrackData): Promise<void> {
     if ( this.findTrack(track.name) !== null) {
       this._http.put<TrackData>(URI_MONGO_DB, track).subscribe();
     } else {
