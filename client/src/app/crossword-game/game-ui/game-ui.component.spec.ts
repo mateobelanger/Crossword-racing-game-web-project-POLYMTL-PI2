@@ -11,10 +11,8 @@ describe('GameUiComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-       imports: [routes, AppModule],
-       providers: [{provide: APP_BASE_HREF, useValue : '/' }]
-
-
+            imports: [routes, AppModule],
+            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
         })
         .compileComponents();
     }));
