@@ -8,7 +8,6 @@ const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 export class TracksProxyService {
 
   private _tracks: TrackData[];
-  public currentTrack: TrackData;
 
   public constructor( private _http: HttpClient) { }
 
@@ -55,18 +54,3 @@ export class TracksProxyService {
   }
 
 }
-
-
-// .subscribe() ... ??????? pcq ne fonctionnait pas avant
-
-// public findTrack(trackName: string): TrackData {
-//   let track: TrackData = null;
-//   this._tracks.forEach((elem) => {
-//     if (elem.name === trackName)
-//       track = elem;                 // is a track with id
-//   });
-
-//   // return a track corresponding to TrackData
-//   return {name: track.name, description: track.description, timesPlayed: track.timesPlayed,
-//           bestTimes: track.bestTimes, waypoints: track.waypoints};
-// }

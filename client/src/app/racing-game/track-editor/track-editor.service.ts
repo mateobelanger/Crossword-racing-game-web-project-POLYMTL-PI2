@@ -54,16 +54,6 @@ export class TrackEditorService {
         }
       }
 
-    // public closeTrack(): void {
-    //     const waypoints: Waypoint[] = [this._track.getLastWaypoint(), this._track.getFirstWaypoint()];
-
-    //     this.trackEditorRenderService._planeHandler.generatePlanes(waypoints, this.updateValidityOfTrack());
-    //     this._constraints.addRoads(waypoints);
-    //     this._constraints.closeRoad();
-
-    //     this._track.isClosed = true;
-    // }
-
     public moveWaypoint(circleId: number, newPos: THREE.Vector3): void {
         const waypoint: Waypoint = this._track.getWaypoint(circleId);
         waypoint.position = newPos;
@@ -188,8 +178,8 @@ export class TrackEditorService {
     private changePlaneMaterialBasedOnValidity(invalidPlanesIds: number[], plane: Plane): void {
         if (plane.length === 0) {
             plane.mesh.material = invalidPlanesIds.includes(plane.id) ?
-                                  this.trackEditorRenderService._planeHandler.getFirstPlaneMaterial(plane.length) :
-                                  this.trackEditorRenderService._planeHandler.getFirstPlaneMaterial(plane.length);
+                            this.trackEditorRenderService._planeHandler.getPlaneMaterial(plane.length, PlaneType.INVALID_FIRST_PLANE) :
+                            this.trackEditorRenderService._planeHandler.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE);
         } else {
             plane.mesh.material = invalidPlanesIds.includes(plane.id) ?
                                     this.trackEditorRenderService._planeHandler.getPlaneMaterial(plane.length, PlaneType.INVALID_PLANE) :

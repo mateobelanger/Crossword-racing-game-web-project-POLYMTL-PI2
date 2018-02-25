@@ -28,7 +28,7 @@ export class PlaneHandler {
         const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
         const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
         const mesh: THREE.Mesh = new THREE.Mesh( geometries[i],
-                                                 this._planes.length === 0 ? this.getFirstPlaneMaterial(plane.length) : material );
+                                 this._planes.length === 0 ? this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) : material );
         plane.mesh = (mesh);
         this._planes.push(plane);
         this.scene.add(plane.mesh);
@@ -141,17 +141,9 @@ export class PlaneHandler {
         createTexture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
-        createTexture.repeat.set( planeLenght / RATIO_IMAGE_PER_PLANE_LENGTH, 1);
-
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
-    }
-
-    public getFirstPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
-        let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_road_texture.png");
-        createTexture.wrapS = THREE.RepeatWrapping;
-        createTexture.wrapT = THREE.RepeatWrapping;
-        createTexture.repeat.set( planeLenght / RATIO_IMAGE_PER_FIRST_PLANE_LENGTH, 1);
+        const ratio: number = planeType <= PlaneType.INVALID_FIRST_PLANE ?
+                                                            RATIO_IMAGE_PER_FIRST_PLANE_LENGTH : RATIO_IMAGE_PER_PLANE_LENGTH;
+        createTexture.repeat.set( planeLenght / ratio, 1);
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
