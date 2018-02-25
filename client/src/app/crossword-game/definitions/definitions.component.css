@@ -2,7 +2,8 @@ table {
     width: 100%;
 }
 
-thead, tbody {
+thead,
+tbody {
     display: block;
     width: 100%;
     font-size: 16px;
@@ -14,7 +15,7 @@ thead, tbody {
     padding: 1vh;
 }
 
-tbody { 
+tbody {
     height: 14.5em;
     border-top: none;
     overflow-y: auto;
@@ -27,7 +28,8 @@ span {
     font-weight: bold;
 }
 
-tr, div {
+tr,
+div {
     width: 100%;
 }
 
@@ -53,5 +55,10 @@ li:hover {
 
 .selected:hover {
     background: rgb(56, 110, 133);
+    color: white;
+}
+
+.validated {
+    background: green;
     color: white;
 }

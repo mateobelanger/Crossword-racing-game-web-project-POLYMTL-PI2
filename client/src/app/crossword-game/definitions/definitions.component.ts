@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { WordService } from '../word.service';
-import { Direction } from '../../../../../common/word';
+import { ValidationMediatorService } from '../validation-mediator.service';
+import { DefinitionsService } from '../definitions.service';
+
 
 @Component({
   selector: 'app-definitions',
@@ -8,20 +9,14 @@ import { Direction } from '../../../../../common/word';
   styleUrls: ['./definitions.component.css']
 })
 export class DefinitionsComponent {
-    public horizontalDefinitions: string[][];
-    public verticalDefinitions: string[][];
 
-    public constructor(private wordService: WordService) {
-        this.horizontalDefinitions = this.wordService.getDefinitions(Direction.Horizontal);
-        this.verticalDefinitions = this.wordService.getDefinitions(Direction.Vertical);
-    }
 
-    public onSelect(def: string): void {
-        this.wordService.definition = def;
-    }
+  public constructor(private validationMediatorService: ValidationMediatorService, private definitionsService: DefinitionsService) {
+      this.definitionsService.initialize();
+  }
 
-    public getSelectedDefinition(): string {
-        return this.wordService.definition;
-    }
+  public onSelect(definition: string): void {
+    this.validationMediatorService.onSelect(definition);
+  }
 
 }
