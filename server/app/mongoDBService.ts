@@ -16,11 +16,6 @@ export class MongoDBService {
                     MongoDBAccess.getAll(req, res);
                 });
 
-        // router.get("/service/mongoDB/:name",
-        //            (req: Request, res: Response) => {
-        //             MongoDBAccess.getAll(req.params.name, res);
-        //         });
-
         router.post("/service/mongoDB",
                     (req: Request, res: Response) => {
                         MongoDBAccess.addTrack(req, res);
