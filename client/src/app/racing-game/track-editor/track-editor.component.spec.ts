@@ -4,6 +4,7 @@ import { TrackEditorComponent } from './track-editor.component';
 import { TrackEditorService } from './track-editor.service';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { TracksProxyService } from '../tracks-proxy.service';
+import { ActivatedRoute } from '@angular/router';
 
 describe('TrackEditorComponent', () => {
   let component: TrackEditorComponent;
@@ -12,7 +13,7 @@ describe('TrackEditorComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TrackEditorComponent ],
-      providers: [TrackEditorService, TrackEditorRenderService, TracksProxyService]
+      providers: [TrackEditorService, TrackEditorRenderService, TracksProxyService, ActivatedRoute]
     })
     .compileComponents();
   }));

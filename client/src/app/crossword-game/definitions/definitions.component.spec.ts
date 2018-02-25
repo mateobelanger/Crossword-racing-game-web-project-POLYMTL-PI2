@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { WordService } from '../word.service';
 
 import { DefinitionsComponent } from './definitions.component';
 
@@ -8,7 +9,8 @@ describe('DefinitionsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [DefinitionsComponent]
+            declarations: [DefinitionsComponent],
+            providers: [WordService]
         })
         .compileComponents();
     }));

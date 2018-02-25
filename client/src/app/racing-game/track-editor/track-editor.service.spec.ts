@@ -9,6 +9,7 @@ describe('TrackEditorService', () => {
   const dummyElement: HTMLDivElement = document.createElement('div');
   const trackRender: TrackEditorRenderService = new TrackEditorRenderService();
   const editorService: TrackEditorService = new TrackEditorService(trackRender);
+  const SQUARE_SIDE_LENGTH: number = 100;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,12 +18,10 @@ describe('TrackEditorService', () => {
 
     editorService.initialize(dummyElement);
     const waypoints: Waypoint[] = new Array<Waypoint>();
-    // tslint:disable:no-magic-numbers
-    waypoints.push(new Waypoint(new Vector3(0, 0, 0)));
-    waypoints.push(new Waypoint(new Vector3(1, 1, 0)));
-    waypoints.push(new Waypoint(new Vector3(2, 2, 0)));
-    waypoints.push(new Waypoint(new Vector3(3, 10, 0)));
-    // tslint:disable:no-magic-numbers
+    waypoints.push(new Waypoint(new Vector3(-SQUARE_SIDE_LENGTH, -SQUARE_SIDE_LENGTH, 0)));
+    waypoints.push(new Waypoint(new Vector3(-SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, 0)));
+    waypoints.push(new Waypoint(new Vector3(SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH, 0)));
+    waypoints.push(new Waypoint(new Vector3(SQUARE_SIDE_LENGTH, -SQUARE_SIDE_LENGTH, 0)));
     editorService.addWaypoints(waypoints);
   });
 
