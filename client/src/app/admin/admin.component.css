@@ -5,7 +5,9 @@ h4 {
 h5 {
     font-size: 1em;
 }
-
+.admin-button {
+    margin-left: 3%;
+}
 .clearfix::after {
     content: " ";
     clear: both;
