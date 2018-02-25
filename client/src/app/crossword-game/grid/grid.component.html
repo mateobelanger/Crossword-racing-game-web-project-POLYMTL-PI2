@@ -9,13 +9,16 @@
         <!--first cell with index!-->
         <div class="col header">{{indexR+1}}</div>
         <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex" type="text" 
-               value={{block}} [attr.id]="gridService.generateId(indexR, indexC)" 
-               class="col" [class.validated]="gridService.validatedCells[indexR][indexC]" 
+               value={{block}} 
+               [attr.id]="gridService.generateId(indexR, indexC)" 
+               class="col" 
+               [class.validated]="gridService.validatedCells[indexR][indexC]" 
                [class.selected]="gridService.isSelectedWord(gridService.generateId(indexR, indexC))"
-               [class.filled]="block === '-'" [(ngModel)]="gridService.userGrid[indexR][indexC]" 
-               [attr.disabled]="gridService.validatedCells[indexR][indexC]? '': null" 
+               [class.filled]="block === '-'" 
+               [(ngModel)]="gridService.userGrid[indexR][indexC]" 
+               [disabled]="inputStatusDisabled(indexR, indexC)"  
                (keydown)="gridService.keyDown($event.keyCode, indexR, indexC)" 
-               (keyup)="gridService.keyUp($event.keyCode,indexR, indexC)"
+               (keyup)="selectionMediatorService.keyUp($event.keyCode,indexR, indexC)"
                (click)="gridService.selectWord(indexR, indexC); $event.stopPropagation()" maxlength=1 tabindex="-1">
     </div>
 </div>

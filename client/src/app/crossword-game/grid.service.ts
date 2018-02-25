@@ -54,24 +54,6 @@ export class GridService {
         }
     }
 
-    public keyUp(keyCode: number, row: number, column: number): void {
-        const word: Word = this.wordService.selectedWord;
-        if (this.userGrid[row][column] !== "") {
-            if (word.direction === Direction.HORIZONTAL && 
-                word.column + word.value.length - 1 !== column) {
-
-                    this.focusOnSelectedWord();
-            } else if (word.row + word.value.length - 1 !== row) {
-                    this.focusOnSelectedWord();
-            }
-
-            if (this.validateWord(word)) {
-                this.updateValidatedCells(word);
-            }
-            this.validatePerpendicularWord(row, column, word.direction);
-        }
-    }
-
 
     public backspace(row: number, column: number): void {
         if (this.userGrid[row][column] === "") {
@@ -102,7 +84,7 @@ export class GridService {
             return col === word.column && row >= word.row && row < word.row + word.size;
         }
     }
-    
+
     public focusOnSelectedWord(): void {
         this.focusOnCell(this.idOfFirstEmptyCell());
     }
@@ -121,10 +103,9 @@ export class GridService {
         return isValid;
     }
 
-    public validatePerpendicularWord(row: number, column: number, direction: Direction) {
-
-        for (let word of this.wordService.words) {
-            if(direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
+    public validatePerpendicularWord(row: number, column: number, direction: Direction): void {
+        for (const word of this.wordService.words) {
+            if (direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
                 if (word.column === column) {
                     if (word.row <= row && word.row + word.value.length - 1 >= row) {
                         if (this.validateWord(word)) {
@@ -133,7 +114,7 @@ export class GridService {
                         break;
                     }
                 }
-            } else if(word.direction === Direction.HORIZONTAL) {
+            } else if (word.direction === Direction.HORIZONTAL) {
                 if (word.row === row) {
                     if (word.column <= column && word.column + word.value.length - 1 >= column) {
                         if (this.validateWord(word)) {
@@ -142,9 +123,8 @@ export class GridService {
                         break;
                     }
                 }
-            } 
+            }
         }
-    
     }
 
     public generateId (rowIndex: number, columnIndex: number): number {
@@ -169,26 +149,22 @@ export class GridService {
         element.focus();
     }
 
+
     private idOfFirstEmptyCell(): number {
         let rowIndex: number = this.wordService.selectedWord.row;
         let columnIndex: number = this.wordService.selectedWord.column;
+        const selectedRow: number = this.wordService.selectedWord.row;
+        const selectedColumn: number = this.wordService.selectedWord.column;
+        let cellVerified: number = 0;
 
-        let selectedRow: number = this.wordService.selectedWord.row;
-        let selectedColumn: number = this.wordService.selectedWord.column;
-
-        while (this.userGrid[rowIndex][columnIndex] !== "") {
+        while (this.userGrid[rowIndex][columnIndex] !== "" && cellVerified < this.wordService.selectedWord.size - 1) {
+            cellVerified++;
             if (this.wordService.selectedWord.direction === Direction.HORIZONTAL) {
-                if (selectedRow === 0) {
-                    selectedRow++;
-                }
-                if (++columnIndex === (selectedRow - 1 + this.wordService.selectedWord.value.length - 1)) {
+                if (++columnIndex === (selectedRow  + this.wordService.selectedWord.value.length - 1)) {
                     break;
                 }
             } else {
-                if (selectedColumn === 0) {
-                    selectedColumn++;
-                }
-                if (++rowIndex === (selectedColumn - 1 + this.wordService.selectedWord.value.length - 1)) {
+                if (++rowIndex === (selectedColumn + this.wordService.selectedWord.value.length - 1)) {
                     break;
                 }
             }
@@ -197,7 +173,8 @@ export class GridService {
         return this.generateId(rowIndex, columnIndex);
     }
 
-    private updateValidatedCells(word: Word): void {
+
+    public updateValidatedCells(word: Word): void {
         for (let i: number = 0; i < word.value.length; i++) {
             if (word.direction === Direction.HORIZONTAL) {
                 this.validatedCells[word.row][word.column + i] = true;
@@ -205,7 +182,6 @@ export class GridService {
                 this.validatedCells[word.row + i][word.column] = true;
             }
         }
-        // todo : this.wordService.deselect();
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
@@ -228,5 +204,6 @@ export class GridService {
 
         return [rowIndex, columnIndex];
     }
+
 
 }
