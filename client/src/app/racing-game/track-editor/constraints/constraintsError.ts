@@ -2,16 +2,11 @@ import { ErrorType } from "../../constants";
 
 export class ConstraintsError {
 
-        public constructor( private _errorType: ErrorType, private _firstPlaneId: number,
-                            private _secondPlaneId: number = null) {
+        public constructor( private _errorType: ErrorType, private _planeId: number) {
         }
 
-        public get planesId(): number[] {
-            const ids: number[] = [this._firstPlaneId];
-            if (this.isDefined(this._secondPlaneId))
-                ids.push(this._secondPlaneId);
-
-            return ids;
+        public get planeId(): number {
+            return this._planeId;
         }
 
         public get errorType(): ErrorType {

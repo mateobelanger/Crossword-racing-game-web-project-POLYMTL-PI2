@@ -50,7 +50,6 @@ export class TrackEditorService {
                 waypoints.unshift(this._track.getPreviousToLastWaypoint());
             this.trackEditorRenderService._planeHandler.generatePlanes(waypoints);
             this._constraints.addRoads(waypoints);
-            this.updateValidityOfTrack();
         }
       }
 
@@ -60,7 +59,6 @@ export class TrackEditorService {
         this.trackEditorRenderService._circleHandler.moveCircle(circleId, newPos);
         this.trackEditorRenderService._planeHandler.movedWaypoint(waypoint, newPos);
         this._constraints.movedWaypoint(waypoint, newPos);
-        this.updateValidityOfTrack();
     }
 
     public removeWaypoint(): void {
@@ -73,7 +71,6 @@ export class TrackEditorService {
                 this._constraints.removeRoad(planeId);
                 this._track.getWaypointBindedToPlane(planeId).unbindOutgoingPlane();
             }
-            this.updateValidityOfTrack();
         }
     }
 
@@ -89,7 +86,6 @@ export class TrackEditorService {
         this.trackEditorRenderService._planeHandler.generatePlanes(waypoints);
         this._constraints.addRoads(waypoints);
         this._constraints.closeRoad();
-        this.updateValidityOfTrack();
         this._track.isClosed = true;
     }
 
@@ -112,6 +108,7 @@ export class TrackEditorService {
         } else {
             this.removeWaypoint();
         }
+        this.updateValidityOfTrack();
     }
 
 
@@ -130,7 +127,7 @@ export class TrackEditorService {
                 this.addWaypoints(newWaypoint);
             }
         }
-        this.updateValidityOfTrack();  // G.B.
+
     }
 
     public handleLeftMouseUp(event: MouseEvent): void {
@@ -140,6 +137,8 @@ export class TrackEditorService {
         }
         this._selectedWaypoint = null;
         this._dragDropActive = false;
+        this.updateValidityOfTrack();  // G.B. + poc
+
     }
 
     public handleMouseMove(event: MouseEvent): void {
@@ -154,63 +153,16 @@ export class TrackEditorService {
     }
 
     private updateValidityOfTrack(): void {
-        const invalidPlaneErrors: ConstraintsError[] = this.getInvalidPlaneErrors();
 
-        if (invalidPlaneErrors.length === 0) {
-            this._track.isValid = true;
-            for (const plane of this.trackEditorRenderService._planeHandler.planes) {
-                this.changePlaneMaterialBasedOnValidity([], plane);
-            }
-        } else {
-            this._track.isValid = false;
-            // TO DO : MODIFY TEXTURES
-            const invalidPlanesIds: number[] = this.getInvalidPlanesIds(invalidPlaneErrors);
-
-            for (const plane of this.trackEditorRenderService._planeHandler.planes) {
-                this.changePlaneMaterialBasedOnValidity(invalidPlanesIds, plane);
-
-            }
-        }
-
-        console.log(this._track);
-    }
-
-    private changePlaneMaterialBasedOnValidity(invalidPlanesIds: number[], plane: Plane): void {
-        if (plane.length === 0) {
-            plane.mesh.material = invalidPlanesIds.includes(plane.id) ?
-                            this.trackEditorRenderService._planeHandler.getPlaneMaterial(plane.length, PlaneType.INVALID_FIRST_PLANE) :
-                            this.trackEditorRenderService._planeHandler.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE);
-        } else {
-            plane.mesh.material = invalidPlanesIds.includes(plane.id) ?
-                                    this.trackEditorRenderService._planeHandler.getPlaneMaterial(plane.length, PlaneType.INVALID_PLANE) :
-                                    this.trackEditorRenderService._planeHandler.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
-        }
-
-    }
-
-    private getInvalidPlanesIds(invalidPlaneErrors: ConstraintsError[]): number[] {
-        const invalidPlanesIds: number[] = [];
-
-        for (const constraintError of invalidPlaneErrors) {
-            const firstInvalidPlaneId: number = constraintError.planesId[0];
-            const secondInvalidPlaneId: number = constraintError.planesId[1];
-
-            if (!invalidPlanesIds.includes(firstInvalidPlaneId) && firstInvalidPlaneId !== undefined) {
-                invalidPlanesIds.push(firstInvalidPlaneId);
-            }
-            if (!invalidPlanesIds.includes(secondInvalidPlaneId) && secondInvalidPlaneId !== undefined) {
-                invalidPlanesIds.push(secondInvalidPlaneId);
-            }
-        }
-
-        return invalidPlanesIds;
-
-    }
-
-    private getInvalidPlaneErrors(): ConstraintsError[] {
         this._constraints.updateInvalidPlanes();
+        this._constraints.newInvalidPlanesErrors.forEach((error) => {
+            this.trackEditorRenderService._planeHandler.applyInvalidTexture(error.planeId);
+        });
 
-        return this._constraints.invalidPlanesErrors;
+        this._constraints.newValidPlanes.forEach((resolvedError) => {
+            this.trackEditorRenderService._planeHandler.applyValidTexture(resolvedError.planeId);
+        });
+
     }
 
 }

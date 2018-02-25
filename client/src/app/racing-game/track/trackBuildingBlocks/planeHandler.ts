@@ -27,8 +27,9 @@ export class PlaneHandler {
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
         const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
         const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
-        const mesh: THREE.Mesh = new THREE.Mesh( geometries[i],
-                                 this._planes.length === 0 ? this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) : material );
+        const mesh: THREE.Mesh = new THREE.Mesh( geometries[i], this._planes.length === 0 ?
+                                                this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) :
+                                                material );
         plane.mesh = (mesh);
         this._planes.push(plane);
         this.scene.add(plane.mesh);
@@ -59,6 +60,20 @@ export class PlaneHandler {
 
     public get planes(): Plane[] {
         return this._planes;
+    }
+
+    public applyInvalidTexture(planeId: number): void {
+        let plane: Plane;
+        plane = this.getPlane(planeId);
+        if (this.isDefined(plane))
+            plane.mesh.material = this.getPlaneMaterial(plane.length, PlaneType.INVALID_PLANE);
+    }
+
+    public applyValidTexture(planeId: number): void {
+        let plane: Plane;
+        plane = this.getPlane(planeId);
+        if (this.isDefined(plane))
+            plane.mesh.material = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
     }
 
     private connectPlaneWithWaypoint(planeId: number): void {
@@ -136,7 +151,7 @@ export class PlaneHandler {
     }
 
 
-    public getPlaneMaterial(planeLenght: number, planeType: PlaneType): THREE.MeshBasicMaterial {
+    private getPlaneMaterial(planeLenght: number, planeType: PlaneType): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
         createTexture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
         createTexture.wrapS = THREE.RepeatWrapping;

@@ -6,8 +6,9 @@ import { ConstraintsError } from "./constraintsError";
 
 export class Constraints {
 
-    // TODO: find better name
     private _invalidPlanesErrors: ConstraintsError[] = [];
+
+    private _previousInvalidPlanesErrors: ConstraintsError[] = [];
 
     private roads: Road[] = [];
 
@@ -28,6 +29,31 @@ export class Constraints {
 
     public closeRoad(): void {
         this.roads[0].previousRoad = this.roads[this.roads.length - 1];
+    }
+
+    public get newInvalidPlanesErrors(): ConstraintsError[] {
+        return this.invalidPlanesErrors.filter(
+            (newError) =>  {
+                let isNew: boolean = true;
+                this._previousInvalidPlanesErrors.forEach((previousError) => {
+                    if (newError.planeId === previousError.planeId)
+                        isNew = false;
+                });
+
+                return isNew;
+            });    }
+
+    public get newValidPlanes(): ConstraintsError[] {
+        return this._previousInvalidPlanesErrors.filter(
+            (previousError) =>  {
+                let isNew: boolean = true;
+                this._invalidPlanesErrors.forEach((newError) => {
+                    if (newError.planeId === previousError.planeId)
+                        isNew = false;
+                });
+
+                return isNew;
+            });
     }
 
     public get invalidPlanesErrors(): ConstraintsError[] {
@@ -54,6 +80,7 @@ export class Constraints {
     }
 
     public updateInvalidPlanes(): void {
+        this._previousInvalidPlanesErrors = this._invalidPlanesErrors;
         this._invalidPlanesErrors = [];
         this.roads.forEach((road) => {
             road.initialize();
@@ -64,7 +91,8 @@ export class Constraints {
     private validityCheck(road: Road): void {
 
         if (!road.hasValidAngle() ) {
-            this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.ANGLE, road.id, road.previousRoad.id));
+            this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.ANGLE, road.id ));
+            this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.ANGLE, road.previousRoad.id ));
         }
         if (!road.hasValidWidthHeightRatio()) {
             this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.WIDTHLENGTHRATIO, road.id));
