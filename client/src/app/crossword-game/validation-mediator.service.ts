@@ -12,10 +12,7 @@ export class ValidationMediatorService {
                        private wordService: WordService) { }
 
 
-    public initialize(): void {
-        this.definitionService.initialize();
-        this.gridService.initialize();
-    }
+    public initialize(): void {}
 
     public onSelect(definition: string): void {
         this.wordService.definition = definition;
