@@ -8,7 +8,7 @@
         <tr *ngFor="let row of definitionsService.horizontalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span>
                 <li *ngFor="let definition of row; let indexI = index;" 
-                (click)="selectionMediatorService.onSelect(definition); $event.stopPropagation()" 
+                (click)="validationMediatorService.onSelect(definition); $event.stopPropagation()" 
                 [class.selected]="definitionsService.isSelectedDefinition(definition)" 
                 [class.validated]="definitionsService.isValidatedHorizontalDefinition[indexR][indexI]">
 
@@ -28,7 +28,7 @@
         <tr *ngFor="let row of definitionsService.verticalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span>
                 <li *ngFor="let definition of row; let indexI = index;" 
-                (click)="selectionMediatorService.onSelect(definition); $event.stopPropagation()" 
+                (click)="validationMediatorService.onSelect(definition); $event.stopPropagation()" 
                 [class.selected]="definitionsService.isSelectedDefinition(definition)" 
                 [class.validated]="definitionsService.isValidatedVerticalDefinition[indexR][indexI]">
 

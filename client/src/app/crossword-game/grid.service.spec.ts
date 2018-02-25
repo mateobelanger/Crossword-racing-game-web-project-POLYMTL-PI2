@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Word, Direction } from '../../../../common/word';
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
-import { SelectionMediatorService } from './selection-mediator.service';
+import { ValidationMediatorService } from './validation-mediator.service';
 import { DefinitionsService } from './definitions.service';
 
 const KEY_TAB: number = 9;
@@ -36,7 +36,7 @@ describe('GridService', () => {
     let wordService: WordService;
     let gridService: GridService;
     let definitionsService: DefinitionsService;
-    let selectionMediatorService: SelectionMediatorService;
+    let validationMediatorService: ValidationMediatorService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -66,7 +66,7 @@ describe('GridService', () => {
       gridService.validatedCells = validatedCells;
       definitionsService = new DefinitionsService(wordService);
       definitionsService.initialize();
-      selectionMediatorService = new SelectionMediatorService(gridService, definitionsService, wordService);
+      validationMediatorService = new ValidationMediatorService(gridService, definitionsService, wordService);
     });
 
     it('should be created', inject([GridService], (service: GridService) => {
@@ -101,7 +101,7 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "i";
         gridService.keyDown(KEY_I, 0, 1);
-        selectionMediatorService.keyUp(KEY_I, 0, 1);
+        validationMediatorService.keyUp(KEY_I, 0, 1);
 
         expect(gridService.validatedCells[0][0]).toBeTruthy();
         expect(gridService.validatedCells[0][1]).toBeTruthy();
@@ -113,7 +113,7 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "i";
         gridService.keyDown(KEY_I, 0, 1);
-        selectionMediatorService.keyUp(KEY_I, 0, 1);
+        validationMediatorService.keyUp(KEY_I, 0, 1);
 
         expect(gridService.validatedCells[0][0]).toBeTruthy();
         expect(gridService.validatedCells[0][1]).toBeTruthy();
@@ -126,7 +126,7 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "m";
         gridService.keyDown(KEY_M, 0, 1);
-        selectionMediatorService.keyUp(KEY_M, 0, 1);
+        validationMediatorService.keyUp(KEY_M, 0, 1);
 
         expect(gridService.isValidatedWord(word1)).toBeFalsy();
     });
@@ -137,23 +137,23 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "i";
         gridService.keyDown(KEY_I, 0, 1);
-        selectionMediatorService.keyUp(KEY_I, 0, 1);
+        validationMediatorService.keyUp(KEY_I, 0, 1);
 
         gridService.userGrid[1][1] = "m";
         gridService.keyDown(KEY_M, 1, 1);
-        selectionMediatorService.keyUp(KEY_M, 1, 1);
+        validationMediatorService.keyUp(KEY_M, 1, 1);
 
         gridService.userGrid[2][1] = "a";
         gridService.keyDown(KEY_A, 2, 1);
-        selectionMediatorService.keyUp(KEY_A, 2, 1);
+        validationMediatorService.keyUp(KEY_A, 2, 1);
 
         gridService.userGrid[3][1] = "g";
         gridService.keyDown(KEY_G, 3, 1);
-        selectionMediatorService.keyUp(KEY_G, 3, 1);
+        validationMediatorService.keyUp(KEY_G, 3, 1);
 
         gridService.userGrid[4][1] = "e";
         gridService.keyDown(KEY_E, 4, 1);
-        selectionMediatorService.keyUp(KEY_E, 4, 1);
+        validationMediatorService.keyUp(KEY_E, 4, 1);
 
         expect(gridService.isValidatedWord(word3)).toBeTruthy();
     });
@@ -164,15 +164,15 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "i";
         gridService.keyDown(KEY_I, 0, 1);
-        selectionMediatorService.keyUp(KEY_I, 0, 1);
+        validationMediatorService.keyUp(KEY_I, 0, 1);
 
         gridService.userGrid[1][1] = "m";
         gridService.keyDown(KEY_M, 1, 1);
-        selectionMediatorService.keyUp(KEY_M, 1, 1);
+        validationMediatorService.keyUp(KEY_M, 1, 1);
 
         gridService.userGrid[2][1] = "a";
         gridService.keyDown(KEY_A, 2, 1);
-        selectionMediatorService.keyUp(KEY_A, 2, 1);
+        validationMediatorService.keyUp(KEY_A, 2, 1);
 
         expect(gridService.isValidatedWord(word3)).toBeFalsy();
     });

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SelectionMediatorService } from '../selection-mediator.service';
+import { ValidationMediatorService } from '../validation-mediator.service';
 import { DefinitionsService } from '../definitions.service';
 
 
@@ -11,8 +11,8 @@ import { DefinitionsService } from '../definitions.service';
 export class DefinitionsComponent {
 
 
-  public constructor(private selectionMediatorService: SelectionMediatorService, private definitionsService: DefinitionsService) {
-    this.selectionMediatorService.init(); // TODO 
+  public constructor(private validationMediatorService: ValidationMediatorService, private definitionsService: DefinitionsService) {
+    this.validationMediatorService.init(); // TODO 
     this.definitionsService.initialize(); // TODO 
 
   }

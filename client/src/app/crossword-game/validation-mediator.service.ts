@@ -5,7 +5,7 @@ import { WordService } from './word.service';
 import { Direction, Word } from '../../../../common/word';
 
 @Injectable()
-export class SelectionMediatorService {
+export class ValidationMediatorService {
 
     public constructor(private gridService: GridService,
                        private definitionService: DefinitionsService,

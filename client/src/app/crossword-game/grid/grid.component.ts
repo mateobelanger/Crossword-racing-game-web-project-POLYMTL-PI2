@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { GridService } from "../grid.service";
-import { SelectionMediatorService } from "../selection-mediator.service";
+import { ValidationMediatorService } from "../validation-mediator.service";
 
 @Component({
     selector: "app-grid",
@@ -10,9 +10,9 @@ import { SelectionMediatorService } from "../selection-mediator.service";
 
 export class GridComponent {
 
-    public constructor(private selectionMediatorService: SelectionMediatorService, private gridService: GridService) {
+    public constructor(private validationMediatorService: ValidationMediatorService, private gridService: GridService) {
         this.gridService.fillGrid();
-        this.selectionMediatorService.init(); // TODO 
+        this.validationMediatorService.init(); // TODO 
     }
 
     public trackByIndex(index: number): number {
