@@ -11,7 +11,11 @@ export class ValidationMediatorService {
                        private definitionService: DefinitionsService,
                        private wordService: WordService) { }
 
-    public init(): void { } // TODO 
+
+    public initialize(): void {
+        this.definitionService.initialize();
+        this.gridService.initialize();
+    }
 
     public onSelect(definition: string): void {
         this.wordService.definition = definition;

@@ -12,9 +12,8 @@ export class DefinitionsComponent {
 
 
   public constructor(private validationMediatorService: ValidationMediatorService, private definitionsService: DefinitionsService) {
-    this.validationMediatorService.init(); // TODO 
-    this.definitionsService.initialize(); // TODO 
-
+      this.definitionsService.initialize();
+      this.validationMediatorService.initialize();
   }
 
 

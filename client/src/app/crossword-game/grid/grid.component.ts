@@ -11,8 +11,8 @@ import { ValidationMediatorService } from "../validation-mediator.service";
 export class GridComponent {
 
     public constructor(private validationMediatorService: ValidationMediatorService, private gridService: GridService) {
-        this.gridService.fillGrid();
-        this.validationMediatorService.init(); // TODO 
+        this.gridService.initialize();
+        this.validationMediatorService.initialize();
     }
 
     public trackByIndex(index: number): number {

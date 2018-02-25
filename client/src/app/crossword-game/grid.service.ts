@@ -19,26 +19,11 @@ export class GridService {
     public constructor(private wordService: WordService) {
         this.userGrid = [];
         this.validatedCells = [];
-        this.initializeGrid();
     }
 
-    public fillGrid(): void {
-        const words: Word[] = this.wordService.words;
-        for (const word of words) {
-            for (let i: number = 0; i < word.size; i++) {
-                let row: number;
-                let col: number;
-                if (word.direction === Direction.HORIZONTAL) {
-                    row = word.row;
-                    col = word.column + i;
-                } else {
-                    row = word.row + i;
-                    col = word.column;
-                }
-                this.userGrid[row][col] = "";
-                this.validatedCells[row][col] = false;
-            }
-        }
+    public initialize(): void {
+        this.initializeGrid();
+        this.fillGrid();
     }
 
     public keyDown(keyCode: number, row: number, column: number): boolean {
@@ -119,6 +104,7 @@ export class GridService {
         return rowIndex * GRID_SIZE + columnIndex;
     }
 
+
     private initializeGrid(): void {
         for (let i: number = 0; i < GRID_SIZE; i++) {
             const row: string[] = [];
@@ -129,6 +115,25 @@ export class GridService {
             }
             this.userGrid.push(row);
             this.validatedCells.push(rowValidated);
+        }
+    }
+
+    private fillGrid(): void {
+        const words: Word[] = this.wordService.words;
+        for (const word of words) {
+            for (let i: number = 0; i < word.size; i++) {
+                let row: number;
+                let col: number;
+                if (word.direction === Direction.HORIZONTAL) {
+                    row = word.row;
+                    col = word.column + i;
+                } else {
+                    row = word.row + i;
+                    col = word.column;
+                }
+                this.userGrid[row][col] = "";
+                this.validatedCells[row][col] = false;
+            }
         }
     }
 

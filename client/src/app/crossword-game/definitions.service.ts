@@ -15,7 +15,6 @@ export class DefinitionsService {
         this.verticalDefinitions = this.wordService.getDefinitions(Direction.VERTICAL);
     }
 
-    // TODO 
     public initialize(): void {
         this.isValidatedHorizontalDefinition = [];
         for (const row of this.horizontalDefinitions) {
