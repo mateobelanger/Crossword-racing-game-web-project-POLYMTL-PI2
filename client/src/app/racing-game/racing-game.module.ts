@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
 
-
+import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 import { RacingGameComponent } from './racing-game.component';
 import { GameComponent } from "./game-component/game.component";
 import { RenderService } from "./render-service/render.service";
@@ -34,7 +34,8 @@ import { routes } from '../app-routes.module';
     RenderService,
     TrackEditorRenderService,
     TrackEditorService,
-    CameraService
+    CameraService,
+    TracksProxyService 
   ],
 
 })
