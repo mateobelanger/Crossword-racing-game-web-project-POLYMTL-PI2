@@ -103,29 +103,17 @@ export class GridService {
         return isValid;
     }
 
-    public validatePerpendicularWord(row: number, column: number, direction: Direction): void {
-        for (const word of this.wordService.words) {
-            if (direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
-                if (word.column === column) {
-                    if (word.row <= row && word.row + word.value.length - 1 >= row) {
-                        if (this.validateWord(word)) {
-                            this.updateValidatedCells(word);
-                        }
-                        break;
-                    }
-                }
-            } else if (word.direction === Direction.HORIZONTAL) {
-                if (word.row === row) {
-                    if (word.column <= column && word.column + word.value.length - 1 >= column) {
-                        if (this.validateWord(word)) {
-                            this.updateValidatedCells(word);
-                        }
-                        break;
-                    }
-                }
+    public updateValidatedCells(word: Word): void {
+        for (let i: number = 0; i < word.value.length; i++) {
+            if (word.direction === Direction.HORIZONTAL) {
+                this.validatedCells[word.row][word.column + i] = true;
+            } else {
+                this.validatedCells[word.row + i][word.column] = true;
             }
         }
     }
+
+
 
     public generateId (rowIndex: number, columnIndex: number): number {
         return rowIndex * GRID_SIZE + columnIndex;
@@ -174,15 +162,6 @@ export class GridService {
     }
 
 
-    public updateValidatedCells(word: Word): void {
-        for (let i: number = 0; i < word.value.length; i++) {
-            if (word.direction === Direction.HORIZONTAL) {
-                this.validatedCells[word.row][word.column + i] = true;
-            } else {
-                this.validatedCells[word.row + i][word.column] = true;
-            }
-        }
-    }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
         let rowIndex: number = row;

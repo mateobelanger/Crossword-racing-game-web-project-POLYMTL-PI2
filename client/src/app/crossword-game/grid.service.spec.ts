@@ -15,19 +15,18 @@ const KEY_ALT: number = 18;
 const KEY_CTRL: number = 17;
 const KEY_7: number = 55;
 
-const words: Word[] = [
-    { row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to ___ on my chair." },
-    { row: 0, column: 5, direction: Direction.HORIZONTAL, size: 5, value: "value", definition: "The word is value." },
-    { row: 0, column: 0, direction: Direction.VERTICAL, size: 3, value: "sat", definition: "I ___ on a chair." },
-    { row: 1, column: 0, direction: Direction.HORIZONTAL, size: 5, value: "amour", definition: "Le sentiment envers Michel Gagnon" },
-    { row: 0, column: 1, direction: Direction.VERTICAL, size: 5, value: "image", definition: "JPEG, PNG, GIF" },
-    { row: 0, column: 2, direction: Direction.VERTICAL, size: 3, value: "tom", definition: "... a la ferme." }
-];
+
+const word1: Word = { row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to ___ on my chair." };
+const word2: Word = { row: 0, column: 0, direction: Direction.VERTICAL, size: 3, value: "sat", definition: "I ___ on a chair." };
+const word3: Word = { row: 0, column: 1, direction: Direction.VERTICAL, size: 5, value: "image", definition: "JPEG, PNG, GIF" };
+const word4: Word = { row: 0, column: 2, direction: Direction.VERTICAL, size: 3, value: "tom", definition: "... a la ferme." };
+
+const words: Word[] = [word1, word2, word3, word4];
 
 const userGrid: string[][] = [
     ["S", "", "T", "", "", "", "", "", "", ""],
-    ["", "", "O", "", "", "", "", "", "", ""],
-    ["", "", "M", "", "", "", "", "", "", ""],
+    ["A", "", "O", "", "", "", "", "", "", ""],
+    ["T", "", "M", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
@@ -38,9 +37,9 @@ const userGrid: string[][] = [
 ];
 
 const validatedCells: boolean[][] = [
-    [false, false, true, false, false, false, false, false, false, false],
-    [false, false, true, false, false, false, false, false, false, false],
-    [false, false, true, false, false, false, false, false, false, false],
+    [true, false, true, false, false, false, false, false, false, false],
+    [true, false, true, false, false, false, false, false, false, false],
+    [true, false, true, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false, false, false],
@@ -97,8 +96,9 @@ describe('GridService', () => {
      // TODO : Verify
     it("should validate word when it is completed", () => {
       /*
-      gridService.keyDown(KEY_I, 0, 2);
-      selectionMediatorService.keyUp(KEY_I, 0, 2);
+      wordService["_selectedWord"] = word1;
+      gridService.keyDown(KEY_I, 0, 1);
+      selectionMediatorService.keyUp(KEY_I, 0, 1);
 
       expect(gridService.validatedCells[0][0]).toBeTruthy();
       expect(gridService.validatedCells[0][1]).toBeTruthy();
