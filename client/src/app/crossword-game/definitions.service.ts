@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordService } from './word.service';
-import { Direction } from '../../../../common/word';
+import { Direction, Word } from '../../../../common/word';
 
 @Injectable()
 export class DefinitionsService {
@@ -38,5 +38,20 @@ export class DefinitionsService {
 
     public isSelectedDefinition(definition: string): boolean {
         return definition === this.wordService.definition;
+    }
+
+
+    public isValidatedDefinition(selectedWord: Word): boolean {
+        let isValid: boolean = true;
+        const rowIndex: number = selectedWord.row;
+        const columnIndex: number = selectedWord.column;
+
+        for (let i: number = 0; i < selectedWord.value.length && isValid; i++) {
+            selectedWord.direction === Direction.HORIZONTAL ?
+                isValid = (this.isValidatedHorizontalDefinition[rowIndex][columnIndex + i]) :
+                isValid = (this.isValidatedVerticalDefinition[rowIndex + i][columnIndex]);
+        }
+
+        return isValid;
     }
 }

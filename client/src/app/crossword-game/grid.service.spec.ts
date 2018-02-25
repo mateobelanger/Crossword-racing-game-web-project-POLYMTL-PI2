@@ -76,6 +76,7 @@ describe('GridService', () => {
 
     it("should accept letters input from A to Z", () => {
         let inputValid: boolean = true;
+
         for (let input: number = KEY_A; input <= KEY_Z && inputValid; input++) {
           inputValid = gridService.keyDown(input, 0, 0);
         }
@@ -103,9 +104,7 @@ describe('GridService', () => {
         gridService.keyDown(KEY_I, 0, 1);
         validationMediatorService.keyUp(KEY_I, 0, 1);
 
-        expect(gridService.validatedCells[0][0]).toBeTruthy();
-        expect(gridService.validatedCells[0][1]).toBeTruthy();
-        expect(gridService.validatedCells[0][2]).toBeTruthy();
+        expect(gridService.isValidatedWord(word1)).toBeTruthy();
     });
 
     it("should automatically validate a partially filled word when it is not selected and completed", () => {
@@ -115,9 +114,7 @@ describe('GridService', () => {
         gridService.keyDown(KEY_I, 0, 1);
         validationMediatorService.keyUp(KEY_I, 0, 1);
 
-        expect(gridService.validatedCells[0][0]).toBeTruthy();
-        expect(gridService.validatedCells[0][1]).toBeTruthy();
-        expect(gridService.validatedCells[0][2]).toBeTruthy();
+        expect(gridService.isValidatedWord(word1)).toBeTruthy();
     });
 
 

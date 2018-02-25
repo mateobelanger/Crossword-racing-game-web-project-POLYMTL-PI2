@@ -28,13 +28,13 @@ export class ValidationMediatorService {
 
         if (this.gridService.isValidatedWord(this.wordService.selectedWord)) {
             this.gridService.updateValidatedCells(this.wordService.selectedWord);
-            this.updateValidatedWords(this.wordService.selectedWord);
+            this.updateValidatedDefinitions(this.wordService.selectedWord);
         }
 
         this.validatePerpendicularWord(this.wordService.selectedWord.direction, row, column);
     }
 
-    private updateValidatedWords(word: Word): void {
+    public updateValidatedDefinitions(word: Word): void {
         if (this.wordService.selectedWord !== null && this.gridService.isValidatedWord(word)) {
             horizontal_loop:
             for (let i: number = 0; i < this.definitionService.horizontalDefinitions.length; i++) {
@@ -64,7 +64,7 @@ export class ValidationMediatorService {
                     if (word.row <= row && word.row + word.value.length - 1 >= row) {
                         if (this.gridService.isValidatedWord(word)) {
                             this.gridService.updateValidatedCells(word);
-                            this.updateValidatedWords(word);
+                            this.updateValidatedDefinitions(word);
                         }
                         break;
                     }
@@ -74,7 +74,7 @@ export class ValidationMediatorService {
                     if (word.column <= column && word.column + word.value.length - 1 >= column) {
                         if (this.gridService.isValidatedWord(word)) {
                             this.gridService.updateValidatedCells(word);
-                            this.updateValidatedWords(word);
+                            this.updateValidatedDefinitions(word);
                         }
                         break;
                     }
