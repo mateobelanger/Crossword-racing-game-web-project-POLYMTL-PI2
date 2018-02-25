@@ -15,7 +15,9 @@ export class GridComponent {
         this.selectionMediatorService.init(); // TODO 
     }
 
-
+    public inputStatusDisabled(indexR: number, indexC: number): boolean {
+        return this.gridService.validatedCells[indexR][indexC];
+    }
 
     public trackByIndex(index: number): number {
         return index;

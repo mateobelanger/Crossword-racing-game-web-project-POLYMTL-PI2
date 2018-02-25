@@ -16,11 +16,9 @@
                [class.selected]="gridService.isSelectedWord(gridService.generateId(indexR, indexC))"
                [class.filled]="block === '-'" 
                [(ngModel)]="gridService.userGrid[indexR][indexC]" 
-               [attr.disabled]="gridService.validatedCells[indexR][indexC]? '': null"  
+               [disabled]="inputStatusDisabled(indexR, indexC)"  
                (keydown)="gridService.keyDown($event.keyCode, indexR, indexC)" 
                (keyup)="selectionMediatorService.keyUp($event.keyCode,indexR, indexC)"
                (click)="gridService.selectWord(indexR, indexC); $event.stopPropagation()" maxlength=1 tabindex="-1">
     </div>
 </div>
-
-<!-- TODO : There is a problem on this line : [attr.disabled]="gridService.validatedCells[indexR][indexC]? '': null"  in the console-->
