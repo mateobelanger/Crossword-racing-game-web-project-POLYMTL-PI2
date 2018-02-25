@@ -124,7 +124,6 @@ export class TrackEditorService {
                 this.addWaypoints(newWaypoint);
             }
         }
-
     }
 
     public handleLeftMouseUp(event: MouseEvent): void {
@@ -135,7 +134,6 @@ export class TrackEditorService {
         this._selectedWaypoint = null;
         this._dragDropActive = false;
         this.updateValidityOfTrack();  // G.B. + poc
-
     }
 
     public handleMouseMove(event: MouseEvent): void {
