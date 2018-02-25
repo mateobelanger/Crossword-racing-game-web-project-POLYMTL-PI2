@@ -1,7 +1,7 @@
 import { injectable} from "inversify";
 import { Router, Request, Response } from "express";
 import { MongoDBAccess } from "./mongoDBAccess";
-import { TrackData } from "../../common/communication/trackData";
+import { TrackData } from "../../common/trackData";
 
 @injectable()
 export class MongoDBService {

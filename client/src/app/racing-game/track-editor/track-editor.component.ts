@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener }
 import { TrackEditorService } from './track-editor.service';
 import { TracksProxyService } from "../tracks-proxy.service";
 
-import { TrackData } from "../../../../../common/communication/trackData";
+import { TrackData } from "../../../../../common/trackData";
 import { ActivatedRoute } from '@angular/router';
 import { Waypoint } from "../track/trackData/waypoint";
 import * as THREE from 'three';
@@ -41,9 +41,11 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
         try {
-            await this.proxy.initialize();
-            this.getTrackFromProxy();
-            this.renderTrack();
+            if (this.route.snapshot.paramMap.get("trackName") !== "newTrack") {
+                await this.proxy.initialize();
+                this.setWaypointsFromProxy();
+                this.renderTrack();
+            }
         } catch (e) {
             console.log(e);
 
@@ -78,7 +80,8 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     }
 
 
-    private getTrackFromProxy(): void {
+    private setWaypointsFromProxy(): void {
+
         const track: TrackData = this.proxy.findTrack(  this.route.snapshot.paramMap.get("trackName")  );
         if (track === undefined) {
                 throw new Error("track not found");

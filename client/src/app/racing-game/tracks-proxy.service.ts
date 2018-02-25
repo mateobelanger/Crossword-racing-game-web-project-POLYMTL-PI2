@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 // import {Observable} from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
-import { TrackData } from "../../../../common/communication/trackData";
+import { TrackData } from "../../../../common/trackData";
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 
 @Injectable()

@@ -132,6 +132,7 @@ h5 {
     background: url("icon-delete.png");
     float: right;
     margin-left: 3px;
+    cursor: pointer;
 }
 
 li {

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit/*,  ViewChild, ElementRef*/ } from "@angular/core";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
-import { TrackData } from "../../../../common/communication/trackData";
+import { TrackData } from "../../../../common/trackData";
 
 // import { TrackEditorService } from "../racing-game/track-editor/track-editor.service";
 
@@ -35,14 +35,6 @@ export class AdminComponent implements OnInit, AfterViewInit {
         // this.proxy.addTrack(trackData);
     }
 
-
-    // public async updateCurrentTrack(trackName: string): Promise<void> {
-    //     await this.proxy.initialize();
-    //     this.proxy.currentTrack = this.proxy.findTrack(trackName);
-    //     console.log("test");
-    //     console.log(this.proxy.currentTrack);
-    // }
-
     public async deleteTrack(trackName: string): Promise<void>  {
         this.proxy.deleteTrack(trackName);
 
@@ -51,9 +43,5 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
     }
 
-    public popUpFunction(trackIndex: number): void {
-        const popup: HTMLElement = document.getElementById(trackIndex.toString());
-        popup.classList.toggle("show");
-    }
 
 }

@@ -2,7 +2,7 @@
 
 
     <div class="admin-button">
-        <a routerLink="../admin/track-editor" class="btn btn-warning">Edit track</a>
+        <a routerLink="../admin/track-editor/newTrack" class="btn btn-warning">Create new track</a>
     </div>
 
 
@@ -35,12 +35,6 @@
                         <div class="descriptionText "> {{track.description}} </div>
                     </div>
 
-
-                    <div class="canevaFooter clearfix">
-                        <div class="left timesPlayed"> Played {{track.timesPlayed}} times </div>
-                        <div class="right bestTimes "> Best Times </div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -48,8 +42,3 @@
 
 
 </div>
-
-<!-- 
-<div class="btn popup" (click)="popUpFunction(trackIndex);"> Best Times
-        <span class="popuptext" [attr.id]="trackIndex"> {{track.bestTimes}} </span>
--->

@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { TracksProxyService } from './tracks-proxy.service';
-import { TrackData } from '../../../../common/communication/trackData';
+import { TrackData } from '../../../../common/trackData';
 @Component({
     selector: 'app-racing-game',
     templateUrl: './racing-game.component.html',

@@ -1,7 +1,4 @@
 <h3> Track Edition </h3>
-<!-- tests -->
-<!-- <input class="trackName" type="text" value="change name" [(ngModel)]="trackName"> -->
-
 
 <div class="left">
     <div class="">
@@ -22,11 +19,11 @@
                         </div>
                     </div>
                     <input class="descriptionText " type="text " maxlength="300 " value=track.description [(ngModel)]="description">
-                    <!-- <textarea class="descriptionText " name="Text1 " cols="25 " rows="6 "></textarea> -->
                 </div>
-                <div (click)="saveTrack(); popUpFunction()" class="btn btn-success popup">
+                <div (click)="saveTrack(); invalidTrackPopupFunction(); validTrackPopupFunction();" class="btn btn-success popup">
                     Save track
-                    <span class="popuptext" id="popUp"> Sorry, can't save an invalid track! </span>
+                    <span class="popuptext" id="invalidPopup"> Sorry, can't save an invalid track! </span>
+                    <span class="popuptext" id="validPopup"> Your track has been saved! </span>
                 </div>
 
             </div>
@@ -41,9 +38,3 @@
         <app-track-editor></app-track-editor>
     </div>
 </div>
-
-<!--  [(ngModel)]=" track "  ** ng-valid et ng-invalid
-    comment acceder a track.name ?
-    
-    Faudra clean après la class right sinon vous aller avoir des 
-éléments qui vont se retrouver en dessous des div right et left-->
