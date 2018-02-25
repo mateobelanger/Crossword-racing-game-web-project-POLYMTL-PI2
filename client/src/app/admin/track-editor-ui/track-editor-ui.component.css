@@ -97,6 +97,7 @@ h5 {
 .descriptionText {
     margin-top: 2px;
     font-size: 1em;
+    resize: none;
 }
 
 .button {
@@ -150,4 +151,8 @@ input {
     visibility: visible;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
+}
+
+.trackInfo {
+    border: solid;
 }

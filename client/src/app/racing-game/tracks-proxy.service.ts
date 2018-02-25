@@ -24,17 +24,20 @@ export class TracksProxyService {
     .then((validTrack: TrackData) => {this.tracks.push(validTrack); });
   }
 
-  public async deleteTrack(trackName: string): Promise<TrackData> {
+  public async deleteTrack(trackName: string): Promise<void> {
     const url: string = URI_MONGO_DB + "/" + trackName;
 
-    return this._http.delete<TrackData>(url).toPromise();
+    return this._http.delete<TrackData>(url).toPromise().then(() => {
+      this._tracks.splice(1, this._tracks.indexOf(this.findTrack(trackName)));
+    });
   }
 
   public async saveTrack(track: TrackData): Promise<void> {
+
     if ( this.findTrack(track.name) !== null) {
-      this._http.put<TrackData>(URI_MONGO_DB, track).subscribe();
+      return this._http.put<TrackData>(URI_MONGO_DB, track).toPromise().then(() => {});
     } else {
-      this.addTrack(track);
+      return this.addTrack(track);
     }
 
   }

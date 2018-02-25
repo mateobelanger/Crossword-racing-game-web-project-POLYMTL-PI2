@@ -11,29 +11,26 @@
                 <div class="canevaHeader clearfix">
                     <h4 class="trackName "> Track name </h4>
 
-                    <input class="trackName " type="text" value=track.name [(ngModel)]="name">
+                    <input class="trackName" type="text" maxlength="30" value=track.name [(ngModel)]="name">
 
                 </div>
 
-                <div class="descriptionBlock ">
-                    <div class="descriptionTitleBlock ">
+                <div class="descriptionBlock">
+                    <div class="descriptionTitleBlock">
                         <div>
-                            <h5 class="descriptionTitle "> Description </h5>
+                            <h5 class="descriptionTitle"> Description </h5>
                         </div>
                     </div>
-                    <input class="descriptionText " type="text " maxlength="300 " value=track.description [(ngModel)]="description">
+                    <textarea class="descriptionText" rows="10" cols="25" maxlength="300" value=track.description [(ngModel)]="description"></textarea>
                 </div>
                 <div (click)="saveTrack(); invalidTrackPopupFunction(); validTrackPopupFunction();" class="btn btn-success popup">
                     Save track
                     <span class="popuptext" id="invalidPopup"> Sorry, can't save an invalid track! </span>
                     <span class="popuptext" id="validPopup"> Your track has been saved! </span>
                 </div>
-
             </div>
         </div>
-
     </div>
-
 </div>
 
 <div class="right">
