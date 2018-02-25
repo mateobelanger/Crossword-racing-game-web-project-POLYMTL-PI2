@@ -33,10 +33,11 @@ export class TracksProxyService {
   }
 
   public async saveTrack(track: TrackData): Promise<void> {
+
     if ( this.findTrack(track.name) !== null) {
-      this._http.put<TrackData>(URI_MONGO_DB, track).subscribe();
+      return this._http.put<TrackData>(URI_MONGO_DB, track).toPromise().then(() => {});
     } else {
-      this.addTrack(track);
+      return this.addTrack(track);
     }
 
   }
