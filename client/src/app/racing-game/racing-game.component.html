@@ -27,8 +27,8 @@
 
 
           <div class="canevaFooter clearfix">
-            <div class="left timesPlayed"> Played {{track.timesPlayed}} times </div>
-            <button type="button" class="right bestTimes btn btn-sm" data-toggle="modal" attr.data-target=#{{track.name}}> Best Times</button>
+            <div class="timesPlayed btn-sm"> Played {{track.timesPlayed}} times </div>
+            <span class="bestTimes btn-sm" data-toggle="modal" attr.data-target=#{{track.name}}> Best Times</span>
           </div>
 
           <div class="modal fade" attr.id={{track.name}} role="dialog">

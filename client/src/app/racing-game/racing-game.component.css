@@ -89,6 +89,7 @@ h5 {
     flex-direction: column;
     text-align: center;
     background-color: rgba(127, 127, 127, 0.7);
+    cursor: default;
 }
 
 .descriptionTitleBlock {
@@ -111,13 +112,28 @@ h5 {
 }
 
 .timesPlayed {
+    font-size: 15px;
+    float: left;
     margin-top: 10px;
     margin-left: 10px;
+    cursor: default;
 }
 
 .bestTimes {
-    margin-right: 10px;
+    color: lightgray;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 15px;
     margin-top: 10px;
+    float: right;
+}
+
+.bestTimes:hover {
+    color: white;
+    margin-right: 13px;
+    margin-top: 8px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .iconsBlock {
