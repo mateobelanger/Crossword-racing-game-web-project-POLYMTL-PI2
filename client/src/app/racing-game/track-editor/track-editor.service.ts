@@ -2,12 +2,9 @@ import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
 import { Waypoint } from '../track/trackData/waypoint';
-import { POINTS_POSITION_Z, BACKGROUND_PLANE, POINT, PlaneType } from '../constants';
+import { POINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from '../constants';
 import { Constraints } from "./constraints/constraints";
 import * as THREE from 'three';
-import { ConstraintsError } from "./constraints/constraintsError";
-// import { forEach } from '@angular/router/src/utils/collection';
-import { Plane } from "../track/trackBuildingBlocks/plane";
 
 const NB_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
 const MIN_MOVEMENT_TRESHOLD: number = 2;
@@ -155,6 +152,7 @@ export class TrackEditorService {
     private updateValidityOfTrack(): void {
 
         this._constraints.updateInvalidPlanes();
+        this._track.isValid = this._constraints.newInvalidPlanesErrors.length === 0 ? true : false;
         this._constraints.newInvalidPlanesErrors.forEach((error) => {
             this.trackEditorRenderService._planeHandler.applyInvalidTexture(error.planeId);
         });
