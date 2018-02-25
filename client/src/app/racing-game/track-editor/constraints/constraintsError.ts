@@ -12,10 +12,4 @@ export class ConstraintsError {
         public get errorType(): ErrorType {
             return this._errorType;
         }
-
-
-        /*tslint:disable:no-any*/
-        // private isDefined(object: any): boolean {
-        //     return ((object !== null) && (object !== undefined));
-        // }/*tslint:enable:no-any*/
 }

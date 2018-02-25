@@ -9,105 +9,101 @@ import { Waypoint } from "../../racing-game/track/trackData/waypoint";
 import * as THREE from 'three';
 
 @Component({
-  selector: 'app-track-editor-ui',
-  templateUrl: './track-editor-ui.component.html',
-  styleUrls: ['./track-editor-ui.component.css']
+    selector: 'app-track-editor-ui',
+    templateUrl: './track-editor-ui.component.html',
+    styleUrls: ['./track-editor-ui.component.css']
 })
 
 export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
-  // public tracks: TrackData[];
-  public name: string;
-  public description: string;
+    // public tracks: TrackData[];
+    public name: string;
+    public description: string;
 
-  public track: TrackData;
+    public track: TrackData;
 
-  public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
-  }
-
-  public ngOnInit(): void {
-  }
-
-  public async ngAfterViewInit(): Promise<void> {
-    try {
-      await this.proxy.initialize();
-      this.setTrack();
-    } catch (e) {
-      console.log(e);
-
-      return;
+    public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
     }
-  }
 
-
-
-  public saveTrack(): void {
-    if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
-       return;
+    public ngOnInit(): void {
     }
-    this.track.name = this.name;
-    this.track.description = this.description;
 
-    this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
-    this.proxy.saveTrack(this.track);
+    public async ngAfterViewInit(): Promise<void> {
+        try {
+            await this.proxy.initialize();
+            this.setTrack();
+        } catch (e) {
+            console.log(e);
 
-  }
-
-  public invalidTrackPopupFunction(): void {
-    const popUp: HTMLElement = document.getElementById("invalidPopup");
-    if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
-      popUp.classList.toggle("show");
+            return;
+        }
     }
-  }
 
-  public validTrackPopupFunction(): void {
-    const popUp: HTMLElement = document.getElementById("validPopup");
-    if (this.trackEditorService.track.isValid && this.trackEditorService.track.isClosed) {
-      popUp.classList.toggle("show");
+    public saveTrack(): void {
+        if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
+            return;
+        }
+        this.track.name = this.name;
+        this.track.description = this.description;
+
+        this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
+        this.proxy.saveTrack(this.track);
+
     }
-  }
 
-  private setTrack(): void {
-    // if the user is creating a new track
-    if (this.route.snapshot.paramMap.get("trackName") === "newTrack") {
-      this.track =  { name: "", description: "",
-                      timesPlayed: 0,
-                      bestTimes: [], waypoints: []
-      };
-
-    } else {
-      this.setTrackFromProxy();
+    public invalidTrackPopupFunction(): void {
+        const popUp: HTMLElement = document.getElementById("invalidPopup");
+        if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
+            popUp.classList.toggle("show");
+        }
     }
-  }
 
-  private setTrackFromProxy(): void {
-    const track: TrackData = this.proxy.findTrack( this.route.snapshot.paramMap.get("trackName") );
-    if (track === null) {
-      throw new Error("track not found");
+    public validTrackPopupFunction(): void {
+        const popUp: HTMLElement = document.getElementById("validPopup");
+        if (this.trackEditorService.track.isValid && this.trackEditorService.track.isClosed) {
+            popUp.classList.toggle("show");
+        }
     }
-    this.track =  { name: track.name, description: track.description,
-                    timesPlayed: track.timesPlayed,
-                    bestTimes: track.bestTimes, waypoints: track.waypoints
-    };
-    this.name = track.name;
-    this.description = track.description;
 
-  }
+    private setTrack(): void {
+        // if the user is creating a new track
+        if (this.route.snapshot.paramMap.get("trackName") === "newTrack") {
+            this.track = {
+                name: "", description: "",
+                timesPlayed: 0,
+                bestTimes: [], waypoints: []
+            };
 
-  private addWaypointsToTrack(waypoints: Waypoint[]): void {
+        } else {
+            this.setTrackFromProxy();
+        }
+    }
 
-    // remove initial track waypoints(from server)
-    this.track.waypoints.length = 0;
+    private setTrackFromProxy(): void {
+        const track: TrackData = this.proxy.findTrack(this.route.snapshot.paramMap.get("trackName"));
+        if (track === null) {
+            throw new Error("track not found");
+        }
+        this.track = {
+            name: track.name, description: track.description,
+            timesPlayed: track.timesPlayed,
+            bestTimes: track.bestTimes, waypoints: track.waypoints
+        };
+        this.name = track.name;
+        this.description = track.description;
 
-    // add current waypoints(from track-editor-service)
-    waypoints.forEach((waypoint) => {
-      const positionVector: THREE.Vector3 = waypoint.position;
-      const position: [number, number, number] = [positionVector.x, positionVector.y, positionVector.z];
-      this.track.waypoints.push(position);
-    });
+    }
 
-  }
+    private addWaypointsToTrack(waypoints: Waypoint[]): void {
+        // remove initial track waypoints(from server)
+        this.track.waypoints.length = 0;
 
+        // add current waypoints(from track-editor-service)
+        waypoints.forEach((waypoint) => {
+            const positionVector: THREE.Vector3 = waypoint.position;
+            const position: [number, number, number] = [positionVector.x, positionVector.y, positionVector.z];
+            this.track.waypoints.push(position);
+        });
 
-
+    }
 }
