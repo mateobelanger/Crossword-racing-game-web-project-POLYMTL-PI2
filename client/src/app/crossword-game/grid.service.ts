@@ -104,7 +104,6 @@ export class GridService {
     }
 
     public validatePerpendicularWord(row: number, column: number, direction: Direction): void {
-
         for (const word of this.wordService.words) {
             if (direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
                 if (word.column === column) {
@@ -126,7 +125,6 @@ export class GridService {
                 }
             }
         }
-
     }
 
     public generateId (rowIndex: number, columnIndex: number): number {
@@ -151,26 +149,22 @@ export class GridService {
         element.focus();
     }
 
+
     private idOfFirstEmptyCell(): number {
         let rowIndex: number = this.wordService.selectedWord.row;
         let columnIndex: number = this.wordService.selectedWord.column;
+        const selectedRow: number = this.wordService.selectedWord.row;
+        const selectedColumn: number = this.wordService.selectedWord.column;
+        let cellVerified: number = 0;
 
-        let selectedRow: number = this.wordService.selectedWord.row;
-        let selectedColumn: number = this.wordService.selectedWord.column;
-
-        while (this.userGrid[rowIndex][columnIndex] !== "") {
+        while (this.userGrid[rowIndex][columnIndex] !== "" && cellVerified < this.wordService.selectedWord.size - 1) {
+            cellVerified++;
             if (this.wordService.selectedWord.direction === Direction.HORIZONTAL) {
-                if (selectedRow === 0) {
-                    selectedRow++;
-                }
-                if (++columnIndex === (selectedRow - 1 + this.wordService.selectedWord.value.length - 1)) {
+                if (++columnIndex === (selectedRow  + this.wordService.selectedWord.value.length - 1)) {
                     break;
                 }
             } else {
-                if (selectedColumn === 0) {
-                    selectedColumn++;
-                }
-                if (++rowIndex === (selectedColumn - 1 + this.wordService.selectedWord.value.length - 1)) {
+                if (++rowIndex === (selectedColumn + this.wordService.selectedWord.value.length - 1)) {
                     break;
                 }
             }
@@ -178,6 +172,7 @@ export class GridService {
 
         return this.generateId(rowIndex, columnIndex);
     }
+
 
     public updateValidatedCells(word: Word): void {
         for (let i: number = 0; i < word.value.length; i++) {
@@ -187,7 +182,6 @@ export class GridService {
                 this.validatedCells[word.row + i][word.column] = true;
             }
         }
-        // TODO : this.wordService.deselect();
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
