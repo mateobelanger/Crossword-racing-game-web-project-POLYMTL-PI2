@@ -8,6 +8,7 @@ describe('DefinitionsComponent', () => {
     let fixture: ComponentFixture<DefinitionsComponent>;
 
     beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             declarations: [DefinitionsComponent],
             providers: [WordService]

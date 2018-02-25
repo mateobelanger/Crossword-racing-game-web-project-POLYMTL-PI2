@@ -9,6 +9,7 @@ describe('GridComponent', () => {
     let fixture: ComponentFixture<GridComponent>;
 
     beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
         declarations: [ GridComponent ],
         imports: [ FormsModule ],

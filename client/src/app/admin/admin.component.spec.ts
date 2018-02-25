@@ -10,6 +10,7 @@ describe('AdminComponent', () => {
     let fixture: ComponentFixture<AdminComponent>;
 
     beforeEach(async(() => {
+    // tslint:disable-next-line:no-floating-promises
       TestBed.configureTestingModule({
         imports: [routes, AppModule],
         providers: [{provide: APP_BASE_HREF, useValue : '/' }]
