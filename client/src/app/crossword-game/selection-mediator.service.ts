@@ -8,34 +8,34 @@ import { Direction, Word } from '../../../../common/word';
 export class SelectionMediatorService {
 
     public constructor(private gridService: GridService,
-        private definitionService: DefinitionsService,
-        private wordService: WordService) { }
+                       private definitionService: DefinitionsService,
+                       private wordService: WordService) { }
 
     public init(): void { } // TODO 
-
-    public keyUp(keyCode: number, row: number, column: number): void {
-        const word: Word = this.wordService.selectedWord;
-        if (word.direction === Direction.HORIZONTAL &&
-            word.column + word.value.length - 1 !== column) {
-
-            this.gridService.focusOnSelectedWord();
-        } else if (word.row + word.value.length - 1 !== row) {
-            this.gridService.focusOnSelectedWord();
-        }
-
-        if (this.gridService.validateWord(word)) {
-            this.gridService.updateValidatedCells(word);
-            this.updateValidatedWords(word);
-        }
-        this.validatePerpendicularWord(word.direction, row, column);
-    }
 
     public onSelect(definition: string): void {
         this.wordService.definition = definition;
         this.gridService.focusOnSelectedWord();
     }
 
-    public updateValidatedWords(word: Word): void {
+    public keyUp(keyCode: number, row: number, column: number): void {
+        if (this.wordService.selectedWord.direction === Direction.HORIZONTAL &&
+            this.wordService.selectedWord.column + this.wordService.selectedWord.value.length - 1 !== column) {
+
+            this.gridService.focusOnSelectedWord();
+        } else if (this.wordService.selectedWord.row + this.wordService.selectedWord.value.length - 1 !== row) {
+            this.gridService.focusOnSelectedWord();
+        }
+
+        if (this.gridService.validateWord(this.wordService.selectedWord)) {
+            this.gridService.updateValidatedCells(this.wordService.selectedWord);
+            this.updateValidatedWords(this.wordService.selectedWord);
+        }
+
+        this.validatePerpendicularWord(this.wordService.selectedWord.direction, row, column);
+    }
+
+    private updateValidatedWords(word: Word): void {
         if (this.wordService.selectedWord !== null && this.gridService.validateWord(word)) {
             horizontal_loop:
             for (let i: number = 0; i < this.definitionService.horizontalDefinitions.length; i++) {
@@ -58,9 +58,9 @@ export class SelectionMediatorService {
         }
     }
 
-    public validatePerpendicularWord(direction: Direction, row: number, column: number): void {
+    private validatePerpendicularWord(direction: Direction, row: number, column: number): void {
         for (const word of this.wordService.words) {
-            if ( direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
+            if (direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
                 if (word.column === column) {
                     if (word.row <= row && word.row + word.value.length - 1 >= row) {
                         if (this.gridService.validateWord(word)) {
