@@ -13,7 +13,7 @@ export class DefinitionsComponent {
 
   public constructor(private selectionMediatorService: SelectionMediatorService, private definitionsService: DefinitionsService) {
     this.selectionMediatorService.init(); // TODO 
-    this.definitionsService.initialize();
+    this.definitionsService.initialize(); // TODO 
 
   }
 

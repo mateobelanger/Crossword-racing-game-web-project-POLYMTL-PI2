@@ -27,7 +27,7 @@ export class SelectionMediatorService {
             this.gridService.focusOnSelectedWord();
         }
 
-        if (this.gridService.validateWord(this.wordService.selectedWord)) {
+        if (this.gridService.isValidatedWord(this.wordService.selectedWord)) {
             this.gridService.updateValidatedCells(this.wordService.selectedWord);
             this.updateValidatedWords(this.wordService.selectedWord);
         }
@@ -36,7 +36,7 @@ export class SelectionMediatorService {
     }
 
     private updateValidatedWords(word: Word): void {
-        if (this.wordService.selectedWord !== null && this.gridService.validateWord(word)) {
+        if (this.wordService.selectedWord !== null && this.gridService.isValidatedWord(word)) {
             horizontal_loop:
             for (let i: number = 0; i < this.definitionService.horizontalDefinitions.length; i++) {
                 for (let j: number = 0; j < this.definitionService.horizontalDefinitions[i].length; j++) {
@@ -63,7 +63,7 @@ export class SelectionMediatorService {
             if (direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
                 if (word.column === column) {
                     if (word.row <= row && word.row + word.value.length - 1 >= row) {
-                        if (this.gridService.validateWord(word)) {
+                        if (this.gridService.isValidatedWord(word)) {
                             this.gridService.updateValidatedCells(word);
                             this.updateValidatedWords(word);
                         }
@@ -73,7 +73,7 @@ export class SelectionMediatorService {
             } else if (word.direction === Direction.HORIZONTAL) {
                 if (word.row === row) {
                     if (word.column <= column && word.column + word.value.length - 1 >= column) {
-                        if (this.gridService.validateWord(word)) {
+                        if (this.gridService.isValidatedWord(word)) {
                             this.gridService.updateValidatedCells(word);
                             this.updateValidatedWords(word);
                         }

@@ -89,7 +89,7 @@ export class GridService {
         this.focusOnCell(this.idOfFirstEmptyCell());
     }
 
-    public validateWord(selectedWord: Word): boolean {
+    public isValidatedWord(selectedWord: Word): boolean {
         let isValid: boolean = true;
         const rowIndex: number = selectedWord.row;
         const columnIndex: number = selectedWord.column;
