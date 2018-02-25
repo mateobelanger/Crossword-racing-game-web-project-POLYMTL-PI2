@@ -11,7 +11,7 @@ const password: string = "admin";
 const dbName: string = "log2990-equipe4";
 const MONGODB_URI: string = "mongodb://" + userName + ":" + password + "@ds115436.mlab.com:15436/" + dbName;
 // let Track = require("./schemas/Track.model");
-
+// tslint:disable:no-any
 const MONGOOSE: any = require("mongoose");
 
 const trackSchema = MONGOOSE.Schema({

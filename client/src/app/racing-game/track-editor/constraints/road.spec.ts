@@ -35,7 +35,7 @@ describe("Road", () => {
     });
 
     it("hasValidAngle should be false", () => {
-        const aRoad: Road = new Road(new THREE.Vector3(0, 0, 0), new THREE.Vector3(100, -1, 0), 1);
+        const aRoad: Road = new Road(new THREE.Vector3(0, 0, 0), new THREE.Vector3(-4, -3, 0), 1);
         aRoad.initialize();
         road.previousRoad = aRoad;
         expect(road.hasValidAngle()).not.toBeTruthy();
