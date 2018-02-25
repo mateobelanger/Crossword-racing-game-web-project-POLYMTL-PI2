@@ -40,11 +40,15 @@ describe('TracksProxyService', () => {
     });
   });
 
+  afterEach(inject([HttpTestingController], (backend: HttpTestingController) => {
+    backend.verify();
+  }));
+
   it('should be created', inject([TracksProxyService], (service: TracksProxyService) => {
     expect(service).toBeTruthy();
   }));
 
-  it("addTracks should send valid data",
+  it("addTrack should send valid data",
      async(inject([TracksProxyService, HttpTestingController],
                   (service: TracksProxyService, backEnd: HttpTestingController) => {
                     service.addTrack(tracks[0]);
@@ -61,7 +65,7 @@ describe('TracksProxyService', () => {
                     });
         })));
 
-  it("addTracks should add track to tracks array",
+  it("addTrack should add track to tracks array",
      async(inject([TracksProxyService, HttpTestingController],
                   (service: TracksProxyService, backEnd: HttpTestingController) => {
                   service.addTrack(tracks[0]).then(() => {
@@ -72,6 +76,43 @@ describe('TracksProxyService', () => {
                     url: URI_MONGO_DB,
                     method: 'POST'
                   })[0].flush(tracks[0]);
-      );
+      })));
+
+
+  it("deleteTrack should send valid trackName",
+     async(inject([TracksProxyService, HttpTestingController],
+                  (service: TracksProxyService, backEnd: HttpTestingController) => {
+                    service.deleteTrack(tracks[0].name);
+                    backEnd.expectOne((req: HttpRequest<any>) => {
+
+                      return (
+                        req.url === URI_MONGO_DB + "/" + tracks[0].name
+                      );
+                    });
+      })));
+
+  it("deleteTrack should delete track to tracks array",
+     async(inject([TracksProxyService, HttpTestingController],
+                  (service: TracksProxyService, backEnd: HttpTestingController) => {
+                    service.addTrack(tracks[0]).then(() => {
+                      service.deleteTrack(tracks[0].name).then(() => {
+                        expect(service.tracks[0]).toEqual(tracks[0]);
+                      });
+                    });
+
+                    backEnd.match({
+                    url: URI_MONGO_DB,
+                    method: 'POST'
+                  })[0].flush(tracks[0]);
+
+                    backEnd.match({
+                    method: 'DELETE'
+                  })[0].flush(tracks[0]);
+                  }
+                )
+          )
+    );
+
 
 });
+
