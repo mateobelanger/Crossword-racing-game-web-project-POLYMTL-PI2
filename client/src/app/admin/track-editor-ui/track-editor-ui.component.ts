@@ -47,8 +47,8 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     }
     this.track.name = this.name;
     this.track.description = this.description;
+
     this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
-    console.log(this.track);
     this.proxy.saveTrack(this.track);
 
   }
@@ -65,10 +65,9 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     if (track === null) {
       throw new Error("track not found");
     }
-    this.track = {
-      name: track.name, description: track.description,
-      timesPlayed: track.timesPlayed,
-      bestTimes: track.bestTimes, waypoints: track.waypoints
+    this.track =  { name: track.name, description: track.description,
+                    timesPlayed: track.timesPlayed,
+                    bestTimes: track.bestTimes, waypoints: track.waypoints
     };
     this.name = track.name;
     this.description = track.description;

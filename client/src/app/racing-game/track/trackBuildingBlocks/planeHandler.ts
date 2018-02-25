@@ -16,6 +16,7 @@ export class PlaneHandler {
 
 
     private _planes: Plane[];
+    private _firstPlaneId: number;
 
     public constructor(private scene: THREE.Scene) {
         this._planes = [];
@@ -25,15 +26,20 @@ export class PlaneHandler {
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
-        const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
-        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
-        const mesh: THREE.Mesh = new THREE.Mesh( geometries[i], this._planes.length === 0 ?
-                                                this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) :
-                                                material );
-        plane.mesh = (mesh);
-        this._planes.push(plane);
-        this.scene.add(plane.mesh);
-        this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
+            const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
+            const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
+            const mesh: THREE.Mesh = new THREE.Mesh( geometries[i], this._planes.length === 0 ?
+                                                    this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) :
+                                                    material );
+
+            plane.mesh = (mesh);
+            if (this._planes.length === 0) {
+                this._firstPlaneId = mesh.id;
+            }
+            this._planes.push(plane);
+
+            this.scene.add(plane.mesh);
+            this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
         }
     }
 
@@ -63,17 +69,21 @@ export class PlaneHandler {
     }
 
     public applyInvalidTexture(planeId: number): void {
-        let plane: Plane;
-        plane = this.getPlane(planeId);
-        if (this.isDefined(plane))
-            plane.mesh.material = this.getPlaneMaterial(plane.length, PlaneType.INVALID_PLANE);
+        const planeType: PlaneType = planeId === this._firstPlaneId ? PlaneType.INVALID_FIRST_PLANE : PlaneType.INVALID_PLANE;
+        const plane: Plane = this.getPlane(planeId);
+
+        if (this.isDefined(plane)) {
+            plane.mesh.material = this.getPlaneMaterial(plane.length, planeType);
+        }
     }
 
     public applyValidTexture(planeId: number): void {
-        let plane: Plane;
-        plane = this.getPlane(planeId);
-        if (this.isDefined(plane))
-            plane.mesh.material = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
+        const planeType: PlaneType = planeId === this._firstPlaneId ? PlaneType.VALID_FIRST_PLANE : PlaneType.VALID_PLANE;
+        const plane: Plane = this.getPlane(planeId);
+
+        if (this.isDefined(plane)) {
+            plane.mesh.material = this.getPlaneMaterial(plane.length, planeType);
+        }
     }
 
     private connectPlaneWithWaypoint(planeId: number): void {

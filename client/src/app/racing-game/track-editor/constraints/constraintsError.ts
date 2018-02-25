@@ -15,7 +15,7 @@ export class ConstraintsError {
 
 
         /*tslint:disable:no-any*/
-        private isDefined(object: any): boolean {
-            return ((object !== null) && (object !== undefined));
-        }/*tslint:enable:no-any*/
+        // private isDefined(object: any): boolean {
+        //     return ((object !== null) && (object !== undefined));
+        // }/*tslint:enable:no-any*/
 }

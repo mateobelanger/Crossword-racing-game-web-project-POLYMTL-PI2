@@ -22,7 +22,6 @@ const Z: number = 2;
 })
 export class TrackEditorComponent implements AfterViewInit, OnInit {
 
-    public track: TrackData;
     public waypoints: Waypoint[];
 
     @ViewChild("container")
@@ -83,15 +82,13 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
         const track: TrackData = this.proxy.findTrack(  this.route.snapshot.paramMap.get("trackName")  );
         if (track === undefined) {
                 throw new Error("track not found");
-            }
-        this.track = {  name: track.name, description: track.description, timesPlayed: track.timesPlayed,
-                        bestTimes: track.bestTimes, waypoints: track.waypoints};
+        }
 
-        this.track.waypoints.forEach( (element) => {
+        track.waypoints.forEach( (element) => {
                 const waypoint: Waypoint = new Waypoint();
                 waypoint.position =  new THREE.Vector3(element[X], element[Y], element[Z]);
                 this.waypoints.push(waypoint);
-            });
+        });
 
     }
 
