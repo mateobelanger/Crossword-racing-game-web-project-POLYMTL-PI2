@@ -13,8 +13,10 @@ export class DefinitionsComponent {
 
   public constructor(private validationMediatorService: ValidationMediatorService, private definitionsService: DefinitionsService) {
       this.definitionsService.initialize();
-      this.validationMediatorService.initialize();
   }
 
+  public onSelect(definition: string): void {
+    this.validationMediatorService.onSelect(definition);
+  }
 
 }

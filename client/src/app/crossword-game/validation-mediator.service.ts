@@ -12,8 +12,6 @@ export class ValidationMediatorService {
                        private wordService: WordService) { }
 
 
-    public initialize(): void {}
-
     public onSelect(definition: string): void {
         this.wordService.definition = definition;
         this.gridService.focusOnSelectedWord();

@@ -12,11 +12,14 @@ export class GridComponent {
 
     public constructor(private validationMediatorService: ValidationMediatorService, private gridService: GridService) {
         this.gridService.initialize();
-        this.validationMediatorService.initialize();
     }
 
     public trackByIndex(index: number): number {
         return index;
+    }
+
+    public keyUp(keyCode: number, row: number, column: number): void {
+        this.validationMediatorService.keyUp(keyCode, row, column);
     }
 
 }
