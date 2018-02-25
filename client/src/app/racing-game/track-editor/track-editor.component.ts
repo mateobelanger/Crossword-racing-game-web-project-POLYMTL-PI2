@@ -47,8 +47,6 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
                 this.renderTrack();
             }
         } catch (e) {
-            console.log(e);
-
             return;
         }
     }

@@ -21,25 +21,23 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
     public async ngAfterViewInit(): Promise<void> {
 
-        await this.proxy.initialize();
-
-        this.tracks = this.proxy.tracks;
-
-        // POUR AJOUTER UNE TRACK, DECOMMENTER:
-        // const aString: string = "track description";
-        // const genny: [string, number][] = [["player1", 1]];
-
-        // const trackData: TrackData = {name: "track8", description:  aString, timesPlayed: 5, bestTimes: genny,
-        //                               waypoints: [[1, 1, 1]]};
-        // // this.proxy.updateTrack(trackData);
-        // this.proxy.addTrack(trackData);
+        try {
+            await this.proxy.initialize();
+            this.tracks = this.proxy.tracks;
+        } catch (e) {
+            return;
+        }
     }
 
     public async deleteTrack(trackName: string): Promise<void>  {
-        this.proxy.deleteTrack(trackName);
 
-        await this.proxy.initialize();
-        this.tracks = this.proxy.tracks;
+        void this.proxy.deleteTrack(trackName);
+        try {
+            await this.proxy.initialize();
+            this.tracks = this.proxy.tracks;
+        } catch (e) {
+            return;
+        }
 
     }
 

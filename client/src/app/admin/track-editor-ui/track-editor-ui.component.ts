@@ -16,11 +16,9 @@ import * as THREE from 'three';
 
 export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
-  // public tracks: TrackData[];
-  public name: string;
-  public description: string;
-
-  public track: TrackData;
+  private name: string;
+  private description: string;
+  private track: TrackData;
 
   public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
   }
@@ -33,13 +31,9 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
       await this.proxy.initialize();
       this.setTrack();
     } catch (e) {
-      console.log(e);
-
       return;
     }
   }
-
-
 
   public saveTrack(): void {
     if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
@@ -49,7 +43,7 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     this.track.description = this.description;
 
     this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
-    this.proxy.saveTrack(this.track);
+    void this.proxy.saveTrack(this.track);
 
   }
 

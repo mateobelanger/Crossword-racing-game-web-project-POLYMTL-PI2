@@ -35,7 +35,7 @@ import { routes } from '../app-routes.module';
     TrackEditorRenderService,
     TrackEditorService,
     CameraService,
-    TracksProxyService 
+    TracksProxyService
   ],
 
 })

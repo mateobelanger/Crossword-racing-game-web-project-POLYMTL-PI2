@@ -47,9 +47,8 @@ export class MongoDBAccess {
 
         const track: any = new Track(req.body);
         track.bestTimes = [];
-        // console.log(track);
+        track.timesPlayed = 0;
 
-        // add : track.set({ timesPlayed: 0 });    ????
         connection.once("open", () =>
             track.save((err: any, track: any) => {
                 if (err) {
@@ -118,15 +117,4 @@ export class MongoDBAccess {
         });
     }
 
-    public static testConnection(res: Response): void {
-        MONGOOSE.connect(MONGODB_URI);
-        const connection: any = MONGOOSE.connection;
-        connection.once("open", () => res.send("connection works"));
-
-    }
-
 }
-
-// TODO connection dans une fonction? mieux de toujours etre connecte???
-// TODO track schema a la bonne place?
-// TODO besoin de req? besoin de trackName en string?
