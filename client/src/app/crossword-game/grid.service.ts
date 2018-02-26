@@ -97,6 +97,7 @@ export class GridService {
                 this.validatedCells[word.row + i][word.column] = true;
             }
         }
+        this.wordService.deselect();
     }
 
     public generateId (rowIndex: number, columnIndex: number): number {
