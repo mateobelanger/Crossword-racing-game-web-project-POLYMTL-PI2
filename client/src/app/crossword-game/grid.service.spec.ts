@@ -60,7 +60,7 @@ describe('GridService', () => {
                         [false, false, false, false, false, false, false, false, false, false]];
 
       wordService = new WordService();
-      wordService["words"] = words;
+      wordService.words = words;
       gridService = new GridService(wordService);
       gridService.userGrid = userGrid;
       gridService.validatedCells = validatedCells;
