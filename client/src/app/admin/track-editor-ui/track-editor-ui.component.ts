@@ -49,29 +49,17 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
     public saveTrack(): void {
         if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
-<<<<<<< HEAD
-            return;
-        }
-        this.validateName();
-        this.validateDescription();
-        this.track.name = this.name;
-        this.track.description = this.description;
-
-        this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
-        this.proxy.saveTrack(this.track);
-    }
-=======
             this.invalidTrackPopup();
         } else if (this.proxy.findTrack(this.name) !== null && this.track.name !== this.name) {
             this.alreadyUsedNamePopup();
         } else {
+            this.validateName();
+            this.validateDescription();
             this.validTrackPopup();
             this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
             this.track.name = this.name;
             this.track.description = this.description;
             void this.proxy.saveTrack(this.track);
->>>>>>> aa80fc06ee7bf9fd60b9352a15c5981e0c6409dd
-
         }
     }
     public alreadyUsedNamePopup(): void {
