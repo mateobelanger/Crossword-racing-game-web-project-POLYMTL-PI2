@@ -10,6 +10,7 @@ describe('TrackEditorService', () => {
   const trackRender: TrackEditorRenderService = new TrackEditorRenderService();
   const editorService: TrackEditorService = new TrackEditorService(trackRender);
   const SQUARE_SIDE_LENGTH: number = 100;
+  const NUMBER_OF_WAYPOINTS: number = 4;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,13 +32,13 @@ describe('TrackEditorService', () => {
   }));
 
   it('track should have 4 waypoints', () => {
-    expect(editorService.track.getTrackSize()).toBe(4);
+    expect(editorService.track.getTrackSize()).toBe(NUMBER_OF_WAYPOINTS);
   });
 
   it('should correctly delete last waypoint', () => {
     const deletedWaypoint: Waypoint = editorService.track.getLastWaypoint();
     editorService.removeWaypoint();
-    expect(editorService.track.getTrackSize()).toBe(3);
+    expect(editorService.track.getTrackSize()).toBe(NUMBER_OF_WAYPOINTS - 1);
     expect(editorService.track.getLastWaypoint().getOutgoingPlaneId()).toBeNull();
     expect(editorService.track).not.toContain(deletedWaypoint);
   });

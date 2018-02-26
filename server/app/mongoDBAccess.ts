@@ -1,20 +1,15 @@
 import { Request, Response } from "express";
 import { TrackData } from "../../common/trackData";
 
-// mLab account:
-// username: arault@outlook.com
-// password: *x-qGMlC1vwh
-
 // Connection URL
 const userName: string = "admin";
 const password: string = "admin";
 const dbName: string = "log2990-equipe4";
 const MONGODB_URI: string = "mongodb://" + userName + ":" + password + "@ds115436.mlab.com:15436/" + dbName;
-// let Track = require("./schemas/Track.model");
 // tslint:disable:no-any
 const MONGOOSE: any = require("mongoose");
 
-const trackSchema = MONGOOSE.Schema({
+const trackSchema: any = MONGOOSE.Schema({
     name: String,
     description: String,
     timesPlayed: Number,
@@ -22,10 +17,11 @@ const trackSchema = MONGOOSE.Schema({
     waypoints: [[Number, Number, Number]]
 });
 
-const Track = MONGOOSE.model("Track", trackSchema);
+const TRACK: any = MONGOOSE.model("Track", trackSchema);
 
 export class MongoDBAccess {
 
+    // tslint:disable-next-line:no-empty
     public constructor() { }
 
     public static getAll(req: Request, res: Response): void {
@@ -33,7 +29,7 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.find((error: any, trackData: TrackData[]) => {
+            TRACK.find((error: any, trackData: TrackData[]) => {
                 if (error) { { return console.error(error); } }
                 res.send(trackData);
             });
@@ -45,12 +41,12 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const connection: any = MONGOOSE.connection;
 
-        const track: any = new Track(req.body);
+        const track: any = new TRACK(req.body);
         track.bestTimes = [];
         track.timesPlayed = 0;
 
         connection.once("open", () =>
-            track.save((err: any, track: any) => {
+            track.save((err: any, trackSaved: any) => {
                 if (err) {
                     return console.error(err);
                 }
@@ -65,20 +61,20 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.findOne({ name: trackName })
+            TRACK.findOne({ name: trackName })
                 .remove((err: any) => { if (err) { return console.error(err); } })
                 .exec();
             res.send("removed");
         });
     }
 
-    public static updateExistingTrack(track: TrackData): Promise<string> {
+    public static async updateExistingTrack(track: TrackData): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
 
         return new Promise((resolve: any, reject: any) => {
             db.once("open", () => {
-                Track.update(
+                TRACK.update(
                     { name: track.name },
                     {
                         $set: {
@@ -105,7 +101,7 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            Track.update(   {name: trackName },
+            TRACK.update(   {name: trackName },
                             { $inc: { timesPlayed: 1 } },
                             (err: any, numAffected: number) => {
                                 if (err) {
