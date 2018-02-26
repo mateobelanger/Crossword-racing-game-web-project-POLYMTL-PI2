@@ -1,7 +1,7 @@
 import { TestBed, inject } from "@angular/core/testing";
 
 import { WordService } from "./word.service";
-import { Word, Direction } from "../../../../common/word";
+import { Word, Direction } from  '../../../../common/crosswordsInterfaces/word';
 
 const word1: Word = {row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to . . . on my chair."};
 const word2: Word = { row: 0, column: 0, direction: Direction.VERTICAL, size: 3, value: "sat", definition: "I . . . on a chair." };

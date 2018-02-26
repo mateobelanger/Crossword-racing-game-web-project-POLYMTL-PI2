@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Word, Direction } from "../../../../common/word";
+import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { words } from "./mock-words";
 import { GRID_SIZE } from '../../../../common/constants';
 

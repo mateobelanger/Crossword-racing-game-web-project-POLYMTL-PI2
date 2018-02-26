@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GridService } from './grid.service';
 import { DefinitionsService } from './definitions.service';
 import { WordService } from './word.service';
-import { Direction, Word } from '../../../../common/word';
+import { Direction, Word } from '../../../../common/crosswordsInterfaces/word';
 
 @Injectable()
 export class ValidationMediatorService {

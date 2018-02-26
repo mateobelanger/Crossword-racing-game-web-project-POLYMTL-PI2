@@ -5,6 +5,16 @@ export interface IWord {
     definition: string;
 }
 
+export interface Word {
+    row: number;
+    column: number;
+    direction: Direction;
+    size: number;
+
+    value: string;
+    definition: string;
+}
+
 export class GridWord implements IWord {
     public value: string;
     public definition: string;

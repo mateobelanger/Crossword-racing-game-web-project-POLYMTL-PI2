@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DefinitionsService } from './definitions.service';
 import { WordService } from './word.service';
 import { GridService } from './grid.service';
-import { Direction, Word } from '../../../../common/word';
+import { Direction, Word } from '../../../../common/crosswordsInterfaces/word';
 
 
 const word1: Word = { row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to ___ on my chair." };

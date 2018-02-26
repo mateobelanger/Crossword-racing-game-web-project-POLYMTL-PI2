@@ -1,4 +1,4 @@
-import { Word, Direction } from '../../../../common/word';
+import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
 
 
 export const words: Word[] = [

@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { Word, Direction } from '../../../../common/word';
+import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
 import { ValidationMediatorService } from './validation-mediator.service';

@@ -4,7 +4,7 @@ import { ValidationMediatorService } from './validation-mediator.service';
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
 import { DefinitionsService } from './definitions.service';
-import { Word, Direction } from '../../../../common/word';
+import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
 
 const word1: Word = { row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to ___ on my chair." };
 const word2: Word = { row: 0, column: 0, direction: Direction.VERTICAL, size: 3, value: "sat", definition: "I ___ on a chair." };
