@@ -57,5 +57,27 @@ describe('TrackEditorUiComponent', () => {
         component.validateDescription();
         expect(component.description.length).toBeLessThanOrEqual(component.MAX_DESCRIPTION_LENGTH);
     });
+
+    it("should only accept alphanumerical characters", () => {
+        const alphaNumerical: string = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let acceptsAlphaNum: boolean = true;
+        for (const char of alphaNumerical) {
+            if (!component.isAlphaNum(char.charCodeAt(0))) {
+                acceptsAlphaNum = false;
+                break;
+            }
+        }
+        expect(acceptsAlphaNum).toBe(true);
+
+        const symbols: string = "-=`~_+[]{};\':\"\\,.<>/?";
+        let acceptsSymbols: boolean = false;
+        for (const char of symbols) {
+            if (component.isAlphaNum(char.charCodeAt(0))) {
+                acceptsSymbols = true;
+                break;
+            }
+        }
+        expect(acceptsSymbols).toBe(false);
+    });
 });
 
