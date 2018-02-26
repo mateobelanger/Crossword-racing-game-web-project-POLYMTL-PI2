@@ -12,6 +12,7 @@ const UPPERCASE_A: number = 65;
 const UPPERCASE_Z: number = 90;
 const LOWERCASE_A: number = 97;
 const LOWERCASE_Z: number = 122;
+const CHAR_SPACE: number = 32;
 const CHAR_0: number = 48;
 const CHAR_9: number = 57;
 
@@ -48,6 +49,7 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
     public saveTrack(): void {
         if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
+<<<<<<< HEAD
             return;
         }
         this.validateName();
@@ -58,25 +60,42 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
         this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
         this.proxy.saveTrack(this.track);
     }
+=======
+            this.invalidTrackPopup();
+        } else if (this.proxy.findTrack(this.name) !== null && this.track.name !== this.name) {
+            this.alreadyUsedNamePopup();
+        } else {
+            this.validTrackPopup();
+            this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
+            this.track.name = this.name;
+            this.track.description = this.description;
+            void this.proxy.saveTrack(this.track);
+>>>>>>> aa80fc06ee7bf9fd60b9352a15c5981e0c6409dd
 
-    public invalidTrackPopupFunction(): void {
-        const popUp: HTMLElement = document.getElementById("invalidPopup");
-        if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
-            popUp.classList.toggle("show");
         }
     }
+    public alreadyUsedNamePopup(): void {
+        document.getElementById("validPopup").classList.remove("show");
+        document.getElementById("invalidTrackPopup").classList.remove("show");
+        document.getElementById("alreadyUsedNamePopup").classList.toggle("show");
+    }
+    public invalidTrackPopup(): void {
+        document.getElementById("validPopup").classList.remove("show");
+        document.getElementById("alreadyUsedNamePopup").classList.remove("show");
+        document.getElementById("invalidTrackPopup").classList.toggle("show");
+    }
 
-    public validTrackPopupFunction(): void {
-        const popUp: HTMLElement = document.getElementById("validPopup");
-        if (this.trackEditorService.track.isValid && this.trackEditorService.track.isClosed) {
-            popUp.classList.toggle("show");
-        }
+    public validTrackPopup(): void {
+        document.getElementById("invalidTrackPopup").classList.remove("show");
+        document.getElementById("alreadyUsedNamePopup").classList.remove("show");
+        document.getElementById("validPopup").classList.toggle("show");
     }
 
     public isAlphaNum (keyCode: number): boolean {
         return (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z) ||
                (keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z) ||
-               (keyCode >= CHAR_0 && keyCode <= CHAR_9);
+               (keyCode >= CHAR_0 && keyCode <= CHAR_9) ||
+               keyCode === CHAR_SPACE;
     }
 
     public validateName(): void {
