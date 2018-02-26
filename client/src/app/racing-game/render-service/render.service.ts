@@ -95,7 +95,7 @@ export class RenderService {
         requestAnimationFrame(() => this.render());
         this.cameraService.updatePosition();
         this.update();
-        this.renderer.render(this.scene, this.cameraService.camera);
+        this.renderer.render(this.scene, this.cameraService.getCamera());
         this.stats.update();
     }
 
