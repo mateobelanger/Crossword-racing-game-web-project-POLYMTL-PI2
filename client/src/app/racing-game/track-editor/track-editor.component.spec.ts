@@ -9,34 +9,35 @@ import { TracksProxyService } from '../tracks-proxy.service';
 
 describe('TrackEditorComponent', () => {
 
-  const fakeActivatedRoute: ActivatedRoute = {
-    snapshot: { data: {}  }
-  } as ActivatedRoute;
+    const fakeActivatedRoute: ActivatedRoute = {
+        snapshot: { data: {} }
+    } as ActivatedRoute;
 
-  let component: TrackEditorComponent;
-  let fixture: ComponentFixture<TrackEditorComponent>;
+    let component: TrackEditorComponent;
+    let fixture: ComponentFixture<TrackEditorComponent>;
 
-  beforeEach(async(() => {
-    // tslint:disable-next-line:no-floating-promises
-    TestBed.configureTestingModule({
-      declarations: [ TrackEditorComponent ],
-      imports: [HttpClientTestingModule],
-      providers: [TrackEditorService, TrackEditorRenderService, TracksProxyService, {provide: ActivatedRoute, useValue: fakeActivatedRoute}]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
+        TestBed.configureTestingModule({
+            declarations: [TrackEditorComponent],
+            imports: [HttpClientTestingModule],
+            providers: [TrackEditorService, TrackEditorRenderService,
+                        TracksProxyService, { provide: ActivatedRoute, useValue: fakeActivatedRoute }]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TrackEditorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TrackEditorComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  afterEach(inject([HttpTestingController], (backend: HttpTestingController) => {
-    backend.verify();
-  }));
+    afterEach(inject([HttpTestingController], (backend: HttpTestingController) => {
+        backend.verify();
+    }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

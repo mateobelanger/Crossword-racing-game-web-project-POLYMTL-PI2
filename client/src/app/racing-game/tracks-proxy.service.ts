@@ -46,7 +46,6 @@ export class TracksProxyService {
     } else {
       return this.addTrack(track);
     }
-
   }
 
   public findTrack(trackName: string): TrackData {
@@ -58,6 +57,7 @@ export class TracksProxyService {
 
     return track;
   }
+
 
   private async fetchTracks(): Promise<TrackData[]> {
     return this._http.get<TrackData[]>(URI_MONGO_DB).toPromise();
