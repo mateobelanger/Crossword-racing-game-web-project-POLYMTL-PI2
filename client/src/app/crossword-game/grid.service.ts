@@ -29,17 +29,13 @@ export class GridService {
 
     public keyDown(keyCode: number, row: number, column: number): boolean {
         if (keyCode >= KEY_A && keyCode <= KEY_Z) {
-
             return true;
         } else if (keyCode === KEY_BACKSPACE || keyCode === KEY_DELETE) {
             this.backspace(row, column);
-
-            return false;
-        } else {
-            return false;
         }
-    }
 
+        return false;
+    }
 
     public backspace(row: number, column: number): void {
         if (this.userGrid[row][column] === "") {
@@ -82,8 +78,8 @@ export class GridService {
 
         for (let i: number = 0; i < selectedWord.value.length && isValid; i++) {
             selectedWord.direction === Direction.HORIZONTAL ?
-                isValid = (selectedWord.value[i] === this.userGrid[rowIndex][columnIndex + i]) :
-                isValid = (selectedWord.value[i] === this.userGrid[rowIndex + i][columnIndex]);
+                isValid = (selectedWord.value[i] === this.userGrid[rowIndex][columnIndex + i].toLowerCase()) :
+                isValid = (selectedWord.value[i] === this.userGrid[rowIndex + i][columnIndex].toLowerCase());
         }
 
         return isValid;
