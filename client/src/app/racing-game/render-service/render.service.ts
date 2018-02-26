@@ -28,7 +28,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
 
-    // Helper for tests
+    // Helpers for tests
     private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
     private gridHelper: THREE.GridHelper = new THREE.GridHelper( HELPER_GRID_SIZE, HELPER_GRID_SIZE );
 

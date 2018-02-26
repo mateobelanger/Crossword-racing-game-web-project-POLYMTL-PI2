@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 
+import { ValidationMediatorService } from '../validation-mediator.service';
 import { DefinitionsComponent } from './definitions.component';
 import { routes } from '../../app-routes.module';
 import { AppModule } from '../../app.module';
@@ -10,9 +11,11 @@ describe('DefinitionsComponent', () => {
     let fixture: ComponentFixture<DefinitionsComponent>;
 
     beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
+        declarations: [DefinitionsComponent],
         imports: [routes, AppModule],
-        providers: [{provide: APP_BASE_HREF, useValue : '/' }]
+        providers: [ValidationMediatorService, {provide: APP_BASE_HREF, useValue : '/' }]
         })
         .compileComponents();
     }));

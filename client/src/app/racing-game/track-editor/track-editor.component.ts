@@ -1,9 +1,19 @@
 import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener } from "@angular/core";
 
 import { TrackEditorService } from './track-editor.service';
+import { TracksProxyService } from "../tracks-proxy.service";
+
+import { TrackData } from "../../../../../common/trackData";
+import { ActivatedRoute } from '@angular/router';
+import { Waypoint } from "../track/trackData/waypoint";
+import * as THREE from 'three';
 
 const LEFT_MOUSE_BTN: number = 0;
 const RIGHT_MOUSE_BTN: number = 2;
+
+const X: number = 0;
+const Y: number = 1;
+const Z: number = 2;
 
 @Component({
     selector: 'app-track-editor',
@@ -12,22 +22,33 @@ const RIGHT_MOUSE_BTN: number = 2;
 })
 export class TrackEditorComponent implements AfterViewInit, OnInit {
 
+    public waypoints: Waypoint[];
 
     @ViewChild("container")
     private containerRef: ElementRef;
-
 
     private get container(): HTMLDivElement {
         return this.containerRef.nativeElement;
     }
 
-    public constructor (private trackEditorService: TrackEditorService) { }
+    public constructor (private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
+        this.waypoints = [];
+    }
 
     public ngOnInit(): void {
     }
 
-    public ngAfterViewInit(): void {
+    public async ngAfterViewInit(): Promise<void> {
         this.trackEditorService.initialize(this.container);
+        try {
+            if (this.route.snapshot.paramMap.get("trackName") !== "newTrack") {
+                await this.proxy.initialize();
+                this.setWaypointsFromProxy();
+                this.renderTrack();
+            }
+        } catch (e) {
+            return;
+        }
     }
 
 
@@ -55,5 +76,27 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
     public onMouseMove(event: MouseEvent): void {
         this.trackEditorService.handleMouseMove(event);
     }
+
+
+    private setWaypointsFromProxy(): void {
+
+        const track: TrackData = this.proxy.findTrack(  this.route.snapshot.paramMap.get("trackName")  );
+        if (track === undefined) {
+                throw new Error("track not found");
+        }
+
+        track.waypoints.forEach( (element) => {
+                const waypoint: Waypoint = new Waypoint();
+                waypoint.position =  new THREE.Vector3(element[X], element[Y], element[Z]);
+                this.waypoints.push(waypoint);
+        });
+
+    }
+
+    private renderTrack(): void {
+            this.trackEditorService.addWaypoints(this.waypoints);
+            this.trackEditorService.closeTrack();
+        }
+
 
 }

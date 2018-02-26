@@ -1,15 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit/*,  ViewChild, ElementRef*/ } from "@angular/core";
+import { TracksProxyService } from "../racing-game/tracks-proxy.service";
+import { TrackData } from "../../../../common/trackData";
+
+// import { TrackEditorService } from "../racing-game/track-editor/track-editor.service";
 
 @Component({
     selector: 'app-admin',
     templateUrl: './admin.component.html',
     styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
 
-    public constructor() { }
+export class AdminComponent implements OnInit, AfterViewInit {
+    public tracks: TrackData[];
+
+    public constructor( private proxy: TracksProxyService ) {
+    }
 
     public ngOnInit(): void {
     }
+
+    public async ngAfterViewInit(): Promise<void> {
+
+        try {
+            await this.proxy.initialize();
+            this.tracks = this.proxy.tracks;
+        } catch (e) {
+            return;
+        }
+    }
+
+    public async deleteTrack(trackName: string): Promise<void>  {
+
+        void this.proxy.deleteTrack(trackName);
+        try {
+            await this.proxy.initialize();
+            this.tracks = this.proxy.tracks;
+        } catch (e) {
+            return;
+        }
+
+    }
+
 
 }

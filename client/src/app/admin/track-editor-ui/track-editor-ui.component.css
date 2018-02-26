@@ -1,0 +1,166 @@
+.admin-bar {
+    margin-left: 5%;
+}
+
+.admin-btn {
+    margin-top: 2%;
+}
+
+h3 {
+    text-align: center;
+    padding-bottom: 3%;
+    padding-top: 1.5%;
+}
+
+.btn-warning {
+    display: inline-block;
+}
+
+.btn-save {
+    display: inline-block;
+    margin-top: 2%;
+}
+.left {
+    position: relative;
+    float: left;
+    width: 30%;
+    padding: 0;
+    margin: 0;
+}
+
+.right {
+    position: relative;
+    float: right;
+    width: 70%;
+    padding: 0;
+    margin: 0;
+}
+
+.track-editor {
+    margin-left: 20%;
+    padding: 0;
+    /* 
+    Notice : the size of the track-editor is defined in 
+    track-editor.component. The width and the height defined bellow
+    are there just to make sure the div is the same size of the track-editor.component
+    */
+    width: 750px;
+    height: 600px;
+    background: red;
+}
+
+h4 {
+    font-size: 1.1em;
+}
+
+h5 {
+    font-size: 1em;
+}
+
+.caneva {
+    /* border-style: outset;*/
+    padding: 0;
+    max-width: 300px;
+    min-width: 285px;
+    height: 310px;
+    margin: 25px;
+    color: rgb(241, 240, 240);
+    border-color: rgba(179, 180, 180, 0.8);
+    font-family: "Lucida Sans Unicode", Arial, sans-serif;
+}
+
+.canevaHeader {
+    background-color: rgba(49, 49, 49, 0.9);
+}
+
+.trackNameBlock {
+    width: 75%;
+    height: 60px;
+    text-align: center;
+}
+
+.trackName {
+    margin: 2px 0 0 10px;
+}
+
+.descriptionBlock {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: rgba(127, 127, 127, 0.7);
+}
+
+.descriptionTitleBlock {
+    height: 35px;
+    overflow: hidden;
+}
+
+.descriptionTitle {
+    margin-top: 8px;
+}
+
+.descriptionText {
+    margin-top: 2px;
+    font-size: 1em;
+    resize: none;
+}
+
+.button {
+    margin-right: 25px;
+    height: 100%;
+    width: 20%;
+    margin-top: 20px;
+    padding: 20px 30px;
+}
+
+input {
+    height: 95%;
+    width: 95%;
+}
+
+
+/* Popup container - can be anything you want */
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* The actual popup */
+
+.popup .popuptext {
+    visibility: hidden;
+    width: 300%;
+    background-color: rgb(126, 199, 144);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+
+/* Toggle this class - hide and show the popup */
+
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+.trackInfo {
+    border: solid;
+}

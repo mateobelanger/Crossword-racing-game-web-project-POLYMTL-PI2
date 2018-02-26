@@ -34,7 +34,7 @@ describe("CircleHandler", () => {
     });
 
     it("should remove circles properly", () => {
-        circleHandler.removeCircle(waypoints[2].getCircleId());
+        circleHandler.removeCircle(waypoints[2].circleId);
         expect(circleHandler.getCircles().length).toEqual(9);
     });
 

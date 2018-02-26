@@ -24,17 +24,17 @@ describe("Track", () => {
     it("should be instantiated correctly using default constructor", () => {
         const aTrack: Track = new Track();
         expect(aTrack).toBeDefined();
-        expect(aTrack.getWaypoints().length).toBe(0);
+        expect(aTrack.waypoints.length).toBe(0);
     });
 
     it("should be instantiated correctly when passing parameters", () => {
         expect(track).toBeDefined();
-        expect(track.getWaypoints()).toBe(waypoints);
+        expect(track.waypoints).toBe(waypoints);
     });
 
     it("should return array of waypoint with getWaypoints", () => {
-        expect(track.getWaypoints()).toBeDefined();
-        expect(track.getWaypoints().length).toBe(10);
+        expect(track.waypoints).toBeDefined();
+        expect(track.waypoints.length).toBe(10);
     });
 
     it("should return null with getWaypoint", () => {
@@ -43,7 +43,7 @@ describe("Track", () => {
 
     it("should return matching \"circleId\" waypoint with getWaypoint", () => {
         expect(track.getWaypoint(2)).toBeDefined();
-        expect(track.getWaypoint(2).getPosition()).toEqual(new Vector3(20, 0, 0));
+        expect(track.getWaypoint(2).position).toEqual(new Vector3(20, 0, 0));
     });
 
     it("should addWaypoint", () => {
@@ -55,8 +55,8 @@ describe("Track", () => {
     });
 
     it("should removeWaypoint", () => {
-        expect(track.getWaypoints().length).toBe(10);
+        expect(track.waypoints.length).toBe(10);
         track.removeWaypoint();
-        expect(track.getWaypoints().length).toBe(9);
+        expect(track.waypoints.length).toBe(9);
     });
 });
