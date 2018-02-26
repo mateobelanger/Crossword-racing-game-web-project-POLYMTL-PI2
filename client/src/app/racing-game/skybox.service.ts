@@ -15,9 +15,14 @@ export class SkyboxService {
     private backgroundPlane: THREE.Mesh;
 
 
-    public constructor() { }
+    public constructor() {
+        this.scene = null;
+        this.skyboxName = "";
+        this.skyboxSate = "";
+        this.backgroundPlane = null;
+    }
 
-    public initialization(scene: THREE.Scene): void {
+    public initialize(scene: THREE.Scene): void {
       this.scene = scene;
       this.skyboxName = SKYBOXES[Math.floor(Math.random() * SKYBOXES.length)];
       this.skyboxSate = "day";

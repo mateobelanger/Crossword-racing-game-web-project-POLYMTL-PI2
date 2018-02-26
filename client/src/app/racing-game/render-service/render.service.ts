@@ -78,7 +78,7 @@ export class RenderService {
         this.scene.add(this.axesHelper);
         this.scene.add(this.gridHelper);
 
-        this.skyboxService.initialization(this.scene);
+        this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
     }
 
