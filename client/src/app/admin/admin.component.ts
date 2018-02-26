@@ -29,10 +29,11 @@ export class AdminComponent implements OnInit, AfterViewInit {
         }
     }
 
-    public async deleteTrack(trackName: string): Promise<void>  {
+    public async deleteTrack(trackName: string): Promise<void> {
 
-        void this.proxy.deleteTrack(trackName);
+
         try {
+            await this.proxy.deleteTrack(trackName);
             await this.proxy.initialize();
             this.tracks = this.proxy.tracks;
         } catch (e) {

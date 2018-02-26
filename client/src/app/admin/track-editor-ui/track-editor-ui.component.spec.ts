@@ -48,7 +48,7 @@ describe('TrackEditorUiComponent', () => {
         expect(component.name.length).toBeLessThanOrEqual(component.MAX_TITLE_LENGTH);
     });
 
-    it("shouldn't save a track with a description long than 300 chars", () => {
+    it("shouldn't save a track with a description longer than 300 chars", () => {
         let longDescription: string = "";
         for (let i: number = 0; i < component.MAX_DESCRIPTION_LENGTH; i++) {
             longDescription += "abc";

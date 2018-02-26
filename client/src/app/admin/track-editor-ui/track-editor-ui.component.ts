@@ -47,8 +47,12 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
         }
     }
 
-    public saveTrack(): void {
-        this.proxy.initialize();
+    public async saveTrack(): Promise<void> {
+        try {
+            await this.proxy.initialize();
+        } catch (e) {
+            return;
+        }
 
         if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
             this.invalidTrackPopup();
