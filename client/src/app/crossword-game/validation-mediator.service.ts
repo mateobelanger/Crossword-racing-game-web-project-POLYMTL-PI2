@@ -35,7 +35,8 @@ export class ValidationMediatorService {
     }
 
     public updateValidatedDefinitions(word: Word): void {
-        if (this.wordService.selectedWord !== null && this.gridService.isValidatedWord(word)) {
+        if (this.wordService.selectedWord !== null && this.gridService.isValidatedWord(word)
+            && !this.definitionService.isValidatedDefinition(word)) {
             horizontal_loop:
             for (let i: number = 0; i < this.definitionService.horizontalDefinitions.length; i++) {
                 for (let j: number = 0; j < this.definitionService.horizontalDefinitions[i].length; j++) {
