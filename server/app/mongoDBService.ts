@@ -39,12 +39,6 @@ export class MongoDBService {
                             MongoDBAccess.incrementTimesPlayed(req.params.name, res);
                         });
 
-        // custom 404 page
-        router.use((req: Request, res: Response) => {
-            res.type("text/plain");
-            res.status(404);
-            res.send("404 - Not Found");
-        });
 
         // function handleServerError(response: Response, error: string){
         //     console.log(error);
