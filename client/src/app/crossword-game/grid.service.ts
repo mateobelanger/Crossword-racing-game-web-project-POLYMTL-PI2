@@ -65,9 +65,11 @@ export class GridService {
         const row: number = Math.floor(id / GRID_SIZE);
         const col: number = id - row * GRID_SIZE;
         if (word.direction === Direction.HORIZONTAL) {
-            return row === word.row && col >= word.column && col < word.column + word.size;
+            return  !this.isValidatedWord(this.wordService.selectedWord) &&
+                    row === word.row && col >= word.column && col < word.column + word.size;
         } else {
-            return col === word.column && row >= word.row && row < word.row + word.size;
+            return  !this.isValidatedWord(this.wordService.selectedWord) &&
+                    col === word.column && row >= word.row && row < word.row + word.size;
         }
     }
 
@@ -97,7 +99,6 @@ export class GridService {
                 this.validatedCells[word.row + i][word.column] = true;
             }
         }
-        this.wordService.deselect();
     }
 
     public generateId (rowIndex: number, columnIndex: number): number {

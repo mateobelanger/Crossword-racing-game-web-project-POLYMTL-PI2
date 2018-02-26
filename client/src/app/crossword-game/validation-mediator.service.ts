@@ -20,8 +20,8 @@ export class ValidationMediatorService {
     public keyUp(keyCode: number, row: number, column: number): void {
         if (this.wordService.selectedWord.direction === Direction.HORIZONTAL &&
             this.wordService.selectedWord.column + this.wordService.selectedWord.value.length - 1 !== column) {
-
             this.gridService.focusOnSelectedWord();
+            
         } else if (this.wordService.selectedWord.row + this.wordService.selectedWord.value.length - 1 !== row) {
             this.gridService.focusOnSelectedWord();
         }
