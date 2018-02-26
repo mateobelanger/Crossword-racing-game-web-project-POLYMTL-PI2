@@ -11,6 +11,7 @@ describe('ConfigurationComponent', () => {
     let fixture: ComponentFixture<ConfigurationComponent>;
 
     beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
         imports: [routes, AppModule],
         providers: [{provide: APP_BASE_HREF, useValue : '/' }]

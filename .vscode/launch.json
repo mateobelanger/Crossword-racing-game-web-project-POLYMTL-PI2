@@ -9,22 +9,17 @@
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}/client"
         },
         {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach by Process ID",
-            "processId": "${command:PickProcess}"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}/server\\app\\crossword-game\\grid-generator.ts",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
-        }
+			"type": "node",
+			"request": "launch",
+			"name": "Launch via NPM",
+			"port": 3000,
+            "cwd": "${workspaceFolder}/server/",
+            "outFiles": [ "${workspaceFolder}/server/out/**/*.js" ],
+			"sourceMaps": true,
+			"restart": true
+		},
     ]
 }

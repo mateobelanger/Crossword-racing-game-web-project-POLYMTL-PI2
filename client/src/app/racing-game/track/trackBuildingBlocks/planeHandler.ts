@@ -1,16 +1,22 @@
 import {Waypoint} from "../trackData/waypoint";
 import {Plane} from "./plane";
-import { PLANE_POSITION_Z, TRACKWIDTH } from '../../constants';
+import { PLANE_POSITION_Z, TRACKWIDTH, PlaneType } from '../../constants';
 import * as THREE from "three";
 
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
 const RATIO_IMAGE_PER_FIRST_PLANE_LENGTH: number = 70;
+const ASSETS_FOLDER: string = "../../../../assets/track_editor_texture/";
+const ASSETS_NAME: string[] = ["first_road_texture.png", "first_road_texture_red.png",
+                               "road_texture.png", "road_texture_red.png"];
+
 export const TRACKLENGTH: number = 1;
+
 
 export class PlaneHandler {
 
 
     private _planes: Plane[];
+    private _firstPlaneId: number;
 
     public constructor(private scene: THREE.Scene) {
         this._planes = [];
@@ -20,14 +26,20 @@ export class PlaneHandler {
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
-        const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
-        const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length);
-        const mesh: THREE.Mesh = new THREE.Mesh( geometries[i],
-                                                 this._planes.length === 0 ? this.getFirstPlaneMaterial(plane.length) : material );
-        plane.mesh = (mesh);
-        this._planes.push(plane);
-        this.scene.add(plane.mesh);
-        this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
+            const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
+            const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
+            const mesh: THREE.Mesh = new THREE.Mesh( geometries[i], this._planes.length === 0 ?
+                                                    this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) :
+                                                    material );
+
+            plane.mesh = (mesh);
+            if (this._planes.length === 0) {
+                this._firstPlaneId = mesh.id;
+            }
+            this._planes.push(plane);
+
+            this.scene.add(plane.mesh);
+            this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
         }
     }
 
@@ -43,17 +55,35 @@ export class PlaneHandler {
         const secondPlane: Plane = this.getPlane(waypoint.getOutgoingPlaneId());
 
         if (this.isDefined(firstPlane)) {
-            firstPlane.endPoint = waypoint.getPosition();
+            firstPlane.endPoint = waypoint.position;
             this.connectPlaneWithWaypoint(firstPlane.id);
         }
         if (this.isDefined(secondPlane)) {
-            secondPlane.beginingPoint = waypoint.getPosition();
+            secondPlane.beginingPoint = waypoint.position;
             this.connectPlaneWithWaypoint(secondPlane.id);
         }
     }
 
     public get planes(): Plane[] {
         return this._planes;
+    }
+
+    public applyInvalidTexture(planeId: number): void {
+        const planeType: PlaneType = planeId === this._firstPlaneId ? PlaneType.INVALID_FIRST_PLANE : PlaneType.INVALID_PLANE;
+        const plane: Plane = this.getPlane(planeId);
+
+        if (this.isDefined(plane)) {
+            plane.mesh.material = this.getPlaneMaterial(plane.length, planeType);
+        }
+    }
+
+    public applyValidTexture(planeId: number): void {
+        const planeType: PlaneType = planeId === this._firstPlaneId ? PlaneType.VALID_FIRST_PLANE : PlaneType.VALID_PLANE;
+        const plane: Plane = this.getPlane(planeId);
+
+        if (this.isDefined(plane)) {
+            plane.mesh.material = this.getPlaneMaterial(plane.length, planeType);
+        }
     }
 
     private connectPlaneWithWaypoint(planeId: number): void {
@@ -131,26 +161,17 @@ export class PlaneHandler {
     }
 
 
-    private getPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
+    private getPlaneMaterial(planeLenght: number, planeType: PlaneType): THREE.MeshBasicMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/road_texture.png");
+        createTexture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
-        createTexture.repeat.set( planeLenght / RATIO_IMAGE_PER_PLANE_LENGTH, 1);
+        const ratio: number = planeType <= PlaneType.INVALID_FIRST_PLANE ?
+                                                            RATIO_IMAGE_PER_FIRST_PLANE_LENGTH : RATIO_IMAGE_PER_PLANE_LENGTH;
+        createTexture.repeat.set( planeLenght / ratio, 1);
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
-
-    private getFirstPlaneMaterial(planeLenght: number): THREE.MeshBasicMaterial {
-        let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_road_texture.png");
-        createTexture.wrapS = THREE.RepeatWrapping;
-        createTexture.wrapT = THREE.RepeatWrapping;
-        createTexture.repeat.set( planeLenght / RATIO_IMAGE_PER_FIRST_PLANE_LENGTH, 1);
-
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
-    }
-
 
     /*tslint:disable:no-any*/
     private isDefined(object: any): boolean {

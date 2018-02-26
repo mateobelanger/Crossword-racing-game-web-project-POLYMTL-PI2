@@ -6,24 +6,23 @@ import { routes } from '../app-routes.module';
 import { AppModule } from '../app.module';
 
 describe('RacingGameComponent', () => {
-  let component: RacingGameComponent;
-  let fixture: ComponentFixture<RacingGameComponent>;
+    let component: RacingGameComponent;
+    let fixture: ComponentFixture<RacingGameComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [routes, AppModule],
-      providers: [{provide: APP_BASE_HREF, useValue : '/' }]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [routes, AppModule],
+            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RacingGameComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(RacingGameComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

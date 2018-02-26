@@ -55,7 +55,7 @@ export class CircleHandler {
     private bindMesh(mesh: THREE.Mesh, waypoint: Waypoint): void {
         waypoint.unbindCircle();
         waypoint.bindCircle(mesh.id);
-        this.moveCircle(mesh.id, waypoint.getPosition());
+        this.moveCircle(mesh.id, waypoint.position);
     }
 
     private generateCircleGeometry(nCircles: number): THREE.Geometry[] {

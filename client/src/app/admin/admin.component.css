@@ -1,7 +1,145 @@
-.track-editor {
-    margin-left: 10%;
-    width: 1000px;
-    height: 800px;
+h4 {
+    font-size: 1.1em;
+}
+
+h5 {
+    font-size: 1em;
+}
+
+.admin-button {
+    margin-left: 3%;
+}
+
+.clearfix::after {
+    content: " ";
+    clear: both;
+    display: block;
+    visibility: none;
+}
+
+.right {
+    position: relative;
+    float: right;
+}
+
+.left {
+    position: relative;
+    float: left;
+}
+
+.containerAdmin {
+    background: url("../../assets/admin/bg-test.jpg") fixed no-repeat;
+    background-size: contain contain;
+    min-height: 95vh;
+    /* Problem : when I put 96 to fit the page perfecly it adds the scroll bar!?!*/
+    margin: 0;
+}
+
+.caneva {
+    /* border-style: outset;*/
     padding: 0;
-    background: red;
+    margin: 0;
+    max-width: 300px;
+    min-width: 285px;
+    height: 310px;
+    margin: 25px;
+    color: whitesmoke;
+    border-color: rgba(179, 180, 180, 0.8);
+    font-family: "Lucida Sans Unicode", Arial, sans-serif;
+}
+
+.canevaHeader {
+    background-color: rgba(49, 49, 49, 0.9);
+}
+
+.trackNameBlock {
+    width: 75%;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.trackName {
+    margin: 10px 0 0 10px;
+    overflow-y: hidden;
+}
+
+.descriptionBlock {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: rgba(127, 127, 127, 0.7);
+}
+
+.descriptionTitleBlock {
+    height: 35px;
+    overflow: hidden;
+}
+
+.descriptionTitle {
+    margin-top: 8px;
+}
+
+.descriptionText {
+    margin-top: 2px;
+    font-size: 1em;
+}
+
+.canevaFooter {
+    height: 50px;
+    background-color: rgba(105, 105, 105, 0.9);
+}
+
+.timesPlayed {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.bestTimes {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.iconsBlock {
+    float: right;
+    vertical-align: middle;
+    width: 25%;
+    height: 60px;
+}
+
+.icon {
+    background-repeat: no-repeat !important;
+    background-size: 16px !important;
+    height: 20px;
+    width: 20px;
+    margin: 31% 15%;
+}
+
+.icon-edit {
+    background: url("../../assets/admin/icon-edit.png");
+    float: left;
+    margin-right: 3px;
+}
+
+.icon-delete {
+    background: url("../../assets/admin/icon-delete.png");
+    float: right;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+li {
+    list-style-type: none;
+    font-weight: normal;
+    display: inline;
+    text-align: right;
+    padding: 0;
+    margin: 0;
 }

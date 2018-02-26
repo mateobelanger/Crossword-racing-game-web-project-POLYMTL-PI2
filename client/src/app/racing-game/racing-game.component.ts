@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, AfterViewInit } from '@angular/core';
+import { TracksProxyService } from './tracks-proxy.service';
+import { TrackData } from '../../../../common/trackData';
 @Component({
-  selector: 'app-racing-game',
-  templateUrl: './racing-game.component.html',
-  styleUrls: ['./racing-game.component.css']
+    selector: 'app-racing-game',
+    templateUrl: './racing-game.component.html',
+    styleUrls: ['./racing-game.component.css']
 })
-export class RacingGameComponent implements OnInit {
 
-  public constructor() { }
+export class RacingGameComponent implements AfterViewInit {
+    public tracks: TrackData[];
 
-  public ngOnInit(): void {
-  }
+    public constructor(private proxy: TracksProxyService) { }
 
+    public async ngAfterViewInit(): Promise<void> {
+
+        await this.proxy.initialize();
+        this.tracks = this.proxy.tracks;
+    }
+
+    public selectModalId(button: HTMLElement, track: TrackData): void {
+        button.setAttribute("data-target", "#" + track.name);
+    }
 }

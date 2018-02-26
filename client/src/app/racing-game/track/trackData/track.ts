@@ -2,12 +2,10 @@ import {Waypoint} from './waypoint';
 
 
 export class Track {
-
     private _isValid: boolean = true;
-
     private _isClosed: boolean = false;
 
-    public constructor(private waypoints: Waypoint[] = []) {
+    public constructor(private _waypoints: Waypoint[] = []) {
     }
 
     public get isValid(): boolean {
@@ -26,8 +24,8 @@ export class Track {
         this._isClosed = isClosed;
     }
 
-    public getWaypoints(): Waypoint[] {
-        return this.waypoints;
+    public get waypoints(): Waypoint[] {
+        return this._waypoints;
     }
 
     public getTrackSize(): number {
@@ -59,7 +57,7 @@ export class Track {
     }
 
     public getPreviousToLastWaypoint(): Waypoint {
-        return this.waypoints[this.waypoints.length - 2];
+        return this.waypoints[this.waypoints.length - (1 + 1)];
     }
 
     public getLastWaypoint(): Waypoint {
@@ -75,7 +73,7 @@ export class Track {
     private findWaypointIndex(id: number): number {
         let index: number = -1;
         this.waypoints.forEach((element, i) => {
-            if (element.getCircleId() === id)
+            if (element.circleId === id)
                 index = i;
         });
 
