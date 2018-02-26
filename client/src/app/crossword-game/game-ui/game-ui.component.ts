@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WordService } from '../word.service';
 
 @Component({
@@ -6,11 +6,9 @@ import { WordService } from '../word.service';
     templateUrl: './game-ui.component.html',
     styleUrls: ['./game-ui.component.css']
 })
-export class GameUiComponent implements OnInit {
+export class GameUiComponent {
 
     public constructor(private wordSelection: WordService) {}
-
-    public ngOnInit(): void {}
 
     public deselect(): void {
         this.wordSelection.deselect();
