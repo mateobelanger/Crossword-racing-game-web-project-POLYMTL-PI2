@@ -38,7 +38,8 @@ h5 {
 
 .containerTrackList {
     background: url("../../assets/admin/bg-test.jpg") fixed no-repeat;
-    background-size: contain contain;
+    background-position: center auto;
+    background-size: 220vh;
     min-height: 95vh;
     /* Problem : when I put 96 to fit the page perfecly it adds the scroll bar!?!*/
     margin: 0;

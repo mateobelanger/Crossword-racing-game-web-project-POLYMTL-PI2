@@ -59,7 +59,8 @@ li:hover {
 }
 
 .validated {
-    background: green;
-    color: white;
+    color: rgb(3, 231, 3);
+    background: white;
+    font-weight: bold;
     pointer-events:none;
 }
