@@ -21,11 +21,15 @@ const CHAR_9: number = 57;
     styleUrls: ['./track-editor-ui.component.css']
 })
 
-export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
-    private name: string;
-    private description: string;
-    private track: TrackData;
+
+export class TrackEditorUiComponent implements OnInit, AfterViewInit {
+    public readonly MAX_TITLE_LENGTH: number = 30;
+    public readonly MAX_DESCRIPTION_LENGTH: number = 300;
+
+    public name: string;
+    public description: string ;
+    public track: TrackData;
 
     public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
     }
@@ -46,12 +50,13 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
         if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
             return;
         }
-        this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
-        void this.proxy.saveTrack(this.track);
+        this.validateName();
+        this.validateDescription();
         this.track.name = this.name;
         this.track.description = this.description;
 
-
+        this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
+        this.proxy.saveTrack(this.track);
     }
 
     public invalidTrackPopupFunction(): void {
@@ -72,6 +77,18 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
         return (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z) ||
                (keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z) ||
                (keyCode >= CHAR_0 && keyCode <= CHAR_9);
+    }
+
+    public validateName(): void {
+        if (this.name.length > this.MAX_TITLE_LENGTH) {
+            this.name = this.name.slice(0, this.MAX_TITLE_LENGTH);
+        }
+    }
+
+    public validateDescription(): void {
+        if (this.description.length > this.MAX_DESCRIPTION_LENGTH) {
+            this.description = this.description.slice(0, this.MAX_DESCRIPTION_LENGTH);
+        }
     }
 
     private setTrack(): void {
@@ -100,7 +117,6 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
         };
         this.name = track.name;
         this.description = track.description;
-
     }
 
     private addWaypointsToTrack(waypoints: Waypoint[]): void {
