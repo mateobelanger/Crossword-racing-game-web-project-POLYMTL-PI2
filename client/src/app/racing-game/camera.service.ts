@@ -87,16 +87,15 @@ export class CameraService {
        this._orthographicCamera.position.x = this.target.position.x;
        this._orthographicCamera.position.z = this.target.position.z;
 
-
-       // TODO : review new VECTOR 3 point 1 : doesn't work with test and it is probably not good to have a new in the renderer
        const relativeCameraOffset: THREE.Vector3 = new THREE.Vector3(0, PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z);
        const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4( this.target.matrix );
 
-       this._perspectiveCamera.position.x = 58; //cameraOffset.x;
-       this._perspectiveCamera.position.z = 0; //cameraOffset.z;
-       this._perspectiveCamera.position.y = 0; //cameraOffset.y;
+       this._perspectiveCamera.position.x = cameraOffset.x;
+       this._perspectiveCamera.position.z = cameraOffset.z;
+       this._perspectiveCamera.position.y = cameraOffset.y;
        this._perspectiveCamera.lookAt(this.target.position);
     }
+
 
     private getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;

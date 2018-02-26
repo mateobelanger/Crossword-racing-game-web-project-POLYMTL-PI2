@@ -22,11 +22,10 @@ class MockEngine extends Engine {
 describe('CameraService', () => {
 
   const dummyElement: HTMLDivElement = document.createElement('div');
-  const cameraService: CameraService = new CameraService();
 
+  let cameraService: CameraService;
   let car: Car;
   let target: THREE.Object3D = new THREE.Object3D();
-
   let initialCamera: THREE.Camera = new THREE.Camera();
 
 
@@ -38,7 +37,11 @@ describe('CameraService', () => {
     await car.init();
 
     target = car.mesh;
+
+    cameraService = new CameraService();
     cameraService.initialize(dummyElement, target);
+
+    initialCamera = cameraService.getCamera();
 
     done();
   });
@@ -63,7 +66,7 @@ describe('CameraService', () => {
     expect(cameraService.orthographicCamera.position.z).toBe(target.position.z);
   });
 
-  // TODO : verify see  cameraService.updatePosition();
+
   it('should have the expected position after car moved for perspective camera and target', () => {
     car.mesh.position.x = DELTA_X;
     car.mesh.position.z = DELTA_Z;
@@ -74,8 +77,8 @@ describe('CameraService', () => {
     const relativeCameraOffset: THREE.Vector3 = new THREE.Vector3(0, PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z);
     const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4(target.matrix);
 
-    expect(cameraService.perspectiveCamera.position.x).toBe(cameraOffset.x + 10 + DELTA_X);
-    expect(cameraService.perspectiveCamera.position.z).toBe(cameraOffset.z + 10 + DELTA_Z);
+    expect(cameraService.perspectiveCamera.position.x).toBe(cameraOffset.x);
+    expect(cameraService.perspectiveCamera.position.z).toBe(cameraOffset.z);
   });
 
   it('should have the same position after car moved for orthographic camera and target', () => {
@@ -89,9 +92,7 @@ describe('CameraService', () => {
     expect(cameraService.orthographicCamera.position.z).toBe(DELTA_Z);
   });
 
-  // TODO : M. Good tests? 
   it('should change camera when camera is changed once ', () => {
-    initialCamera = cameraService.getCamera();
     cameraService.changeCamera();
 
     if (initialCamera.type === PERSPECTIVE_CAMERA) {
@@ -102,13 +103,13 @@ describe('CameraService', () => {
   });
 
   it('should comeback to initial camera when camera is changed twice ', () => {
-    initialCamera = cameraService.getCamera();
+    cameraService.changeCamera();
     cameraService.changeCamera();
 
     if (initialCamera.type === PERSPECTIVE_CAMERA) {
-      expect(cameraService.getCamera().type).toBe(ORTHOGRAPHIC_CAMERA);
-    } else {
       expect(cameraService.getCamera().type).toBe(PERSPECTIVE_CAMERA);
+    } else {
+      expect(cameraService.getCamera().type).toBe(ORTHOGRAPHIC_CAMERA);
     }
   });
 

@@ -10,7 +10,7 @@ const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
-const CAMERA_KEYCODE: number = 86;      // v
+const CAMERA_KEYCODE: number = 67;      // c
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.8;
@@ -103,7 +103,7 @@ export class RenderService {
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 
-    // TODO: Create an event handler service.
+    // Create an event handler service.
     public handleKeyDown(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
@@ -123,7 +123,7 @@ export class RenderService {
         }
     }
 
-    // TODO: Create an event handler service.
+    // Create an event handler service.
     public handleKeyUp(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
