@@ -13,6 +13,7 @@
         "noFallthroughCasesInSwitch": true,
         "noUnusedLocals": true,
         "noImplicitReturns": true,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+        "sourceRoot" : "../"
     }
 }

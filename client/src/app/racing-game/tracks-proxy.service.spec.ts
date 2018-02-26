@@ -145,6 +145,5 @@ describe('TracksProxyService', () => {
                     method: 'POST'
                 })[0].flush(tracks[0]);
             })));
-
 });
 

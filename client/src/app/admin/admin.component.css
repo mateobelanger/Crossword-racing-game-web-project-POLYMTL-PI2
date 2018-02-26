@@ -5,9 +5,11 @@ h4 {
 h5 {
     font-size: 1em;
 }
+
 .admin-button {
     margin-left: 3%;
 }
+
 .clearfix::after {
     content: " ";
     clear: both;
@@ -121,13 +123,13 @@ h5 {
 }
 
 .icon-edit {
-    background: url("icon-edit.png");
+    background: url("../../assets/admin/icon-edit.png");
     float: left;
     margin-right: 3px;
 }
 
 .icon-delete {
-    background: url("icon-delete.png");
+    background: url("../../assets/admin/icon-delete.png");
     float: right;
     margin-left: 3px;
     cursor: pointer;

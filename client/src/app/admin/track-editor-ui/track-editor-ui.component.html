@@ -1,7 +1,3 @@
-<div class="admin-bar">
-    <a routerLink="../../" class="admin-btn btn btn-warning">Admin</a>
-</div>
-
 <h3> Track Edition </h3>
 
 <div class="left">
@@ -23,12 +19,13 @@
                     </div>
                     <textarea class="descriptionText" rows="10" cols="25" [attr.maxlength]="MAX_DESCRIPTION_LENGTH" value=track.description [(ngModel)]="description"></textarea>
                 </div>
-                <div (click)="saveTrack(); invalidTrackPopupFunction(); validTrackPopupFunction();" class="btn btn-success popup btn-save">
+                <div (click)="saveTrack()" class="btn btn-success popup btn-save">
                     Save track
-                    <span class="popuptext" id="invalidPopup"> Sorry, can't save an invalid track! </span>
+                    <span class="popuptext" id="invalidTrackPopup"> Sorry, can't save an invalid track! </span>
                     <span class="popuptext" id="validPopup"> Your track has been saved! </span>
+                    <span class="popuptext" id="alreadyUsedNamePopup">This track name is already used!</span>
                 </div>
-                <a routerLink="/admin" class="btn-warning btn btn-sm">Return to track list</a>
+                <a routerLink="/admin" class="btn-warning btn admin-btn">Admin homepage</a>
 
             </div>
         </div>
