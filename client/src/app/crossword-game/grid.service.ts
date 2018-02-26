@@ -99,8 +99,6 @@ export class GridService {
         }
     }
 
-
-
     public generateId (rowIndex: number, columnIndex: number): number {
         return rowIndex * GRID_SIZE + columnIndex;
     }
@@ -137,12 +135,10 @@ export class GridService {
         }
     }
 
-
     private focusOnCell(id: number): void {
         const element: HTMLElement = document.getElementById(id.toString());
         element.focus();
     }
-
 
     private idOfFirstEmptyCell(): number {
         let rowIndex: number = this.wordService.selectedWord.row;
@@ -167,8 +163,6 @@ export class GridService {
         return this.generateId(rowIndex, columnIndex);
     }
 
-
-
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
         let rowIndex: number = row;
         let columnIndex: number = column;
@@ -189,6 +183,5 @@ export class GridService {
 
         return [rowIndex, columnIndex];
     }
-
 
 }

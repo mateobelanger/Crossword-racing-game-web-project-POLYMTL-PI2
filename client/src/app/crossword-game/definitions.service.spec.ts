@@ -19,7 +19,7 @@ describe('DefinitionsService', () => {
   beforeEach(() => {
 
     wordService = new WordService();
-    wordService["words"] = words;
+    wordService.words = words;
     definitionsService = new DefinitionsService(wordService);
     definitionsService.initialize();
 

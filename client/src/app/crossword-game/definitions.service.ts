@@ -40,18 +40,30 @@ export class DefinitionsService {
         return definition === this.wordService.definition;
     }
 
+    public isValidatedDefinition(word: Word): boolean {
+        let isValid: boolean = false;
 
-    public isValidatedDefinition(selectedWord: Word): boolean {
-        let isValid: boolean = true;
-        const rowIndex: number = selectedWord.row;
-        const columnIndex: number = selectedWord.column;
-
-        for (let i: number = 0; i < selectedWord.value.length && isValid; i++) {
-            selectedWord.direction === Direction.HORIZONTAL ?
-                isValid = (this.isValidatedHorizontalDefinition[rowIndex][columnIndex + i]) :
-                isValid = (this.isValidatedVerticalDefinition[rowIndex + i][columnIndex]);
+        horizontal_loop:
+        for (let i: number = 0; i < this.horizontalDefinitions.length; i++) {
+            for (let j: number = 0; j < this.horizontalDefinitions[i].length; j++) {
+                if (word.definition === this.horizontalDefinitions[i][j]) {
+                    isValid = this.isValidatedHorizontalDefinition[i][j];
+                    break horizontal_loop;
+                }
+            }
+        }
+        vertical_loop:
+        for (let i: number = 0; i < this.verticalDefinitions.length; i++) {
+            for (let j: number = 0; j < this.verticalDefinitions[i].length; j++) {
+                if (word.definition === this.verticalDefinitions[i][j]) {
+                    isValid = this.isValidatedVerticalDefinition[i][j];
+                    break vertical_loop;
+                }
+            }
         }
 
         return isValid;
     }
+
 }
+
