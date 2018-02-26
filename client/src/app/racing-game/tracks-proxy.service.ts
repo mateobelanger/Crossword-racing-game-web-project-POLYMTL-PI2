@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/trackData";
 
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 
 @Injectable()
 export class TracksProxyService {
 
-  private _tracks: TrackData[] = [];
+  private _tracks: ITrackData[] = [];
 
   public constructor(private _http: HttpClient) { }
 
@@ -17,30 +17,30 @@ export class TracksProxyService {
       .catch((error: Error) => console.error(error));
   }
 
-  public get tracks(): TrackData[] {
+  public get tracks(): ITrackData[] {
     return this._tracks;
   }
 
-  public async addTrack(track: TrackData): Promise<void> {
-    return this._http.post<TrackData>(URI_MONGO_DB, track).toPromise()
-      .then((validTrack: TrackData) => { this.tracks.push(validTrack); })
+  public async addTrack(track: ITrackData): Promise<void> {
+    return this._http.post<ITrackData>(URI_MONGO_DB, track).toPromise()
+      .then((validTrack: ITrackData) => { this.tracks.push(validTrack); })
       .catch((error: Error) => console.error(error));
   }
 
   public async deleteTrack(trackName: string): Promise<void> {
     const url: string = URI_MONGO_DB + "/" + trackName;
 
-    return this._http.delete<TrackData>(url).toPromise()
+    return this._http.delete<ITrackData>(url).toPromise()
       .then(() => {
         this._tracks.splice(1, this._tracks.indexOf(this.findTrack(trackName)));
       })
       .catch((error: Error) => console.error(error));
   }
 
-  public async saveTrack(track: TrackData): Promise<void> {
+  public async saveTrack(track: ITrackData): Promise<void> {
 
     if (this.findTrack(track.name) !== null) {
-      return this._http.put<TrackData>(URI_MONGO_DB, track).toPromise()
+      return this._http.put<ITrackData>(URI_MONGO_DB, track).toPromise()
         .then(() => { })
         .catch((error: Error) => console.error(error));
     } else {
@@ -48,8 +48,8 @@ export class TracksProxyService {
     }
   }
 
-  public findTrack(trackName: string): TrackData {
-    let track: TrackData = null;
+  public findTrack(trackName: string): ITrackData {
+    let track: ITrackData = null;
     this._tracks.forEach((elem) => {
       if (elem.name === trackName)
         track = elem;
@@ -58,8 +58,8 @@ export class TracksProxyService {
     return track;
   }
 
-  private async fetchTracks(): Promise<TrackData[]> {
-    return this._http.get<TrackData[]>(URI_MONGO_DB).toPromise();
+  private async fetchTracks(): Promise<ITrackData[]> {
+    return this._http.get<ITrackData[]>(URI_MONGO_DB).toPromise();
   }
 
 }

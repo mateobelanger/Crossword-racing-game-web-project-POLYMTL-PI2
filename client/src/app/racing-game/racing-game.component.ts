@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { TracksProxyService } from './tracks-proxy.service';
-import { TrackData } from '../../../../common/trackData';
+import { ITrackData } from '../../../../common/trackData';
 @Component({
     selector: 'app-racing-game',
     templateUrl: './racing-game.component.html',
@@ -8,7 +8,7 @@ import { TrackData } from '../../../../common/trackData';
 })
 
 export class RacingGameComponent implements AfterViewInit {
-    public tracks: TrackData[];
+    public tracks: ITrackData[];
 
     public constructor(private proxy: TracksProxyService) { }
 
@@ -18,7 +18,7 @@ export class RacingGameComponent implements AfterViewInit {
         this.tracks = this.proxy.tracks;
     }
 
-    public selectModalId(button: HTMLElement, track: TrackData): void {
+    public selectModalId(button: HTMLElement, track: ITrackData): void {
         button.setAttribute("data-target", "#" + track.name);
     }
 }

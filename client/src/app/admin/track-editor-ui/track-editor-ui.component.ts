@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { TracksProxyService } from "../../racing-game/tracks-proxy.service";
-import { TrackData } from "../../../../../common/trackData";
+import { ITrackData } from "../../../../../common/trackData";
 
 import { TrackEditorService } from '../../racing-game/track-editor/track-editor.service';
 import { ActivatedRoute } from '@angular/router';
@@ -30,7 +30,7 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
 
     public name: string;
     public description: string ;
-    public track: TrackData;
+    public track: ITrackData;
 
     public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
     }
@@ -113,7 +113,7 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     }
 
     private setTrackFromProxy(): void {
-        const track: TrackData = this.proxy.findTrack(this.route.snapshot.paramMap.get("trackName"));
+        const track: ITrackData = this.proxy.findTrack(this.route.snapshot.paramMap.get("trackName"));
         if (track === null) {
             throw new Error("track not found");
         }
