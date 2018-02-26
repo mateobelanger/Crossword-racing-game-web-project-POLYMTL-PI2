@@ -10,6 +10,7 @@ import { RenderService } from "./render-service/render.service";
 import { TrackEditorRenderService } from './track-editor/track-editor-render.service';
 import { TrackEditorService } from './track-editor/track-editor.service';
 import { CameraService } from './camera.service';
+import { SkyboxService } from './skybox.service';
 import { routes } from '../app-routes.module';
 
 @NgModule({
@@ -34,7 +35,8 @@ import { routes } from '../app-routes.module';
     RenderService,
     TrackEditorRenderService,
     TrackEditorService,
-    CameraService
+    CameraService,
+    SkyboxService
   ],
 
 })

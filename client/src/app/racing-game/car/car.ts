@@ -25,7 +25,7 @@ export class Car extends Object3D {
 
     private _speed: Vector3;
     private isBraking: boolean;
-    private mesh: Object3D;
+    private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
 
@@ -42,23 +42,18 @@ export class Car extends Object3D {
     }
 
     public get angle(): number {
-        return this.mesh.rotation.y * RAD_TO_DEG;
+        return this._mesh.rotation.y * RAD_TO_DEG;
     }
 
-    /* TODO: Check if it's legal */
-    public getMesh(): Object3D {
-        return this.mesh;
-    }
-    /* TODO: Check if it's legal  which one is better? */
-    public getVectorPosition(): Vector3 {
-        return this.mesh.position;
+    public get mesh(): Object3D {
+        return this._mesh;
     }
 
     private get direction(): Vector3 {
         const rotationMatrix: Matrix4 = new Matrix4();
         const carDirection: Vector3 = new Vector3(0, 0, -1);
 
-        rotationMatrix.extractRotation(this.mesh.matrix);
+        rotationMatrix.extractRotation(this._mesh.matrix);
         carDirection.applyMatrix4(rotationMatrix);
 
         return carDirection;
@@ -89,7 +84,7 @@ export class Car extends Object3D {
 
         this.engine = engine;
         this.rearWheel = rearWheel;
-        this.wheelbase = wheelbase;0
+        this.wheelbase = wheelbase;
         this.mass = mass;
         this.dragCoefficient = dragCoefficient;
 
@@ -110,9 +105,9 @@ export class Car extends Object3D {
     }
 
     public async init(): Promise<void> {
-        this.mesh = await this.load();
-        this.mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
-        this.add(this.mesh);
+        this._mesh = await this.load();
+        this._mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
+        this.add(this._mesh);
     }
 
     public steerLeft(): void {
@@ -140,7 +135,7 @@ export class Car extends Object3D {
 
         // Move to car coordinates
         const rotationMatrix: Matrix4 = new Matrix4();
-        rotationMatrix.extractRotation(this.mesh.matrix);
+        rotationMatrix.extractRotation(this._mesh.matrix);
         const rotationQuaternion: Quaternion = new Quaternion();
         rotationQuaternion.setFromRotationMatrix(rotationMatrix);
         this._speed.applyMatrix4(rotationMatrix);
@@ -154,7 +149,7 @@ export class Car extends Object3D {
         // Angular rotation of the car
         const R: number = DEFAULT_WHEELBASE / Math.sin(this.steeringWheelDirection * deltaTime);
         const omega: number = this._speed.length() / R;
-        this.mesh.rotateY(omega);
+        this._mesh.rotateY(omega);
     }
 
     private physicsUpdate(deltaTime: number): void {
@@ -163,7 +158,7 @@ export class Car extends Object3D {
         this.weightRear = this.getWeightDistribution();
         this._speed.add(this.getDeltaSpeed(deltaTime));
         this._speed.setLength(this._speed.length() <= MINIMUM_SPEED ? 0 : this._speed.length());
-        this.mesh.position.add(this.getDeltaPosition(deltaTime));
+        this._mesh.position.add(this.getDeltaPosition(deltaTime));
         this.rearWheel.update(this._speed.length());
     }
 

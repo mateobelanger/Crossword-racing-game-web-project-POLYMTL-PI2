@@ -4,7 +4,7 @@ import { ValidationMediatorService } from './validation-mediator.service';
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
 import { DefinitionsService } from './definitions.service';
-import { Word, Direction } from '../../../../common/word';
+// import { Word, Direction } from '../../../../common/word';
 
 
 // TODO :  PROBLEM WHEN TESTING
@@ -78,16 +78,11 @@ describe('ValidationMediatorService', () => {
         validationMediatorService.updateValidatedDefinitions(word1);
         //expect(gridService.isValidatedWord(word1)).toBeTruthy();
         expect(definitionsService.isValidatedDefinition(word1)).toBeTruthy();
-        */
+
+
+    });       */
+
 
     });
-
-    it("should automatically validate a partially filled word when it is not selected and completed", () => {
-       // wordService["_selectedWord"] = word3;
-
-
-        //expect(gridService.isValidatedWord(word1)).toBeTruthy();
-    });
-
 
 });
