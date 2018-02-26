@@ -19,6 +19,7 @@ export class GridService {
     public constructor(private wordService: WordService) {
         this.userGrid = [];
         this.validatedCells = [];
+        this.initialize();
     }
 
     public initialize(): void {
@@ -104,21 +105,7 @@ export class GridService {
         return rowIndex * GRID_SIZE + columnIndex;
     }
 
-
-    private initializeGrid(): void {
-        for (let i: number = 0; i < GRID_SIZE; i++) {
-            const row: string[] = [];
-            const rowValidated: boolean[] = [];
-            for (let j: number = 0; j < GRID_SIZE; j++) {
-                row.push(BLACK_CELL);
-                rowValidated.push(true);
-            }
-            this.userGrid.push(row);
-            this.validatedCells.push(rowValidated);
-        }
-    }
-
-    private fillGrid(): void {
+    public fillGrid(): void {
         const words: Word[] = this.wordService.words;
         for (const word of words) {
             for (let i: number = 0; i < word.size; i++) {
@@ -136,6 +123,20 @@ export class GridService {
             }
         }
     }
+
+    private initializeGrid(): void {
+        for (let i: number = 0; i < GRID_SIZE; i++) {
+            const row: string[] = [];
+            const rowValidated: boolean[] = [];
+            for (let j: number = 0; j < GRID_SIZE; j++) {
+                row.push(BLACK_CELL);
+                rowValidated.push(true);
+            }
+            this.userGrid.push(row);
+            this.validatedCells.push(rowValidated);
+        }
+    }
+
 
     private focusOnCell(id: number): void {
         const element: HTMLElement = document.getElementById(id.toString());
