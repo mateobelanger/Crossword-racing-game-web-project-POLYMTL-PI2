@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+enum Difficulty {
+    EASY = "easy",
+    NORMAL = "normal",
+    HARD = "hard"
+}
+
 @Component({
     selector: 'app-configuration',
     templateUrl: './configuration.component.html',
@@ -7,7 +13,7 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class ConfigurationComponent implements OnInit {
-    public difficulty: string;
+    public difficulty: Difficulty;
 
     public constructor() {}
 

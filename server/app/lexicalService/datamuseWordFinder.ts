@@ -1,42 +1,47 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import "reflect-metadata";
 import { injectable, } from "inversify";
-import { WordSelector } from "./wordSelector";
+import { WordSelector, MAX_WORDS_PER_RESPONSE } from "./wordSelector";
+import { DatamuseResponse, IDatamuseResponse } from "./IdatamuseResponse";
 
 const DATAMUSE = require("datamuse");
-const DATAMUSE_OPTIONS: string[] = ["words?sp=", "&md=f,d&max=250"];
+const DATAMUSE_OPTIONS: string[] = ["words?sp=", "&md=f,d&max=" + MAX_WORDS_PER_RESPONSE];
 
 module Lexical {
 
     @injectable()
     export class DatamuseWordFinder {
 
-        public findWords(req: Request, res: Response, next: NextFunction): void {
-            let criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);            
+        public findWords(req: Request, res: Response): void {
+            /*
+            const criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);
 
-            DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria + DATAMUSE_OPTIONS[1]).then((response: JSON) =>
-                res.send(response));
+            DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria + DATAMUSE_OPTIONS[1]).then((response: Array<DatamuseResponse>) =>
+                res.send(response));*/ 
+
+            const template: string = req.params.criteria;
+            WordSelector.getWords(template);
         }
 
-        public findWordsBasedOnRarity(req: Request, res: Response, next: NextFunction, isCommon: boolean): void {
-            let criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);
+        public findWordsByRarity(req: Request, res: Response, isCommon: boolean): void {
+            const criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);
 
-            DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria + DATAMUSE_OPTIONS[1]).then((response: JSON) =>
-                res.send(WordSelector.getWordsBasedOnRarity(response, isCommon)));
+            DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria + DATAMUSE_OPTIONS[1]).then((response: Array<DatamuseResponse>) =>
+                res.send(WordSelector.getWordsByRarity(response, isCommon)));
         }
 
-        public findWordsBasedOnDifficulty(req: Request, res: Response, next: NextFunction, isCommon: boolean,  isEasy: boolean): void {
-            let criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);
+        public findWordsByDifficulty(req: Request, res: Response, isCommon: boolean,  isEasy: boolean): void {
+            const criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);
             const isCompleteWord: boolean = (!criteria.includes("?"));
-           
-            DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria +  DATAMUSE_OPTIONS[1]).then((response: JSON) =>
-                {
-                    if(isCompleteWord) {
-                        res.send(WordSelector.confirmWordBasedOnDifficulty(response, isCommon, isEasy, criteria));
-                    } else {
-                        res.send(WordSelector.getValidWordsBasedOnDifficulty(response, isCommon, isEasy));
-                    }
-                });
+
+            DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria +  DATAMUSE_OPTIONS[1]).then((response: Array<DatamuseResponse>) => {
+                response = response.map((dmResponse: IDatamuseResponse) => new DatamuseResponse(dmResponse));
+                if (isCompleteWord) {
+                    res.send(WordSelector.confirmWordByDifficulty(response, isCommon, isEasy, criteria));
+                } else {
+                    res.send(WordSelector.getValidWordsByDifficulty(response, criteria, isCommon, isEasy));
+                }
+            }).catch((err: Error) => console.error(err));
         }
 
         private switchHyphensToQuestionMarks (criteria: string): string {

@@ -2,94 +2,109 @@ import { Injectable } from '@angular/core';
 import { TrackEditorRenderService } from './track-editor-render.service';
 import { Track } from '../track/trackData/track';
 import { Waypoint } from '../track/trackData/waypoint';
-import { POINTS_POSITION_Z } from '../constants';
-
+import { POINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from '../constants';
+import { Constraints } from "./constrains/constraints";
 import * as THREE from 'three';
+import { ConstraintsError } from "./constrains/constraintsError";
 
 const NB_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
+const MIN_MOVEMENT_TRESHOLD: number = 2;
 
 @Injectable()
 export class TrackEditorService {
 
-    private container: HTMLDivElement;
-    private track: Track;
-    private dragDropActive: boolean;
-    private closedTrack: boolean;
-    private selectedWaypoint: Waypoint;
-    private selectedWaypointInitialPos: THREE.Vector3;
+    private _container: HTMLDivElement;
+    private _track: Track;
+    private _dragDropActive: boolean;
+    private _selectedWaypoint: Waypoint;
+    private _selectedWaypointInitialPos: THREE.Vector3;
+    private _constraints: Constraints;
 
 
     public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
 
 
     public initialize(container: HTMLDivElement): void {
-        this.container = container;
-        this.trackEditorRenderService.initialize(this.container, this.track);
-        this.track = new Track();
-        this.dragDropActive = false;
-        this.closedTrack = false;
+        this._container = container;
+        this.trackEditorRenderService.initialize(this._container, this._track);
+        this._track = new Track();
+        this._dragDropActive = false;
+        this._track.isClosed = false;
+        this._constraints = new Constraints();
     }
 
-    public getTrack(): Track {
-        return this.track;
+    public get track(): Track {
+        return this._track;
     }
 
     public addWaypoints(waypoints: Waypoint[]): void {
         waypoints.forEach((waypoint) => {
             waypoint.setPositionZ(POINTS_POSITION_Z);
-            this.track.addWaypoint(waypoint);
+            this._track.addWaypoint(waypoint);
         });
-        this.trackEditorRenderService.circleHandler.generateCircles(waypoints);
-        if (this.track.getTrackSize() > 1) {
+        this.trackEditorRenderService._circleHandler.generateCircles(waypoints);
+        if (this._track.getTrackSize() > 1) {
             if (waypoints.length === 1)
-                waypoints.unshift(this.track.getPreviousToLastWaypoint());
-            this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
+                waypoints.unshift(this._track.getPreviousToLastWaypoint());
+            this.trackEditorRenderService._planeHandler.generatePlanes(waypoints);
+            this._constraints.addRoads(waypoints);
+            this.updateValidityOfTrack();
         }
       }
 
     public moveWaypoint(circleId: number, newPos: THREE.Vector3): void {
-        const waypoint: Waypoint = this.track.getWaypoint(circleId);
+        const waypoint: Waypoint = this._track.getWaypoint(circleId);
         waypoint.setPosition(newPos);
-        this.trackEditorRenderService.circleHandler.moveCircle(circleId, newPos);
-        this.trackEditorRenderService.planeHandler.movedWaypoint(waypoint, newPos);
+        this.trackEditorRenderService._circleHandler.moveCircle(circleId, newPos);
+        this.trackEditorRenderService._planeHandler.movedWaypoint(waypoint, newPos);
+        this._constraints.movedWaypoint(waypoint, newPos);
+        this.updateValidityOfTrack();
     }
 
     public removeWaypoint(): void {
-        if (this.track.getTrackSize() > 0) {
-            const waypoint: Waypoint = this.track.removeWaypoint();
-            this.trackEditorRenderService.circleHandler.removeCircle(waypoint.getCircleId());
-            if (this.track.getTrackSize() > 0) {
+        if (this._track.getTrackSize() > 0) {
+            const waypoint: Waypoint = this._track.removeWaypoint();
+            this.trackEditorRenderService._circleHandler.removeCircle(waypoint.getCircleId());
+            if (this._track.getTrackSize() > 0) {
                 const planeId: number = waypoint.getIncomingPlaneId();
-                this.trackEditorRenderService.planeHandler.removePlane(planeId);
-                this.track.getWaypointBindedToPlane(planeId).unbindOutgoingPlane();
+                this.trackEditorRenderService._planeHandler.removePlane(planeId);
+                this._constraints.removeRoad(planeId);
+                this._track.getWaypointBindedToPlane(planeId).unbindOutgoingPlane();
             }
+            this.updateValidityOfTrack();
         }
     }
 
     public isTrackClosable(): boolean {
-        return !this.closedTrack
-               && this.track.isFirstWaypoint(this.selectedWaypoint.getCircleId())
-               && this.track.getTrackSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON
-               && this.selectedWaypoint.getPosition() === this.selectedWaypointInitialPos;
+        return !this._track.isClosed
+               && this._track.isFirstWaypoint(this._selectedWaypoint.getCircleId())
+               && this._track.getTrackSize() >= NB_MIN_WAYPOINTS_FOR_POLYGON
+               && (this._selectedWaypoint.getPosition().distanceTo(this._selectedWaypointInitialPos) <= MIN_MOVEMENT_TRESHOLD);
     }
 
     public closeTrack(): void {
-        const waypoints: Waypoint[] = [this.track.getLastWaypoint(), this.track.getFirstWaypoint()];
-        this.trackEditorRenderService.planeHandler.generatePlanes(waypoints);
+        const waypoints: Waypoint[] = [this._track.getLastWaypoint(), this._track.getFirstWaypoint()];
+        this.trackEditorRenderService._planeHandler.generatePlanes(waypoints);
+        this._constraints.addRoads(waypoints);
+        this._constraints.closeRoad();
+        this.updateValidityOfTrack();
+        this._track.isClosed = true;
     }
 
     public uncloseTrack(): void {
-        const lastPlaneId: number = this.track.getLastWaypoint().getOutgoingPlaneId();
-        this.trackEditorRenderService.planeHandler.removePlane(lastPlaneId);
+        const lastPlaneId: number = this._track.getLastWaypoint().getOutgoingPlaneId();
+        this.trackEditorRenderService._planeHandler.removePlane(lastPlaneId);
 
-        this.track.getFirstWaypoint().unbindIncomingPlane();
-        this.track.getLastWaypoint().unbindOutgoingPlane();
+        this._track.getFirstWaypoint().unbindIncomingPlane();
+        this._track.getLastWaypoint().unbindOutgoingPlane();
+
+        this._track.isClosed = false;
     }
 
     public handleRightMouseDown(event: MouseEvent): void {
-        if (this.closedTrack) {
+        if (this._track.isClosed) {
             this.uncloseTrack();
-            this.closedTrack = false;
+            this._track.isClosed = false;
         } else {
             this.removeWaypoint();
         }
@@ -100,13 +115,13 @@ export class TrackEditorService {
         const objectsSelected: THREE.Intersection[] = this.trackEditorRenderService.getObjectsPointedByMouse(event);
         const firstObjectName: string = objectsSelected[0].object.name;
         if (objectsSelected.length > 0) {
-            if (firstObjectName === "point") {
-                    this.selectedWaypoint = this.track.getWaypoint(objectsSelected[0].object.id);
-                    if (this.selectedWaypoint != null) {
-                            this.selectedWaypointInitialPos = this.selectedWaypoint.getPosition();
-                            this.dragDropActive = true;
+            if (firstObjectName === POINT) {
+                    this._selectedWaypoint = this._track.getWaypoint(objectsSelected[0].object.id);
+                    if (this._selectedWaypoint != null) {
+                            this._selectedWaypointInitialPos = this._selectedWaypoint.getPosition();
+                            this._dragDropActive = true;
                         }
-            } else if (!this.closedTrack && firstObjectName === "backgroundPlane")  {
+            } else if (!this._track.isClosed && firstObjectName === BACKGROUND_PLANE)  {
                 const newWaypoint: Waypoint[] = [new Waypoint(objectsSelected[0].point)];
                 this.addWaypoints(newWaypoint);
             }
@@ -114,23 +129,42 @@ export class TrackEditorService {
     }
 
     public handleLeftMouseUp(event: MouseEvent): void {
-        if (this.selectedWaypoint != null && this.isTrackClosable()) {
-            this.closedTrack = true;
+        if (this._selectedWaypoint != null && this.isTrackClosable()) {
+            this._track.isClosed = true;
             this.closeTrack();
         }
-        this.selectedWaypoint = null;
-        this.dragDropActive = false;
+        this._selectedWaypoint = null;
+        this._dragDropActive = false;
     }
 
     public handleMouseMove(event: MouseEvent): void {
-        if (this.dragDropActive) {
+        if (this._dragDropActive) {
             this.trackEditorRenderService.updateRaycastMousePos(event);
             const backgroundPlaneSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
             event.preventDefault();
             backgroundPlaneSelected[0].point.z = POINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);
-            this.moveWaypoint(this.selectedWaypoint.getCircleId(), backgroundPlaneSelected[0].point);
+            this.moveWaypoint(this._selectedWaypoint.getCircleId(), backgroundPlaneSelected[0].point);
         }
+    }
+    // tslint:disable:no-console
+    private updateValidityOfTrack(): void {
+        const invalidsPlanesId: ConstraintsError[] = this.getInvalidPlanesId();
+        console.log(invalidsPlanesId);
+        if (invalidsPlanesId.length === 0) {
+            this._track.isValid = true;
+        } else {
+            this._track.isValid = false;
+            // TO DO : MODIFY TEXTURES
+        }
+
+        console.log(this._track);
+    }
+
+    private getInvalidPlanesId(): ConstraintsError[] {
+        this._constraints.updateInvalidPlanes();
+
+        return this._constraints.invalidPlanesErrors;
     }
 
 }

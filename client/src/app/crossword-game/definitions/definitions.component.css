@@ -1,18 +1,25 @@
-
-li {
-    list-style-type: none;
-    font-weight: normal;
-    padding: 0px 3vw;
+table {
+    width: 100%;
 }
 
-li:hover {
-    background: lightblue;
-    cursor: pointer;
+thead,
+tbody {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    border: 1.5px solid black;
 }
 
-.table {
-    font-size: 1vw;
-    border: 2px solid black;
+.title {
+    color: black;
+    padding: 1vh;
+}
+
+tbody {
+    height: 14.5em;
+    border-top: none;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 span {
@@ -21,9 +28,37 @@ span {
     font-weight: bold;
 }
 
-.title {
-    color: black;
-    padding: 1vh;
-    border: none;
+tr,
+div {
+    width: 100%;
 }
 
+li {
+    color: black;
+    width: 40vw;
+    list-style-type: none;
+    font-weight: normal;
+    padding: 0px 3vw;
+    margin: 0 0.5px;
+    cursor: pointer;
+}
+
+li:hover {
+    background: lightblue;
+    color: black;
+}
+
+.selected {
+    background: rgb(66, 120, 163);
+    color: white;
+}
+
+.selected:hover {
+    background: rgb(56, 110, 133);
+    color: white;
+}
+
+.validated {
+    background: green;
+    color: white;
+}

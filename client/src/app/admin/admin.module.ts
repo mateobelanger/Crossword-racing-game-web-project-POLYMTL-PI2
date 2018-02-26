@@ -7,21 +7,21 @@ import { TrackEditorRenderService } from '../racing-game/track-editor/track-edit
 import { AdminComponent } from './admin.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    routes,
-  ],
-  declarations: [
-    AdminComponent,
-    TrackEditorComponent
-  ],
-  exports: [
-    AdminComponent,
-  ],
+    imports: [
+        CommonModule,
+        routes,
+    ],
+    declarations: [
+        AdminComponent,
+        TrackEditorComponent
+    ],
+    exports: [
+        AdminComponent,
+    ],
 
-  providers: [
-    TrackEditorService,
-    TrackEditorRenderService
-  ]
+    providers: [
+        TrackEditorService,
+        TrackEditorRenderService
+    ]
 })
 export class AdminModule { }

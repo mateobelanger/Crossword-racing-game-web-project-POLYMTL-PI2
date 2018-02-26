@@ -33,3 +33,10 @@ button[disabled] {
     border: auto;
     cursor: auto;
 }
+
+
+input[type=radio] {
+    border: 0px;
+    width: 25px;
+    height: 25px;
+}

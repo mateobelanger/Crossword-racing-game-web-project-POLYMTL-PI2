@@ -18,10 +18,10 @@ describe("Plane", () => {
 
         const plane: Plane = new Plane(beginingPoint, endPoint);
         expect(plane).toBeDefined();
-        expect(plane.getBeginingPoint()).toEqual(new THREE.Vector3(0, 0, -1));
-        expect(plane.getEndPoint()).toEqual(new THREE.Vector3(1, 1, -1));
-        expect(plane.getMesh()).toBeNull();
-        expect(plane.getPreviousAngle()).toEqual(0);
+        expect(plane.beginingPoint).toEqual(new THREE.Vector3(0, 0, -1));
+        expect(plane.endPoint).toEqual(new THREE.Vector3(1, 1, -1));
+        expect(plane.mesh).toBeNull();
+        expect(plane.previousAngle).toEqual(0);
     });
 
     it("should calculate positive radian angle properly", () => {
@@ -42,14 +42,14 @@ describe("Plane", () => {
         const beginingPoint: Waypoint = new Waypoint (new THREE.Vector3(1, 1, 4));
         const endPoint: Waypoint = new Waypoint (new THREE.Vector3(4, 5, 0));
         const plane: Plane = new Plane(beginingPoint, endPoint);
-        expect(plane.getLength()).toEqual(5 - CIRLEDIAMETER);
+        expect(plane.length).toEqual(5 - CIRLEDIAMETER);
     });
 
     it("should calculate center point properly", () => {
         const beginingPoint: Waypoint = new Waypoint (new THREE.Vector3(0, 0, 4));
         const endPoint: Waypoint = new Waypoint (new THREE.Vector3(4, 4, 0));
         const plane: Plane = new Plane(beginingPoint, endPoint);
-        expect(plane.getCenterPoint()).toEqual(new THREE.Vector3(2, 2, -1));
+        expect(plane.centerPoint).toEqual(new THREE.Vector3(2, 2, -1));
     });
 
 

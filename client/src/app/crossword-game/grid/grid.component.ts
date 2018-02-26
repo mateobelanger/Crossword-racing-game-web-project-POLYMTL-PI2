@@ -1,36 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
+import { GridService } from "../grid.service";
+import { ValidationMediatorService } from "../validation-mediator.service";
 
 @Component({
-    selector: 'app-grid',
-    templateUrl: './grid.component.html',
-    styleUrls: ['./grid.component.css']
+    selector: "app-grid",
+    templateUrl: "./grid.component.html",
+    styleUrls: ["./grid.component.css"]
 })
-export class GridComponent implements OnInit {
 
-    private userGrid: Array<Array<string>>;
+export class GridComponent {
 
-    public constructor() {
-        this.userGrid = [["", "", "", "", "", "", "", "", "", ""],
-                         ["", "", "", "", "", "", "", "", "", ""],
-                         ["", "", "", "", "", "", "", "", "", ""],
-                         ["", "", "", "", "", "", "", "", "", ""],
-                         ["", "", "", "-", "-", "", "", "", "", ""],
-                         ["", "", "", "", "", "", "", "", "", ""],
-                         ["", "", "", "", "", "", "", "", "", ""],
-                         ["", "", "", "", "", "", "", "", "", ""],
-                         ["", "", "", "", "", "", "", "", "", ""],
-                         ["", "", "", "", "", "", "", "", "", ""]];
+    public constructor(private validationMediatorService: ValidationMediatorService, private gridService: GridService) {
+        this.gridService.fillGrid();
     }
 
-    public ngOnInit(): void {
-    }
-
-    public trackByIndex(index: number, value: number): number {
+    public trackByIndex(index: number): number {
         return index;
     }
 
-    public changeCssOnSelection(id: number): void {
-        document.getElementById(id.toString()).setAttribute("class", "selected col");
+    public keyUp(keyCode: number, row: number, column: number): void {
+        this.validationMediatorService.keyUp(keyCode, row, column);
     }
 
 }

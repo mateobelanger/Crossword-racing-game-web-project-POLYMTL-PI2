@@ -7,7 +7,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { RacingGameComponent } from './racing-game.component';
 import { GameComponent } from "./game-component/game.component";
 import { RenderService } from "./render-service/render.service";
-import { BasicService } from "./basic.service";
 import { TrackEditorRenderService } from './track-editor/track-editor-render.service';
 import { TrackEditorService } from './track-editor/track-editor.service';
 import { CameraService } from './camera.service';
@@ -34,7 +33,6 @@ import { routes } from '../app-routes.module';
 
   providers: [
     RenderService,
-    BasicService,
     TrackEditorRenderService,
     TrackEditorService,
     CameraService,
