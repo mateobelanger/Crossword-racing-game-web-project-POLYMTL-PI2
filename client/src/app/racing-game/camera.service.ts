@@ -45,6 +45,16 @@ export class CameraService {
         this.initializeCameras();
     }
 
+    public initializeCameras(): void {
+        this.initializeOrhographicCamera();
+        this.initializePerspectiveCamera();
+    }
+
+    public updatePosition(): void {
+        this.updateOrhographicCameraPosition();
+        this.updatePerspectiveCameraPosition();
+    }
+
     public getCamera(): THREE.Camera {
         return this.camera === CameraType.ORTHOGRAPHIC ? this._orthographicCamera : this._perspectiveCamera;
     }
@@ -53,7 +63,7 @@ export class CameraService {
         this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
     }
 
-    public initializeCameras(): void {
+    private initializeOrhographicCamera(): void {
         /*tslint:disable:no-magic-numbers */
         this._orthographicCamera = new THREE.OrthographicCamera (
             ORTHOGRAPHIC_FIELD_OF_VIEW / - 2,
@@ -69,8 +79,9 @@ export class CameraService {
         this._orthographicCamera.position.z = this.target.position.z;
 
         this._orthographicCamera.lookAt(this.target.position);
+    }
 
-
+    private initializePerspectiveCamera(): void {
         this._perspectiveCamera = new THREE.PerspectiveCamera (
             PERSPECTIVE_FIELD_OF_VIEW,
             this.getAspectRatio(),
@@ -80,22 +91,22 @@ export class CameraService {
         this._perspectiveCamera.position.x = this.target.position.x;
         this._perspectiveCamera.position.y = this.target.position.y;
         this._perspectiveCamera.position.z = this.target.position.z;
-
     }
 
-    public updatePosition(): void {
-       this._orthographicCamera.position.x = this.target.position.x;
-       this._orthographicCamera.position.z = this.target.position.z;
-
-       const relativeCameraOffset: THREE.Vector3 = new THREE.Vector3(0, PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z);
-       const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4( this.target.matrix );
-
-       this._perspectiveCamera.position.x = cameraOffset.x;
-       this._perspectiveCamera.position.z = cameraOffset.z;
-       this._perspectiveCamera.position.y = cameraOffset.y;
-       this._perspectiveCamera.lookAt(this.target.position);
+    private updateOrhographicCameraPosition(): void {
+        this._orthographicCamera.position.x = this.target.position.x;
+        this._orthographicCamera.position.z = this.target.position.z;
     }
 
+    private updatePerspectiveCameraPosition(): void {
+        const relativeCameraOffset: THREE.Vector3 = new THREE.Vector3(0, PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z);
+        const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4( this.target.matrix );
+
+        this._perspectiveCamera.position.x = cameraOffset.x;
+        this._perspectiveCamera.position.z = cameraOffset.z;
+        this._perspectiveCamera.position.y = cameraOffset.y;
+        this._perspectiveCamera.lookAt(this.target.position);
+    }
 
     private getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
