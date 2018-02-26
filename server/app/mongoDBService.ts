@@ -12,19 +12,25 @@ export class MongoDBService {
     public get routes(): Router {
         const router: Router = Router();
 
-        router.get("/service/mongoDB",
-                   (req: Request, res: Response) => {
-                    MongoDBAccess.getAll(req, res);
-                });
+        router.get( "/service/mongoDB",
+                    async (req: Request, res: Response) => {
+                        const tracksData: TrackData[] = await MongoDBAccess.getAll();
+
+                        res.send(tracksData);
+                    });
 
         router.post("/service/mongoDB",
-                    (req: Request, res: Response) => {
-                        MongoDBAccess.addTrack(req, res);
+                    async (req: Request, res: Response) => {
+                        const trackData: TrackData = await MongoDBAccess.addTrack(req.body as TrackData);
+
+                        res.send(trackData);
                     });
 
         router.delete(  "/service/mongoDB/:name",
-                        (req: Request, res: Response) => {
-                            MongoDBAccess.remove(req.params.name, res);
+                        async (req: Request, res: Response) => {
+                            const trackName: string = await MongoDBAccess.remove(req.params.name);
+
+                            res.send(trackName);
                         });
 
         router.put( "/service/mongoDB",
@@ -35,17 +41,10 @@ export class MongoDBService {
                     });
 
         router.patch(   "/service/mongoDB/:name",
-                        (req: Request, res: Response) => {
-                            MongoDBAccess.incrementTimesPlayed(req.params.name, res);
+                        async (req: Request, res: Response) => {
+                            const trackName: string = await MongoDBAccess.incrementTimesPlayed(req.params.name);
+                            res.send(trackName);
                         });
-
-
-        // function handleServerError(response: Response, error: string){
-        //     console.log(error);
-        //     response.type('text/plain');
-        //     response.status(500);
-        //     response.send('500 - Server Error');
-        // }
 
         return router;
 

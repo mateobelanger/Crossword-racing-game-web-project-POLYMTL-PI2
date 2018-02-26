@@ -62,11 +62,13 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
             void this.proxy.saveTrack(this.track);
         }
     }
+
     public alreadyUsedNamePopup(): void {
         document.getElementById("validPopup").classList.remove("show");
         document.getElementById("invalidTrackPopup").classList.remove("show");
         document.getElementById("alreadyUsedNamePopup").classList.toggle("show");
     }
+
     public invalidTrackPopup(): void {
         document.getElementById("validPopup").classList.remove("show");
         document.getElementById("alreadyUsedNamePopup").classList.remove("show");

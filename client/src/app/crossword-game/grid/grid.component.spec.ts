@@ -11,9 +11,9 @@ describe('GridComponent', () => {
     beforeEach(async(() => {
         // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
-        declarations: [ GridComponent ],
         imports: [ FormsModule ],
-        providers: [WordService]
+        providers: [WordService],
+        declarations: [GridComponent]
         })
         .compileComponents();
     }));
