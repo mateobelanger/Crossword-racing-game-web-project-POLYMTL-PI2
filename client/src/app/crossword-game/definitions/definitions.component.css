@@ -61,4 +61,5 @@ li:hover {
 .validated {
     background: green;
     color: white;
+    pointer-events:none;
 }
