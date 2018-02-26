@@ -4,9 +4,9 @@ import { APP_BASE_HREF } from '@angular/common';
 import { TrackEditorUiComponent } from './track-editor-ui.component';
 import { routes } from '../../app-routes.module';
 import { AppModule } from '../../app.module';
-import { TrackData } from '../../../../../common/trackData';
+import { ITrackData } from '../../../../../common/trackData';
 
-const fakeTrack: TrackData = {
+const fakeTrack: ITrackData = {
     name: "test",
     description: "test description",
     timesPlayed: 0,
@@ -20,6 +20,7 @@ describe('TrackEditorUiComponent', () => {
     let fixture: ComponentFixture<TrackEditorUiComponent>;
 
     beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
