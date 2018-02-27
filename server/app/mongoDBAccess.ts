@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import { ITrackData } from "../../common/trackData";
 
 // Connection URL
@@ -24,47 +23,67 @@ export class MongoDBAccess {
     // tslint:disable-next-line:no-empty
     public constructor() { }
 
-    public static getAll(req: Request, res: Response): void {
-
+    public static async getAll(): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
-        db.once("open", () => {
-            TRACK.find((error: any, trackData: ITrackData[]) => {
-                if (error) { { return console.error(error); } }
-                res.send(trackData);
+
+        return new Promise((resolve: any, reject: any) => {
+            db.once("open", () => {
+                TRACK.find(
+                    (err: any, trackData: ITrackData[]) => {
+                        if (err) {
+                            return console.error(err);
+                        }
+                        resolve(trackData);
+                    }
+                );
             });
         });
     }
 
-    public static addTrack(req: Request, res: Response): void {
-
-        MONGOOSE.connect(MONGODB_URI);
-        const connection: any = MONGOOSE.connection;
-
-        const track: any = new TRACK(req.body);
-        track.bestTimes = [];
-        track.timesPlayed = 0;
-
-        connection.once("open", () =>
-            track.save((err: any, trackSaved: any) => {
-                if (err) {
-                    return console.error(err);
-                }
-                res.send(req.body);
-            })
-        );
-
-    }
-
-    public static remove(trackName: string, res: Response): void {
-
+    public static async addTrack(track: ITrackData): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
-        db.once("open", () => {
-            TRACK.findOne({ name: trackName })
-                .remove((err: any) => { if (err) { return console.error(err); } })
-                .exec();
-            res.send("removed");
+
+        const newTrack: any = new TRACK(track);
+        newTrack.bestTimes = [];
+        newTrack.timesPlayed = 0;
+
+        return new Promise((resolve: any, reject: any) => {
+            db.once("open", () => {
+                newTrack.save(
+                    (err: any, trackSaved: ITrackData) => {
+                        if (err) {
+                            return console.error(err);
+                        }
+                        resolve(newTrack);
+                    }
+                );
+
+                resolve(newTrack);
+            });
+        });
+    }
+
+    public static async remove(trackName: string): Promise<any> {
+        MONGOOSE.connect(MONGODB_URI);
+        const db: any = MONGOOSE.connection;
+
+        return new Promise((resolve: any, reject: any) => {
+            db.once("open", () => {
+                TRACK.findOne({ name: trackName })
+                    .remove((err: any) => {
+                        if (err) {
+                            return console.error(err);
+                        }
+                    })
+                    .exec((err: any) => {
+                        if (err) {
+                            return console.error(err);
+                        }
+                        resolve(trackName);
+                    });
+            });
         });
     }
 
@@ -95,21 +114,25 @@ export class MongoDBAccess {
         });
     }
 
-    // à vérifier
-    public static incrementTimesPlayed(trackName: string, res: Response): void {
-
+    public static async incrementTimesPlayed(trackName: string): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
-        db.once("open", () => {
-            TRACK.update(   {name: trackName },
-                            { $inc: { timesPlayed: 1 } },
-                            (err: any, numAffected: number) => {
-                                if (err) {
-                                    return console.error(err);
-                                }
-                            }
-            );
-            res.send(trackName);
+
+        return new Promise((resolve: any, reject: any) => {
+            db.once("open", () => {
+                TRACK.update(
+                    { name: trackName },
+                    { $inc: { timesPlayed: 1 } },
+                    (err: any, numAffected: number) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                        resolve(trackName);
+                    }
+                );
+
+                resolve(trackName);
+            });
         });
     }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordService } from './word.service';
-import { Direction, Word } from  '../../../../common/crosswordsInterfaces/word';
+import { Direction, Word } from '../../../../common/crosswordsInterfaces/word';
 
 @Injectable()
 export class DefinitionsService {

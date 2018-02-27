@@ -117,7 +117,6 @@ export class GridCreator {
         this._grid[row][col] = value;
     }
 
-    // TODO: Find a better way to find a random cell.
     private setRandomly(value: string, n: number = 1): void {
         if (value.length !== 1) {
             return;

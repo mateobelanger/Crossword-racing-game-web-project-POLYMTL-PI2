@@ -47,7 +47,13 @@ export class TrackEditorUiComponent implements AfterViewInit {
         }
     }
 
-    public saveTrack(): void {
+    public async saveTrack(): Promise<void> {
+        try {
+            await this.proxy.initialize();
+        } catch (e) {
+            return;
+        }
+
         if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
             this.invalidTrackPopup();
         } else if (this.proxy.findTrack(this.name) !== null && this.track.name !== this.name) {
@@ -62,11 +68,13 @@ export class TrackEditorUiComponent implements AfterViewInit {
             void this.proxy.saveTrack(this.track);
         }
     }
+
     public alreadyUsedNamePopup(): void {
         document.getElementById("validPopup").classList.remove("show");
         document.getElementById("invalidTrackPopup").classList.remove("show");
         document.getElementById("alreadyUsedNamePopup").classList.toggle("show");
     }
+
     public invalidTrackPopup(): void {
         document.getElementById("validPopup").classList.remove("show");
         document.getElementById("alreadyUsedNamePopup").classList.remove("show");

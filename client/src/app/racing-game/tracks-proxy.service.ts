@@ -53,8 +53,9 @@ export class TracksProxyService {
     public findTrack(trackName: string): ITrackData {
         let track: ITrackData = null;
         this._tracks.forEach((elem) => {
-            if (elem.name === trackName)
-                track = elem;
+        if (elem.name === trackName) {
+            track = elem;
+        }
         });
 
         return track;
