@@ -18,7 +18,6 @@ export class WordPlacer {
         this._grid = grid;
     }
 
-    // tslint:disable-next-line:max-func-body-length
     public async placeWords(difficulty: string, res: Response): Promise<boolean> {
         if (this._emptyWords.length === 0) {
             res.send(this._placedWords);
