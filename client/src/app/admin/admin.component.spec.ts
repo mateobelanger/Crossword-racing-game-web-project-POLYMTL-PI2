@@ -7,43 +7,43 @@ import { AdminComponent } from "./admin.component";
 import { TrackData } from "../../../../common/trackData";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 
-describe("AdminComponent", () => {
+const tracks: TrackData[] = [
+    {
+        name: "Test",
+        description: "Test description",
+        timesPlayed: 12,
+        // tslint:disable-next-line:no-magic-numbers
+        bestTimes: [["gen", 2], ["p-o ;)", 1]],
+        // tslint:disable-next-line:no-magic-numbers
+        waypoints: [[1, 1, 1], [2, 2, 2]]
+    },
+    {
+        name: "Test2",
+        description: "Test description",
+        timesPlayed: 12,
+        // tslint:disable-next-line:no-magic-numbers
+        bestTimes: [["gen", 2], ["p-o ;)", 1]],
+        // tslint:disable-next-line:no-magic-numbers
+        waypoints: [[1, 1, 1], [2, 2, 2]]
+    },
+    {
+        name: "Test3",
+        description: "Test description",
+        timesPlayed: 12,
+        bestTimes: [["gen", 1], ["p-o ;)", 1]],
+        // tslint:disable-next-line:no-magic-numbers
+        waypoints: [[1, 1, 1], [2, 2, 2]]
+    }
+];
 
-    const tracks: TrackData[] = [
-        {
-            name: "Test",
-            description: "Test description",
-            timesPlayed: 12,
-            // tslint:disable-next-line:no-magic-numbers
-            bestTimes: [["gen", 2], ["p-o ;)", 1]],
-            // tslint:disable-next-line:no-magic-numbers
-            waypoints: [[1, 1, 1], [2, 2, 2]]
-        },
-        {
-            name: "Test2",
-            description: "Test description",
-            timesPlayed: 12,
-            // tslint:disable-next-line:no-magic-numbers
-            bestTimes: [["gen", 2], ["p-o ;)", 1]],
-            // tslint:disable-next-line:no-magic-numbers
-            waypoints: [[1, 1, 1], [2, 2, 2]]
-        },
-        {
-            name: "Test3",
-            description: "Test description",
-            timesPlayed: 12,
-            bestTimes: [["gen", 1], ["p-o ;)", 1]],
-            // tslint:disable-next-line:no-magic-numbers
-            waypoints: [[1, 1, 1], [2, 2, 2]]
-        }
-    ];
+describe("AdminComponent", () => {
 
     let component: AdminComponent;
     let fixture: ComponentFixture<AdminComponent>;
     let spyInitialize: jasmine.Spy;
     let spyDelete: jasmine.Spy;
 
-    beforeEach(() => {
+    beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [TracksProxyService, { provide: APP_BASE_HREF, useValue: "/" }]
@@ -64,7 +64,7 @@ describe("AdminComponent", () => {
         spyDelete = spyOn(proxyService, "deleteTrack")
             .and.returnValue(Promise.resolve(tracks.pop()));
 
-    });
+    }));
 
     it("should create", () => {
         expect(component).toBeTruthy();

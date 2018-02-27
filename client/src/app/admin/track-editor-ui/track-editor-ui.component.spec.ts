@@ -5,19 +5,43 @@ import { TrackEditorUiComponent } from './track-editor-ui.component';
 import { routes } from '../../app-routes.module';
 import { AppModule } from '../../app.module';
 import { TrackData } from '../../../../../common/trackData';
+import { TracksProxyService } from "../../racing-game/tracks-proxy.service";
 
 const fakeTrack: TrackData = {
-    name: "test",
-    description: "test description",
-    timesPlayed: 0,
+    name: "Test3",
+    description: "Test description",
+    timesPlayed: 12,
     bestTimes: [],
     // tslint:disable-next-line:no-magic-numbers
     waypoints: [[1, 1, 1], [2, 2, 2]]
+
 };
+
+const tracks: TrackData[] = [
+    {
+        name: "Test",
+        description: "Test description",
+        timesPlayed: 12,
+        bestTimes: [],
+        // tslint:disable-next-line:no-magic-numbers
+        waypoints: [[1, 1, 1], [2, 2, 2]]
+    },
+    {
+        name: "Test2",
+        description: "Test description",
+        timesPlayed: 12,
+        // tslint:disable-next-line:no-magic-numbers
+        bestTimes: [["gen", 2], ["p-o ;)", 1]],
+        // tslint:disable-next-line:no-magic-numbers
+        waypoints: [[1, 1, 1], [2, 2, 2]]
+    }
+];
 
 describe('TrackEditorUiComponent', () => {
     let component: TrackEditorUiComponent;
     let fixture: ComponentFixture<TrackEditorUiComponent>;
+    let spyInitialize: jasmine.Spy;
+    let spySaveTrack: jasmine.Spy;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -31,7 +55,17 @@ describe('TrackEditorUiComponent', () => {
         fixture = TestBed.createComponent(TrackEditorUiComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-        component.track = fakeTrack;
+
+        // TwainService actually injected into the component
+        const proxyService: TracksProxyService = fixture.debugElement.injector.get(TracksProxyService);
+
+        // Set up spy on the "initialize" method
+        spyInitialize = spyOn(proxyService, "initialize")
+            .and.returnValue(Promise.resolve(tracks));
+
+        // Set up spy on the "saveTrack" method
+        spySaveTrack = spyOn(proxyService, "saveTrack")
+            .and.returnValue(Promise.resolve(tracks.push(fakeTrack)));
     });
 
     it('should create', () => {
@@ -78,6 +112,41 @@ describe('TrackEditorUiComponent', () => {
             }
         }
         expect(acceptsSymbols).toBe(false);
+    });
+
+    it("should not have track before OnInit", () => {
+        expect(component.track).toBeUndefined();
+        expect(spyInitialize.calls.any()).toBe(false, "initialize not yet called");
+    });
+
+    it("should have track once proxy service returned track", () => {
+
+        fixture.detectChanges();
+        async(() => {
+            fixture.whenStable().then(() => {   // wait for async initialize
+                expect(component.track).toBe(fakeTrack);
+            });
+        });
+    });
+
+    it("should not call saveTrack by itself", () => {
+        fixture.detectChanges();
+        expect(spySaveTrack.calls.any()).toBe(false, "saveTrack not yet called");
+    });
+
+
+    it("should call delete from proxy when saving track", () => {
+
+        async(() => {
+            fixture.detectChanges();
+            component.track = fakeTrack;
+
+            fixture.whenStable().then(() => {       // wait for async saveTrack
+                fixture.detectChanges();
+                component.saveTrack();
+                expect(spySaveTrack.calls.any()).toBe(true, "saveTrack called");
+            });
+        });
     });
 });
 
