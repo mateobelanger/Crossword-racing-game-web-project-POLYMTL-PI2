@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BACKGROUND_PLANE, BACKGROUND_PLANE_POSITION_Z } from "../../constants";
+import { BACKGROUND_PLANE, BACKGROUND_PLANE_POSITION_Z, EDITOR_LAND_WIDTH, EDITOR_LAND_HEIGHT } from "../../constants";
 
 
 const REAPEAT_IMAGE: number = 2;
@@ -8,7 +8,7 @@ export class BackgroundPlane {
 
     private backgroundPlane: THREE.Mesh;
 
-    public constructor(private scene: THREE.Scene, private container: HTMLDivElement) {
+    public constructor(private scene: THREE.Scene) {
         this.backgroundPlane = null;
     }
 
@@ -19,7 +19,7 @@ export class BackgroundPlane {
     public generateBackgroundPlane (): void {
         const material: THREE.MeshBasicMaterial = this.getBackgroundMaterial();
         this.backgroundPlane = new THREE.Mesh(
-            new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight), material
+            new THREE.PlaneGeometry(EDITOR_LAND_WIDTH, EDITOR_LAND_HEIGHT), material
         );
         this.backgroundPlane.position.z = BACKGROUND_PLANE_POSITION_Z;
         this.backgroundPlane.name = BACKGROUND_PLANE;
