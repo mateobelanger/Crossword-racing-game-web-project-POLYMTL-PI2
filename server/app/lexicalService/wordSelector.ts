@@ -72,7 +72,7 @@ export class WordSelector {
     }
 
     // used when array word is directly searched
-    public static confirmWordByDifficulty(words: Array<DatamuseResponse>, isCommon: boolean, 
+    public static confirmWordByDifficulty(words: Array<DatamuseResponse>, isCommon: boolean,
                                           isEasy: boolean, word: string): Array<IWord> {
 
         const selectedWords: Array<IWord> = new Array<IWord>();
@@ -96,15 +96,15 @@ export class WordSelector {
             while (template[currentIndex] === "-" || template[currentIndex + 1] === "-" ) { currentIndex++; }
             switch (sizeCombination) {
                 case 2:
-                    if (this.invalidDoubles.has(template.substr(currentIndex, 2))) { 
-                        return true; 
+                    if (this.invalidDoubles.has(template.substr(currentIndex, 2))) {
+                        return true;
                     }
                     currentIndex++;
                     break;
                 case 3:
                     if (template[currentIndex + 1] !== "-" && template[currentIndex + 2] !== "-") {
-                        if (this.invalidTriples.has(template.substr(currentIndex, 3))) { 
-                            return true; 
+                        if (this.invalidTriples.has(template.substr(currentIndex, 3))) {
+                            return true;
                         }
                     }
                     currentIndex++;
@@ -120,9 +120,6 @@ export class WordSelector {
     private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): IWord {
         return { value: datamuseResponse.word, definition: datamuseResponse.defs[definitionIndex] };
     }
- 
-    
-
     /*
      private static readData(datamuseResponse: DatamuseResponse): Word {
         let word: Word;

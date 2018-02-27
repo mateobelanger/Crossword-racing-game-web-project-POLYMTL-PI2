@@ -20,7 +20,7 @@ describe("Lexical service:", () => {
     describe("Searching for words in a given list", () => {
 
         it("should return the length expected list for easy words", (done: MochaDone) => {
-            assert.equal(Object.keys(WordSelector.getValidWordsByDifficulty(usableData, "????", true, true)).length, 
+            assert.equal(Object.keys(WordSelector.getValidWordsByDifficulty(usableData, "????", true, true)).length,
                          Object.keys(expectedResultEasy).length);
             done();
         });
@@ -38,7 +38,7 @@ describe("Lexical service:", () => {
         });
 
         it("should return the length expected list for common words", (done: MochaDone) => {
-            assert.equal(Object.keys(WordSelector.getWordsByRarity(usableData, true)).length, 
+            assert.equal(Object.keys(WordSelector.getWordsByRarity(usableData, true)).length,
                          Object.keys(expectedResultCommon).length);
             done();
         });

@@ -1,6 +1,8 @@
 const COMMON_LIMIT: number = 10;
 const FREQUENCY_INDEX: number = 2;
 const QUOTATION_MARKS_ASCII_CODE: number = 34;
+const CHAR_A: number = 97;
+const CHAR_Z: number = 122;
 
 export class DictionaryEntry {
 
@@ -19,20 +21,19 @@ export class DictionaryEntry {
     }
 
     public getName(): string {
-
         return this.name;
     }
-    
+
     public getDefinitions(): string[] {
 
         return this.definitions;
     }
-    
+
     public getDefinitionIndex(): number {
 
         return this.definitionIndex;
     }
-   
+
     public isCommon(): boolean {
 
         return Number(this.frequency.toString().substring(FREQUENCY_INDEX)) > COMMON_LIMIT ;
@@ -41,6 +42,7 @@ export class DictionaryEntry {
     public hasValidDefinition(isEasy: boolean): boolean {
         if (this.definitions == null) {
             this.definitionIndex = -1;
+
             return false;
         } else {
             this.establishDefinitionIndex(isEasy);
@@ -90,14 +92,15 @@ export class DictionaryEntry {
             return false;
         }
         for (let i: number = 0; i < template.length; i++) {
-            //can only contain letters
-            if(this.name.charCodeAt(i) < 97 && this.name.charCodeAt(i) > 122) {
+            // can only contain letters
+            if (this.name.charCodeAt(i) < CHAR_A && this.name.charCodeAt(i) > CHAR_Z) {
                 return false;
             }
             if (template[i] !== "?" && template[i] !== this.name[i]) {
                 return false;
             }
         }
+
         return true;
     }
 }

@@ -7,14 +7,15 @@ import { WordPlacer } from "./crossword-game/wordPlacer";
 export class GridGeneratorService {
 
     public get routes(): Router {
-        let creator: GridCreator
+        let creator: GridCreator;
         const router: Router = Router();
         const difficulty: string = "easy";
 
         router.get("/service/gridgenerator/:difficulty",
-                   (req: Request, res: Response) => {
+                   async (req: Request, res: Response) => {
                         creator = new GridCreator();
-                        new WordPlacer(creator.create(1), creator.grid).placeWords(difficulty, res);
+                        const placer: WordPlacer = new WordPlacer(creator.create(1), creator.grid);
+                        await placer.placeWords(difficulty, res);
             });
 
         return router;

@@ -8,7 +8,7 @@ export class Helper {
         return array;
     }
 
-    public static arrayToSet<T>(array: T[]) {
+    public static arrayToSet<T>(array: T[]): Set<T> {
         const result: Set<T> = new Set<T>();
         array.forEach((element: T) => {
             result.add(element);

@@ -17,7 +17,7 @@ module Lexical {
             const criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);
 
             DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria + DATAMUSE_OPTIONS[1]).then((response: Array<DatamuseResponse>) =>
-                res.send(response));*/ 
+                res.send(response));*/
 
             const template: string = req.params.criteria;
             WordSelector.getWords(template);
