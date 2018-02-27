@@ -12,6 +12,7 @@ import { AdminComponent } from './admin/admin.component';
 
 import { ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
 import { TrackEditorUiComponent } from './admin/track-editor-ui/track-editor-ui.component';
+import { RacingGameSceneComponent } from './racing-game/racing-game-scene/racing-game-scene.component';
 
 
 export const appRoutes: Routes = [
@@ -21,7 +22,8 @@ export const appRoutes: Routes = [
   { path : 'crossword-game/:difficulty/ui', component: GameUiComponent },
   { path : 'racing-game', component: RacingGameComponent },
   { path : 'admin', component: AdminComponent },
-  { path : 'admin/track-editor/:trackName', component: TrackEditorUiComponent }
+  { path : 'admin/track-editor/:trackName', component: TrackEditorUiComponent },
+  { path : 'racing-game-scene', component: RacingGameSceneComponent }
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);
