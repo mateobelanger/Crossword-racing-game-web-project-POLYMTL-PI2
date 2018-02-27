@@ -2,7 +2,7 @@ export interface IDatamuseResponse {
     word: string;
     score: number;
     tags: Array<string>;
-    defs: Array<string>;
+    definitions: Array<string>;
 }
 
 const COMMON_LIMIT: number = 10;
@@ -13,13 +13,13 @@ export class DatamuseResponse implements IDatamuseResponse {
     public word: string;
     public score: number;
     public tags: Array<string>;
-    public defs: Array<string>;
+    public definitions: Array<string>;
 
     constructor(data: IDatamuseResponse) {
         this.word = data.word;
         this.score = data.score;
         this.tags = data.tags;
-        this.defs = data.defs;
+        this.definitions = data.definitions;
     }
 
     public isCommon(): boolean {
@@ -27,7 +27,7 @@ export class DatamuseResponse implements IDatamuseResponse {
     }
 
     public findDefinitionIndex(isEasy: boolean): number {
-        if (this.defs == null) {
+        if (this.definitions == null) {
             return -1;
         } else {
             return this.establishDefinitionIndex(isEasy);
@@ -38,7 +38,7 @@ export class DatamuseResponse implements IDatamuseResponse {
         let isFirstValidDefinition: boolean = true;
         let definitionIndex: number = -1;
 
-        for (let i: number = 0; i < this.defs.length; i++) {
+        for (let i: number = 0; i < this.definitions.length; i++) {
             if (!this.isNounOrVerb(i) || this.currentDefinitionContainsWordItself(i)
                 || this.currentDefinitionContainsExemple(i)) {
                 continue;
@@ -58,16 +58,16 @@ export class DatamuseResponse implements IDatamuseResponse {
     }
 
     private isNounOrVerb(definitionIndex: number): boolean {
-        return this.defs[definitionIndex].substr(0, 1) === "n" ||
-               this.defs[definitionIndex].substr(0, 1) === "v";
+        return this.definitions[definitionIndex].substr(0, 1) === "n" ||
+               this.definitions[definitionIndex].substr(0, 1) === "v";
     }
 
     private currentDefinitionContainsWordItself(definitionIndex: number): boolean {
-        return this.defs[definitionIndex].includes(this.word);
+        return this.definitions[definitionIndex].includes(this.word);
     }
 
     private currentDefinitionContainsExemple(definitionIndex: number): boolean {
-        return this.defs[definitionIndex].includes(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
+        return this.definitions[definitionIndex].includes(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
 
     }
 

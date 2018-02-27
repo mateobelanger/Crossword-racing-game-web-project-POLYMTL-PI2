@@ -28,8 +28,8 @@ export class BackgroundPlane {
     }
 
     private getBackgroundMaterial(): THREE.MeshBasicMaterial {
-        let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/background_texture.png");
+        const createTexture: THREE.Texture =
+                         new THREE.TextureLoader().load("../../../../assets/track_editor_texture/background_texture.png");
 
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
