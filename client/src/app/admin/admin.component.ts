@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, OnInit/*,  ViewChild, ElementRef*/ } from "@angular/core";
+import { AfterViewInit, Component /*,  ViewChild, ElementRef*/ } from "@angular/core";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
-import { TrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/trackData";
 
 // import { TrackEditorService } from "../racing-game/track-editor/track-editor.service";
 
@@ -10,17 +10,13 @@ import { TrackData } from "../../../../common/trackData";
     styleUrls: ['./admin.component.css']
 })
 
-export class AdminComponent implements OnInit, AfterViewInit {
-    public tracks: TrackData[];
+export class AdminComponent implements  AfterViewInit {
+    public tracks: ITrackData[];
 
     public constructor( private proxy: TracksProxyService ) {
     }
 
-    public ngOnInit(): void {
-    }
-
     public async ngAfterViewInit(): Promise<void> {
-
         try {
             await this.proxy.initialize();
             this.tracks = this.proxy.tracks;
@@ -29,9 +25,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
         }
     }
 
-    public async deleteTrack(trackName: string): Promise<void> {
-
-
+    public async deleteTrack(trackName: string): Promise<void>  {
         try {
             await this.proxy.deleteTrack(trackName);
             await this.proxy.initialize();
@@ -39,8 +33,5 @@ export class AdminComponent implements OnInit, AfterViewInit {
         } catch (e) {
             return;
         }
-
     }
-
-
 }

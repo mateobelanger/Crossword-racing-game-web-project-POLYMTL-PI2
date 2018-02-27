@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener } from "@angular/core";
+import { AfterViewInit, Component, ViewChild, ElementRef, HostListener } from "@angular/core";
 
 import { TrackEditorService } from './track-editor.service';
 import { TracksProxyService } from "../tracks-proxy.service";
 
-import { TrackData } from "../../../../../common/trackData";
+import { ITrackData } from "../../../../../common/trackData";
 import { ActivatedRoute } from '@angular/router';
 import { Waypoint } from "../track/trackData/waypoint";
 import * as THREE from 'three';
@@ -20,7 +20,7 @@ const Z: number = 2;
     templateUrl: './track-editor.component.html',
     styleUrls: ['./track-editor.component.css']
 })
-export class TrackEditorComponent implements AfterViewInit, OnInit {
+export class TrackEditorComponent implements AfterViewInit {
 
     public waypoints: Waypoint[];
 
@@ -33,9 +33,6 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     public constructor (private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
         this.waypoints = [];
-    }
-
-    public ngOnInit(): void {
     }
 
     public async ngAfterViewInit(): Promise<void> {
@@ -80,7 +77,7 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     private setWaypointsFromProxy(): void {
 
-        const track: TrackData = this.proxy.findTrack(  this.route.snapshot.paramMap.get("trackName")  );
+        const track: ITrackData = this.proxy.findTrack(  this.route.snapshot.paramMap.get("trackName")  );
         if (track === undefined) {
                 throw new Error("track not found");
         }

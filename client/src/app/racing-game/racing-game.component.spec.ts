@@ -4,10 +4,10 @@ import { APP_BASE_HREF } from '@angular/common';
 import { RacingGameComponent } from './racing-game.component';
 import { routes } from '../app-routes.module';
 import { AppModule } from '../app.module';
-import { TrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/trackData";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 
-const tracks: TrackData[] = [
+const tracks: ITrackData[] = [
     {
         name: "Test",
         description: "Test description",
@@ -42,6 +42,7 @@ describe("RacingGameComponent", () => {
     let spyInitialize: jasmine.Spy;
 
     beforeEach(async(() => {
+    // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [TracksProxyService, { provide: APP_BASE_HREF, useValue: "/" }]

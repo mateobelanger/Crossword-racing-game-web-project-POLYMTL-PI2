@@ -1,8 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { APP_BASE_HREF } from '@angular/common';
 
 import { GridComponent } from './grid.component';
 import { FormsModule } from '@angular/forms';
-import { WordService } from '../word.service';
+import { GridService } from "../grid.service";
+import { ValidationMediatorService } from "../validation-mediator.service";
+import { routes } from '../../app-routes.module';
+import { AppModule } from '../../app.module';
 
 describe('GridComponent', () => {
     let component: GridComponent;
@@ -11,9 +15,8 @@ describe('GridComponent', () => {
     beforeEach(async(() => {
         // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
-        imports: [ FormsModule ],
-        providers: [WordService],
-        declarations: [GridComponent]
+            imports: [routes, AppModule, FormsModule],
+            providers: [GridService, ValidationMediatorService, {provide: APP_BASE_HREF, useValue : '/' }]
         })
         .compileComponents();
     }));

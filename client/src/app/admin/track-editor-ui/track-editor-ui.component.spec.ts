@@ -4,10 +4,10 @@ import { APP_BASE_HREF } from '@angular/common';
 import { TrackEditorUiComponent } from './track-editor-ui.component';
 import { routes } from '../../app-routes.module';
 import { AppModule } from '../../app.module';
-import { TrackData } from '../../../../../common/trackData';
+import { ITrackData } from '../../../../../common/trackData';
 import { TracksProxyService } from "../../racing-game/tracks-proxy.service";
 
-const fakeTrack: TrackData = {
+const fakeTrack: ITrackData = {
     name: "Test3",
     description: "Test description",
     timesPlayed: 12,
@@ -17,7 +17,7 @@ const fakeTrack: TrackData = {
 
 };
 
-const tracks: TrackData[] = [
+const tracks: ITrackData[] = [
     {
         name: "Test",
         description: "Test description",
@@ -44,6 +44,7 @@ describe('TrackEditorUiComponent', () => {
     let spySaveTrack: jasmine.Spy;
 
     beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]

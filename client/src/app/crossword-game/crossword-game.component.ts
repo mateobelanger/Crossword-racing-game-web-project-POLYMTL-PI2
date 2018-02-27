@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-crossword-game',
     templateUrl: './crossword-game.component.html',
     styleUrls: ['./crossword-game.component.css']
 })
-export class CrosswordGameComponent implements OnInit {
+export class CrosswordGameComponent {
 
     public constructor() { }
-
-    public ngOnInit(): void {
-    }
 
 }

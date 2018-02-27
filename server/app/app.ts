@@ -46,7 +46,7 @@ export class Application {
         router.use(this.lexicalService.routes);
         router.use(this.gridGeneratorService.routes);
         router.use(this.mongoDBService.routes);
-        
+
         this.app.use(router);
 
         this.errorHandeling();

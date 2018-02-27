@@ -1,15 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { WordService } from "../word.service";
-import { Word, Direction } from "../../../../../common/word";
-
-const UPPERCASE_A: number = 65;
-const UPPERCASE_Z: number = 90;
-const LOWERCASE_A: number = 97;
-const LOWERCASE_Z: number = 122;
-const GRID_SIZE: number = 10;
-
-const BLACK_CASE: string = '-';
-
+import { Component } from "@angular/core";
+import { GridService } from "../grid.service";
+import { ValidationMediatorService } from "../validation-mediator.service";
 
 @Component({
     selector: "app-grid",
@@ -17,72 +8,17 @@ const BLACK_CASE: string = '-';
     styleUrls: ["./grid.component.css"]
 })
 
-export class GridComponent implements OnInit {
-
-    private userGrid: string[][];
-
-    public constructor(private wordService: WordService) {
-        this.userGrid = [];
-        for (let i: number = 0; i < GRID_SIZE; i++) {
-            const row: string[] = [];
-            for (let j: number = 0; j < GRID_SIZE; j++) {
-                row.push(BLACK_CASE);
-            }
-            this.userGrid.push(row);
-        }
-    }
-
-    public ngOnInit(): void {
-        this.fillGrid();
-    }
-
-    public isLetter(keyCode: number): boolean {
-        return (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z ||
-                keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z );
+export class GridComponent {
+    public constructor(private validationMediatorService: ValidationMediatorService, private gridService: GridService) {
+        this.gridService.fillGrid();
     }
 
     public trackByIndex(index: number): number {
         return index;
     }
 
-    public calculateId(rowIndex: number, columnIndex: number): number {
-        return rowIndex * GRID_SIZE + columnIndex;
-    }
-
-    public selectWord(rowIndex: number, columnIndex: number): void {
-        this.wordService.selectWord(rowIndex, columnIndex);
-    }
-
-    public isSelectedWord(id: number): boolean {
-        const word: Word = this.wordService.selectedWord;
-        if (word === null) {
-            return false;
-        }
-        const row: number = Math.floor(id / GRID_SIZE);
-        const col: number = id - row * GRID_SIZE;
-        if (word.direction === Direction.Horizontal) {
-            return row === word.row && col >= word.column && col < word.column + word.size;
-        } else {
-            return col === word.column && row >= word.row && row < word.row + word.size;
-        }
-    }
-
-    private fillGrid(): void {
-        const words: Word[] = this.wordService.words;
-        for (const word of words) {
-            for (let i: number = 0; i < word.size; i++) {
-                let row: number;
-                let col: number;
-                if (word.direction === Direction.Horizontal) {
-                    row = word.row;
-                    col = word.column + i;
-                } else {
-                    row = word.row + i;
-                    col = word.column;
-                }
-                this.userGrid[row][col] = word.value[i];
-            }
-        }
+    public keyUp(keyCode: number, row: number, column: number): void {
+        this.validationMediatorService.keyUp(keyCode, row, column);
     }
 
 }

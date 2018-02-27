@@ -1,26 +1,20 @@
 import { Injectable } from "@angular/core";
-import { Word, Direction } from "../../../../common/word";
+import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { words } from "./mock-words";
-// following line causes circular dependencies:
-// import { GRID_SIZE } from "./grid/grid.component";
-const GRID_SIZE: number = 10;
+import { GRID_SIZE } from '../../../../common/constants';
 
 @Injectable()
 export class WordService {
-    private _words: Word[];
+    public words: Word[];
     private _selectedWord: Word;
 
     public constructor() {
-        this._words = words;
+        this.words = words;
         this._selectedWord = null;
     }
 
     public get selectedWord(): Word {
         return this._selectedWord;
-    }
-
-    public get words(): Word[] {
-        return this._words;
     }
 
     public get definition(): string {
@@ -32,7 +26,7 @@ export class WordService {
     }
 
     public set definition(definition: string) {
-        for (const word of this._words) {
+        for (const word of this.words) {
             if (word.definition === definition) {
                 this._selectedWord = word;
 
@@ -46,7 +40,7 @@ export class WordService {
             if (word === this._selectedWord) {
                 continue;
             }
-            if (word.direction === Direction.Horizontal) {
+            if (word.direction === Direction.HORIZONTAL) {
                 if (word.row === row && column >= word.column && column < word.column + word.size) {
                     this._selectedWord = word;
                     break;
@@ -64,11 +58,11 @@ export class WordService {
             definitions.push([]);
         }
 
-        for (const word of this._words) {
+        for (const word of this.words) {
             if (word.direction !== direction) {
                 continue;
             }
-            if (word.direction === Direction.Horizontal) {
+            if (word.direction === Direction.HORIZONTAL) {
                 definitions[word.row].push(word.definition);
             } else {
                 definitions[word.column].push(word.definition);

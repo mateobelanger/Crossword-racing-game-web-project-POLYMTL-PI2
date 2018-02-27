@@ -1,7 +1,7 @@
 import { TestBed, inject, async, } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TracksProxyService } from './tracks-proxy.service';
-import { TrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/trackData";
 import { HttpRequest } from '@angular/common/http';
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 
@@ -9,7 +9,7 @@ const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 // tslint:disable:no-any
 describe('TracksProxyService', () => {
 
-    const tracks: TrackData[] = [
+    const tracks: ITrackData[] = [
     {
         name: "The HardestThe Harde stThe HardestThe ivyivf super long fucking title yooooooooo",
         description: "blaaaa bla blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa ",
