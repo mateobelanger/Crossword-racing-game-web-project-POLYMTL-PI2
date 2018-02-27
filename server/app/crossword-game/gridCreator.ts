@@ -1,7 +1,7 @@
 import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
 
 export const MIN_WORD_LENGTH: number = 3;
-export const DEFAULT_GRID_SIZE: number = 4;
+export const DEFAULT_GRID_SIZE: number = 10;
 export const BLACK_CELL: string = "#";
 export const WHITE_CELL: string = "-";
 

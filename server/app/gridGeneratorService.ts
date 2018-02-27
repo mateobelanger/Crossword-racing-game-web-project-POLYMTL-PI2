@@ -3,6 +3,8 @@ import { Router, Request, Response } from "express";
 import { GridCreator } from "./crossword-game/gridCreator";
 import { WordPlacer } from "./crossword-game/wordPlacer";
 
+const BLACK_CELLS: number = 40;
+
 @injectable()
 export class GridGeneratorService {
 
@@ -14,7 +16,7 @@ export class GridGeneratorService {
         router.get("/service/gridgenerator/:difficulty",
                    async (req: Request, res: Response) => {
                         creator = new GridCreator();
-                        const placer: WordPlacer = new WordPlacer(creator.create(1), creator.grid);
+                        const placer: WordPlacer = new WordPlacer(creator.create(BLACK_CELLS), creator.grid);
                         await placer.placeWords(difficulty, res);
             });
 
