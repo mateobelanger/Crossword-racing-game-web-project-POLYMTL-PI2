@@ -1,14 +1,14 @@
 import { ITrackData } from "../../common/trackData";
+import { Schema, Connection, Mongoose } from "mongoose";
 
 // Connection URL
 const userName: string = "admin";
 const password: string = "admin";
 const dbName: string = "log2990-equipe4";
 const MONGODB_URI: string = "mongodb://" + userName + ":" + password + "@ds115436.mlab.com:15436/" + dbName;
-// tslint:disable:no-any
-const MONGOOSE: any = require("mongoose");
+const MONGOOSE: Mongoose = require("mongoose");
 
-const trackSchema: any = MONGOOSE.Schema({
+const trackSchema: Schema = new MONGOOSE.Schema({
     name: String,
     description: String,
     timesPlayed: Number,
@@ -20,12 +20,9 @@ const TRACK: any = MONGOOSE.model("Track", trackSchema);
 
 export class MongoDBAccess {
 
-    // tslint:disable-next-line:no-empty
-    public constructor() { }
-
     public static async getAll(): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
-        const db: any = MONGOOSE.connection;
+        const db: Connection = MONGOOSE.connection;
 
         return new Promise((resolve: any, reject: any) => {
             db.once("open", () => {
@@ -43,7 +40,7 @@ export class MongoDBAccess {
 
     public static async addTrack(track: ITrackData): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
-        const db: any = MONGOOSE.connection;
+        const db: Connection = MONGOOSE.connection;
 
         const newTrack: any = new TRACK(track);
         newTrack.bestTimes = [];
@@ -67,7 +64,7 @@ export class MongoDBAccess {
 
     public static async remove(trackName: string): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
-        const db: any = MONGOOSE.connection;
+        const db: Connection = MONGOOSE.connection;
 
         return new Promise((resolve: any, reject: any) => {
             db.once("open", () => {
@@ -89,7 +86,7 @@ export class MongoDBAccess {
 
     public static async updateExistingTrack(track: ITrackData): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
-        const db: any = MONGOOSE.connection;
+        const db: Connection = MONGOOSE.connection;
 
         return new Promise((resolve: any, reject: any) => {
             db.once("open", () => {
@@ -116,7 +113,7 @@ export class MongoDBAccess {
 
     public static async incrementTimesPlayed(trackName: string): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
-        const db: any = MONGOOSE.connection;
+        const db: Connection = MONGOOSE.connection;
 
         return new Promise((resolve: any, reject: any) => {
             db.once("open", () => {

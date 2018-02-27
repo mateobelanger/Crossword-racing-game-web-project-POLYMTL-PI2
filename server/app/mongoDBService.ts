@@ -6,9 +6,6 @@ import { ITrackData } from "../../common/trackData";
 @injectable()
 export class MongoDBService {
 
-    // tslint:disable-next-line:no-empty
-    public constructor() { }
-
     public get routes(): Router {
         const router: Router = Router();
 
