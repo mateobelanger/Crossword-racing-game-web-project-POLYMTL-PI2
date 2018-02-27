@@ -17,8 +17,8 @@
                [class.selected]="gridService.isSelectedWord(gridService.generateId(indexR, indexC))"
                [class.filled]="block === '-'" 
                [(ngModel)]="gridService.userGrid[indexR][indexC]" 
-               (keydown)="gridService.keyDown($event.keyCode, indexR, indexC); $event.target.value.toLower()" 
-               (keyup)="keyUp($event.keyCode,indexR, indexC)"
+               (keydown)="gridService.keyDown($event.keyCode, indexR, indexC);" 
+               (keyup)="keyUp($event.keyCode,indexR, indexC); $event.target.value.toLower()"
                (click)="gridService.selectWord(indexR, indexC); $event.stopPropagation()" 
                maxlength=1 
                tabindex="-1">
