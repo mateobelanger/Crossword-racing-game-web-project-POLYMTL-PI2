@@ -16,6 +16,8 @@ export const BACKGROUND_PLANE_POSITION_Z: number = -3;
 export const TRACKWIDTH: number = 20;
 export const BACKGROUND_PLANE: string = "backgroundPlane";
 export const POINT: string = "point";
+export const EDITOR_LAND_WIDTH: number = 1000;
+export const EDITOR_LAND_HEIGHT: number = 800;
 
 // SKYBOX for now & others in the future
 export const LAND_WIDTH: number = 500;

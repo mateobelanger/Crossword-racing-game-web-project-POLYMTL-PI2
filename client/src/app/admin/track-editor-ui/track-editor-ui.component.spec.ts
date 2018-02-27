@@ -116,7 +116,7 @@ describe('TrackEditorUiComponent', () => {
     });
 
     it("should not have track before OnInit", () => {
-        expect(component.track).toBeUndefined();
+        expect(component.track).toBeNull();
         expect(spyInitialize.calls.any()).toBe(false, "initialize not yet called");
     });
 

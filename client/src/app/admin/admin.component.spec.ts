@@ -4,10 +4,10 @@ import { APP_BASE_HREF } from "@angular/common";
 import { AppModule } from "../app.module";
 import { routes } from "../app-routes.module";
 import { AdminComponent } from "./admin.component";
-import { TrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/trackData";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 
-const tracks: TrackData[] = [
+const tracks: ITrackData[] = [
     {
         name: "Test",
         description: "Test description",
@@ -71,14 +71,14 @@ describe("AdminComponent", () => {
     });
 
     it("should not have tracks before OnInit", () => {
-        expect(component.tracks).toBeUndefined();
+        expect(component.tracks.length).toBe(0);
         expect(spyInitialize.calls.any()).toBe(false, "initialize not yet called");
     });
 
     it("should not have tracks before proxy service returned tracks", () => {
         fixture.detectChanges();
         // initialize service is async => still has not returned with tracks
-        expect(component.tracks).toBeUndefined();
+        expect(component.tracks.length).toBe(0);
         expect(spyInitialize.calls.any()).toBe(true, 'initialize called');
     });
 
