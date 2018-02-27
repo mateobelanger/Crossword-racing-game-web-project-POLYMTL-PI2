@@ -12,11 +12,9 @@
     <input type="radio" [(ngModel)]="difficulty" value=Difficulty.HARD> Hard
     <br>
 
-
-    <!-- faire fonction set -->
-    <div *ngIf="difficulty; else elseBlock">
-      <button routerLink="{{difficulty}}/ui">Create Game</button>
-    </div>
+        <div *ngIf="difficulty; else elseBlock">
+            <button routerLink="{{difficulty}}/ui">Create Game</button>
+        </div>
 
     <ng-template #elseBlock>
       <button disabled="true">Create Game</button>

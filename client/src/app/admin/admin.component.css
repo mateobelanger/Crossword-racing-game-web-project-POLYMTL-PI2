@@ -28,7 +28,7 @@ h5 {
 }
 
 .containerAdmin {
-    background: url("../../assets/admin/bg-test.jpg") fixed no-repeat;
+    background: url("../../assets/admin/track-list-background.jpg") fixed no-repeat;
     background-position: center auto;
     background-size: 220vh ;
     min-height: 95vh;
