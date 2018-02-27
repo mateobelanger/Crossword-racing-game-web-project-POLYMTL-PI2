@@ -1,6 +1,10 @@
 # Log2990
 Projet généré avec [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
 
+## Sprint 2:
+Pour tester la generation de grilles, veuillez entrer l'URL suivant: http://localhost:3000/service/GridGenerator/easy. La generation de grille fonctionne au lancement du serveur, 
+mais la generation des cases noires cause parfois des erreurs.
+
 ## Développement du client
 Pour lancer le client, il suffit d'exécuter: `ng serve`. Vous pouvez ensuite naviger à `http://localhost:4200/`. L'application va se relancer automatiquement si vous modifier le code source de celle-ci.
 
