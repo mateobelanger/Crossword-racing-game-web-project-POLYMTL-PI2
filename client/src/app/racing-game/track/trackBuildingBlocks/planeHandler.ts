@@ -162,14 +162,13 @@ export class PlaneHandler {
     }
 
 
-    private getPlaneMaterial(planeLenght: number, planeType: PlaneType): THREE.MeshBasicMaterial {
-        let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
+    private getPlaneMaterial(planeLength: number, planeType: PlaneType): THREE.MeshBasicMaterial {
+        const createTexture: THREE.Texture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
         const ratio: number = planeType <= PlaneType.INVALID_FIRST_PLANE ?
                                                             RATIO_IMAGE_PER_FIRST_PLANE_LENGTH : RATIO_IMAGE_PER_PLANE_LENGTH;
-        createTexture.repeat.set( planeLenght / ratio, 1);
+        createTexture.repeat.set( planeLength / ratio, 1);
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
