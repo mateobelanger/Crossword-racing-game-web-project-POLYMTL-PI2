@@ -4,7 +4,6 @@ import { GridEntry } from "./GridEntry";
 import { WordSelector } from "../lexicalService/wordSelector";
 import {WHITE_CELL, BLACK_CELL } from "./gridCreator";
 
-
 export class WordPlacer {
     private _emptyWords: GridEntry[];
     private _placedWords: GridEntry[];
@@ -23,12 +22,13 @@ export class WordPlacer {
     public async placeWords(difficulty: string, res: Response): Promise<boolean> {
         if (this._emptyWords.length === 0) {
             res.send(this._placedWords);
+
             return true;
         }
         const current: GridEntry = this._emptyWords.pop();
         const template: string = this.createTemplate(current);
-   
-        const results: Array<string> = await WordSelector.getWords(template);
+
+        const results: Array<string> = WordSelector.getWords(template);
         for (let i: number = 0; i < Object.keys(results).length; i++) {
             if (this.contains(results[i], this._placedWords)) {
                 continue;
@@ -62,7 +62,7 @@ export class WordPlacer {
                 template += this._grid[entry.word.row + i][entry.word.column];
             }
         }
-        
+
         return template;
     }
 
@@ -101,7 +101,7 @@ export class WordPlacer {
 
     // moves the more constrained words at the end of the array to be picked next.
     private sort(): void {
-        this._emptyWords.sort((entry1, entry2) => {
+        this._emptyWords.sort((entry1: GridEntry, entry2: GridEntry) => {
             return entry1.weight - entry2.weight;
         });
     }
