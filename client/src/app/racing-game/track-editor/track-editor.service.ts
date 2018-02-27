@@ -141,7 +141,7 @@ export class TrackEditorService {
         }
         this._selectedWaypoint = null;
         this._dragDropActive = false;
-        this.updateValidityOfTrack();  // G.B. + poc
+        this.updateValidityOfTrack();
     }
 
     public handleMouseMove(event: MouseEvent): void {
