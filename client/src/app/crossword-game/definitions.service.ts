@@ -13,6 +13,8 @@ export class DefinitionsService {
     public constructor(private wordService: WordService) {
         this.horizontalDefinitions = this.wordService.getDefinitions(Direction.HORIZONTAL);
         this.verticalDefinitions = this.wordService.getDefinitions(Direction.VERTICAL);
+        this.isValidatedHorizontalDefinition = [];
+        this.isValidatedVerticalDefinition = [];
     }
 
     public initialize(): void {

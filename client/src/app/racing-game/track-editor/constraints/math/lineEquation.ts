@@ -14,6 +14,11 @@ export class LineEquation {
     private _endPoint: Point;
 
     public constructor() {
+        this._slope = undefined;
+        this._b = undefined;
+        this._isVerticalLine = undefined;
+        this._beginPoint = null;
+        this._endPoint = null;
     }
 
     public initialize(  beginPoint: Point = new Point(new THREE.Vector3(0, 0, 0)),

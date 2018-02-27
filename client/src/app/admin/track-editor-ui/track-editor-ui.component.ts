@@ -33,6 +33,9 @@ export class TrackEditorUiComponent implements AfterViewInit {
     public track: ITrackData;
 
     public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
+        this.name = "";
+        this.description = "";
+        this.track = null;
     }
 
     public async ngAfterViewInit(): Promise<void> {

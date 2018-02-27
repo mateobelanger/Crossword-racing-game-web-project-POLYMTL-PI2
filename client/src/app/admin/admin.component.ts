@@ -14,6 +14,7 @@ export class AdminComponent implements  AfterViewInit {
     public tracks: ITrackData[];
 
     public constructor( private proxy: TracksProxyService ) {
+        this.tracks = [];
     }
 
     public async ngAfterViewInit(): Promise<void> {

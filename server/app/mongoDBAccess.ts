@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { TrackData } from "../../common/trackData";
+import { ITrackData } from "../../common/trackData";
 
 // Connection URL
 const userName: string = "admin";
@@ -29,7 +29,7 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
         db.once("open", () => {
-            TRACK.find((error: any, trackData: TrackData[]) => {
+            TRACK.find((error: any, trackData: ITrackData[]) => {
                 if (error) { { return console.error(error); } }
                 res.send(trackData);
             });
@@ -68,7 +68,7 @@ export class MongoDBAccess {
         });
     }
 
-    public static async updateExistingTrack(track: TrackData): Promise<any> {
+    public static async updateExistingTrack(track: ITrackData): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
 

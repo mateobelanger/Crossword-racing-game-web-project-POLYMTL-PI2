@@ -6,13 +6,16 @@ import { ConstraintsError } from "./constraintsError";
 
 export class Constraints {
 
-    private _invalidPlanesErrors: ConstraintsError[] = [];
+    private _invalidPlanesErrors: ConstraintsError[];
 
-    private _previousInvalidPlanesErrors: ConstraintsError[] = [];
+    private _previousInvalidPlanesErrors: ConstraintsError[];
 
-    private roads: Road[] = [];
+    private roads: Road[];
 
     public constructor () {
+        this.roads = [];
+        this._invalidPlanesErrors = [];
+        this._previousInvalidPlanesErrors = [];
     }
 
     public addRoads(waypoints: Waypoint[]): void {

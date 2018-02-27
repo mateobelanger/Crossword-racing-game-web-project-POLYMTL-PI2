@@ -23,7 +23,15 @@ export class TrackEditorRenderService {
     private _scene: THREE.Scene;
     private _backgroundPlane: BackgroundPlane;
 
-    public constructor() { }
+    public constructor() { 
+        this._container = null;
+        this._renderer = null;
+        this._camera = null;
+        this._mouse = null;
+        this._raycaster = null;
+        this._scene = null;
+        this._backgroundPlane = null;
+    }
 
     public initialize(container: HTMLDivElement, track: Track): void {
         this._container = container;

@@ -20,6 +20,7 @@ export class PlaneHandler {
 
     public constructor(private scene: THREE.Scene) {
         this._planes = [];
+        this._firstPlaneId = undefined;
     }
 
     public generatePlanes(waypoints: Waypoint[]): void {

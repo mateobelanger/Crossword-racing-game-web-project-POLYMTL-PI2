@@ -6,9 +6,10 @@ const CIRCLE_RADIUS: number = 10;
 
 export class CircleHandler {
 
-    private meshs: THREE.Mesh[] = [];
+    private meshs: THREE.Mesh[]
 
     public constructor(private scene: THREE.Scene) {
+        this.meshs = [];
     }
 
     public generateCircles(waypoints: Waypoint[]): void {
