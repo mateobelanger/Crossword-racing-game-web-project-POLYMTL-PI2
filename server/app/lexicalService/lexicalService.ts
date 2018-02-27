@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import { Router, Request, Response, NextFunction } from "express";
+import { Router, Request, Response } from "express";
 import Types from "../types";
 import { DatamuseWordFinder } from "./datamuseWordFinder";
 
