@@ -1,40 +1,38 @@
 <table>
-    <thead>
-        <tr>
-            <th class="title">Across:</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let row of definitionsService.horizontalDefinitions; let indexR = index;" class="index">
-            <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span>
-                <li *ngFor="let definition of row; let indexI = index;" 
-                (click)="onSelect(definition); $event.stopPropagation()" 
-                [class.selected]="definitionsService.isSelectedDefinition(definition)" 
-                [class.validated]="definitionsService.isValidatedHorizontalDefinition[indexR][indexI]">
+  <thead>
+    <tr>
+      <th class="title">Across:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of definitionsService.horizontalDefinitions; let indexR = index;" class="index">
+      <div *ngIf="row.length > 0">
+        <span>{{indexR+1}}.</span>
+        <li *ngFor="let definition of row; let indexI = index;" (click)="onSelect(definition); $event.stopPropagation()" [class.selected]="definitionsService.isSelectedDefinition(definition)"
+          [class.validated]="definitionsService.isValidatedHorizontalDefinition[indexR][indexI]">
 
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </div>
-        </tr>
-    </tbody>
+          [{{indexI+1}}] {{definition}}
+        </li>
+      </div>
+    </tr>
+  </tbody>
 </table>
 <table>
-    <thead>
-        <tr>
-            <th class="title">Down:</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let row of definitionsService.verticalDefinitions; let indexR = index;" class="index">
-            <div *ngIf="row.length > 0"> <span>{{indexR+1}}.</span>
-                <li *ngFor="let definition of row; let indexI = index;" 
-                (click)="onSelect(definition); $event.stopPropagation()" 
-                [class.selected]="definitionsService.isSelectedDefinition(definition)" 
-                [class.validated]="definitionsService.isValidatedVerticalDefinition[indexR][indexI]">
+  <thead>
+    <tr>
+      <th class="title">Down:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of definitionsService.verticalDefinitions; let indexR = index;" class="index">
+      <div *ngIf="row.length > 0">
+        <span>{{indexR+1}}.</span>
+        <li *ngFor="let definition of row; let indexI = index;" (click)="onSelect(definition); $event.stopPropagation()" [class.selected]="definitionsService.isSelectedDefinition(definition)"
+          [class.validated]="definitionsService.isValidatedVerticalDefinition[indexR][indexI]">
 
-                    [{{indexI+1}}] {{definition}}
-                </li>
-            </div>
-        </tr>
-    </tbody>
+          [{{indexI+1}}] {{definition}}
+        </li>
+      </div>
+    </tr>
+  </tbody>
 </table>
