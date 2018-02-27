@@ -19,4 +19,8 @@ export class ConfigurationComponent {
         this.difficulty = null;
     }
 
+    public updateLink(difficulty: string): void {
+        this.link = difficulty + "/ui";
+    }
+
 }
