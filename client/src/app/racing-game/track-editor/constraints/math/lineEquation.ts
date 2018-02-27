@@ -4,13 +4,9 @@ export class LineEquation {
 
     // y = ax + b
     private _slope: number;
-
     private _b: number;
-
     private _isVerticalLine: boolean = false;
-
     private _beginPoint: Point;
-
     private _endPoint: Point;
 
     public constructor() {

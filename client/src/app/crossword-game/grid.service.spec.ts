@@ -75,25 +75,25 @@ describe('GridService', () => {
 
 
     it("should accept letters input from A to Z", () => {
-        let inputValid: boolean = true;
+        let isValidinput: boolean = true;
 
-        for (let input: number = KEY_A; input <= KEY_Z && inputValid; input++) {
-          inputValid = gridService.keyDown(input, 0, 0);
+        for (let input: number = KEY_A; input <= KEY_Z && isValidinput; input++) {
+          isValidinput = gridService.keyDown(input, 0, 0);
         }
-        expect(inputValid).toBeTruthy();
+        expect(isValidinput).toBeTruthy();
     });
 
     it("should not accept special characters", () => {
-      let inputValid: boolean = false;
+      let isValidInput: boolean = false;
 
-      for (let input: number = KEY_TAB; input <= KEY_9 && !inputValid; input++) {
-          inputValid = gridService.keyDown(input, 0, 0);
+      for (let input: number = KEY_TAB; input <= KEY_9 && !isValidInput; input++) {
+          isValidInput = gridService.keyDown(input, 0, 0);
       }
-      for (let input: number = KEY_LEFT_WINDOW; input <= KEY_QUOTE && !inputValid; input++) {
-          inputValid = gridService.keyDown(input, 0, 0);
+      for (let input: number = KEY_LEFT_WINDOW; input <= KEY_QUOTE && !isValidInput; input++) {
+          isValidInput = gridService.keyDown(input, 0, 0);
       }
 
-      expect(inputValid).toBeFalsy();
+      expect(isValidInput).toBeFalsy();
     });
 
 

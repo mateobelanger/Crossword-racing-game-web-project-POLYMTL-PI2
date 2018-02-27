@@ -5,7 +5,7 @@ export class Waypoint {
     private _circleId: number;
     private _incomingPlaneId: number;
     private _outgoingPlaneId: number;
-    
+
     public constructor(
         private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0)
     ) {

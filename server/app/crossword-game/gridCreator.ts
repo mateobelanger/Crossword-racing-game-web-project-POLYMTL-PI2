@@ -30,12 +30,12 @@ export class GridCreator {
 
     public create(nBlackCells: number): GridWord[] {
         this.placeBlackCells(nBlackCells);
-        this.fixIssues();
+        this.fixCellsLayout();
 
         return this.generateGridStructure();
     }
 
-    private fixIssues(): void {
+    private fixCellsLayout(): void {
         for (let i: number = 0; i < this._nRows; i++) {
             for (let j: number = 0; j < this._nColumns; j++) {
                 if (this.isLoneCell(i, j)) {
