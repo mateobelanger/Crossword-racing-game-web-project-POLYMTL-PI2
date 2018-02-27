@@ -1,7 +1,8 @@
 import { LineEquation } from "./lineEquation";
 import { Point } from "./point";
 import * as THREE from "three";
-/*tslint:disable:no-magic-numbers*/
+
+// tslint:disable:no-magic-numbers
 describe("lineEquation", () => {
     const firstPoint: Point = new Point(new THREE.Vector3(-5, 4, 10));
     const secondPoint: Point  = new Point(new THREE.Vector3(11, 6, 10));

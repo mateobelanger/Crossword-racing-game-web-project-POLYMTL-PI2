@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { APP_BASE_HREF } from '@angular/common';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { APP_BASE_HREF } from "@angular/common";
 
-import { RacingGameComponent } from './racing-game.component';
-import { routes } from '../app-routes.module';
-import { AppModule } from '../app.module';
+import { RacingGameComponent } from "./racing-game.component";
+import { routes } from "../app-routes.module";
+import { AppModule } from "../app.module";
 import { ITrackData } from "../../../../common/trackData";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 
@@ -52,7 +52,7 @@ describe("RacingGameComponent", () => {
         fixture = TestBed.createComponent(RacingGameComponent);
         component = fixture.componentInstance;
 
-        // TwainService actually injected into the component
+        // proxyService injected into the component
         const proxyService: TracksProxyService = fixture.debugElement.injector.get(TracksProxyService);
 
         // Set up spy on the "initialize" method
@@ -61,7 +61,7 @@ describe("RacingGameComponent", () => {
 
     }));
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 
@@ -74,7 +74,7 @@ describe("RacingGameComponent", () => {
         fixture.detectChanges();
         // initialize service is async => still has not returned with tracks
         expect(component.tracks).toBeUndefined();
-        expect(spyInitialize.calls.any()).toBe(true, 'initialize called');
+        expect(spyInitialize.calls.any()).toBe(true, "initialize called");
     });
 
     it("should have tracks once proxy service returned tracks", () => {

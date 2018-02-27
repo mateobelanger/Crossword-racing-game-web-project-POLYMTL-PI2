@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { TrackEditorRenderService } from './track-editor-render.service';
-import { Track } from '../track/trackData/track';
-import { Waypoint } from '../track/trackData/waypoint';
-import { POINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from '../constants';
+import { Injectable } from "@angular/core";
+
+import { TrackEditorRenderService } from "./track-editor-render.service";
+import { Track } from "../track/trackData/track";
+import { Waypoint } from "../track/trackData/waypoint";
+import { POINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from "../constants";
 import { Constraints } from "./constraints/constraints";
-import * as THREE from 'three';
+import * as THREE from "three";
 
 const NB_MIN_WAYPOINTS_FOR_POLYGON: number = 3;
 const MIN_MOVEMENT_TRESHOLD: number = 2;

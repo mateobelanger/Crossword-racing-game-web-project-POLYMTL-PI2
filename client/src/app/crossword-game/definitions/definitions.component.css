@@ -62,5 +62,5 @@ li:hover {
     color: rgb(3, 231, 3);
     background: white;
     font-weight: bold;
-    pointer-events:none;
+    pointer-events: none;
 }

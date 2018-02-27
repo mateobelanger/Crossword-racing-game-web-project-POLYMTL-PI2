@@ -44,7 +44,6 @@ export class WordPlacer {
                 this._placedWords.pop();
             }
         }
-
         // no new word has been placed => backtrack
         this._emptyWords.push(current);
         this.updateGrid();
@@ -67,6 +66,7 @@ export class WordPlacer {
 
     // updates the letters in the 2D representation of the grid from the placed words.
     private updateGrid(): void {
+        // tslint:disable-next-line:prefer-for-of
         for (let i: number = 0; i < this._grid.length; i++) {
             for (let j: number = 0; j < this._grid.length; j++) {
                 if (this._grid[i][j] !== BLACK_CELL) {

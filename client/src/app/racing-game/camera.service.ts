@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
-import * as THREE from 'three';
-
+import { Injectable } from "@angular/core";
+import * as THREE from "three";
 
 // PERSPECTIVE_CAMERA
 export const PERSPECTIVE_INITIAL_POSITION_Y: number = 3;
@@ -68,7 +67,7 @@ export class CameraService {
     }
 
     private initializeOrhographicCamera(): void {
-        /*tslint:disable:no-magic-numbers */
+        // tslint:disable:no-magic-numbers
         this._orthographicCamera = new THREE.OrthographicCamera (
             ORTHOGRAPHIC_FIELD_OF_VIEW / - 2,
             ORTHOGRAPHIC_FIELD_OF_VIEW / 2,
@@ -77,7 +76,7 @@ export class CameraService {
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
-        /*tslint:enable:no-magic-numbers*/
+        // tslint:enable:no-magic-numbers
         this._orthographicCamera.position.x = this.target.position.x;
         this._orthographicCamera.position.y = ORTHOGRAPHIC_INITIAL_POSITION_Y;
         this._orthographicCamera.position.z = this.target.position.z;

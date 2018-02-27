@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import { ITrackData } from "../../../../common/trackData";
 
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
@@ -7,7 +7,7 @@ const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 @Injectable()
 export class TracksProxyService {
 
-    private _tracks: ITrackData[]
+    private _tracks: ITrackData[];
 
     public constructor(private _http: HttpClient) {
         this._tracks = [];

@@ -1,7 +1,8 @@
 import { Waypoint } from "../../track/trackData/waypoint";
 import { Constraints } from "./constraints";
-import * as THREE from 'three';
-/* tslint:disable: no-magic-numbers */
+import * as THREE from "three";
+
+// tslint:disable: no-magic-numbers
 describe("ConstraintsHandler", () => {
 
     let waypoints: Waypoint[] = [];

@@ -1,7 +1,6 @@
 import { Road } from "./road";
 import * as THREE from "three";
-/*tslint:disable:no-magic-numbers*/
-/*tslint:disable:no-console*/
+// tslint:disable:no-magic-numbers
 
 describe("Road", () => {
 

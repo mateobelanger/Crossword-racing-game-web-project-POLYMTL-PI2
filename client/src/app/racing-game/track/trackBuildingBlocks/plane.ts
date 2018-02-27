@@ -12,11 +12,8 @@ const DEFAULT_WAYPOINT_VECTOR: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 export class Plane {
 
     private _beginingPoint: THREE.Vector3;
-
     private _endPoint: THREE.Vector3;
-
     private _previousAngle: number;
-
     private _mesh: THREE.Mesh;
 
     public constructor(waypoint1: Waypoint = new Waypoint(DEFAULT_WAYPOINT_VECTOR),

@@ -29,36 +29,6 @@ export class Car extends Object3D {
     private steeringWheelDirection: number;
     private weightRear: number;
 
-    public get speed(): Vector3 {
-        return this._speed.clone();
-    }
-
-    public get currentGear(): number {
-        return this.engine.currentGear;
-    }
-
-    public get rpm(): number {
-        return this.engine.rpm;
-    }
-
-    public get angle(): number {
-        return this._mesh.rotation.y * RAD_TO_DEG;
-    }
-
-    public get mesh(): Object3D {
-        return this._mesh;
-    }
-
-    private get direction(): Vector3 {
-        const rotationMatrix: Matrix4 = new Matrix4();
-        const carDirection: Vector3 = new Vector3(0, 0, -1);
-
-        rotationMatrix.extractRotation(this._mesh.matrix);
-        carDirection.applyMatrix4(rotationMatrix);
-
-        return carDirection;
-    }
-
     public constructor(
         engine: Engine = new Engine(),
         rearWheel: Wheel = new Wheel(),
@@ -92,6 +62,36 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
+    }
+
+    public get speed(): Vector3 {
+        return this._speed.clone();
+    }
+
+    public get currentGear(): number {
+        return this.engine.currentGear;
+    }
+
+    public get rpm(): number {
+        return this.engine.rpm;
+    }
+
+    public get angle(): number {
+        return this._mesh.rotation.y * RAD_TO_DEG;
+    }
+
+    public get mesh(): Object3D {
+        return this._mesh;
+    }
+
+    private get direction(): Vector3 {
+        const rotationMatrix: Matrix4 = new Matrix4();
+        const carDirection: Vector3 = new Vector3(0, 0, -1);
+
+        rotationMatrix.extractRotation(this._mesh.matrix);
+        carDirection.applyMatrix4(rotationMatrix);
+
+        return carDirection;
     }
 
     // TODO: move loading code outside of car class.

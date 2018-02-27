@@ -12,12 +12,10 @@ export class DictionaryEntry {
     private definitionIndex: number;
 
     public constructor (name: string, frequency: string, definitions: string[]) {
-
         this.name = name;
         this.frequency = frequency;
         this.definitionIndex = -1;
         this.definitions = definitions;
-
     }
 
     public getName(): string {

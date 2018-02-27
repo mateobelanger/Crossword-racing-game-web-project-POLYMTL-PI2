@@ -4,6 +4,7 @@ import { injectable, } from "inversify";
 import { WordSelector, MAX_WORDS_PER_RESPONSE } from "./wordSelector";
 import { DatamuseResponse, IDatamuseResponse } from "./IdatamuseResponse";
 
+// tslint:disable-next-line:typedef
 const DATAMUSE = require("datamuse");
 const DATAMUSE_OPTIONS: string[] = ["words?sp=", "&md=f,d&max=" + MAX_WORDS_PER_RESPONSE];
 
@@ -13,12 +14,6 @@ module Lexical {
     export class DatamuseWordFinder {
 
         public findWords(req: Request, res: Response): void {
-            /*
-            const criteria: string = this.switchHyphensToQuestionMarks(req.params.criteria);
-
-            DATAMUSE.request(DATAMUSE_OPTIONS[0] + criteria + DATAMUSE_OPTIONS[1]).then((response: Array<DatamuseResponse>) =>
-                res.send(response));*/
-
             const template: string = req.params.criteria;
             WordSelector.getWords(template);
         }

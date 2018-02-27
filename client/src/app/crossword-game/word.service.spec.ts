@@ -10,8 +10,7 @@ const word4: Word = { row: 2, column: 0, direction: Direction.HORIZONTAL, size: 
 
 const words: Word[] = [word1, word2, word3, word4];
 
-/* tslint:disable: no-magic-numbers */
-
+// tslint:disable: no-magic-numbers
 describe('WordService', () => {
 
     let wordService: WordService;

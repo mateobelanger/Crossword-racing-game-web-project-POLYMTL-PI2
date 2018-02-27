@@ -1,6 +1,5 @@
 import {Waypoint} from './waypoint';
 
-
 export class Track {
     private _isValid: boolean;
     private _isClosed: boolean;

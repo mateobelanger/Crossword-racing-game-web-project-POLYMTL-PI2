@@ -1,13 +1,13 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ActivatedRoute } from '@angular/router';
+import { async, ComponentFixture, TestBed, inject } from "@angular/core/testing";
+import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { ActivatedRoute } from "@angular/router";
 
-import { TrackEditorComponent } from './track-editor.component';
-import { TrackEditorService } from './track-editor.service';
-import { TrackEditorRenderService } from './track-editor-render.service';
-import { TracksProxyService } from '../tracks-proxy.service';
+import { TrackEditorComponent } from "./track-editor.component";
+import { TrackEditorService } from "./track-editor.service";
+import { TrackEditorRenderService } from "./track-editor-render.service";
+import { TracksProxyService } from "../tracks-proxy.service";
 
-describe('TrackEditorComponent', () => {
+describe("TrackEditorComponent", () => {
 
     const fakeActivatedRoute: ActivatedRoute = {
         snapshot: { data: {} }
@@ -37,7 +37,7 @@ describe('TrackEditorComponent', () => {
         backend.verify();
     }));
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 });

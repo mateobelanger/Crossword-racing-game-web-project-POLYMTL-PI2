@@ -6,6 +6,7 @@ import { TRACKWIDTH, DEG_TO_RAD } from '../../constants';
 const MAXANGLE: number = DEG_TO_RAD * 135;
 const MINIMUMRATIO: number = 2;
 // tslint:enable:no-magic-numbers
+
 export class Road {
 
     private _lineEquation: LineEquation;
@@ -109,8 +110,8 @@ export class Road {
         return this._beginPoint.distanceTo(this._endPoint);
     }
 
-    /*tslint:disable:no-any*/
+    // tslint:disable:no-any
     private isDefined(object: any): boolean {
         return ((object !== null) && (object !== undefined));
-    }/*tslint:enable:no-any*/
+    }// tslint:enable:no-any
 }

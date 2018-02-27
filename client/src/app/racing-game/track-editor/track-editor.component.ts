@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, ViewChild, ElementRef, HostListener } from "@angular/core";
 
-import { TrackEditorService } from './track-editor.service';
+import { TrackEditorService } from "./track-editor.service";
 import { TracksProxyService } from "../tracks-proxy.service";
 
 import { ITrackData } from "../../../../../common/trackData";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 import { Waypoint } from "../track/trackData/waypoint";
-import * as THREE from 'three';
+import * as THREE from "three";
 
 const LEFT_MOUSE_BTN: number = 0;
 const RIGHT_MOUSE_BTN: number = 2;
@@ -16,9 +16,9 @@ const Y: number = 1;
 const Z: number = 2;
 
 @Component({
-    selector: 'app-track-editor',
-    templateUrl: './track-editor.component.html',
-    styleUrls: ['./track-editor.component.css']
+    selector: "app-track-editor",
+    templateUrl: "./track-editor.component.html",
+    styleUrls: ["./track-editor.component.css"]
 })
 export class TrackEditorComponent implements AfterViewInit {
 

@@ -1,8 +1,6 @@
-import { AfterViewInit, Component /*,  ViewChild, ElementRef*/ } from "@angular/core";
+import { AfterViewInit, Component} from "@angular/core";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 import { ITrackData } from "../../../../common/trackData";
-
-// import { TrackEditorService } from "../racing-game/track-editor/track-editor.service";
 
 @Component({
     selector: 'app-admin',

@@ -1,7 +1,7 @@
 import { Waypoint } from "./waypoint";
-import {Vector3} from 'three';
+import {Vector3} from "three";
 
-/* tslint:disable: no-magic-numbers */
+// tslint:disable: no-magic-numbers
 describe("Waypoint", () => {
     let waypoint: Waypoint ;
 

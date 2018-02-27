@@ -138,7 +138,7 @@ export class GridCreator {
         if (!this.isLoneCell(row, col)) {
             return;
         }
-        // shifts a black case up or left depending on the position.
+        // shifts a black cell up or left depending on the position.
         this._grid[row][col] = BLACK_CELL;
         if (col === this._nColumns - 1) {
             this._grid[row + 1][col] = WHITE_CELL;

@@ -1,13 +1,13 @@
-import { TestBed, inject, async, } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TracksProxyService } from './tracks-proxy.service';
+import { TestBed, inject, async, } from "@angular/core/testing";
+import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { TracksProxyService } from "./tracks-proxy.service";
 import { ITrackData } from "../../../../common/trackData";
-import { HttpRequest } from '@angular/common/http';
+import { HttpRequest } from "@angular/common/http";
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 
 // tslint:disable:no-magic-numbers
 // tslint:disable:no-any
-describe('TracksProxyService', () => {
+describe("TracksProxyService", () => {
 
     const tracks: ITrackData[] = [
     {
@@ -45,7 +45,7 @@ describe('TracksProxyService', () => {
         backend.verify();
     }));
 
-    it('should be created', inject([TracksProxyService], (service: TracksProxyService) => {
+    it("should be created", inject([TracksProxyService], (service: TracksProxyService) => {
         expect(service).toBeTruthy();
     }));
 
@@ -55,7 +55,7 @@ describe('TracksProxyService', () => {
                 void service.initialize();
                 backEnd.match({
                     url: URI_MONGO_DB,
-                    method: 'GET'
+                    method: "GET"
                 });
             })));
 
@@ -85,7 +85,7 @@ describe('TracksProxyService', () => {
 
                 backEnd.match({
                     url: URI_MONGO_DB,
-                    method: 'POST'
+                    method: "POST"
                 })[0].flush(tracks[0]);
             })));
 
@@ -98,7 +98,7 @@ describe('TracksProxyService', () => {
 
                 backEnd.match({
                     url: URI_MONGO_DB,
-                    method: 'POST'
+                    method: "POST"
                 })[0].flush(tracks[0]);
             })));
 
@@ -142,7 +142,7 @@ describe('TracksProxyService', () => {
 
                 backEnd.match({
                     url: URI_MONGO_DB,
-                    method: 'POST'
+                    method: "POST"
                 })[0].flush(tracks[0]);
             })));
 });

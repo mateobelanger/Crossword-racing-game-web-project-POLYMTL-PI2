@@ -15,7 +15,7 @@ const CAMERA_KEYCODE: number = 67;      // c
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.8;
 
-// Helper for tests
+// To see the car's point of departure
 const HELPER_AXES_SIZE: number = 500;
 const HELPER_GRID_SIZE: number = 50;
 
@@ -28,7 +28,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
 
-    // Helpers for tests
+    // To see the car's point of departure
     private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
     private gridHelper: THREE.GridHelper = new THREE.GridHelper( HELPER_GRID_SIZE, HELPER_GRID_SIZE );
 
@@ -74,7 +74,7 @@ export class RenderService {
 
         this.cameraService.initialize(this.container, this._car.mesh);
 
-        // Helper for tests
+        // To see the car's point of departure
         this.scene.add(this.axesHelper);
         this.scene.add(this.gridHelper);
 

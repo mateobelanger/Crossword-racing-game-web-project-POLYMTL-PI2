@@ -1,4 +1,4 @@
-/*tslint:disable:no-magic-numbers*/
+// tslint:disable:no-magic-numbers
 import * as THREE from "three";
 import { Point } from "./point";
 

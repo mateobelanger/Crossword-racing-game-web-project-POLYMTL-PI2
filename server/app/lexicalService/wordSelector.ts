@@ -7,28 +7,28 @@ import { INVALID_DOUBLES } from "./invalidDoubles";
 import { INVALID_TRIPLES } from "./invalidTriples";
 
 export const MAX_WORDS_PER_RESPONSE: number = 250;
+const TWO_LETTER_WORDS_LENGTH: number = 2;
+const THREE_LETTER_WORDS_LENGTH: number = 3;
 
 export class WordSelector {
     private static invalidDoubles: Set<string> = Helper.arrayToSet(INVALID_DOUBLES);
     private static invalidTriples: Set<string> = Helper.arrayToSet(INVALID_TRIPLES);
 
     public static getWords(template: string): Array<string> {
-        if (this.containsImpossibleCombinations(template, 2) ||
-            this.containsImpossibleCombinations(template, 3)) {
+        if (this.containsImpossibleCombinations(template, TWO_LETTER_WORDS_LENGTH)
+            || this.containsImpossibleCombinations(template, THREE_LETTER_WORDS_LENGTH)) {
             return [];
         }
         const positions: number[] = [];
         for (let i: number = 0; i < template.length; i++) {
-            if (template[i] === ANY_CHAR) {
-                continue;
+            if (template[i] !== ANY_CHAR) {
+                positions.push(i);
             }
-            positions.push(i);
         }
         const words: string[] = WORDS[template.length - MIN_WORD_LENGTH];
         if (positions.length === 0) {
             return Helper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
         }
-
         const validWords: string[] = [];
         for (const word of words) {
             let isValid: boolean = true;
@@ -95,15 +95,15 @@ export class WordSelector {
         while (currentIndex <= template.length - sizeCombination) {
             while (template[currentIndex] === "-" || template[currentIndex + 1] === "-" ) { currentIndex++; }
             switch (sizeCombination) {
-                case 2:
-                    if (this.invalidDoubles.has(template.substr(currentIndex, 2))) {
+                case TWO_LETTER_WORDS_LENGTH:
+                    if (this.invalidDoubles.has(template.substr(currentIndex, TWO_LETTER_WORDS_LENGTH))) {
                         return true;
                     }
                     currentIndex++;
                     break;
-                case 3:
-                    if (template[currentIndex + 1] !== "-" && template[currentIndex + 2] !== "-") {
-                        if (this.invalidTriples.has(template.substr(currentIndex, 3))) {
+                case THREE_LETTER_WORDS_LENGTH:
+                    if (template[currentIndex + 1] !== "-" && template[currentIndex + TWO_LETTER_WORDS_LENGTH] !== "-") {
+                        if (this.invalidTriples.has(template.substr(currentIndex, THREE_LETTER_WORDS_LENGTH))) {
                             return true;
                         }
                     }
@@ -120,14 +120,4 @@ export class WordSelector {
     private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): IWord {
         return { value: datamuseResponse.word, definition: datamuseResponse.definitions[definitionIndex] };
     }
-    /*
-     private static readData(datamuseResponse: DatamuseResponse): Word {
-        let word: Word;
-        word.row = NO_VALUE;
-        word.column = NO_VALUE;
-        word.value = datamuseResponse.word;
-
-        return seperatedWords;
-     } */
-
 }

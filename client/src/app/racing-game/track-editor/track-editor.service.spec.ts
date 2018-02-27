@@ -1,12 +1,13 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { TrackEditorService } from './track-editor.service';
-import { TrackEditorRenderService } from './track-editor-render.service';
-import { Waypoint } from '../track/trackData/waypoint';
-import { Vector3 } from 'three';
+import { TestBed, inject } from "@angular/core/testing";
 
-describe('TrackEditorService', () => {
+import { TrackEditorService } from "./track-editor.service";
+import { TrackEditorRenderService } from "./track-editor-render.service";
+import { Waypoint } from "../track/trackData/waypoint";
+import { Vector3 } from "three";
 
-    const dummyElement: HTMLDivElement = document.createElement('div');
+describe("TrackEditorService", () => {
+
+    const dummyElement: HTMLDivElement = document.createElement("div");
     const trackRender: TrackEditorRenderService = new TrackEditorRenderService();
     const editorService: TrackEditorService = new TrackEditorService(trackRender);
     const SQUARE_SIDE_LENGTH: number = 100;
@@ -27,15 +28,15 @@ describe('TrackEditorService', () => {
     });
 
 
-    it('should be created', inject([TrackEditorService], (service: TrackEditorService) => {
+    it("should be created", inject([TrackEditorService], (service: TrackEditorService) => {
         expect(service).toBeTruthy();
     }));
 
-    it('track should have 4 waypoints', () => {
+    it("track should have 4 waypoints", () => {
         expect(editorService.track.getTrackSize()).toBe(NUMBER_OF_WAYPOINTS);
     });
 
-    it('should correctly delete last waypoint', () => {
+    it("should correctly delete last waypoint", () => {
         const deletedWaypoint: Waypoint = editorService.track.getLastWaypoint();
         editorService.removeWaypoint();
         expect(editorService.track.getTrackSize()).toBe(NUMBER_OF_WAYPOINTS - 1);
@@ -43,7 +44,7 @@ describe('TrackEditorService', () => {
         expect(editorService.track).not.toContain(deletedWaypoint);
     });
 
-    it('track sould be closable', () => {
+    it("track sould be closable", () => {
         editorService.closeTrack();
         expect(editorService.track.getFirstWaypoint().getIncomingPlaneId())
             .toBe(editorService.track.getLastWaypoint().getOutgoingPlaneId());

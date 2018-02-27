@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import { LAND_WIDTH, LAND_HEIGHT, BACKGROUND_PLANE_POSITION_Y } from './constants';
+import { LAND_WIDTH, LAND_HEIGHT, BACKGROUND_PLANE_POSITION_Y } from "./constants";
 
 const SKYBOXES: Array<string> = ["clouds", "interstellar", "moon", "ocean",
                                  "sand", "storm", "sunset"];
@@ -31,21 +31,21 @@ export class SkyboxService {
 
     public generateSkybox(): void {
       this.scene.background = new THREE.CubeTextureLoader()
-        .setPath('../../../assets/skybox/' + this.skyboxName + '/' + this.skyboxSate + '/')
+        .setPath("../../../assets/skybox/" + this.skyboxName + "/" + this.skyboxSate + "/")
         .load([
-          'right.png',
-          'left.png',
-          'top.png',
-          'bottom.png',
-          'back.png',
-          'front.png'
+          "right.png",
+          "left.png",
+          "top.png",
+          "bottom.png",
+          "back.png",
+          "front.png"
         ]);
     }
 
     public generateBackgroundView(): void {
-      const texture: THREE.Texture = new THREE.TextureLoader().load('../../../assets/skybox/'
-                                                                    + this.skyboxName + '/'
-                                                                    + this.skyboxSate + '/bottom.png');
+      const texture: THREE.Texture = new THREE.TextureLoader().load("../../../assets/skybox/"
+                                                                    + this.skyboxName + "/"
+                                                                    + this.skyboxSate + "/bottom.png");
 
       const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
       this.backgroundPlane = new THREE.Mesh(new THREE.PlaneGeometry(LAND_WIDTH, LAND_HEIGHT), material);

@@ -173,8 +173,8 @@ export class PlaneHandler {
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
-    /*tslint:disable:no-any*/
+    // tslint:disable:no-any
     private isDefined(object: any): boolean {
         return ((object !== null) && (object !== undefined));
-    }/*tslint:enable:no-any*/
+    }// tslint:enable:no-any
 }

@@ -36,11 +36,6 @@ h3 {
 .track-editor {
     margin-left: 20%;
     padding: 0;
-    /* 
-    Notice : the size of the track-editor is defined in 
-    track-editor.component. The width and the height defined bellow
-    are there just to make sure the div is the same size of the track-editor.component
-    */
     width: 750px;
     height: 600px;
     background: red;
@@ -55,7 +50,6 @@ h5 {
 }
 
 .caneva {
-    /* border-style: outset;*/
     padding: 0;
     max-width: 300px;
     min-width: 285px;

@@ -62,7 +62,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.validateName();
             this.validateDescription();
             this.validTrackPopup();
-            this.addWaypointsToTrack(this.trackEditorService.track.waypoints);
+            this.updateTrackWaypoints(this.trackEditorService.track.waypoints);
             this.track.name = this.name;
             this.track.description = this.description;
             void this.proxy.saveTrack(this.track);
@@ -134,7 +134,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
         this.description = track.description;
     }
 
-    private addWaypointsToTrack(waypoints: Waypoint[]): void {
+    private updateTrackWaypoints(waypoints: Waypoint[]): void {
         // remove initial track waypoints(from server)
         this.track.waypoints.length = 0;
 

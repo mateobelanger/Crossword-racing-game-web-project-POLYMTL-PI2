@@ -6,25 +6,25 @@ import { AppModule } from '../../app.module';
 import { APP_BASE_HREF } from '@angular/common';
 
 describe('RacingGameSceneComponent', () => {
-  let component: RacingGameSceneComponent;
-  let fixture: ComponentFixture<RacingGameSceneComponent>;
+    let component: RacingGameSceneComponent;
+    let fixture: ComponentFixture<RacingGameSceneComponent>;
 
-  beforeEach(async(() => {
-    // tslint:disable-next-line:no-floating-promises
-    TestBed.configureTestingModule({
-      imports: [routes, AppModule],
-      providers: [{provide: APP_BASE_HREF, useValue : '/' }]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
+        TestBed.configureTestingModule({
+            imports: [routes, AppModule],
+            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RacingGameSceneComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(RacingGameSceneComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
