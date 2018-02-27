@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component } from "@angular/core";
 import { TracksProxyService } from "../../racing-game/tracks-proxy.service";
 import { ITrackData } from "../../../../../common/trackData";
 
@@ -24,7 +24,7 @@ const CHAR_9: number = 57;
 
 
 
-export class TrackEditorUiComponent implements OnInit, AfterViewInit {
+export class TrackEditorUiComponent implements AfterViewInit {
     public readonly MAX_TITLE_LENGTH: number = 30;
     public readonly MAX_DESCRIPTION_LENGTH: number = 300;
 
@@ -33,9 +33,6 @@ export class TrackEditorUiComponent implements OnInit, AfterViewInit {
     public track: ITrackData;
 
     public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
-    }
-
-    public ngOnInit(): void {
     }
 
     public async ngAfterViewInit(): Promise<void> {

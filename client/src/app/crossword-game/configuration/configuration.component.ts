@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 enum Difficulty {
     EASY = "easy",
@@ -12,13 +12,9 @@ enum Difficulty {
     styleUrls: ['./configuration.component.css']
 })
 
-export class ConfigurationComponent implements OnInit {
+export class ConfigurationComponent {
     public difficulty: Difficulty;
 
     public constructor() {}
 
-    public ngOnInit(): void {
-    }
-
-    // faire des fonctions get et set et les tester dans spec.ts + PRIVATE
 }

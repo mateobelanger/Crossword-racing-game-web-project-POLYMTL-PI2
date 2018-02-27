@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, OnInit, ElementRef, HostListener } from "@angular/core";
+import { AfterViewInit, Component, ViewChild, ElementRef, HostListener } from "@angular/core";
 
 import { TrackEditorService } from './track-editor.service';
 import { TracksProxyService } from "../tracks-proxy.service";
@@ -20,7 +20,7 @@ const Z: number = 2;
     templateUrl: './track-editor.component.html',
     styleUrls: ['./track-editor.component.css']
 })
-export class TrackEditorComponent implements AfterViewInit, OnInit {
+export class TrackEditorComponent implements AfterViewInit {
 
     public waypoints: Waypoint[];
 
@@ -33,9 +33,6 @@ export class TrackEditorComponent implements AfterViewInit, OnInit {
 
     public constructor (private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
         this.waypoints = [];
-    }
-
-    public ngOnInit(): void {
     }
 
     public async ngAfterViewInit(): Promise<void> {
