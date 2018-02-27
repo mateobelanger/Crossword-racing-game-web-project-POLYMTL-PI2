@@ -1,4 +1,4 @@
-import { TrackData } from "../../common/trackData";
+import { ITrackData } from "../../common/trackData";
 
 // Connection URL
 const userName: string = "admin";
@@ -30,7 +30,7 @@ export class MongoDBAccess {
         return new Promise((resolve: any, reject: any) => {
             db.once("open", () => {
                 TRACK.find(
-                    (err: any, trackData: TrackData[]) => {
+                    (err: any, trackData: ITrackData[]) => {
                         if (err) {
                             return console.error(err);
                         }
@@ -41,7 +41,7 @@ export class MongoDBAccess {
         });
     }
 
-    public static async addTrack(track: TrackData): Promise<any> {
+    public static async addTrack(track: ITrackData): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
 
@@ -52,7 +52,7 @@ export class MongoDBAccess {
         return new Promise((resolve: any, reject: any) => {
             db.once("open", () => {
                 newTrack.save(
-                    (err: any, trackSaved: TrackData) => {
+                    (err: any, trackSaved: ITrackData) => {
                         if (err) {
                             return console.error(err);
                         }
@@ -87,7 +87,7 @@ export class MongoDBAccess {
         });
     }
 
-    public static async updateExistingTrack(track: TrackData): Promise<any> {
+    public static async updateExistingTrack(track: ITrackData): Promise<any> {
         MONGOOSE.connect(MONGODB_URI);
         const db: any = MONGOOSE.connection;
 
