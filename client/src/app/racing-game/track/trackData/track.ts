@@ -2,10 +2,12 @@ import {Waypoint} from './waypoint';
 
 
 export class Track {
-    private _isValid: boolean = true;
-    private _isClosed: boolean = false;
+    private _isValid: boolean;
+    private _isClosed: boolean;
 
     public constructor(private _waypoints: Waypoint[] = []) {
+        this._isClosed = false;
+        this._isValid = true;
     }
 
     public get isValid(): boolean {

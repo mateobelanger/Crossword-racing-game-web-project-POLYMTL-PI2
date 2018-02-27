@@ -20,7 +20,14 @@ export class TrackEditorService {
     private _constraints: Constraints;
 
 
-    public constructor(private trackEditorRenderService: TrackEditorRenderService) { }
+    public constructor(private trackEditorRenderService: TrackEditorRenderService) {
+        this._container = null;
+        this._track = null;
+        this._dragDropActive = null;
+        this._selectedWaypoint = null;
+        this._selectedWaypointInitialPos = null;
+        this._constraints = null;
+     }
 
 
     public initialize(container: HTMLDivElement): void {

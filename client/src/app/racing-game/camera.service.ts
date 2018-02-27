@@ -29,6 +29,10 @@ export class CameraService {
 
     public constructor() {
         this.camera = CameraType.PERSPECTIVE;
+        this._orthographicCamera = null;
+        this._perspectiveCamera = null;
+        this.target = null;
+        this.container = null;
      }
 
     public get perspectiveCamera(): THREE.PerspectiveCamera {

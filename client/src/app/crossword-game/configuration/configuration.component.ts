@@ -15,6 +15,8 @@ enum Difficulty {
 export class ConfigurationComponent {
     public difficulty: Difficulty;
 
-    public constructor() {}
+    public constructor() {
+        this.difficulty = null;
+    }
 
 }
