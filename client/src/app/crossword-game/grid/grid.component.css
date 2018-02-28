@@ -9,10 +9,15 @@
 }
 
 .filled {
+    color: black;
     background: black;
     font-size: 0px;
     pointer-events: none;
-    color: black;
+
+    /* hide text behind black cells when ctrl-a, dont touch */
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .col {

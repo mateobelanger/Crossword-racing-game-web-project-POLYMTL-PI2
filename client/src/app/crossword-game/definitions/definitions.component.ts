@@ -10,7 +10,6 @@ import { DefinitionsService } from '../definitions.service';
 })
 export class DefinitionsComponent {
 
-
     public constructor(private validationMediatorService: ValidationMediatorService, private definitionsService: DefinitionsService) {
         this.definitionsService.initialize();
     }

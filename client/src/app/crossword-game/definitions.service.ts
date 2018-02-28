@@ -43,29 +43,23 @@ export class DefinitionsService {
     }
 
     public isValidatedDefinition(word: Word): boolean {
-        let isValid: boolean = false;
+        let definitions: string[];
+        let isValidatedDefinitions: boolean[];
 
-        horizontal_loop:
-        for (let i: number = 0; i < this.horizontalDefinitions.length; i++) {
-            for (let j: number = 0; j < this.horizontalDefinitions[i].length; j++) {
-                if (word.definition === this.horizontalDefinitions[i][j]) {
-                    isValid = this.isValidatedHorizontalDefinition[i][j];
-                    break horizontal_loop;
-                }
-            }
+        if (word.direction === Direction.HORIZONTAL) {
+            definitions = this.horizontalDefinitions[word.row];
+            isValidatedDefinitions = this.isValidatedHorizontalDefinition[word.row];
+        } else {
+            definitions = this.verticalDefinitions[word.column];
+            isValidatedDefinitions = this.isValidatedVerticalDefinition[word.column];
         }
-        vertical_loop:
-        for (let i: number = 0; i < this.verticalDefinitions.length; i++) {
-            for (let j: number = 0; j < this.verticalDefinitions[i].length; j++) {
-                if (word.definition === this.verticalDefinitions[i][j]) {
-                    isValid = this.isValidatedVerticalDefinition[i][j];
-                    break vertical_loop;
-                }
+
+        for (let i: number = 0; i < definitions.length; i++) {
+            if (definitions[i] === word.definition) {
+                return isValidatedDefinitions[i];
             }
         }
 
-        return isValid;
+        return false;
     }
-
 }
-

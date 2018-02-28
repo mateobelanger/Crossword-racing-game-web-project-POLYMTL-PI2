@@ -8,7 +8,6 @@ const KEY_DELETE: number = 46;
 const KEY_A: number = 65;
 const KEY_Z: number = 90;
 
-
 const BLACK_CELL: string = '-';
 
 @Injectable()
@@ -58,14 +57,15 @@ export class GridService {
         if (word === null) {
             return false;
         }
+        if (this.isValidatedWord(word)) {
+            return false;
+        }
         const row: number = Math.floor(id / GRID_SIZE);
         const col: number = id - row * GRID_SIZE;
         if (word.direction === Direction.HORIZONTAL) {
-            return  !this.isValidatedWord(this.wordService.selectedWord) &&
-                    row === word.row && col >= word.column && col < word.column + word.size;
+            return row === word.row && col >= word.column && col < word.column + word.size;
         } else {
-            return  !this.isValidatedWord(this.wordService.selectedWord) &&
-                    col === word.column && row >= word.row && row < word.row + word.size;
+            return  col === word.column && row >= word.row && row < word.row + word.size;
         }
     }
 
@@ -139,26 +139,29 @@ export class GridService {
     }
 
     private idOfFirstEmptyCell(): number {
-        let rowIndex: number = this.wordService.selectedWord.row;
-        let columnIndex: number = this.wordService.selectedWord.column;
-        const selectedRow: number = this.wordService.selectedWord.row;
-        const selectedColumn: number = this.wordService.selectedWord.column;
-        let cellVerified: number = 0;
+        const word: Word = this.wordService.selectedWord;
+        let row: number = 0;
+        let column: number = 0;
 
-        while (this.userGrid[rowIndex][columnIndex] !== "" && cellVerified < this.wordService.selectedWord.size - 1) {
-            cellVerified++;
-            if (this.wordService.selectedWord.direction === Direction.HORIZONTAL) {
-                if (++columnIndex === (selectedRow  + this.wordService.selectedWord.value.length - 1)) {
+        if (word.direction === Direction.HORIZONTAL) {
+            for (let i: number = 0; i < word.value.length; i++) {
+                if (this.userGrid[word.row][word.column + i] === "") {
+                    row = word.row;
+                    column = word.column + i;
                     break;
                 }
-            } else {
-                if (++rowIndex === (selectedColumn + this.wordService.selectedWord.value.length - 1)) {
+            }
+        } else {
+            for (let i: number = 0; i < word.value.length; i++) {
+                if (this.userGrid[word.row + i][word.column] === "") {
+                    row = word.row + i;
+                    column = word.column;
                     break;
                 }
             }
         }
 
-        return this.generateId(rowIndex, columnIndex);
+        return this.generateId(row, column);
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
