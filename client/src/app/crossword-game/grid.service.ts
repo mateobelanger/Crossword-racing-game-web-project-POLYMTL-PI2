@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordService } from './word.service';
-import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GRID_SIZE } from '../../../../common/constants';
 
 const KEY_BACKSPACE: number = 8;
@@ -53,7 +53,7 @@ export class GridService {
     }
 
     public isSelectedWord(id: number): boolean {
-        const word: Word = this.wordService.selectedWord;
+        const word: GridWord = this.wordService.selectedWord;
         if (word === null) {
             return false;
         }
@@ -63,9 +63,9 @@ export class GridService {
         const row: number = Math.floor(id / GRID_SIZE);
         const col: number = id - row * GRID_SIZE;
         if (word.direction === Direction.HORIZONTAL) {
-            return row === word.row && col >= word.column && col < word.column + word.size;
+            return row === word.row && col >= word.column && col < word.column + word.value.length;
         } else {
-            return  col === word.column && row >= word.row && row < word.row + word.size;
+            return  col === word.column && row >= word.row && row < word.row + word.value.length;
         }
     }
 
@@ -73,7 +73,7 @@ export class GridService {
         this.focusOnCell(this.idOfFirstEmptyCell());
     }
 
-    public isValidatedWord(selectedWord: Word): boolean {
+    public isValidatedWord(selectedWord: GridWord): boolean {
         let isValid: boolean = true;
         const rowIndex: number = selectedWord.row;
         const columnIndex: number = selectedWord.column;
@@ -87,7 +87,7 @@ export class GridService {
         return isValid;
     }
 
-    public updateValidatedCells(word: Word): void {
+    public updateValidatedCells(word: GridWord): void {
         for (let i: number = 0; i < word.value.length; i++) {
             if (word.direction === Direction.HORIZONTAL) {
                 this.validatedCells[word.row][word.column + i] = true;
@@ -102,18 +102,14 @@ export class GridService {
     }
 
     public fillGrid(): void {
-        const words: Word[] = this.wordService.words;
+        const words: GridWord[] = this.wordService.words;
         for (const word of words) {
-            for (let i: number = 0; i < word.size; i++) {
-                let row: number;
-                let col: number;
-                if (word.direction === Direction.HORIZONTAL) {
-                    row = word.row;
-                    col = word.column + i;
-                } else {
-                    row = word.row + i;
-                    col = word.column;
-                }
+            let row: number = word.row;
+            let col: number = word.column;
+            for (let i: number = 0; i < word.value.length; i++) {
+                word.direction === Direction.HORIZONTAL ?
+                    col = word.column + i : row = word.row + i;
+
                 this.userGrid[row][col] = "";
                 this.validatedCells[row][col] = false;
             }
@@ -139,25 +135,16 @@ export class GridService {
     }
 
     private idOfFirstEmptyCell(): number {
-        const word: Word = this.wordService.selectedWord;
-        let row: number = 0;
-        let column: number = 0;
+        let row: number = this.wordService.selectedWord.row;
+        let column: number = this.wordService.selectedWord.column;
 
-        if (word.direction === Direction.HORIZONTAL) {
-            for (let i: number = 0; i < word.value.length; i++) {
-                if (this.userGrid[word.row][word.column + i] === "") {
-                    row = word.row;
-                    column = word.column + i;
-                    break;
-                }
-            }
-        } else {
-            for (let i: number = 0; i < word.value.length; i++) {
-                if (this.userGrid[word.row + i][word.column] === "") {
-                    row = word.row + i;
-                    column = word.column;
-                    break;
-                }
+        for (let i: number = 0; i < this.wordService.selectedWord.value.length; i++) {
+            this.wordService.selectedWord.direction === Direction.HORIZONTAL ?
+                column = this.wordService.selectedWord.column + i :
+                row = this.wordService.selectedWord.row + i;
+
+            if (this.userGrid[row][column] === "") {
+                break;
             }
         }
 

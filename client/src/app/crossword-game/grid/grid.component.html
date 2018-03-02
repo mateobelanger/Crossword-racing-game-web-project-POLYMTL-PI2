@@ -21,6 +21,7 @@
                (keyup)="keyUp($event.keyCode,indexR, indexC); $event.target.value.toLower()"
                (click)="gridService.selectWord(indexR, indexC); $event.stopPropagation()" 
                maxlength=1 
+               size=1
                tabindex="-1">
     </div>
 </div>

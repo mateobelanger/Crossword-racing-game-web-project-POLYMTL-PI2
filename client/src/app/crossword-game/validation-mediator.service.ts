@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GridService } from './grid.service';
 import { DefinitionsService } from './definitions.service';
 import { WordService } from './word.service';
-import { Direction, Word } from '../../../../common/crosswordsInterfaces/word';
+import { Direction, GridWord } from '../../../../common/crosswordsInterfaces/word';
 
 @Injectable()
 export class ValidationMediatorService {
@@ -34,7 +34,7 @@ export class ValidationMediatorService {
         this.validatePerpendicularWord(this.wordService.selectedWord.direction, row, column);
     }
 
-    public updateValidatedDefinitions(word: Word): void {
+    public updateValidatedDefinitions(word: GridWord): void {
         if (this.wordService.selectedWord !== null && this.gridService.isValidatedWord(word)
             && !this.definitionService.isValidatedDefinition(word)) {
             horizontal_loop:

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WordService } from './word.service';
-import { Direction, Word } from '../../../../common/crosswordsInterfaces/word';
+import { Direction, GridWord } from '../../../../common/crosswordsInterfaces/word';
 
 @Injectable()
 export class DefinitionsService {
@@ -42,7 +42,7 @@ export class DefinitionsService {
         return definition === this.wordService.definition;
     }
 
-    public isValidatedDefinition(word: Word): boolean {
+    public isValidatedDefinition(word: GridWord): boolean {
         let definitions: string[];
         let isValidatedDefinitions: boolean[];
 

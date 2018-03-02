@@ -1,19 +1,19 @@
 import { Injectable } from "@angular/core";
-import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { words } from "./mock-words";
 import { GRID_SIZE } from '../../../../common/constants';
 
 @Injectable()
 export class WordService {
-    public words: Word[];
-    private _selectedWord: Word;
+    public words: GridWord[];
+    private _selectedWord: GridWord;
 
     public constructor() {
         this.words = words;
         this._selectedWord = null;
     }
 
-    public get selectedWord(): Word {
+    public get selectedWord(): GridWord {
         return this._selectedWord;
     }
 
@@ -41,11 +41,11 @@ export class WordService {
                 continue;
             }
             if (word.direction === Direction.HORIZONTAL) {
-                if (word.row === row && column >= word.column && column < word.column + word.size) {
+                if (word.row === row && column >= word.column && column < word.column + word.value.length) {
                     this._selectedWord = word;
                     break;
                 }
-            } else if (column === word.column && row >= word.row && row < word.row + word.size) {
+            } else if (column === word.column && row >= word.row && row < word.row + word.value.length) {
                 this._selectedWord = word;
                 break;
             }

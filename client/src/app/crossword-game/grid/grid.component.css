@@ -21,14 +21,15 @@
 }
 
 .col {
-    text-align: center;
-    height: 2em;
+    font-size: 1.3em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 42px !important;
+    width: 40px !important;
     border: 1px solid black;
     padding: 0;
     margin: 0;
-    float: left;
+    text-align: center;
     text-transform: capitalize;
-    font-size: 1.3em;
     cursor: pointer;
 }
 
