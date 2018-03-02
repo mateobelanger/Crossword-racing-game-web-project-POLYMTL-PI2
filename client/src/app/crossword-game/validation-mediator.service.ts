@@ -31,10 +31,10 @@ export class ValidationMediatorService {
             this.updateValidatedDefinitions(this.wordService.selectedWord);
         }
 
-        this.validatePerpendicularWord(this.wordService.selectedWord.direction, row, column);
+        this.updateValidatedWords();
     }
 
-    public updateValidatedDefinitions(word: GridWord): void {
+    private updateValidatedDefinitions(word: GridWord): void {
         if (this.wordService.selectedWord !== null && this.gridService.isValidatedWord(word)
             && !this.definitionService.isValidatedDefinition(word)) {
             horizontal_loop:
@@ -58,28 +58,11 @@ export class ValidationMediatorService {
         }
     }
 
-    private validatePerpendicularWord(direction: Direction, row: number, column: number): void {
+    private updateValidatedWords(): void {
         for (const word of this.wordService.words) {
-            if (direction === Direction.HORIZONTAL && word.direction === Direction.VERTICAL) {
-                if (word.column === column) {
-                    if (word.row <= row && word.row + word.value.length - 1 >= row) {
-                        if (this.gridService.isValidatedWord(word)) {
-                            this.gridService.updateValidatedCells(word);
-                            this.updateValidatedDefinitions(word);
-                        }
-                        break;
-                    }
-                }
-            } else if (word.direction === Direction.HORIZONTAL) {
-                if (word.row === row) {
-                    if (word.column <= column && word.column + word.value.length - 1 >= column) {
-                        if (this.gridService.isValidatedWord(word)) {
-                            this.gridService.updateValidatedCells(word);
-                            this.updateValidatedDefinitions(word);
-                        }
-                        break;
-                    }
-                }
+            if (this.gridService.isValidatedWord(word)) {
+                this.gridService.updateValidatedCells(word);
+                this.updateValidatedDefinitions(word);
             }
         }
     }
