@@ -152,24 +152,20 @@ export class GridService {
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
-        let rowIndex: number = row;
-        let columnIndex: number = column;
+        const oldRow: number = row;
+        const oldCol: number = column;
 
         do {
-            if (this.wordService.selectedWord.direction === Direction.HORIZONTAL) {
-                if (--columnIndex < this.wordService.selectedWord.column) {
-                    columnIndex = column;
+            this.wordService.selectedWord.direction === Direction.HORIZONTAL ?
+                column-- : row--;
+            if (row < this.wordService.selectedWord.row || column < this.wordService.selectedWord.column) {
+                    row = oldRow;
+                    column = oldCol;
                     break;
                 }
-            } else {
-                if (--rowIndex < this.wordService.selectedWord.row) {
-                    rowIndex = row;
-                    break;
-                }
-            }
-        } while (this.validatedCells[rowIndex][columnIndex]);
+        } while (this.validatedCells[row][column]);
 
-        return [rowIndex, columnIndex];
+        return [row, column];
     }
 
 }
