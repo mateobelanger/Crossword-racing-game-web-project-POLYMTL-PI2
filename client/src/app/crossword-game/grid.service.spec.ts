@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
 import { ValidationMediatorService } from './validation-mediator.service';
@@ -18,14 +18,14 @@ const KEY_I: number = 73;
 const KEY_M: number = 77;
 const KEY_Z: number = 90;
 
-const word1: Word = { row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to ___ on my chair." };
-const word2: Word = { row: 0, column: 0, direction: Direction.VERTICAL, size: 3, value: "sat", definition: "I ___ on a chair." };
-const word3: Word = { row: 0, column: 1, direction: Direction.VERTICAL, size: 5, value: "image", definition: "JPEG, PNG, GIF" };
-const word4: Word = { row: 0, column: 2, direction: Direction.VERTICAL, size: 3, value: "tom", definition: "__ a la ferme." };
-const word5: Word = { row: 1, column: 0, direction: Direction.HORIZONTAL, size: 5, value: "amour", definition: "Michel est notre _____" };
-const word6: Word = { row: 2, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "tam", definition: "TAM ___" };
+const word1: GridWord = { row: 0, column: 0, direction: Direction.HORIZONTAL, value: "sit", definition: "I like to ___ on my chair." };
+const word2: GridWord = { row: 0, column: 0, direction: Direction.VERTICAL, value: "sat", definition: "I ___ on a chair." };
+const word3: GridWord = { row: 0, column: 1, direction: Direction.VERTICAL, value: "image", definition: "JPEG, PNG, GIF" };
+const word4: GridWord = { row: 0, column: 2, direction: Direction.VERTICAL, value: "tom", definition: "__ a la ferme." };
+const word5: GridWord = { row: 1, column: 0, direction: Direction.HORIZONTAL, value: "amour", definition: "Michel est notre _____" };
+const word6: GridWord = { row: 2, column: 0, direction: Direction.HORIZONTAL, value: "tam", definition: "TAM ___" };
 
-const words: Word[] = [word1, word2, word3, word4, word5, word6];
+const words: GridWord[] = [word1, word2, word3, word4, word5, word6];
 
 /* tslint:disable: no-magic-numbers */
 
@@ -63,7 +63,7 @@ describe('GridService', () => {
       wordService.words = words;
       gridService = new GridService(wordService);
       gridService.userGrid = userGrid;
-      gridService.validatedCells = validatedCells;
+      gridService.validatedGrid = validatedCells;
       definitionsService = new DefinitionsService(wordService);
       definitionsService.initialize();
       validationMediatorService = new ValidationMediatorService(gridService, definitionsService, wordService);
