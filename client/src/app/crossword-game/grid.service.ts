@@ -110,8 +110,7 @@ export class GridService {
     }
 
     private focusOnCell(id: number): void {
-        const element: HTMLElement = document.getElementById(id.toString());
-        element.focus();
+        document.getElementById(id.toString()).focus();
     }
 
     private idOfFirstEmptyCell(): number {
