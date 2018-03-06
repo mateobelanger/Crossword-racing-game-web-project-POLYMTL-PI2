@@ -47,7 +47,7 @@ export class ValidatorService {
                 word.direction === Direction.HORIZONTAL ?
                     column = word.column + i : row = word.row + i;
 
-                if (grid[row][column] !== this.filledGrid[row][column]) {
+                if (grid[row][column].toLowerCase() !== this.filledGrid[row][column]) {
                     isValidated = false;
                     break;
                 }
