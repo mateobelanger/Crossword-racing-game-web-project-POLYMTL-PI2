@@ -3,13 +3,13 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DefinitionsService } from './definitions.service';
 import { WordService } from './word.service';
 import { GridService } from './grid.service';
-import { Direction, Word } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 
 
-const word1: Word = { row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to ___ on my chair." };
-const word2: Word = { row: 0, column: 0, direction: Direction.VERTICAL, size: 3, value: "sat", definition: "I ___ on a chair." };
+const word1: GridWord = { row: 0, column: 0, direction: Direction.HORIZONTAL, value: "sit", definition: "I like to ___ on my chair." };
+const word2: GridWord = { row: 0, column: 0, direction: Direction.VERTICAL, value: "sat", definition: "I ___ on a chair." };
 
-const words: Word[] = [word1, word2];
+const words: GridWord[] = [word1, word2];
 
 describe('DefinitionsService', () => {
 

@@ -4,13 +4,13 @@ import { ValidationMediatorService } from './validation-mediator.service';
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
 import { DefinitionsService } from './definitions.service';
-import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 
-const word1: Word = { row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to ___ on my chair." };
-const word2: Word = { row: 0, column: 0, direction: Direction.VERTICAL, size: 3, value: "sat", definition: "I ___ on a chair." };
-const word3: Word = { row: 0, column: 2, direction: Direction.VERTICAL, size: 3, value: "tom", definition: "__ a la ferme." };
+const word1: GridWord = { row: 0, column: 0, direction: Direction.HORIZONTAL, value: "sit", definition: "You : ___ on a chair." };
+const word2: GridWord = { row: 0, column: 0, direction: Direction.VERTICAL, value: "sat", definition: "I ___ on a chair." };
+const word3: GridWord = { row: 0, column: 2, direction: Direction.VERTICAL, value: "tom", definition: "__ a la ferme." };
 
-const words: Word[] = [word1, word2, word3];
+const words: GridWord[] = [word1, word2, word3];
 
 describe('ValidationMediatorService', () => {
 

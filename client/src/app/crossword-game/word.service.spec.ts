@@ -1,14 +1,14 @@
 import { TestBed, inject } from "@angular/core/testing";
 
 import { WordService } from "./word.service";
-import { Word, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 
-const word1: Word = {row: 0, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "sit", definition: "I like to . . . on my chair."};
-const word2: Word = { row: 0, column: 0, direction: Direction.VERTICAL, size: 3, value: "sat", definition: "I . . . on a chair." };
-const word3: Word = { row: 0, column: 1, direction: Direction.VERTICAL, size: 5, value: "image", definition: "JPEG, PNG, GIF" };
-const word4: Word = { row: 2, column: 0, direction: Direction.HORIZONTAL, size: 3, value: "tam", definition: "TAM . . ." };
+const word1: GridWord = {row: 0, column: 0, direction: Direction.HORIZONTAL, value: "sit", definition: "You : ___ on a chair."};
+const word2: GridWord = { row: 0, column: 0, direction: Direction.VERTICAL, value: "sat", definition: "I . . . on a chair." };
+const word3: GridWord = { row: 0, column: 1, direction: Direction.VERTICAL, value: "image", definition: "JPEG, PNG, GIF" };
+const word4: GridWord = { row: 2, column: 0, direction: Direction.HORIZONTAL, value: "tam", definition: "TAM . . ." };
 
-const words: Word[] = [word1, word2, word3, word4];
+const words: GridWord[] = [word1, word2, word3, word4];
 
 // tslint:disable: no-magic-numbers
 describe('WordService', () => {
