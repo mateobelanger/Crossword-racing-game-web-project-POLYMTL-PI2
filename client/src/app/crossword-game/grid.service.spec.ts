@@ -3,8 +3,9 @@ import { TestBed, inject } from '@angular/core/testing';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
-import { ValidationMediatorService } from './validation-mediator.service';
-import { DefinitionsService } from './definitions.service';
+import { ValidatorService } from './validator.service';
+
+/* tslint:disable: no-magic-numbers */
 
 const KEY_TAB: number = 9;
 const KEY_9: number = 57;
@@ -18,29 +19,27 @@ const KEY_I: number = 73;
 const KEY_M: number = 77;
 const KEY_Z: number = 90;
 
-const word1: GridWord = { row: 0, column: 0, direction: Direction.HORIZONTAL, value: "sit", definition: "I like to ___ on my chair." };
-const word2: GridWord = { row: 0, column: 0, direction: Direction.VERTICAL, value: "sat", definition: "I ___ on a chair." };
-const word3: GridWord = { row: 0, column: 1, direction: Direction.VERTICAL, value: "image", definition: "JPEG, PNG, GIF" };
-const word4: GridWord = { row: 0, column: 2, direction: Direction.VERTICAL, value: "tom", definition: "__ a la ferme." };
-const word5: GridWord = { row: 1, column: 0, direction: Direction.HORIZONTAL, value: "amour", definition: "Michel est notre _____" };
-const word6: GridWord = { row: 2, column: 0, direction: Direction.HORIZONTAL, value: "tam", definition: "TAM ___" };
+const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
+const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
+const word3: GridWord = new GridWord (0, 1, Direction.VERTICAL, "image", "JPEG, PNG, GIF");
+const word4: GridWord = new GridWord (0, 2, Direction.VERTICAL, "tom", "__ a la ferme.");
+const word5: GridWord = new GridWord (1, 0, Direction.HORIZONTAL, "amour", "Michel est notre _____");
+const word6: GridWord = new GridWord (2, 0, Direction.HORIZONTAL, "tam", "TAM ___");
 
 const words: GridWord[] = [word1, word2, word3, word4, word5, word6];
 
-/* tslint:disable: no-magic-numbers */
+
 
 describe('GridService', () => {
 
     let userGrid: string[][];
-    let validatedCells: boolean[][];
     let wordService: WordService;
     let gridService: GridService;
-    let definitionsService: DefinitionsService;
-    let validationMediatorService: ValidationMediatorService;
+    let validatorService: ValidatorService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers: [GridService, WordService],
+        providers: [GridService, ValidatorService, WordService],
       });
 
       userGrid = [["s", "", "t", "", "", "", "", "", "", ""], ["a", "", "o", "", "", "", "", "", "", ""],
@@ -49,24 +48,12 @@ describe('GridService', () => {
                   [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
                   [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""]];
 
-      validatedCells = [[ true, false,  true, false, false, false, false, false, false, false],
-                        [ true, false,  true, false, false, false, false, false, false, false],
-                        [ true, false,  true, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false]];
-
       wordService = new WordService();
       wordService.words = words;
-      gridService = new GridService(wordService);
+      validatorService = new ValidatorService(wordService);
+      gridService = new GridService(wordService, validatorService);
       gridService.userGrid = userGrid;
-      gridService.validatedGrid = validatedCells;
-      definitionsService = new DefinitionsService(wordService);
-      definitionsService.initialize();
-      validationMediatorService = new ValidationMediatorService(gridService, definitionsService, wordService);
+
     });
 
     it('should be created', inject([GridService], (service: GridService) => {
@@ -102,9 +89,9 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "i";
         gridService.keyDown(KEY_I, 0, 1);
-        validationMediatorService.keyUp(KEY_I, 0, 1);
+        gridService.keyUp(0, 1);
 
-        expect(gridService.isValidatedWord(word1)).toBeTruthy();
+        expect(validatorService.isValidatedWord(word1)).toBeTruthy();
     });
 
     it("should automatically validate a partially filled word when it is not selected and completed", () => {
@@ -112,9 +99,9 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "i";
         gridService.keyDown(KEY_I, 0, 1);
-        validationMediatorService.keyUp(KEY_I, 0, 1);
+        gridService.keyUp(0, 1);
 
-        expect(gridService.isValidatedWord(word1)).toBeTruthy();
+        expect(validatorService.isValidatedWord(word1)).toBeTruthy();
     });
 
 
@@ -123,9 +110,9 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "m";
         gridService.keyDown(KEY_M, 0, 1);
-        validationMediatorService.keyUp(KEY_M, 0, 1);
+        gridService.keyUp(0, 1);
 
-        expect(gridService.isValidatedWord(word1)).toBeFalsy();
+        expect(validatorService.isValidatedWord(word1)).toBeFalsy();
     });
 
 
@@ -134,25 +121,25 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "i";
         gridService.keyDown(KEY_I, 0, 1);
-        validationMediatorService.keyUp(KEY_I, 0, 1);
+        gridService.keyUp(0, 1);
 
         gridService.userGrid[1][1] = "m";
         gridService.keyDown(KEY_M, 1, 1);
-        validationMediatorService.keyUp(KEY_M, 1, 1);
+        gridService.keyUp(1, 1);
 
         gridService.userGrid[2][1] = "a";
         gridService.keyDown(KEY_A, 2, 1);
-        validationMediatorService.keyUp(KEY_A, 2, 1);
+        gridService.keyUp(2, 1);
 
         gridService.userGrid[3][1] = "g";
         gridService.keyDown(KEY_G, 3, 1);
-        validationMediatorService.keyUp(KEY_G, 3, 1);
+        gridService.keyUp(3, 1);
 
         gridService.userGrid[4][1] = "e";
         gridService.keyDown(KEY_E, 4, 1);
-        validationMediatorService.keyUp(KEY_E, 4, 1);
+        gridService.keyUp(4, 1);
 
-        expect(gridService.isValidatedWord(word3)).toBeTruthy();
+        expect(validatorService.isValidatedWord(word3)).toBeTruthy();
     });
 
 
@@ -161,17 +148,17 @@ describe('GridService', () => {
 
         gridService.userGrid[0][1] = "i";
         gridService.keyDown(KEY_I, 0, 1);
-        validationMediatorService.keyUp(KEY_I, 0, 1);
+        gridService.keyUp(0, 1);
 
         gridService.userGrid[1][1] = "m";
         gridService.keyDown(KEY_M, 1, 1);
-        validationMediatorService.keyUp(KEY_M, 1, 1);
+        gridService.keyUp(1, 1);
 
         gridService.userGrid[2][1] = "a";
         gridService.keyDown(KEY_A, 2, 1);
-        validationMediatorService.keyUp(KEY_A, 2, 1);
+        gridService.keyUp(2, 1);
 
-        expect(gridService.isValidatedWord(word3)).toBeFalsy();
+        expect(validatorService.isValidatedWord(word3)).toBeFalsy();
     });
 
 });
