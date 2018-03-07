@@ -13,6 +13,8 @@ import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { routes } from "../app-routes.module";
+import { SpeedComponent } from './game-infos/speed/speed.component';
+import { GameInfosComponent } from './game-infos/game-infos.component';
 
 @NgModule({
 
@@ -26,7 +28,9 @@ import { routes } from "../app-routes.module";
   declarations: [
     RacingGameComponent,
     GameComponent,
-    RacingGameSceneComponent
+    RacingGameSceneComponent,
+    SpeedComponent,
+    GameInfosComponent
   ],
 
   exports: [
