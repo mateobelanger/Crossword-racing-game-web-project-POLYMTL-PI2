@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, /*ViewChild, ElementRef*/ } from '@angular/core';
 
 @Component({
   selector: 'app-game-infos',
@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class GameInfosComponent implements OnInit {
 
   constructor() { }
+
+  //@ViewChild('container')
+  //private container: ElementRef;
 
   ngOnInit() {
   }
