@@ -3,32 +3,24 @@
   <div #container id="container">
 
     <div class="lap">
-      1 / 3
+      <app-lap></app-lap>
     </div>
-
 
     <div class="speed">
       <app-speed></app-speed>
     </div>
 
-    <div (click)="deleteTrack(track.name)">
-            <i class="icon icon-delete"></i>
-        </div>
-        
     <div class="exit">
-      <a routerLink="../racing-game" class="game-btn btn btn-warning">Exit</a>
+      <a routerLink="../racing-game"><i class="icon-exit"></i></a>
     </div>
 
     <div class="time">
-        Time : 00 : 32 : 59 <br>
-         Lap Time : 00 : 01 : 59
+      <app-time></app-time>
     </div>
 
     <div class="position">
-      1
+      <app-position></app-position>
     </div>
-
-
 
   </div>
 </div>
