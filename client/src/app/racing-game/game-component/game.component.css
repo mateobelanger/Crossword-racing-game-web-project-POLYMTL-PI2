@@ -40,24 +40,6 @@
     position: absolute;
 }
 
-ul {
-    position: relative;
-    margin: 0;
-    margin-left: 20px;
-    padding: 0;
-  }
-  
-li {
-  position: relative;
-  margin: 0;
-  top: 0px;
-  left: 0;
-  color: #6FC3DF;
-  list-style-type: none;
-  font-family: 'Allerta Stencil', sans-serif, bold;
-  font-size: 1.5em;
-}
-
 .aaa {
   top: 200px;
   left: 0;

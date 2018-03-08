@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { RenderService } from '../../render-service/render.service';
+import { Car } from '../../car/car';
 
 @Component({
   selector: 'app-speed',
   templateUrl: './speed.component.html',
   styleUrls: ['./speed.component.css']
 })
-export class SpeedComponent implements OnInit {
+export class SpeedComponent {
 
-  constructor() { }
+  public constructor(private renderService: RenderService) { }
 
-  ngOnInit() {
+  public get car(): Car {
+    return this.renderService.car;
   }
-
 }

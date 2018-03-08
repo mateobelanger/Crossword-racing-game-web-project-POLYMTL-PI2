@@ -24,7 +24,7 @@ export class SkyboxService {
 
     public initialize(scene: THREE.Scene): void {
       this.scene = scene;
-      this.skyboxName = SKYBOXES[Math.floor(Math.random() * SKYBOXES.length)];
+      this.skyboxName = SKYBOXES[2]; /*SKYBOXES[Math.floor(Math.random() * SKYBOXES.length)];*/
       this.skyboxSate = "day";
       this.generateBackgroundView();
     }
