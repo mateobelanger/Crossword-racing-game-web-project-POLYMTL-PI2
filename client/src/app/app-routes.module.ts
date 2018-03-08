@@ -21,6 +21,7 @@ export const appRoutes: Routes = [
   { path : "racing-game", component: RacingGameComponent },
   { path : "admin", component: AdminComponent },
   { path : "admin/track-editor/:trackName", component: TrackEditorUiComponent },
+  { path : "racing-game-scene/:trackName", component: RacingGameSceneComponent },
   { path : "racing-game-scene", component: RacingGameSceneComponent }
 ];
 

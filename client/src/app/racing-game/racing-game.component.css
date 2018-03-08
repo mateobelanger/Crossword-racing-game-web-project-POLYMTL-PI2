@@ -66,7 +66,7 @@ h5 {
 }
 
 .trackNameBlock {
-    width: 100%;
+    width: 75%;
     height: 60px;
     display: flex;
     flex-direction: column;
@@ -141,6 +141,10 @@ h5 {
     vertical-align: middle;
     width: 25%;
     height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .icon {
@@ -148,7 +152,8 @@ h5 {
     background-size: 16px !important;
     height: 20px;
     width: 20px;
-    margin: 31% 15%;
+    margin-right: 40px;
+    font-size: 20px;
 }
 
 li {
@@ -159,3 +164,4 @@ li {
     padding: 0;
     margin: 0;
 }
+
