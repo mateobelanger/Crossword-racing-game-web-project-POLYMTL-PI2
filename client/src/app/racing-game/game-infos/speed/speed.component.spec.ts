@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SpeedComponent } from './speed.component';
+import { RenderService } from '../../render-service/render.service';
 
 describe('SpeedComponent', () => {
   let component: SpeedComponent;
@@ -8,7 +9,8 @@ describe('SpeedComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpeedComponent ]
+      declarations: [ SpeedComponent ],
+      providers: [RenderService]
     })
     .compileComponents();
   }));
