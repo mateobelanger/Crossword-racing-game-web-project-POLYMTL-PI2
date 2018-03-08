@@ -13,7 +13,7 @@ import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { routes } from "../app-routes.module";
-
+import { RaceDataHandlerService } from "./race-data-handler.service";
 @NgModule({
 
   imports: [
@@ -39,7 +39,8 @@ import { routes } from "../app-routes.module";
     TrackEditorService,
     CameraService,
     SkyboxService,
-    TracksProxyService
+    TracksProxyService,
+    RaceDataHandlerService
   ],
 
 })
