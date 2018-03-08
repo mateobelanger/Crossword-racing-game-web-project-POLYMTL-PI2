@@ -14,7 +14,7 @@ export class BestTimesHandler {
     }
 
     public get bestTimes(): [string, number][] {
-        return this._bestTimes;
+        return this._bestTimes.sort((time1, time2) => (time1[1] - time2[1]));
     }
 
     private findWorstTimeIndex(): number {
