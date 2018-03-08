@@ -1,4 +1,4 @@
-import {Waypoint} from './waypoint';
+import {Waypoint} from "./waypoint";
 
 export class Track {
     private _isValid: boolean;

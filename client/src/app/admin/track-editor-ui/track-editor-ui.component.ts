@@ -54,7 +54,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
             return;
         }
 
-        if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
+        if (!this.isValidTrack()) {
             this.invalidTrackPopup();
         } else if (this.proxy.findTrack(this.name) !== null && this.track.name !== this.name) {
             this.alreadyUsedNamePopup();
@@ -145,5 +145,13 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.track.waypoints.push(position);
         });
 
+    }
+
+    private isValidTrack(): boolean {
+
+        return  this.name.length > 0 &&
+                this.description.length > 0 &&
+                this.trackEditorService.track.isValid &&
+                this.trackEditorService.track.isClosed;
     }
 }

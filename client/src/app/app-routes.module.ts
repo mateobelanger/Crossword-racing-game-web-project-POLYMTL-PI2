@@ -22,7 +22,7 @@ export const appRoutes: Routes = [
   { path : "admin", component: AdminComponent },
   { path : "admin/track-editor/:trackName", component: TrackEditorUiComponent },
   { path : "racing-game-scene/:trackName", component: RacingGameSceneComponent },
-  { path : "racing-game-scene", component: RacingGameSceneComponent }
+  { path : "racing-game-scene", component: RacingGameSceneComponent } // *a retirer avant la remise**
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);
