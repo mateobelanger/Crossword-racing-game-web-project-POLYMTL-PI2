@@ -1,10 +1,9 @@
 import { BestTimesHandler} from "./bestTimesHandler";
-
+// tslint:disable:no-magic-numbers
 describe("bestTimes", () => {
 
     let bestTimesHandler: BestTimesHandler;
-    // tslint:disable-next-line:no-magic-numbers
-    const bestTimes: number[] = [1, 4, 5, 6, 6.5];
+    const bestTimes: [string, number][] = [["nolife", 1], ["second", 4], ["third", 5], ["fourth", 6], ["last", 6.5]];
 
     beforeEach(() => {
         bestTimesHandler = new BestTimesHandler( bestTimes );
@@ -15,25 +14,21 @@ describe("bestTimes", () => {
     });
 
     it("should add best times", () => {
-        const newBestTime: number = 6.2;
-        // tslint:disable-next-line:no-magic-numbers
-        const newBestTimes: number[] = [1, 4, 5, 6, newBestTime];
+        const newBestTime: [string, number] = ["new contester", 6.2];
+        const newBestTimes: [string, number][] = [["nolife", 1], ["second", 4], ["third", 5], ["fourth", 6], newBestTime];
         bestTimesHandler.addTime(newBestTime);
         expect(bestTimesHandler.bestTimes).toEqual(newBestTimes);
     });
 
     it("should not add best times", () => {
-        // tslint:disable-next-line:no-magic-numbers
-        bestTimesHandler.addTime(10);
+        bestTimesHandler.addTime(["good try user", 10]);
         expect(bestTimesHandler.bestTimes).toEqual(bestTimes);
     });
 
     it("not full best Times array should add any time", () => {
-        // tslint:disable:no-magic-numbers
-        bestTimesHandler = new BestTimesHandler([1, 2, 999]);
-        bestTimesHandler.addTime(99090909090);
-        expect(bestTimesHandler.bestTimes).toEqual([1, 2, 999, 99090909090]);
-        // tslint:enable:no-magic-numbers
+        bestTimesHandler = new BestTimesHandler([["nolife", 1], ["second", 4], ["third", 5]]);
+        bestTimesHandler.addTime(["took a nap", 99090909090]);
+        expect(bestTimesHandler.bestTimes).toEqual([["nolife", 1], ["second", 4], ["third", 5], ["took a nap", 99090909090]]);
     });
 
     it("should get best times", () => {
