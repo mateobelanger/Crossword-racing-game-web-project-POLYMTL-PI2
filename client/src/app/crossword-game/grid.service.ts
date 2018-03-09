@@ -95,6 +95,16 @@ export class GridService {
                 this.validatedCells[word.row + i][word.column] = true;
             }
         }
+
+        // TODO: déplacer le test de fin de partie à un autre endroit plus approprier
+        for (let i: number = 0; i < GRID_SIZE; i++) {
+            for (let j: number = 0; j < GRID_SIZE; j++) {
+                if (this.userGrid[i][j] !== "-" && !this.validatedCells[i][j]) {
+                    return;
+                }
+            }
+        }
+        alert("Congratulation on solving the crossword!!");
     }
 
     public generateId (rowIndex: number, columnIndex: number): number {
