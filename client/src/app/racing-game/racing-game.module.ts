@@ -13,6 +13,7 @@ import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { routes } from "../app-routes.module";
+import { RaceDataHandlerService } from "./race-data-handler.service";
 import { SpeedComponent } from './game-infos/speed/speed.component';
 import { LapComponent } from './game-infos/lap/lap.component';
 import { TimeComponent } from './game-infos/time/time.component';
@@ -47,7 +48,8 @@ import { PositionComponent } from './game-infos/position/position.component';
     TrackEditorService,
     CameraService,
     SkyboxService,
-    TracksProxyService
+    TracksProxyService,
+    RaceDataHandlerService
   ],
 
 })
