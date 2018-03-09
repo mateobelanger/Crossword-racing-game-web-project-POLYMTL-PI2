@@ -96,7 +96,7 @@ export class GridService {
             }
         }
 
-        // TODO: déplacer le test de fin de partie à un autre endroit plus approprier
+        // TODO: déplacer le test de fin de partie à un autre endroit plus approprié
         for (let i: number = 0; i < GRID_SIZE; i++) {
             for (let j: number = 0; j < GRID_SIZE; j++) {
                 if (this.userGrid[i][j] !== "-" && !this.validatedCells[i][j]) {
