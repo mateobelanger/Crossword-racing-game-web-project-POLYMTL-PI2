@@ -62,4 +62,8 @@ export class DefinitionsService {
 
         return false;
     }
+
+    public getWordWithDefinition(definition: string): string {
+        return this.wordService.getWordWithDefinition(definition);
+    }
 }

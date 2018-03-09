@@ -64,3 +64,13 @@ li:hover {
     font-weight: bold;
     pointer-events: none;
 }
+
+.toggled {
+    color: white;
+    background: red;
+}
+
+.untoggled {
+    color:white;
+    background: grey;
+}
