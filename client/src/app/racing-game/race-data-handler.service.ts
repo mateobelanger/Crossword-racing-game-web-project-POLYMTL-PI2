@@ -62,8 +62,6 @@ export class RaceDataHandlerService {
       if (this._lapElapsed === MAX_NB_LAPS)
         this.doneRace();
     }
-
-    // TODO: MODIFY DATA IN HUD 
   }
 
   private doneRace(): void {

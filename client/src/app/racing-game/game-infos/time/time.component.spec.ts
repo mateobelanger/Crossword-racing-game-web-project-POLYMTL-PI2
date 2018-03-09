@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimeComponent } from './time.component';
+import { RaceDataHandlerService } from '../../race-data-handler.service';
+import { TracksProxyService } from '../../tracks-proxy.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TimeComponent', () => {
   let component: TimeComponent;
@@ -8,7 +11,9 @@ describe('TimeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeComponent ]
+      declarations: [ TimeComponent ],
+      imports: [HttpClientTestingModule],
+      providers: [ RaceDataHandlerService, TracksProxyService,  ]
     })
     .compileComponents();
   }));

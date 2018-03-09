@@ -5,12 +5,6 @@ import * as THREE from "three";
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from "../skybox.service";
-// ***
-import { TracksProxyService } from "../tracks-proxy.service";
-import { PlaneHandler } from "../track/trackBuildingBlocks/planeHandler";
-import { Waypoint } from "../track/trackData/waypoint";
-import { ITrackData } from "../../../../../common/trackData";
-
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -25,12 +19,7 @@ const AMBIENT_LIGHT_OPACITY: number = 0.8;
 // To see the car"s point of departure
 const HELPER_AXES_SIZE: number = 500;
 const HELPER_GRID_SIZE: number = 50;
-// ***
-const X: number = 0;
-const Y: number = 1;
-const Z: number = 2;
 
-const SCENE_SCALE: number = 100;
 
 @Injectable()
 export class RenderService {
@@ -41,8 +30,6 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
 
-    private _waypoints: Waypoint[];
-    private planeHandler: PlaneHandler;
 
     // To see the car's point of departure
     private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
@@ -53,43 +40,19 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-                       private skyboxService: SkyboxService,
-                       private tracksProxyService: TracksProxyService ) {
+                       private skyboxService: SkyboxService ) {
         this._car = new Car();
-        // ***
-        this._waypoints = [];
+
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         if (container) {
             this.container = container;
         }
-        // ***try catch
-        await this.tracksProxyService.initialize();
-        this.setWaypointsFromProxy();
 
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
-    }
-    // ***
-    private setWaypointsFromProxy(): void {
-
-        const track: ITrackData = this.tracksProxyService.findTrack( "test" /*this.route.snapshot.paramMap.get("trackName")*/);
-        if (track === undefined) {
-                throw new Error("track not found");
-        }
-
-        track.waypoints.forEach( (element) => {
-
-            const waypoint: Waypoint = new Waypoint();
-            const scaledVector: THREE.Vector3 = new THREE.Vector3(element[X], element[Y], element[Z]);
-            scaledVector.normalize();
-            scaledVector.multiplyScalar(SCENE_SCALE);
-            waypoint.position =  scaledVector;
-            this._waypoints.push(waypoint);
-        });
-
     }
 
     private initStats(): void {
@@ -109,9 +72,6 @@ export class RenderService {
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
-        // ***
-        this.addTrackToScene();
-
         await this._car.init();
         this.scene.add(this._car);
 
@@ -125,13 +85,6 @@ export class RenderService {
 
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
-    }
-
-    private addTrackToScene(): void {
-        this.planeHandler = new PlaneHandler(this.scene);
-        this.planeHandler.generatePlanes(this._waypoints, true);
-        const waypoints: Waypoint[] = [this._waypoints[this._waypoints.length - 1], this._waypoints[0]];
-        this.planeHandler.generatePlanes(waypoints, true);
     }
 
     private startRenderingLoop(): void {
