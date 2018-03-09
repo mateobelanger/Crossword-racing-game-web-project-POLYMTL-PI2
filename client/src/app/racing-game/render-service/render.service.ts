@@ -30,7 +30,7 @@ const X: number = 0;
 const Y: number = 1;
 const Z: number = 2;
 
-const SCENE_SCALE: number = 100;
+const SCENE_SCALE: number = 1;
 
 @Injectable()
 export class RenderService {
@@ -84,8 +84,9 @@ export class RenderService {
 
             const waypoint: Waypoint = new Waypoint();
             const scaledVector: THREE.Vector3 = new THREE.Vector3(element[X], element[Y], element[Z]);
+            const lenght: number = scaledVector.length();
             scaledVector.normalize();
-            scaledVector.multiplyScalar(SCENE_SCALE);
+            scaledVector.multiplyScalar(SCENE_SCALE * lenght);
             waypoint.position =  scaledVector;
             this._waypoints.push(waypoint);
         });
