@@ -12,6 +12,7 @@ import { Waypoint } from "../track/trackData/waypoint";
 import { ITrackData } from "../../../../../common/trackData";
 
 
+
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
@@ -28,6 +29,8 @@ const HELPER_GRID_SIZE: number = 50;
 const X: number = 0;
 const Y: number = 1;
 const Z: number = 2;
+
+const SCENE_SCALE: number = 100;
 
 @Injectable()
 export class RenderService {
@@ -78,9 +81,13 @@ export class RenderService {
         }
 
         track.waypoints.forEach( (element) => {
-                const waypoint: Waypoint = new Waypoint();
-                waypoint.position =  new THREE.Vector3(element[X], element[Y], element[Z]);
-                this._waypoints.push(waypoint);
+
+            const waypoint: Waypoint = new Waypoint();
+            const scaledVector: THREE.Vector3 = new THREE.Vector3(element[X], element[Y], element[Z]);
+            scaledVector.normalize();
+            scaledVector.multiplyScalar(SCENE_SCALE);
+            waypoint.position =  scaledVector;
+            this._waypoints.push(waypoint);
         });
 
     }
