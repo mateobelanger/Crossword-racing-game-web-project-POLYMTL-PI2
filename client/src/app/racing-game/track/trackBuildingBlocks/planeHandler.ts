@@ -1,6 +1,6 @@
 import {Waypoint} from "../trackData/waypoint";
 import {Plane} from "./plane";
-import { PLANE_POSITION_Z, TRACKWIDTH, PlaneType } from '../../constants';
+import { PLANE_POSITION_Z, TRACK_WIDTH, PlaneType } from '../../constants';
 import * as THREE from "three";
 
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
@@ -9,7 +9,7 @@ const ASSETS_FOLDER: string = "../../../../assets/track_editor_texture/";
 const ASSETS_NAME: string[] = ["first_road_texture.png", "first_road_texture_red.png",
                                "road_texture.png", "road_texture_red.png"];
 
-export const TRACKLENGTH: number = 1;
+export const TRACK_LENGTH: number = 1;
 
 
 export class PlaneHandler {
@@ -23,7 +23,10 @@ export class PlaneHandler {
         this._firstPlaneId = undefined;
     }
 
-    public generatePlanes(waypoints: Waypoint[]): void {
+    public generatePlanes(waypoints: Waypoint[], hasReversedAxes: boolean): void {
+
+        const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
@@ -38,6 +41,8 @@ export class PlaneHandler {
                 this._firstPlaneId = mesh.id;
             }
             this._planes.push(plane);
+
+            hasReversedAxes ? plane.mesh.rotateOnAxis(axis, Math.PI / 2) : plane.mesh.rotateOnAxis(axis, 0);
 
             this.scene.add(plane.mesh);
             this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
@@ -156,7 +161,7 @@ export class PlaneHandler {
     private generatePlaneGeometry(nPlanes: number): THREE.PlaneGeometry[] {
         const planeGeometries: THREE.PlaneGeometry[] = [];
         for (let i: number = 0 ; i < nPlanes; i++)
-            planeGeometries.push(new THREE.PlaneGeometry(TRACKLENGTH, TRACKWIDTH));
+            planeGeometries.push(new THREE.PlaneGeometry(TRACK_LENGTH, TRACK_WIDTH));
 
         return planeGeometries;
     }

@@ -27,6 +27,12 @@ export class GameComponent implements AfterViewInit {
                            this.bestTimesHandler = new BestTimesHandler();
                        }
 
+    // private renderService: RenderService;
+
+    // public constructor() {
+    //     this.renderService = this.route.snapshot.paramMap.get("trackName");
+    // }
+
     @HostListener("window:resize", ["$event"])
     public onResize(): void {
         this.renderService.onResize();

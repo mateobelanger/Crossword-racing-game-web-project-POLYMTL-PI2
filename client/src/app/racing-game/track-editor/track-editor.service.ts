@@ -53,7 +53,7 @@ export class TrackEditorService {
         if (this._track.getTrackSize() > 1) {
             if (waypoints.length === 1)
                 waypoints.unshift(this._track.getPreviousToLastWaypoint());
-            this.trackEditorRenderService._planeHandler.generatePlanes(waypoints);
+            this.trackEditorRenderService._planeHandler.generatePlanes(waypoints, false);
             this._constraints.addRoads(waypoints);
         }
       }
@@ -88,7 +88,7 @@ export class TrackEditorService {
 
     public closeTrack(): void {
         const waypoints: Waypoint[] = [this._track.getLastWaypoint(), this._track.getFirstWaypoint()];
-        this.trackEditorRenderService._planeHandler.generatePlanes(waypoints);
+        this.trackEditorRenderService._planeHandler.generatePlanes(waypoints, false);
         this._constraints.addRoads(waypoints);
         this._constraints.closeRoad();
         this._track.isClosed = true;
