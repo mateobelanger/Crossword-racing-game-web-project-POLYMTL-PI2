@@ -19,15 +19,27 @@ export class TimeComponent implements OnInit {
   public ngOnInit(): void {
   }
 
-  public get hundredthSecond(): number {
+  public get totalHundredthSecond(): number {
     return this.raceDataHandler.hundrethSecondElapsed % MAX_HUNDREDTH_SECOND;
   }
 
-  public get second(): number {
+  public get totalSecond(): number {
     return Math.floor(this.raceDataHandler.hundrethSecondElapsed / TO_SECONDS) % MAX_SECONDS;
   }
 
-  public get minutes(): number {
+  public get totalMinutes(): number {
     return Math.floor(this.raceDataHandler.hundrethSecondElapsed / TO_MINUTES);
+  }
+
+  public get lapHundredthSecond(): number {
+    return this.raceDataHandler.hundrethSecondElapsedLap % MAX_HUNDREDTH_SECOND;
+  }
+
+  public get lapSecond(): number {
+    return Math.floor(this.raceDataHandler.hundrethSecondElapsedLap / TO_SECONDS) % MAX_SECONDS;
+  }
+
+  public get lapMinutes(): number {
+    return Math.floor(this.raceDataHandler.hundrethSecondElapsedLap / TO_MINUTES);
   }
 }

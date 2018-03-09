@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RaceDataHandlerService } from '../../race-data-handler.service';
 
 @Component({
   selector: 'app-position',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PositionComponent implements OnInit {
 
-  constructor() { }
+  public constructor(private raceDataHandlerService: RaceDataHandlerService) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
+  }
+
+  public get position(): number {
+    return this.raceDataHandlerService.position;
   }
 
 }
