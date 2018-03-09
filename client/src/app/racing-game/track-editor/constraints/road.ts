@@ -1,7 +1,7 @@
 import { Point } from "./math/point";
 import { LineEquation } from "./math/lineEquation";
 import * as THREE from "three";
-import { TRACKWIDTH, DEG_TO_RAD } from '../../constants';
+import { TRACK_WIDTH, DEG_TO_RAD } from '../../constants';
 // tslint:disable:no-magic-numbers
 const MAXANGLE: number = DEG_TO_RAD * 135;
 const MINIMUMRATIO: number = 2;
@@ -56,7 +56,7 @@ export class Road {
 
 
     public hasValidWidthHeightRatio(): boolean {
-        return this.getLength() / TRACKWIDTH >= MINIMUMRATIO;
+        return this.getLength() / TRACK_WIDTH >= MINIMUMRATIO;
     }
 
     // tslint:disable:prefer-const
