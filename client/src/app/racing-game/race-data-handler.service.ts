@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { BestTimesHandler } from './bestTimes/bestTimesHandler';
 const MAX_NB_LAPS: number = 3;
 
 @Injectable()
@@ -7,10 +7,12 @@ export class RaceDataHandlerService {
 
   private _lapElapsed: number;
   private _timeLaps: number[];
+  private _bestTimesHandler: BestTimesHandler;
 
   public constructor() {
     this._lapElapsed = 0;
     this._timeLaps = [0, 0, 0];
+    this._bestTimesHandler = new BestTimesHandler();
   }
 
   public get lapElapsed(): number {

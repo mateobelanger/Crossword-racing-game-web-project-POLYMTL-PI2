@@ -1,6 +1,10 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
 import { RenderService } from "../render-service/render.service";
 import { Car } from "../car/car";
+import { ITrackData } from "../../../../../common/trackData";
+import { BestTimesHandler} from "../bestTimes/bestTimesHandler";
+import { TracksProxyService} from "../tracks-proxy.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     moduleId: module.id,
@@ -13,8 +17,15 @@ export class GameComponent implements AfterViewInit {
 
     @ViewChild("container")
     private containerRef: ElementRef;
+    private trackData: ITrackData;
+    private bestTimesHandler: BestTimesHandler;
+    private userName: string = "no name";
 
-    public constructor(private renderService: RenderService) { }
+    public constructor(private renderService: RenderService,
+                       private tracksProxyService: TracksProxyService,
+                       private route: ActivatedRoute) {
+                           this.bestTimesHandler = new BestTimesHandler();
+                       }
 
     @HostListener("window:resize", ["$event"])
     public onResize(): void {
@@ -31,11 +42,27 @@ export class GameComponent implements AfterViewInit {
         this.renderService.handleKeyUp(event);
     }
 
-    public ngAfterViewInit(): void {
+    public async ngAfterViewInit(): Promise<void> {
+        try {
+            await this.tracksProxyService.initialize();
+            this.trackData = await this.tracksProxyService.findTrack( this.route.snapshot.paramMap.get("trackName"));
+            this.bestTimesHandler = new BestTimesHandler(this.trackData.bestTimes);
+        } catch (err) {
+            console.error(err);
+            this.bestTimesHandler = new BestTimesHandler();
+        }
         this.renderService
             .initialize(this.containerRef.nativeElement)
             .then(/* do nothing */)
             .catch((err) => console.error(err));
+    }
+
+    public addTime(time: number): void {
+        this.bestTimesHandler.addTime([this.userName, time]);
+    }
+
+    public updateTimes(): void {
+        this.trackData.bestTimes = this.bestTimesHandler.bestTimes;
     }
 
     public get car(): Car {
