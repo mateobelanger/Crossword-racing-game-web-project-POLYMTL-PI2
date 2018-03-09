@@ -45,7 +45,7 @@ export class GameComponent implements AfterViewInit {
     public async ngAfterViewInit(): Promise<void> {
         try {
             await this.tracksProxyService.initialize();
-            this.trackData = await this.tracksProxyService.findTrack( this.route.snapshot.paramMap.get("trackName"));
+            this.trackData = this.tracksProxyService.findTrack( this.route.snapshot.paramMap.get("trackName"));
             this.bestTimesHandler = new BestTimesHandler(this.trackData.bestTimes);
         } catch (err) {
             console.error(err);
@@ -57,11 +57,11 @@ export class GameComponent implements AfterViewInit {
             .catch((err) => console.error(err));
     }
 
-    public addTime(time: number): void {
+    public addTimeToBestTimes(time: number): void {
         this.bestTimesHandler.addTime([this.userName, time]);
     }
 
-    public updateTimes(): void {
+    public updateBestTimes(): void {
         this.trackData.bestTimes = this.bestTimesHandler.bestTimes;
     }
 
