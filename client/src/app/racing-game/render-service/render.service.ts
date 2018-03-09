@@ -8,7 +8,6 @@ import { SkyboxService } from "../skybox.service";
 // ***
 import { TracksProxyService } from "../tracks-proxy.service";
 import { PlaneHandler } from "../track/trackBuildingBlocks/planeHandler";
-import { CircleHandler } from "../track/trackBuildingBlocks/circleHandler";
 import { Waypoint } from "../track/trackData/waypoint";
 import { ITrackData } from "../../../../../common/trackData";
 
@@ -41,7 +40,6 @@ export class RenderService {
 
     private _waypoints: Waypoint[];
     private planeHandler: PlaneHandler;
-    private circleHandler: CircleHandler;
 
     // To see the car's point of departure
     private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
@@ -81,7 +79,7 @@ export class RenderService {
 
         track.waypoints.forEach( (element) => {
                 const waypoint: Waypoint = new Waypoint();
-                waypoint.position =  new THREE.Vector3(element[Z], element[Y], element[X]);
+                waypoint.position =  new THREE.Vector3(element[X], element[Y], element[Z]);
                 this._waypoints.push(waypoint);
         });
 
@@ -103,14 +101,10 @@ export class RenderService {
         this.scene = new THREE.Scene();
 
         // ***
-        this.circleHandler = new CircleHandler(this.scene);
-        this.planeHandler = new PlaneHandler(this.scene);
-        this.planeHandler.generatePlanes(this._waypoints);
-        this.circleHandler.generateCircles(this._waypoints);
+        this.addTrackToScene();
 
         await this._car.init();
         this.scene.add(this._car);
-
 
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
@@ -122,6 +116,13 @@ export class RenderService {
 
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
+    }
+
+    private addTrackToScene(): void {
+        this.planeHandler = new PlaneHandler(this.scene);
+        this.planeHandler.generatePlanes(this._waypoints, true);
+        const waypoints: Waypoint[] = [this._waypoints[this._waypoints.length - 1], this._waypoints[0]];
+        this.planeHandler.generatePlanes(waypoints, true);
     }
 
     private startRenderingLoop(): void {

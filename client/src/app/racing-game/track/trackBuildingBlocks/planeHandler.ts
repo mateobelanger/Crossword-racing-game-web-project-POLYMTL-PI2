@@ -23,7 +23,10 @@ export class PlaneHandler {
         this._firstPlaneId = undefined;
     }
 
-    public generatePlanes(waypoints: Waypoint[]): void {
+    public generatePlanes(waypoints: Waypoint[], hasReversedAxes: boolean): void {
+
+        const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
@@ -38,6 +41,8 @@ export class PlaneHandler {
                 this._firstPlaneId = mesh.id;
             }
             this._planes.push(plane);
+
+            hasReversedAxes ? plane.mesh.rotateOnAxis(axis, Math.PI / 2) : plane.mesh.rotateOnAxis(axis, 0);
 
             this.scene.add(plane.mesh);
             this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
