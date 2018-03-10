@@ -4,7 +4,7 @@ import * as THREE from "three";
 
 const EXPOSANT_CARRE: number = 2;
 const DIVISEUR_MOYENNE: number = 2;
-const PIVOT_POINT_SHIFT: number = 20;
+const PIVOT_POINT_SHIFT: number = 10; // 10 pour track editor **
 const REFERENCE_VECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
 const DEFAULT_WAYPOINT_VECTOR: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 

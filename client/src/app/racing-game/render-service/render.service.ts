@@ -8,6 +8,7 @@ import { SkyboxService } from "../skybox.service";
 // ***
 import { TracksProxyService } from "../tracks-proxy.service";
 import { PlaneHandler } from "../track/trackBuildingBlocks/planeHandler";
+import { CircleHandler } from "../track/trackBuildingBlocks/circleHandler";
 import { Waypoint } from "../track/trackData/waypoint";
 import { ITrackData } from "../../../../../common/trackData";
 
@@ -43,6 +44,7 @@ export class RenderService {
 
     private _waypoints: Waypoint[];
     private planeHandler: PlaneHandler;
+    private circleHandler: CircleHandler;
 
     // To see the car's point of departure
     private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
@@ -129,8 +131,15 @@ export class RenderService {
     private addTrackToScene(): void {
         this.planeHandler = new PlaneHandler(this.scene);
         this.planeHandler.generatePlanes(this._waypoints, true);
+        // generate the last segment between last and first waypoints to close track
         const waypoints: Waypoint[] = [this._waypoints[this._waypoints.length - 1], this._waypoints[0]];
         this.planeHandler.generatePlanes(waypoints, true);
+        this.addWaypointsToScene();
+    }
+
+    private addWaypointsToScene(): void {
+        this.circleHandler = new CircleHandler(this.scene);
+        this.circleHandler.generateCircles(this._waypoints, true);
     }
 
     private startRenderingLoop(): void {

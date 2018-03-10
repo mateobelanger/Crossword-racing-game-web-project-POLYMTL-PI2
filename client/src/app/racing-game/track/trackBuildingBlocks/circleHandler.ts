@@ -2,7 +2,7 @@ import { Waypoint } from "../trackData/waypoint";
 import { POINT } from "../../constants";
 import * as THREE from "three";
 
-const CIRCLE_RADIUS: number = 10;
+const CIRCLE_RADIUS: number = 7;
 
 export class CircleHandler {
 
@@ -12,13 +12,18 @@ export class CircleHandler {
         this.meshs = [];
     }
 
-    public generateCircles(waypoints: Waypoint[]): void {
+    public generateCircles(waypoints: Waypoint[], hasReversedAxes: boolean): void {
         const circleGeometries: THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
         const material: THREE.MeshBasicMaterial = this.getCircleMaterial();
         circleGeometries.forEach((geometry, index) => {
             const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ? this.getFirstCircleMaterial() : material );
             this.meshs.push(mesh);
             mesh.name = POINT;
+
+            mesh.position.z = -1;
+            const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+            hasReversedAxes ? mesh.rotateOnAxis(axis, Math.PI / 2) : mesh.rotateOnAxis(axis, 0);
+
             this.scene.add(mesh);
             this.bindMesh(mesh, waypoints[index]);
         });

@@ -49,7 +49,7 @@ export class TrackEditorService {
             waypoint.setPositionZ(POINTS_POSITION_Z);
             this._track.addWaypoint(waypoint);
         });
-        this.trackEditorRenderService._circleHandler.generateCircles(waypoints);
+        this.trackEditorRenderService._circleHandler.generateCircles(waypoints, false);
         if (this._track.getTrackSize() > 1) {
             if (waypoints.length === 1)
                 waypoints.unshift(this._track.getPreviousToLastWaypoint());

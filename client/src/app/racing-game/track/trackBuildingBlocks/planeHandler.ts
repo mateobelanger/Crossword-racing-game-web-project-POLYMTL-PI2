@@ -23,6 +23,27 @@ export class PlaneHandler {
         this._firstPlaneId = undefined;
     }
 
+    public generateMergedPlanes(waypoints: Waypoint[], hasReversedAxes: boolean): void {
+
+        const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
+        const geometry: THREE.PlaneGeometry = geometries[0];
+        console.log(geometries[0]);
+
+        for ( let i: number = 1; i < geometries.length; i++) {
+            console.log(geometries[i]);
+            geometry.merge(geometries[i]);
+        }
+
+        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
+        const mesh: THREE.Mesh = new THREE.Mesh( geometry, material );
+
+        const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+        mesh.rotateOnAxis(axis, Math.PI / 2);
+        console.log(mesh);
+        this.scene.add(mesh);
+
+    }
+
     public generatePlanes(waypoints: Waypoint[], hasReversedAxes: boolean): void {
 
         const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
@@ -35,15 +56,25 @@ export class PlaneHandler {
             const mesh: THREE.Mesh = new THREE.Mesh( geometries[i], this._planes.length === 0 ?
                                                     this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) :
                                                     material );
-
             plane.mesh = (mesh);
             if (this._planes.length === 0) {
                 this._firstPlaneId = mesh.id;
             }
             this._planes.push(plane);
-
+            plane.mesh.position.z = -1;
             hasReversedAxes ? plane.mesh.rotateOnAxis(axis, Math.PI / 2) : plane.mesh.rotateOnAxis(axis, 0);
+            // let curveObject: THREE.Line;
+            // if (i === 3) {
+            // const curve = new THREE.CatmullRomCurve3( [ waypoints[i - 1].position, waypoints[i].position, waypoints[i + 1].position ] );
+            //     const points = curve.getPoints( 10 );
+            //     const geometry = new THREE.BufferGeometry().setFromPoints( points );
+            //     const material2 = new THREE.LineBasicMaterial( { color : 0xFF0000 } );
+            //     curveObject = new THREE.Line( geometry, material2 );
+            // }
 
+            // this.scene.add(curveObject);
+            console.log(plane.mesh.position);
+            
             this.scene.add(plane.mesh);
             this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
         }
