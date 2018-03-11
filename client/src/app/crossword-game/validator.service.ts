@@ -40,6 +40,10 @@ export class ValidatorService {
 
     public updateValidatedWords(grid: string[][]): void {
         for (const word of this.wordService.words) {
+            if (this.validatedWords.includes(word)) {
+                continue;
+            }
+
             let row: number = word.row;
             let column: number = word.column;
             let isValidated: boolean = true;
