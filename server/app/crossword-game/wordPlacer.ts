@@ -2,7 +2,7 @@ import { Response } from "express";
 import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
 import { GridEntry } from "./GridEntry";
 import { WordSelector } from "../lexicalService/wordSelector";
-import { WHITE_CELL, BLACK_CELL } from "./gridCreator";
+import { WHITE_CELL, BLACK_CELL, DEFAULT_GRID_SIZE } from "./gridCreator";
 
 export class WordPlacer {
     private _emptyWords: GridEntry[];
@@ -25,22 +25,22 @@ export class WordPlacer {
 
             return true;
         }
-        
+
         const current: GridEntry = this._emptyWords.pop();
         const template: string = this.createTemplate(current);
 
         const results: Array<string> = WordSelector.getWords(template);
-        for (let i: number = 0; i < results.length; i++) {
-            if (this.isAlreadyUsed(results[i])) {
+        for (const result of results) {
+            if (this.isAlreadyUsed(result)) {
                 continue;
             }
-            current.word.value = results[i];
+            current.word.value = result;
             this._placedWords.push(current);
             this.update();
 
             if (await this.placeWords(difficulty, res)) {
                 return true;
-            } 
+            }
         }
         // no new word has been placed => backtrack
         this._placedWords.pop();
@@ -71,8 +71,8 @@ export class WordPlacer {
 
     // updates the letters in the 2D representation of the grid from the placed words.
     private updateGrid(): void {
-        for (let i: number = 0; i < this._grid.length; i++) {
-            for (let j: number = 0; j < this._grid.length; j++) {
+        for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
+            for (let j: number = 0; j < DEFAULT_GRID_SIZE; j++) {
                 if (this._grid[i][j] !== BLACK_CELL) {
                     this._grid[i][j] = WHITE_CELL;
                 }
