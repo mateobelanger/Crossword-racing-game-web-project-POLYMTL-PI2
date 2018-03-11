@@ -140,8 +140,12 @@ export class GridCreator {
         }
         // shifts a black cell up or left depending on the position.
         this._grid[row][col] = BLACK_CELL;
-        if (col === this._nColumns - 1) {
+        if (col === this._nColumns - 1 && row === this._nRows - 1) {
+            this._grid[row - 1][col] = WHITE_CELL;
+
+        } else if (col === this._nColumns - 1) {
             this._grid[row + 1][col] = WHITE_CELL;
+
         } else {
             this._grid[row][col + 1] = WHITE_CELL;
         }
@@ -190,10 +194,10 @@ export class GridCreator {
             return false;
         }
 
-        return !(row > 0 && (this._grid[row - 1][col] === WHITE_CELL) ||
-                row < this._nRows - 1 && (this._grid[row + 1][col] === WHITE_CELL) ||
-                col > 0 && (this._grid[row][col - 1] === WHITE_CELL) ||
-                col < this._nColumns - 1 && (this._grid[row][col + 1] === WHITE_CELL));
+        return !((row > 0 && (this._grid[row - 1][col] === WHITE_CELL)) ||
+                (row < this._nRows - 1 && (this._grid[row + 1][col] === WHITE_CELL)) ||
+                (col > 0 && (this._grid[row][col - 1] === WHITE_CELL)) ||
+                (col < this._nColumns - 1 && (this._grid[row][col + 1] === WHITE_CELL)));
     }
 
     private hasWords(lane: string[]): boolean {
