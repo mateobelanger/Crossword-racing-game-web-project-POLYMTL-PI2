@@ -31,7 +31,7 @@ export class GridCreator {
     public create(nBlackCells: number): GridWord[] {
         this.placeBlackCells(nBlackCells);
         this.fixCellsLayout();
-
+        console.log(this._grid);
         return this.generateGridStructure();
     }
 

@@ -2,7 +2,7 @@ import { Response } from "express";
 import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
 import { GridEntry } from "./GridEntry";
 import { WordSelector } from "../lexicalService/wordSelector";
-import {WHITE_CELL, BLACK_CELL } from "./gridCreator";
+import { WHITE_CELL, BLACK_CELL } from "./gridCreator";
 
 export class WordPlacer {
     private _emptyWords: GridEntry[];
@@ -15,6 +15,7 @@ export class WordPlacer {
         for (const word of words) {
             this._emptyWords.push(new GridEntry(word));
         }
+        this.sortByLength();
         this._grid = grid;
     }
 
@@ -24,29 +25,27 @@ export class WordPlacer {
 
             return true;
         }
+        
         const current: GridEntry = this._emptyWords.pop();
         const template: string = this.createTemplate(current);
 
         const results: Array<string> = WordSelector.getWords(template);
-        for (let i: number = 0; i < Object.keys(results).length; i++) {
-            if (this.contains(results[i], this._placedWords)) {
+        for (let i: number = 0; i < results.length; i++) {
+            if (this.isAlreadyUsed(results[i])) {
                 continue;
             }
             current.word.value = results[i];
             this._placedWords.push(current);
-            this.updateGrid();
-            this.updateWeights(this._emptyWords, this._placedWords);
-            this.sort();
+            this.update();
 
             if (await this.placeWords(difficulty, res)) {
                 return true;
-            } else {
-                this._placedWords.pop();
-            }
+            } 
         }
         // no new word has been placed => backtrack
+        this._placedWords.pop();
         this._emptyWords.push(current);
-        this.updateGrid();
+        this.update();
 
         return false;
     }
@@ -64,9 +63,14 @@ export class WordPlacer {
         return template;
     }
 
+    private update(): void {
+        this.updateGrid();
+        this.updateWeights();
+        this.sortByWeight();
+    }
+
     // updates the letters in the 2D representation of the grid from the placed words.
     private updateGrid(): void {
-        // tslint:disable-next-line:prefer-for-of
         for (let i: number = 0; i < this._grid.length; i++) {
             for (let j: number = 0; j < this._grid.length; j++) {
                 if (this._grid[i][j] !== BLACK_CELL) {
@@ -85,12 +89,12 @@ export class WordPlacer {
         }
     }
 
-    private updateWeights(empty: GridEntry[], filled: GridEntry[]): void {
-        for (const entry of empty) {
+    private updateWeights(): void {
+        for (const entry of this._emptyWords) {
             entry.weight = 0;
         }
-        for (const word of filled) {
-            for (const entry of empty) {
+        for (const word of this._placedWords) {
+            for (const entry of this._emptyWords) {
                 if (entry.crosses(word)) {
                     entry.weight++;
                 }
@@ -99,14 +103,20 @@ export class WordPlacer {
     }
 
     // moves the more constrained words at the end of the array to be picked next.
-    private sort(): void {
+    private sortByWeight(): void {
         this._emptyWords.sort((entry1: GridEntry, entry2: GridEntry) => {
             return entry1.weight - entry2.weight;
         });
     }
 
-    private contains(word: string, entries: GridEntry[]): boolean {
-        for (const w of entries) {
+    private sortByLength(): void {
+        this._emptyWords.sort((entry1: GridEntry, entry2: GridEntry) => {
+            return entry1.word.value.length - entry2.word.value.length;
+        })
+    }
+
+    private isAlreadyUsed(word: string): boolean {
+        for (const w of this._placedWords) {
             if (w.word.value === word) {
                 return true;
             }
