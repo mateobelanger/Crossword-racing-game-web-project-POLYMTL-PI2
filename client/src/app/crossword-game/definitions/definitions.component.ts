@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { ValidationMediatorService } from '../validation-mediator.service';
-import { DefinitionsService } from '../definitions.service';
+import { WordService } from '../word.service';
+import { ValidatorService } from '../validator.service';
+import { Direction } from '../../../../../common/crosswordsInterfaces/word';
+import { GridService } from '../grid.service';
 
 
 @Component({
@@ -9,13 +11,25 @@ import { DefinitionsService } from '../definitions.service';
     styleUrls: ['./definitions.component.css']
 })
 export class DefinitionsComponent {
+    public horizontalDefinitions: string[][];
+    public verticalDefinitions: string[][];
 
-    public constructor(private validationMediatorService: ValidationMediatorService, private definitionsService: DefinitionsService) {
-        this.definitionsService.initialize();
+    public constructor(private wordService: WordService, private validatorService: ValidatorService, private gridService: GridService) {
+        this.horizontalDefinitions = wordService.getDefinitions(Direction.HORIZONTAL);
+        this.verticalDefinitions = wordService.getDefinitions(Direction.VERTICAL);
     }
 
     public onSelect(definition: string): void {
-        this.validationMediatorService.onSelect(definition);
+        this.wordService.definition = definition;
+        this.gridService.focusOnSelectedWord();
+    }
+
+    public isValidatedDefinition(definition: string): boolean {
+        return this.validatorService.isValidatedDefinition(definition);
+    }
+
+    public isSelectedDefinition(defintion: string): boolean {
+        return this.wordService.definition === defintion;
     }
 
 }
