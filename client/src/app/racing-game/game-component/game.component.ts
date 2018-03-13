@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
 import { RenderService } from "../render-service/render.service";
 import { Car } from "../car/car";
-// import { ITrackData } from "../../../../../common/trackData";
 import { RaceDataHandlerService} from "../race-data-handler.service";
 import { ActivatedRoute } from "@angular/router";
 
@@ -18,18 +17,11 @@ export class GameComponent implements AfterViewInit {
 
     @ViewChild("container")
     private containerRef: ElementRef;
-    // private trackData: ITrackData;
-    // private userName: string = "no name";
 
     public constructor(private renderService: RenderService,
                        private raceDataHandlerService: RaceDataHandlerService,
                        private route: ActivatedRoute) { }
 
-    // private renderService: RenderService;
-
-    // public constructor() {
-    //     this.renderService = this.route.snapshot.paramMap.get("trackName");
-    // }
 
     @HostListener("window:resize", ["$event"])
     public onResize(): void {
@@ -58,15 +50,7 @@ export class GameComponent implements AfterViewInit {
 
         this.raceDataHandlerService.startRace();
     }
-/*
-    public addTimeToBestTimes(time: number): void {
-        this.bestTimesHandler.addTime([this.userName, time]);
-    }
 
-    public updateBestTimes(): void {
-        this.trackData.bestTimes = this.bestTimesHandler.bestTimes;
-    }
-*/
     public get car(): Car {
         return this.renderService.car;
     }

@@ -18,6 +18,7 @@ import { SpeedComponent } from './game-infos/speed/speed.component';
 import { LapComponent } from './game-infos/lap/lap.component';
 import { TimeComponent } from './game-infos/time/time.component';
 import { PositionComponent } from './game-infos/position/position.component';
+import { BestTimesComponent } from './bestTimes/best-times/best-times.component';
 
 @NgModule({
 
@@ -35,7 +36,8 @@ import { PositionComponent } from './game-infos/position/position.component';
     SpeedComponent,
     LapComponent,
     TimeComponent,
-    PositionComponent
+    PositionComponent,
+    BestTimesComponent
   ],
 
   exports: [

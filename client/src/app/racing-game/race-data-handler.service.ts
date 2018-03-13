@@ -10,17 +10,15 @@ export class RaceDataHandlerService {
 
   private _lapElapsed: number;
   private _timeLaps: number[];
-  private _bestTimesHandler: BestTimesHandler;
   private timerId: number;
   private timerIdLap: number;
   private _hundrethSecondElapsed: number;
   private _hundrethSecondElapsedLap: number;
   private _iTrackData: ITrackData;
   private _position: number;
-
+  private _username: string = "default"; // à changer .ventuellement
   public constructor( private tracksProxyService: TracksProxyService) {
     this.resetValues();
-    this._bestTimesHandler = new BestTimesHandler();
   }
 
   public async initialize(trackname: string): Promise<void> {
@@ -66,6 +64,9 @@ export class RaceDataHandlerService {
 
   private doneRace(): void {
     this.stopTimers();
+    const bestTimesHandler: BestTimesHandler = new BestTimesHandler(this._iTrackData.bestTimes);
+    bestTimesHandler.addTime([this._username, this._hundrethSecondElapsed]);
+    console.log(bestTimesHandler.bestTimes);
     // TODO:  totalTime -> results and best times
   }
 
