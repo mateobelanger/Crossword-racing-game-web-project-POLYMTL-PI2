@@ -17,9 +17,16 @@ export class WordPlacer {
         }
         this.sortByLength();
         this._grid = grid;
+
+        console.log(this._grid);
+    }
+
+    public get grid(): string[][] {
+        return this._grid;
     }
 
     public async placeWords(difficulty: string, res: Response): Promise<boolean> {
+        console.log(this._placedWords.length);
         if (this._emptyWords.length === 0) {
             res.send(this._placedWords);
 
@@ -37,7 +44,6 @@ export class WordPlacer {
             current.word.value = result;
             this._placedWords.push(current);
             this.update();
-
             if (await this.placeWords(difficulty, res)) {
                 return true;
             }
@@ -90,15 +96,22 @@ export class WordPlacer {
     }
 
     private updateWeights(): void {
-        for (const entry of this._emptyWords) {
-            entry.weight = 0;
-        }
+        this.resetWeights();
         for (const word of this._placedWords) {
             for (const entry of this._emptyWords) {
                 if (entry.crosses(word)) {
                     entry.weight++;
                 }
             }
+        }
+        for (const entry of this._emptyWords) {
+            entry.weight /= entry.word.value.length;
+        }
+    }
+
+    private resetWeights(): void {
+        for (const entry of this._emptyWords) {
+            entry.weight = 0;
         }
     }
 
