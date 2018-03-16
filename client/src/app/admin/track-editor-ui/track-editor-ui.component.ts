@@ -23,7 +23,6 @@ const CHAR_9: number = 57;
 })
 
 
-
 export class TrackEditorUiComponent implements AfterViewInit {
     public readonly MAX_TITLE_LENGTH: number = 30;
     public readonly MAX_DESCRIPTION_LENGTH: number = 300;
@@ -112,7 +111,8 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.track = {
                 name: "", description: "",
                 timesPlayed: 0,
-                bestTimes: [], waypoints: []
+                bestTimes: [], waypoints: [],
+                image: ""
             };
 
         } else {
@@ -128,7 +128,8 @@ export class TrackEditorUiComponent implements AfterViewInit {
         this.track = {
             name: track.name, description: track.description,
             timesPlayed: track.timesPlayed,
-            bestTimes: track.bestTimes, waypoints: track.waypoints
+            bestTimes: track.bestTimes, waypoints: track.waypoints,
+            image: track.image
         };
         this.name = track.name;
         this.description = track.description;

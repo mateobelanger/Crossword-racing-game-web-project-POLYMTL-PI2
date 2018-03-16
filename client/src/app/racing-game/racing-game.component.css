@@ -141,7 +141,6 @@ h5 {
     vertical-align: middle;
     width: 25%;
     height: 60px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -165,3 +164,7 @@ li {
     margin: 0;
 }
 
+img.resize {
+    width: 180px;
+    height: 180px;
+}

@@ -50,6 +50,10 @@ export class TrackEditorRenderService {
         return this._raycaster.intersectObject(this._backgroundPlane.getBackgroundPlane());
     }
 
+    public getMousePos(): THREE.Vector2 {
+        return this._mouse;
+    }
+
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
         // tslint:disable:no-magic-numbers
         this._mouse.x = ( event.offsetX / this._container.clientWidth ) * 2 - 1;
@@ -60,8 +64,8 @@ export class TrackEditorRenderService {
         return this._mouse;
     }
 
-    public getMousePos(): THREE.Vector2 {
-        return this._mouse;
+    public takeScreenShot(): string {
+        return this._renderer.domElement.toDataURL("image/jpeg", 0.5);
     }
 
     private createScene(track: Track): void {
@@ -92,7 +96,7 @@ export class TrackEditorRenderService {
     }
 
     private startRenderingLoop(): void {
-        this._renderer = new THREE.WebGLRenderer();
+        this._renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
         this._renderer.setPixelRatio(devicePixelRatio);
         this._renderer.setSize(this._container.clientWidth, this._container.clientHeight);
         this._container.appendChild(this._renderer.domElement);

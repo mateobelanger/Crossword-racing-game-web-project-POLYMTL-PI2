@@ -44,6 +44,10 @@ export class TrackEditorService {
         return this._track;
     }
 
+    public takeScreenShot(): string {
+        return this.trackEditorRenderService.takeScreenShot();
+    }
+
     public addWaypoints(waypoints: Waypoint[]): void {
         waypoints.forEach((waypoint) => {
             waypoint.setPositionZ(POINTS_POSITION_Z);

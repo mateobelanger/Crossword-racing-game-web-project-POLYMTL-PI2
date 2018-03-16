@@ -13,7 +13,8 @@ const trackSchema: Schema = new MONGOOSE.Schema({
     description: String,
     timesPlayed: Number,
     bestTimes: [[String, Number]],
-    waypoints: [[Number, Number, Number]]
+    waypoints: [[Number, Number, Number]],
+    image: String
 });
 
 const TRACK: any = MONGOOSE.model("Track", trackSchema);
@@ -95,7 +96,8 @@ export class MongoDBAccess {
                     {
                         $set: {
                             description: track.description, timesPlayed: 0,
-                            bestTimes: [], waypoints: track.waypoints
+                            bestTimes: [], waypoints: track.waypoints,
+                            image: track.image
                         }
                     },
                     (err: any, numAffected: number) => {
