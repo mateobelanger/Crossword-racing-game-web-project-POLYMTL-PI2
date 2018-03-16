@@ -37,6 +37,9 @@
     margin-left: 0px;
     z-index: 10;
     position: absolute;
+    font-family: 'Allerta Stencil', sans-serif, bold;
+    font-size: 2em;
+    color: #6FC3DF;
 }
 
 .exit {
@@ -75,22 +78,83 @@
     background-size: 30px !important;
     height: 30px;
     width: 30px;
-
 }
 
 
-
-/* Desktops and laptops ----------- 
-@media only screen and (min-width : 1224px) {
-   li {
-    font-size: 2em;
-   }
-}
-
-/* Large screens ----------- 
-@media only screen and (min-width : 1824px) {
-    li {
-        font-size: 3em;
+/* Small screens ----------- */
+@media only screen and (min-width : 1px) and (max-width : 1301px) {
+    .lap {
+        top: 20px;
+        left: 45px;
+        font-size: 2em;
+    }
+    
+    .speed {
+        top: 70px;
+        left: 26px;
+        font-size: 1em;
+    }
+    
+    .exit {
+        top: 15px;
+        right: 15px;
+    }
+    
+    .time {
+        top: 15px;
+        right: 1px;
+        width: 190px;
+        font-size: 1em;
+    }
+    
+    .position {
+        bottom: 60px;
+        left: 80px;
+        font-size: 2em;
+    }
+    
+    .icon-exit {
+        background-size: 15px !important;
+        height: 15px;
+        width: 15px;
     }
 }
-*/
+
+/* Medium screens ----------- */
+@media only screen and (min-width : 1300px) and  (max-width : 1700px) {
+    .lap {
+        top: 20px;
+        left: 45px;
+        font-size: 3em;
+    }
+    
+    .speed {
+        top: 100px;
+        left: 30px;
+        font-size: 1.3em;
+    }
+    
+    .exit {
+        top: 25px;
+        right: 20px;
+    }
+    
+    .time {
+        top: 25px;
+        right: 1px;
+        width: 280px;
+        font-size: 1.5em;
+    }
+    
+    .position {
+        bottom: 60px;
+        left: 70px;
+        font-size: 3em;
+    }
+    
+    .icon-exit {
+        background-size: 20px !important;
+        height: 20px;
+        width: 20px;
+    }
+}
