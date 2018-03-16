@@ -2,7 +2,7 @@ import { DatamuseResponse } from "./IDatamuseResponse";
 import { IWord } from "../../../common/crosswordsInterfaces/word";
 import { MIN_WORD_LENGTH, WHITE_CELL as ANY_CHAR } from "../crossword-game/gridCreator";
 import { WORDS } from "./words";
-import { Helper } from "./helper";
+import { ArrayHelper } from "./arrayHelper";
 import { INVALID_DOUBLES } from "./invalidDoubles";
 import { INVALID_TRIPLES } from "./invalidTriples";
 
@@ -11,8 +11,8 @@ const TWO_LETTER_WORDS_LENGTH: number = 2;
 const THREE_LETTER_WORDS_LENGTH: number = 3;
 
 export class WordSelector {
-    private static invalidDoubles: Set<string> = Helper.arrayToSet(INVALID_DOUBLES);
-    private static invalidTriples: Set<string> = Helper.arrayToSet(INVALID_TRIPLES);
+    private static invalidDoubles: Set<string> = ArrayHelper.arrayToSet(INVALID_DOUBLES);
+    private static invalidTriples: Set<string> = ArrayHelper.arrayToSet(INVALID_TRIPLES);
 
     public static getWords(template: string): Array<string> {
         if (this.containsImpossibleCombinations(template, TWO_LETTER_WORDS_LENGTH)
@@ -27,7 +27,7 @@ export class WordSelector {
         }
         const words: string[] = WORDS[template.length - MIN_WORD_LENGTH];
         if (positions.length === 0) {
-            return Helper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
+            return ArrayHelper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
         }
         const validWords: string[] = [];
         for (const word of words) {
@@ -43,7 +43,7 @@ export class WordSelector {
             }
         }
 
-        return Helper.shuffle(validWords).splice(0, MAX_WORDS_PER_RESPONSE);
+        return ArrayHelper.shuffle(validWords).splice(0, MAX_WORDS_PER_RESPONSE);
     }
 
     public static getWordsByRarity(words: Array<DatamuseResponse>, isCommon: boolean): Array<DatamuseResponse> {
