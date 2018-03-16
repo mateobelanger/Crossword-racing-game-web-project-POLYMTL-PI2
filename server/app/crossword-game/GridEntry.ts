@@ -24,8 +24,8 @@ export class GridEntry {
         }
 
         return verticalWord.word.column >= horizontalWord.word.column &&
-               verticalWord.word.column < horizontalWord.word.column + horizontalWord.word.value.length &&
+               verticalWord.word.column < horizontalWord.word.column + horizontalWord.word.size &&
                verticalWord.word.row <= horizontalWord.word.row &&
-               verticalWord.word.row + verticalWord.word.value.length > horizontalWord.word.row;
+               verticalWord.word.row + verticalWord.word.size > horizontalWord.word.row;
     }
 }

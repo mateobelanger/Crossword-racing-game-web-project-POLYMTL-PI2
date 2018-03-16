@@ -58,7 +58,7 @@ export class WordPlacer {
 
     private createTemplate(entry: GridEntry): string {
         let template: string = "";
-        for (let i: number = 0; i < entry.word.value.length; i++) {
+        for (let i: number = 0; i < entry.word.size; i++) {
             if (entry.word.direction === Direction.HORIZONTAL) {
                 template += this._grid[entry.word.row][entry.word.column + i];
             } else {
@@ -85,7 +85,7 @@ export class WordPlacer {
             }
         }
         for (const entry of this._placedWords) {
-            for (let i: number = 0; i < entry.word.value.length; i++) {
+            for (let i: number = 0; i < entry.word.size; i++) {
                 if (entry.word.direction === Direction.HORIZONTAL) {
                     this._grid[entry.word.row][entry.word.column + i] = entry.word.value[i];
                 } else {
@@ -105,7 +105,7 @@ export class WordPlacer {
             }
         }
         for (const entry of this._emptyWords) {
-            entry.weight /= entry.word.value.length;
+            entry.weight /= entry.word.size;
         }
     }
 
@@ -124,7 +124,7 @@ export class WordPlacer {
 
     private sortByLength(): void {
         this._emptyWords.sort((entry1: GridEntry, entry2: GridEntry) => {
-            return entry1.word.value.length - entry2.word.value.length;
+            return entry1.word.size - entry2.word.size;
         })
     }
 
