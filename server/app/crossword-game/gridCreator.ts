@@ -1,4 +1,5 @@
 import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
+import { MOCK_GRID } from "./mock-grid";
 
 export const MIN_WORD_LENGTH: number = 3;
 export const DEFAULT_GRID_SIZE: number = 10;
@@ -13,15 +14,6 @@ export class GridCreator {
     public constructor() {
         this._nRows = DEFAULT_GRID_SIZE;
         this._nColumns = DEFAULT_GRID_SIZE;
-        this._grid = [];
-        // initialize empty 2D array of correct dimensions.
-        for (let i: number = 0; i < this._nRows; i++) {
-            const row: string[] = [];
-            for (let j: number = 0; j < this._nColumns; j++) {
-                row.push(WHITE_CELL);
-            }
-            this._grid.push(row);
-        }
     }
 
     public get grid(): string[][] {
@@ -29,8 +21,10 @@ export class GridCreator {
     }
 
     public create(nBlackCells: number): GridWord[] {
+        this.initializeGrid();
         this.placeBlackCells(nBlackCells);
         this.fixCellsLayout();
+        this._grid = MOCK_GRID;
 
         return this.generateGridStructure();
     }
@@ -73,6 +67,17 @@ export class GridCreator {
         return wordsToFill;
     }
 
+    private initializeGrid(): void {
+        this._grid = [];
+        for (let i: number = 0; i < this._nRows; i++) {
+            const row: string[] = [];
+            for (let j: number = 0; j < this._nColumns; j++) {
+                row.push(WHITE_CELL);
+            }
+            this._grid.push(row);
+        }
+    }
+
     private generateEmptyWords(lane: string[], index: number, direction: Direction): GridWord[] {
         const emptyWords: GridWord[] = [];
         for (let i: number = 0; i < lane.length; i++) {
@@ -82,7 +87,7 @@ export class GridCreator {
 
             const headIndex: number = i;
             let value: string = "";
-            while (lane[i] === WHITE_CELL) {
+            while (lane[i] !== BLACK_CELL) {
                 value += lane[i];
                 if (++i >= lane.length) {
                     break;

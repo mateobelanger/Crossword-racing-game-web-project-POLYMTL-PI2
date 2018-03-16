@@ -12,13 +12,12 @@ export class WordPlacer {
     public constructor(words: GridWord[], grid: string[][]) {
         this._emptyWords = [];
         this._placedWords = [];
+        this.initializeGrid(grid);
+
         for (const word of words) {
             this._emptyWords.push(new GridEntry(word));
         }
         this.sortByLength();
-        this._grid = grid;
-
-        console.log(this._grid);
     }
 
     public get grid(): string[][] {
@@ -26,7 +25,6 @@ export class WordPlacer {
     }
 
     public async placeWords(difficulty: string, res: Response): Promise<boolean> {
-        console.log(this._placedWords.length);
         if (this._emptyWords.length === 0) {
             res.send(this._placedWords);
 
@@ -35,8 +33,8 @@ export class WordPlacer {
 
         const current: GridEntry = this._emptyWords.pop();
         const template: string = this.createTemplate(current);
-
         const results: Array<string> = WordSelector.getWords(template);
+        
         for (const result of results) {
             if (this.isAlreadyUsed(result)) {
                 continue;
@@ -54,6 +52,18 @@ export class WordPlacer {
         this.update();
 
         return false;
+    }
+
+    private initializeGrid(grid: string[][]) {
+        this._grid = [];
+        //deep copy of the passed array.
+        for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
+            const row: string[] = [];
+            for (let j: number = 0; j < DEFAULT_GRID_SIZE; j++) {
+                row.push(grid[i][j]);
+            }
+            this._grid.push(row);
+        }
     }
 
     private createTemplate(entry: GridEntry): string {
