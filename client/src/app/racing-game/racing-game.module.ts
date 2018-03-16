@@ -19,6 +19,7 @@ import { LapComponent } from './game-infos/lap/lap.component';
 import { TimeComponent } from './game-infos/time/time.component';
 import { PositionComponent } from './game-infos/position/position.component';
 import { BestTimesComponent } from './bestTimes/best-times/best-times.component';
+import { BestTimeHandlerService } from "./bestTimes/best-time-handler.service";
 
 @NgModule({
 
@@ -37,7 +38,7 @@ import { BestTimesComponent } from './bestTimes/best-times/best-times.component'
     LapComponent,
     TimeComponent,
     PositionComponent,
-    BestTimesComponent
+    BestTimesComponent,
   ],
 
   exports: [
@@ -51,7 +52,8 @@ import { BestTimesComponent } from './bestTimes/best-times/best-times.component'
     CameraService,
     SkyboxService,
     TracksProxyService,
-    RaceDataHandlerService
+    RaceDataHandlerService,
+    BestTimeHandlerService
   ],
 
 })

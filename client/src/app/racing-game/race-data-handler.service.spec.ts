@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { TracksProxyService} from "./tracks-proxy.service";
 import { RaceDataHandlerService } from './race-data-handler.service';
-//import { ITrackData } from '../../../../common/trackData';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BestTimeHandlerService } from './bestTimes/best-time-handler.service';
 // tslint:disable:no-magic-numbers
 describe('RaceDataHandlerService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [RaceDataHandlerService, TracksProxyService, ]
+      providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService]
     });
 
     jasmine.addCustomEqualityTester((nb1, nb2) => {

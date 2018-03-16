@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BestTimesHandler } from './bestTimes/bestTimesHandler';
 import { TracksProxyService } from "./tracks-proxy.service";
 import { ITrackData } from "../../../../common/trackData";
+import { BestTimeHandlerService } from './bestTimes/best-time-handler.service';
 const MAX_NB_LAPS: number = 3;
 const HUNDREDTHSECOND: number = 10;
 
@@ -17,13 +17,16 @@ export class RaceDataHandlerService {
   private _iTrackData: ITrackData;
   private _position: number;
   private _username: string = "default"; // à changer .ventuellement
-  public constructor( private tracksProxyService: TracksProxyService) {
+  public constructor( private tracksProxyService: TracksProxyService, private bestTimesHandler: BestTimeHandlerService) {
     this.resetValues();
   }
 
   public async initialize(trackname: string): Promise<void> {
     this.tracksProxyService.initialize()
-    .then(() => { this._iTrackData = this.tracksProxyService.findTrack(trackname); })
+    .then(() => {
+      this._iTrackData = this.tracksProxyService.findTrack(trackname);
+      this.bestTimesHandler.bestTimes = this._iTrackData.bestTimes;
+     })
     .catch((err) => { console.error(err); });
   }
 
@@ -64,9 +67,8 @@ export class RaceDataHandlerService {
 
   private doneRace(): void {
     this.stopTimers();
-    const bestTimesHandler: BestTimesHandler = new BestTimesHandler(this._iTrackData.bestTimes);
-    bestTimesHandler.addTime([this._username, this._hundrethSecondElapsed]);
-    console.log(bestTimesHandler.bestTimes);
+    this.bestTimesHandler.addTime([this._username, this._hundrethSecondElapsed]);
+    console.log(this.bestTimesHandler.bestTimes);
     // TODO:  totalTime -> results and best times
   }
 

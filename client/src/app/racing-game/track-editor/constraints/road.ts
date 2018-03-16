@@ -56,7 +56,7 @@ export class Road {
 
 
     public hasValidWidthHeightRatio(): boolean {
-        return this.getLength() / TRACKWIDTH >= MINIMUM_RATIO;
+        return this.getLength() / TRACK_WIDTH >= MINIMUM_RATIO;
     }
 
     public hasValidAngle(): boolean {
