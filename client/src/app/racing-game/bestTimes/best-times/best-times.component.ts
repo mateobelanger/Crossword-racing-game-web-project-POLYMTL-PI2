@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { RaceDataHandlerService } from "../../race-data-handler.service";
-
+import { BestTimeHandlerService } from "../best-time-handler.service";
 @Component({
   selector: 'app-best-times',
   templateUrl: './best-times.component.html',
@@ -8,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BestTimesComponent implements OnInit {
 
-  public constructor() { }
+  public constructor( private bestTimesHandler: BestTimeHandlerService ) { }
 
   public ngOnInit(): void {
   }
 
+  public get bestTimes(): [string, number][] {
+    return this.bestTimesHandler.bestTimes;
+  }
 }
