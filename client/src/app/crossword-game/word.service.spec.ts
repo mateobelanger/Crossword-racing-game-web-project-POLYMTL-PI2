@@ -3,14 +3,16 @@ import { TestBed, inject } from "@angular/core/testing";
 import { WordService } from "./word.service";
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 
-const word1: GridWord = {row: 0, column: 0, direction: Direction.HORIZONTAL, value: "sit", definition: "You : ___ on a chair."};
-const word2: GridWord = { row: 0, column: 0, direction: Direction.VERTICAL, value: "sat", definition: "I . . . on a chair." };
-const word3: GridWord = { row: 0, column: 1, direction: Direction.VERTICAL, value: "image", definition: "JPEG, PNG, GIF" };
-const word4: GridWord = { row: 2, column: 0, direction: Direction.HORIZONTAL, value: "tam", definition: "TAM . . ." };
+// tslint:disable: no-magic-numbers
+
+const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to . . . on my chair.");
+const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I . . . on a chair.");
+const word3: GridWord = new GridWord (0, 1, Direction.VERTICAL, "image", "JPEG, PNG, GIF");
+const word4: GridWord = new GridWord (2, 0, Direction.HORIZONTAL, "tam", "TAM . . .");
 
 const words: GridWord[] = [word1, word2, word3, word4];
 
-// tslint:disable: no-magic-numbers
+
 describe('WordService', () => {
 
     let wordService: WordService;
