@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
+import { OnInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
 import { RenderService } from "../render-service/render.service";
 import { Car } from "../car/car";
 import { RaceDataHandlerService} from "../race-data-handler.service";
@@ -13,7 +13,7 @@ const DEFAULT_TRACKNAME: string = "test";
     styleUrls: ["./game.component.css"]
 })
 
-export class GameComponent implements AfterViewInit {
+export class GameComponent implements OnInit {
 
     @ViewChild("container")
     private containerRef: ElementRef;
@@ -38,7 +38,7 @@ export class GameComponent implements AfterViewInit {
         this.renderService.handleKeyUp(event);
     }
 
-    public async ngAfterViewInit(): Promise<void> {
+    public async ngOnInit(): Promise<void> {
         let trackName: string = this.route.snapshot.paramMap.get("trackName");
         if (!this.isDefined(trackName))
             trackName = DEFAULT_TRACKNAME;
@@ -49,6 +49,17 @@ export class GameComponent implements AfterViewInit {
             .catch((err) => console.error(err));
 
         this.raceDataHandlerService.startRace();
+
+        /*await this.raceDataHandlerService.initialize(trackName)
+        .then(() => {
+            this.renderService
+            .initialize(this.containerRef.nativeElement)
+            .then(/* do nothing )
+            .catch((err) => console.error(err));
+
+            this.raceDataHandlerService.startRace();
+        })
+        .catch((err) => { console.error(err); });*/
     }
 
     public get car(): Car {

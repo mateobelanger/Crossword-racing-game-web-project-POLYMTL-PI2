@@ -5,12 +5,7 @@ import * as THREE from "three";
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from "../skybox.service";
-// ***
-import { TracksProxyService } from "../tracks-proxy.service";
-import { PlaneHandler } from "../track/trackBuildingBlocks/planeHandler";
-import { CircleHandler } from "../track/trackBuildingBlocks/circleHandler";
-import { Waypoint } from "../track/trackData/waypoint";
-import { ITrackData } from "../../../../../common/trackData";
+import { LoadingTrackHandlerService } from "../loading-track-handler.service";
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -26,14 +21,6 @@ const AMBIENT_LIGHT_OPACITY: number = 0.8;
 const HELPER_AXES_SIZE: number = 500;
 const HELPER_GRID_SIZE: number = 50;
 
-// ***
-const X: number = 0;
-const Y: number = 1;
-const Z: number = 2;
-
-
-const SCENE_SCALE: number = 1;
-
 @Injectable()
 export class RenderService {
     private container: HTMLDivElement;
@@ -42,10 +29,6 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
-
-    private _waypoints: Waypoint[];
-    private planeHandler: PlaneHandler;
-    private circleHandler: CircleHandler;
 
     // To see the car's point of departure
     private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
@@ -57,11 +40,8 @@ export class RenderService {
 
     public constructor(private cameraService: CameraService,
                        private skyboxService: SkyboxService,
-                       private tracksProxyService: TracksProxyService ) {
+                       private loadingTrackHandlerService: LoadingTrackHandlerService ) {
         this._car = new Car();
-
-        // ***
-        this._waypoints = [];
 
     }
 
@@ -69,33 +49,11 @@ export class RenderService {
         if (container) {
             this.container = container;
         }
-        // ***try catch
-        await this.tracksProxyService.initialize();
-        this.setWaypointsFromProxy();
 
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
     }
-
-    private setWaypointsFromProxy(): void {
-        const track: ITrackData = this.tracksProxyService.findTrack( "test" /*this.route.snapshot.paramMap.get("trackName")*/);
-        if (track === undefined) {
-                throw new Error("track not found");
-        }
-
-        track.waypoints.forEach( (element) => {
-
-            const waypoint: Waypoint = new Waypoint();
-            const scaledVector: THREE.Vector3 = new THREE.Vector3(element[X], element[Y], element[Z]);
-            const lenght: number = scaledVector.length();
-            scaledVector.normalize();
-            scaledVector.multiplyScalar(SCENE_SCALE * lenght);
-            waypoint.position =  scaledVector;
-            this._waypoints.push(waypoint);
-        });
-
-}
 
     private initStats(): void {
         this.stats = new Stats();
@@ -114,9 +72,6 @@ export class RenderService {
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
-        // ***
-        this.addTrackToScene();
-
         await this._car.init();
         this.scene.add(this._car);
 
@@ -130,20 +85,9 @@ export class RenderService {
 
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
-    }
 
-    private addTrackToScene(): void {
-        this.planeHandler = new PlaneHandler(this.scene);
-        this.planeHandler.generatePlanes(this._waypoints, true);
-        // generate the last segment between last and first waypoints to close track
-        const waypoints: Waypoint[] = [this._waypoints[this._waypoints.length - 1], this._waypoints[0]];
-        this.planeHandler.generatePlanes(waypoints, true);
-        this.addWaypointsToScene();
-    }
 
-    private addWaypointsToScene(): void {
-        this.circleHandler = new CircleHandler(this.scene);
-        this.circleHandler.generateCircles(this._waypoints, true);
+        this.loadingTrackHandlerService.initialize(this.scene);
     }
 
     private startRenderingLoop(): void {
