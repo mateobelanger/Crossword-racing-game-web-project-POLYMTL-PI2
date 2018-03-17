@@ -54,7 +54,7 @@ h5 {
     margin: 0;
     max-width: 300px;
     min-width: 285px;
-    height: 510px;
+    height: 620px;
     margin: 25px;
     color: whitesmoke;
     border-color: rgba(179, 180, 180, 0.8);
@@ -82,9 +82,8 @@ h5 {
 }
 
 img.resize {
-    width: 180px;
-    height: 180px;
-    margin-top: 15px;
+    width: 300px;
+    height: 285px;
 }
 
 .descriptionBlock {
@@ -96,13 +95,13 @@ img.resize {
     text-align: center;
     background-color: rgba(127, 127, 127, 0.7);
     cursor: default;
+    padding-top: 10px;
 }
 
 .descriptionTitleBlock {
     height: 35px;
     overflow: hidden;
-    width: 100%;
-    background: rgb(70, 68, 68);
+    font-size: 1.1em;
 }
 
 .descriptionTitle {
