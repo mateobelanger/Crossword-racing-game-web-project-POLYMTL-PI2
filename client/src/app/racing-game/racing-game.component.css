@@ -54,7 +54,7 @@ h5 {
     margin: 0;
     max-width: 300px;
     min-width: 285px;
-    height: 310px;
+    height: 510px;
     margin: 25px;
     color: whitesmoke;
     border-color: rgba(179, 180, 180, 0.8);
@@ -81,10 +81,16 @@ h5 {
     overflow-y: hidden;
 }
 
+img.resize {
+    width: 180px;
+    height: 180px;
+    margin-top: 15px;
+}
+
 .descriptionBlock {
-    height: 200px;
+    height: 215px;
     display: flex;
-    justify-content: center;
+    justify-content: top;
     align-items: center;
     flex-direction: column;
     text-align: center;
@@ -95,6 +101,8 @@ h5 {
 .descriptionTitleBlock {
     height: 35px;
     overflow: hidden;
+    width: 100%;
+    background: rgb(70, 68, 68);
 }
 
 .descriptionTitle {
@@ -164,7 +172,3 @@ li {
     margin: 0;
 }
 
-img.resize {
-    width: 180px;
-    height: 180px;
-}
