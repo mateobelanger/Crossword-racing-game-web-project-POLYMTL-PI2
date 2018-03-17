@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TracksProxyService } from "./tracks-proxy.service";
 import { ITrackData } from "../../../../common/trackData";
-import { BestTimeHandlerService } from './bestTimes/best-time-handler.service';
+import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
 const MAX_NB_LAPS: number = 3;
 const HUNDREDTHSECOND: number = 10;
 

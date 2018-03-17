@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BestTimesComponent } from './best-times.component';
+import { BestTimesComponent } from './time-table.component';
 import { BestTimeHandlerService } from '../best-time-handler.service';
 
 describe('BestTimesComponent', () => {

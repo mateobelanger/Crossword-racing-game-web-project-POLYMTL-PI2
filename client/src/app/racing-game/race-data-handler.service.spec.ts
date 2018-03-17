@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { TracksProxyService} from "./tracks-proxy.service";
 import { RaceDataHandlerService } from './race-data-handler.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { BestTimeHandlerService } from './bestTimes/best-time-handler.service';
+import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
 // tslint:disable:no-magic-numbers
 describe('RaceDataHandlerService', () => {
 

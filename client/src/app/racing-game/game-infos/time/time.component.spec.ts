@@ -4,7 +4,7 @@ import { TimeComponent } from './time.component';
 import { RaceDataHandlerService } from '../../race-data-handler.service';
 import { TracksProxyService } from '../../tracks-proxy.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { BestTimeHandlerService } from '../../bestTimes/best-time-handler.service';
+import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
 
 describe('TimeComponent', () => {
   let component: TimeComponent;
