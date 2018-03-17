@@ -36,7 +36,7 @@ export class WordService {
     }
 
     public selectWord(row: number, column: number): void {
-        for (const word of words) {
+        for (const word of this.words) {
             if (word === this._selectedWord) {
                 continue;
             }

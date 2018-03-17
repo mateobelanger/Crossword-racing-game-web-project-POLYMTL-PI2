@@ -47,15 +47,6 @@ export class GridService {
         this.validatorService.updateValidatedWords(this.userGrid);
     }
 
-    public backspace(row: number, column: number): void {
-        if (this.userGrid[row][column] === "") {
-            const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
-            this.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
-            this.focusOnSelectedWord();
-        } else {
-            this.userGrid[row][column] = "";
-        }
-    }
 
     public selectWord(row: number, column: number): void {
         this.wordService.selectWord(row, column);
@@ -94,6 +85,16 @@ export class GridService {
 
                 this.userGrid[row][col] = "";
             }
+        }
+    }
+
+    private backspace(row: number, column: number): void {
+        if (this.userGrid[row][column] === "") {
+            const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
+            this.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
+            this.focusOnSelectedWord();
+        } else {
+            this.userGrid[row][column] = "";
         }
     }
 

@@ -92,7 +92,6 @@ describe('WordService', () => {
     });
 
     it("should select the right vectical word from the grid coordinates if a perpendicular word is initially selected", () => {
-        wordService["_selectedWord"] = word1;
         wordService.selectWord(0, 0);
         wordService.selectWord(0, 0);
 
