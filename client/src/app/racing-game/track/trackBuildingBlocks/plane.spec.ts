@@ -1,8 +1,6 @@
 import { Waypoint } from "..//trackData/waypoint";
-import { Plane } from "./plane";
-import * as THREE from 'three';
-
-const CIRLEDIAMETER: number = 10;
+import { Plane, PIVOT_POINT_SHIFT } from "./plane";
+import * as THREE from "three";
 
 /* tslint:disable: no-magic-numbers */
 describe("Plane", () => {
@@ -42,7 +40,7 @@ describe("Plane", () => {
         const beginingPoint: Waypoint = new Waypoint (new THREE.Vector3(1, 1, 4));
         const endPoint: Waypoint = new Waypoint (new THREE.Vector3(4, 5, 0));
         const plane: Plane = new Plane(beginingPoint, endPoint);
-        expect(plane.length).toEqual(5 - CIRLEDIAMETER);
+        expect(plane.length).toEqual(5 - PIVOT_POINT_SHIFT);
     });
 
     it("should calculate center point properly", () => {

@@ -3,8 +3,8 @@ import { LineEquation } from "./math/lineEquation";
 import * as THREE from "three";
 import { TRACK_WIDTH, DEG_TO_RAD } from '../../constants';
 // tslint:disable:no-magic-numbers
-const MAXANGLE: number = DEG_TO_RAD * 135;
-const MINIMUMRATIO: number = 2;
+const MAX_ANGLE: number = DEG_TO_RAD * 135;
+const MINIMUM_RATIO: number = 2;
 // tslint:enable:no-magic-numbers
 
 export class Road {
@@ -56,7 +56,7 @@ export class Road {
 
 
     public hasValidWidthHeightRatio(): boolean {
-        return this.getLength() / TRACK_WIDTH >= MINIMUMRATIO;
+        return this.getLength() / TRACK_WIDTH >= MINIMUM_RATIO;
     }
 
     public hasValidAngle(): boolean {
@@ -66,7 +66,7 @@ export class Road {
             previousRoadVector.subVectors(this.previousRoad.endPoint, this.previousRoad.beginPoint );
             const thisRoadVector: THREE.Vector3 = new THREE.Vector3();
             thisRoadVector.subVectors(this.endPoint, this.beginPoint);
-            hasValidAngle = thisRoadVector.angleTo(previousRoadVector) <= MAXANGLE;
+            hasValidAngle = thisRoadVector.angleTo(previousRoadVector) <= MAX_ANGLE;
         }
 
         return hasValidAngle;

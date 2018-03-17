@@ -13,7 +13,6 @@ import { Waypoint } from "../track/trackData/waypoint";
 import { ITrackData } from "../../../../../common/trackData";
 
 
-
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
@@ -26,10 +25,6 @@ const AMBIENT_LIGHT_OPACITY: number = 0.8;
 // To see the car"s point of departure
 const HELPER_AXES_SIZE: number = 500;
 const HELPER_GRID_SIZE: number = 50;
-// ***
-const X: number = 0;
-const Y: number = 1;
-const Z: number = 2;
 
 const SCENE_SCALE: number = 1;
 
@@ -55,27 +50,20 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-                       private skyboxService: SkyboxService,
-                       private tracksProxyService: TracksProxyService ) {
+                       private skyboxService: SkyboxService ) {
         this._car = new Car();
-        // ***
-        this._waypoints = [];
+
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         if (container) {
             this.container = container;
         }
-        // ***try catch
-        await this.tracksProxyService.initialize();
-        this.setWaypointsFromProxy();
 
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
     }
-    // ***
-    private setWaypointsFromProxy(): void {
 
         const track: ITrackData = this.tracksProxyService.findTrack( "test" /*this.route.snapshot.paramMap.get("trackName")*/);
         if (track === undefined) {
@@ -98,6 +86,8 @@ export class RenderService {
     private initStats(): void {
         this.stats = new Stats();
         this.stats.dom.style.position = "absolute";
+        this.stats.dom.style.top = 'initial';
+        this.stats.dom.style.bottom = '0px';
         this.container.appendChild(this.stats.dom);
     }
 
@@ -109,9 +99,6 @@ export class RenderService {
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
-
-        // ***
-        this.addTrackToScene();
 
         await this._car.init();
         this.scene.add(this._car);

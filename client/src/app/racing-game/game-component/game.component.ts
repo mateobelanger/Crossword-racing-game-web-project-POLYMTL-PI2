@@ -1,6 +1,10 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
 import { RenderService } from "../render-service/render.service";
 import { Car } from "../car/car";
+import { RaceDataHandlerService} from "../race-data-handler.service";
+import { ActivatedRoute } from "@angular/router";
+
+const DEFAULT_TRACKNAME: string = "test";
 
 @Component({
     moduleId: module.id,
@@ -14,13 +18,10 @@ export class GameComponent implements AfterViewInit {
     @ViewChild("container")
     private containerRef: ElementRef;
 
-    public constructor(private renderService: RenderService) { }
+    public constructor(private renderService: RenderService,
+                       private raceDataHandlerService: RaceDataHandlerService,
+                       private route: ActivatedRoute) { }
 
-    // private renderService: RenderService;
-
-    // public constructor() {
-    //     this.renderService = this.route.snapshot.paramMap.get("trackName");
-    // }
 
     @HostListener("window:resize", ["$event"])
     public onResize(): void {
@@ -37,14 +38,25 @@ export class GameComponent implements AfterViewInit {
         this.renderService.handleKeyUp(event);
     }
 
-    public ngAfterViewInit(): void {
+    public async ngAfterViewInit(): Promise<void> {
+        let trackName: string = this.route.snapshot.paramMap.get("trackName");
+        if (!this.isDefined(trackName))
+            trackName = DEFAULT_TRACKNAME;
+        await this.raceDataHandlerService.initialize(trackName);
         this.renderService
             .initialize(this.containerRef.nativeElement)
             .then(/* do nothing */)
             .catch((err) => console.error(err));
+
+        this.raceDataHandlerService.startRace();
     }
 
     public get car(): Car {
         return this.renderService.car;
     }
+
+    // tslint:disable:no-any
+    private isDefined(object: any): boolean {
+        return ((object !== null) && (object !== undefined));
+    }// tslint:enable:no-any
 }

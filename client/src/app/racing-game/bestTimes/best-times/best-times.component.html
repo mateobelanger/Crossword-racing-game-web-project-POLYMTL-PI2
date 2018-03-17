@@ -1,0 +1,26 @@
+<div class="">
+  <div class="tableHeader clearfix">
+    <li class="tableTitleBlock left">
+      <h4 class="trackName"> Best Times </h4>
+    </li>
+  </div>
+
+  <div class="resultsBlock container">
+      <div class="row "> 
+          <div *ngIf="bestTimes.length == 0">No times</div>          
+          <div class ="name col-12 container" *ngFor="let bestTime of bestTimes let i = index">
+              <div class="col-4 column left">{{i + 1}}</div>
+              <div class="col-4 column left">{{bestTime[0]}}</div>
+              <div class="col-4 column right">{{bestTime[1]}}</div>
+          </div>
+      </div>
+  </div>
+
+
+  <div class="tableFooter clearfix">
+    <div class="buttons btn-sm"> TrackList </div>
+    <div class="buttons btn-sm"> Next </div>
+    <div class="buttons btn-sm"> Previous </div>    
+  </div>
+
+</div>

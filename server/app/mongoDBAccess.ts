@@ -1,5 +1,5 @@
 import { ITrackData } from "../../common/trackData";
-import { Schema, Connection, Mongoose } from "mongoose";
+import { Schema, Connection, Mongoose, Error } from "mongoose";
 
 // Connection URL
 const userName: string = "admin";
@@ -21,18 +21,20 @@ const TRACK: any = MONGOOSE.model("Track", trackSchema);
 
 export class MongoDBAccess {
 
-    public static async getAll(): Promise<any> {
+    public static async getAll(): Promise<ITrackData[]> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
-        return new Promise((resolve: any, reject: any) => {
+        return new Promise<ITrackData[]>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.find(
-                    (err: any, trackData: ITrackData[]) => {
+                    (err: Error, trackData: ITrackData[]) => {
                         if (err) {
-                            return console.error(err);
-                        }
+                            console.error(err);
+                            reject(err);
+                        } else {
                         resolve(trackData);
+                        }
                     }
                 );
             });
@@ -47,12 +49,13 @@ export class MongoDBAccess {
         newTrack.bestTimes = [];
         newTrack.timesPlayed = 0;
 
-        return new Promise((resolve: any, reject: any) => {
+        return new Promise((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 newTrack.save(
-                    (err: any, trackSaved: ITrackData) => {
+                    (err: Error, trackSaved: ITrackData) => {
                         if (err) {
-                            return console.error(err);
+                            console.error(err);
+                            reject(err);
                         }
                         resolve(newTrack);
                     }
@@ -63,21 +66,23 @@ export class MongoDBAccess {
         });
     }
 
-    public static async remove(trackName: string): Promise<any> {
+    public static async remove(trackName: string): Promise<string> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
-        return new Promise((resolve: any, reject: any) => {
+        return new Promise<string>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.findOne({ name: trackName })
-                    .remove((err: any) => {
+                    .remove((err: Error) => {
                         if (err) {
-                            return console.error(err);
+                            console.error(err);
+                            reject(err);
                         }
                     })
-                    .exec((err: any) => {
+                    .exec((err: Error) => {
                         if (err) {
-                            return console.error(err);
+                            console.error(err);
+                            reject(err);
                         }
                         resolve(trackName);
                     });
@@ -89,7 +94,7 @@ export class MongoDBAccess {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
-        return new Promise((resolve: any, reject: any) => {
+        return new Promise((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.update(
                     { name: track.name },
@@ -100,9 +105,10 @@ export class MongoDBAccess {
                             image: track.image
                         }
                     },
-                    (err: any, numAffected: number) => {
+                    (err: Error, numAffected: number) => {
                         if (err) {
                             console.error(err);
+                            reject(err);
                         }
                         resolve(track.name);
                     }
@@ -113,18 +119,19 @@ export class MongoDBAccess {
         });
     }
 
-    public static async incrementTimesPlayed(trackName: string): Promise<any> {
+    public static async incrementTimesPlayed(trackName: string): Promise<String> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
-        return new Promise((resolve: any, reject: any) => {
+        return new Promise<string>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.update(
                     { name: trackName },
                     { $inc: { timesPlayed: 1 } },
-                    (err: any, numAffected: number) => {
+                    (err: Function, numAffected: number) => {
                         if (err) {
                             console.error(err);
+                            reject(err);
                         }
                         resolve(trackName);
                     }
