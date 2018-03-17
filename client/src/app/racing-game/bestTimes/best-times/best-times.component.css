@@ -15,6 +15,10 @@
     float: left;
 }
 
+.bestTimes {
+    display: none;
+}
+
 .table {
     /* border-style: outset;*/
     padding: 0;

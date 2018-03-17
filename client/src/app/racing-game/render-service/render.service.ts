@@ -26,6 +26,12 @@ const AMBIENT_LIGHT_OPACITY: number = 0.8;
 const HELPER_AXES_SIZE: number = 500;
 const HELPER_GRID_SIZE: number = 50;
 
+// ***
+const X: number = 0;
+const Y: number = 1;
+const Z: number = 2;
+
+
 const SCENE_SCALE: number = 1;
 
 @Injectable()
@@ -50,8 +56,12 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-                       private skyboxService: SkyboxService ) {
+                       private skyboxService: SkyboxService,
+                       private tracksProxyService: TracksProxyService ) {
         this._car = new Car();
+
+        // ***
+        this._waypoints = [];
 
     }
 
@@ -59,12 +69,16 @@ export class RenderService {
         if (container) {
             this.container = container;
         }
+        // ***try catch
+        await this.tracksProxyService.initialize();
+        this.setWaypointsFromProxy();
 
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
     }
 
+    private setWaypointsFromProxy(): void {
         const track: ITrackData = this.tracksProxyService.findTrack( "test" /*this.route.snapshot.paramMap.get("trackName")*/);
         if (track === undefined) {
                 throw new Error("track not found");
@@ -81,7 +95,7 @@ export class RenderService {
             this._waypoints.push(waypoint);
         });
 
-    }
+}
 
     private initStats(): void {
         this.stats = new Stats();
@@ -99,6 +113,9 @@ export class RenderService {
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
+
+        // ***
+        this.addTrackToScene();
 
         await this._car.init();
         this.scene.add(this._car);
