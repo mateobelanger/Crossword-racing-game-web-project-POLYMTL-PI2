@@ -1,31 +1,44 @@
-<div class="">
-  <div class="tableHeader clearfix">
+<div class="timeTable background">
+  <div class="clearfix background">
     <li class="tableTitleBlock left">
-      <h4 class="trackName" *ngIf="!showBestTimes"> Times </h4>
-      <h4 class="trackName" *ngIf="showBestTimes"> Best Times</h4>
+      <h4 class="trackName" *ngIf="!showBestTimes">Results</h4>
+      <h4 class="trackName" *ngIf="showBestTimes">Best Times</h4>
     </li>
   </div>
 
   <div class="resultsBlock container">
       <div class="row" *ngIf="showBestTimes"> 
+          <div class="descriptor container col-12"> 
+            <div class="col-4">Position</div>
+            <div class="col-4">Lap</div>
+            <div class="col-4">Time</div>
+          </div>
           <div *ngIf="bestTimes.length == 0">No times</div>          
           <div class ="name col-12 container" *ngFor="let bestTime of bestTimes let i = index">
-              <div class="col-4 column left">{{i + 1}}</div>
-              <div class="col-4 column left">{{bestTime[0]}}</div>
-              <div class="col-4 column right">{{bestTime[1]}}</div>
+              <div class="line lessPading">
+                <div class="col-4 column left">{{i + 1}}</div>
+                <div class="col-4 column left">{{bestTime[0]}}</div>
+                <div class="col-4 column right">{{bestTime[1]}}</div>
+              </div>
           </div>
       </div>
       <div class="row" *ngIf="!showBestTimes"> 
+        <div class="descriptor container col-12"> 
+          <div class="col-6">Lap</div>
+          <div class="col-6">Time</div>
+        </div>
         <div *ngIf="personnalTimes.length == 0">No times</div>          
         <div class ="name col-12 container" *ngFor="let personnalTime of personnalTimes let i = index">
+          <div class="line">
             <div class="col-6 column left">{{i + 1}}</div>
             <div class="col-6 column left">{{personnalTime}}</div>
+          </div>
         </div>
     </div>
   </div>
 
 
-  <div class="tableFooter clearfix">
+  <div class="tableFooter clearfix background">
     <div class="buttons btn-sm" *ngIf="showBestTimes"> <a routerLink="../../racing-game">TrackList </a></div>
     <div class="buttons btn-sm" (click)="showBestTimes = !showBestTimes" *ngIf="!showBestTimes"> Next </div>
     <div class="buttons btn-sm" (click)="showBestTimes = !showBestTimes" *ngIf="showBestTimes"> Previous </div>    

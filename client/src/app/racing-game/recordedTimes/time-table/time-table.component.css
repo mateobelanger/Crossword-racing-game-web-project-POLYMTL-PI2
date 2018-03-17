@@ -14,22 +14,12 @@
     position: relative;
     float: left;
 }
-
-.table {
-    /* border-style: outset;*/
-    padding: 0;
-    margin: 0;
-    max-width: 300px;
-    min-width: 200px;
-    height: 310px;
-    margin: 25px;
-    color: whitesmoke;
-    border-color: rgba(179, 180, 180, 0.8);
-    font-family: "Lucida Sans Unicode", Arial, sans-serif;
+.timeTable{ 
+    color: rgba(211, 211, 211, 0.801);
 }
 
-.tableHeader {
-    background-color: rgba(13, 14, 28, 0.9);
+.background{
+    background: url("../../../../assets/time_table/background.png") fixed no-repeat;
 }
 
 .tableTitleBlock {
@@ -41,7 +31,6 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: lightgray;
 }
 
 .trackName {
@@ -52,21 +41,22 @@
 .resultsBlock {
     height: 200px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
+    align-items: space-around;
     flex-direction: column;
     text-align: center;
-    background-color: rgba(216, 218, 231, 0.7);
     cursor: default;
+    background-color: rgb(42, 45, 46);
+    border-color: rgba(0, 255, 255, 0.5); 
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
 }
 
 .tableFooter {
     height: 50px;
-    background-color: rgba(52, 96, 141, 0.9);
 }
 
 .buttons {
-    color: lightgray;
     font-weight: bold;
     margin-right: 15px;
     margin-top: 10px;
@@ -80,3 +70,33 @@
     cursor: pointer;
 }
 
+.line{
+    padding: 5px 0px 5px 0px;
+    border-color: rgba(0,0,0,0.5);
+    border-style: solid;
+    border-width: 0px 0px 2px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.line:hover{
+    font-weight: 700;
+}
+
+.descriptor{
+    font-weight: 500;
+    font-size: 20px;
+    padding: 5px 0px 5px 0px;
+    border-color: rgba(0,0,0,0.5);
+    border-style: solid;
+    border-width: 0px 0px 2px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.lessPading{
+    padding: 2px 0px 2px 0px;
+}
