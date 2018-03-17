@@ -81,9 +81,12 @@
 }
 
 .bestTimes {   
+    z-index: 12;
     position: absolute;
-    top: 35%;
-    left: 35%;
+    top: 25%;
+    left: 34%;
+    width: 500px;  
+    font-size: 1.1em;
 }
 
 /* Small screens ----------- */
@@ -123,6 +126,12 @@
         height: 15px;
         width: 15px;
     }
+
+    .bestTimes {   
+        top: 16%;
+        left: 24%;  
+        font-size: 1em;
+    }
 }
 
 /* Medium screens ----------- */
@@ -161,5 +170,10 @@
         background-size: 20px !important;
         height: 20px;
         width: 20px;
+    }
+
+    .bestTimes {   
+        top: 20%;
+        left: 31%;
     }
 }
