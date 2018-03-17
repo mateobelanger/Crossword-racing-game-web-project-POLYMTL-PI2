@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BestTimesComponent } from './time-table.component';
 import { BestTimeHandlerService } from '../best-time-handler.service';
+import { RaceDataHandlerService } from '../../race-data-handler.service';
 
 describe('BestTimesComponent', () => {
   let component: BestTimesComponent;
@@ -10,7 +11,7 @@ describe('BestTimesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ BestTimesComponent ],
-      providers: [BestTimeHandlerService]
+      providers: [BestTimeHandlerService, RaceDataHandlerService]
     })
     .compileComponents();
   }));
