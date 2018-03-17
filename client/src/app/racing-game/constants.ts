@@ -22,7 +22,7 @@ export const EDITOR_LAND_HEIGHT: number = 800;
 // SKYBOX for now & others in the future
 export const LAND_WIDTH: number = 500;
 export const LAND_HEIGHT: number = 400;
-export const BACKGROUND_PLANE_POSITION_Y: number = -3;
+export const BACKGROUND_PLANE_POSITION_Y: number = 0;
 
 // CONSTRAINTS
 export enum ErrorType {WIDTHLENGTHRATIO, ANGLE, INTERSECTS}

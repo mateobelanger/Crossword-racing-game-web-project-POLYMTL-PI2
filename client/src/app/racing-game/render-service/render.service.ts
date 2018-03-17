@@ -3,8 +3,10 @@ import Stats = require("stats.js");
 import * as THREE from 'three';
 
 import { Car } from "../car/car";
-import { CameraService } from "../camera.service";
+import { CameraService, ORTHOGRAPHIC_FIELD_OF_VIEW, ORTHOGRAPHIC_CAMERA_FAR_PLANE, ORTHOGRAPHIC_CAMERA_NEAR_PLANE} from "../camera.service";
 import { SkyboxService } from '../skybox.service';
+import { LAND_WIDTH, LAND_HEIGHT, BACKGROUND_PLANE_POSITION_Y } from "../constants";
+
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
@@ -27,6 +29,8 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
+    private backgroundPlane: THREE.Mesh;
+    private directionalLight: THREE.DirectionalLight;
 
     // To see the car's point of departure
     private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
@@ -39,6 +43,8 @@ export class RenderService {
     public constructor(private cameraService: CameraService,
                        private skyboxService: SkyboxService ) {
         this._car = new Car();
+        this._car.receiveShadow = true;
+        this.backgroundPlane = null;
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -49,6 +55,7 @@ export class RenderService {
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
+        this.generateBackgroundView();
     }
 
     private initStats(): void {
@@ -69,10 +76,9 @@ export class RenderService {
         await this._car.init();
         this.scene.add(this._car);
 
-
-        this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
-
         this.cameraService.initialize(this.container, this._car.mesh);
+
+        this.createDirectionalLight();
 
         // To see the car's point of departure
         this.scene.add(this.axesHelper);
@@ -82,9 +88,21 @@ export class RenderService {
         this.skyboxService.generateSkybox();
     }
 
+    /*
+        this.directionalLight.shadow.camera.near = ORTHOGRAPHIC_CAMERA_NEAR_PLANE;
+        this.directionalLight.shadow.camera.far = ORTHOGRAPHIC_CAMERA_FAR_PLANE;
+
+        this.directionalLight.shadow.camera.left = -ORTHOGRAPHIC_FIELD_OF_VIEW;
+        this.directionalLight.shadow.camera.right = ORTHOGRAPHIC_FIELD_OF_VIEW;
+        this.directionalLight.shadow.camera.top = ORTHOGRAPHIC_FIELD_OF_VIEW;
+        this.directionalLight.shadow.camera.bottom = -ORTHOGRAPHIC_FIELD_OF_VIEW;
+    */
+
     private startRenderingLoop(): void {
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.lastDate = Date.now();
         this.container.appendChild(this.renderer.domElement);
@@ -94,6 +112,7 @@ export class RenderService {
     private render(): void {
         requestAnimationFrame(() => this.render());
         this.cameraService.updatePosition();
+        // this.directionalLight.shadow.camera.position.copy(this.cameraService.orthographicCamera.position);
         this.update();
         this.renderer.render(this.scene, this.cameraService.getCamera());
         this.stats.update();
@@ -143,4 +162,41 @@ export class RenderService {
                 break;
         }
     }
+
+    public generateBackgroundView(): void {
+        const texture: THREE.Texture = new THREE.TextureLoader().load("../../../assets/skybox/"
+                                                                      + this.skyboxService.skyboxName + "/"
+                                                                      + this.skyboxService.skyboxSate + "/bottom.png");
+
+        const material: THREE.MeshStandardMaterial = new THREE.MeshStandardMaterial({ map: texture, side: THREE.DoubleSide });
+        this.backgroundPlane = new THREE.Mesh(new THREE.PlaneGeometry(LAND_WIDTH, LAND_HEIGHT), material);
+        this.backgroundPlane.position.y = BACKGROUND_PLANE_POSITION_Y;
+
+        const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+        // tslint:disable-next-line:no-magic-numbers
+        this.backgroundPlane.rotateOnAxis(axis, Math.PI / 2);
+        this.backgroundPlane.receiveShadow = true;
+
+        this.scene.add(this.backgroundPlane);
+      }
+
+    private createDirectionalLight(): void {
+        this.directionalLight = new THREE.DirectionalLight(WHITE, AMBIENT_LIGHT_OPACITY);
+        this.directionalLight.castShadow = true;
+        this.directionalLight.position.set( 0, 500, 500 );
+        this.directionalLight.shadow.camera.visible = true;
+
+        this.directionalLight.shadow.mapSize.width = 512*8;
+        this.directionalLight.shadow.mapSize.height = 512*8;
+
+        this.directionalLight.shadow.camera.near = ORTHOGRAPHIC_CAMERA_NEAR_PLANE*5;
+        this.directionalLight.shadow.camera.far = ORTHOGRAPHIC_CAMERA_FAR_PLANE*5;
+
+        this.directionalLight.shadow.camera.left = -ORTHOGRAPHIC_FIELD_OF_VIEW*5;
+        this.directionalLight.shadow.camera.right = ORTHOGRAPHIC_FIELD_OF_VIEW*5;
+        this.directionalLight.shadow.camera.top = ORTHOGRAPHIC_FIELD_OF_VIEW*5;
+        this.directionalLight.shadow.camera.bottom = -ORTHOGRAPHIC_FIELD_OF_VIEW*5;
+
+        this.scene.add(this.directionalLight);
+      }
 }
