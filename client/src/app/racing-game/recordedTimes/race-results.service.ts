@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RaceResults } from "./raceResults";
 const AI_NAMES: string[] = ["bob1", "bob2", "bob3", "bob4", "bob5"];
-
+const USERNAME: string = "user";
 
 @Injectable()
 export class RaceResultsService {
@@ -14,7 +14,8 @@ export class RaceResultsService {
     AI_NAMES.forEach( (name) => {
         this._raceResults[name] = new RaceResults();
     });
-   }
+    this._raceResults[USERNAME] = new RaceResults();
+}
 
   public get raceResults(): {[name: string]: RaceResults} {
        return this._raceResults;

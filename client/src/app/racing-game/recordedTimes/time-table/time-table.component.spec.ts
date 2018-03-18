@@ -5,8 +5,9 @@ import { BestTimeHandlerService } from '../best-time-handler.service';
 import { RaceDataHandlerService } from '../../race-data-handler.service';
 import { TracksProxyService } from '../../tracks-proxy.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RaceResultsService } from '../race-results.service';
 
-describe('BestTimesComponent', () => {
+describe('TimeTableComponent', () => {
   let component: BestTimesComponent;
   let fixture: ComponentFixture<BestTimesComponent>;
 
@@ -14,7 +15,7 @@ describe('BestTimesComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ BestTimesComponent ],
       imports: [HttpClientTestingModule],
-      providers: [BestTimeHandlerService, RaceDataHandlerService, TracksProxyService]
+      providers: [BestTimeHandlerService, RaceDataHandlerService, TracksProxyService, RaceResultsService]
     })
     .compileComponents();
   }));

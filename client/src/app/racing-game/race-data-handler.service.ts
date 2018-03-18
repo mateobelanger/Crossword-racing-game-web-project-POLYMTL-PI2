@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { TracksProxyService } from "./tracks-proxy.service";
 import { ITrackData } from "../../../../common/trackData";
 import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
-const MAX_NB_LAPS: number = 3;
+import { RaceResultsService } from "./recordedTimes/race-results.service";
+
+
 const HUNDREDTHSECOND: number = 10;
 
 @Injectable()
@@ -17,7 +19,9 @@ export class RaceDataHandlerService {
   private _iTrackData: ITrackData;
   private _position: number;
 
-  public constructor( private tracksProxyService: TracksProxyService, private bestTimesHandler: BestTimeHandlerService) {
+  public constructor( private tracksProxyService: TracksProxyService,
+                      private bestTimesHandler: BestTimeHandlerService,
+                      private raceResultService: RaceResultsService) {
     this.resetValues();
   }
 
@@ -55,17 +59,11 @@ export class RaceDataHandlerService {
     this.startTimers();
   }
 
-  public doneLap(): void {
-    if (this._lapElapsed < MAX_NB_LAPS) {
-      this._timeLaps[this._lapElapsed] = this._hundrethSecondElapsedLap;
-      this._hundrethSecondElapsedLap = 0;
-      this.incLapElapsed();
-      if (this._lapElapsed === MAX_NB_LAPS)
-        this.doneRace();
-    }
+  public doneLap(name: string): void {
+    this.raceResultService.doneLap(name, 1); // temporary
   }
 
-  private doneRace(): void {
+  public doneRace(): void {
     this.stopTimers();
     this.bestTimesHandler.addTime(["test", this._hundrethSecondElapsed]);
     console.log(this.bestTimesHandler.bestTimes);
@@ -76,10 +74,6 @@ export class RaceDataHandlerService {
 
   public totalTime(): number {
     return this._timeLaps.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-  }
-
-  private incLapElapsed(): void {
-    this._lapElapsed++;
   }
 
   private resetValues(): void {

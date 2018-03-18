@@ -7,7 +7,7 @@ export class RaceResults {
 
     public constructor() {
         this._laps = [];
-        this._totalTime = null;
+        this._totalTime = 0;
     }
 
     public get laps(): number[] {

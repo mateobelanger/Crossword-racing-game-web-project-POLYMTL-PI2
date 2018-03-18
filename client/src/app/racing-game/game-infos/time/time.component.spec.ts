@@ -5,6 +5,7 @@ import { RaceDataHandlerService } from '../../race-data-handler.service';
 import { TracksProxyService } from '../../tracks-proxy.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
+import { RaceResultsService } from '../../recordedTimes/race-results.service';
 
 describe('TimeComponent', () => {
   let component: TimeComponent;
@@ -14,7 +15,7 @@ describe('TimeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TimeComponent ],
       imports: [HttpClientTestingModule],
-      providers: [ RaceDataHandlerService, TracksProxyService, BestTimeHandlerService ]
+      providers: [ RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService ]
     })
     .compileComponents();
   }));
