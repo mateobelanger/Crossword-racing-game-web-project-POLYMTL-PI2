@@ -71,7 +71,7 @@ export class WordService {
         this._selectedWord = null;
     }
 
-    public getWordWithDefinition(definition: string): string{
+    public getWordWithDefinition(definition: string): string {
         for (const word of words) {
             if (word.definition === definition) {
                 return word.value;
