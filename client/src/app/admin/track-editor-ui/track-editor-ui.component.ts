@@ -64,6 +64,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.updateTrackWaypoints(this.trackEditorService.track.waypoints);
             this.track.name = this.name;
             this.track.description = this.description;
+            this.track.image = this.trackEditorService.takeScreenShot();
             void this.proxy.saveTrack(this.track);
         }
     }

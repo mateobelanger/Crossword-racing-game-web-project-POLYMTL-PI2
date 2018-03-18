@@ -9,6 +9,7 @@ import * as THREE from "three";
 const INITIAL_CAMERA_POSITION_Z: number = 50;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
+const IMAGE_QUALITY: number = 0.5;
 
 @Injectable()
 export class TrackEditorRenderService {
@@ -50,6 +51,7 @@ export class TrackEditorRenderService {
         return this._raycaster.intersectObject(this._backgroundPlane.getBackgroundPlane());
     }
 
+    // TODO : what is it?
     public getMousePos(): THREE.Vector2 {
         return this._mouse;
     }
@@ -65,7 +67,7 @@ export class TrackEditorRenderService {
     }
 
     public takeScreenShot(): string {
-        return this._renderer.domElement.toDataURL("image/jpeg", 0.5);
+        return this._renderer.domElement.toDataURL("image/jpeg", IMAGE_QUALITY);
     }
 
     private createScene(track: Track): void {
