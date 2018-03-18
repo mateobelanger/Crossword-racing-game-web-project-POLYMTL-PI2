@@ -17,7 +17,7 @@ export class Timer {
         this._hundrethSecondElapsed = 0;
     }
 
-    public finish(): void {
+    public stop(): void {
         window.clearTimeout(this._id);
     }
 

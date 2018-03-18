@@ -20,26 +20,26 @@ export class TimeComponent implements OnInit {
   }
 
   public get totalHundredthSecond(): number {
-    return this.raceDataHandler.hundrethSecondElapsed % MAX_HUNDREDTH_SECOND;
+    return this.raceDataHandler.totalTimeElapsed % MAX_HUNDREDTH_SECOND;
   }
 
   public get totalSecond(): number {
-    return Math.floor(this.raceDataHandler.hundrethSecondElapsed / TO_SECONDS) % MAX_SECONDS;
+    return Math.floor(this.raceDataHandler.totalTimeElapsed / TO_SECONDS) % MAX_SECONDS;
   }
 
   public get totalMinutes(): number {
-    return Math.floor(this.raceDataHandler.hundrethSecondElapsed / TO_MINUTES);
+    return Math.floor(this.raceDataHandler.totalTimeElapsed / TO_MINUTES);
   }
 
   public get lapHundredthSecond(): number {
-    return this.raceDataHandler.hundrethSecondElapsedLap % MAX_HUNDREDTH_SECOND;
+    return this.raceDataHandler.lapTimeElapsed % MAX_HUNDREDTH_SECOND;
   }
 
   public get lapSecond(): number {
-    return Math.floor(this.raceDataHandler.hundrethSecondElapsedLap / TO_SECONDS) % MAX_SECONDS;
+    return Math.floor(this.raceDataHandler.lapTimeElapsed / TO_SECONDS) % MAX_SECONDS;
   }
 
   public get lapMinutes(): number {
-    return Math.floor(this.raceDataHandler.hundrethSecondElapsedLap / TO_MINUTES);
+    return Math.floor(this.raceDataHandler.lapTimeElapsed / TO_MINUTES);
   }
 }

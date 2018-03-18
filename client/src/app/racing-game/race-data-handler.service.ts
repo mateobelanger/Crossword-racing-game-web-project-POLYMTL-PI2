@@ -3,25 +3,23 @@ import { TracksProxyService } from "./tracks-proxy.service";
 import { ITrackData } from "../../../../common/trackData";
 import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
 import { RaceResultsService } from "./recordedTimes/race-results.service";
-
-
-const HUNDREDTHSECOND: number = 10;
+import { Timer } from "./timer/timer";
 
 @Injectable()
 export class RaceDataHandlerService {
 
   private _lapElapsed: number;
   private _timeLaps: number[];
-  private timerId: number;
-  private timerIdLap: number;
-  private _hundrethSecondElapsed: number;
-  private _hundrethSecondElapsedLap: number;
+  private _uiLapTimer: Timer;
+  private _totalTimeTimer: Timer;
   private _iTrackData: ITrackData;
   private _position: number;
 
   public constructor( private tracksProxyService: TracksProxyService,
                       private bestTimesHandler: BestTimeHandlerService,
                       private raceResultService: RaceResultsService) {
+    this._totalTimeTimer = new Timer();
+    this._uiLapTimer = new Timer();
     this.resetValues();
   }
 
@@ -38,16 +36,12 @@ export class RaceDataHandlerService {
     return this._lapElapsed;
   }
 
-  public get timeLaps(): number[] {
-    return this._timeLaps;
+  public get totalTimeElapsed(): number {
+      return this._totalTimeTimer.hundrethSecondElapsed;
   }
 
-  public get hundrethSecondElapsed(): number {
-      return this._hundrethSecondElapsed;
-  }
-
-  public get hundrethSecondElapsedLap(): number {
-    return this._hundrethSecondElapsedLap;
+  public get lapTimeElapsed(): number {
+    return this._uiLapTimer.hundrethSecondElapsed;
   }
 
   public get position(): number {
@@ -60,12 +54,12 @@ export class RaceDataHandlerService {
   }
 
   public doneLap(name: string): void {
-    this.raceResultService.doneLap(name, 1); // temporary
+    this.raceResultService.doneLap(name, 1); // temporary!!!
   }
 
   public doneRace(): void {
     this.stopTimers();
-    this.bestTimesHandler.addTime(["test", this._hundrethSecondElapsed]);
+    this.bestTimesHandler.addTime(["test", this._totalTimeTimer.hundrethSecondElapsed]);
     console.log(this.bestTimesHandler.bestTimes);
     // TODO:  totalTime -> results and best times
   }
@@ -80,17 +74,17 @@ export class RaceDataHandlerService {
     this._position = 1;
     this._lapElapsed = 0;
     this._timeLaps = [0, 0, 0];
-    this._hundrethSecondElapsed = 0;
-    this._hundrethSecondElapsedLap = 0;
+    this._uiLapTimer.reset();
+    this._totalTimeTimer.reset();
   }
 
   private startTimers(): void {
-    this.timerId = window.setInterval(() => { this._hundrethSecondElapsed++; }, HUNDREDTHSECOND);
-    this.timerIdLap = window.setInterval(() => { this._hundrethSecondElapsedLap++; }, HUNDREDTHSECOND);
+    this._uiLapTimer.start();
+    this._totalTimeTimer.start();
   }
 
   private stopTimers(): void {
-    window.clearTimeout(this.timerId);
-    window.clearTimeout(this.timerIdLap);
+    this._uiLapTimer.stop();
+    this._totalTimeTimer.stop();
   }
 }
