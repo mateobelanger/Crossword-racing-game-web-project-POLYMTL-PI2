@@ -25,7 +25,7 @@ export class WordSelector {
                 positions.push(i);
             }
         }
-        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH];
+        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH].slice();  //creates a copy of  the array
         if (positions.length === 0) {
             return ArrayHelper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
         }
