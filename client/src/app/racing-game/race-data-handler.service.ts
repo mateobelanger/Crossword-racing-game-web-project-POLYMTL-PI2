@@ -16,7 +16,7 @@ export class RaceDataHandlerService {
   private _hundrethSecondElapsedLap: number;
   private _iTrackData: ITrackData;
   private _position: number;
-  private _username: string = "default"; // à changer .ventuellement
+
   public constructor( private tracksProxyService: TracksProxyService, private bestTimesHandler: BestTimeHandlerService) {
     this.resetValues();
   }
@@ -67,7 +67,7 @@ export class RaceDataHandlerService {
 
   private doneRace(): void {
     this.stopTimers();
-    this.bestTimesHandler.addTime([this._username, this._hundrethSecondElapsed]);
+    this.bestTimesHandler.addTime(["test", this._hundrethSecondElapsed]);
     console.log(this.bestTimesHandler.bestTimes);
     // TODO:  totalTime -> results and best times
   }

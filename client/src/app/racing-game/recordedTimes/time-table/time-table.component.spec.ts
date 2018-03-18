@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BestTimesComponent } from './time-table.component';
 import { BestTimeHandlerService } from '../best-time-handler.service';
 import { RaceDataHandlerService } from '../../race-data-handler.service';
+import { TracksProxyService } from '../../tracks-proxy.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('BestTimesComponent', () => {
   let component: BestTimesComponent;
@@ -11,7 +13,8 @@ describe('BestTimesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ BestTimesComponent ],
-      providers: [BestTimeHandlerService, RaceDataHandlerService]
+      imports: [HttpClientTestingModule],
+      providers: [BestTimeHandlerService, RaceDataHandlerService, TracksProxyService]
     })
     .compileComponents();
   }));
