@@ -10,10 +10,12 @@ export const RAD_TO_DEG: number = STRAIGHT_ANGLE_DEG / Math.PI;
 export const PI_OVER_2: number = Math.PI / 2;
 
 // TRACK-EDITOR
-export const POINTS_POSITION_Z: number = 0;
-export const PLANE_POSITION_Z: number = -1;
+export const WAYPOINTS_POSITION_Z: number = 10;
+export const CIRCLE_POSITION_Z: number = -1;
+export const PLANE_POSITION_Z_FIRST: number = -1.05;
+export const PLANE_POSITION_Z_SECOND: number = -1.06;
 export const BACKGROUND_PLANE_POSITION_Z: number = -3;
-export const TRACK_WIDTH: number = 10;       // ** 20 pour track editor
+export const TRACK_WIDTH: number = 20;       // ** 20 pour track editor
 export const BACKGROUND_PLANE: string = "backgroundPlane";
 export const POINT: string = "point";
 export const EDITOR_LAND_WIDTH: number = 1000;

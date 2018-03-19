@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { TrackEditorRenderService } from "./track-editor-render.service";
 import { Track } from "../track/trackData/track";
 import { Waypoint } from "../track/trackData/waypoint";
-import { POINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from "../constants";
+import { WAYPOINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from "../constants";
 import { Constraints } from "./constraints/constraints";
 import * as THREE from "three";
 
@@ -50,7 +50,7 @@ export class TrackEditorService {
 
     public addWaypoints(waypoints: Waypoint[]): void {
         waypoints.forEach((waypoint) => {
-            waypoint.setPositionZ(POINTS_POSITION_Z);
+            waypoint.setPositionZ(WAYPOINTS_POSITION_Z);
             this._track.addWaypoint(waypoint);
         });
         this.trackEditorRenderService._circleHandler.generateCircles(waypoints, false);
@@ -153,7 +153,7 @@ export class TrackEditorService {
             this.trackEditorRenderService.updateRaycastMousePos(event);
             const backgroundPlaneSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
             event.stopPropagation();
-            backgroundPlaneSelected[0].point.z = POINTS_POSITION_Z;
+            backgroundPlaneSelected[0].point.z = WAYPOINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);
             this.moveWaypoint(this._selectedWaypoint.circleId, backgroundPlaneSelected[0].point);
         }

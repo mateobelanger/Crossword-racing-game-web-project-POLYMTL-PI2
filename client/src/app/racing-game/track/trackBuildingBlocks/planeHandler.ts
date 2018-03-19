@@ -1,16 +1,16 @@
 import {Waypoint} from "../trackData/waypoint";
 import {Plane} from "./plane";
-import { PLANE_POSITION_Z, TRACK_WIDTH, PlaneType } from '../../constants';
+import { PLANE_POSITION_Z_FIRST, TRACK_WIDTH, PlaneType, PLANE_POSITION_Z_SECOND } from '../../constants';
 import * as THREE from "three";
 
-const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
-const RATIO_IMAGE_PER_FIRST_PLANE_LENGTH: number = 70;
+const RATIO_IMAGE_PER_PLANE_LENGTH: number = 40;
+const RATIO_IMAGE_PER_FIRST_PLANE_LENGTH: number = 40;
 const ASSETS_FOLDER: string = "../../../../assets/track_editor_texture/";
-const ASSETS_NAME: string[] = ["first_road_texture.png", "first_road_texture_red.png",
-                               "road_texture.png", "road_texture_red.png"];
+const ASSETS_NAME: string[] = ["first_road_texture-v2.jpg", "first_road_texture_red.png",
+                               "road_texture-v2.jpg", "road_texture_red.png"];
 
 export const TRACK_LENGTH: number = 1;
-
+const EVEN_NUMBER: number = 2;
 
 export class PlaneHandler {
 
@@ -27,10 +27,8 @@ export class PlaneHandler {
 
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
         const geometry: THREE.PlaneGeometry = geometries[0];
-        console.log(geometries[0]);
 
         for ( let i: number = 1; i < geometries.length; i++) {
-            console.log(geometries[i]);
             geometry.merge(geometries[i]);
         }
 
@@ -39,7 +37,6 @@ export class PlaneHandler {
 
         const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
         mesh.rotateOnAxis(axis, Math.PI / 2);
-        console.log(mesh);
         this.scene.add(mesh);
 
     }
@@ -61,20 +58,11 @@ export class PlaneHandler {
                 this._firstPlaneId = mesh.id;
             }
             this._planes.push(plane);
-            plane.mesh.position.z = -1;
-            hasReversedAxes ? plane.mesh.rotateOnAxis(axis, Math.PI / 2) : plane.mesh.rotateOnAxis(axis, 0);
-            // let curveObject: THREE.Line;
-            // if (i === 3) {
-            // const curve = new THREE.CatmullRomCurve3( [ waypoints[i - 1].position, waypoints[i].position, waypoints[i + 1].position ] );
-            //     const points = curve.getPoints( 10 );
-            //     const geometry = new THREE.BufferGeometry().setFromPoints( points );
-            //     const material2 = new THREE.LineBasicMaterial( { color : 0xFF0000 } );
-            //     curveObject = new THREE.Line( geometry, material2 );
-            // }
 
-            // this.scene.add(curveObject);
-            console.log(plane.mesh.position);
-            
+            plane.mesh.position.z = i % EVEN_NUMBER === 0 ? PLANE_POSITION_Z_FIRST : PLANE_POSITION_Z_SECOND;
+
+            hasReversedAxes ? plane.mesh.rotateOnAxis(axis, Math.PI / 2) : plane.mesh.rotateOnAxis(axis, 0);
+
             this.scene.add(plane.mesh);
             this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
         }
@@ -87,7 +75,7 @@ export class PlaneHandler {
     }
 
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
-        newPos.z = PLANE_POSITION_Z;
+        newPos.z = PLANE_POSITION_Z_FIRST;
         const firstPlane: Plane = this.getPlane(waypoint.getIncomingPlaneId());
         const secondPlane: Plane = this.getPlane(waypoint.getOutgoingPlaneId());
 

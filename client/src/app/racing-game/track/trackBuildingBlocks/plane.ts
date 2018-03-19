@@ -1,10 +1,10 @@
 import { Waypoint } from "../trackData/waypoint";
-import { PLANE_POSITION_Z } from '../../constants';
+import { PLANE_POSITION_Z_FIRST } from '../../constants';
 import * as THREE from "three";
 
 const EXPOSANT_CARRE: number = 2;
 const DIVISEUR_MOYENNE: number = 2;
-const PIVOT_POINT_SHIFT: number = 10; // 10 pour track editor **
+export const PIVOT_POINT_SHIFT: number = 0;
 const REFERENCE_VECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
 const DEFAULT_WAYPOINT_VECTOR: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
@@ -19,8 +19,8 @@ export class Plane {
     public constructor(waypoint1: Waypoint = new Waypoint(DEFAULT_WAYPOINT_VECTOR),
                        waypoint2: Waypoint = new Waypoint(DEFAULT_WAYPOINT_VECTOR)) {
         this._previousAngle = 0;
-        waypoint1.setPositionZ(PLANE_POSITION_Z);
-        waypoint2.setPositionZ(PLANE_POSITION_Z);
+        waypoint1.setPositionZ(PLANE_POSITION_Z_FIRST);
+        waypoint2.setPositionZ(PLANE_POSITION_Z_FIRST);
         this._beginingPoint = waypoint1.position;
         this._endPoint = waypoint2.position;
         this._mesh = null;
@@ -72,10 +72,12 @@ export class Plane {
     }
 
     public get length(): number {
-        return Math.sqrt(Math.pow(this._beginingPoint.x - this._endPoint.x, EXPOSANT_CARRE)
-                                + Math.pow(this._beginingPoint.y - this._endPoint.y, EXPOSANT_CARRE)
-                                + Math.pow(this._beginingPoint.z - this._endPoint.z, EXPOSANT_CARRE))
-                                - PIVOT_POINT_SHIFT;
+        const length: number = Math.sqrt(Math.pow(this._beginingPoint.x - this._endPoint.x, EXPOSANT_CARRE)
+                                       + Math.pow(this._beginingPoint.y - this._endPoint.y, EXPOSANT_CARRE)
+                                       + Math.pow(this._beginingPoint.z - this._endPoint.z, EXPOSANT_CARRE))
+                                       - PIVOT_POINT_SHIFT;
+
+        return (length > 0) ? length : 0;
     }
 
     public calculateRadianAngle(): number {

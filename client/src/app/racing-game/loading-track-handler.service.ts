@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Waypoint } from './track/trackData/waypoint';
 import { PlaneHandler } from './track/trackBuildingBlocks/planeHandler';
 import * as THREE from "three";
+import { CircleHandler } from './track/trackBuildingBlocks/circleHandler';
 
 // ***
 const X: number = 0;
@@ -17,6 +18,7 @@ export class LoadingTrackHandlerService {
     public points: number[][];
     private _waypoints: Waypoint[];
     private planeHandler: PlaneHandler;
+    private circleHandler: CircleHandler;
     private scene: THREE.Scene;
 
 
@@ -55,12 +57,13 @@ export class LoadingTrackHandlerService {
       // generate the last segment between last and first waypoints to close track
       const waypoints: Waypoint[] = [this._waypoints[this._waypoints.length - 1], this._waypoints[0]];
       this.planeHandler.generatePlanes(waypoints, true);
+      this.addWaypointsToScene();
     }
 
-    /*
+
     private addWaypointsToScene(): void {
         this.circleHandler = new CircleHandler(this.scene);
         this.circleHandler.generateCircles(this._waypoints, true);
-    }*/
+    }
 
 }
