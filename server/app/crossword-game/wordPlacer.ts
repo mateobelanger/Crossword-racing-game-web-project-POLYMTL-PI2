@@ -26,7 +26,7 @@ export class WordPlacer {
 
     public async placeWords(difficulty: string, res: Response): Promise<boolean> {
         if (this._emptyWords.length === 0) {
-            res.send(this._placedWords);
+            res.send(this.entriesToWords(this._placedWords));
 
             return true;
         }
@@ -147,5 +147,14 @@ export class WordPlacer {
         }
 
         return false;
+    }
+
+    private entriesToWords(entries: GridEntry[]): GridWord[] {
+        const words: GridWord[] = [];
+        for (const entry of entries) {
+            words.push(entry.word);
+        }
+
+        return words;
     }
 }

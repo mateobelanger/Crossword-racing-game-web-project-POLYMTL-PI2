@@ -1,5 +1,5 @@
 import { TestBed, inject } from "@angular/core/testing";
-
+import { HttpClient } from "@angular/common/http";
 import { WordService } from "./word.service";
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 
@@ -22,7 +22,6 @@ describe('WordService', () => {
           providers: [WordService]
         });
 
-        wordService = new WordService();
         wordService.words = words;
 
     });
