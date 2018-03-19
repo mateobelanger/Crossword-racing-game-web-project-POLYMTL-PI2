@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GRID_SIZE } from '../../../../common/constants';
 import { WordService } from './word.service';
+import { delay } from 'q';
 
 @Injectable()
 export class ValidatorService {
@@ -58,6 +59,9 @@ export class ValidatorService {
             }
             if (isValidated) {
                 this.addValidatedWord(word);
+                if (this.isEndOfGame()) {
+                    alert("Congrats, you won!");
+                }
             }
         }
     }
@@ -90,5 +94,15 @@ export class ValidatorService {
                     column += 1 : row += 1;
             }
         }
+    }
+
+    private isEndOfGame(): boolean {
+        for (const word of this.wordService.words) {
+            if (!this.validatedWords.includes(word)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
