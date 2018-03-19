@@ -4,6 +4,7 @@ export const MIN_WORD_LENGTH: number = 3;
 export const DEFAULT_GRID_SIZE: number = 10;
 export const BLACK_CELL: string = "#";
 export const WHITE_CELL: string = "-";
+const MAX_FIX_ISSUES: number = 500;
 
 export class GridCreator {
     private _nRows: number;
@@ -22,16 +23,26 @@ export class GridCreator {
     public create(nBlackCells: number): GridWord[] {
         this.initializeGrid();
         this.placeBlackCells(nBlackCells);
-        this.fixCellsLayout();
+        // calls itself again if the configuration is impossible to fix.
+        try {
+            this.fixCellsLayout();
+        } catch (err) {
+            this.create(nBlackCells);
+        }
 
         return this.generateGridStructure();
     }
 
     private fixCellsLayout(): void {
+        let nIssues: number = 0;
         for (let i: number = 0; i < this._nRows; i++) {
+            if (nIssues > MAX_FIX_ISSUES) {
+                throw new Error;
+            }
             for (let j: number = 0; j < this._nColumns; j++) {
                 if (this.isLoneCell(i, j)) {
                     this.fixLoneCell(i, j);
+                    nIssues++;
                     i = 0; j = 0;
                 }
             }
@@ -40,6 +51,7 @@ export class GridCreator {
             let nRemovedBlackCells: number = 0;
             if (!this.hasWords(row)) {
                 nRemovedBlackCells += this.fixNoWords(row);
+                nIssues++;
                 i = 0;
             }
             const column: string[] = this.getColumn(i);
@@ -48,6 +60,7 @@ export class GridCreator {
                 for (let j: number = 0; j < column.length; j++) {
                     this._grid[j][i] = column[j];
                 }
+                nIssues++;
                 i = 0;
             }
             this.setRandomly(BLACK_CELL, nRemovedBlackCells);
