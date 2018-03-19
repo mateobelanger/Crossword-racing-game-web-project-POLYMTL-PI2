@@ -4,6 +4,7 @@ import { ITrackData } from "../../../../common/trackData";
 import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
 import { RaceResultsService } from "./recordedTimes/race-results.service";
 import { Timer } from "./timer/timer";
+const USERNAME: string = "user";
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -53,15 +54,16 @@ export class RaceDataHandlerService {
     this.startTimers();
   }
 
+  // lap done from one player (ai or user)
   public doneLap(name: string): void {
-    this.raceResultService.doneLap(name, 1); // temporary!!!
+    if (name === USERNAME)
+      this._lapElapsed++;
+    this.raceResultService.doneLap(name, this._totalTimeTimer.hundrethSecondElapsed);
   }
 
   public doneRace(): void {
     this.stopTimers();
-    this.bestTimesHandler.addTime(["test", this._totalTimeTimer.hundrethSecondElapsed]);
-    console.log(this.bestTimesHandler.bestTimes);
-    // TODO:  totalTime -> results and best times
+    this.raceResultService.setRaceFinalResults();
   }
 
 

@@ -32,25 +32,25 @@ describe("RaceResult", () => {
     });
 
     it("doneLap -> nbLap = 3, should have totalTime", () => {
-        const times: number[] = [12, 23, 3];
+        const times: number[] = [12, 23, 25];
 
         times.forEach( (time) => {
             raceResults.doneLap(time);
         });
 
         expect(raceResults.laps.length).toEqual(3);
-        expect(raceResults.totalTime).toEqual(12 + 23 + 3);
+        expect(raceResults.totalTime).toEqual(25);
     });
 
     it("doneLap -> nbLap > 3, should not add", () => {
-        const times: number[] = [12, 23, 3, 5, 6];
+        const times: number[] = [12, 23, 39, 50, 60];
 
         times.forEach( (time) => {
             raceResults.doneLap(time);
         });
 
         expect(raceResults.laps.length).toEqual(3);
-        expect(raceResults.totalTime).toEqual(12 + 23 + 3);
+        expect(raceResults.totalTime).toEqual(39);
     });
 });
 

@@ -20,7 +20,7 @@ export class RaceResults {
 
     public doneLap(time: number): void {
         if (this._laps.length < MAX_NB_LAPS) {
-          this._laps.push(time);
+          this._laps.push(time - this.calculateTotalTime());
           if (this._laps.length === MAX_NB_LAPS)
             this._totalTime = this.calculateTotalTime();
         }
