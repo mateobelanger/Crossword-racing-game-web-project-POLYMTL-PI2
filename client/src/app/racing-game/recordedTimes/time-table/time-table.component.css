@@ -100,3 +100,10 @@
 .lessPading{
     padding: 2px 0px 2px 0px;
 }
+
+.time{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}

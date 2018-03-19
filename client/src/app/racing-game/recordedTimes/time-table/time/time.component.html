@@ -1,0 +1,6 @@
+<div class="col-4 column left time" (mouseenter)="showLapsTime = true" (mouseleave)="showLapsTime = false">
+    <div>{{raceTime[1].totalTime}}</div>
+    <div *ngIf="showLapsTime">Lap 1: {{raceTime[1].laps[0]}}</div>
+    <div *ngIf="showLapsTime">Lap 2: {{raceTime[1].laps[1]}}</div>
+    <div *ngIf="showLapsTime">Lap 3: {{raceTime[1].laps[2]}}</div>
+  </div>
