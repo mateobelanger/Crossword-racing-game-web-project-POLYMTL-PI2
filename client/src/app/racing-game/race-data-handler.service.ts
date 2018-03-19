@@ -30,6 +30,7 @@ export class RaceDataHandlerService {
           this._iTrackData = this.tracksProxyService.findTrack(trackname);
           this.bestTimesHandler.bestTimes = this._iTrackData.bestTimes;
           this.loadingTrackHandler.points = this._iTrackData.waypoints;
+          console.log("AAAAAAAAAAAAAAAAAAAAAAA")
        })
       .catch((err) => { console.error(err); });
   }

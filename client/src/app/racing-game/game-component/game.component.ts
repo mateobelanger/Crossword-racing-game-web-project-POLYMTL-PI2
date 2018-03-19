@@ -1,4 +1,4 @@
-import { OnInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
 import { RenderService } from "../render-service/render.service";
 import { Car } from "../car/car";
 import { RaceDataHandlerService} from "../race-data-handler.service";
@@ -13,7 +13,7 @@ const DEFAULT_TRACKNAME: string = "test";
     styleUrls: ["./game.component.css"]
 })
 
-export class GameComponent implements OnInit {
+export class GameComponent implements AfterViewInit {
 
     @ViewChild("container")
     private containerRef: ElementRef;
@@ -38,29 +38,42 @@ export class GameComponent implements OnInit {
         this.renderService.handleKeyUp(event);
     }
 
-    public async ngOnInit(): Promise<void> {
+    public async ngAfterViewInit(): Promise<void> {
         let trackName: string = this.route.snapshot.paramMap.get("trackName");
         if (!this.isDefined(trackName))
             trackName = DEFAULT_TRACKNAME;
+        /* todo: C'EST ICI
+        //Ce qu'il y avait avant :
         await this.raceDataHandlerService.initialize(trackName);
+
         this.renderService
-            .initialize(this.containerRef.nativeElement)
-            .then(/* do nothing */)
-            .catch((err) => console.error(err));
-
-        this.raceDataHandlerService.startRace();
-
-        /*await this.raceDataHandlerService.initialize(trackName)
-        .then(() => {
-            this.renderService
             .initialize(this.containerRef.nativeElement)
             .then(/* do nothing )
             .catch((err) => console.error(err));
 
+        this.raceDataHandlerService.startRace();*/
+
+        this.initializeData(trackName)
+        .then(() => {
+            this.renderService
+                .initialize(this.containerRef.nativeElement)
+                .then(/* do nothing*/ )
+                .catch((err) => console.error(err));
+
             this.raceDataHandlerService.startRace();
         })
-        .catch((err) => { console.error(err); });*/
+        .catch((err) => { console.error(err); });
     }
+
+    public async initializeData(trackname: string): Promise<void> {
+        this.raceDataHandlerService.initialize(trackname)
+        .then(() => {
+            console.log("AAAAAAAAAAAAAAAAAAAAAAA")
+         })
+        .catch((err) => { console.error(err); });
+    }
+
+
 
     public get car(): Car {
         return this.renderService.car;
