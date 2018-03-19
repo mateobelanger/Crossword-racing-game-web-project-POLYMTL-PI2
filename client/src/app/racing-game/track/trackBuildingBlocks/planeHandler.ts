@@ -23,26 +23,7 @@ export class PlaneHandler {
         this._firstPlaneId = undefined;
     }
 
-    public generateMergedPlanes(waypoints: Waypoint[], hasReversedAxes: boolean): void {
-
-        const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
-        const geometry: THREE.PlaneGeometry = geometries[0];
-
-        for ( let i: number = 1; i < geometries.length; i++) {
-            geometry.merge(geometries[i]);
-        }
-
-        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
-        const mesh: THREE.Mesh = new THREE.Mesh( geometry, material );
-
-        const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
-        mesh.rotateOnAxis(axis, Math.PI / 2);
-        this.scene.add(mesh);
-
-    }
-
     public generatePlanes(waypoints: Waypoint[], hasReversedAxes: boolean): void {
-
         const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
 
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
