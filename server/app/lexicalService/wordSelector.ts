@@ -14,7 +14,7 @@ export class WordSelector {
     private static invalidDoubles: Set<string> = ArrayHelper.arrayToSet(INVALID_DOUBLES);
     private static invalidTriples: Set<string> = ArrayHelper.arrayToSet(INVALID_TRIPLES);
 
-    public static getWords(template: string): Array<string> {
+    public static getWords(template: string): string[] {
         if (this.containsImpossibleCombinations(template, TWO_LETTER_WORDS_LENGTH)
             || this.containsImpossibleCombinations(template, THREE_LETTER_WORDS_LENGTH)) {
             return [];
@@ -25,6 +25,7 @@ export class WordSelector {
                 positions.push(i);
             }
         }
+
         const words: string[] = WORDS[template.length - MIN_WORD_LENGTH].slice();  //creates a copy of  the array
         if (positions.length === 0) {
             return ArrayHelper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));

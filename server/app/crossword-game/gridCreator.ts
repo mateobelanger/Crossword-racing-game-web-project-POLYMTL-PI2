@@ -68,14 +68,14 @@ export class GridCreator {
     }
 
     private generateGridStructure(): GridWord[] {
-        let wordsToFill: GridWord[] = [];
+        let words: GridWord[] = [];
         for (let i: number = 0; i < this._nRows; i++) {
             // generates the GridWords from rows and columns
-            wordsToFill = wordsToFill.concat(this.generateEmptyWords(this._grid[i], i, Direction.HORIZONTAL));
-            wordsToFill = wordsToFill.concat(this.generateEmptyWords(this.getColumn(i), i, Direction.VERTICAL));
+            words = words.concat(this.generateEmptyWords(this._grid[i], i, Direction.HORIZONTAL));
+            words = words.concat(this.generateEmptyWords(this.getColumn(i), i, Direction.VERTICAL));
         }
 
-        return wordsToFill;
+        return words;
     }
 
     private initializeGrid(): void {
@@ -98,15 +98,14 @@ export class GridCreator {
 
             let value: string = "";
             const headIndex: number = i;
-            while (lane[i] !== BLACK_CELL) {
-                value += lane[i];
-                if (++i >= lane.length) {
-                    break;
-                }
+            while (lane[i] !== BLACK_CELL && ++i < lane.length) {
+                value += "-";
             }
+            i--;  // will be reicremented at the end of the loop
             if (value.length < MIN_WORD_LENGTH) {
                 continue;
             }
+
             let row: number, column: number;
             if (direction === Direction.HORIZONTAL) {
                 row = index;
@@ -154,44 +153,16 @@ export class GridCreator {
         if (!this.isLoneCell(row, col)) {
             return;
         }
-        // shifts a black cell up or left depending on the position.
         this._grid[row][col] = BLACK_CELL;
-        if (col === this._nColumns - 1 && row === this._nRows - 1) {
-            this._grid[row - 1][col] = WHITE_CELL;
-
-        } else if (col === this._nColumns - 1) {
+        // shifts a black cell up unless at the bottom of the grid, then left or right.
+        if (row < this._nRows - 1) {
             this._grid[row + 1][col] = WHITE_CELL;
-
-        } else {
+        } else if (col > 0) {
             this._grid[row][col + 1] = WHITE_CELL;
+        } else {
+            this._grid[row][col - 1] = WHITE_CELL;
         }
     }
-
-    /*
-    private fixNoWords2(lane: string[]): number {
-        for (let i: number = 0; i < lane.length; i++) {
-            if (lane[i] === BLACK_CELL) {
-                continue;
-            }
-
-            let nRemovedBlackCells: number = 0;
-            for (let j: number = 1; j < MIN_WORD_LENGTH; j++) {
-                if (i >= MIN_WORD_LENGTH - 1) {
-                    if (lane[i - j] === BLACK_CELL) { nRemovedBlackCells ++; }
-                    lane[i - j] = WHITE_CELL;
-                } else {
-                    if (lane[i + j] === BLACK_CELL) { nRemovedBlackCells ++; }
-                    lane[i + j] = WHITE_CELL;
-                }
-            }
-
-            return nRemovedBlackCells;
-        }
-        // if the whole lane was black cells.
-        lane[Math.floor(Math.random() * lane.length)] = WHITE_CELL;
-
-        return this.fixNoWords(lane) + 1;
-    }*/
 
     private fixNoWords(lane: string[]): number {
         let nRemovedBlackCells: number = 0;

@@ -68,12 +68,13 @@ export class WordPlacer {
 
     private createTemplate(entry: GridEntry): string {
         let template: string = "";
+        let row: number = entry.word.row;
+        let column: number = entry.word.column;
         for (let i: number = 0; i < entry.word.size; i++) {
-            if (entry.word.direction === Direction.HORIZONTAL) {
-                template += this._grid[entry.word.row][entry.word.column + i];
-            } else {
-                template += this._grid[entry.word.row + i][entry.word.column];
-            }
+            entry.word.direction === Direction.HORIZONTAL? 
+                column = entry.word.column + i : row = entry.word.row + i;
+            
+            template += this._grid[row][column];
         }
 
         return template;
