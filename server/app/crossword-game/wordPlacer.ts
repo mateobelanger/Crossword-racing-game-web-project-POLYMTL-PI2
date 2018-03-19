@@ -34,7 +34,7 @@ export class WordPlacer {
         const current: GridEntry = this._emptyWords.pop();
         const template: string = this.createTemplate(current);
         const results: Array<string> = WordSelector.getWords(template);
-        
+
         for (const result of results) {
             if (this.isAlreadyUsed(result)) {
                 continue;
@@ -54,9 +54,9 @@ export class WordPlacer {
         return false;
     }
 
-    private initializeGrid(grid: string[][]) {
+    private initializeGrid(grid: string[][]): void {
         this._grid = [];
-        //deep copy of the passed array.
+        // deep copy of the passed array.
         for (let i: number = 0; i < DEFAULT_GRID_SIZE; i++) {
             const row: string[] = [];
             for (let j: number = 0; j < DEFAULT_GRID_SIZE; j++) {
@@ -135,7 +135,7 @@ export class WordPlacer {
     private sortByLength(): void {
         this._emptyWords.sort((entry1: GridEntry, entry2: GridEntry) => {
             return entry1.word.size - entry2.word.size;
-        })
+        });
     }
 
     private isAlreadyUsed(word: string): boolean {
