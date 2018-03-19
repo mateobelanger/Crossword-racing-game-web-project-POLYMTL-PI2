@@ -13,6 +13,7 @@ export class GridEntry {
         if (this.word.direction === entry.word.direction) {
             return false;
         }
+
         let verticalWord: GridEntry;
         let horizontalWord: GridEntry;
         if (this.word.direction === Direction.HORIZONTAL) {

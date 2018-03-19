@@ -1,5 +1,4 @@
 import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
-import { MOCK_GRID } from "./mock-grid";
 
 export const MIN_WORD_LENGTH: number = 3;
 export const DEFAULT_GRID_SIZE: number = 10;
@@ -24,7 +23,6 @@ export class GridCreator {
         this.initializeGrid();
         this.placeBlackCells(nBlackCells);
         this.fixCellsLayout();
-        this._grid = MOCK_GRID;
 
         return this.generateGridStructure();
     }
@@ -85,8 +83,8 @@ export class GridCreator {
                 continue;
             }
 
-            const headIndex: number = i;
             let value: string = "";
+            const headIndex: number = i;
             while (lane[i] !== BLACK_CELL) {
                 value += lane[i];
                 if (++i >= lane.length) {
@@ -117,7 +115,7 @@ export class GridCreator {
     private set(row: number, col: number, value: string): void {
         if (value.length !== 1 ||
             (row >= this._nRows || row < 0 || col >= this._nColumns || col < 0)) {
-            return;
+            throw new RangeError;
         }
         this._grid[row][col] = value;
     }
@@ -156,7 +154,8 @@ export class GridCreator {
         }
     }
 
-    private fixNoWords(lane: string[]): number {
+    /*
+    private fixNoWords2(lane: string[]): number {
         for (let i: number = 0; i < lane.length; i++) {
             if (lane[i] === BLACK_CELL) {
                 continue;
@@ -179,6 +178,19 @@ export class GridCreator {
         lane[Math.floor(Math.random() * lane.length)] = WHITE_CELL;
 
         return this.fixNoWords(lane) + 1;
+    }*/
+
+    private fixNoWords(lane: string[]): number {
+        let nRemovedBlackCells: number = 0;
+        while (!this.hasWords(lane)) {
+            const i: number = Math.floor(Math.random() * lane.length);
+            if (lane[i] === BLACK_CELL) {
+                nRemovedBlackCells++;
+                lane[i] = WHITE_CELL;
+            }
+        }
+
+        return nRemovedBlackCells;
     }
 
     // creates an array representing the column at the specified index.
