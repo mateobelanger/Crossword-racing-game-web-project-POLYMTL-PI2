@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GRID_SIZE } from '../../../../common/constants';
 import { WordService } from './word.service';
-import { delay } from 'q';
 
 @Injectable()
 export class ValidatorService {
