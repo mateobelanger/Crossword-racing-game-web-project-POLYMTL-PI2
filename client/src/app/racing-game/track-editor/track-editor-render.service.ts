@@ -9,6 +9,7 @@ import * as THREE from "three";
 const INITIAL_CAMERA_POSITION_Z: number = 50;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
+const IMAGE_QUALITY: number = 0.5;
 
 @Injectable()
 export class TrackEditorRenderService {
@@ -50,6 +51,11 @@ export class TrackEditorRenderService {
         return this._raycaster.intersectObject(this._backgroundPlane.getBackgroundPlane());
     }
 
+    // TODO : what is it?
+    public getMousePos(): THREE.Vector2 {
+        return this._mouse;
+    }
+
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
         // tslint:disable:no-magic-numbers
         this._mouse.x = ( event.offsetX / this._container.clientWidth ) * 2 - 1;
@@ -60,8 +66,8 @@ export class TrackEditorRenderService {
         return this._mouse;
     }
 
-    public getMousePos(): THREE.Vector2 {
-        return this._mouse;
+    public takeScreenShot(): string {
+        return this._renderer.domElement.toDataURL("image/jpeg", IMAGE_QUALITY);
     }
 
     private createScene(track: Track): void {
@@ -92,7 +98,7 @@ export class TrackEditorRenderService {
     }
 
     private startRenderingLoop(): void {
-        this._renderer = new THREE.WebGLRenderer();
+        this._renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true});
         this._renderer.setPixelRatio(devicePixelRatio);
         this._renderer.setSize(this._container.clientWidth, this._container.clientHeight);
         this._container.appendChild(this._renderer.domElement);

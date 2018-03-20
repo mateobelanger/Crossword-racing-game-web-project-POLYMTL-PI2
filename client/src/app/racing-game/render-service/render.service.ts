@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
-import * as THREE from 'three';
+import * as THREE from "three";
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
-import { SkyboxService } from '../skybox.service';
+import { SkyboxService } from "../skybox.service";
+import { LoadingTrackHandlerService } from "../loading-track-handler.service";
+
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
@@ -15,7 +17,7 @@ const CAMERA_KEYCODE: number = 67;      // c
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.8;
 
-// To see the car's point of departure
+// To see the car"s point of departure
 const HELPER_AXES_SIZE: number = 500;
 const HELPER_GRID_SIZE: number = 50;
 
@@ -37,8 +39,10 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-                       private skyboxService: SkyboxService ) {
+                       private skyboxService: SkyboxService,
+                       private loadingTrackHandlerService: LoadingTrackHandlerService ) {
         this._car = new Car();
+
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -54,6 +58,8 @@ export class RenderService {
     private initStats(): void {
         this.stats = new Stats();
         this.stats.dom.style.position = "absolute";
+        this.stats.dom.style.top = 'initial';
+        this.stats.dom.style.bottom = '0px';
         this.container.appendChild(this.stats.dom);
     }
 
@@ -64,11 +70,11 @@ export class RenderService {
     }
 
     private async createScene(): Promise<void> {
+        console.log("BBBBBBBBBBBBBBBBB")
         this.scene = new THREE.Scene();
 
         await this._car.init();
         this.scene.add(this._car);
-
 
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
@@ -80,6 +86,9 @@ export class RenderService {
 
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
+
+
+        this.loadingTrackHandlerService.initialize(this.scene);
     }
 
     private startRenderingLoop(): void {

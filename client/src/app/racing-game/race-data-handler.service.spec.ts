@@ -1,71 +1,57 @@
 import { TestBed, inject } from '@angular/core/testing';
-
+import { TracksProxyService} from "./tracks-proxy.service";
 import { RaceDataHandlerService } from './race-data-handler.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BestTimeHandlerService } from './bestTimes/best-time-handler.service';
+import { LoadingTrackHandlerService } from './loading-track-handler.service';
 // tslint:disable:no-magic-numbers
 describe('RaceDataHandlerService', () => {
 
-  let raceDataHandler: RaceDataHandlerService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RaceDataHandlerService]
+      imports: [HttpClientTestingModule],
+      providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, LoadingTrackHandlerService]
     });
-    raceDataHandler = new RaceDataHandlerService();
 
     jasmine.addCustomEqualityTester((nb1, nb2) => {
       if (typeof nb1 === "number" && typeof nb2 === "number")
         return Math.abs(nb1 - nb2) < 0.0001;
+
+      return false;
     });
 
   });
 
-  it('should be created', inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
+  it('should be created', inject([RaceDataHandlerService],
+                                 (service: RaceDataHandlerService) => {
     expect(service).toBeTruthy();
   }));
 
-  it("doneLap -> nbLap < 3", () => {
+  it("doneLap -> nbLap < 3", inject([RaceDataHandlerService],
+                                    (service: RaceDataHandlerService) => {
       const timeLaps: number[] = [10.4, 14];
-      let totalTime: number = 0;
       timeLaps.forEach((elem) => {
-        totalTime += elem;
-        raceDataHandler.doneLap(totalTime);
+        service.doneLap();
       });
       timeLaps.push(0);
-      expect(raceDataHandler.timeLaps).toEqual(timeLaps);
-      expect(raceDataHandler.lapElapsed).toEqual(timeLaps.length - 1);
-  });
+      expect(service.lapElapsed).toEqual(timeLaps.length - 1);
+  }));
 
-  it("doneLap -> nbLap = 3", () => {
+  it("doneLap -> nbLap = 3", inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
     const timeLaps: number[] = [10.4, 25, 35];
-    let totalTime: number = 0;
     timeLaps.forEach((elem) => {
-      totalTime += elem;
-      raceDataHandler.doneLap(totalTime);
+      service.doneLap();
     });
-    expect(raceDataHandler.timeLaps).toEqual(timeLaps);
-    expect(raceDataHandler.lapElapsed).toEqual(timeLaps.length);
-  });
+    expect(service.lapElapsed).toEqual(timeLaps.length);
+  }));
 
-  it("doneLap -> nbLap > 3, should not get higher than 3", () => {
+  it("doneLap -> nbLap > 3, should not get higher than 3", inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
     const timeLaps: number[] = [10.4, 25, 35, 45, 67, 89];
-    let totalTime: number = 0;
     timeLaps.forEach((elem) => {
-      totalTime += elem;
-      raceDataHandler.doneLap(totalTime);
+      service.doneLap();
     });
-    expect(raceDataHandler.timeLaps).toEqual([10.4, 25, 35]);
-    expect(raceDataHandler.lapElapsed).toEqual(3);
-  });
-
-  it("totalTime", () => {
-    const timeLaps: number[] = [10.4, 25, 35];
-    let totalTime: number = 0;
-
-    timeLaps.forEach((elem) => {
-      totalTime += elem;
-      raceDataHandler.doneLap(totalTime);
-    });
-    expect(raceDataHandler.totalTime()).toEqual(totalTime);
-  });
+    expect(service.lapElapsed).toEqual(3);
+  }));
 
 });
+

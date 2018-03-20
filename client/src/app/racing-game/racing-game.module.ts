@@ -14,6 +14,14 @@ import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { routes } from "../app-routes.module";
 import { RaceDataHandlerService } from "./race-data-handler.service";
+import { SpeedComponent } from './game-infos/speed/speed.component';
+import { LapComponent } from './game-infos/lap/lap.component';
+import { TimeComponent } from './game-infos/time/time.component';
+import { PositionComponent } from './game-infos/position/position.component';
+import { BestTimesComponent } from './bestTimes/best-times/best-times.component';
+import { BestTimeHandlerService } from "./bestTimes/best-time-handler.service";
+import { LoadingTrackHandlerService } from "./loading-track-handler.service";
+
 @NgModule({
 
   imports: [
@@ -26,7 +34,12 @@ import { RaceDataHandlerService } from "./race-data-handler.service";
   declarations: [
     RacingGameComponent,
     GameComponent,
-    RacingGameSceneComponent
+    RacingGameSceneComponent,
+    SpeedComponent,
+    LapComponent,
+    TimeComponent,
+    PositionComponent,
+    BestTimesComponent,
   ],
 
   exports: [
@@ -40,7 +53,9 @@ import { RaceDataHandlerService } from "./race-data-handler.service";
     CameraService,
     SkyboxService,
     TracksProxyService,
-    RaceDataHandlerService
+    RaceDataHandlerService,
+    BestTimeHandlerService,
+    LoadingTrackHandlerService
   ],
 
 })

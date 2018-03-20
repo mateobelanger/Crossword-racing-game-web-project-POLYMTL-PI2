@@ -39,7 +39,7 @@ export class MongoDBService {
 
         router.patch(   "/service/mongoDB/:name",
                         async (req: Request, res: Response) => {
-                            const trackName: string = await MongoDBAccess.incrementTimesPlayed(req.params.name);
+                            const trackName: String = await MongoDBAccess.incrementTimesPlayed(req.params.name);
                             res.send(trackName);
                         });
 

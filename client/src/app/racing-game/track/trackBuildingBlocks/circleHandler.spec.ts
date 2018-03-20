@@ -16,7 +16,7 @@ describe("CircleHandler", () => {
             waypoints.push(waypoint);
         }
         circleHandler = new CircleHandler(scene);
-        circleHandler.generateCircles(waypoints);
+        circleHandler.generateCircles(waypoints, false);
     });
 
     afterEach(() => {

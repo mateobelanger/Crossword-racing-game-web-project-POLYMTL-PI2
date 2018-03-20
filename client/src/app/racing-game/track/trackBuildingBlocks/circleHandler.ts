@@ -1,8 +1,9 @@
 import { Waypoint } from "../trackData/waypoint";
-import { POINT } from "../../constants";
+import { POINT, CIRCLE_POSITION_Z } from "../../constants";
 import * as THREE from "three";
 
 const CIRCLE_RADIUS: number = 10;
+const CIRCLE_QUALITY: number = 15;
 
 export class CircleHandler {
 
@@ -12,13 +13,19 @@ export class CircleHandler {
         this.meshs = [];
     }
 
-    public generateCircles(waypoints: Waypoint[]): void {
+    public generateCircles(waypoints: Waypoint[], hasReversedAxes: boolean): void {
         const circleGeometries: THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
+
         const material: THREE.MeshBasicMaterial = this.getCircleMaterial();
         circleGeometries.forEach((geometry, index) => {
             const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ? this.getFirstCircleMaterial() : material );
             this.meshs.push(mesh);
             mesh.name = POINT;
+
+            mesh.position.z = CIRCLE_POSITION_Z;
+            const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+            hasReversedAxes ? mesh.rotateOnAxis(axis, Math.PI / 2) : mesh.rotateOnAxis(axis, 0);
+
             this.scene.add(mesh);
             this.bindMesh(mesh, waypoints[index]);
         });
@@ -62,7 +69,7 @@ export class CircleHandler {
     private generateCircleGeometry(nCircles: number): THREE.Geometry[] {
         const circleGeometries: THREE.Geometry[] = [];
         for (let i: number = 0; i < nCircles ; i++) {
-          const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLE_RADIUS);
+          const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLE_RADIUS, CIRCLE_QUALITY);
           circleGeometries.push(circleGeometry);
           }
 
@@ -70,14 +77,15 @@ export class CircleHandler {
       }
 
     private getFirstCircleMaterial(): THREE.MeshBasicMaterial {
-        let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture_3.png");
+        const createTexture: THREE.Texture =
+        new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v2.jpg");
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
     private getCircleMaterial(): THREE.MeshBasicMaterial {
-        const createTexture: THREE.Texture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture.png");
+        const createTexture: THREE.Texture =
+              new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v2.jpg");
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
