@@ -75,9 +75,10 @@ export class RenderService {
 
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        const helper: THREE.BoxHelper = new THREE.BoxHelper(this._car.mesh, 0xFF0000);
+        const helper: THREE.BoxHelper = new THREE.BoxHelper(this._car.mesh, new THREE.Color(0xFF0000));
         this.scene.add(helper);
         this._car.update(timeSinceLastFrame);
+        this._carForCollision.update(timeSinceLastFrame);
         this.lastDate = Date.now();
     }
 
@@ -112,8 +113,9 @@ export class RenderService {
         // ***
 
         this.loadingTrackHandlerService.initialize(this.scene);
-        const helper: THREE.BoxHelper = new THREE.BoxHelper(this._car.mesh, 0xFF0000);
-        this.scene.add(helper);
+
+        // const helper: THREE.BoxHelper = new THREE.BoxHelper(this._car.mesh, new THREE.Color(0xFF0000));
+        // this.scene.add(helper);
     }
 
     private startRenderingLoop(): void {
@@ -132,6 +134,7 @@ export class RenderService {
 
         if (this._car.box.intersectsBox(this._carForCollision.box)) {
             console.log("collision");
+            this.carCollision(this._car, this._carForCollision);
         }
 
         this.renderer.render(this.scene, this.cameraService.getCamera());
@@ -181,5 +184,11 @@ export class RenderService {
             default:
                 break;
         }
+    }
+
+    private carCollision(car1: Car, car2: Car): void {
+        const temp: THREE.Vector3 = car2.speed.clone();
+        car1.speed = car2.speed;
+        car2.speed = temp;
     }
 }
