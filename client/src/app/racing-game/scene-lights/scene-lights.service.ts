@@ -9,26 +9,29 @@ const middlePointZ: number = EDITOR_LAND_HEIGHT / EDITOR_LAND_DIVISOR ;
 const POINT_LIGHT_POSITION_Y: number = 30;
 const POINT_LIGHT_COLOR: number = 0x7DFDFE;
 const AMBIENT_LIGHT_OPACITY_DAY: number = 1;
-// const AMBIENT_LIGHT_OPACITY_NIGHT: number = 0;
+const AMBIENT_LIGHT_OPACITY_NIGHT: number = 0;
 const MAP_SIZE: number = 512;
 
-// const AMBIENT_LIGHT_NAME: string = "ambientLight";
+const AMBIENT_LIGHT_NAME: string = "ambientLight";
 const AMBIENT_LIGHT_COLOR: number = 0xFFFFFF;
 const AMBIENT_LIGHT_DISTANCE_OPACITY: number = 500;
+
+export enum SceneState { DAY, NIGHT }
 
 @Injectable()
 export class SceneLightsService {
 
 
     private scene: THREE.Scene;
+    private sceneState: SceneState;
     private pointLight: THREE.PointLight;
     private ambientLight: THREE.AmbientLight;
-    //private sceneLightsOpacity: number;
 
     public constructor() {
         this.scene = null;
         this.pointLight = null;
         this.ambientLight = null;
+        this.sceneState = SceneState.DAY;
     }
 
     public initialize(scene: THREE.Scene): void {
@@ -37,39 +40,47 @@ export class SceneLightsService {
         this.generateLights();
     }
 
-    /*
-    public updateLights(sceneState: SceneState): void {
-        this.sceneLightsOpacity = sceneState === SceneState.DAY ? AMBIENT_LIGHT_OPACITY_DAY : AMBIENT_LIGHT_OPACITY_NIGHT;
-        this.generateAmbientLight();
-    }*/
 
-    private generateLights(): void {
-        this.generateAmbientLight();
-        this.generatePointLights();
+
+
+    public changeSceneState(): void {
+        this.sceneState = this.sceneState === SceneState.DAY ? SceneState.NIGHT : SceneState.DAY;
+        this.addAmbientLight();
     }
 
-    private generateAmbientLight(): void {
-        /*if (this.ambientLight === null) {
-            this.ambientLight.name = AMBIENT_LIGHT_NAME;
-        } else {
+    private generateLights(): void {
+        this.addAmbientLight();
+        this.addPointLights();
+    }
+
+    private addAmbientLight(): void {
+        this.generateAmbientLight();
+
+        if (this.ambientLight !== null) {
             const selectedAmbientLight: THREE.Object3D = this.scene.getObjectByName(AMBIENT_LIGHT_NAME);
             this.scene.remove(selectedAmbientLight);
-        }*/
+        }
 
-        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY_DAY);
         this.scene.add(this.ambientLight);
     }
 
-    private generatePointLights(): void {
-        this.addPointLight(0, 0);
-        this.addPointLight(middlePointX, middlePointZ);
-        this.addPointLight(-middlePointX, middlePointZ);
-        this.addPointLight(middlePointX, -middlePointZ);
-        this.addPointLight(-middlePointX, -middlePointZ);
+
+    private generateAmbientLight(): void {
+        const opacity: number = this.sceneState === SceneState.DAY ? AMBIENT_LIGHT_OPACITY_DAY : AMBIENT_LIGHT_OPACITY_NIGHT;
+        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, opacity);
+        this.ambientLight.name = AMBIENT_LIGHT_NAME;
+    }
+
+    private addPointLights(): void {
+        this.generatePointLight(0, 0);
+        this.generatePointLight(middlePointX, middlePointZ);
+        this.generatePointLight(-middlePointX, middlePointZ);
+        this.generatePointLight(middlePointX, -middlePointZ);
+        this.generatePointLight(-middlePointX, -middlePointZ);
     }
 
 
-    private addPointLight(positionX: number, positionZ: number): void {
+    private generatePointLight(positionX: number, positionZ: number): void {
         this.pointLight = new THREE.PointLight( POINT_LIGHT_COLOR, 1, AMBIENT_LIGHT_DISTANCE_OPACITY);
         this.pointLight.castShadow = true;
         this.pointLight.shadow.mapSize.width = MAP_SIZE;
