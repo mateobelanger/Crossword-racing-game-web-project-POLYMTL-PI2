@@ -19,20 +19,16 @@ export class CircleHandler {
         const material: THREE.MeshBasicMaterial = this.getCircleMaterial();
         circleGeometries.forEach((geometry, index) => {
             const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ? this.getFirstCircleMaterial() : material );
-            this.meshs.push(mesh);
             mesh.name = POINT;
-
             mesh.position.z = CIRCLE_POSITION_Z;
             const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
             hasReversedAxes ? mesh.rotateOnAxis(axis, Math.PI / 2) : mesh.rotateOnAxis(axis, 0);
-
 
             this.bindMesh(mesh, waypoints[index]);
         });
         this.meshs.forEach((mesh) => {
             this.scene.add(mesh);
         });
-
       }
 
     public removeCircle(meshId: number): void {

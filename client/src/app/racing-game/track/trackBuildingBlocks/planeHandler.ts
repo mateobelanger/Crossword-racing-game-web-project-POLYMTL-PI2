@@ -16,11 +16,13 @@ export class PlaneHandler {
 
 
     private _planes: Plane[];
+    private meshs: THREE.Mesh[];
     private _firstPlaneId: number;
 
     public constructor(private scene: THREE.Scene) {
         this._planes = [];
         this._firstPlaneId = undefined;
+        this.meshs = [];
     }
 
     public generatePlanes(waypoints: Waypoint[], hasReversedAxes: boolean): void {
@@ -44,9 +46,13 @@ export class PlaneHandler {
 
             hasReversedAxes ? plane.mesh.rotateOnAxis(axis, Math.PI / 2) : plane.mesh.rotateOnAxis(axis, 0);
 
-            this.scene.add(plane.mesh);
+            this.meshs.push(plane.mesh);
             this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
         }
+
+        this.meshs.forEach((mesh) => {
+            this.scene.add(mesh);
+        });
     }
 
     public removePlane(meshId: number): void {

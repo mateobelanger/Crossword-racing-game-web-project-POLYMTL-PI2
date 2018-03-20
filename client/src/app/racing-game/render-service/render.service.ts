@@ -86,7 +86,6 @@ export class RenderService {
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
 
-
         this.loadingTrackHandlerService.initialize(this.scene);
     }
 

@@ -4,11 +4,9 @@ import { PlaneHandler } from './track/trackBuildingBlocks/planeHandler';
 import * as THREE from "three";
 import { CircleHandler } from './track/trackBuildingBlocks/circleHandler';
 
-// ***
 const X: number = 0;
 const Y: number = 1;
 const Z: number = 2;
-
 
 const SCENE_SCALE: number = 1;
 
