@@ -1,7 +1,7 @@
 import { TestBed, inject } from "@angular/core/testing";
-import { HttpClient } from "@angular/common/http";
 import { WordService } from "./word.service";
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { HttpClientModule } from "@angular/common/http";
 
 // tslint:disable: no-magic-numbers
 
@@ -19,27 +19,25 @@ describe('WordService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-          providers: [WordService]
+            imports: [HttpClientModule],
+            providers: [WordService]
         });
 
-        wordService.words = words;
-
+        wordService = TestBed.get(WordService);
+        wordService["_words"] = words;
     });
 
-    it("should be created", inject([WordService], (service: WordService) => {
-        expect(service).toBeTruthy();
-    }));
-
+    it("should be created", () => {
+        expect(wordService).toBeTruthy();
+    });
 
     it("should return the selected word", () => {
         wordService["_selectedWord"] = word1;
-
         expect(wordService.selectedWord).toBe(word1);
     });
 
     it("should return the definition of the selected word", () => {
         wordService["_selectedWord"] = word1;
-
         expect(wordService.definition).toBe(word1.definition);
     });
 
@@ -50,14 +48,12 @@ describe('WordService', () => {
     it("should set the definition of the selected word properly", () => {
         wordService["_selectedWord"] = word1;
         wordService.definition = word2.definition;
-
         expect(wordService.definition).toBe(word2.definition);
     });
 
     it("should deselect the selected word properly", () => {
         wordService["_selectedWord"] = word1;
         wordService.deselect();
-
         expect(wordService.selectedWord).toBeNull();
     });
 
@@ -86,14 +82,12 @@ describe('WordService', () => {
 
     it("should select the right horizontal word from the grid coordinates if no word is initially selected", () => {
         wordService.selectWord(0, 0);
-
         expect(wordService.selectedWord.value).toBe(word1.value);
     });
 
     it("should select the right vectical word from the grid coordinates if a perpendicular word is initially selected", () => {
         wordService.selectWord(0, 0);
         wordService.selectWord(0, 0);
-
         expect(wordService.selectedWord.value).toBe(word2.value);
     });
 

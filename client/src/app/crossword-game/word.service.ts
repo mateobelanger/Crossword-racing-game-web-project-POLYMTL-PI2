@@ -84,7 +84,7 @@ export class WordService {
         this._selectedWord = null;
     }
 
-    private fetchWords(difficulty: string = "easy"): Promise<GridWord[]> {
+    private fetchWords(difficulty: string): Promise<GridWord[]> {
         return this._http.get<GridWord[]>(GRID_GENERATOR_URL + difficulty).toPromise();
     }
 
