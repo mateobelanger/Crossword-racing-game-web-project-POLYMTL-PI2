@@ -1,10 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-<<<<<<< HEAD
-import { Direction, GridWord } from '../../../../common/crosswordsInterfaces/word';
-=======
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
->>>>>>> refactoring
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
 import { ValidatorService } from './validator.service';
