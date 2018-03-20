@@ -46,7 +46,7 @@ describe("LoadingTrackHandlerService", () => {
     expect(scene.children.length).toBeGreaterThan(0);
 
     // expect(scene.children.length).toEqual(NUMBER_OF_POINTS * 2);
-    console.log(scene.children);
+    // console.log(scene.children);
 
     // for (let i: number = 0; i <= NUMBER_OF_POINTS; i++) {
     //   expect(loadingTrackHandlerService.waypoints[i].position.x).toBe(points[i][0]);

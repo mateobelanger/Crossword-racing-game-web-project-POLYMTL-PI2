@@ -70,7 +70,6 @@ export class RenderService {
     }
 
     private async createScene(): Promise<void> {
-        console.log("BBBBBBBBBBBBBBBBB")
         this.scene = new THREE.Scene();
 
         await this._car.init();

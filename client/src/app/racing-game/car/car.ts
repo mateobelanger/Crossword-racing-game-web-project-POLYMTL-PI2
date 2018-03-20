@@ -64,6 +64,14 @@ export class Car extends Object3D {
         this._speed = new Vector3(0, 0, 0);
     }
 
+    public getPosition(): Vector3 {
+        return this.mesh.position;
+    }
+
+    public setPosition(position: Vector3): void {
+        this.mesh.position.set(position.x, position.y, position.z);
+    }
+
     public get speed(): Vector3 {
         return this._speed.clone();
     }
@@ -84,7 +92,7 @@ export class Car extends Object3D {
         return this._mesh;
     }
 
-    private get direction(): Vector3 {
+    public get direction(): Vector3 {
         const rotationMatrix: Matrix4 = new Matrix4();
         const carDirection: Vector3 = new Vector3(0, 0, -1);
 
