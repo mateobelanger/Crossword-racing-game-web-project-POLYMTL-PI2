@@ -19,7 +19,7 @@
 }
 
 .background{
-    background: url("../../../../assets/time_table/background.png") fixed no-repeat;
+    background: url("../../../../assets/time_table/background.png") fixed repeat;
 }
 
 .tableTitleBlock {
@@ -39,7 +39,7 @@
 }
 
 .resultsBlock {
-    height: 400px;
+    height: 250px;
     display: flex;
     justify-content: top;
     align-items: top;
