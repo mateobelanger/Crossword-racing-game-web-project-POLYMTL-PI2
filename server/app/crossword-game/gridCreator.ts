@@ -98,8 +98,11 @@ export class GridCreator {
 
             let value: string = "";
             const headIndex: number = i;
-            while (lane[i] !== BLACK_CELL && ++i < lane.length) {
+            while (lane[i] !== BLACK_CELL) {
                 value += "-";
+                if (++i === lane.length) {
+                    break;
+                }
             }
             i--;  // will be reicremented at the end of the loop
             if (value.length < MIN_WORD_LENGTH) {
