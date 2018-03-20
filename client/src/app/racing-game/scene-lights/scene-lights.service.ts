@@ -22,7 +22,11 @@ export class SceneLightsService {
     private pointLight: THREE.PointLight;
     private ambientLight: THREE.AmbientLight;
 
-    public constructor() { }
+    public constructor() {
+        this.scene = null;
+        this.pointLight = null;
+        this.ambientLight = null;
+    }
 
     public initialize(scene: THREE.Scene): void {
         this.scene = scene;

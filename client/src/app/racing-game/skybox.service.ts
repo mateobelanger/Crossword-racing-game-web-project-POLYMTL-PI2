@@ -31,7 +31,7 @@ export class SkyboxService {
       this.generateBackgroundView();
     }
 
-    public generateSkybox(): void {
+    private generateSkybox(): void {
       this.scene.background = new THREE.CubeTextureLoader()
         .setPath("../../../assets/skybox/" + this.skyboxName + "/" + this.skyboxSate + "/")
         .load([
@@ -45,7 +45,7 @@ export class SkyboxService {
     }
 
 
-    public generateBackgroundView(): void {
+    private generateBackgroundView(): void {
       const texture: THREE.Texture = new THREE.TextureLoader().load("../../../assets/skybox/cell_bg.png");
 
       texture.wrapS = THREE.RepeatWrapping;

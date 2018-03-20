@@ -4,8 +4,7 @@ import * as THREE from 'three';
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
-import { SkyboxService } from '../skybox.service';
-import { SceneLightsService } from "../scene-lights/scene-lights.service";
+import { SceneLoadingService } from "../scene-loading/scene-loading.service";
 
 
 
@@ -38,8 +37,7 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-                       private skyboxService: SkyboxService,
-                       private sceneLightsService: SceneLightsService ) {
+                       private sceneLoadingService: SceneLoadingService) {
         this._car = new Car();
     }
 
@@ -77,8 +75,7 @@ export class RenderService {
         //this.scene.add(this.gridHelper);
 
         this.cameraService.initialize(this.container, this._car.mesh);
-        this.skyboxService.initialize(this.scene);
-        this.sceneLightsService.initialize(this.scene);
+        this.sceneLoadingService.initialize(this.scene);
     }
 
     /*
