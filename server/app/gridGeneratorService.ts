@@ -18,7 +18,9 @@ export class GridGeneratorService {
                    async (req: Request, res: Response) => {
                         creator = new GridCreator();
                         placer = new WordPlacer(creator.create(N_BLACK_CELLS), creator.grid);
-                        await placer.placeWords(difficulty, res);
+                        if(await placer.placeWords(difficulty)) {
+                            res.send(placer.words);
+                        }
             });
 
         return router;

@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
 import { GridEntry } from "./GridEntry";
 import { WordSelector } from "../lexicalService/wordSelector";
@@ -24,27 +23,28 @@ export class WordPlacer {
         return this._grid;
     }
 
-    public async placeWords(difficulty: string, res: Response): Promise<boolean> {
-        if (this._emptyWords.length === 0) {
-            res.send(this.entriesToWords(this._placedWords));
+    public get words(): GridWord[] {
+        return this._placedWords;
+    }
 
+    public async placeWords(difficulty: string): Promise<boolean> {
+        if (this._emptyWords.length === 0) {
             return true;
         }
 
         const current: GridEntry = this._emptyWords.pop();
         const template: string = this.createTemplate(current);
-        const results: Array<string> = WordSelector.getWords(template);
-
+        const results: string[] = WordSelector.getWords(template);
         for (const result of results) {
             if (this.isAlreadyUsed(result)) {
                 continue;
             }
-            current.word.value = result;
-            current.word.definition = result; // TODO : TEST BEFORE ADDING DEFINITIONS WITH DATAMUSE
+            current.value = result;
+            current.definition = result; // TODO : TEST BEFORE ADDING DEFINITIONS WITH DATAMUSE
             this._placedWords.push(current);
 
             this.update();
-            if (await this.placeWords(difficulty, res)) {
+            if (await this.placeWords(difficulty)) {
                 return true;
             }
         }
@@ -70,11 +70,11 @@ export class WordPlacer {
 
     private createTemplate(entry: GridEntry): string {
         let template: string = "";
-        let row: number = entry.word.row;
-        let column: number = entry.word.column;
-        for (let i: number = 0; i < entry.word.size; i++) {
-            entry.word.direction === Direction.HORIZONTAL? 
-                column = entry.word.column + i : row = entry.word.row + i;
+        let row: number = entry.row;
+        let column: number = entry.column;
+        for (let i: number = 0; i < entry.size; i++) {
+            entry.direction === Direction.HORIZONTAL? 
+                column = entry.column + i : row = entry.row + i;
             
             template += this._grid[row][column];
         }
@@ -98,11 +98,11 @@ export class WordPlacer {
             }
         }
         for (const entry of this._placedWords) {
-            for (let i: number = 0; i < entry.word.size; i++) {
-                if (entry.word.direction === Direction.HORIZONTAL) {
-                    this._grid[entry.word.row][entry.word.column + i] = entry.word.value[i];
+            for (let i: number = 0; i < entry.size; i++) {
+                if (entry.direction === Direction.HORIZONTAL) {
+                    this._grid[entry.row][entry.column + i] = entry.value[i];
                 } else {
-                    this._grid[entry.word.row + i][entry.word.column] = entry.word.value[i];
+                    this._grid[entry.row + i][entry.column] = entry.value[i];
                 }
             }
         }
@@ -118,7 +118,7 @@ export class WordPlacer {
             }
         }
         for (const entry of this._emptyWords) {
-            entry.weight /= entry.word.size;
+            entry.weight /= entry.size;
         }
     }
 
@@ -137,26 +137,17 @@ export class WordPlacer {
 
     private sortByLength(): void {
         this._emptyWords.sort((entry1: GridEntry, entry2: GridEntry) => {
-            return entry1.word.size - entry2.word.size;
+            return entry1.size - entry2.size;
         });
     }
 
     private isAlreadyUsed(word: string): boolean {
         for (const w of this._placedWords) {
-            if (w.word.value === word) {
+            if (w.value === word) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    private entriesToWords(entries: GridEntry[]): GridWord[] {
-        const words: GridWord[] = [];
-        for (const entry of entries) {
-            words.push(entry.word);
-        }
-
-        return words;
     }
 }
