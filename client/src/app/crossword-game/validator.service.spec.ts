@@ -11,7 +11,7 @@ const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
 const word3: GridWord = new GridWord (0, 2, Direction.VERTICAL, "tom", "__ a la ferme.");
 
-const words: GridWord[] = [word1, word2, word3];
+//const words: GridWord[] = [word1, word2, word3];
 
 describe('ValidatorService', () => {
 
@@ -38,9 +38,9 @@ describe('ValidatorService', () => {
                       [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""]];
 
         validatedWords = [word2, word3];
-
+        /*
         wordService = new WordService();
-        wordService.words = words;
+        wordService.words = words;*/
         validatorService = new ValidatorService(wordService);
         validatorService["validatedWords"] = validatedWords;
     });

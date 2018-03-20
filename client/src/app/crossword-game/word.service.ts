@@ -1,42 +1,55 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http"
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { words } from "./mock-words";
+import { words as mockWords } from "./mock-words";
 import { GRID_SIZE } from '../../../../common/constants';
+
+export const GRID_GENERATOR_URL: string = "http://localhost:3000/service/gridgenerator/";
 
 @Injectable()
 export class WordService {
-    public words: GridWord[];
+    private _words: GridWord[];
     private _selectedWord: GridWord;
 
-    public constructor() {
-        this.words = words;
+    public constructor(private _http: HttpClient) {
+        this._words = [];
         this._selectedWord = null;
+    }
+    
+    public get words(): GridWord[] {
+        return this._words;
     }
 
     public get selectedWord(): GridWord {
         return this._selectedWord;
     }
-
+    
     public get definition(): string {
         if (this._selectedWord === null) {
             return null;
         }
-
+        
         return this._selectedWord.definition;
     }
-
+    
     public set definition(definition: string) {
-        for (const word of this.words) {
+        for (const word of this._words) {
             if (word.definition === definition) {
                 this._selectedWord = word;
-
-                return;
+                break;
             }
         }
     }
 
+    // public method to be initialized only once the words are fetched from the server.
+    public async initialize(difficulty: string = "easy"): Promise<void> {
+        await this.fetchWords(difficulty) 
+                .then(httpWords => { this._words = this.castHttpToGridWordObj(httpWords); })
+                .catch(() => { this._words = mockWords; });  // default grid if any problem occurs.
+    }
+    
     public selectWord(row: number, column: number): void {
-        for (const word of this.words) {
+        for (const word of this._words) {
             if (word === this._selectedWord) {
                 continue;
             }
@@ -46,14 +59,14 @@ export class WordService {
             }
         }
     }
-
+    
     public getDefinitions(direction: Direction): string[][] {
         const definitions: string[][] = [];
         for (let i: number = 0; i < GRID_SIZE; i++) {
             definitions.push([]);
         }
-
-        for (const word of this.words) {
+        
+        for (const word of this._words) {
             if (word.direction !== direction) {
                 continue;
             }
@@ -63,12 +76,25 @@ export class WordService {
                 definitions[word.column].push(word.definition);
             }
         }
-
+        
         return definitions;
     }
-
+    
     public deselect(): void {
         this._selectedWord = null;
     }
 
+    private fetchWords(difficulty: string = "easy"): Promise<GridWord[]> {
+        return this._http.get<GridWord[]>(GRID_GENERATOR_URL + difficulty).toPromise();
+    }
+
+    // The http response doesn't send actual GridWords object (ie. methods don't exist)
+    private castHttpToGridWordObj(httpWords: GridWord[]) {
+        const words: GridWord[] = [];
+        for (const word of httpWords) {
+            words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
+        }
+
+        return words;
+    }
 }

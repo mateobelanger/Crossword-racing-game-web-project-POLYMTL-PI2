@@ -28,8 +28,6 @@ const words: GridWord[] = [word1, word2, word3, word4, word5, word6];
 
 
 describe('GridService', () => {
-
-
     let wordService: WordService;
     let userGrid: string[][];
     let gridService: GridService;
@@ -48,9 +46,9 @@ describe('GridService', () => {
                     [ "", "",  "",  "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""]];
 
         validatedWords = [word2, word4];
-
+        /*
         wordService = new WordService();
-        wordService.words = words;
+        wordService.words = words;*/
 
         validatorService = new ValidatorService(wordService);
         validatorService["validatedWords"] = validatedWords;
