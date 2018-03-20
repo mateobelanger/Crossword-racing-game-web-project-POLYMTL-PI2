@@ -63,7 +63,7 @@ export class CameraService {
     }
 
     public changeCamera(): void {
-        this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
+        this.camera = this.camera === CameraType.PERSPECTIVE ? CameraType.ORTHOGRAPHIC : CameraType.PERSPECTIVE;
     }
 
     private initializeOrhographicCamera(): void {

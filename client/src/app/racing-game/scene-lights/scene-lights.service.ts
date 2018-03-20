@@ -8,9 +8,11 @@ const middlePointZ: number = EDITOR_LAND_HEIGHT / EDITOR_LAND_DIVISOR ;
 
 const POINT_LIGHT_POSITION_Y: number = 30;
 const POINT_LIGHT_COLOR: number = 0x7DFDFE;
-const AMBIENT_LIGHT_OPACITY: number = 0.5;
+const AMBIENT_LIGHT_OPACITY_DAY: number = 1;
+// const AMBIENT_LIGHT_OPACITY_NIGHT: number = 0;
 const MAP_SIZE: number = 512;
 
+// const AMBIENT_LIGHT_NAME: string = "ambientLight";
 const AMBIENT_LIGHT_COLOR: number = 0xFFFFFF;
 const AMBIENT_LIGHT_DISTANCE_OPACITY: number = 500;
 
@@ -21,6 +23,7 @@ export class SceneLightsService {
     private scene: THREE.Scene;
     private pointLight: THREE.PointLight;
     private ambientLight: THREE.AmbientLight;
+    //private sceneLightsOpacity: number;
 
     public constructor() {
         this.scene = null;
@@ -34,13 +37,26 @@ export class SceneLightsService {
         this.generateLights();
     }
 
+    /*
+    public updateLights(sceneState: SceneState): void {
+        this.sceneLightsOpacity = sceneState === SceneState.DAY ? AMBIENT_LIGHT_OPACITY_DAY : AMBIENT_LIGHT_OPACITY_NIGHT;
+        this.generateAmbientLight();
+    }*/
+
     private generateLights(): void {
         this.generateAmbientLight();
         this.generatePointLights();
     }
 
     private generateAmbientLight(): void {
-        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY);
+        /*if (this.ambientLight === null) {
+            this.ambientLight.name = AMBIENT_LIGHT_NAME;
+        } else {
+            const selectedAmbientLight: THREE.Object3D = this.scene.getObjectByName(AMBIENT_LIGHT_NAME);
+            this.scene.remove(selectedAmbientLight);
+        }*/
+
+        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY_DAY);
         this.scene.add(this.ambientLight);
     }
 

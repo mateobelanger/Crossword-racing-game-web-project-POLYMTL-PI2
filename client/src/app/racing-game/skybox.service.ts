@@ -1,9 +1,12 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { LAND_WIDTH, LAND_HEIGHT, BACKGROUND_PLANE_POSITION_Y } from "./constants";
+////import { SceneState } from "./scene-loading/scene-loading.service";
 
 const SKYBOXES: Array<string> = ["clouds", "interstellar", "moon", "ocean",
                                  "sand", "storm", "sunset"];
+
+const SCENE_STATE: Array<string> = ["day", "night"];
 
 const REPEAT_IMAGE_X: number = 500;
 const REPEAT_IMAGE_Z: number = 400;
@@ -26,7 +29,8 @@ export class SkyboxService {
     public initialize(scene: THREE.Scene): void {
       this.scene = scene;
       this.skyboxName = SKYBOXES[4 /*Math.floor(Math.random() * SKYBOXES.length)*/];
-      this.skyboxSate = "day";
+      //this.skyboxSate = sceneState === SceneState.DAY ? SCENE_STATE[0] : SCENE_STATE[1];
+      this.skyboxSate = SCENE_STATE[0];
       this.generateSkybox();
       this.generateBackgroundView();
     }

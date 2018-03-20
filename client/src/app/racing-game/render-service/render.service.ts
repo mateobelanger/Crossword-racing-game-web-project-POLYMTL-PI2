@@ -13,6 +13,7 @@ const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 const CAMERA_KEYCODE: number = 67;      // c
+const SCENE_STATE_KEYCODE: number = 78; // n
 
 
 // To see the car's point of departure
@@ -147,11 +148,13 @@ export class RenderService {
             case CAMERA_KEYCODE:
                 this.cameraService.changeCamera();
                 break;
+            case SCENE_STATE_KEYCODE:
+               // this.sceneLoadingServic;
+                break;
             default:
                 break;
         }
     }
-
 }
 
 
