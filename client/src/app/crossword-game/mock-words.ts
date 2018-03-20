@@ -1,6 +1,7 @@
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 
 // tslint:disable:no-magic-numbers
+
 export const words: GridWord[] = [
     new GridWord(0, 0, Direction.HORIZONTAL, "sit", "I like to . . . on my chair."),
     new GridWord(0, 5, Direction.HORIZONTAL, "value", "The word is value."),
