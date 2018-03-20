@@ -14,13 +14,14 @@ describe("LoadingTrackHandlerService", () => {
   for (let i: number = 0; i < NUMBER_OF_POINTS; i++) {
     points.push([i, i, i]);
   }
-  const scene: THREE.Scene = new THREE.Scene();
+  let scene: THREE.Scene;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [LoadingTrackHandlerService]
     });
 
+    scene = new THREE.Scene();
     loadingTrackHandlerService.points = points;
     loadingTrackHandlerService.initialize(scene);
 
@@ -43,15 +44,6 @@ describe("LoadingTrackHandlerService", () => {
 
   it("should add the track to the scene", inject([LoadingTrackHandlerService], (service: LoadingTrackHandlerService) => {
     expect(scene.children).toBeTruthy();
-    expect(scene.children.length).toBeGreaterThan(0);
-
-    // expect(scene.children.length).toEqual(NUMBER_OF_POINTS * 2);
-    console.log(scene.children);
-
-    // for (let i: number = 0; i <= NUMBER_OF_POINTS; i++) {
-    //   expect(loadingTrackHandlerService.waypoints[i].position.x).toBe(points[i][0]);
-    //   expect(loadingTrackHandlerService.waypoints[i].position.y).toBe(points[i][1]);
-    // }
-
+    expect(scene.children.length).toBe(NUMBER_OF_POINTS * 2);
   }));
 });
