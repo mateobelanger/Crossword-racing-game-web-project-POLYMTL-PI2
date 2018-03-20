@@ -8,12 +8,16 @@ export const GRID_GENERATOR_URL: string = "http://localhost:3000/service/gridgen
 
 @Injectable()
 export class WordService {
-    public words: GridWord[];
+    private _words: GridWord[];
     private _selectedWord: GridWord;
 
     public constructor(private _http: HttpClient) {
-        this.words = [];
+        this._words = [];
         this._selectedWord = null;
+    }
+    
+    public get words(): GridWord[] {
+        return this._words;
     }
 
     public get selectedWord(): GridWord {
@@ -29,7 +33,7 @@ export class WordService {
     }
     
     public set definition(definition: string) {
-        for (const word of this.words) {
+        for (const word of this._words) {
             if (word.definition === definition) {
                 this._selectedWord = word;
                 break;
@@ -39,12 +43,12 @@ export class WordService {
 
     public async initialize(difficulty: string = "easy"): Promise<void> {
         await this.fetchWords(difficulty) 
-                .then(words => { this.words = words; })
-                .catch(() => { this.words = mockWords; });  // default grid if any problem occurs.
+                .then(words => { this._words = <GridWord[]> words; })
+                .catch(() => { this._words = mockWords; });  // default grid if any problem occurs.
     }
     
     public selectWord(row: number, column: number): void {
-        for (const word of this.words) {
+        for (const word of this._words) {
             if (word === this._selectedWord) {
                 continue;
             }
@@ -61,7 +65,7 @@ export class WordService {
             definitions.push([]);
         }
         
-        for (const word of this.words) {
+        for (const word of this._words) {
             if (word.direction !== direction) {
                 continue;
             }
