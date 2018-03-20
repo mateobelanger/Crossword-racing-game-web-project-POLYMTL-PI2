@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from "three";
 import { EDITOR_LAND_HEIGHT, EDITOR_LAND_WIDTH } from '../constants';
+import { ORTHOGRAPHIC_FIELD_OF_VIEW } from '../camera.service';
 
 const EDITOR_LAND_DIVISOR: number = 4;
 const middlePointX: number = EDITOR_LAND_WIDTH / EDITOR_LAND_DIVISOR ;
@@ -8,7 +9,7 @@ const middlePointZ: number = EDITOR_LAND_HEIGHT / EDITOR_LAND_DIVISOR ;
 
 const POINT_LIGHT_POSITION_Y: number = 30;
 const POINT_LIGHT_COLOR: number = 0x7DFDFE;
-const AMBIENT_LIGHT_OPACITY_DAY: number = 1;
+const AMBIENT_LIGHT_OPACITY_DAY: number = 0.5;
 const AMBIENT_LIGHT_OPACITY_NIGHT: number = 0;
 const MAP_SIZE: number = 512;
 
@@ -26,11 +27,14 @@ export class SceneLightsService {
     private sceneState: SceneState;
     private pointLight: THREE.PointLight;
     private ambientLight: THREE.AmbientLight;
+    private directionalLight: THREE.DirectionalLight;
+
 
     public constructor() {
         this.scene = null;
         this.pointLight = null;
         this.ambientLight = null;
+        this.directionalLight = null;
         this.sceneState = SceneState.DAY;
     }
 
@@ -51,6 +55,7 @@ export class SceneLightsService {
     private generateLights(): void {
         this.addAmbientLight();
         this.addPointLights();
+        //this.generateDirectionalLight();
     }
 
     private addAmbientLight(): void {
@@ -90,26 +95,27 @@ export class SceneLightsService {
         this.pointLight.position.z = positionZ;
         this.scene.add(this.pointLight);
     }
-}
 
+    private generateDirectionalLight(): void {
+        //this.directionalLight.shadow.camera.position.copy(this.cameraService.orthographicCamera.position);
 
-      // private directionalLight: THREE.DirectionalLight;
-      // this.directionalLight.shadow.camera.position.copy(this.cameraService.orthographicCamera.position);
-
-       /* this.directionalLight = new THREE.DirectionalLight(WHITE, AMBIENT_LIGHT_OPACITY);
+        this.directionalLight = new THREE.DirectionalLight(AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY_DAY);
         this.directionalLight.castShadow = true;
-        this.directionalLight.position.set( 0, 500, 500 );
+        this.directionalLight.position.set( - 400, 10, 0 );
         this.directionalLight.shadow.camera.visible = true;
 
         this.directionalLight.shadow.mapSize.width = 512*8;
         this.directionalLight.shadow.mapSize.height = 512*8;
 
-        this.directionalLight.shadow.camera.near = ORTHOGRAPHIC_CAMERA_NEAR_PLANE*5;
-        this.directionalLight.shadow.camera.far = ORTHOGRAPHIC_CAMERA_FAR_PLANE*5;
+
+        this.directionalLight.shadow.camera.near = 20;
+        this.directionalLight.shadow.camera.far = 500;
 
         this.directionalLight.shadow.camera.left = -ORTHOGRAPHIC_FIELD_OF_VIEW*5;
         this.directionalLight.shadow.camera.right = ORTHOGRAPHIC_FIELD_OF_VIEW*5;
         this.directionalLight.shadow.camera.top = ORTHOGRAPHIC_FIELD_OF_VIEW*5;
-        this.directionalLight.shadow.camera.bottom = -ORTHOGRAPHIC_FIELD_OF_VIEW*5;*/
+        this.directionalLight.shadow.camera.bottom = -ORTHOGRAPHIC_FIELD_OF_VIEW*5;
 
-        // this.scene.add(this.directionalLight);
+        this.scene.add(this.directionalLight);
+    }
+}

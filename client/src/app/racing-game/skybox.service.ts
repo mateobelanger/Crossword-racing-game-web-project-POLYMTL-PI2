@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { LAND_WIDTH, LAND_HEIGHT, BACKGROUND_PLANE_POSITION_Y } from "./constants";
 
 const SKYBOXES: Array<string> = ["clouds", "interstellar", "moon", "ocean",
-                                 "sand", "storm", "sunset"];
+                                 "sand", "storm", "sunset", "tron"];
 
 const SCENE_STATE: Array<string> = ["day", "night"];
 

@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import * as THREE from "three";
 
 // PERSPECTIVE_CAMERA
-export const PERSPECTIVE_INITIAL_POSITION_Y: number = 150;
-export const PERSPECTIVE_INITIAL_POSITION_Z: number = 400;
+export const PERSPECTIVE_INITIAL_POSITION_Y: number = 70;
+export const PERSPECTIVE_INITIAL_POSITION_Z: number = 200;
 const NEAR_CLIPPING_PLANE: number = 1;
 const FAR_CLIPPING_PLANE: number = 1000;
 const PERSPECTIVE_FIELD_OF_VIEW: number = 40;
