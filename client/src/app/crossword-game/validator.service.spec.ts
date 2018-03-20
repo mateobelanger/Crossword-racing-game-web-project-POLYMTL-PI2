@@ -15,52 +15,80 @@ const words: GridWord[] = [word1, word2, word3];
 
 describe('ValidatorService', () => {
 
-    let userGrid: string[][];
+    let filledGrid: string[][];
+    let initialGrid: string[][];
     let wordService: WordService;
+
     let validatorService: ValidatorService;
+    let validatedWords: GridWord[];
 
     beforeEach(() => {
-      TestBed.configureTestingModule({providers: [ValidatorService, WordService]});
+        TestBed.configureTestingModule({providers: [ValidatorService, WordService]});
 
-      userGrid = [["s", "", "t", "", "", "", "", "", "", ""],
-                  ["a", "", "o", "", "", "", "", "", "", ""],
-                  ["t", "", "m", "", "", "", "", "", "", ""],
-                  [ "", "",  "", "", "", "", "", "", "", ""],
-                  [ "", "",  "", "", "", "", "", "", "", ""],
-                  [ "", "",  "", "", "", "", "", "", "", ""],
-                  [ "", "",  "", "", "", "", "", "", "", ""],
-                  [ "", "",  "", "", "", "", "", "", "", ""],
-                  [ "", "",  "", "", "", "", "", "", "", ""],
-                  [ "", "",  "", "", "", "", "", "", "", ""]];
+        initialGrid = [["s", "", "t", "", "", "", "", "", "", ""], ["a", "", "o", "", "", "", "", "", "", ""],
+                       ["t", "", "m", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
+                       [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
+                       [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
+                       [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""]];
 
-      wordService = new WordService();
-      wordService.words = words;
-      validatorService = new ValidatorService(wordService);
+        filledGrid = [["s", "i", "t", "", "", "", "", "", "", ""], ["a", "m", "o", "", "", "", "", "", "", ""],
+                      ["t", "a", "m", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
+                      [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
+                      [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
+                      [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""]];
+
+        validatedWords = [word2, word3];
+
+        wordService = new WordService();
+        wordService.words = words;
+        validatorService = new ValidatorService(wordService);
+        validatorService["validatedWords"] = validatedWords;
     });
 
     it('should be created', inject([ValidatorService], (service: ValidatorService) => {
-      expect(service).toBeTruthy();
+        expect(service).toBeTruthy();
     }));
 
-    it("should validate the definition of a word when it is selected and completed", () => {
-        wordService["_selectedWord"] = word2;
-        validatorService.updateValidatedWords(userGrid);
+    it("should validate a word when it is completed", () => {
+        validatorService.updateValidatedWords(initialGrid);
 
-        expect(validatorService.isValidatedDefinition(word2.definition)).toBeTruthy();
+        expect(validatorService.isValidatedWord(word2)).toBeTruthy();
     });
 
-    it("should validate the definition of a word when it not selected and completed", () => {
-      wordService["_selectedWord"] = word1;
-      validatorService.updateValidatedWords(userGrid);
+    it("should not validate a word when it is not completed", () => {
+        validatorService.updateValidatedWords(initialGrid);
+
+        expect(validatorService.isValidatedWord(word1)).toBeFalsy();
+    });
+
+    it("should validate the definition of a word when it is completed", () => {
+      validatorService.updateValidatedWords(initialGrid);
 
       expect(validatorService.isValidatedDefinition(word2.definition)).toBeTruthy();
     });
 
     it("should not validate the definition of a word when it not completed", () => {
-      wordService["_selectedWord"] = word1;
-      validatorService.updateValidatedWords(userGrid);
+        validatorService.updateValidatedWords(initialGrid);
 
-      expect(validatorService.isValidatedDefinition(word1.definition)).toBeFalsy();
+        expect(validatorService.isValidatedDefinition(word1.definition)).toBeFalsy();
+    });
+
+    it("should return true if the cell is validated", () => {
+        validatorService.updateValidatedWords(initialGrid);
+
+        expect(validatorService.isValidatedCell(0, 0)).toBeTruthy();
+    });
+
+    it("should return false if the cell is not validated", () => {
+        validatorService.updateValidatedWords(initialGrid);
+
+        expect(validatorService.isValidatedCell(0, 1)).toBeFalsy();
+    });
+
+    it("should validate the new valid word", () => {
+        validatorService.updateValidatedWords(filledGrid);
+
+        expect(validatorService.isValidatedWord(word1)).toBeTruthy();
     });
 
 });
