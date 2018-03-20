@@ -32,16 +32,15 @@ export class WordService {
         for (const word of this.words) {
             if (word.definition === definition) {
                 this._selectedWord = word;
-                
-                return;
+                break;
             }
         }
     }
 
     public async initialize(difficulty: string = "easy"): Promise<void> {
         await this.fetchWords(difficulty) 
-            .then(words => { this.words = words; })
-            .catch(() => { this.words = mockWords; });  // default grid if any problem occurs.
+                .then(words => { this.words = words; })
+                .catch(() => { this.words = mockWords; });  // default grid if any problem occurs.
     }
     
     public selectWord(row: number, column: number): void {

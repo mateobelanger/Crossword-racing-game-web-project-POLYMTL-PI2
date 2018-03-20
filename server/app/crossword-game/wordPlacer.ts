@@ -40,7 +40,9 @@ export class WordPlacer {
                 continue;
             }
             current.word.value = result;
+            current.word.definition = result; // TODO : TEST BEFORE ADDING DEFINITIONS WITH DATAMUSE
             this._placedWords.push(current);
+
             this.update();
             if (await this.placeWords(difficulty, res)) {
                 return true;

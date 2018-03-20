@@ -4,7 +4,6 @@ import { ValidatorService } from '../validator.service';
 import { Direction } from '../../../../../common/crosswordsInterfaces/word';
 import { GridService } from '../grid.service';
 
-
 @Component({
     selector: 'app-definitions',
     templateUrl: './definitions.component.html',
