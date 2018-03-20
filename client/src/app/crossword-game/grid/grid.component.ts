@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { GridService } from "../grid.service";
-import { ValidationMediatorService } from "../validation-mediator.service";
 
 @Component({
     selector: "app-grid",
@@ -9,7 +8,7 @@ import { ValidationMediatorService } from "../validation-mediator.service";
 })
 
 export class GridComponent {
-    public constructor(private validationMediatorService: ValidationMediatorService, private gridService: GridService) {
+    public constructor(private gridService: GridService) {
         this.gridService.fillGrid();
     }
 
@@ -17,8 +16,11 @@ export class GridComponent {
         return index;
     }
 
-    public keyUp(keyCode: number, row: number, column: number): void {
-        this.validationMediatorService.keyUp(keyCode, row, column);
+    public keyUp(row: number, column: number): void {
+        this.gridService.keyUp(row, column);
     }
 
+    public onSelect(row: number, column: number): void {
+        this.gridService.selectWord(row, column);
+    }
 }

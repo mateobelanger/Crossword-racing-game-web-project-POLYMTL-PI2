@@ -36,16 +36,11 @@ export class WordService {
     }
 
     public selectWord(row: number, column: number): void {
-        for (const word of words) {
+        for (const word of this.words) {
             if (word === this._selectedWord) {
                 continue;
             }
-            if (word.direction === Direction.HORIZONTAL) {
-                if (word.row === row && column >= word.column && column < word.column + word.value.length) {
-                    this._selectedWord = word;
-                    break;
-                }
-            } else if (column === word.column && row >= word.row && row < word.row + word.value.length) {
+            if (word.includesCell(row, column)) {
                 this._selectedWord = word;
                 break;
             }
@@ -62,7 +57,7 @@ export class WordService {
             if (word.direction !== direction) {
                 continue;
             }
-            if (word.direction === Direction.HORIZONTAL) {
+            if (direction === Direction.HORIZONTAL) {
                 definitions[word.row].push(word.definition);
             } else {
                 definitions[word.column].push(word.definition);

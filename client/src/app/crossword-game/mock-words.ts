@@ -1,13 +1,14 @@
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 
+// tslint:disable:no-magic-numbers
 
 export const words: GridWord[] = [
-    { row: 0, column: 0, direction: Direction.HORIZONTAL, value: "sit", definition: "I like to . . . on my chair." },
-    { row: 0, column: 5, direction: Direction.HORIZONTAL, value: "value", definition: "The word is value." },
-    { row: 0, column: 0, direction: Direction.VERTICAL, value: "sat", definition: "I . . . on a chair." },
-    { row: 0, column: 1, direction: Direction.VERTICAL, value: "image", definition: "JPEG, PNG, GIF" },
-    { row: 0, column: 2, direction: Direction.VERTICAL, value: "tom", definition: ". . . a la ferme." },
-    { row: 1, column: 0, direction: Direction.HORIZONTAL, value: "amour", definition: "Michel est notre . . . . ." },
-    { row: 2, column: 0, direction: Direction.HORIZONTAL, value: "tam", definition: "TAM . . ." },
-    { row: 3, column: 5, direction: Direction.VERTICAL, value: "airport", definition: "AIRPORT" }
+    new GridWord(0, 0, Direction.HORIZONTAL, "sit", "I like to . . . on my chair."),
+    new GridWord(0, 5, Direction.HORIZONTAL, "value", "The word is value."),
+    new GridWord(0, 0, Direction.VERTICAL, "sat", "I . . . on a chair."),
+    new GridWord(0, 1, Direction.VERTICAL, "image", "JPEG, PNG, GIF"),
+    new GridWord(0, 2, Direction.VERTICAL, "tom", ". . . a la ferme."),
+    new GridWord(1, 0, Direction.HORIZONTAL, "amour", "Michel est notre . . . . ."),
+    new GridWord(2, 0, Direction.HORIZONTAL, "tam", "TAM . . ."),
+    new GridWord(3, 5, Direction.VERTICAL, "airport", "AIRPORT")
 ];
