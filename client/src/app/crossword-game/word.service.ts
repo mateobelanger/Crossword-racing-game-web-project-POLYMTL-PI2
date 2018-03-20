@@ -41,9 +41,10 @@ export class WordService {
         }
     }
 
+    // public method to be initialized only once the words are fetched from the server.
     public async initialize(difficulty: string = "easy"): Promise<void> {
         await this.fetchWords(difficulty) 
-                .then(words => { this._words = <GridWord[]> words; })
+                .then(httpWords => { this._words = this.castHttpToGridWordObj(httpWords); })
                 .catch(() => { this._words = mockWords; });  // default grid if any problem occurs.
     }
     
@@ -85,5 +86,15 @@ export class WordService {
 
     private fetchWords(difficulty: string = "easy"): Promise<GridWord[]> {
         return this._http.get<GridWord[]>(GRID_GENERATOR_URL + difficulty).toPromise();
+    }
+
+    // The http response doesn't send actual GridWords object (ie. methods don't exist)
+    private castHttpToGridWordObj(httpWords: GridWord[]) {
+        const words: GridWord[] = [];
+        for (const word of httpWords) {
+            words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
+        }
+
+        return words;
     }
 }
