@@ -39,10 +39,10 @@
 }
 
 .resultsBlock {
-    height: 200px;
+    height: 400px;
     display: flex;
-    justify-content: space-around;
-    align-items: space-around;
+    justify-content: top;
+    align-items: top;
     flex-direction: column;
     text-align: center;
     cursor: default;

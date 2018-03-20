@@ -21,6 +21,7 @@ import { PositionComponent } from './game-infos/position/position.component';
 import { BestTimesComponent } from './recordedTimes/time-table/time-table.component';
 import { BestTimeHandlerService } from "./recordedTimes/best-time-handler.service";
 import { RaceResultsService } from './recordedTimes/race-results.service';
+import { TimeShowComponent } from './recordedTimes/time-table/time-show/time-show.component';
 
 @NgModule({
 
@@ -40,6 +41,7 @@ import { RaceResultsService } from './recordedTimes/race-results.service';
     TimeComponent,
     PositionComponent,
     BestTimesComponent,
+    TimeShowComponent,
   ],
 
   exports: [
