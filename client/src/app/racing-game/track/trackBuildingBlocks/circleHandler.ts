@@ -14,7 +14,7 @@ export class CircleHandler {
 
     public generateCircles(waypoints: Waypoint[]): void {
         const circleGeometries: THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
-        const material: THREE.MeshBasicMaterial = this.getCircleMaterial();
+        const material: THREE.MeshPhongMaterial = this.getCircleMaterial();
         circleGeometries.forEach((geometry, index) => {
             const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ? this.getFirstCircleMaterial() : material );
             this.meshs.push(mesh);
@@ -64,21 +64,21 @@ export class CircleHandler {
         for (let i: number = 0; i < nCircles ; i++) {
           const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLE_RADIUS);
           circleGeometries.push(circleGeometry);
-          }
+        }
 
         return circleGeometries;
       }
 
-    private getFirstCircleMaterial(): THREE.MeshBasicMaterial {
+    private getFirstCircleMaterial(): THREE.MeshPhongMaterial {
         let createTexture: THREE.Texture = new THREE.Texture;
         createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture_3.png");
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
-    private getCircleMaterial(): THREE.MeshBasicMaterial {
+    private getCircleMaterial(): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture.png");
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 }
