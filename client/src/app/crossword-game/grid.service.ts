@@ -98,6 +98,14 @@ export class GridService {
         }
     }
 
+    public isEndOfGame(): boolean {
+        return this.validatorService.isEndOfGame;
+    }
+
+    public setEndOfGame(state: boolean): void {
+        this.validatorService.isEndOfGame = state;
+    }
+
     private initializeGrid(): void {
         for (let i: number = 0; i < GRID_SIZE; i++) {
             const row: string[] = [];

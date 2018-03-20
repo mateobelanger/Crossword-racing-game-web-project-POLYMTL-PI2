@@ -8,7 +8,7 @@ export class ValidatorService {
     private validatedWords: GridWord[];
     private filledGrid: string[][];
 
-    public isEndOfGame: boolean;
+    public isEndOfGame: boolean = false;
 
     public constructor(private wordService: WordService) {
         this.validatedWords = [];
