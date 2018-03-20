@@ -43,7 +43,7 @@ export class GridCreator {
                 if (this.isLoneCell(i, j)) {
                     this.fixLoneCell(i, j);
                     nIssues++;
-                    i = 0; j = 0;
+                    i = 0; j = -1;
                 }
             }
 
@@ -52,7 +52,7 @@ export class GridCreator {
             if (!this.hasWords(row)) {
                 nRemovedBlackCells += this.fixNoWords(row);
                 nIssues++;
-                i = 0;
+                i = -1;
             }
             const column: string[] = this.getColumn(i);
             if (!this.hasWords(column)) {
@@ -61,7 +61,7 @@ export class GridCreator {
                     this._grid[j][i] = column[j];
                 }
                 nIssues++;
-                i = 0;
+                i = -1;
             }
             this.setRandomly(BLACK_CELL, nRemovedBlackCells);
         }
