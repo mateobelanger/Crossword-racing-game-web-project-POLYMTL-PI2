@@ -24,7 +24,7 @@
 
 .tableTitleBlock {
     width: 100%;
-    height: 60px;
+    height: 50px;
     display: flex;
     flex-direction: column;
     float: left;
@@ -39,7 +39,7 @@
 }
 
 .resultsBlock {
-    height: 250px;
+    height: 260px;
     display: flex;
     justify-content: top;
     align-items: top;
