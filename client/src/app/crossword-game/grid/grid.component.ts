@@ -8,6 +8,9 @@ import { GridService } from "../grid.service";
 })
 
 export class GridComponent {
+
+    public dialogIsOpen: boolean = false;
+
     public constructor(private gridService: GridService) {
         this.gridService.fillGrid();
     }
