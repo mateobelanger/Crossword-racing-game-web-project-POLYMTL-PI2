@@ -49,8 +49,5 @@ export class BestTimesComponent implements OnInit {
         element[1].doneLap(Math.random() * 20);
       element[1].calculateTotalTime();
     });
-    this.MOCKDATA.sort((result1: [string, RaceResults], result2: [string, RaceResults]) =>
-    result1[1].totalTime - result2[1].totalTime
-    );
   }
 }
