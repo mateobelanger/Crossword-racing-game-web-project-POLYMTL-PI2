@@ -88,6 +88,8 @@ export class RenderService {
 
 
         this.loadingTrackHandlerService.initialize(this.scene);
+        const helper: THREE.BoundingBoxHelper = new THREE.BoundingBoxHelper(this._car.mesh, 0xFF0000);
+        this.scene.add(helper);
     }
 
     private startRenderingLoop(): void {

@@ -1,4 +1,4 @@
-import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion } from "three";
+import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion, Box3 } from "three";
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
@@ -28,6 +28,7 @@ export class Car extends Object3D {
     private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
+    public box: Box3;
 
     public constructor(
         engine: Engine = new Engine(),
@@ -62,6 +63,8 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
+
+        this.box = new Box3().setFromObject(this._mesh);
     }
 
     public getPosition(): Vector3 {
