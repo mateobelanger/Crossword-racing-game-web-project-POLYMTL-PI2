@@ -25,23 +25,33 @@ const HELPER_GRID_SIZE: number = 50;
 export class RenderService {
     private container: HTMLDivElement;
     private _car: Car;
+
+    // ***
+    private _carForCollision: Car;
+    private _carForCollision2: Car;
+    // ***
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
 
     // To see the car's point of departure
-    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
-    private gridHelper: THREE.GridHelper = new THREE.GridHelper( HELPER_GRID_SIZE, HELPER_GRID_SIZE );
+    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
+    private gridHelper: THREE.GridHelper = new THREE.GridHelper(HELPER_GRID_SIZE, HELPER_GRID_SIZE);
 
     public get car(): Car {
         return this._car;
     }
 
-    public constructor(private cameraService: CameraService,
-                       private skyboxService: SkyboxService,
-                       private loadingTrackHandlerService: LoadingTrackHandlerService ) {
+    public constructor( private cameraService: CameraService,
+                        private skyboxService: SkyboxService,
+                        private loadingTrackHandlerService: LoadingTrackHandlerService) {
         this._car = new Car();
+
+        // ***
+        this._carForCollision = new Car();
+        this._carForCollision2 = new Car();
+        // ***
 
     }
 
@@ -65,6 +75,8 @@ export class RenderService {
 
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
+        const helper: THREE.BoxHelper = new THREE.BoxHelper(this._car.mesh, 0xFF0000);
+        this.scene.add(helper);
         this._car.update(timeSinceLastFrame);
         this.lastDate = Date.now();
     }
@@ -86,9 +98,21 @@ export class RenderService {
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
 
+        // ***
+        await this._carForCollision.init();
+        this._carForCollision.setPosition(new THREE.Vector3(-20, 0, 0));
+        this.scene.add(this._carForCollision);
+
+        await this._carForCollision2.init();
+        this._carForCollision2.setPosition(new THREE.Vector3(-60, 0, 0));
+        this.scene.add(this._carForCollision2);
+        // ***
+
+        this._carForCollision.box.setFromObject(this._carForCollision.mesh);
+        // ***
 
         this.loadingTrackHandlerService.initialize(this.scene);
-        const helper: THREE.BoundingBoxHelper = new THREE.BoundingBoxHelper(this._car.mesh, 0xFF0000);
+        const helper: THREE.BoxHelper = new THREE.BoxHelper(this._car.mesh, 0xFF0000);
         this.scene.add(helper);
     }
 
@@ -105,6 +129,11 @@ export class RenderService {
         requestAnimationFrame(() => this.render());
         this.cameraService.updatePosition();
         this.update();
+
+        if (this._car.box.intersectsBox(this._carForCollision.box)) {
+            console.log("collision");
+        }
+
         this.renderer.render(this.scene, this.cameraService.getCamera());
         this.stats.update();
     }

@@ -64,7 +64,7 @@ export class Car extends Object3D {
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
 
-        this.box = new Box3().setFromObject(this._mesh);
+        // this.box = new Box3().setFromObject(this._mesh);
     }
 
     public getPosition(): Vector3 {
@@ -119,6 +119,7 @@ export class Car extends Object3D {
         this._mesh = await this.load();
         this._mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
+        this.box = new Box3().setFromObject(this._mesh);
     }
 
     public steerLeft(): void {
@@ -161,6 +162,8 @@ export class Car extends Object3D {
         const R: number = DEFAULT_WHEELBASE / Math.sin(this.steeringWheelDirection * deltaTime);
         const omega: number = this._speed.length() / R;
         this._mesh.rotateY(omega);
+
+        this.box.setFromObject(this._mesh);
     }
 
     private physicsUpdate(deltaTime: number): void {
