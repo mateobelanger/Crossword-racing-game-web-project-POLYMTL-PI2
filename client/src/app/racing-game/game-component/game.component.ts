@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
 import { RenderService } from "../render-service/render.service";
 import { Car } from "../car/car";
-import { RaceDataHandlerService} from "../race-data-handler.service";
+import { RaceDataHandlerService } from "../race-data-handler.service";
 import { ActivatedRoute } from "@angular/router";
 
 const DEFAULT_TRACKNAME: string = "test";
@@ -42,38 +42,16 @@ export class GameComponent implements AfterViewInit {
         let trackName: string = this.route.snapshot.paramMap.get("trackName");
         if (!this.isDefined(trackName))
             trackName = DEFAULT_TRACKNAME;
-        /* todo: C'EST ICI
-        //Ce qu'il y avait avant :
+
         await this.raceDataHandlerService.initialize(trackName);
 
-        this.renderService
-            .initialize(this.containerRef.nativeElement)
-            .then(/* do nothing )
-            .catch((err) => console.error(err));
+        await this.renderService
+                  .initialize(this.containerRef.nativeElement)
+                  .then(/* do nothing*/)
+                  .catch((err) => console.error(err));
 
-        this.raceDataHandlerService.startRace();*/
-
-        this.initializeData(trackName)
-        .then(() => {
-            this.renderService
-                .initialize(this.containerRef.nativeElement)
-                .then(/* do nothing*/ )
-                .catch((err) => console.error(err));
-
-            this.raceDataHandlerService.startRace();
-        })
-        .catch((err) => { console.error(err); });
+        this.raceDataHandlerService.startRace();
     }
-
-    public async initializeData(trackname: string): Promise<void> {
-        this.raceDataHandlerService.initialize(trackname)
-        .then(() => {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAA")
-         })
-        .catch((err) => { console.error(err); });
-    }
-
-
 
     public get car(): Car {
         return this.renderService.car;

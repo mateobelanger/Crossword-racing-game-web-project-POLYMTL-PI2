@@ -26,9 +26,13 @@ export class CircleHandler {
             const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
             hasReversedAxes ? mesh.rotateOnAxis(axis, Math.PI / 2) : mesh.rotateOnAxis(axis, 0);
 
-            this.scene.add(mesh);
+
             this.bindMesh(mesh, waypoints[index]);
         });
+        this.meshs.forEach((mesh) => {
+            this.scene.add(mesh);
+        });
+
       }
 
     public removeCircle(meshId: number): void {
