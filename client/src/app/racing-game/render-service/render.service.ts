@@ -6,6 +6,7 @@ import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from "../skybox.service";
 import { LoadingTrackHandlerService } from "../loading-track-handler.service";
+// import { Vector3 } from "three";
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -19,7 +20,7 @@ const AMBIENT_LIGHT_OPACITY: number = 0.8;
 
 // To see the car"s point of departure
 const HELPER_AXES_SIZE: number = 500;
-const HELPER_GRID_SIZE: number = 50;
+// const HELPER_GRID_SIZE: number = 50;
 
 @Injectable()
 export class RenderService {
@@ -37,7 +38,7 @@ export class RenderService {
 
     // To see the car's point of departure
     private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
-    private gridHelper: THREE.GridHelper = new THREE.GridHelper(HELPER_GRID_SIZE, HELPER_GRID_SIZE);
+    // private gridHelper: THREE.GridHelper = new THREE.GridHelper(HELPER_GRID_SIZE, HELPER_GRID_SIZE);
 
     public get car(): Car {
         return this._car;
@@ -94,7 +95,7 @@ export class RenderService {
 
         // To see the car's point of departure
         this.scene.add(this.axesHelper);
-        this.scene.add(this.gridHelper);
+        // this.scene.add(this.gridHelper);
 
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
@@ -187,7 +188,8 @@ export class RenderService {
     }
 
     private carCollision(car1: Car, car2: Car): void {
-        const temp: THREE.Vector3 = car2.speed.clone();
+        console.log( car1.getSpeed());
+        const temp: THREE.Vector3 = car1.getSpeed().clone();
         car1.speed = car2.speed;
         car2.speed = temp;
     }

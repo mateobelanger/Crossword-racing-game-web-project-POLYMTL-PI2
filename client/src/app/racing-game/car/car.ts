@@ -76,11 +76,17 @@ export class Car extends Object3D {
     }
 
     public get speed(): Vector3 {
+        // console.log(this._speed);
         return this._speed.clone();
     }
 
     public set speed(speed: Vector3) {
         this._speed = speed;
+    }
+
+    public getSpeed(): Vector3 {
+        console.log(this._speed);
+        return this._speed;
     }
 
     public get currentGear(): number {
