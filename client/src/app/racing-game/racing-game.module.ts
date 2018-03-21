@@ -20,7 +20,7 @@ import { TimeComponent } from './game-infos/time/time.component';
 import { PositionComponent } from './game-infos/position/position.component';
 import { BestTimesComponent } from './bestTimes/best-times/best-times.component';
 import { BestTimeHandlerService } from "./bestTimes/best-time-handler.service";
-import { LoadingTrackHandlerService } from "./loading-track-handler.service";
+import { TrackLoaderService } from "./track-loader.service";
 
 @NgModule({
 
@@ -55,7 +55,7 @@ import { LoadingTrackHandlerService } from "./loading-track-handler.service";
     TracksProxyService,
     RaceDataHandlerService,
     BestTimeHandlerService,
-    LoadingTrackHandlerService
+    TrackLoaderService
   ],
 
 })

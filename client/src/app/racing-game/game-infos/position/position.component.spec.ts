@@ -5,7 +5,7 @@ import { RaceDataHandlerService } from '../../race-data-handler.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TracksProxyService } from '../../tracks-proxy.service';
 import { BestTimeHandlerService } from '../../bestTimes/best-time-handler.service';
-import { LoadingTrackHandlerService } from '../../loading-track-handler.service';
+import { TrackLoaderService } from '../../track-loader.service';
 
 describe('PositionComponent', () => {
   let component: PositionComponent;
@@ -18,7 +18,7 @@ describe('PositionComponent', () => {
       providers: [ RaceDataHandlerService,
                    TracksProxyService,
                    BestTimeHandlerService,
-                   LoadingTrackHandlerService ]
+                   TrackLoaderService ]
     })
     .compileComponents();
   }));

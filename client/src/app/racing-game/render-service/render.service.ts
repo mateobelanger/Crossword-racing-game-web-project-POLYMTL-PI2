@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from "../skybox.service";
-import { LoadingTrackHandlerService } from "../loading-track-handler.service";
+import { TrackLoaderService } from "../track-loader.service";
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -40,7 +40,7 @@ export class RenderService {
 
     public constructor(private cameraService: CameraService,
                        private skyboxService: SkyboxService,
-                       private loadingTrackHandlerService: LoadingTrackHandlerService ) {
+                       private trackLoaderService: TrackLoaderService ) {
         this._car = new Car();
 
     }
@@ -87,7 +87,7 @@ export class RenderService {
         this.skyboxService.generateSkybox();
 
 
-        this.loadingTrackHandlerService.initialize(this.scene);
+        this.trackLoaderService.initialize(this.scene);
     }
 
     private startRenderingLoop(): void {

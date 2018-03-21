@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TracksProxyService } from "./tracks-proxy.service";
 import { ITrackData } from "../../../../common/trackData";
 import { BestTimeHandlerService } from './bestTimes/best-time-handler.service';
-import { LoadingTrackHandlerService } from './loading-track-handler.service';
+import { TrackLoaderService } from './track-loader.service';
 const MAX_NB_LAPS: number = 3;
 const HUNDREDTHSECOND: number = 10;
 
@@ -21,7 +21,7 @@ export class RaceDataHandlerService {
     public constructor(
         private tracksProxyService: TracksProxyService,
         private bestTimesHandler: BestTimeHandlerService,
-        private loadingTrackHandler: LoadingTrackHandlerService) {
+        private trackLoaderService: TrackLoaderService) {
         this.resetValues();
     }
 
@@ -30,7 +30,7 @@ export class RaceDataHandlerService {
             .       then(() => {
                        this._iTrackData = this.tracksProxyService.findTrack(trackname);
                        this.bestTimesHandler.bestTimes = this._iTrackData.bestTimes;
-                       this.loadingTrackHandler.points = this._iTrackData.waypoints;
+                       this.trackLoaderService.points = this._iTrackData.waypoints;
                     })
             .catch((err) => { console.error(err); });
     }

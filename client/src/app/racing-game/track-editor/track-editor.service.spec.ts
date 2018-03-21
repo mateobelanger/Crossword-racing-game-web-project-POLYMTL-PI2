@@ -49,4 +49,9 @@ describe("TrackEditorService", () => {
         expect(editorService.track.getFirstWaypoint().getIncomingPlaneId())
             .toBe(editorService.track.getLastWaypoint().getOutgoingPlaneId());
     });
+
+    it("should take a screenshot", inject([TrackEditorService], (service: TrackEditorService) => {
+        service.initialize(document.createElement("div"));
+        expect(service.takeScreenShot).toBeTruthy();
+    }));
 });

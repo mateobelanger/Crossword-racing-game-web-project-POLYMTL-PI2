@@ -13,7 +13,7 @@ const Z: number = 2;
 const SCENE_SCALE: number = 1;
 
 @Injectable()
-export class LoadingTrackHandlerService {
+export class TrackLoaderService {
 
     public points: number[][];
     private _waypoints: Waypoint[];
