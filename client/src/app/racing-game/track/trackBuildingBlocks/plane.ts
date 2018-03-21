@@ -1,5 +1,5 @@
 import { Waypoint } from "../trackData/waypoint";
-import { PLANE_POSITION_Z_FIRST } from '../../constants';
+import { UPPER_PLANE_POSITION_Z } from '../../constants';
 import * as THREE from "three";
 
 const EXPOSANT_CARRE: number = 2;
@@ -19,8 +19,8 @@ export class Plane {
     public constructor(waypoint1: Waypoint = new Waypoint(DEFAULT_WAYPOINT_VECTOR),
                        waypoint2: Waypoint = new Waypoint(DEFAULT_WAYPOINT_VECTOR)) {
         this._previousAngle = 0;
-        waypoint1.setPositionZ(PLANE_POSITION_Z_FIRST);
-        waypoint2.setPositionZ(PLANE_POSITION_Z_FIRST);
+        waypoint1.setPositionZ(UPPER_PLANE_POSITION_Z);
+        waypoint2.setPositionZ(UPPER_PLANE_POSITION_Z);
         this._beginingPoint = waypoint1.position;
         this._endPoint = waypoint2.position;
         this._mesh = null;
