@@ -7,8 +7,8 @@ const SKYBOXES: Array<string> = ["clouds", "interstellar", "moon", "ocean",
 
 const SCENE_STATE: Array<string> = ["day", "night"];
 
-const REPEAT_IMAGE_X: number = 500;
-const REPEAT_IMAGE_Z: number = 400;
+const REPEAT_IMAGE_X: number = 250;
+const REPEAT_IMAGE_Z: number = 200;
 
 @Injectable()
 export class SkyboxService {

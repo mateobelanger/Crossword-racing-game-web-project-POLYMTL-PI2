@@ -44,9 +44,6 @@ export class SceneLightsService {
         this.generateLights();
     }
 
-
-
-
     public changeSceneState(): void {
         this.sceneState = this.sceneState === SceneState.DAY ? SceneState.NIGHT : SceneState.DAY;
         this.addAmbientLight();

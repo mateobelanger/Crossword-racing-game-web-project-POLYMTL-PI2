@@ -2,6 +2,7 @@ import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion } from "thr
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
+import { CarLights } from "../car-lights/car-lights";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -23,6 +24,7 @@ export class Car extends Object3D {
     private readonly wheelbase: number;
     private readonly dragCoefficient: number;
 
+    private carLights: CarLights;
     private _speed: Vector3;
     private isBraking: boolean;
     private _mesh: Object3D;
@@ -58,6 +60,7 @@ export class Car extends Object3D {
         this.mass = mass;
         this.dragCoefficient = dragCoefficient;
 
+        this.carLights = new CarLights();
         this.isBraking = false;
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
@@ -107,6 +110,8 @@ export class Car extends Object3D {
     public async init(): Promise<void> {
         this._mesh = await this.load();
         this._mesh.receiveShadow = true;
+        this.carLights.initialize(this._mesh);
+        this.carLights.turnOffLights();
         this._mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
     }
@@ -129,6 +134,10 @@ export class Car extends Object3D {
 
     public brake(): void {
         this.isBraking = true;
+    }
+
+    public turnOffLights(): void {
+        this.carLights.turnOffLights();
     }
 
     public update(deltaTime: number): void {

@@ -150,6 +150,7 @@ export class RenderService {
                 break;
             case SCENE_STATE_KEYCODE:
                 this.sceneLoadingService.changeSceneState();
+                this._car.turnOffLights();
                 break;
             default:
                 break;
