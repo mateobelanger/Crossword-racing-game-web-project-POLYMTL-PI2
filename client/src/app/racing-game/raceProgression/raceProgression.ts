@@ -2,16 +2,18 @@ import * as THREE from "three";
 const WAYPOINT_RADIUS: number = 10;
 
 export class RaceProgression {
-    private _onWaypoint: boolean;
     private _nLap: number;
     private _nextWaypointIndex: number;
     private _nextWaypointPosition: THREE.Vector3;
     public constructor(private _carPosition: THREE.Vector3,
                        private _waypoints: [number, number, number][]) {
-                           this._onWaypoint = false;
                            this._nLap = 0;
                            this._nextWaypointIndex = 0;
-                           this.reassignNextWaypointIndex();
+                           this._nextWaypointPosition = new THREE.Vector3(
+                            this._waypoints[this._nextWaypointIndex][0],
+                            this._waypoints[this._nextWaypointIndex][1], // tslint:disable-next-line:no-magic-numbers
+                            this._waypoints[this._nextWaypointIndex][2]
+                           );
                        }
 
     public get nLap(): number {
@@ -23,16 +25,12 @@ export class RaceProgression {
     }
 
     public update(): void {
-        if (this.distanceToNextWaypoint() < WAYPOINT_RADIUS)
-            this._onWaypoint = true;
-        else {
-            if (this._onWaypoint) {
-                this._onWaypoint = false;
-                this.incrementNextWaypointPosition();
-                this.updateNLap();
-            }
+        if (this.distanceToNextWaypoint() < WAYPOINT_RADIUS) {
+            this.incrementNextWaypointPosition();
+            this.updateNLap();
         }
     }
+
 
     public distanceToNextWaypoint(): number {
         // tslint:disable-next-line:prefer-const
@@ -45,11 +43,11 @@ export class RaceProgression {
     }
 
     private incrementNextWaypointIndex(): void {
-        this._nextWaypointIndex = this._nextWaypointIndex + 1 % this._waypoints.length;
+        this._nextWaypointIndex = (this._nextWaypointIndex + 1) % this._waypoints.length;
     }
 
     private reassignNextWaypointIndex(): void {
-        this._nextWaypointPosition = new THREE.Vector3(
+        this._nextWaypointPosition.set(
             this._waypoints[this._nextWaypointIndex][0],
             this._waypoints[this._nextWaypointIndex][1],
             this._waypoints[this._nextWaypointIndex][2]

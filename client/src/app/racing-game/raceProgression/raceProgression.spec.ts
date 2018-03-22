@@ -16,7 +16,9 @@ describe("RaceProgression", () => {
     });
 
     it("should increment waypoint", () => {
-        carPosition.set(1, 1, 1);
+        carPosition.set(9, 9, 10);
+        raceProgression.update();
+        carPosition.set(20, 20, 20);
         raceProgression.update();
         expect(raceProgression.nextWaypointIndex).toEqual(1);
     });
@@ -24,25 +26,23 @@ describe("RaceProgression", () => {
     it("should not increment waypoint", () => {
         carPosition.set(-100, 114, -21);
         raceProgression.update();
-        expect(raceProgression.nextWaypointIndex).toEqual(1);
+        expect(raceProgression.nextWaypointIndex).toEqual(0);
     });
 
     it("should increment nLap", () => {
         carPosition.set(10, 10, 10);
         raceProgression.update();
-        carPosition.set(-100, -100, -100);
-        raceProgression.update();
+        expect(raceProgression.nextWaypointIndex).toEqual(1);
         carPosition.set(40, 40, 40);
         raceProgression.update();
-        carPosition.set(-100, -100, -100);
-        raceProgression.update();
+        expect(raceProgression.nextWaypointIndex).toEqual(2);
         carPosition.set(60, 60, 60);
         raceProgression.update();
-        carPosition.set(-100, -100, -100);
-        raceProgression.update();
+        expect(raceProgression.nextWaypointIndex).toEqual(3);
         carPosition.set(80, 80, 80);
         raceProgression.update();
-        carPosition.set(-100, -100, -100);
+        expect(raceProgression.nextWaypointIndex).toEqual(4);
+        carPosition.set(100, 100, 100);
         raceProgression.update();
         expect(raceProgression.nLap).toEqual(1);
     });
