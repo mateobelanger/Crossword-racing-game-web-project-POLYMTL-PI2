@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from 'three';
-import { InvalidArgumentError } from '../invalidArgumentError';
 
 export const testSound: string = "../../../assets/audio/RG/space.mp3";
 const DEFAULT_VOLUME_VALUE: number = 0.5;
@@ -43,12 +42,16 @@ export class AudioService {
 
     public playSound(id: number): void {
         if (id >= this.sounds.length || id < 0) {
-            throw new InvalidArgumentError;
+            return;
         }
         this.sounds[id].play();
     }
 
     public stopSound(id: number): void {
         this.sounds[id].stop();
+    }
+
+    public setVolume(id: number, volume: number): void {
+        this.sounds[id].setVolume(volume);
     }
 }
