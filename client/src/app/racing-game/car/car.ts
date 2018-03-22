@@ -136,7 +136,7 @@ export class Car extends Object3D {
         this.isBraking = true;
     }
 
-    public turnOffLights(): void {
+    public switchLights(): void {
         this.carLights.switchLights();
     }
 
