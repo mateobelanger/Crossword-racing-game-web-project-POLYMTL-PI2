@@ -27,4 +27,8 @@ export const LAND_HEIGHT: number = 400;
 export const BACKGROUND_PLANE_POSITION_Y: number = -3;
 
 // CONSTRAINTS
-export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE}
+export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE};
+
+// COLLISIONS
+// TODO: trouver un meilleur premier type
+export enum CollisionType {FIRST_CAR_HIT, SECOND_CAR_HIT, FACE_TO_FACE}
