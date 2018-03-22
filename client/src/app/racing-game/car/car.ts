@@ -85,7 +85,6 @@ export class Car extends Object3D {
     }
 
     public getSpeed(): Vector3 {
-        console.log(this._speed);
         return this._speed;
     }
 

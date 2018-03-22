@@ -9,11 +9,10 @@ export class Collision {
     private _angle: number;
 
     public constructor( firstCollidedObject: Car,
-                        secondCollidedObject: THREE.Object3D,
-                        collisionDirection: THREE.Vector3) {
+                        secondCollidedObject: THREE.Object3D) {
                             this._firstCollidedObject = firstCollidedObject;
                             this._secondCollidedObject = secondCollidedObject;
-                            this._angle = firstCollidedObject.direction.angleTo(collisionDirection);
+                            // this._angle = firstCollidedObject.direction.angleTo(collisionDirection);
     }
 
     public get angle(): number {
