@@ -1,7 +1,7 @@
 import { TestBed, inject, async, } from "@angular/core/testing";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { TracksProxyService } from "./tracks-proxy.service";
-import { ITrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/ItrackData";
 import { HttpRequest } from "@angular/common/http";
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 

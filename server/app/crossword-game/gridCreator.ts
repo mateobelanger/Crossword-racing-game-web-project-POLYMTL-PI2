@@ -40,7 +40,8 @@ export class GridCreator {
             for (let j: number = 0; j < this._nColumns; j++) {
                 if (this.isLoneCell(i, j)) {
                     this.fixLoneCell(i, j);
-                    i = 0; j = 0;
+                    i = 0;
+                    j = 0;
                 }
             }
 
