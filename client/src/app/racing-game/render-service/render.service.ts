@@ -4,7 +4,7 @@ import * as THREE from 'three';
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
-import { SceneLoadingService } from "../scene-loading/scene-loading.service";
+import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 
 
 
@@ -38,7 +38,7 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-                       private sceneLoadingService: SceneLoadingService) {
+                       private sceneLoaderService: SceneLoaderService) {
         this._car = new Car();
     }
 
@@ -76,7 +76,7 @@ export class RenderService {
         //this.scene.add(this.gridHelper);
 
         this.cameraService.initialize(this.container, this._car.mesh);
-        this.sceneLoadingService.initialize(this.scene);
+        this.sceneLoaderService.initialize(this.scene);
     }
 
     /*
@@ -149,7 +149,7 @@ export class RenderService {
                 this.cameraService.changeCamera();
                 break;
             case SCENE_STATE_KEYCODE:
-                this.sceneLoadingService.updateSceneState();
+                this.sceneLoaderService.updateSceneState();
                 this._car.turnOffLights();
                 break;
             default:

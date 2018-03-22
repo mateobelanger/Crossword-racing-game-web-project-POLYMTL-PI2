@@ -5,7 +5,7 @@ import { SceneLightsService } from '../scene-lights/scene-lights.service';
 
 
 @Injectable()
-export class SceneLoadingService {
+export class SceneLoaderService {
 
     private scene: THREE.Scene;
 

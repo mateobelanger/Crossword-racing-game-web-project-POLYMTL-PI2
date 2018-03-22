@@ -15,7 +15,7 @@ import { SkyboxService } from "./skybox.service";
 import { routes } from "../app-routes.module";
 import { RaceDataHandlerService } from "./race-data-handler.service";
 import { SceneLightsService } from "./scene-lights/scene-lights.service";
-import { SceneLoadingService } from "./scene-loading/scene-loading.service";
+import { SceneLoaderService } from "./scene-loader/scene-loader.service";
 @NgModule({
 
   imports: [
@@ -44,7 +44,7 @@ import { SceneLoadingService } from "./scene-loading/scene-loading.service";
     TracksProxyService,
     RaceDataHandlerService,
     SceneLightsService,
-    SceneLoadingService
+    SceneLoaderService
   ],
 
 })
