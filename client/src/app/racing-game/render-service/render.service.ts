@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from '../skybox.service';
-import { AudioService, testSound } from "../audio/audio.service";
+import { AudioService } from "../audio/audio.service";
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
@@ -82,7 +82,6 @@ export class RenderService {
         this.skyboxService.generateSkybox();
         // audio
         this.audioService.initialize(this.cameraService.getCamera());
-        this.audioService.playSound(testSound);
     }
 
     private startRenderingLoop(): void {
@@ -120,6 +119,7 @@ export class RenderService {
                 break;
             case BRAKE_KEYCODE:
                 this._car.brake();
+                this.audioService.stopSound(0);
                 break;
             default:
                 break;
