@@ -111,7 +111,7 @@ export class Car extends Object3D {
         this._mesh = await this.load();
         this._mesh.receiveShadow = true;
         this.carLights.initialize(this._mesh);
-        this.carLights.turnOffLights();
+        this.carLights.switchLights();
         this._mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
     }
@@ -137,7 +137,7 @@ export class Car extends Object3D {
     }
 
     public turnOffLights(): void {
-        this.carLights.turnOffLights();
+        this.carLights.switchLights();
     }
 
     public update(deltaTime: number): void {

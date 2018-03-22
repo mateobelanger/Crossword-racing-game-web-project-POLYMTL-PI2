@@ -41,7 +41,7 @@ export class CarLights {
     private frontRightLight: THREE.SpotLight;
     private backLeftLight: THREE.SpotLight;
     private backRightLight: THREE.SpotLight;
-    private backLight: THREE.SpotLight;
+    //private backLight: THREE.SpotLight;
 
     private car: THREE.Object3D;
 
@@ -50,7 +50,7 @@ export class CarLights {
         this.frontRightLight = null;
         this.backLeftLight = null;
         this.backRightLight = null;
-        this.backLight = null;
+        //this.backLight = null;
     }
 
     public initialize(car: THREE.Object3D): void {
@@ -59,7 +59,7 @@ export class CarLights {
         this.generateLights();
     }
 
-    public turnOffLights(): void {
+    public switchLights(): void {
         this.frontLeftLight.visible = !this.frontLeftLight.visible;
         this.frontRightLight.visible = !this.frontRightLight.visible;
         this.backLeftLight.visible = !this.backLeftLight.visible;

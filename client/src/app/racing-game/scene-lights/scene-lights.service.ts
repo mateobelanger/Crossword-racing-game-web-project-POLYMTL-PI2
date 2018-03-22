@@ -25,14 +25,14 @@ export class SceneLightsService {
 
     private scene: THREE.Scene;
     private sceneState: SceneState;
-    private pointLight: THREE.PointLight;
+    private pointLights: Array<THREE.PointLight>;
     private ambientLight: THREE.AmbientLight;
     //private directionalLight: THREE.DirectionalLight;
 
 
     public constructor() {
         this.scene = null;
-        this.pointLight = null;
+        this.pointLights = [];
         this.ambientLight = null;
         //this.directionalLight = null;
         this.sceneState = SceneState.DAY;
@@ -40,21 +40,27 @@ export class SceneLightsService {
 
     public initialize(scene: THREE.Scene): void {
         this.scene = scene;
-
-        this.generateLights();
+        this.pointLights  = new Array<THREE.PointLight>();
+        this.generateSceneLights();
     }
 
-    public updateSceneState(): void {
+    public updateScene(): void {
         this.changeSceneState();
-        this.addAmbientLight();
+        this.switchLights();
+    }
+
+    private switchLights(): void {
+        this.ambientLight.visible = !this.ambientLight.visible;
+        this.pointLights.forEach((light) => {
+            light.visible = !light.visible;
+        });
     }
 
     private changeSceneState(): void {
         this.sceneState = this.sceneState === SceneState.DAY ? SceneState.NIGHT : SceneState.DAY;
-        this.addAmbientLight();
     }
 
-    private generateLights(): void {
+    private generateSceneLights(): void {
         this.addAmbientLight();
         this.addPointLights();
         //this.generateDirectionalLight();
@@ -62,15 +68,8 @@ export class SceneLightsService {
 
     private addAmbientLight(): void {
         this.generateAmbientLight();
-
-        if (this.ambientLight !== null) {
-            const selectedAmbientLight: THREE.Object3D = this.scene.getObjectByName(AMBIENT_LIGHT_NAME);
-            this.scene.remove(selectedAmbientLight);
-        }
-
         this.scene.add(this.ambientLight);
     }
-
 
     private generateAmbientLight(): void {
         const opacity: number = this.sceneState === SceneState.DAY ? AMBIENT_LIGHT_OPACITY_DAY : AMBIENT_LIGHT_OPACITY_NIGHT;
@@ -79,24 +78,28 @@ export class SceneLightsService {
     }
 
     private addPointLights(): void {
-        this.generatePointLight(0, 0);
-        this.generatePointLight(middlePointX, middlePointZ);
-        this.generatePointLight(-middlePointX, middlePointZ);
-        this.generatePointLight(middlePointX, -middlePointZ);
-        this.generatePointLight(-middlePointX, -middlePointZ);
+        this.pointLights.push(this.generatePointLight(0, 0));
+        this.pointLights.push(this.generatePointLight(middlePointX, middlePointZ));
+        this.pointLights.push(this.generatePointLight(-middlePointX, middlePointZ));
+        this.pointLights.push(this.generatePointLight(middlePointX, -middlePointZ));
+        this.pointLights.push(this.generatePointLight(-middlePointX, -middlePointZ));
+
+        this.pointLights.forEach((light) => {
+            this.scene.add(light);
+        });
     }
 
+    private generatePointLight(positionX: number, positionZ: number): THREE.PointLight {
+        const pointLight: THREE.PointLight = new THREE.PointLight( POINT_LIGHT_COLOR, 1, AMBIENT_LIGHT_DISTANCE_OPACITY);
+        pointLight.castShadow = true;
+        pointLight.shadow.mapSize.width = MAP_SIZE;
+        pointLight.shadow.mapSize.height = MAP_SIZE;
+        pointLight.position.y = POINT_LIGHT_POSITION_Y;
+        pointLight.position.x = positionX;
+        pointLight.position.z = positionZ;
+        pointLight.visible = false;
 
-    private generatePointLight(positionX: number, positionZ: number): void {
-        this.pointLight = new THREE.PointLight( POINT_LIGHT_COLOR, 1, AMBIENT_LIGHT_DISTANCE_OPACITY);
-        this.pointLight.castShadow = true;
-        this.pointLight.shadow.mapSize.width = MAP_SIZE;
-        this.pointLight.shadow.mapSize.height = MAP_SIZE;
-        this.pointLight.position.y = POINT_LIGHT_POSITION_Y;
-        this.pointLight.position.x = positionX;
-        this.pointLight.position.z = positionZ;
-        
-        this.scene.add(this.pointLight);
+        return pointLight;
     }
 /*
     private generateDirectionalLight(): void {

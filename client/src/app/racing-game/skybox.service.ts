@@ -42,7 +42,7 @@ export class SkyboxService {
       this.generateBackgroundView();
     }
 
-    public updateSceneState(): void {
+    public updateScene(): void {
         this.changeSceneState();
         this.changeSceneSkybox();
     }

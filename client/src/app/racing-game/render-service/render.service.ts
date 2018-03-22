@@ -149,7 +149,7 @@ export class RenderService {
                 this.cameraService.changeCamera();
                 break;
             case SCENE_STATE_KEYCODE:
-                this.sceneLoaderService.updateSceneState();
+                this.sceneLoaderService.updateScene();
                 this._car.turnOffLights();
                 break;
             default:
