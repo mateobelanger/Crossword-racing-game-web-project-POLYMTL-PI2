@@ -10,7 +10,6 @@ const USERNAME: string = "user";
 export class RaceDataHandlerService {
 
   private _lapElapsed: number;
-  private _timeLaps: number[];
   private _uiLapTimer: Timer;
   private _totalTimeTimer: Timer;
   private _iTrackData: ITrackData;
@@ -64,18 +63,13 @@ export class RaceDataHandlerService {
   public doneRace(): void {
     this.stopTimers();
     this.raceResultService.setRaceFinalResults();
+    this.bestTimesHandler.addTime([USERNAME, this.raceResultService.raceResults[USERNAME].totalTime]);
   }
 
-
-
-  public totalTime(): number {
-    return this._timeLaps.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-  }
 
   private resetValues(): void {
     this._position = 1;
     this._lapElapsed = 0;
-    this._timeLaps = [0, 0, 0];
     this._uiLapTimer.reset();
     this._totalTimeTimer.reset();
   }

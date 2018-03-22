@@ -14,7 +14,6 @@ export class BestTimesComponent implements OnInit {
   public SHOWMOCK: boolean = true;
 
   public showBestTimes: boolean = false;
-  public _raceTimes: RaceResults[] = [];
   public constructor( private bestTimesHandler: BestTimeHandlerService,
                       private raceResultService: RaceResultsService ) { }
 
@@ -25,6 +24,7 @@ export class BestTimesComponent implements OnInit {
   public get bestTimes(): [string, number][] {
     return this.bestTimesHandler.bestTimes;
   }
+
 
   public get raceTimes(): [string, RaceResults][] {
     if (this.SHOWMOCK)

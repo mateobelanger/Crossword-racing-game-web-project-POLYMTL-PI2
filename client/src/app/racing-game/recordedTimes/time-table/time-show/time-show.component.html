@@ -1,6 +1,6 @@
 <div class="row" (mouseenter)="showLapsTime = true" (mouseleave)="showLapsTime = false"> 
   <div>{{raceTime[1].totalTime | number:'2.0-0'}}</div> 
-  <div *ngIf="showLapsTime row">Lap 1: {{raceTime[1].laps[0] | number:'2.0-0'}}</div> 
-  <div *ngIf="showLapsTime row">Lap 2: {{raceTime[1].laps[1] | number:'2.0-0'}}</div> 
-  <div *ngIf="showLapsTime row">Lap 3: {{raceTime[1].laps[2] | number:'2.0-0'}}</div> 
+  <div *ngIf="showLapsTime row">Lap 1: {{raceTime[1].laps[0] | number:'2.0-2'}}</div> 
+  <div *ngIf="showLapsTime row">Lap 2: {{raceTime[1].laps[1] | number:'2.0-2'}}</div> 
+  <div *ngIf="showLapsTime row">Lap 3: {{raceTime[1].laps[2] | number:'2.0-2'}}</div> 
 </div> 
