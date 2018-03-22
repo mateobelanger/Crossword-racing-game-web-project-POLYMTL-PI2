@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from "three";
 import { EDITOR_LAND_HEIGHT, EDITOR_LAND_WIDTH } from '../constants';
-import { ORTHOGRAPHIC_FIELD_OF_VIEW } from '../camera.service';
+//import { ORTHOGRAPHIC_FIELD_OF_VIEW } from '../camera.service';
 
 const EDITOR_LAND_DIVISOR: number = 4;
 const middlePointX: number = EDITOR_LAND_WIDTH / EDITOR_LAND_DIVISOR ;
@@ -27,14 +27,14 @@ export class SceneLightsService {
     private sceneState: SceneState;
     private pointLight: THREE.PointLight;
     private ambientLight: THREE.AmbientLight;
-    private directionalLight: THREE.DirectionalLight;
+    //private directionalLight: THREE.DirectionalLight;
 
 
     public constructor() {
         this.scene = null;
         this.pointLight = null;
         this.ambientLight = null;
-        this.directionalLight = null;
+        //this.directionalLight = null;
         this.sceneState = SceneState.DAY;
     }
 
@@ -44,7 +44,12 @@ export class SceneLightsService {
         this.generateLights();
     }
 
-    public changeSceneState(): void {
+    public updateSceneState(): void {
+        this.changeSceneState();
+        this.addAmbientLight();
+    }
+
+    private changeSceneState(): void {
         this.sceneState = this.sceneState === SceneState.DAY ? SceneState.NIGHT : SceneState.DAY;
         this.addAmbientLight();
     }
@@ -90,9 +95,10 @@ export class SceneLightsService {
         this.pointLight.position.y = POINT_LIGHT_POSITION_Y;
         this.pointLight.position.x = positionX;
         this.pointLight.position.z = positionZ;
+        
         this.scene.add(this.pointLight);
     }
-
+/*
     private generateDirectionalLight(): void {
         //this.directionalLight.shadow.camera.position.copy(this.cameraService.orthographicCamera.position);
 
@@ -114,5 +120,5 @@ export class SceneLightsService {
         this.directionalLight.shadow.camera.bottom = -ORTHOGRAPHIC_FIELD_OF_VIEW*5;
 
         this.scene.add(this.directionalLight);
-    }
+    }*/
 }

@@ -5,7 +5,8 @@ import { LAND_WIDTH, LAND_HEIGHT, BACKGROUND_PLANE_POSITION_Y } from "./constant
 const SKYBOXES: Array<string> = ["clouds", "interstellar", "moon", "ocean",
                                  "sand", "storm", "sunset", "tron"];
 
-const SCENE_STATE: Array<string> = ["day", "night"];
+const SCENE_STATE_DAY: string = "day";
+const SCENE_STATE_NIGHT: string = "night";
 
 const REPEAT_IMAGE_X: number = 250;
 const REPEAT_IMAGE_Z: number = 200;
@@ -18,6 +19,9 @@ export class SkyboxService {
     public sceneState: string;
     private backgroundPlane: THREE.Mesh;
 
+    private daySkybox: THREE.CubeTexture;
+    private nightSkybox: THREE.CubeTexture;
+
     public constructor() {
         this.scene = null;
         this.skyboxName = "";
@@ -29,29 +33,48 @@ export class SkyboxService {
       this.scene = scene;
       this.skyboxName = SKYBOXES[4 /*Math.floor(Math.random() * SKYBOXES.length)*/];
 
-      this.sceneState = SCENE_STATE[0];
-      this.generateSkybox();
+      this.sceneState = SCENE_STATE_DAY;
+
+      this.daySkybox = this.generateDaySkybox();
+      this.nightSkybox = this.generateNightSkybox();
+      this.scene.background = this.daySkybox;
+
       this.generateBackgroundView();
     }
 
-    public changeSceneState(): void {
-        this.sceneState = this.sceneState === SCENE_STATE[0] ? SCENE_STATE[1] : SCENE_STATE[0];
-        this.generateSkybox();
+    public updateSceneState(): void {
+        this.changeSceneState();
+        this.changeSceneSkybox();
     }
 
-    private generateSkybox(): void {
-      this.scene.background = new THREE.CubeTextureLoader()
-        .setPath("../../../assets/skybox/" + this.skyboxName + "/" + this.sceneState + "/")
-        .load([
-          "right.png",
-          "left.png",
-          "top.png",
-          "bottom.png",
-          "back.png",
-          "front.png"
-        ]);
+    private changeSceneState(): void {
+        this.sceneState = this.sceneState === SCENE_STATE_DAY ? SCENE_STATE_NIGHT : SCENE_STATE_DAY;
     }
 
+    private changeSceneSkybox(): void {
+        this.scene.background = this.sceneState === SCENE_STATE_DAY ? this.daySkybox : this.nightSkybox;
+    }
+
+    private generateDaySkybox(): THREE.CubeTexture {
+        return this.generateSkybox(SCENE_STATE_DAY);
+    }
+
+    private generateNightSkybox(): THREE.CubeTexture {
+        return this.generateSkybox(SCENE_STATE_NIGHT);
+    }
+
+    private generateSkybox(sceneState: string): THREE.CubeTexture {
+      return new THREE.CubeTextureLoader()
+                 .setPath("../../../assets/skybox/" + this.skyboxName + "/" + sceneState + "/")
+                 .load([
+                   "right.png",
+                   "left.png",
+                   "top.png",
+                   "bottom.png",
+                   "back.png",
+                   "front.png"
+                 ]);
+    }
     private generateBackgroundView(): void {
         const texture: THREE.Texture = new THREE.TextureLoader().load("../../../assets/skybox/cell_bg.png");
 

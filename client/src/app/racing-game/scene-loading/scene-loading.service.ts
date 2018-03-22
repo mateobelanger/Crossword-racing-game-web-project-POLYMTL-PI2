@@ -22,10 +22,9 @@ export class SceneLoadingService {
         this.sceneLightsService.initialize(this.scene);
     }
 
-
-    public changeSceneState(): void {
-        this.skyboxService.changeSceneState();
-        this.sceneLightsService.changeSceneState();
+    public updateSceneState(): void {
+        this.skyboxService.updateSceneState();
+        this.sceneLightsService.updateSceneState();
     }
 
 }
