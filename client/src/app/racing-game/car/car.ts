@@ -175,6 +175,10 @@ export class Car extends Object3D {
         this.box.setFromObject(this._mesh);
     }
 
+    public rotate(rotationAngle: number): void {
+        this._mesh.rotateY(rotationAngle);
+    }
+
     private physicsUpdate(deltaTime: number): void {
         this.rearWheel.angularVelocity += this.getAngularAcceleration() * deltaTime;
         this.engine.update(this._speed.length(), this.rearWheel.radius);

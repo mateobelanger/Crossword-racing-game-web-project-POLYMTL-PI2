@@ -25,6 +25,7 @@ export class CollisionHandler {
 
             this._collision = new Collision(cars[0], cars[1]);
 
+            this.rotateCars(cars[0], cars[1]);
             this.switchCarsSpeed(cars[0], cars[1]);
 
         }
@@ -43,15 +44,25 @@ export class CollisionHandler {
     }
 
     private switchCarsSpeed(car1: Car, car2: Car): void {
-        // console.log( car1.getSpeed());
+        const temp: THREE.Vector3 = car1.getSpeed().clone();
+        car1.speed = car2.getSpeed().clone();
+        car2.speed = temp;
+    }
+
+    private rotateCars(car1: Car, car2: Car): void {
+
+        // doesn't really work
         switch (this._collision.type) {
-            case CollisionType.FACE_TO_FACE:
-            case CollisionType.FIRST_CAR_HIT:
+            case CollisionType.FACE_TO_FACE:    car1.rotate(Math.PI);
+                                                car2.rotate(Math.PI);
+                                                break;
+            case CollisionType.FIRST_CAR_HIT:   car1.rotate(-car1.direction.angleTo(car2.direction));
+                                                break;
             case CollisionType.SECOND_CAR_HIT:
-            default:    const temp: THREE.Vector3 = car1.getSpeed().clone();
-                        car1.speed = car2.getSpeed().clone();
-                        car2.speed = temp;
+            default:    car2.rotate(-car2.direction.angleTo(car1.direction));
+                        break;
         }
+
     }
 
     private showCollision(car1: Car, car2: Car, scene: THREE.Scene): void {
