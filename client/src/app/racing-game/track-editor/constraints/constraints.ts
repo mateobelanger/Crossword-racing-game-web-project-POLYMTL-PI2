@@ -1,8 +1,10 @@
 import { Road } from "./road";
 import * as THREE from "three";
 import { Waypoint } from "../../track/trackData/waypoint";
-import { ErrorType } from "../../constants";
-import { ConstraintsError } from "./constraintsError";
+import { ConstraintsError } from "./constraintsErrors/constraintsError";
+import { IntersectionError } from "./constraintsErrors/intersectionError";
+import { InvalidAngleError } from "./constraintsErrors/invalidAngleError";
+import { SizeError } from "./constraintsErrors/sizeError";
 
 export class Constraints {
 
@@ -94,15 +96,15 @@ export class Constraints {
     private validityCheck(road: Road): void {
 
         if (!road.hasValidAngle() ) {
-            this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.ANGLE, road.id ));
-            this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.ANGLE, road.previousRoad.id ));
+            this._invalidPlanesErrors.push(new InvalidAngleError( road.id ));
+            this._invalidPlanesErrors.push(new InvalidAngleError( road.previousRoad.id ));
         }
         if (!road.hasValidWidthHeightRatio()) {
-            this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.WIDTHLENGTHRATIO, road.id));
+            this._invalidPlanesErrors.push(new SizeError(road.id));
         }
         this.roads.forEach((element) => {
             if (element.intersects(road)) {
-                this._invalidPlanesErrors.push(new ConstraintsError(ErrorType.INTERSECTS, road.id));
+                this._invalidPlanesErrors.push(new IntersectionError(road.id));
             }
         });
     }

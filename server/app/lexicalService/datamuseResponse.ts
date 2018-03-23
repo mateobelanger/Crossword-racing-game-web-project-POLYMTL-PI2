@@ -1,8 +1,8 @@
 export interface IDatamuseResponse {
     word: string;
     score: number;
-    tags: string[];
-    definitions: string[];
+    tags: Array<string>;
+    defs: Array<string>;
 }
 
 const COMMON_LIMIT: number = 10;
@@ -12,14 +12,14 @@ const QUOTATION_MARKS_ASCII_CODE: number = 34;
 export class DatamuseResponse implements IDatamuseResponse {
     public word: string;
     public score: number;
-    public tags: string[];
-    public definitions: string[];
+    public tags: Array<string>;
+    public defs: Array<string>;     // abbreviation to fit the DataMuse API tag
 
     constructor(data: IDatamuseResponse) {
         this.word = data.word;
         this.score = data.score;
         this.tags = data.tags;
-        this.definitions = data.definitions;
+        this.defs = data.defs;      // abbreviation to fit the DataMuse API tag
     }
 
     public isCommon(): boolean {
@@ -27,7 +27,7 @@ export class DatamuseResponse implements IDatamuseResponse {
     }
 
     public findDefinitionIndex(isEasy: boolean): number {
-        if (this.definitions == null) {
+        if (this.defs == null) {
             return -1;
         } else {
             return this.establishDefinitionIndex(isEasy);
@@ -38,7 +38,7 @@ export class DatamuseResponse implements IDatamuseResponse {
         let isFirstValidDefinition: boolean = true;
         let definitionIndex: number = -1;
 
-        for (let i: number = 0; i < this.definitions.length; i++) {
+        for (let i: number = 0; i < this.defs.length; i++) {
             if (!this.isNounOrVerb(i) || this.currentDefinitionContainsWordItself(i)
                 || this.currentDefinitionContainsExemple(i)) {
                 continue;
@@ -58,16 +58,16 @@ export class DatamuseResponse implements IDatamuseResponse {
     }
 
     private isNounOrVerb(definitionIndex: number): boolean {
-        return this.definitions[definitionIndex].substr(0, 1) === "n" ||
-               this.definitions[definitionIndex].substr(0, 1) === "v";
+        return this.defs[definitionIndex].substr(0, 1) === "n" ||
+               this.defs[definitionIndex].substr(0, 1) === "v";
     }
 
     private currentDefinitionContainsWordItself(definitionIndex: number): boolean {
-        return this.definitions[definitionIndex].includes(this.word);
+        return this.defs[definitionIndex].includes(this.word);
     }
 
     private currentDefinitionContainsExemple(definitionIndex: number): boolean {
-        return this.definitions[definitionIndex].includes(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
+        return this.defs[definitionIndex].includes(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
 
     }
 
@@ -77,8 +77,8 @@ export class DatamuseResponse implements IDatamuseResponse {
         }
         for (let i: number = 0; i < template.length; i++) {
             // can only contain letters
-            if (this.word.charCodeAt(i) > "a".charCodeAt(0) ||
-                this.word.charCodeAt(i) < "z".charCodeAt(0)) {
+            if (this.word.charCodeAt(i) < "a".charCodeAt(0) ||
+                this.word.charCodeAt(i) > "z".charCodeAt(0)) {
                 return false;
             }
             if (template[i] !== "?" && template[i] !== this.word[i]) {

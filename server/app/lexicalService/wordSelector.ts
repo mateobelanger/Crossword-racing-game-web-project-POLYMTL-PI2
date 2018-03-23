@@ -1,14 +1,16 @@
-import { DatamuseResponse } from "./IDatamuseResponse";
+import { DatamuseResponse } from "./DatamuseResponse";
 import { IWord } from "../../../common/crosswordsInterfaces/word";
 import { MIN_WORD_LENGTH, WHITE_CELL as ANY_CHAR } from "../crossword-game/gridCreator";
 import { WORDS } from "./words";
 import { ArrayHelper } from "./arrayHelper";
 import { INVALID_DOUBLES } from "./invalidDoubles";
 import { INVALID_TRIPLES } from "./invalidTriples";
+import http = require("http");
 
 export const MAX_WORDS_PER_RESPONSE: number = 250;
 const TWO_LETTER_WORDS_LENGTH: number = 2;
 const THREE_LETTER_WORDS_LENGTH: number = 3;
+const LEXICAL_SERVICE_URL: string = "http://localhost:3000/service/lexical/wordsearch/";
 
 export class WordSelector {
     private static invalidDoubles: Set<string> = ArrayHelper.arrayToSet(INVALID_DOUBLES);
@@ -42,6 +44,13 @@ export class WordSelector {
         }
 
         return ArrayHelper.shuffle(validWords).slice(0, MAX_WORDS_PER_RESPONSE);
+    }
+
+    public static getWordDefinition(word: string, difficulty: string): string {
+        const url: string = LEXICAL_SERVICE_URL + word + '/' + difficulty;
+        http.get(url, (res: http.IncomingMessage) => {
+            console.log(res);
+        })
     }
 
     public static getWordsByRarity(words: Array<DatamuseResponse>, isCommon: boolean): Array<DatamuseResponse> {
@@ -116,7 +125,7 @@ export class WordSelector {
     }
 
     private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): IWord {
-        return { value: datamuseResponse.word, definition: datamuseResponse.definitions[definitionIndex] };
+        return { value: datamuseResponse.word, definition: datamuseResponse.defs[definitionIndex] };
     }
 
     private static getLetterPositions(template: string): number[] {
