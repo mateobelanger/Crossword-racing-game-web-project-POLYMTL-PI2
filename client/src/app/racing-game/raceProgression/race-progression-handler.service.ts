@@ -15,6 +15,7 @@ export class RaceProgressionHandlerService {
     public constructor() {
         this._playersProgression = [];
         this._lapDoneStream$ = new Subject();
+        this._userProgression = new UserRaceProgression();
     }
 
     public initialize(names: string[], carPosition: THREE.Vector3, waypoints: [number, number, number][]): void {

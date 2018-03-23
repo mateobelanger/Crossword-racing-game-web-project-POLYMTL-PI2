@@ -20,9 +20,9 @@
                         private bestTimesService: BestTimeHandlerService,
                         private raceResultService: RaceResultsService,
                         private raceProgressionService: RaceProgressionHandlerService) {
-    this._totalTimeTimer = new Timer();
-    this._uiLapTimer = new Timer();
-    this.resetValues();
+        this._totalTimeTimer = new Timer();
+        this._uiLapTimer = new Timer();
+        this.resetValues();
     }
 
     public async initialize(trackname: string, carPosition: THREE.Vector3): Promise<void> {

@@ -6,6 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TracksProxyService } from '../../tracks-proxy.service';
 import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
 import { RaceResultsService } from '../../recordedTimes/race-results.service';
+import { RaceProgressionHandlerService } from '../../raceProgression/race-progression-handler.service';
 
 describe('LapComponent', () => {
   let component: LapComponent;
@@ -15,7 +16,7 @@ describe('LapComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LapComponent ],
       imports: [HttpClientTestingModule],
-      providers: [ RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService ]
+      providers: [ RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService, RaceProgressionHandlerService ]
     })
     .compileComponents();
   }));
@@ -29,4 +30,5 @@ describe('LapComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
