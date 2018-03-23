@@ -118,6 +118,6 @@ export class WordSelector {
     }
 
     private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): IWord {
-        return { value: datamuseResponse.word, definition: datamuseResponse.definitions[definitionIndex] };
+        return { value: datamuseResponse.word, definition: datamuseResponse.defs[definitionIndex] };
     }
 }
