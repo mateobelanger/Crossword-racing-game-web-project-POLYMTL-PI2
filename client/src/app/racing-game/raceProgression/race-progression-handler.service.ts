@@ -1,17 +1,20 @@
-    import { Injectable } from '@angular/core';
-    import { RaceProgression } from './raceProgression';
-    import { UserRaceProgression} from "./userRaceProgression";
-    import { MAX_N_LAPS } from "../constants";
+import { Injectable } from '@angular/core';
+import { RaceProgression } from './raceProgression';
+import { UserRaceProgression} from "./userRaceProgression";
+import { MAX_N_LAPS } from "../constants";
+import { Subject } from 'rxjs/Subject';
 
-    const USERNAME: string = "user";
-    @Injectable()
-    export class RaceProgressionHandlerService {
+const USERNAME: string = "user";
+@Injectable()
+export class RaceProgressionHandlerService {
 
     private _playersProgression: [string, RaceProgression][];
     private _userProgression: UserRaceProgression;
+    private _lapDoneStream$: Subject<string>;
 
     public constructor() {
         this._playersProgression = [];
+        this._lapDoneStream$ = new Subject();
     }
 
     public initialize(names: string[], carPosition: THREE.Vector3, waypoints: [number, number, number][]): void {
@@ -22,6 +25,7 @@
             } else
                 this._playersProgression.push([name, new RaceProgression(carPosition, waypoints)]);
         });
+        this.initializeLapDoneStream();
     }
 
     public update(): void {
@@ -31,6 +35,9 @@
         });
     }
 
+    public get lapDoneStream$(): Subject<string> {
+        return this._lapDoneStream$;
+    }
     public get user(): UserRaceProgression {
         return this._userProgression;
     }
@@ -61,6 +68,14 @@
 
     public get finishedPlayers(): [string, RaceProgression][] {
         return this._playersProgression.filter( (playerProgression) => playerProgression[1].nLap === MAX_N_LAPS );
+    }
+
+    private initializeLapDoneStream(): void {
+        this._playersProgression.forEach( (playerProgression: [string, RaceProgression]) => {
+            playerProgression[1].lapDone$.subscribe( () => {
+                this._lapDoneStream$.next(playerProgression[0]);
+            });
+        });
     }
 
 }

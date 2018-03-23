@@ -32,6 +32,7 @@
             this.bestTimesService.bestTimes = this._iTrackData.bestTimes;
             this.raceProgressionService.initialize(PLAYERS_NAME, carPosition, this._iTrackData.waypoints);
             this.raceResultService.initialize(PLAYERS_NAME);
+            this.subscribeToDoneLap();
             this.subscribeToEndOfRace();
             })
         .catch((err) => {
@@ -53,16 +54,16 @@
     }
 
     public get lapTimeElapsed(): number {
-    return this._uiLapTimer.hundrethSecondElapsed;
+        return this._uiLapTimer.hundrethSecondElapsed;
     }
 
     public get position(): number {
-    return this.raceProgressionService.userPosition;
+        return this.raceProgressionService.userPosition;
     }
 
     public startRace(): void {
-    this.resetValues();
-    this.startTimers();
+        this.resetValues();
+        this.startTimers();
     }
 
     // lap done from one player (ai or user)
@@ -91,9 +92,16 @@
         this._totalTimeTimer.stop();
     }
 
+    private subscribeToDoneLap(): void {
+            this.raceProgressionService.lapDoneStream$.subscribe( (name: string) => {
+                this.doneLap(name);
+            });
+    }
+
     private subscribeToEndOfRace(): void {
         this.raceProgressionService.user.endOfRace$.subscribe( () => {
                 this.doneRace();
             });
     }
+
 }

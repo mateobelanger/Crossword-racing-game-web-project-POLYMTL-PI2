@@ -1,8 +1,10 @@
 import * as THREE from "three";
+import { Subject } from "rxjs/Subject";
 const WAYPOINT_RADIUS: number = 10;
 
 export class RaceProgression {
     private _nLap: number;
+    private _lapDone$: Subject<void>;
     private _nextWaypointIndex: number;
     private _nextWaypointPosition: THREE.Vector3;
     public constructor(private _carPosition: THREE.Vector3,
@@ -14,10 +16,15 @@ export class RaceProgression {
                             this._waypoints[this._nextWaypointIndex][1], // tslint:disable-next-line:no-magic-numbers
                             this._waypoints[this._nextWaypointIndex][2]
                            );
+                           this._lapDone$ = new Subject();
                        }
 
     public get nLap(): number {
         return this._nLap;
+    }
+
+    public get lapDone$(): Subject<void> {
+        return this._lapDone$;
     }
 
     public get nextWaypointIndex(): number {
@@ -55,7 +62,9 @@ export class RaceProgression {
     }
 
     private updateNLap(): void {
-        if (this._nextWaypointIndex === 0)
+        if (this._nextWaypointIndex === 0) {
             this._nLap++;
+            this._lapDone$.next();
+        }
     }
 }
