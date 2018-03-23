@@ -23,6 +23,7 @@ import { BestTimeHandlerService } from "./recordedTimes/best-time-handler.servic
 import { RaceResultsService } from './recordedTimes/race-results.service';
 import { TimeShowComponent } from './recordedTimes/time-table/time-show/time-show.component';
 import { RaceProgressionHandlerService } from "./raceProgression/race-progression-handler.service";
+import { CarHandlerService } from './cars/car-handler.service';
 
 @NgModule({
 
@@ -59,7 +60,8 @@ import { RaceProgressionHandlerService } from "./raceProgression/race-progressio
     RaceDataHandlerService,
     BestTimeHandlerService,
     RaceResultsService,
-    RaceProgressionHandlerService
+    RaceProgressionHandlerService,
+    CarHandlerService
   ],
 
 })

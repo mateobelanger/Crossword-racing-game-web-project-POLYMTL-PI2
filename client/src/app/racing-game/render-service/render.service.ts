@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
 import * as THREE from "three";
 
-import { Car } from "../car/car";
+import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from "../skybox.service";
 
