@@ -1,4 +1,4 @@
-import { TestBed, inject } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { WordService } from "./word.service";
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { HttpClientModule } from "@angular/common/http";
@@ -24,7 +24,7 @@ describe('WordService', () => {
         });
 
         wordService = TestBed.get(WordService);
-        wordService["_words"] = words;
+        wordService.words = words;
     });
 
     it("should be created", () => {

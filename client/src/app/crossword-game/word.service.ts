@@ -20,6 +20,10 @@ export class WordService {
         return this._words;
     }
 
+    public set words(words: GridWord[]) {
+        this._words = words;
+    }
+
     public get selectedWord(): GridWord {
         return this._selectedWord;
     }

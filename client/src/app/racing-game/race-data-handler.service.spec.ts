@@ -12,11 +12,6 @@ describe('RaceDataHandlerService', () => {
         });
         raceDataHandler = TestBed.get(RaceDataHandlerService);
 
-        jasmine.addCustomEqualityTester((nb1, nb2) => {
-            if (typeof nb1 === "number" && typeof nb2 === "number")
-                return Math.abs(nb1 - nb2) < 0.0001;
-        });
-
     });
 
     it('should be created', inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
@@ -31,7 +26,9 @@ describe('RaceDataHandlerService', () => {
             raceDataHandler.doneLap(totalTime);
         });
         timeLaps.push(0);
-        expect(raceDataHandler.timeLaps).toEqual(timeLaps);
+        expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
+        expect(raceDataHandler.timeLaps[1]).toBeCloseTo(timeLaps[1]);
+        expect(raceDataHandler.timeLaps[2]).toBeCloseTo(timeLaps[2]);
         expect(raceDataHandler.lapElapsed).toEqual(timeLaps.length - 1);
     });
 
@@ -42,7 +39,9 @@ describe('RaceDataHandlerService', () => {
             totalTime += elem;
             raceDataHandler.doneLap(totalTime);
         });
-        expect(raceDataHandler.timeLaps).toEqual(timeLaps);
+        expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
+        expect(raceDataHandler.timeLaps[1]).toBeCloseTo(timeLaps[1]);
+        expect(raceDataHandler.timeLaps[2]).toBeCloseTo(timeLaps[2]);
         expect(raceDataHandler.lapElapsed).toEqual(timeLaps.length);
     });
 
@@ -53,7 +52,9 @@ describe('RaceDataHandlerService', () => {
             totalTime += elem;
             raceDataHandler.doneLap(totalTime);
         });
-        expect(raceDataHandler.timeLaps).toEqual([10.4, 25, 35]);
+        expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
+        expect(raceDataHandler.timeLaps[1]).toBeCloseTo(timeLaps[1]);
+        expect(raceDataHandler.timeLaps[2]).toBeCloseTo(timeLaps[2]);
         expect(raceDataHandler.lapElapsed).toEqual(3);
     });
 
