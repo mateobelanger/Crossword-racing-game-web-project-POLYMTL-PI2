@@ -42,10 +42,9 @@ export class GameComponent implements AfterViewInit {
         let trackName: string = this.route.snapshot.paramMap.get("trackName");
         if (!this.isDefined(trackName))
             trackName = DEFAULT_TRACKNAME;
-        await this.raceDataHandlerService.initialize(trackName, this.renderService.car.mesh.position);
         this.renderService
             .initialize(this.containerRef.nativeElement)
-            .then(/* do nothing */)
+            .then( () => this.raceDataHandlerService.initialize(trackName, this.renderService.car.mesh.position))
             .catch((err) => console.error(err));
 
         this.raceDataHandlerService.startRace();

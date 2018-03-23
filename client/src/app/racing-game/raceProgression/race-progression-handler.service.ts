@@ -17,7 +17,7 @@ export class RaceProgressionHandlerService {
         this._lapDoneStream$ = new Subject();
         this._userProgression = new UserRaceProgression();
     }
-
+    //mavais car position
     public initialize(names: string[], carPosition: THREE.Vector3, waypoints: [number, number, number][]): void {
         names.forEach( (name: string) => {
             if (name === USERNAME) {
