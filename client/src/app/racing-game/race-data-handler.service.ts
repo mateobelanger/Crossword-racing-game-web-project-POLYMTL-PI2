@@ -14,7 +14,7 @@
 
     private _uiLapTimer: Timer;
     private _totalTimeTimer: Timer;
-    private _iTrackData: ITrackData;
+    private _ITrackData: ITrackData;
 
     public constructor( private tracksProxyService: TracksProxyService,
                         private bestTimesService: BestTimeHandlerService,
@@ -28,9 +28,9 @@
     public async initialize(trackname: string, carPosition: THREE.Vector3): Promise<void> {
         this.tracksProxyService.initialize()
         .then(() => {
-            this._iTrackData = this.tracksProxyService.findTrack(trackname);
-            this.bestTimesService.bestTimes = this._iTrackData.bestTimes;
-            this.raceProgressionService.initialize(PLAYERS_NAME, carPosition, this._iTrackData.waypoints);
+            this._ITrackData = this.tracksProxyService.findTrack(trackname);
+            this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
+            this.raceProgressionService.initialize(PLAYERS_NAME, carPosition, this._ITrackData.waypoints);
             this.raceResultService.initialize(PLAYERS_NAME);
             this.subscribeToDoneLap();
             this.subscribeToEndOfRace();
