@@ -6,7 +6,8 @@ import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from "../skybox.service";
 import { CollisionHandler } from "../collisions/collisionHandler";
-// import { Vector3 } from "three";
+
+// import { CollisionHandlerService } from "../collisions/collision-handler.service";
 import { TrackLoaderService } from "../track-loader.service";
 
 
@@ -49,7 +50,7 @@ export class RenderService {
 
     public constructor( private cameraService: CameraService,
                         private skyboxService: SkyboxService,
-                        private trackLoaderService: TrackLoaderService ) {
+                        private trackLoaderService: TrackLoaderService, /* private collisionHandlerService: CollisionHandlerService */ ) {
         this._cars = [];
         this._cars.push( new Car() );
 
@@ -113,7 +114,7 @@ export class RenderService {
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
 
-        // ***
+        // *** TODO to remove
         await this._cars[1].init();
         this._cars[1].setPosition(new THREE.Vector3(-20, 0, 0));
         this.scene.add(this._cars[1]);
@@ -123,10 +124,6 @@ export class RenderService {
         this._cars[2].setPosition(new THREE.Vector3(-10, 0, 0));
         this.scene.add(this._cars[2]);
         this._cars[2].box.setFromObject(this._cars[2].mesh);
-
-        // await this._carForCollision2.init();
-        // this._carForCollision2.setPosition(new THREE.Vector3(-60, 0, 0));
-        // this.scene.add(this._carForCollision2);
         // ***
 
         this.trackLoaderService.initialize(this.scene);

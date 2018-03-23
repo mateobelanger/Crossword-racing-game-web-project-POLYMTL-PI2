@@ -5,34 +5,44 @@ import { CollisionType } from "../constants";
 
 export class Collision {
 
-    public _frontCar: Car;
-    public _backCar: Car;
-    public type: CollisionType;
+    private _frontCar: Car;
+    private _backCar: Car;
+    private _type: CollisionType;
 
     public constructor( firstCollidedObject: Car, secondCollidedObject: Car) {
         this.establishCollisionType(firstCollidedObject, secondCollidedObject);
-        // this.collisionType = CollisionType.FACE_TO_FACE;
-        // this._angle = firstCollidedObject.direction.angleTo(collisionDirection);
+    }
+
+    public get frontCar(): Car {
+        return this._frontCar;
+    }
+
+    public get backCar(): Car {
+        return this._backCar;
+    }
+
+    public get type(): CollisionType {
+        return this._type;
+    }
+
+    public contains(car: Car): boolean {
+        return this._frontCar === car || this._backCar === car;
     }
 
     private establishCollisionType(car1: Car, car2: Car): void {
         if (this.getsHitBy(car1, car2) && this.getsHitBy(car2, car1)) {
             this.assignCars(car1, car2);
-            this.type = CollisionType.FACE_TO_FACE;
-            console.log("les 2 autos se font rentrer dedans");
+            this._type = CollisionType.FACE_TO_FACE;
+            console.log("les 2 autos se rentrent dedans");
         } else if (this.getsHitBy(car1, car2)) {
             this.assignCars(car1, car2);
-            this.type = CollisionType.FIRST_CAR_HIT;
+            this._type = CollisionType.FIRST_CAR_HIT;
             console.log("car1 se fait rentrer dedans");
         } else {
             this.assignCars(car2, car1);
-            this.type = CollisionType.SECOND_CAR_HIT;
+            this._type = CollisionType.SECOND_CAR_HIT;
             console.log("car2 se fait rentrer dedans");
         }
-    }
-
-    public containsCar(car: Car): boolean {
-        return this._frontCar === car || this._backCar === car;
     }
 
     private assignCars(car1: Car, car2: Car): void {

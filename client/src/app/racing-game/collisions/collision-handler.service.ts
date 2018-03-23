@@ -1,16 +1,20 @@
+import { Injectable } from '@angular/core';
 import * as THREE from "three";
+
 import { Car } from "../car/car";
 import { Collision } from "./collision";
 import { CollisionType } from "../constants";
 
-export class CollisionHandler {
+@Injectable()
+export class CollisionHandlerService {
 
     private _collisions: Collision[];
     private _cars: Car[];
 
-    public constructor(cars: Car[]) {
+    // TODO: attendre le service d'autos de PO
+    public constructor(/* private carService: CarService */) {
         this._collisions = [];
-        this._cars = cars;
+        // this._cars = carService.cars;
     }
 
     private isNewCollision(car1: Car, car2: Car): boolean {
