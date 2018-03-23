@@ -4,7 +4,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { TrackEditorUiComponent } from './track-editor-ui.component';
 import { routes } from '../../app-routes.module';
 import { AppModule } from '../../app.module';
-import { ITrackData } from '../../../../../common/trackData';
+import { ITrackData } from '../../../../../common/ItrackData';
 import { TracksProxyService } from "../../racing-game/tracks-proxy.service";
 
 const fakeTrack: ITrackData = {

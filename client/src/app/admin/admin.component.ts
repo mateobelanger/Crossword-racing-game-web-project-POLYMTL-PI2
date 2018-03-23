@@ -1,6 +1,6 @@
 import { AfterViewInit, Component} from "@angular/core";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
-import { ITrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/ItrackData";
 
 @Component({
     selector: 'app-admin',
@@ -20,7 +20,7 @@ export class AdminComponent implements  AfterViewInit {
             await this.proxy.initialize();
             this.tracks = this.proxy.tracks;
         } catch (e) {
-            return;
+            console.error(e);
         }
     }
 
@@ -30,7 +30,7 @@ export class AdminComponent implements  AfterViewInit {
             await this.proxy.initialize();
             this.tracks = this.proxy.tracks;
         } catch (e) {
-            return;
+            console.error(e);
         }
     }
 }
