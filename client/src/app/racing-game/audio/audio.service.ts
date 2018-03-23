@@ -54,4 +54,10 @@ export class AudioService {
     public setVolume(id: number, volume: number): void {
         this.sounds[id].setVolume(volume);
     }
+
+    public stopAllSounds(): void {
+        for (let i: number = 0; i < this.sounds.length; i++) {
+            this.sounds[i].stop();
+        }
+    }
 }
