@@ -1,8 +1,8 @@
 export interface IDatamuseResponse {
     word: string;
     score: number;
-    tags: Array<string>;
-    definitions: Array<string>;
+    tags: string[];
+    definitions: string[];
 }
 
 const COMMON_LIMIT: number = 10;
@@ -12,8 +12,8 @@ const QUOTATION_MARKS_ASCII_CODE: number = 34;
 export class DatamuseResponse implements IDatamuseResponse {
     public word: string;
     public score: number;
-    public tags: Array<string>;
-    public definitions: Array<string>;
+    public tags: string[];
+    public definitions: string[];
 
     constructor(data: IDatamuseResponse) {
         this.word = data.word;
