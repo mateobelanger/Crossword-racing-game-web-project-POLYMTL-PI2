@@ -31,6 +31,10 @@ export class Collision {
         }
     }
 
+    public containsCar(car: Car): boolean {
+        return this._frontCar === car || this._backCar === car;
+    }
+
     private assignCars(car1: Car, car2: Car): void {
         this._frontCar = car1;
         this._backCar = car2;

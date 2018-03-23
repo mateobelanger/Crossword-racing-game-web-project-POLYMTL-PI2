@@ -55,6 +55,7 @@ export class RenderService {
 
         // ***
         this._cars.push(new Car());
+        this._cars.push(new Car());
         // this._carForCollision2 = new Car();
         this.collisionHandler = new CollisionHandler(this._cars);
         // ***
@@ -117,6 +118,12 @@ export class RenderService {
         this._cars[1].setPosition(new THREE.Vector3(-20, 0, 0));
         this.scene.add(this._cars[1]);
         this._cars[1].box.setFromObject(this._cars[1].mesh);
+
+        await this._cars[2].init();
+        this._cars[2].setPosition(new THREE.Vector3(-10, 0, 0));
+        this.scene.add(this._cars[2]);
+        this._cars[2].box.setFromObject(this._cars[2].mesh);
+
         // await this._carForCollision2.init();
         // this._carForCollision2.setPosition(new THREE.Vector3(-60, 0, 0));
         // this.scene.add(this._carForCollision2);
@@ -140,10 +147,6 @@ export class RenderService {
         this.update();
 
         this.collisionHandler.handleCarCollisions(this._cars, this.scene);
-        // if (this._cars[0].box.intersectsBox(this._cars[1].box)) {
-        //     console.log("collision");
-        //     this.collisionHandler.handleCollision(this._cars[0], this._cars[1]);
-        // }
 
         this.renderer.render(this.scene, this.cameraService.getCamera());
         this.stats.update();
