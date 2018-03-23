@@ -10,7 +10,8 @@ const DEFAULT_TRACKNAME: string = "test";
     moduleId: module.id,
     selector: "app-game-component",
     templateUrl: "./game.component.html",
-    styleUrls: ["./game.component.css"]
+    styleUrls: ["./game.component.css"],
+    providers: [RenderService]
 })
 
 export class GameComponent implements AfterViewInit {
