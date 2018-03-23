@@ -19,17 +19,14 @@ export class WordSelector {
             || this.containsImpossibleCombinations(template, THREE_LETTER_WORDS_LENGTH)) {
             return [];
         }
-        const positions: number[] = [];
-        for (let i: number = 0; i < template.length; i++) {
-            if (template[i] !== ANY_CHAR) {
-                positions.push(i);
-            }
+
+        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH];
+        const positions: number[] = this.getLetterPositions(template);
+
+        if (positions.length === 0) {
+            return ArrayHelper.shuffle(words).slice(0, MAX_WORDS_PER_RESPONSE);
         }
 
-        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH].slice();  //creates a copy of  the array
-        if (positions.length === 0) {
-            return ArrayHelper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
-        }
         const validWords: string[] = [];
         for (const word of words) {
             let isValid: boolean = true;
@@ -44,7 +41,7 @@ export class WordSelector {
             }
         }
 
-        return ArrayHelper.shuffle(validWords).splice(0, MAX_WORDS_PER_RESPONSE);
+        return ArrayHelper.shuffle(validWords).slice(0, MAX_WORDS_PER_RESPONSE);
     }
 
     public static getWordsByRarity(words: Array<DatamuseResponse>, isCommon: boolean): Array<DatamuseResponse> {
@@ -120,5 +117,16 @@ export class WordSelector {
 
     private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): IWord {
         return { value: datamuseResponse.word, definition: datamuseResponse.definitions[definitionIndex] };
+    }
+
+    private static getLetterPositions(template: string): number[] {
+        const positions: number[] = [];
+        for (let i: number = 0; i < template.length; i++) {
+            if (template[i] !== ANY_CHAR) {
+                positions.push(i);
+            }
+        }
+
+        return positions;
     }
 }
