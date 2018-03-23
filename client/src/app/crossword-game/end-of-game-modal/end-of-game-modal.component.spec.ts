@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EndOfGameModalComponent } from './end-of-game-modal.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 describe('EndOfGameModalComponent', () => {
   let component: EndOfGameModalComponent;
@@ -8,7 +10,8 @@ describe('EndOfGameModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EndOfGameModalComponent ]
+      declarations: [ EndOfGameModalComponent ],
+      imports: [ RouterTestingModule ]
     })
     .compileComponents();
   }));
@@ -22,4 +25,11 @@ describe('EndOfGameModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it("should restart", () => {
+  const restartButon: string = fixture.debugElement.query(By.css("#restart")).nativeElement
+    .getAttribute('href');
+  expect(restartButon).toEqual('/crossword-game/Difficulty.EASY/ui');
+  });
+
 });
