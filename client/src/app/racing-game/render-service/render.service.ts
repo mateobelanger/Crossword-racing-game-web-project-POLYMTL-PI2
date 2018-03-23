@@ -67,7 +67,7 @@ export class RenderService {
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
-
+   
         await this._car.init();
         this.scene.add(this._car);
 
@@ -77,17 +77,9 @@ export class RenderService {
 
         this.cameraService.initialize(this.container, this._car.mesh);
         this.sceneLoaderService.initialize(this.scene);
+
     }
 
-    /*
-        this.directionalLight.shadow.camera.near = ORTHOGRAPHIC_CAMERA_NEAR_PLANE;
-        this.directionalLight.shadow.camera.far = ORTHOGRAPHIC_CAMERA_FAR_PLANE;
-
-        this.directionalLight.shadow.camera.left = -ORTHOGRAPHIC_FIELD_OF_VIEW;
-        this.directionalLight.shadow.camera.right = ORTHOGRAPHIC_FIELD_OF_VIEW;
-        this.directionalLight.shadow.camera.top = ORTHOGRAPHIC_FIELD_OF_VIEW;
-        this.directionalLight.shadow.camera.bottom = -ORTHOGRAPHIC_FIELD_OF_VIEW;
-    */
 
     private startRenderingLoop(): void {
         this.renderer = new THREE.WebGLRenderer();

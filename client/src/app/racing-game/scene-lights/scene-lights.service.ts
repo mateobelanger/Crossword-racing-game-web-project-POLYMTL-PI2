@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from "three";
 import { EDITOR_LAND_HEIGHT, EDITOR_LAND_WIDTH } from '../constants';
-//import { ORTHOGRAPHIC_FIELD_OF_VIEW } from '../camera.service';
+
 
 const EDITOR_LAND_DIVISOR: number = 4;
 const middlePointX: number = EDITOR_LAND_WIDTH / EDITOR_LAND_DIVISOR ;
@@ -9,7 +9,6 @@ const middlePointZ: number = EDITOR_LAND_HEIGHT / EDITOR_LAND_DIVISOR ;
 
 const POINT_LIGHT_POSITION_Y: number = 30;
 const POINT_LIGHT_COLOR: number = 0x7DFDFE;
-const MAP_SIZE: number = 512;
 
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const AMBIENT_LIGHT_COLOR: number = 0xF66A35;
@@ -99,9 +98,6 @@ export class SceneLightsService {
 
     private generatePointLight(positionX: number, positionZ: number): THREE.PointLight {
         const pointLight: THREE.PointLight = new THREE.PointLight( POINT_LIGHT_COLOR, 1, AMBIENT_LIGHT_DISTANCE_Y);
-        pointLight.castShadow = true;
-        pointLight.shadow.mapSize.width = MAP_SIZE;
-        pointLight.shadow.mapSize.height = MAP_SIZE;
         pointLight.position.y = POINT_LIGHT_POSITION_Y;
         pointLight.position.x = positionX;
         pointLight.position.z = positionZ;
@@ -116,25 +112,8 @@ export class SceneLightsService {
     }
 
     private generateDirectionalLight(): void {
-        //this.directionalLight.shadow.camera.position.copy(this.cameraService.orthographicCamera.position);
-
         this.directionalLight = new THREE.DirectionalLight(DIRECTIONAL_LIGHT_COLOR, DIRECTIONAL_LIGHT_OPACITY);
-        //this.directionalLight.castShadow = true;
         this.directionalLight.position.set( 0, DIRECTIONAL_LIGHT_DISTANCE_Y, 0 );
-        //this.directionalLight.shadow.camera.visible = true;
-
-        //this.directionalLight.shadow.mapSize.width = 512*8;
-        //this.directionalLight.shadow.mapSize.height = 512*8;
-
-/*
-        this.directionalLight.shadow.camera.near = 20;
-        this.directionalLight.shadow.camera.far = 500;
-
-        this.directionalLight.shadow.camera.left = -ORTHOGRAPHIC_FIELD_OF_VIEW*5;
-        this.directionalLight.shadow.camera.right = ORTHOGRAPHIC_FIELD_OF_VIEW*5;
-        this.directionalLight.shadow.camera.top = ORTHOGRAPHIC_FIELD_OF_VIEW*5;
-        this.directionalLight.shadow.camera.bottom = -ORTHOGRAPHIC_FIELD_OF_VIEW*5;
-*/
     }
 
     private addHemisphereLight(): void {
