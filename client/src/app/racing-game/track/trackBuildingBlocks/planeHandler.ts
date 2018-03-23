@@ -1,6 +1,6 @@
 import {Waypoint} from "../trackData/waypoint";
 import {Plane} from "./plane";
-import { PLANE_POSITION_Z_FIRST, TRACK_WIDTH, PlaneType, PLANE_POSITION_Z_SECOND } from '../../constants';
+import { UPPER_PLANE_POSITION_Z, TRACK_WIDTH, PlaneType, LOWER_PLANE_POSITION_Z } from '../../constants';
 import * as THREE from "three";
 
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 40;
@@ -40,7 +40,7 @@ export class PlaneHandler {
             }
             this._planes.push(plane);
 
-            plane.mesh.position.z = i % EVEN_NUMBER === 0 ? PLANE_POSITION_Z_FIRST : PLANE_POSITION_Z_SECOND;
+            plane.mesh.position.z = i % EVEN_NUMBER === 0 ? UPPER_PLANE_POSITION_Z : LOWER_PLANE_POSITION_Z;
 
             hasReversedAxes ? plane.mesh.rotateOnAxis(axis, Math.PI / 2) : plane.mesh.rotateOnAxis(axis, 0);
 
@@ -56,7 +56,7 @@ export class PlaneHandler {
     }
 
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
-        newPos.z = PLANE_POSITION_Z_FIRST;
+        newPos.z = UPPER_PLANE_POSITION_Z;
         const firstPlane: Plane = this.getPlane(waypoint.getIncomingPlaneId());
         const secondPlane: Plane = this.getPlane(waypoint.getOutgoingPlaneId());
 

@@ -5,9 +5,9 @@ import * as THREE from "three";
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from "../skybox.service";
-import { LoadingTrackHandlerService } from "../loading-track-handler.service";
 import { CollisionHandler } from "../collisions/collisionHandler";
 // import { Vector3 } from "three";
+import { TrackLoaderService } from "../track-loader.service";
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -49,7 +49,7 @@ export class RenderService {
 
     public constructor( private cameraService: CameraService,
                         private skyboxService: SkyboxService,
-                        private loadingTrackHandlerService: LoadingTrackHandlerService) {
+                        private trackLoaderService: TrackLoaderService ) {
         this._cars = [];
         this._cars.push( new Car() );
 
@@ -58,6 +58,7 @@ export class RenderService {
         // this._carForCollision2 = new Car();
         this.collisionHandler = new CollisionHandler(this._cars);
         // ***
+
 
     }
 
@@ -121,10 +122,7 @@ export class RenderService {
         // this.scene.add(this._carForCollision2);
         // ***
 
-        this.loadingTrackHandlerService.initialize(this.scene);
-
-        // const helper: THREE.BoxHelper = new THREE.BoxHelper(this._car.mesh, new THREE.Color(0xFF0000));
-        // this.scene.add(helper);
+        this.trackLoaderService.initialize(this.scene);
     }
 
     private startRenderingLoop(): void {

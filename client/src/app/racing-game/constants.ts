@@ -12,8 +12,8 @@ export const PI_OVER_2: number = Math.PI / 2;
 // TRACK-EDITOR
 export const WAYPOINTS_POSITION_Z: number = 10;
 export const CIRCLE_POSITION_Z: number = -1;
-export const PLANE_POSITION_Z_FIRST: number = -1.05;
-export const PLANE_POSITION_Z_SECOND: number = -1.06;
+export const UPPER_PLANE_POSITION_Z: number = -1.05;
+export const LOWER_PLANE_POSITION_Z: number = -1.06;
 export const BACKGROUND_PLANE_POSITION_Z: number = -3;
 export const TRACK_WIDTH: number = 20;       // ** 20 pour track editor
 export const BACKGROUND_PLANE: string = "backgroundPlane";

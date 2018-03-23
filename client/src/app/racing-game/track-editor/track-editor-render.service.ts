@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { Track } from "../track/trackData/track";
+// import { Track } from "../track/trackData/track";
 import { CircleHandler } from "../track/trackBuildingBlocks/circleHandler";
 import { PlaneHandler } from "../track/trackBuildingBlocks/planeHandler";
 import { BackgroundPlane } from "../track/trackBuildingBlocks/backgroundPlane";
@@ -35,9 +35,9 @@ export class TrackEditorRenderService {
         this._backgroundPlane = null;
     }
 
-    public initialize(container: HTMLDivElement, track: Track): void {
+    public initialize(container: HTMLDivElement): void {
         this._container = container;
-        this.createScene(track);
+        this.createScene();
         this.startRenderingLoop();
     }
 
@@ -49,11 +49,6 @@ export class TrackEditorRenderService {
 
     public getBackgroundPlaneWithRaycast(): THREE.Intersection[] {
         return this._raycaster.intersectObject(this._backgroundPlane.getBackgroundPlane());
-    }
-
-    // TODO : what is it?
-    public getMousePos(): THREE.Vector2 {
-        return this._mouse;
     }
 
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
@@ -70,7 +65,7 @@ export class TrackEditorRenderService {
         return this._renderer.domElement.toDataURL("image/jpeg", IMAGE_QUALITY);
     }
 
-    private createScene(track: Track): void {
+    private createScene(): void {
         this._scene = new THREE.Scene();
 
         this._raycaster = new THREE.Raycaster();

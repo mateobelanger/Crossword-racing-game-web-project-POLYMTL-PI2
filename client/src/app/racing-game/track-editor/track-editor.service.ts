@@ -33,7 +33,7 @@ export class TrackEditorService {
 
     public initialize(container: HTMLDivElement): void {
         this._container = container;
-        this.trackEditorRenderService.initialize(this._container, this._track);
+        this.trackEditorRenderService.initialize(this._container);
         this._track = new Track();
         this._dragDropActive = false;
         this._track.isClosed = false;
