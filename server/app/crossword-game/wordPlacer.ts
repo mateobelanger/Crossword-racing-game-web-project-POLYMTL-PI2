@@ -19,7 +19,6 @@ export class WordPlacer {
             this._emptyWords.push(new GridEntry(word));
         }
         this.sortByLength();
-        console.log(this._grid);
     }
 
     public get grid(): string[][] {
@@ -32,6 +31,8 @@ export class WordPlacer {
 
     public async placeWords(difficulty: string): Promise<boolean> {
         if (this._emptyWords.length === 0) {
+            this.setAllDefinitions(await this.fetchAllDefinitions());
+
             return true;
         }
 
@@ -59,11 +60,27 @@ export class WordPlacer {
         return false;
     }
 
-    public async getDefinition(word: string): Promise<string> {
-        const response = await fetch("http://localhost:3000/service/lexical/wordsearch/" + word);
-        const data: IDatamuseResponse = await response.json();
+    private async fetchDefinition(word: string): Promise<string> {
+        try {
+            const response = await fetch("http://localhost:3000/service/lexical/wordsearch/" + word);
+            const data: IDatamuseResponse = await response.json();
+            
+            return data.defs.length ? data.defs[0].slice(data.defs[0].indexOf("\t") + 1) : "no definition";
+        } catch(err) {
+            return "no definition";
+        }
+    }
 
-        return data.defs[0];
+    private async fetchAllDefinitions(): Promise<string[]> {
+        const promises = this._placedWords.map(word => this.fetchDefinition(word.value));
+
+        return Promise.all(promises);
+    }
+
+    private setAllDefinitions(definitions: string[]): void {
+        for (let i: number = 0; i < definitions.length; i++) {
+            this._placedWords[i].definition = definitions[i];
+        }
     }
 
     private initializeGrid(grid: string[][]): void {

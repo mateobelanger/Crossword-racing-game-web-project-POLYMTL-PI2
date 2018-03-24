@@ -94,10 +94,10 @@ export class GridCreator {
             }
             let value: string = "";
             const headIndex: number = i;
-            for (; i < lane.length; i++) {
+           while(i < lane.length) {
                 value += "-";
-                if (lane[i] === BLACK_CELL) {
-                    i--;
+                if (lane[++i] === BLACK_CELL) {
+                    i--;    // will be reincremented at the end of the loop.
                     break;
                 }
             }
