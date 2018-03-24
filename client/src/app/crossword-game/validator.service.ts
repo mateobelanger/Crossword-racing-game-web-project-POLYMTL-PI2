@@ -11,6 +11,10 @@ export class ValidatorService {
     public isEndOfGame: boolean = false;
 
     public constructor(private wordService: WordService) {
+    }
+
+    // public method to be initialized only once the words are fetched from the server.
+    public initialize(): void {
         this.validatedWords = [];
         this.initializeGrid();
         this.fillGrid();
