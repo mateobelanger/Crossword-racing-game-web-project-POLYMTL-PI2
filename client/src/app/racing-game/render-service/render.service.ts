@@ -4,14 +4,9 @@ import * as THREE from "three";
 
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
-<<<<<<< HEAD
 import { SkyboxService } from "../skybox.service";
 import { TrackLoaderService } from "../track-loader.service";
-
-=======
-import { SkyboxService } from '../skybox.service';
 import { AudioService } from "../audio/audio.service";
->>>>>>> master
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
@@ -44,13 +39,10 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-<<<<<<< HEAD
                        private skyboxService: SkyboxService,
-                       private trackLoaderService: TrackLoaderService ) {
-=======
-                       private skyboxService: SkyboxService, // audio
+                       private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService ) {
->>>>>>> master
+
         this._car = new Car();
 
     }
@@ -84,10 +76,6 @@ export class RenderService {
 
         await this._car.init();
         this.scene.add(this._car);
-<<<<<<< HEAD
-
-=======
->>>>>>> master
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
         this.cameraService.initialize(this.container, this._car.mesh);
@@ -98,14 +86,10 @@ export class RenderService {
 
         this.skyboxService.initialize(this.scene);
         this.skyboxService.generateSkybox();
-<<<<<<< HEAD
-
 
         this.trackLoaderService.initialize(this.scene);
-=======
         // audio
         this.audioService.initialize(this.cameraService.getCamera());
->>>>>>> master
     }
 
     private startRenderingLoop(): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TracksProxyService } from "./tracks-proxy.service";
-import { ITrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/itrackData";
 import { BestTimeHandlerService } from './bestTimes/best-time-handler.service';
 import { TrackLoaderService } from './track-loader.service';
 const MAX_NB_LAPS: number = 3;

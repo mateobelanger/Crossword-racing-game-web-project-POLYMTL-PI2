@@ -21,8 +21,8 @@ import { PositionComponent } from './game-infos/position/position.component';
 import { BestTimesComponent } from './bestTimes/best-times/best-times.component';
 import { BestTimeHandlerService } from "./bestTimes/best-time-handler.service";
 import { TrackLoaderService } from "./track-loader.service";
-
 import { AudioService } from "./audio/audio.service";
+
 @NgModule({
 
   imports: [
@@ -54,7 +54,7 @@ import { AudioService } from "./audio/audio.service";
     CameraService,
     SkyboxService,
     TracksProxyService,
-    AudioService
+    AudioService,
     RaceDataHandlerService,
     BestTimeHandlerService,
     TrackLoaderService
