@@ -5,7 +5,6 @@ import * as THREE from "three";
 import { Car } from "../car/car";
 import { CameraService } from "../camera.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
-import { SkyboxService } from "../skybox.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
 
@@ -22,6 +21,7 @@ const SCENE_STATE_KEYCODE: number = 78; // n
 // To see the car"s point of departure
 const HELPER_AXES_SIZE: number = 500;
 //const HELPER_GRID_SIZE: number = 500;
+
 
 @Injectable()
 export class RenderService {
@@ -41,8 +41,7 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-                       private sceneLoaderService: SceneLoaderService) {
-                       private skyboxService: SkyboxService,
+                       private sceneLoaderService: SceneLoaderService,
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService ) {
 
@@ -77,7 +76,7 @@ export class RenderService {
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
-   
+
         await this._car.init();
         this.scene.add(this._car);
 

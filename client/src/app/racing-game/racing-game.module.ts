@@ -58,7 +58,7 @@ import { AudioService } from "./audio/audio.service";
     TracksProxyService,
     AudioService,
     BestTimeHandlerService,
-    TrackLoaderService
+    TrackLoaderService,
     RaceDataHandlerService,
     SceneLightsService,
     SceneLoaderService
