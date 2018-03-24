@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import "reflect-metadata";
 import { injectable, } from "inversify";
 import { WordSelector, MAX_WORDS_PER_RESPONSE } from "./wordSelector";
-import { DatamuseResponse, IDatamuseResponse } from "./IdatamuseResponse";
+import { DatamuseResponse, IDatamuseResponse } from "./datamuseResponse";
 
 // tslint:disable-next-line:typedef
 const DATAMUSE = require("datamuse");
