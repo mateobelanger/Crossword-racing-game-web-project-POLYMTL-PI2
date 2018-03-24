@@ -11,9 +11,8 @@ import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 describe("RenderService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [RenderService, CameraService, SkyboxService, SceneLightsService, SceneLoaderService]
-            providers: [RenderService, CameraService, SkyboxService, TrackLoaderService]
-            providers: [RenderService, CameraService, SkyboxService, AudioService]
+            providers: [RenderService, CameraService, SkyboxService, SceneLightsService,
+                        SceneLoaderService, AudioService, TrackLoaderService]
         });
     });
 

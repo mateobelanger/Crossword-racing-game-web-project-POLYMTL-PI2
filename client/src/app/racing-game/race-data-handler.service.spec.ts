@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { TracksProxyService} from "./tracks-proxy.service";
+import { TracksProxyService } from "./tracks-proxy.service";
 import { RaceDataHandlerService } from './race-data-handler.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BestTimeHandlerService } from './bestTimes/best-time-handler.service';
@@ -11,14 +11,10 @@ describe('RaceDataHandlerService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [RaceDataHandlerService]
+            imports: [HttpClientTestingModule],
+            providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, TrackLoaderService]
         });
         raceDataHandler = TestBed.get(RaceDataHandlerService);
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, TrackLoaderService]
-    });
 
     });
 
@@ -28,10 +24,8 @@ describe('RaceDataHandlerService', () => {
 
     it("doneLap -> nbLap < 3", () => {
         const timeLaps: number[] = [10.4, 14];
-        let totalTime: number = 0;
         timeLaps.forEach((elem) => {
-            totalTime += elem;
-            raceDataHandler.doneLap(totalTime);
+            raceDataHandler.doneLap();
         });
         timeLaps.push(0);
         expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
@@ -42,10 +36,8 @@ describe('RaceDataHandlerService', () => {
 
     it("doneLap -> nbLap = 3", () => {
         const timeLaps: number[] = [10.4, 25, 35];
-        let totalTime: number = 0;
         timeLaps.forEach((elem) => {
-            totalTime += elem;
-            raceDataHandler.doneLap(totalTime);
+            raceDataHandler.doneLap();
         });
         expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
         expect(raceDataHandler.timeLaps[1]).toBeCloseTo(timeLaps[1]);
@@ -55,10 +47,8 @@ describe('RaceDataHandlerService', () => {
 
     it("doneLap -> nbLap > 3, should not get higher than 3", () => {
         const timeLaps: number[] = [10.4, 25, 35, 45, 67, 89];
-        let totalTime: number = 0;
         timeLaps.forEach((elem) => {
-            totalTime += elem;
-            raceDataHandler.doneLap(totalTime);
+            raceDataHandler.doneLap();
         });
         expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
         expect(raceDataHandler.timeLaps[1]).toBeCloseTo(timeLaps[1]);
@@ -72,7 +62,7 @@ describe('RaceDataHandlerService', () => {
 
         timeLaps.forEach((elem) => {
             totalTime += elem;
-            raceDataHandler.doneLap(totalTime);
+            raceDataHandler.doneLap();
         });
         expect(raceDataHandler.totalTime()).toEqual(totalTime);
     });
