@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { Car } from "../car/car";
 import { CollisionType } from "../constants";
 
-const FRAMES_PER_RAD: number = 10;
+const FRAMES_PER_RAD: number = 30;
 
 export class Collision {
 
@@ -76,8 +76,7 @@ export class Collision {
                 rotation = this._backCar.direction.angleTo(this._frontCar.direction);
                 break;
         }
-        console.log("Rotation in radians of the collision: " + rotation);
-        this.remainingFrames = rotation * FRAMES_PER_RAD;
-        this.rotationPerFrame = rotation / this.remainingFrames;
+        (this.remainingFrames = rotation * FRAMES_PER_RAD) === 0 ?
+            this.rotationPerFrame = 0 : this.rotationPerFrame = rotation / this.remainingFrames;
     }
 }
