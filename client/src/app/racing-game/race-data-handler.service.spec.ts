@@ -7,51 +7,75 @@ import { TrackLoaderService } from './track-loader.service';
 // tslint:disable:no-magic-numbers
 describe('RaceDataHandlerService', () => {
 
+    let raceDataHandler: RaceDataHandlerService;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [RaceDataHandlerService]
+        });
+        raceDataHandler = TestBed.get(RaceDataHandlerService);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, TrackLoaderService]
     });
 
-    jasmine.addCustomEqualityTester((nb1, nb2) => {
-      if (typeof nb1 === "number" && typeof nb2 === "number")
-        return Math.abs(nb1 - nb2) < 0.0001;
-
-      return false;
     });
 
-  });
+    it('should be created', inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
+        expect(service).toBeTruthy();
+    }));
 
-  it('should be created', inject([RaceDataHandlerService],
-                                 (service: RaceDataHandlerService) => {
-    expect(service).toBeTruthy();
-  }));
-
-  it("doneLap -> nbLap < 3", inject([RaceDataHandlerService],
-                                    (service: RaceDataHandlerService) => {
-      const timeLaps: number[] = [10.4, 14];
-      timeLaps.forEach((elem) => {
-        service.doneLap();
-      });
-      timeLaps.push(0);
-      expect(service.lapElapsed).toEqual(timeLaps.length - 1);
-  }));
-
-  it("doneLap -> nbLap = 3", inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
-    const timeLaps: number[] = [10.4, 25, 35];
-    timeLaps.forEach((elem) => {
-      service.doneLap();
+    it("doneLap -> nbLap < 3", () => {
+        const timeLaps: number[] = [10.4, 14];
+        let totalTime: number = 0;
+        timeLaps.forEach((elem) => {
+            totalTime += elem;
+            raceDataHandler.doneLap(totalTime);
+        });
+        timeLaps.push(0);
+        expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
+        expect(raceDataHandler.timeLaps[1]).toBeCloseTo(timeLaps[1]);
+        expect(raceDataHandler.timeLaps[2]).toBeCloseTo(timeLaps[2]);
+        expect(raceDataHandler.lapElapsed).toEqual(timeLaps.length - 1);
     });
-    expect(service.lapElapsed).toEqual(timeLaps.length);
-  }));
 
-  it("doneLap -> nbLap > 3, should not get higher than 3", inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
-    const timeLaps: number[] = [10.4, 25, 35, 45, 67, 89];
-    timeLaps.forEach((elem) => {
-      service.doneLap();
+    it("doneLap -> nbLap = 3", () => {
+        const timeLaps: number[] = [10.4, 25, 35];
+        let totalTime: number = 0;
+        timeLaps.forEach((elem) => {
+            totalTime += elem;
+            raceDataHandler.doneLap(totalTime);
+        });
+        expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
+        expect(raceDataHandler.timeLaps[1]).toBeCloseTo(timeLaps[1]);
+        expect(raceDataHandler.timeLaps[2]).toBeCloseTo(timeLaps[2]);
+        expect(raceDataHandler.lapElapsed).toEqual(timeLaps.length);
     });
-    expect(service.lapElapsed).toEqual(3);
-  }));
+
+    it("doneLap -> nbLap > 3, should not get higher than 3", () => {
+        const timeLaps: number[] = [10.4, 25, 35, 45, 67, 89];
+        let totalTime: number = 0;
+        timeLaps.forEach((elem) => {
+            totalTime += elem;
+            raceDataHandler.doneLap(totalTime);
+        });
+        expect(raceDataHandler.timeLaps[0]).toBeCloseTo(timeLaps[0]);
+        expect(raceDataHandler.timeLaps[1]).toBeCloseTo(timeLaps[1]);
+        expect(raceDataHandler.timeLaps[2]).toBeCloseTo(timeLaps[2]);
+        expect(raceDataHandler.lapElapsed).toEqual(3);
+    });
+
+    it("totalTime", () => {
+        const timeLaps: number[] = [10.4, 25, 35];
+        let totalTime: number = 0;
+
+        timeLaps.forEach((elem) => {
+            totalTime += elem;
+            raceDataHandler.doneLap(totalTime);
+        });
+        expect(raceDataHandler.totalTime()).toEqual(totalTime);
+    });
 
 });
 

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from "@angular/core";
 import { TracksProxyService } from "../../racing-game/tracks-proxy.service";
-import { ITrackData } from "../../../../../common/trackData";
+import { ITrackData } from "../../../../../common/ItrackData";
 
 import { TrackEditorService } from '../../racing-game/track-editor/track-editor.service';
 import { ActivatedRoute } from '@angular/router';
@@ -42,7 +42,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
             await this.proxy.initialize();
             this.setTrack();
         } catch (e) {
-            return;
+            console.error(e);
         }
     }
 
@@ -50,7 +50,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
         try {
             await this.proxy.initialize();
         } catch (e) {
-            return;
+            console.error(e);
         }
 
         if (!this.isValidTrack()) {

@@ -12,14 +12,14 @@
                value={{block}} 
                [attr.id]="gridService.generateId(indexR, indexC)" 
                class="col" 
-               [class.validated]="gridService.validatedCells[indexR][indexC]" 
-               [disabled]="gridService.validatedCells[indexR][indexC]"  
-               [class.selected]="gridService.isSelectedWord(gridService.generateId(indexR, indexC))"
-               [class.filled]="block === '-'" 
+               [class.validated]="gridService.isValidatedCell(indexR, indexC)"
+               [class.selected]="gridService.isSelectedWord(indexR, indexC)"
+               [class.filled]="block === '-'"
+               [disabled]="gridService.isValidatedCell(indexR, indexC)"  
                [(ngModel)]="gridService.userGrid[indexR][indexC]" 
-               (keydown)="gridService.keyDown($event.keyCode, indexR, indexC);" 
-               (keyup)="keyUp($event.keyCode,indexR, indexC); $event.target.value.toLower()"
-               (click)="gridService.selectWord(indexR, indexC); $event.stopPropagation()" 
+               (keydown)="gridService.keyDown($event.keyCode, indexR, indexC)" 
+               (keyup)="keyUp(indexR, indexC)"
+               (click)="onSelect(indexR, indexC); $event.stopPropagation()" 
                maxlength=1 
                size=1
                tabindex="-1">

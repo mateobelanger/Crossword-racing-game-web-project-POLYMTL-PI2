@@ -12,8 +12,7 @@ import { InformationsComponent } from './informations/informations.component';
 
 import { WordService } from './word.service';
 import { GridService } from './grid.service';
-import { DefinitionsService } from './definitions.service';
-import { ValidationMediatorService } from './validation-mediator.service';
+import { ValidatorService } from './validator.service';
 
 
 @NgModule({
@@ -34,8 +33,7 @@ import { ValidationMediatorService } from './validation-mediator.service';
     providers: [
         WordService,
         GridService,
-        DefinitionsService,
-        ValidationMediatorService
+        ValidatorService
     ],
 
     exports: [

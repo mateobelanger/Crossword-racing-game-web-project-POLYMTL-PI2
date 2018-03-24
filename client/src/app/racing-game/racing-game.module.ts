@@ -22,6 +22,7 @@ import { BestTimesComponent } from './bestTimes/best-times/best-times.component'
 import { BestTimeHandlerService } from "./bestTimes/best-time-handler.service";
 import { TrackLoaderService } from "./track-loader.service";
 
+import { AudioService } from "./audio/audio.service";
 @NgModule({
 
   imports: [
@@ -53,6 +54,7 @@ import { TrackLoaderService } from "./track-loader.service";
     CameraService,
     SkyboxService,
     TracksProxyService,
+    AudioService
     RaceDataHandlerService,
     BestTimeHandlerService,
     TrackLoaderService
