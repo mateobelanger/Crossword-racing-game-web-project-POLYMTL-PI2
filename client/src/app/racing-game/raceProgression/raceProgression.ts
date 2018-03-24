@@ -7,17 +7,25 @@ export class RaceProgression {
     private _lapDone$: Subject<void>;
     private _nextWaypointIndex: number;
     private _nextWaypointPosition: THREE.Vector3;
+    private _lastWaypointPosition: THREE.Vector3;
+
     public constructor(private _carPosition: THREE.Vector3,
                        private _waypoints: [number, number, number][]) {
-                           this._nLap = 0;
-                           this._nextWaypointIndex = 0;
-                           this._nextWaypointPosition = new THREE.Vector3(
-                            this._waypoints[this._nextWaypointIndex][0],
-                            this._waypoints[this._nextWaypointIndex][1], // tslint:disable-next-line:no-magic-numbers
-                            this._waypoints[this._nextWaypointIndex][2]
-                           );
-                           this._lapDone$ = new Subject();
-                       }
+        this._nLap = 0;
+        this._nextWaypointIndex = 0;
+        this._nextWaypointPosition = new THREE.Vector3(
+            this._waypoints[this._nextWaypointIndex][0],
+            this._waypoints[this._nextWaypointIndex][1], // tslint:disable-next-line:no-magic-numbers
+            this._waypoints[this._nextWaypointIndex][2]
+        );
+
+        this._lastWaypointPosition = new THREE.Vector3(
+            this._waypoints[this._waypoints.length - 1][0],
+            this._waypoints[this._waypoints.length - 1][1], // tslint:disable-next-line:no-magic-numbers
+            this._waypoints[this._waypoints.length - 1][2]
+        )
+        this._lapDone$ = new Subject();
+    }
 
     public get nLap(): number {
         return this._nLap;
@@ -33,8 +41,8 @@ export class RaceProgression {
 
     public update(): void {
         if (this.distanceToNextWaypoint() < WAYPOINT_RADIUS) {
-            this.incrementNextWaypointPosition();
             this.updateNLap();
+            this.incrementNextWaypointPosition();
         }
     }
 
@@ -42,6 +50,10 @@ export class RaceProgression {
     public distanceToNextWaypoint(): number {
         // tslint:disable-next-line:prefer-const
         return this._carPosition.distanceTo(this._nextWaypointPosition);
+    }
+
+    public getCurrTrackSegmentVector(): THREE.Vector3 {
+        return this._nextWaypointPosition.sub(this._lastWaypointPosition);
     }
     // tslint:disable:no-magic-numbers
     private incrementNextWaypointPosition(): void {
@@ -59,6 +71,11 @@ export class RaceProgression {
             this._waypoints[this._nextWaypointIndex][1],
             this._waypoints[this._nextWaypointIndex][2]
         );
+        this._lastWaypointPosition.set(
+            this._waypoints[this._nextWaypointIndex - 1][0],
+            this._waypoints[this._nextWaypointIndex - 1][0],
+            this._waypoints[this._nextWaypointIndex - 1][2]
+        )
     }
 
     private updateNLap(): void {
