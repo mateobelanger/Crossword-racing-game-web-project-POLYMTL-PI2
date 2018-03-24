@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Car } from "../car/car";
 import { Collision } from "./collision";
-import { CollisionType } from "../constants";
+import {CollisionType} from "../constants";
 
 export class CollisionHandler {
 
@@ -38,6 +38,8 @@ export class CollisionHandler {
             }
         }
 
+        this.applyCollisionRotations();
+
     }
 
     private handleCollision(car1: Car, car2: Car, scene: THREE.Scene): void {
@@ -47,7 +49,7 @@ export class CollisionHandler {
 
             const newCollision: Collision = new Collision(car1, car2);
             this._collisions.push(newCollision);
-            this.rotateCars(newCollision.backCar, newCollision.frontCar);
+            // this.rotateCars(newCollision.backCar, newCollision.frontCar);
             this.switchCarsSpeed(car1, car2);
         }
     }
@@ -56,7 +58,7 @@ export class CollisionHandler {
 
         const collisionIndexesToRemove: number[] = [];
         this._collisions.forEach( (collision: Collision, index: number) => {
-            if (!collision.frontCar.box.intersectsBox(collision.backCar.box)) {
+            if (!collision.frontCar.box.intersectsBox(collision.backCar.box) && collision.remainingFrames <= 0) {
                 collisionIndexesToRemove.push(index);
             }
         });
@@ -73,7 +75,7 @@ export class CollisionHandler {
         car2.speed = temp;
     }
 
-    private rotateCars(car1: Car, car2: Car): void {
+    /*private rotateCars(car1: Car, car2: Car): void {
 
         // doesn't really work
         switch (this._collisions[0].type) {
@@ -87,6 +89,26 @@ export class CollisionHandler {
                         break;
         }
 
+    }*/
+
+    private applyCollisionRotations(): void {
+        this._collisions.forEach( (collision: Collision) => {
+            switch (collision.type) {
+                case CollisionType.FACE_TO_FACE:
+                    collision.frontCar.rotate(collision.rotationPerFrame);
+                    collision.backCar.rotate(collision.rotationPerFrame);
+                    break;
+                case CollisionType.FIRST_CAR_HIT:
+                    collision.backCar.rotate(collision.rotationPerFrame);
+                    break;
+                case CollisionType.SECOND_CAR_HIT:
+                default:
+                    collision.frontCar.rotate(collision.rotationPerFrame);
+                    break;
+            }
+            collision.remainingFrames--;
+            console.log(collision.remainingFrames);
+        });
     }
 
     private showCollision(car1: Car, car2: Car, scene: THREE.Scene): void {

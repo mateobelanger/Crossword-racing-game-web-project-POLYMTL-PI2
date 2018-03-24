@@ -2,15 +2,19 @@ import * as THREE from "three";
 import { Car } from "../car/car";
 import { CollisionType } from "../constants";
 
+const FRAMES_PER_RAD: number = 10;
 
 export class Collision {
 
     private _frontCar: Car;
     private _backCar: Car;
     private _type: CollisionType;
+    public rotationPerFrame: number; //in radians
+    public remainingFrames: number;
 
     public constructor( firstCollidedObject: Car, secondCollidedObject: Car) {
         this.establishCollisionType(firstCollidedObject, secondCollidedObject);
+        this.establishRotationPerFrame();
     }
 
     public get frontCar(): Car {
@@ -56,5 +60,24 @@ export class Collision {
         const vectorCar1: THREE.Vector3 = new THREE.Vector3(car2Position.x - car1Position.x, 0, car2Position.z - car1Position.z);
 
         return car1.direction.angleTo(vectorCar1) >= Math.PI / 2 && car1.direction.angleTo(vectorCar1) <= 3 * Math.PI / 2;
+    }
+
+    private establishRotationPerFrame(): void {
+        let rotation: number;
+        switch (this._type) {
+            case CollisionType.FACE_TO_FACE:
+                rotation = (Math.PI / 2);
+                break;
+            case CollisionType.FIRST_CAR_HIT:
+                rotation = this._frontCar.direction.angleTo(this._backCar.direction);
+                break;
+            case CollisionType.SECOND_CAR_HIT:
+            default:
+                rotation = this._backCar.direction.angleTo(this._frontCar.direction);
+                break;
+        }
+        console.log("Rotation in radians of the collision: " + rotation);
+        this.remainingFrames = rotation * FRAMES_PER_RAD;
+        this.rotationPerFrame = rotation / this.remainingFrames;
     }
 }
