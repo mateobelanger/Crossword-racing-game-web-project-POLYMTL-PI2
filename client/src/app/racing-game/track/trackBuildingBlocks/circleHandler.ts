@@ -76,7 +76,7 @@ export class CircleHandler {
         for (let i: number = 0; i < nCircles ; i++) {
           const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLE_RADIUS, CIRCLE_QUALITY);
           circleGeometries.push(circleGeometry);
-          }
+        }
 
         return circleGeometries;
       }
@@ -86,7 +86,7 @@ export class CircleHandler {
         new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v2.jpg") :
         new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v3.jpg");
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
     private getCircleMaterial(inTrackEditor: boolean): THREE.MeshBasicMaterial {
@@ -94,6 +94,6 @@ export class CircleHandler {
               new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v2.jpg") :
               new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v3.jpg");
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 }

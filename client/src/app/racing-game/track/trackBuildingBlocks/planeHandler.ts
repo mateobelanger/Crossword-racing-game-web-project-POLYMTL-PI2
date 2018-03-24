@@ -30,7 +30,7 @@ export class PlaneHandler {
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
             const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
-            const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
+            const material: THREE.MeshPhongMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
             const mesh: THREE.Mesh = new THREE.Mesh( geometries[i], this._planes.length === 0 ?
                                                     this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) :
                                                     material );
@@ -167,7 +167,7 @@ export class PlaneHandler {
     }
 
 
-    private getPlaneMaterial(planeLength: number, planeType: PlaneType): THREE.MeshBasicMaterial {
+    private getPlaneMaterial(planeLength: number, planeType: PlaneType): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
@@ -175,7 +175,7 @@ export class PlaneHandler {
                                                             RATIO_IMAGE_PER_FIRST_PLANE_LENGTH : RATIO_IMAGE_PER_PLANE_LENGTH;
         createTexture.repeat.set( planeLength / ratio, 1);
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
     // tslint:disable:no-any

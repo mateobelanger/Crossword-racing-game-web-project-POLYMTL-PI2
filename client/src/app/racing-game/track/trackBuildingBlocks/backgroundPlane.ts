@@ -18,7 +18,7 @@ export class BackgroundPlane {
     }
 
     public generateBackgroundPlane (): void {
-        const material: THREE.MeshBasicMaterial = this.getBackgroundMaterial();
+        const material: THREE.MeshPhongMaterial = this.getBackgroundMaterial();
         this.backgroundPlane = new THREE.Mesh(
             new THREE.PlaneGeometry(EDITOR_LAND_WIDTH, EDITOR_LAND_HEIGHT), material
         );
@@ -28,7 +28,7 @@ export class BackgroundPlane {
 
     }
 
-    private getBackgroundMaterial(): THREE.MeshBasicMaterial {
+    private getBackgroundMaterial(): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture =
                          new THREE.TextureLoader().load("../../../../assets/track_editor_texture/cell_bg4.jpg");
 
@@ -36,7 +36,7 @@ export class BackgroundPlane {
         createTexture.wrapT = THREE.RepeatWrapping;
         createTexture.repeat.set( REPEAT_IMAGE_X, REPEAT_IMAGE_Z);
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
 }

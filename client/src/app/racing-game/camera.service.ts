@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import * as THREE from "three";
 
 // PERSPECTIVE_CAMERA
-export const PERSPECTIVE_INITIAL_POSITION_Y: number = 100;
-export const PERSPECTIVE_INITIAL_POSITION_Z: number = 1;
+export const PERSPECTIVE_INITIAL_POSITION_Y: number = 5;
+export const PERSPECTIVE_INITIAL_POSITION_Z: number = 30;
 const NEAR_CLIPPING_PLANE: number = 1;
 const FAR_CLIPPING_PLANE: number = 1000;
 const PERSPECTIVE_FIELD_OF_VIEW: number = 40;
@@ -11,9 +11,9 @@ const PERSPECTIVE_FIELD_OF_VIEW: number = 40;
 
 // ORTHOGRAPHIC_CAMERA
 export const ORTHOGRAPHIC_INITIAL_POSITION_Y: number = 100;
-const ORTHOGRAPHIC_FIELD_OF_VIEW: number = 50;
-const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = -10;
-const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 1000;
+export const ORTHOGRAPHIC_FIELD_OF_VIEW: number = 50;
+export const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = -10;
+export const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 1000;
 
 enum CameraType { PERSPECTIVE, ORTHOGRAPHIC }
 
@@ -63,7 +63,7 @@ export class CameraService {
     }
 
     public changeCamera(): void {
-        this.camera === CameraType.PERSPECTIVE ? this.camera = CameraType.ORTHOGRAPHIC : this.camera = CameraType.PERSPECTIVE;
+        this.camera = this.camera === CameraType.PERSPECTIVE ? CameraType.ORTHOGRAPHIC : CameraType.PERSPECTIVE;
     }
 
     private initializeOrhographicCamera(): void {

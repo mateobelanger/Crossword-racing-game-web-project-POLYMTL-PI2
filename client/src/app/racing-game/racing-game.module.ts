@@ -14,6 +14,8 @@ import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { routes } from "../app-routes.module";
 import { RaceDataHandlerService } from "./race-data-handler.service";
+import { SceneLightsService } from "./scene-lights/scene-lights.service";
+import { SceneLoaderService } from "./scene-loader/scene-loader.service";
 import { SpeedComponent } from './game-infos/speed/speed.component';
 import { LapComponent } from './game-infos/lap/lap.component';
 import { TimeComponent } from './game-infos/time/time.component';
@@ -55,9 +57,11 @@ import { AudioService } from "./audio/audio.service";
     SkyboxService,
     TracksProxyService,
     AudioService,
-    RaceDataHandlerService,
     BestTimeHandlerService,
     TrackLoaderService
+    RaceDataHandlerService,
+    SceneLightsService,
+    SceneLoaderService
   ],
 
 })
