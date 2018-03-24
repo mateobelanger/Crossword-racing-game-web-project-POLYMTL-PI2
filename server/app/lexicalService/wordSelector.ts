@@ -120,4 +120,15 @@ export class WordSelector {
     private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): IWord {
         return { value: datamuseResponse.word, definition: datamuseResponse.defs[definitionIndex] };
     }
+
+    private static getLetterPositions(template: string): number[] {
+        const positions: number[] = [];
+        for (let i: number = 0; i < template.length; i++) {
+            if (template[i] !== ANY_CHAR) {
+                positions.push(i);
+            }
+        }
+
+        return positions;
+    }
 }

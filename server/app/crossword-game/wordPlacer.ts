@@ -2,6 +2,10 @@ import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
 import { GridEntry } from "./GridEntry";
 import { WordSelector } from "../lexicalService/wordSelector";
 import { WHITE_CELL, BLACK_CELL, DEFAULT_GRID_SIZE } from "./gridCreator";
+import { DatamuseResponse } from "../lexicalService/datamuseResponse";
+import fetch from "node-fetch";
+
+const NO_DEFINITION: string = "definition";
 
 export class WordPlacer {
     private _emptyWords: GridEntry[];
@@ -29,6 +33,8 @@ export class WordPlacer {
 
     public async placeWords(difficulty: string): Promise<boolean> {
         if (this._emptyWords.length === 0) {
+            this.setAllDefinitions(await this.fetchAllDefinitions());
+
             return true;
         }
 
@@ -54,6 +60,34 @@ export class WordPlacer {
         this.update();
 
         return false;
+    }
+
+    private async fetchDefinition(word: string): Promise<string> {
+        try {
+            const response = await fetch("http://localhost:3000/service/lexical/wordsearch/" + word);
+            const data: DatamuseResponse = await response.json();
+
+            return data.defs.length ? data.defs[0].slice(data.defs[0].indexOf("\t") + 1) : NO_DEFINITION;
+        } catch(err) {
+            return NO_DEFINITION;
+        }
+    }
+
+    private async fetchAllDefinitions(): Promise<string[]> {
+        const promises = this._placedWords.map(word => this.fetchDefinition(word.value));
+
+        return Promise.all(promises);
+    }
+
+    private setAllDefinitions(definitions: string[]): void {
+        let counter: number = 1;
+        for (let i: number = 0; i < definitions.length; i++) {
+            if (definitions[i] === NO_DEFINITION) {
+                console.log(this._placedWords[i].value);
+                definitions[i] += "  " + counter++;
+            }
+            this._placedWords[i].definition = definitions[i];
+        }
     }
 
     private initializeGrid(grid: string[][]): void {
