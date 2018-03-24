@@ -1,4 +1,4 @@
-import { DatamuseResponse } from "./IDatamuseResponse";
+import { DatamuseResponse } from "./DatamuseResponse";
 import { IWord } from "../../../common/crosswordsInterfaces/word";
 import { MIN_WORD_LENGTH, WHITE_CELL as ANY_CHAR } from "../crossword-game/gridCreator";
 import { WORDS } from "./words";
@@ -25,8 +25,7 @@ export class WordSelector {
                 positions.push(i);
             }
         }
-
-        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH].slice();  //creates a copy of  the array
+        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH].slice();  //creates a copy of the array
         if (positions.length === 0) {
             return ArrayHelper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
         }
