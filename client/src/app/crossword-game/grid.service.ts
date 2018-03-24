@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WordService } from './word.service';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GRID_SIZE } from '../../../../common/constants';
+import { ValidatorService } from './validator.service';
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;
@@ -13,12 +14,9 @@ const BLACK_CELL: string = '-';
 @Injectable()
 export class GridService {
     public userGrid: string[][];
-    public validatedCells: boolean[][];
 
-    public constructor(private wordService: WordService) {
+    public constructor(private wordService: WordService, private validatorService: ValidatorService) {
         this.userGrid = [];
-        this.validatedCells = [];
-        this.initialize();
     }
 
     public initialize(): void {
@@ -36,7 +34,58 @@ export class GridService {
         return false;
     }
 
-    public backspace(row: number, column: number): void {
+    public keyUp(row: number, column: number): void {
+        if (this.wordService.selectedWord.direction === Direction.HORIZONTAL &&
+            this.wordService.selectedWord.column + this.wordService.selectedWord.value.length - 1 !== column) {
+            this.focusOnSelectedWord();
+
+        } else if (this.wordService.selectedWord.row + this.wordService.selectedWord.value.length - 1 !== row) {
+            this.focusOnSelectedWord();
+        }
+
+        this.validatorService.updateValidatedWords(this.userGrid);
+    }
+
+    public selectWord(row: number, column: number): void {
+        this.wordService.selectWord(row, column);
+        this.focusOnSelectedWord();
+    }
+
+    public isSelectedWord(row: number, column: number): boolean {
+        const word: GridWord = this.wordService.selectedWord;
+        if (word === null || this.validatorService.isValidatedWord(word)) {
+            return false;
+        }
+
+        return word.includesCell(row, column);
+    }
+
+    public isValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isValidatedCell(row, column);
+    }
+
+    public focusOnSelectedWord(): void {
+        this.focusOnCell(this.idOfFirstEmptyCell());
+    }
+
+    public generateId (row: number, column: number): number {
+        return row * GRID_SIZE + column;
+    }
+
+    public fillGrid(): void {
+        for (const word of this.wordService.words) {
+            let row: number = word.row;
+            let col: number = word.column;
+            for (let i: number = 0; i < word.value.length; i++) {
+                word.direction === Direction.HORIZONTAL ?
+                    col = word.column + i : row = word.row + i;
+
+                this.userGrid[row][col] = "";
+            }
+        }
+    }
+
+    private backspace(row: number, column: number): void {
         if (this.userGrid[row][column] === "") {
             const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
             this.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
@@ -46,92 +95,30 @@ export class GridService {
         }
     }
 
-    public selectWord(rowIndex: number, columnIndex: number): void {
-        this.wordService.selectWord(rowIndex, columnIndex);
-
-        this.focusOnSelectedWord();
+    public isEndOfGame(): boolean {
+        return this.validatorService.isEndOfGame;
     }
 
-    public isSelectedWord(id: number): boolean {
-        const word: GridWord = this.wordService.selectedWord;
-        if (word === null) {
-            return false;
-        }
-        if (this.isValidatedWord(word)) {
-            return false;
-        }
-        const row: number = Math.floor(id / GRID_SIZE);
-        const col: number = id - row * GRID_SIZE;
-        if (word.direction === Direction.HORIZONTAL) {
-            return row === word.row && col >= word.column && col < word.column + word.value.length;
-        } else {
-            return  col === word.column && row >= word.row && row < word.row + word.value.length;
-        }
-    }
-
-    public focusOnSelectedWord(): void {
-        this.focusOnCell(this.idOfFirstEmptyCell());
-    }
-
-    public isValidatedWord(selectedWord: GridWord): boolean {
-        let isValid: boolean = true;
-        const rowIndex: number = selectedWord.row;
-        const columnIndex: number = selectedWord.column;
-
-        for (let i: number = 0; i < selectedWord.value.length && isValid; i++) {
-            selectedWord.direction === Direction.HORIZONTAL ?
-                isValid = (selectedWord.value[i] === this.userGrid[rowIndex][columnIndex + i].toLowerCase()) :
-                isValid = (selectedWord.value[i] === this.userGrid[rowIndex + i][columnIndex].toLowerCase());
-        }
-
-        return isValid;
-    }
-
-    public updateValidatedCells(word: GridWord): void {
-        for (let i: number = 0; i < word.value.length; i++) {
-            if (word.direction === Direction.HORIZONTAL) {
-                this.validatedCells[word.row][word.column + i] = true;
-            } else {
-                this.validatedCells[word.row + i][word.column] = true;
-            }
-        }
-    }
-
-    public generateId (rowIndex: number, columnIndex: number): number {
-        return rowIndex * GRID_SIZE + columnIndex;
-    }
-
-    public fillGrid(): void {
-        const words: GridWord[] = this.wordService.words;
-        for (const word of words) {
-            let row: number = word.row;
-            let col: number = word.column;
-            for (let i: number = 0; i < word.value.length; i++) {
-                word.direction === Direction.HORIZONTAL ?
-                    col = word.column + i : row = word.row + i;
-
-                this.userGrid[row][col] = "";
-                this.validatedCells[row][col] = false;
-            }
-        }
+    public setEndOfGame(state: boolean): void {
+        this.validatorService.isEndOfGame = state;
     }
 
     private initializeGrid(): void {
+        this.userGrid = [];
         for (let i: number = 0; i < GRID_SIZE; i++) {
             const row: string[] = [];
-            const rowValidated: boolean[] = [];
             for (let j: number = 0; j < GRID_SIZE; j++) {
                 row.push(BLACK_CELL);
-                rowValidated.push(true);
             }
             this.userGrid.push(row);
-            this.validatedCells.push(rowValidated);
         }
     }
 
     private focusOnCell(id: number): void {
-        const element: HTMLElement = document.getElementById(id.toString());
-        element.focus();
+        const input: HTMLElement = document.getElementById(id.toString());
+        if (input) {
+            input.focus();
+        }
     }
 
     private idOfFirstEmptyCell(): number {
@@ -152,24 +139,20 @@ export class GridService {
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
-        let rowIndex: number = row;
-        let columnIndex: number = column;
+        const oldRow: number = row;
+        const oldCol: number = column;
 
         do {
-            if (this.wordService.selectedWord.direction === Direction.HORIZONTAL) {
-                if (--columnIndex < this.wordService.selectedWord.column) {
-                    columnIndex = column;
+            this.wordService.selectedWord.direction === Direction.HORIZONTAL ?
+                column-- : row--;
+            if (row < this.wordService.selectedWord.row || column < this.wordService.selectedWord.column) {
+                    row = oldRow;
+                    column = oldCol;
                     break;
                 }
-            } else {
-                if (--rowIndex < this.wordService.selectedWord.row) {
-                    rowIndex = row;
-                    break;
-                }
-            }
-        } while (this.validatedCells[rowIndex][columnIndex]);
+        } while (this.validatorService.isValidatedCell(row, column));
 
-        return [rowIndex, columnIndex];
+        return [row, column];
     }
 
 }
