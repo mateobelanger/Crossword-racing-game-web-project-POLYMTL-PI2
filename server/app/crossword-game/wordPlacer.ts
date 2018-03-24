@@ -2,6 +2,8 @@ import { Direction, GridWord } from "../../../common/crosswordsInterfaces/word";
 import { GridEntry } from "./GridEntry";
 import { WordSelector } from "../lexicalService/wordSelector";
 import { WHITE_CELL, BLACK_CELL, DEFAULT_GRID_SIZE } from "./gridCreator";
+import { IDatamuseResponse } from "../lexicalService/datamuseResponse";
+import fetch from "node-fetch";
 
 export class WordPlacer {
     private _emptyWords: GridEntry[];
@@ -17,6 +19,7 @@ export class WordPlacer {
             this._emptyWords.push(new GridEntry(word));
         }
         this.sortByLength();
+        console.log(this._grid);
     }
 
     public get grid(): string[][] {
@@ -54,6 +57,13 @@ export class WordPlacer {
         this.update();
 
         return false;
+    }
+
+    public async getDefinition(word: string): Promise<string> {
+        const response = await fetch("http://localhost:3000/service/lexical/wordsearch/" + word);
+        const data: IDatamuseResponse = await response.json();
+
+        return data.defs[0];
     }
 
     private initializeGrid(grid: string[][]): void {
