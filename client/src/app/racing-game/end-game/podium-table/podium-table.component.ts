@@ -12,10 +12,8 @@ export class PodiumTableComponent {
     // TODO: on peut entrer un nom vide en ce moment
     public isPlayerNameEntered: Boolean;
 
-
     public constructor(private endGameService: EndGameService) {
         this.isPlayerNameEntered = false;
-
     }
 
     public isNewBestTime(): boolean {
@@ -31,7 +29,7 @@ export class PodiumTableComponent {
     }
 
     public saveUserName(): void {
-        //this.endGameService.updateBestTimes(this.userName);
+        this.endGameService.updateBestTimes(this.playerName);
 
         this.isPlayerNameEntered = true;
         this.displayTimeTable();

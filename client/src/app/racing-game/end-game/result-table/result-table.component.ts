@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RaceResultsService } from '../../recordedTimes/race-results.service';
 import { RaceResults } from '../../recordedTimes/raceResults';
 import { EndGameService } from '../end-game.service';
 
@@ -14,8 +13,7 @@ export class ResultTableComponent implements OnInit {
     public SHOWMOCK: boolean = true;
 
 
-    public constructor(private raceResultService: RaceResultsService,
-                       private endGameService: EndGameService) { }
+    public constructor(private endGameService: EndGameService) { }
 
     public ngOnInit(): void {
         this.createMockData(); // TO REMOVE
@@ -25,12 +23,12 @@ export class ResultTableComponent implements OnInit {
         this.endGameService.displayPodiumTable();
     }
 
-
     public get raceTimes(): [string, RaceResults][] {
+        // todo: remove
         if (this.SHOWMOCK)
             return this.MOCKDATA;
 
-        return this.raceResultService.raceFinalResults;
+        return this.endGameService.raceResults;
     }
 
 

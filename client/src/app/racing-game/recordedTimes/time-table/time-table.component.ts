@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { BestTimeHandlerService } from "../best-time-handler.service";
 import { RaceResults } from '../raceResults';
+import { EndGameService } from '../../end-game/end-game.service';
 
 @Component({
     selector: 'app-time-table',
@@ -13,7 +13,7 @@ export class BestTimesComponent implements OnInit {
     public SHOWMOCK: boolean = true;
 
 
-    public constructor(private bestTimesHandler: BestTimeHandlerService,
+    public constructor(private endGameService: EndGameService,
                        private zone: NgZone) { }
 
     public ngOnInit(): void {
@@ -21,7 +21,7 @@ export class BestTimesComponent implements OnInit {
     }
 
     public get bestTimes(): [string, number][] {
-        return this.bestTimesHandler.bestTimes;
+        return this.endGameService.bestTimes;
     }
 
     public restartGame(): void {
