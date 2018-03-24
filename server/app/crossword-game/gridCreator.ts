@@ -46,13 +46,11 @@ export class GridCreator {
                     i = 0; j = -1;
                 }
             }
-
             const row: string[] = this._grid[i];
             let nRemovedBlackCells: number = 0;
             if (!this.hasWords(row)) {
                 nRemovedBlackCells += this.fixNoWords(row);
-                nIssues++;
-                i = -1;
+                nIssues++; i = -1;
             }
             const column: string[] = this.getColumn(i);
             if (!this.hasWords(column)) {
@@ -60,8 +58,7 @@ export class GridCreator {
                 for (let j: number = 0; j < column.length; j++) {
                     this._grid[j][i] = column[j];
                 }
-                nIssues++;
-                i = -1;
+                nIssues++; i = -1;
             }
             this.setRandomly(BLACK_CELL, nRemovedBlackCells);
         }
@@ -95,20 +92,18 @@ export class GridCreator {
             if (lane[i] === BLACK_CELL) {
                 continue;
             }
-
             let value: string = "";
             const headIndex: number = i;
-            while (lane[i] !== BLACK_CELL) {
+           while(i < lane.length) {
                 value += "-";
-                if (++i === lane.length) {
+                if (lane[++i] === BLACK_CELL) {
+                    i--;    // will be reincremented at the end of the loop.
                     break;
                 }
             }
-            i--;  // will be reicremented at the end of the loop
             if (value.length < MIN_WORD_LENGTH) {
                 continue;
             }
-
             let row: number, column: number;
             if (direction === Direction.HORIZONTAL) {
                 row = index;

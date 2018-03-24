@@ -1,4 +1,4 @@
-import { DatamuseResponse } from "./IDatamuseResponse";
+import { DatamuseResponse } from "./DatamuseResponse";
 import { IWord } from "../../../common/crosswordsInterfaces/word";
 import { MIN_WORD_LENGTH, WHITE_CELL as ANY_CHAR } from "../crossword-game/gridCreator";
 import { WORDS } from "./words";
@@ -19,17 +19,14 @@ export class WordSelector {
             || this.containsImpossibleCombinations(template, THREE_LETTER_WORDS_LENGTH)) {
             return [];
         }
-        const positions: number[] = [];
-        for (let i: number = 0; i < template.length; i++) {
-            if (template[i] !== ANY_CHAR) {
-                positions.push(i);
-            }
-        }
 
-        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH].slice();  //creates a copy of  the array
+        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH].slice();
+        const positions: number[] = this.getLetterPositions(template);
+
         if (positions.length === 0) {
             return ArrayHelper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
         }
+
         const validWords: string[] = [];
         for (const word of words) {
             let isValid: boolean = true;
@@ -119,6 +116,17 @@ export class WordSelector {
     }
 
     private static datamuseResponseToWord ( datamuseResponse: DatamuseResponse, definitionIndex: number): IWord {
-        return { value: datamuseResponse.word, definition: datamuseResponse.definitions[definitionIndex] };
+        return { value: datamuseResponse.word, definition: datamuseResponse.defs[definitionIndex] };
+    }
+
+    private static getLetterPositions(template: string): number[] {
+        const positions: number[] = [];
+        for (let i: number = 0; i < template.length; i++) {
+            if (template[i] !== ANY_CHAR) {
+                positions.push(i);
+            }
+        }
+
+        return positions;
     }
 }

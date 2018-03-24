@@ -3,7 +3,7 @@ import { Router, Request, Response } from "express";
 import { GridCreator } from "./crossword-game/gridCreator";
 import { WordPlacer } from "./crossword-game/wordPlacer";
 
-const N_BLACK_CELLS: number = 30;
+const N_BLACK_CELLS: number = 35;
 
 @injectable()
 export class GridGeneratorService {
