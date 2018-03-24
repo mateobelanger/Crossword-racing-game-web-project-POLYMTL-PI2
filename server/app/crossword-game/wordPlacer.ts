@@ -3,7 +3,7 @@ import { GridEntry } from "./GridEntry";
 import { WordSelector } from "../lexicalService/wordSelector";
 import { WHITE_CELL, BLACK_CELL, DEFAULT_GRID_SIZE } from "./gridCreator";
 import { DatamuseResponse } from "../lexicalService/datamuseResponse";
-import fetch from "node-fetch";
+import fetch, { Response } from "node-fetch";
 
 const NO_DEFINITION: string = "definition";
 
@@ -46,7 +46,6 @@ export class WordPlacer {
                 continue;
             }
             current.value = result;
-            current.definition = result; // TODO : TEST BEFORE ADDING DEFINITIONS WITH DATAMUSE
             this._placedWords.push(current);
 
             this.update();
@@ -64,26 +63,25 @@ export class WordPlacer {
 
     private async fetchDefinition(word: string): Promise<string> {
         try {
-            const response = await fetch("http://localhost:3000/service/lexical/wordsearch/" + word);
+            const response: Response = await fetch("http://localhost:3000/service/lexical/wordsearch/" + word);
             const data: DatamuseResponse = await response.json();
 
             return data.defs.length ? data.defs[0].slice(data.defs[0].indexOf("\t") + 1) : NO_DEFINITION;
-        } catch(err) {
+        } catch (err) {
             return NO_DEFINITION;
         }
     }
 
     private async fetchAllDefinitions(): Promise<string[]> {
-        const promises = this._placedWords.map(word => this.fetchDefinition(word.value));
+        const definitions: Promise<string>[] = this._placedWords.map(async (word: GridEntry) => this.fetchDefinition(word.value) );
 
-        return Promise.all(promises);
+        return Promise.all(definitions);
     }
 
     private setAllDefinitions(definitions: string[]): void {
         let counter: number = 1;
         for (let i: number = 0; i < definitions.length; i++) {
             if (definitions[i] === NO_DEFINITION) {
-                console.log(this._placedWords[i].value);
                 definitions[i] += "  " + counter++;
             }
             this._placedWords[i].definition = definitions[i];
@@ -107,9 +105,9 @@ export class WordPlacer {
         let row: number = entry.row;
         let column: number = entry.column;
         for (let i: number = 0; i < entry.size; i++) {
-            entry.direction === Direction.HORIZONTAL? 
+            entry.direction === Direction.HORIZONTAL ?
                 column = entry.column + i : row = entry.row + i;
-            
+
             template += this._grid[row][column];
         }
 
