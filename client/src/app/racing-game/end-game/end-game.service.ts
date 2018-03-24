@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 export enum EndGameTable {
     NO_TABLE,
     RESULT_TABLE,
-    CONGRATULATION_TABLE,
+    PODIUM_TABLE,
     TIME_TABLE
 }
 
@@ -23,7 +23,7 @@ export class EndGameService {
         this.displayTable = EndGameTable.RESULT_TABLE;
     }
 
-    public displayCongratulationTable(): void {
-        this.displayTable = EndGameTable.CONGRATULATION_TABLE;
+    public displayPodiumTable(): void {
+        this.displayTable = EndGameTable.PODIUM_TABLE;
     }
 }

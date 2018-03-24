@@ -26,7 +26,7 @@ import { RaceProgressionHandlerService } from "./raceProgression/race-progressio
 import { CarHandlerService } from './cars/car-handler.service';
 import { ResultTableComponent } from './end-game/result-table/result-table.component';
 import { EndGameService } from "./end-game/end-game.service";
-import { CongratulationTableComponent } from './end-game/congratulation-table/congratulation-table.component';
+import { PodiumTableComponent } from './end-game/podium-table/podium-table.component';
 
 @NgModule({
 
@@ -48,7 +48,7 @@ import { CongratulationTableComponent } from './end-game/congratulation-table/co
     BestTimesComponent,
     TimeShowComponent,
     ResultTableComponent,
-    CongratulationTableComponent,
+    PodiumTableComponent,
   ],
 
   exports: [

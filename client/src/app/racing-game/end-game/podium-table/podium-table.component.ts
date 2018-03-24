@@ -4,11 +4,11 @@ import { RaceResultsService } from '../../recordedTimes/race-results.service';
 import { EndGameService } from '../end-game.service';
 
 @Component({
-    selector: 'app-congratulation-table',
-    templateUrl: './congratulation-table.component.html',
-    styleUrls: ['./congratulation-table.component.css']
+    selector: 'app-podium-table',
+    templateUrl: './podium-table.component.html',
+    styleUrls: ['./podium-table.component.css']
 })
-export class CongratulationTableComponent implements OnInit {
+export class PodiumTableComponent implements OnInit {
 
     public constructor(private bestTimesHandler: BestTimeHandlerService,
                        private raceResultService: RaceResultsService,

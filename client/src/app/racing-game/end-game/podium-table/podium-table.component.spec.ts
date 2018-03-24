@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CongratulationTableComponent } from './congratulation-table.component';
+import { PodiumTableComponent } from './podium-table.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from '../../../app.module';
 import { routes } from '../../../app-routes.module';
 
-describe('CongratulationTableComponent', () => {
-  let component: CongratulationTableComponent;
-  let fixture: ComponentFixture<CongratulationTableComponent>;
+describe('PodiumTableComponent', () => {
+  let component: PodiumTableComponent;
+  let fixture: ComponentFixture<PodiumTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -18,7 +18,7 @@ describe('CongratulationTableComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CongratulationTableComponent);
+    fixture = TestBed.createComponent(PodiumTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

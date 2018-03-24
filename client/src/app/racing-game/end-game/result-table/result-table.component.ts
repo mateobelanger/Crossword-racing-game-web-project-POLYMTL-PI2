@@ -23,8 +23,8 @@ export class ResultTableComponent implements OnInit {
         this.createMockData(); // TO REMOVE
     }
 
-    public displayCongratulationTable(): void {
-        this.endGameService.displayCongratulationTable();
+    public displayPodiumTable(): void {
+        this.endGameService.displayPodiumTable();
     }
 
     public get bestTimes(): [string, number][] {

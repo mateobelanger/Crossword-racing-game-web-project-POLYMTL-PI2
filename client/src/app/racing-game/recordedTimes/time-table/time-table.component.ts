@@ -28,8 +28,8 @@ export class BestTimesComponent implements OnInit {
         return this.bestTimesHandler.bestTimes;
     }
 
-    public displayCongratulationTable(): void {
-        this.endGameService.displayCongratulationTable();
+    public displayPodiumTable(): void {
+        this.endGameService.displayPodiumTable();
     }
 
     public get raceTimes(): [string, RaceResults][] {
