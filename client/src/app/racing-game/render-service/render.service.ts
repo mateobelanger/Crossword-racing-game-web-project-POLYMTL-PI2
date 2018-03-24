@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
 import { SkyboxService } from "../skybox.service";
+import { EndGameService } from "../end-game/end-game.service";
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -12,6 +13,7 @@ const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 const CAMERA_KEYCODE: number = 67;      // c
+const END_GAME: number = 69;            // e
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.8;
@@ -40,7 +42,8 @@ export class RenderService {
     }
 
     public constructor(private cameraService: CameraService,
-                       private skyboxService: SkyboxService ) {
+                       private skyboxService: SkyboxService,
+                       private endGameService: EndGameService ) {
         this._car = new Car();
 
     }
@@ -143,6 +146,9 @@ export class RenderService {
                 break;
             case CAMERA_KEYCODE:
                 this.cameraService.changeCamera();
+                break;
+            case END_GAME:
+                this.endGameService.displayResultTable();
                 break;
             default:
                 break;

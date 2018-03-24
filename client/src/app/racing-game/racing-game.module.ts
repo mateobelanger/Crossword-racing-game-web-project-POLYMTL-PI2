@@ -24,6 +24,10 @@ import { RaceResultsService } from './recordedTimes/race-results.service';
 import { TimeShowComponent } from './recordedTimes/time-table/time-show/time-show.component';
 import { RaceProgressionHandlerService } from "./raceProgression/race-progression-handler.service";
 import { CarHandlerService } from './cars/car-handler.service';
+import { ResultTableComponent } from './end-game/result-table/result-table.component';
+import { EndGameService } from "./end-game/end-game.service";
+import { PodiumTableComponent } from './end-game/podium-table/podium-table.component';
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
 
@@ -31,7 +35,8 @@ import { CarHandlerService } from './cars/car-handler.service';
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    routes
+    routes,
+    FormsModule
   ],
 
   declarations: [
@@ -44,6 +49,8 @@ import { CarHandlerService } from './cars/car-handler.service';
     PositionComponent,
     BestTimesComponent,
     TimeShowComponent,
+    ResultTableComponent,
+    PodiumTableComponent,
   ],
 
   exports: [
@@ -61,7 +68,8 @@ import { CarHandlerService } from './cars/car-handler.service';
     BestTimeHandlerService,
     RaceResultsService,
     RaceProgressionHandlerService,
-    CarHandlerService
+    CarHandlerService,
+    EndGameService
   ],
 
 })
