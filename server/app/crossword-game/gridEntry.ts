@@ -1,6 +1,6 @@
 import { GridWord, Direction } from "../../../common/crosswordsInterfaces/word";
 
-export class GridEntry extends GridWord{
+export class GridEntry extends GridWord {
     public weight: number;
 
     public constructor(word: GridWord) {
