@@ -13,7 +13,7 @@
                     [class.selected]="isSelectedDefinition(definition)" 
                     [class.validated]="isValidatedDefinition(definition)">
 
-                    [{{indexI+1}}] {{definition}}
+                    [{{indexI+1}}] {{isCheatMode? wordService.getWordWithDefinition(definition) : definition}}
                 </li>
             </div>
         </tr>
@@ -34,9 +34,10 @@
                     [class.selected]="isSelectedDefinition(definition)" 
                     [class.validated]="isValidatedDefinition(definition)">
 
-                    [{{indexI+1}}] {{definition}}
+                    [{{indexI+1}}] {{isCheatMode? wordService.getWordWithDefinition(definition) : definition}}
                 </li>
             </div>
         </tr>
     </tbody>
 </table>
+<button [class.toggled]="isCheatMode" [class.untoggled]="!isCheatMode" (click)="switchMode()"> Switch to  {{ (isCheatMode ? 'Normal' : 'Cheat')}} Mode</button>

@@ -9,12 +9,13 @@ import { GridService } from '../grid.service';
     templateUrl: './definitions.component.html',
     styleUrls: ['./definitions.component.css']
 })
-export class DefinitionsComponent implements OnInit{
+export class DefinitionsComponent implements OnInit {
+    private isCheatMode: boolean;
     public horizontalDefinitions: string[][];
     public verticalDefinitions: string[][];
 
     public constructor(private wordService: WordService, private validatorService: ValidatorService, private gridService: GridService) {}
-    
+
     public ngOnInit(): void {
         this.horizontalDefinitions = this.wordService.getDefinitions(Direction.HORIZONTAL);
         this.verticalDefinitions = this.wordService.getDefinitions(Direction.VERTICAL);
@@ -31,6 +32,10 @@ export class DefinitionsComponent implements OnInit{
 
     public isSelectedDefinition(defintion: string): boolean {
         return this.wordService.definition === defintion;
+    }
+
+    public switchMode(): void {
+        this.isCheatMode = !this.isCheatMode;
     }
 
 }

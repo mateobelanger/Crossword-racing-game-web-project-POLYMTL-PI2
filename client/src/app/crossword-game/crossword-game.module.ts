@@ -13,6 +13,7 @@ import { InformationsComponent } from './informations/informations.component';
 import { WordService } from './word.service';
 import { GridService } from './grid.service';
 import { ValidatorService } from './validator.service';
+import { EndOfGameModalComponent } from './end-of-game-modal/end-of-game-modal.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ValidatorService } from './validator.service';
         GameUiComponent,
         GridComponent,
         DefinitionsComponent,
-        InformationsComponent
+        InformationsComponent,
+        EndOfGameModalComponent
     ],
 
     providers: [

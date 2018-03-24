@@ -1,0 +1,13 @@
+<div class="modal fade" id="endOfGame" role="dialog" [ngStyle]="{'display': isEndOfGame() ? 'block' : 'none', 'opacity': 1}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Congratulation!</h4>
+            </div>
+            <div class="modal-body"> 
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="restart()" routerLink="">Go to menu</button>
+                <button type="button" id="restart" class="btn btn-default" data-dismiss="modal" routerLink="../ui" (click)="restart()">Restart</button>
+            </div>
+        </div>
+    </div>
+</div>
