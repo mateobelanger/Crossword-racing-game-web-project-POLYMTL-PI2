@@ -11,7 +11,9 @@
     </div>
 
     <div class="exit">
-      <a routerLink="../racing-game"><i class="icon-exit"></i></a>
+      <a routerLink="../racing-game">
+        <i class="icon-exit"></i>
+      </a>
     </div>
 
     <div class="time">
@@ -22,11 +24,24 @@
       <app-position></app-position>
     </div>
 
-
-    <!-- testing -->
-    <div class="bestTimes">
-      <app-time-table></app-time-table>
+    <div [ngSwitch]="endGameService.displayTable" *ngIf="endGameService.displayTable !== EndGameTable.NO_TABLE">
+      <div *ngSwitchCase="EndGameTable.RESULT_TABLE">
+        <div class="bestTimes">
+            <app-result-table></app-result-table> 
+        </div>
+      </div>
+      <div *ngSwitchCase="EndGameTable.TIME_TABLE">
+        <div class="bestTimes">
+          <app-time-table></app-time-table>
+        </div>
+      </div>
+      <div *ngSwitchCase="EndGameTable.CONGRATULATION_TABLE">
+          <div class="bestTimes">
+            <app-congratulation-table></app-congratulation-table>
+          </div>
+        </div>
     </div>
 
+
+
   </div>
-</div>

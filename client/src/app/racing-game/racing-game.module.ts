@@ -24,6 +24,9 @@ import { RaceResultsService } from './recordedTimes/race-results.service';
 import { TimeShowComponent } from './recordedTimes/time-table/time-show/time-show.component';
 import { RaceProgressionHandlerService } from "./raceProgression/race-progression-handler.service";
 import { CarHandlerService } from './cars/car-handler.service';
+import { ResultTableComponent } from './end-game/result-table/result-table.component';
+import { EndGameService } from "./end-game/end-game.service";
+import { CongratulationTableComponent } from './end-game/congratulation-table/congratulation-table.component';
 
 @NgModule({
 
@@ -44,6 +47,8 @@ import { CarHandlerService } from './cars/car-handler.service';
     PositionComponent,
     BestTimesComponent,
     TimeShowComponent,
+    ResultTableComponent,
+    CongratulationTableComponent,
   ],
 
   exports: [
@@ -61,7 +66,8 @@ import { CarHandlerService } from './cars/car-handler.service';
     BestTimeHandlerService,
     RaceResultsService,
     RaceProgressionHandlerService,
-    CarHandlerService
+    CarHandlerService,
+    EndGameService
   ],
 
 })

@@ -3,11 +3,12 @@ import { TestBed, inject } from "@angular/core/testing";
 import { RenderService } from "./render.service";
 import { CameraService } from '../camera.service';
 import { SkyboxService } from '../skybox.service';
+import { EndGameService } from "../end-game/end-game.service";
 
 describe("RenderService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [RenderService, CameraService, SkyboxService]
+            providers: [RenderService, CameraService, SkyboxService, EndGameService]
         });
     });
 

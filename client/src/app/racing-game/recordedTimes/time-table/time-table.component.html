@@ -1,17 +1,16 @@
-<div class="resultsTable">
+
   <div class="timeTable background">
     <div class="clearfix background">
       <li class="tableTitleBlock left">
-        <h4 class="trackName" *ngIf="!showBestTimes">Results</h4>
-        <h4 class="trackName" *ngIf="showBestTimes">Best Times</h4>
+        <h4 class="trackName">Best Times</h4>
       </li>
     </div>
 
     <div class="resultsBlock container">
-      <div class="row" *ngIf="showBestTimes">
+      <div class="row">
         <div class="descriptor container col-12">
           <div class="col-4">Position</div>
-          <div class="col-4">Lap</div>
+          <div class="col-4">Player</div>
           <div class="col-4">Time</div>
         </div>
         <div *ngIf="bestTimes.length == 0" class="col-12">No times</div>
@@ -23,35 +22,16 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="!showBestTimes">
-        <div class="descriptor container col-12">
-          <div class="col-4">Position</div>
-          <div class="col-4">Player</div>
-          <div class="col-4">Time</div>
-        </div>
-        <div *ngIf="raceTimes.length == 0" class="col-12">No times</div>
-        <div class="name col-12 container" *ngFor="let raceTime of raceTimes; let i = index">
-          <div class="line">
-            <div class="col-4 column left">{{i + 1}}</div>
-            <div class="col-4 column left">{{raceTime[0]}}</div>
-            <app-time-show [raceTime]="raceTime" class="col-4 column left"></app-time-show>
-          </div>
-        </div>
-      </div>
+
     </div>
 
-
     <div class="tableFooter clearfix background">
-      <div class="buttons btn-sm col-2" *ngIf="showBestTimes">
-        <a routerLink="../../racing-game">TrackList </a>
+      <div class="buttons btn-sm col-2">
+        <a routerLink="/racing-game">Home</a>
       </div>
-      <div class="buttons btn-sm col-2" (click)="showBestTimes = !showBestTimes" *ngIf="!showBestTimes"> Next </div>
-      <div class="buttons btn-sm col-2" *ngIf="!showBestTimes">
-        <a routerLink="">Replay </a>
-      </div>
-      <div class="buttons btn-sm col-2" (click)="showBestTimes = !showBestTimes" *ngIf="showBestTimes"> Previous </div>
+      <div class="buttons btn-sm col-2" (click)="restartGame()">Replay</div>
+      <div class="buttons btn-sm col-2" (click)="displayCongratulationTable()"> Previous </div>
     </div>
 
   </div>
 
-</div>

@@ -1,0 +1,27 @@
+<div class="">
+    <div class="resultTable background">
+      <div class="clearfix">
+        <li class="tableTitleBlock left">
+          <h4 class="trackName" >Podium</h4>
+        </li>
+      </div>
+  
+      <div class="resultsBlock container">
+
+          <div *ngIf="isNewBestTime()">
+              Congratulation, you have scored one of the top 5 times on this track!
+          </div>
+
+          <div *ngIf="!isNewBestTime()">
+              You still need a bit of work to be in the top 5 times on this track!
+          </div>
+      </div>
+  
+      <div class="tableFooter clearfix background">
+        <div class="buttons btn-sm col-2" (click)="displayTimeTable()"> Next </div>
+        <div class="buttons btn-sm col-2" (click)="displayResultTable()"> Previous </div>
+      </div>
+    </div>
+  </div>
+  
+  

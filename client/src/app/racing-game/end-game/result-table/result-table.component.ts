@@ -1,15 +1,15 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { BestTimeHandlerService } from "../best-time-handler.service";
-import { RaceResultsService } from '../race-results.service';
-import { RaceResults } from '../raceResults';
-import { EndGameService } from '../../end-game/end-game.service';
+import { Component, OnInit } from '@angular/core';
+import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
+import { RaceResultsService } from '../../recordedTimes/race-results.service';
+import { RaceResults } from '../../recordedTimes/raceResults';
+import { EndGameService } from '../end-game.service';
 
 @Component({
-    selector: 'app-time-table',
-    templateUrl: './time-table.component.html',
-    styleUrls: ['./time-table.component.css']
+    selector: 'app-result-table',
+    templateUrl: './result-table.component.html',
+    styleUrls: ['./result-table.component.css']
 })
-export class BestTimesComponent implements OnInit {
+export class ResultTableComponent implements OnInit {
 
     public MOCKDATA: [string, RaceResults][];
     public SHOWMOCK: boolean = true;
@@ -17,20 +17,20 @@ export class BestTimesComponent implements OnInit {
 
     public constructor(private bestTimesHandler: BestTimeHandlerService,
                        private raceResultService: RaceResultsService,
-                       private endGameService: EndGameService,
-                       private zone: NgZone) { }
+                       private endGameService: EndGameService) { }
 
     public ngOnInit(): void {
         this.createMockData(); // TO REMOVE
+    }
+
+    public displayCongratulationTable(): void {
+        this.endGameService.displayCongratulationTable();
     }
 
     public get bestTimes(): [string, number][] {
         return this.bestTimesHandler.bestTimes;
     }
 
-    public displayCongratulationTable(): void {
-        this.endGameService.displayCongratulationTable();
-    }
 
     public get raceTimes(): [string, RaceResults][] {
         if (this.SHOWMOCK)
@@ -39,9 +39,7 @@ export class BestTimesComponent implements OnInit {
         return this.raceResultService.raceFinalResults;
     }
 
-    public restartGame(): void {
-        this.zone.runOutsideAngular(() => location.reload());
-    }
+
 
     // TO REMOVE
     public createMockData(): void {
