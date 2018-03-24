@@ -5,12 +5,10 @@ import { WORDS } from "./words";
 import { ArrayHelper } from "./arrayHelper";
 import { INVALID_DOUBLES } from "./invalidDoubles";
 import { INVALID_TRIPLES } from "./invalidTriples";
-import http = require("http");
 
 export const MAX_WORDS_PER_RESPONSE: number = 250;
 const TWO_LETTER_WORDS_LENGTH: number = 2;
 const THREE_LETTER_WORDS_LENGTH: number = 3;
-const LEXICAL_SERVICE_URL: string = "http://localhost:3000/service/lexical/wordsearch/";
 
 export class WordSelector {
     private static invalidDoubles: Set<string> = ArrayHelper.arrayToSet(INVALID_DOUBLES);
@@ -22,11 +20,11 @@ export class WordSelector {
             return [];
         }
 
-        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH];
+        const words: string[] = WORDS[template.length - MIN_WORD_LENGTH].slice();
         const positions: number[] = this.getLetterPositions(template);
 
         if (positions.length === 0) {
-            return ArrayHelper.shuffle(words).slice(0, MAX_WORDS_PER_RESPONSE);
+            return ArrayHelper.shuffle(words.splice(0, MAX_WORDS_PER_RESPONSE));
         }
 
         const validWords: string[] = [];
@@ -43,14 +41,7 @@ export class WordSelector {
             }
         }
 
-        return ArrayHelper.shuffle(validWords).slice(0, MAX_WORDS_PER_RESPONSE);
-    }
-
-    public static getWordDefinition(word: string, difficulty: string): string {
-        const url: string = LEXICAL_SERVICE_URL + word + '/' + difficulty;
-        http.get(url, (res: http.IncomingMessage) => {
-            console.log(res);
-        })
+        return ArrayHelper.shuffle(validWords).splice(0, MAX_WORDS_PER_RESPONSE);
     }
 
     public static getWordsByRarity(words: Array<DatamuseResponse>, isCommon: boolean): Array<DatamuseResponse> {
