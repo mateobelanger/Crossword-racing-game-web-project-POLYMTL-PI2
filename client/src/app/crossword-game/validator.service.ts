@@ -8,7 +8,13 @@ export class ValidatorService {
     private validatedWords: GridWord[];
     private filledGrid: string[][];
 
+    public isEndOfGame: boolean = false;
+
     public constructor(private wordService: WordService) {
+    }
+
+    // public method to be initialized only once the words are fetched from the server.
+    public initialize(): void {
         this.validatedWords = [];
         this.initializeGrid();
         this.fillGrid();
@@ -58,6 +64,7 @@ export class ValidatorService {
             }
             if (isValidated) {
                 this.addValidatedWord(word);
+                this.updateEndOfGame();
             }
         }
     }
@@ -90,5 +97,17 @@ export class ValidatorService {
                     column += 1 : row += 1;
             }
         }
+    }
+
+    private updateEndOfGame(): void {
+        for (const word of this.wordService.words) {
+            if (!this.validatedWords.includes(word)) {
+                this.isEndOfGame = false;
+
+                return;
+            }
+        }
+
+        this.isEndOfGame = true;
     }
 }

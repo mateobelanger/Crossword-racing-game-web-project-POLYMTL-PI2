@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ViewChild, ElementRef, HostListener } from "@
 import { TrackEditorService } from "./track-editor.service";
 import { TracksProxyService } from "../tracks-proxy.service";
 
-import { ITrackData } from "../../../../../common/trackData";
+import { ITrackData } from "../../../../../common/ItrackData";
 import { ActivatedRoute } from "@angular/router";
 import { Waypoint } from "../track/trackData/waypoint";
 import * as THREE from "three";
@@ -44,7 +44,7 @@ export class TrackEditorComponent implements AfterViewInit {
                 this.renderTrack();
             }
         } catch (e) {
-            return;
+            console.error(e);
         }
     }
 

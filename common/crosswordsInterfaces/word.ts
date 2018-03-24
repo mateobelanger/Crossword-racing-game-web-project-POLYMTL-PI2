@@ -26,4 +26,8 @@ export class GridWord implements IWord {
                     row === this.row && column >= this.column && column < this.column + this.value.length :
                     column === this.column && row >= this.row && row < this.row + this.value.length;
     }
+
+    public get size(): number {
+        return this.value.length;
+    }
 }

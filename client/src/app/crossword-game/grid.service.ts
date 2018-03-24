@@ -17,7 +17,6 @@ export class GridService {
 
     public constructor(private wordService: WordService, private validatorService: ValidatorService) {
         this.userGrid = [];
-        this.initialize();
     }
 
     public initialize(): void {
@@ -47,7 +46,6 @@ export class GridService {
         this.validatorService.updateValidatedWords(this.userGrid);
     }
 
-
     public selectWord(row: number, column: number): void {
         this.wordService.selectWord(row, column);
         this.focusOnSelectedWord();
@@ -75,8 +73,7 @@ export class GridService {
     }
 
     public fillGrid(): void {
-        const words: GridWord[] = this.wordService.words;
-        for (const word of words) {
+        for (const word of this.wordService.words) {
             let row: number = word.row;
             let col: number = word.column;
             for (let i: number = 0; i < word.value.length; i++) {
@@ -98,20 +95,30 @@ export class GridService {
         }
     }
 
+    public isEndOfGame(): boolean {
+        return this.validatorService.isEndOfGame;
+    }
+
+    public setEndOfGame(state: boolean): void {
+        this.validatorService.isEndOfGame = state;
+    }
+
     private initializeGrid(): void {
+        this.userGrid = [];
         for (let i: number = 0; i < GRID_SIZE; i++) {
             const row: string[] = [];
-            const rowValidated: boolean[] = [];
             for (let j: number = 0; j < GRID_SIZE; j++) {
                 row.push(BLACK_CELL);
-                rowValidated.push(true);
             }
             this.userGrid.push(row);
         }
     }
 
     private focusOnCell(id: number): void {
-        document.getElementById(id.toString()).focus();
+        const input: HTMLElement = document.getElementById(id.toString());
+        if (input) {
+            input.focus();
+        }
     }
 
     private idOfFirstEmptyCell(): number {

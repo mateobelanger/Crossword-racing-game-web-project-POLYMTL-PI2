@@ -23,17 +23,14 @@ export class DictionaryEntry {
     }
 
     public getDefinitions(): string[] {
-
         return this.definitions;
     }
 
     public getDefinitionIndex(): number {
-
         return this.definitionIndex;
     }
 
     public isCommon(): boolean {
-
         return Number(this.frequency.toString().substring(FREQUENCY_INDEX)) > COMMON_LIMIT ;
     }
 
@@ -70,19 +67,16 @@ export class DictionaryEntry {
     }
 
     private isNounOrVerb(definitionIndex: number): boolean {
-
         return this.definitions[definitionIndex].substr(0, 1) === "n" ||
                this.definitions[definitionIndex].substr(0, 1) === "v";
     }
 
     private currentDefinitionContainsWordItself(definitionIndex: number): boolean {
-
         return this.definitions[definitionIndex].includes(this.name.toString());
     }
 
     private currentDefinitionContainsExemple(definitionIndex: number): boolean {
         return this.definitions[definitionIndex].includes(String.fromCharCode(QUOTATION_MARKS_ASCII_CODE));
-
     }
 
     public isValidWithTemplate (template: string): boolean {

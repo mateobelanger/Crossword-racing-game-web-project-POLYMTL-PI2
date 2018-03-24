@@ -1,12 +1,10 @@
-import { TestBed, inject } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GridService } from './grid.service';
 import { WordService } from './word.service';
 import { ValidatorService } from './validator.service';
 import { GRID_SIZE } from '../../../../common/constants';
-
-/* tslint:disable: no-magic-numbers */
 
 const KEY_BACKSPACE: number = 8;
 const KEY_TAB: number = 9;
@@ -26,10 +24,7 @@ const word6: GridWord = new GridWord (2, 0, Direction.HORIZONTAL, "tam", "TAM __
 
 const words: GridWord[] = [word1, word2, word3, word4, word5, word6];
 
-
 describe('GridService', () => {
-
-
     let wordService: WordService;
     let userGrid: string[][];
     let gridService: GridService;
@@ -38,32 +33,38 @@ describe('GridService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-          providers: [GridService, ValidatorService, WordService],
+            imports: [HttpClientModule],
+            providers: [GridService, ValidatorService, WordService]
         });
 
-        userGrid = [["s", "", "t", "q", "", "", "", "", "", ""], ["a", "", "o", "", "", "", "", "", "", ""],
-                    ["t", "", "m",  "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-                    [ "", "",  "",  "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-                    [ "", "",  "",  "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-                    [ "", "",  "",  "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""]];
+        userGrid = [
+            ["s", "", "t", "q", "", "", "", "", "", ""],
+            ["a", "", "o", "", "", "", "", "", "", ""],
+            ["t", "", "m",  "", "", "", "", "", "", ""],
+            [ "", "",  "", "", "", "", "", "", "", ""],
+            [ "", "",  "",  "", "", "", "", "", "", ""],
+            [ "", "",  "", "", "", "", "", "", "", ""],
+            [ "", "",  "",  "", "", "", "", "", "", ""],
+            [ "", "",  "", "", "", "", "", "", "", ""],
+            [ "", "",  "",  "", "", "", "", "", "", ""],
+            [ "", "",  "", "", "", "", "", "", "", ""]
+        ];
+
+        wordService = TestBed.get(WordService);
+        wordService["_words"] = words;
 
         validatedWords = [word2, word4];
-
-        wordService = new WordService();
-        wordService.words = words;
-
-        validatorService = new ValidatorService(wordService);
+        validatorService = TestBed.get(ValidatorService);
         validatorService["validatedWords"] = validatedWords;
 
-        gridService = new GridService(wordService, validatorService);
+        gridService = TestBed.get(GridService);
         gridService.userGrid = userGrid;
 
     });
 
-    it('should be created', inject([GridService], (service: GridService) => {
-        expect(service).toBeTruthy();
-    }));
-
+    it('should be created', () => {
+        expect(gridService).toBeTruthy();
+    });
 
     it("should accept letters input from A to Z", () => {
         let isValidinput: boolean = true;
@@ -89,44 +90,36 @@ describe('GridService', () => {
 
     it("should make cell empty when backspace is entered", () => {
         gridService.keyDown(KEY_BACKSPACE, 0, 3);
-
         expect(gridService.userGrid[0][3]).toBe("");
     });
 
     it("should select the right word when a word is selected", () => {
         gridService.selectWord(0, 0);
-
         expect(wordService.selectedWord.value).toBe(word1.value);
     });
 
     it("should return true if the selected is the right one", () => {
         wordService["_selectedWord"] = word1;
-
         expect(gridService.isSelectedWord(0, 0)).toBeTruthy();
     });
 
     it("should return false if the selected is the not the right one", () => {
         wordService["_selectedWord"] = word5;
-
         expect(gridService.isSelectedWord(0, 0)).toBeFalsy();
     });
 
     it("should return false if there is no selected word", () => {
         wordService["_selectedWord"] = null;
-
         expect(gridService.isSelectedWord(0, 0)).toBeFalsy();
     });
 
     it("should return the right id", () => {
         wordService["_selectedWord"] = word5;
-
         expect(gridService.generateId(2, 3)).toBe((GRID_SIZE * 2) + 3);
     });
 
     it("should initially fill the grid properly", () => {
         gridService.fillGrid();
-
         expect(gridService.userGrid).toBe(userGrid);
     });
-
 });
