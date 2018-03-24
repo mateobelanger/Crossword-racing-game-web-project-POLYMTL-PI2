@@ -16,9 +16,10 @@ export class CircleHandler {
     public generateCircles(waypoints: Waypoint[], hasReversedAxes: boolean): void {
         const circleGeometries: THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
 
-        const material: THREE.MeshBasicMaterial = this.getCircleMaterial();
+        const material: THREE.MeshBasicMaterial = this.getCircleMaterial(hasReversedAxes);
         circleGeometries.forEach((geometry, index) => {
-            const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ? this.getFirstCircleMaterial() : material );
+            const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ?
+                                                     this.getFirstCircleMaterial(hasReversedAxes) : material );
             this.meshs.push(mesh);
             mesh.name = POINT;
 
@@ -80,16 +81,18 @@ export class CircleHandler {
         return circleGeometries;
       }
 
-    private getFirstCircleMaterial(): THREE.MeshBasicMaterial {
-        const createTexture: THREE.Texture =
-        new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v2.jpg");
+    private getFirstCircleMaterial(inTrackEditor: boolean): THREE.MeshBasicMaterial {
+        const createTexture: THREE.Texture = inTrackEditor ?
+        new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v2.jpg") :
+        new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v3.jpg");
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
-    private getCircleMaterial(): THREE.MeshBasicMaterial {
-        const createTexture: THREE.Texture =
-              new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v2.jpg");
+    private getCircleMaterial(inTrackEditor: boolean): THREE.MeshBasicMaterial {
+        const createTexture: THREE.Texture = inTrackEditor ?
+              new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v2.jpg") :
+              new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v3.jpg");
 
         return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
