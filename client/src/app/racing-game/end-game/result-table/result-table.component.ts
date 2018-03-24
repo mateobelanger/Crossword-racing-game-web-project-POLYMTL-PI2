@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
 import { RaceResultsService } from '../../recordedTimes/race-results.service';
 import { RaceResults } from '../../recordedTimes/raceResults';
 import { EndGameService } from '../end-game.service';
@@ -15,8 +14,7 @@ export class ResultTableComponent implements OnInit {
     public SHOWMOCK: boolean = true;
 
 
-    public constructor(private bestTimesHandler: BestTimeHandlerService,
-                       private raceResultService: RaceResultsService,
+    public constructor(private raceResultService: RaceResultsService,
                        private endGameService: EndGameService) { }
 
     public ngOnInit(): void {
@@ -27,10 +25,6 @@ export class ResultTableComponent implements OnInit {
         this.endGameService.displayPodiumTable();
     }
 
-    public get bestTimes(): [string, number][] {
-        return this.bestTimesHandler.bestTimes;
-    }
-
 
     public get raceTimes(): [string, RaceResults][] {
         if (this.SHOWMOCK)
@@ -38,7 +32,6 @@ export class ResultTableComponent implements OnInit {
 
         return this.raceResultService.raceFinalResults;
     }
-
 
 
     // TO REMOVE

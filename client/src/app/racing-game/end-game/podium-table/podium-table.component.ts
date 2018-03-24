@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
-import { RaceResultsService } from '../../recordedTimes/race-results.service';
+import { Component, Input } from '@angular/core';
 import { EndGameService } from '../end-game.service';
 
 @Component({
@@ -8,14 +6,16 @@ import { EndGameService } from '../end-game.service';
     templateUrl: './podium-table.component.html',
     styleUrls: ['./podium-table.component.css']
 })
-export class PodiumTableComponent implements OnInit {
+export class PodiumTableComponent {
 
-    public constructor(private bestTimesHandler: BestTimeHandlerService,
-                       private raceResultService: RaceResultsService,
-                       private endGameService: EndGameService) { }
+    @Input() public playerName: string;
+    // TODO: on peut entrer un nom vide en ce moment
+    public isPlayerNameEntered: Boolean;
 
 
-    public ngOnInit(): void {
+    public constructor(private endGameService: EndGameService) {
+        this.isPlayerNameEntered = false;
+
     }
 
     public isNewBestTime(): boolean {
@@ -28,5 +28,12 @@ export class PodiumTableComponent implements OnInit {
 
     public displayResultTable(): void {
         this.endGameService.displayResultTable();
+    }
+
+    public saveUserName(): void {
+        //this.endGameService.updateBestTimes(this.userName);
+
+        this.isPlayerNameEntered = true;
+        this.displayTimeTable();
     }
 }

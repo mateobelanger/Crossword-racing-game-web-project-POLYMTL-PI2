@@ -27,6 +27,7 @@ import { CarHandlerService } from './cars/car-handler.service';
 import { ResultTableComponent } from './end-game/result-table/result-table.component';
 import { EndGameService } from "./end-game/end-game.service";
 import { PodiumTableComponent } from './end-game/podium-table/podium-table.component';
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
 
@@ -34,7 +35,8 @@ import { PodiumTableComponent } from './end-game/podium-table/podium-table.compo
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    routes
+    routes,
+    FormsModule
   ],
 
   declarations: [

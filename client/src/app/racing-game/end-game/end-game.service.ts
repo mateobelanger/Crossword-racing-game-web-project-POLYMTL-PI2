@@ -11,7 +11,7 @@ export enum EndGameTable {
 export class EndGameService {
 
     public displayTable: EndGameTable = EndGameTable.NO_TABLE;
-    public isNewBestTime: boolean = false;
+    public isNewBestTime: boolean = true;
 
     public constructor() { }
 
