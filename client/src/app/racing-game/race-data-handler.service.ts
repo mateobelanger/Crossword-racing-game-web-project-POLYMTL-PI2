@@ -32,9 +32,10 @@ export class RaceDataHandlerService {
     public async initialize(trackname: string): Promise<void> {
         try {
             await this.tracksProxyService.initialize();
-            this.trackLoaderService.points = this._ITrackData.waypoints;
+
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
+            this.trackLoaderService.points = this._ITrackData.waypoints;
             await this.carsHandlerService.initialize();
             this.raceProgressionService.initialize(this.carsHandlerService.carsPosition, this._ITrackData.waypoints);
             this.raceResultService.initialize();
