@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Command } from './Command';
+import { CommandFormat } from './commandFormat';
 import { CommandTurnLeft } from './CommandTurnLeft';
 import { CommandAccelerate } from './commandAccelerate';
 import { CommandBrake } from './commandBrake';
@@ -19,12 +19,12 @@ const N_KEYCODE: number = 78;
 
 @Injectable()
 export class InputHandlerService {
-    private keyA: Command;
-    private keyW: Command;
-    private keyS: Command;
-    private keyD: Command;
-    private keyC: Command;
-    private keyN: Command;
+    private keyA: CommandFormat;
+    private keyW: CommandFormat;
+    private keyS: CommandFormat;
+    private keyD: CommandFormat;
+    private keyC: CommandFormat;
+    private keyN: CommandFormat;
 
     public constructor(private renderService: RenderService, private cameraService: CameraService ,
                        private sceneLoaderService: SceneLoaderService) {
