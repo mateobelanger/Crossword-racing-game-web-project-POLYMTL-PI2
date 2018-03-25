@@ -4,6 +4,7 @@ export const MIN_WORD_LENGTH: number = 3;
 export const DEFAULT_GRID_SIZE: number = 10;
 export const BLACK_CELL: string = "#";
 export const WHITE_CELL: string = "-";
+const MAX_FIX_ISSUES: number = 500;
 
 export class GridCreator {
     private _nRows: number;
@@ -13,8 +14,69 @@ export class GridCreator {
     public constructor() {
         this._nRows = DEFAULT_GRID_SIZE;
         this._nColumns = DEFAULT_GRID_SIZE;
+    }
+
+    public get grid(): string[][] {
+        return this._grid;
+    }
+
+    public create(nBlackCells: number): GridWord[] {
+        this.initializeGrid();
+        this.placeBlackCells(nBlackCells);
+        // calls itself again if the configuration is impossible to fix.
+        try {
+            this.fixCellsLayout();
+        } catch (err) {
+            this.create(nBlackCells);
+        }
+
+        return this.generateGridStructure();
+    }
+
+    private fixCellsLayout(): void {
+        let nIssues: number = 0;
+        for (let i: number = 0; i < this._nRows; i++) {
+            if (nIssues > MAX_FIX_ISSUES) {
+                throw new Error;
+            }
+            for (let j: number = 0; j < this._nColumns; j++) {
+                if (this.isLoneCell(i, j)) {
+                    this.fixLoneCell(i, j);
+                    nIssues++;
+                    i = 0; j = -1;
+                }
+            }
+            const row: string[] = this._grid[i];
+            let nRemovedBlackCells: number = 0;
+            if (!this.hasWords(row)) {
+                nRemovedBlackCells += this.fixNoWords(row);
+                nIssues++; i = -1;
+            }
+            const column: string[] = this.getColumn(i);
+            if (!this.hasWords(column)) {
+                nRemovedBlackCells += this.fixNoWords(column);
+                for (let j: number = 0; j < column.length; j++) {
+                    this._grid[j][i] = column[j];
+                }
+                nIssues++; i = -1;
+            }
+            this.setRandomly(BLACK_CELL, nRemovedBlackCells);
+        }
+    }
+
+    private generateGridStructure(): GridWord[] {
+        let words: GridWord[] = [];
+        for (let i: number = 0; i < this._nRows; i++) {
+            // generates the GridWords from rows and columns
+            words = words.concat(this.generateEmptyWords(this._grid[i], i, Direction.HORIZONTAL));
+            words = words.concat(this.generateEmptyWords(this.getColumn(i), i, Direction.VERTICAL));
+        }
+
+        return words;
+    }
+
+    private initializeGrid(): void {
         this._grid = [];
-        // initialize empty 2D array of correct dimensions.
         for (let i: number = 0; i < this._nRows; i++) {
             const row: string[] = [];
             for (let j: number = 0; j < this._nColumns; j++) {
@@ -24,67 +86,18 @@ export class GridCreator {
         }
     }
 
-    public get grid(): string[][] {
-        return this._grid;
-    }
-
-    public create(nBlackCells: number): GridWord[] {
-        this.placeBlackCells(nBlackCells);
-        this.fixCellsLayout();
-
-        return this.generateGridStructure();
-    }
-
-    private fixCellsLayout(): void {
-        for (let i: number = 0; i < this._nRows; i++) {
-            for (let j: number = 0; j < this._nColumns; j++) {
-                if (this.isLoneCell(i, j)) {
-                    this.fixLoneCell(i, j);
-                    i = 0; j = 0;
-                }
-            }
-
-            const row: string[] = this._grid[i];
-            let nRemovedBlackCells: number = 0;
-            if (!this.hasWords(row)) {
-                nRemovedBlackCells += this.fixNoWords(row);
-                i = 0;
-            }
-            const column: string[] = this.getColumn(i);
-            if (!this.hasWords(column)) {
-                nRemovedBlackCells += this.fixNoWords(column);
-                for (let j: number = 0; j < column.length; j++) {
-                    this._grid[j][i] = column[j];
-                }
-                i = 0;
-            }
-            this.setRandomly(BLACK_CELL, nRemovedBlackCells);
-        }
-    }
-
-    private generateGridStructure(): GridWord[] {
-        let wordsToFill: GridWord[] = [];
-        for (let i: number = 0; i < this._nRows; i++) {
-            // generates the GridWords from rows and columns
-            wordsToFill = wordsToFill.concat(this.generateEmptyWords(this._grid[i], i, Direction.HORIZONTAL));
-            wordsToFill = wordsToFill.concat(this.generateEmptyWords(this.getColumn(i), i, Direction.VERTICAL));
-        }
-
-        return wordsToFill;
-    }
-
     private generateEmptyWords(lane: string[], index: number, direction: Direction): GridWord[] {
         const emptyWords: GridWord[] = [];
         for (let i: number = 0; i < lane.length; i++) {
             if (lane[i] === BLACK_CELL) {
                 continue;
             }
-
-            const headIndex: number = i;
             let value: string = "";
-            while (lane[i] === WHITE_CELL) {
-                value += lane[i];
-                if (++i >= lane.length) {
+            const headIndex: number = i;
+           while(i < lane.length) {
+                value += "-";
+                if (lane[++i] === BLACK_CELL) {
+                    i--;    // will be reincremented at the end of the loop.
                     break;
                 }
             }
@@ -112,7 +125,7 @@ export class GridCreator {
     private set(row: number, col: number, value: string): void {
         if (value.length !== 1 ||
             (row >= this._nRows || row < 0 || col >= this._nColumns || col < 0)) {
-            return;
+            throw new RangeError;
         }
         this._grid[row][col] = value;
     }
@@ -138,38 +151,28 @@ export class GridCreator {
         if (!this.isLoneCell(row, col)) {
             return;
         }
-        // shifts a black cell up or left depending on the position.
         this._grid[row][col] = BLACK_CELL;
-        if (col === this._nColumns - 1) {
+        // shifts a black cell up unless at the bottom of the grid, then left or right.
+        if (row < this._nRows - 1) {
             this._grid[row + 1][col] = WHITE_CELL;
-        } else {
+        } else if (col > 0) {
             this._grid[row][col + 1] = WHITE_CELL;
+        } else {
+            this._grid[row][col - 1] = WHITE_CELL;
         }
     }
 
     private fixNoWords(lane: string[]): number {
-        for (let i: number = 0; i < lane.length; i++) {
+        let nRemovedBlackCells: number = 0;
+        while (!this.hasWords(lane)) {
+            const i: number = Math.floor(Math.random() * lane.length);
             if (lane[i] === BLACK_CELL) {
-                continue;
+                nRemovedBlackCells++;
+                lane[i] = WHITE_CELL;
             }
-
-            let nRemovedBlackCells: number = 0;
-            for (let j: number = 1; j < MIN_WORD_LENGTH; j++) {
-                if (i >= MIN_WORD_LENGTH - 1) {
-                    if (lane[i - j] === BLACK_CELL) { nRemovedBlackCells ++; }
-                    lane[i - j] = WHITE_CELL;
-                } else {
-                    if (lane[i + j] === BLACK_CELL) { nRemovedBlackCells ++; }
-                    lane[i + j] = WHITE_CELL;
-                }
-            }
-
-            return nRemovedBlackCells;
         }
-        // if the whole lane was black cells.
-        lane[Math.floor(Math.random() * lane.length)] = WHITE_CELL;
 
-        return this.fixNoWords(lane) + 1;
+        return nRemovedBlackCells;
     }
 
     // creates an array representing the column at the specified index.
@@ -190,10 +193,10 @@ export class GridCreator {
             return false;
         }
 
-        return !(row > 0 && (this._grid[row - 1][col] === WHITE_CELL) ||
-                row < this._nRows - 1 && (this._grid[row + 1][col] === WHITE_CELL) ||
-                col > 0 && (this._grid[row][col - 1] === WHITE_CELL) ||
-                col < this._nColumns - 1 && (this._grid[row][col + 1] === WHITE_CELL));
+        return !((row > 0 && (this._grid[row - 1][col] === WHITE_CELL)) ||
+                (row < this._nRows - 1 && (this._grid[row + 1][col] === WHITE_CELL)) ||
+                (col > 0 && (this._grid[row][col - 1] === WHITE_CELL)) ||
+                (col < this._nColumns - 1 && (this._grid[row][col + 1] === WHITE_CELL)));
     }
 
     private hasWords(lane: string[]): boolean {

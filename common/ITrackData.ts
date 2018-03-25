@@ -4,4 +4,5 @@ export interface ITrackData {
     timesPlayed: number;
     bestTimes:[string, number][];
     waypoints:[number, number, number][];
+    image: string;
 }

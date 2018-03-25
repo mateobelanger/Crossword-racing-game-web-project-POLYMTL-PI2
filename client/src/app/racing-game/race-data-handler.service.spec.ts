@@ -2,6 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { TracksProxyService } from "./tracks-proxy.service";
 import { RaceDataHandlerService } from './race-data-handler.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TrackLoaderService } from './track-loader.service';
 import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
 import { RaceResultsService } from './recordedTimes/race-results.service';
 import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';

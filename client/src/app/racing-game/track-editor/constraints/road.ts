@@ -72,6 +72,26 @@ export class Road {
         return hasValidAngle;
     }
 
+    // // tslint:disable:prefer-const
+    // public hasValidAngle(): boolean {
+    //     return this.getAngleBetweenRoads() !== -1 && this.getAngleBetweenRoads() <= MAXANGLE;
+    // }
+
+    // public getAngleBetweenRoads(): number {
+    //     if (this.isDefined(this.previousRoad)) {
+    //         const previousRoadVector: THREE.Vector3 = new THREE.Vector3();
+    //         previousRoadVector.subVectors(this.previousRoad.endPoint, this.previousRoad.beginPoint);
+    //         const thisRoadVector: THREE.Vector3 = new THREE.Vector3();
+    //         thisRoadVector.subVectors(this.endPoint, this.beginPoint);
+
+    //         return thisRoadVector.angleTo(previousRoadVector);
+    //     }
+
+    //     return -1;
+    // }
+
+    // tslint:enable:prefer-const
+
     public intersects(road: Road): boolean {
         let intersects: boolean = false;
         if (!(this === road || road === this.previousRoad || road.previousRoad === this)) {

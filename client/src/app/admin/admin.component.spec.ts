@@ -4,7 +4,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { AppModule } from "../app.module";
 import { routes } from "../app-routes.module";
 import { AdminComponent } from "./admin.component";
-import { ITrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/ItrackData";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 
 const tracks: ITrackData[] = [
@@ -15,7 +15,8 @@ const tracks: ITrackData[] = [
         // tslint:disable-next-line:no-magic-numbers
         bestTimes: [["gen", 2], ["p-o ;)", 1]],
         // tslint:disable-next-line:no-magic-numbers
-        waypoints: [[1, 1, 1], [2, 2, 2]]
+        waypoints: [[1, 1, 1], [2, 2, 2]],
+        image: "ab"
     },
     {
         name: "Test2",
@@ -24,7 +25,8 @@ const tracks: ITrackData[] = [
         // tslint:disable-next-line:no-magic-numbers
         bestTimes: [["gen", 2], ["p-o ;)", 1]],
         // tslint:disable-next-line:no-magic-numbers
-        waypoints: [[1, 1, 1], [2, 2, 2]]
+        waypoints: [[1, 1, 1], [2, 2, 2]],
+        image: "cd"
     },
     {
         name: "Test3",
@@ -32,7 +34,8 @@ const tracks: ITrackData[] = [
         timesPlayed: 12,
         bestTimes: [["gen", 1], ["p-o ;)", 1]],
         // tslint:disable-next-line:no-magic-numbers
-        waypoints: [[1, 1, 1], [2, 2, 2]]
+        waypoints: [[1, 1, 1], [2, 2, 2]],
+        image: "ef"
     }
 ];
 

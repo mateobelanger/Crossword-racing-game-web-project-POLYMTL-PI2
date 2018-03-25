@@ -11,7 +11,8 @@ const DEFAULT_TRACKNAME: string = "test";
     moduleId: module.id,
     selector: "app-game-component",
     templateUrl: "./game.component.html",
-    styleUrls: ["./game.component.css"]
+    styleUrls: ["./game.component.css"],
+    providers: [RenderService]
 })
 
 export class GameComponent implements AfterViewInit {
@@ -51,6 +52,11 @@ export class GameComponent implements AfterViewInit {
             trackName = DEFAULT_TRACKNAME;
         await this.renderService.initialize(this.containerRef.nativeElement);
         await this.raceDataHandlerService.initialize(trackName);
+
+        await this.renderService
+                  .initialize(this.containerRef.nativeElement)
+                  .then(/* do nothing*/)
+                  .catch((err) => console.error(err));
 
         this.raceDataHandlerService.startRace();
     }

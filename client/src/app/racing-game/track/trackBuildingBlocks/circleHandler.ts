@@ -1,8 +1,9 @@
 import { Waypoint } from "../trackData/waypoint";
-import { POINT } from "../../constants";
+import { POINT, CIRCLE_POSITION_Z } from "../../constants";
 import * as THREE from "three";
 
 const CIRCLE_RADIUS: number = 10;
+const CIRCLE_QUALITY: number = 15;
 
 export class CircleHandler {
 
@@ -12,16 +13,27 @@ export class CircleHandler {
         this.meshs = [];
     }
 
-    public generateCircles(waypoints: Waypoint[]): void {
+    public generateCircles(waypoints: Waypoint[], hasReversedAxes: boolean): void {
         const circleGeometries: THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
-        const material: THREE.MeshBasicMaterial = this.getCircleMaterial();
+
+        const material: THREE.MeshBasicMaterial = this.getCircleMaterial(hasReversedAxes);
         circleGeometries.forEach((geometry, index) => {
-            const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ? this.getFirstCircleMaterial() : material );
+            const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ?
+                                                     this.getFirstCircleMaterial(hasReversedAxes) : material );
             this.meshs.push(mesh);
             mesh.name = POINT;
-            this.scene.add(mesh);
+
+            mesh.position.z = CIRCLE_POSITION_Z;
+            const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+            hasReversedAxes ? mesh.rotateOnAxis(axis, Math.PI / 2) : mesh.rotateOnAxis(axis, 0);
+
+
             this.bindMesh(mesh, waypoints[index]);
         });
+        this.meshs.forEach((mesh) => {
+            this.scene.add(mesh);
+        });
+
       }
 
     public removeCircle(meshId: number): void {
@@ -62,23 +74,26 @@ export class CircleHandler {
     private generateCircleGeometry(nCircles: number): THREE.Geometry[] {
         const circleGeometries: THREE.Geometry[] = [];
         for (let i: number = 0; i < nCircles ; i++) {
-          const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLE_RADIUS);
+          const circleGeometry: THREE.Geometry = new THREE.CircleGeometry(CIRCLE_RADIUS, CIRCLE_QUALITY);
           circleGeometries.push(circleGeometry);
-          }
+        }
 
         return circleGeometries;
       }
 
-    private getFirstCircleMaterial(): THREE.MeshBasicMaterial {
-        let createTexture: THREE.Texture = new THREE.Texture;
-        createTexture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture_3.png");
+    private getFirstCircleMaterial(inTrackEditor: boolean): THREE.MeshPhongMaterial {
+        const createTexture: THREE.Texture = inTrackEditor ?
+        new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v2.jpg") :
+        new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v3.jpg");
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
-    private getCircleMaterial(): THREE.MeshBasicMaterial {
-        const createTexture: THREE.Texture = new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture.png");
+    private getCircleMaterial(inTrackEditor: boolean): THREE.MeshPhongMaterial {
+        const createTexture: THREE.Texture = inTrackEditor ?
+              new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v2.jpg") :
+              new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v3.jpg");
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 }

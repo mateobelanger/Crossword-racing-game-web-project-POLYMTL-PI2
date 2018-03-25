@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import "reflect-metadata";
 import { injectable, } from "inversify";
 import { WordSelector, MAX_WORDS_PER_RESPONSE } from "./wordSelector";
-import { DatamuseResponse, IDatamuseResponse } from "./IdatamuseResponse";
+import { DatamuseResponse, IDatamuseResponse } from "./datamuseResponse";
 
 // tslint:disable-next-line:typedef
 const DATAMUSE = require("datamuse");
@@ -15,7 +15,8 @@ module Lexical {
 
         public findWords(req: Request, res: Response): void {
             const template: string = req.params.criteria;
-            WordSelector.getWords(template);
+            DATAMUSE.request(DATAMUSE_OPTIONS[0] + template + DATAMUSE_OPTIONS[1])
+                .then( (responses: IDatamuseResponse[]) => { res.send(responses[0]); });
         }
 
         public findWordsByRarity(req: Request, res: Response, isCommon: boolean): void {

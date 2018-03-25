@@ -9,6 +9,7 @@
   <div class="container">
     <div class="row">
       <div class="col col-md-4 caneva" *ngFor="let track of tracks; let trackIndex = index;">
+          <img class="resize" src={{track.image}}>
         <div class="canevaHeader clearfix">
           <li class="trackNameBlock left">
             <h4 class="trackName"> {{track.name}} </h4>
@@ -19,7 +20,6 @@
             </a>
           </div>
         </div>
-
         <div class="descriptionBlock">
           <div class="descriptionTitleBlock">
             <div>
@@ -28,7 +28,6 @@
           </div>
           <div class="descriptionText "> {{track.description}} </div>
         </div>
-
 
         <div class="canevaFooter clearfix">
           <div class="timesPlayed btn-sm"> Played {{track.timesPlayed}} times </div>
@@ -51,6 +50,7 @@
             </div>
           </div>
         </div>
+
 
       </div>
     </div>

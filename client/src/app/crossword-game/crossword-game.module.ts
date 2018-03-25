@@ -12,8 +12,8 @@ import { InformationsComponent } from './informations/informations.component';
 
 import { WordService } from './word.service';
 import { GridService } from './grid.service';
-import { DefinitionsService } from './definitions.service';
-import { ValidationMediatorService } from './validation-mediator.service';
+import { ValidatorService } from './validator.service';
+import { EndOfGameModalComponent } from './end-of-game-modal/end-of-game-modal.component';
 
 
 @NgModule({
@@ -28,14 +28,14 @@ import { ValidationMediatorService } from './validation-mediator.service';
         GameUiComponent,
         GridComponent,
         DefinitionsComponent,
-        InformationsComponent
+        InformationsComponent,
+        EndOfGameModalComponent
     ],
 
     providers: [
         WordService,
         GridService,
-        DefinitionsService,
-        ValidationMediatorService
+        ValidatorService
     ],
 
     exports: [

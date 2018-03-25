@@ -1,7 +1,7 @@
 import { TestBed, inject, async, } from "@angular/core/testing";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { TracksProxyService } from "./tracks-proxy.service";
-import { ITrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/ItrackData";
 import { HttpRequest } from "@angular/common/http";
 const URI_MONGO_DB: string = "http://localhost:3000/service/mongoDB";
 
@@ -15,14 +15,16 @@ describe("TracksProxyService", () => {
         description: "blaaaa bla blaaaa blaaaa blaaaa blaaaa blaaaa blaaaa ",
         timesPlayed: 12,
         bestTimes: [["gen", 1000000], ["p-o ;)", 0.1]],
-        waypoints: [[1, 1, 1], [2, 2, 2]]
+        waypoints: [[1, 1, 1], [2, 2, 2]],
+        image: "ab"
     },
     {
         name: "ABCcucucuucucuc",
         description: "blaaaa ba blaaaa blaaaa ",
         timesPlayed: 13,
         bestTimes: [["gen", 1000000], ["p-o ;)", 0.1]],
-        waypoints: [[1, 1, 1], [2, 2, 2]]
+        waypoints: [[1, 1, 1], [2, 2, 2]],
+        image: "cd"
 
     },
     {
@@ -30,7 +32,8 @@ describe("TracksProxyService", () => {
         description: "",
         timesPlayed: 14,
         bestTimes: [["gen", 1000000], ["p-o ;)", 0.1]],
-        waypoints: [[1, 1, 1], [2, 2, 2]]
+        waypoints: [[1, 1, 1], [2, 2, 2]],
+        image: "ef"
     }
     ];
 

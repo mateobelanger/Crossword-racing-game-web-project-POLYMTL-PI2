@@ -7,6 +7,7 @@
     import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
     import { CarHandlerService } from './cars/car-handler.service';
     const USERNAME: string = "user";
+import { TrackLoaderService } from './track-loader.service';
 
     @Injectable()
     export class RaceDataHandlerService {
@@ -14,6 +15,7 @@
     private _uiLapTimer: Timer;
     private _totalTimeTimer: Timer;
     private _ITrackData: ITrackData;
+        private trackLoaderService: TrackLoaderService) {
 
     public constructor( private tracksProxyService: TracksProxyService,
                         private bestTimesService: BestTimeHandlerService,
@@ -24,6 +26,7 @@
         this._uiLapTimer = new Timer();
         this.resetValues();
     }
+                this.trackLoaderService.points = this._iTrackData.waypoints;
 
     public async initialize(trackname: string): Promise<void> {
         try {

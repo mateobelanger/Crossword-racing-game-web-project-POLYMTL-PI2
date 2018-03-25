@@ -5,15 +5,15 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let row of definitionsService.horizontalDefinitions; let indexR = index;" class="index">
+        <tr *ngFor="let row of horizontalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0">
                 <span>{{indexR+1}}.</span>
                 <li *ngFor="let definition of row; let indexI = index;" 
                     (click)="onSelect(definition); $event.stopPropagation()" 
-                    [class.selected]="definitionsService.isSelectedDefinition(definition)" 
-                    [class.validated]="definitionsService.isValidatedHorizontalDefinition[indexR][indexI]">
+                    [class.selected]="isSelectedDefinition(definition)" 
+                    [class.validated]="isValidatedDefinition(definition)">
 
-                    [{{indexI+1}}] {{definition}}
+                    [{{indexI+1}}] {{isCheatMode? wordService.getWordWithDefinition(definition) : definition}}
                 </li>
             </div>
         </tr>
@@ -26,17 +26,18 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let row of definitionsService.verticalDefinitions; let indexR = index;" class="index">
+        <tr *ngFor="let row of verticalDefinitions; let indexR = index;" class="index">
             <div *ngIf="row.length > 0">
                 <span>{{indexR+1}}.</span>
                 <li *ngFor="let definition of row; let indexI = index;" 
                     (click)="onSelect(definition); $event.stopPropagation()" 
-                    [class.selected]="definitionsService.isSelectedDefinition(definition)" 
-                    [class.validated]="definitionsService.isValidatedVerticalDefinition[indexR][indexI]">
+                    [class.selected]="isSelectedDefinition(definition)" 
+                    [class.validated]="isValidatedDefinition(definition)">
 
-                    [{{indexI+1}}] {{definition}}
+                    [{{indexI+1}}] {{isCheatMode? wordService.getWordWithDefinition(definition) : definition}}
                 </li>
             </div>
         </tr>
     </tbody>
 </table>
+<button [class.toggled]="isCheatMode" [class.untoggled]="!isCheatMode" (click)="switchMode()"> Switch to  {{ (isCheatMode ? 'Normal' : 'Cheat')}} Mode</button>
