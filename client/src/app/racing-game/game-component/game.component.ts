@@ -47,7 +47,6 @@ export class GameComponent implements AfterViewInit {
     public async ngAfterViewInit(): Promise<void> {
         this.endGameService.displayTable = EndGameTable.NO_TABLE;
         let trackName: string = this.route.snapshot.paramMap.get("trackName");
-        console.log(trackName);
         if (!this.isDefined(trackName))
             trackName = DEFAULT_TRACKNAME;
         this.renderService
