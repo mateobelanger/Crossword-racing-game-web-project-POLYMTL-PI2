@@ -40,24 +40,29 @@ export class AudioService {
         return id;
     }
 
-    public playSound(id: number): void {
-        if (id >= this._sounds.length || id < 0) {
-            return;
-        }
-        this._sounds[id].play();
+    public playSound(soundId: number): void {
+        this.findSound(soundId).play();
     }
 
-    public stopSound(id: number): void {
-        this._sounds[id].stop();
+    public stopSound(soundId: number): void {
+        this.findSound(soundId).stop();
     }
 
-    public setVolume(id: number, volume: number): void {
-        this._sounds[id].setVolume(volume);
+    public setVolume(soundId: number, volume: number): void {
+        this.findSound(soundId).setVolume(volume);
     }
 
     public stopAllSounds(): void {
         for (const sound of this._sounds) {
             sound.stop();
         }
+    }
+
+    private findSound(soundId: number): Audio {
+        if (soundId < 0 || soundId >= this._sounds.length) {
+            return new Audio(this._listener);       // acts like a null object since its buffer is never loaded.
+        }
+
+        return this._sounds[soundId];
     }
 }
