@@ -9,6 +9,7 @@ const FRONT_TARGET_POSITION_Z: number = -20;
 
 const FRONT_LIGHT_ITENSITY: number = 20;
 const FRONT_LIGHT_DISTANCE: number = 70;
+        // tslint:disable-next-line:no-magic-numbers
 const FRONT_LIGHT_ANGLE: number = Math.PI / 3;
 const FRONT_LIGHT_PENUMBRA: number = 0.5;
 const FRONT_LIGHT_DECAY: number = 3;
@@ -26,6 +27,7 @@ const BACK_TARGET_POSITION_Z: number = 20;
 
 const BACK_LIGHT_ITENSITY: number = 10;
 const BACK_LIGHT_DISTANCE: number = 40;
+        // tslint:disable-next-line:no-magic-numbers
 const BACK_LIGHT_ANGLE: number = Math.PI / 8;
 const BACK_LIGHT_PENUMBRA: number = 0.5;
 const BACK_LIGHT_DECAY: number = 3;
@@ -41,7 +43,6 @@ export class CarLights {
     private frontRightLight: THREE.SpotLight;
     private backLeftLight: THREE.SpotLight;
     private backRightLight: THREE.SpotLight;
-    //private backLight: THREE.SpotLight;
 
     private car: THREE.Object3D;
 
@@ -50,7 +51,6 @@ export class CarLights {
         this.frontRightLight = null;
         this.backLeftLight = null;
         this.backRightLight = null;
-        //this.backLight = null;
     }
 
     public initialize(car: THREE.Object3D): void {
