@@ -16,11 +16,12 @@ export class Timer {
 
     public stop(): void {
         this._pausedTime = this.millisecondsElapsed;
+        this._stopped = true;
     }
 
     public reset(): void {
         this._pausedTime = 0;
-        this._stopped = true;
+        this._stopped = false;
     }
 
     public get millisecondsElapsed(): number {
