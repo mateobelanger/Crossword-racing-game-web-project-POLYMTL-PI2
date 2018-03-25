@@ -41,6 +41,7 @@ export class TrackEditorRenderService {
         this.startRenderingLoop();
     }
 
+
     public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
         this.updateRaycastMousePos(event);
 
@@ -90,6 +91,7 @@ export class TrackEditorRenderService {
         this._backgroundPlane = new BackgroundPlane(this._scene);
 
         this._backgroundPlane.generateBackgroundPlane();
+
     }
 
     private startRenderingLoop(): void {

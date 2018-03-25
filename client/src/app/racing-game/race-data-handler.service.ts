@@ -27,11 +27,11 @@ export class RaceDataHandlerService {
 
     public async initialize(trackname: string): Promise<void> {
         await this.tracksProxyService.initialize()
-            .       then(() => {
-                       this._iTrackData = this.tracksProxyService.findTrack(trackname);
-                       this.bestTimesHandler.bestTimes = this._iTrackData.bestTimes;
-                       this.trackLoaderService.points = this._iTrackData.waypoints;
-                    })
+            .then(() => {
+                this._iTrackData = this.tracksProxyService.findTrack(trackname);
+                this.bestTimesHandler.bestTimes = this._iTrackData.bestTimes;
+                this.trackLoaderService.points = this._iTrackData.waypoints;
+            })
             .catch((err) => { console.error(err); });
     }
 
