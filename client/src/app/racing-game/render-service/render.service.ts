@@ -54,11 +54,7 @@ export class RenderService {
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
-            console.log("previous");
-            console.log(this._car);
-            this._car = this.carHandlerService.cars[3][1];
-            console.log("next");
-            console.log(this._car);
+            this._car = this.carHandlerService.cars[1][1];
             this.container = container;
             await this.createScene();
             this.initStats();
@@ -86,7 +82,6 @@ export class RenderService {
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
-        await this._car.init();
         this.scene.add(this._car);
 
         // To see the car's point of departure

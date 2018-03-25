@@ -31,18 +31,23 @@ export class CarStartPosition {
     }
 
     private moveCarToStart( car: Car ): void {
-        car.mesh.position.add(this._start);
-        console.log("moveCar")
-        console.log(car.mesh)
-        console.log(car.mesh.position)
-        console.log(car);
+        car.mesh.position.set(this._start.x,
+                              0,
+                              this._start.z);
     }
 
     private alignCarWithTrack(car: Car, trackDirection: THREE.Vector3): void {
+        console.log("trackdirection");
+        console.log(trackDirection);
         let rotation: number = trackDirection.angleTo(CAR_INIT_DIRECTION);
+        console.log("rotation");
+        console.log(rotation);
+        console.log("oldmesh");
+        console.log(car.mesh);
         if (trackDirection.y < 0)
             rotation *= -1;
-        car.mesh.rotateOnAxis( new THREE.Vector3(), rotation);
+        car.mesh.rotateOnAxis( new THREE.Vector3(0, 1, 0), Math.PI/2);
+        console.log("new mesh", car.mesh);
     }
 
     private positionCar( position: number ): void {
