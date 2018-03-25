@@ -32,8 +32,10 @@ export class CarStartPosition {
 
     private moveCarToStart( car: Car ): void {
         car.mesh.position.add(this._start);
-        console.log(this._start);
-        console.log(car.mesh.position);
+        console.log("moveCar")
+        console.log(car.mesh)
+        console.log(car.mesh.position)
+        console.log(car);
     }
 
     private alignCarWithTrack(car: Car, trackDirection: THREE.Vector3): void {

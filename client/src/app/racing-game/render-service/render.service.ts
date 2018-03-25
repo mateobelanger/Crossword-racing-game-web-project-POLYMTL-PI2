@@ -49,12 +49,16 @@ export class RenderService {
                        private audioService: AudioService,
                        private endGameService: EndGameService,
                        private carHandlerService: CarHandlerService) {
-
+        this._car = new Car();
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
-            this._car = this.carHandlerService.cars[1][1];
+            console.log("previous");
+            console.log(this._car);
+            this._car = this.carHandlerService.cars[3][1];
+            console.log("next");
+            console.log(this._car);
             this.container = container;
             await this.createScene();
             this.initStats();

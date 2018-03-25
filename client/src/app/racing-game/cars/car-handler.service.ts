@@ -38,6 +38,8 @@ export class CarHandlerService {
         const cars: Car[] = this._cars.map((car: [string, Car]) => car[1]);
         const carsPosition: CarStartPosition = new CarStartPosition( cars, waypoints);
         carsPosition.moveCarsToStart();
+        console.log("moved car");
+        console.log(this.cars[1][1].mesh.position);
     }
 
 }

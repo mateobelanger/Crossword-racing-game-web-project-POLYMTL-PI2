@@ -38,6 +38,8 @@ export class RaceDataHandlerService {
             this.trackLoaderService.points = this._ITrackData.waypoints;
             await this.carsHandlerService.initialize();
             this.carsHandlerService.moveCarsToStart(this._ITrackData.waypoints);
+            console.log("should be moved");
+            console.log(this.carsHandlerService.cars[1][1]);
             this.raceProgressionService.initialize(this.carsHandlerService.carsPosition, this._ITrackData.waypoints);
             this.raceResultService.initialize();
             this.subscribeToDoneLap();
