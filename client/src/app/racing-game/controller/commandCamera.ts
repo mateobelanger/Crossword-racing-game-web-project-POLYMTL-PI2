@@ -1,6 +1,6 @@
 import { CommandFormat } from "./commandFormat";
 import { CameraService } from "../camera.service";
-import { Car } from "../car/car";
+import { Car } from "../cars/car/car";
 
 export class CommandCamera extends CommandFormat  {
 

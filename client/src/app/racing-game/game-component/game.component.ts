@@ -27,7 +27,7 @@ export class GameComponent implements AfterViewInit {
 
     public constructor(private renderService: RenderService,
                        private raceDataHandlerService: RaceDataHandlerService,
-                       private inputHandlerService: InputHandlerService) { }
+                       private inputHandlerService: InputHandlerService,
                        private route: ActivatedRoute,
                        private endGameService: EndGameService) { }
 

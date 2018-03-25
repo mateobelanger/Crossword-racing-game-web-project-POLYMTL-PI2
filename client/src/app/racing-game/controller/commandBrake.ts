@@ -1,5 +1,5 @@
 import { CommandFormat } from "./commandFormat";
-import { Car } from "../car/car";
+import { Car } from "../cars/car/car";
 
 export class CommandBrake extends CommandFormat  {
     public execute(isKeyDown: boolean, car: Car): void {

@@ -4,7 +4,6 @@ import * as THREE from "three";
 
 import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
-import { EndGameService } from "../end-game/end-game.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
@@ -45,8 +44,7 @@ export class RenderService {
     public constructor(private cameraService: CameraService,
                        private sceneLoaderService: SceneLoaderService,
                        private trackLoaderService: TrackLoaderService,
-                       private audioService: AudioService,
-                       private endGameService: EndGameService) {
+                       private audioService: AudioService) {
         this._car = new Car();
 
     }

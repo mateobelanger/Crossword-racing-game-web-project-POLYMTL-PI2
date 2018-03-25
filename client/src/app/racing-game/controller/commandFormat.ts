@@ -1,4 +1,4 @@
-import { Car } from "../car/car";
+import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 
