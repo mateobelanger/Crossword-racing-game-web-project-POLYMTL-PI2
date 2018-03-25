@@ -14,9 +14,8 @@ import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 describe("RenderService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [RenderService, CameraService, SkyboxService, EndGameService, BestTimeHandlerService, RaceResultsService]
-            providers: [RenderService, CameraService, SkyboxService, SceneLightsService,
-                        SceneLoaderService, AudioService, TrackLoaderService]
+            providers: [RenderService, CameraService, SkyboxService, EndGameService, BestTimeHandlerService,
+                        RaceResultsService, SceneLightsService, SceneLoaderService, AudioService, TrackLoaderService]
         });
     });
 

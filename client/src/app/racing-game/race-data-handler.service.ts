@@ -1,36 +1,38 @@
-    import { Injectable } from '@angular/core';
-    import { TracksProxyService } from "./tracks-proxy.service";
-    import { ITrackData } from "../../../../common/trackData";
-    import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
-    import { RaceResultsService } from "./recordedTimes/race-results.service";
-    import { Timer } from "./timer/timer";
-    import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
-    import { CarHandlerService } from './cars/car-handler.service';
-    const USERNAME: string = "user";
+import { Injectable } from '@angular/core';
+import { TracksProxyService } from "./tracks-proxy.service";
+import { ITrackData } from "../../../../common/itrackData";
+import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
+import { RaceResultsService } from "./recordedTimes/race-results.service";
+import { Timer } from "./timer/timer";
+import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
+import { CarHandlerService } from './cars/car-handler.service';
 import { TrackLoaderService } from './track-loader.service';
+const USERNAME: string = "user";
 
-    @Injectable()
-    export class RaceDataHandlerService {
+
+@Injectable()
+export class RaceDataHandlerService {
 
     private _uiLapTimer: Timer;
     private _totalTimeTimer: Timer;
     private _ITrackData: ITrackData;
-        private trackLoaderService: TrackLoaderService) {
 
-    public constructor( private tracksProxyService: TracksProxyService,
-                        private bestTimesService: BestTimeHandlerService,
-                        private raceResultService: RaceResultsService,
-                        private raceProgressionService: RaceProgressionHandlerService,
-                        private carsHandlerService: CarHandlerService) {
+    public constructor(private tracksProxyService: TracksProxyService,
+                       private bestTimesService: BestTimeHandlerService,
+                       private raceResultService: RaceResultsService,
+                       private raceProgressionService: RaceProgressionHandlerService,
+                       private carsHandlerService: CarHandlerService,
+                       private trackLoaderService: TrackLoaderService) {
         this._totalTimeTimer = new Timer();
         this._uiLapTimer = new Timer();
         this.resetValues();
     }
-                this.trackLoaderService.points = this._iTrackData.waypoints;
+
 
     public async initialize(trackname: string): Promise<void> {
         try {
             await this.tracksProxyService.initialize();
+            this.trackLoaderService.points = this._ITrackData.waypoints;
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             await this.carsHandlerService.initialize();
@@ -95,15 +97,15 @@ import { TrackLoaderService } from './track-loader.service';
         this._totalTimeTimer.stop();
     }
     private subscribeToDoneLap(): void {
-            this.raceProgressionService.lapDoneStream$.subscribe( (name: string) => {
-                this.doneLap(name);
-            });
+        this.raceProgressionService.lapDoneStream$.subscribe((name: string) => {
+            this.doneLap(name);
+        });
     }
 
     private subscribeToEndOfRace(): void {
-        this.raceProgressionService.user.endOfRace$.subscribe( () => {
-                this.doneRace();
-            });
+        this.raceProgressionService.user.endOfRace$.subscribe(() => {
+            this.doneRace();
+        });
     }
 
 }
