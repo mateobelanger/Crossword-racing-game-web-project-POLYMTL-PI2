@@ -53,10 +53,7 @@ export class RenderService {
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
-            if (container) {
-                this.container = container;
-            }
-
+            this.container = container;
             await this.createScene();
             this.initStats();
             this.startRenderingLoop();
@@ -64,10 +61,6 @@ export class RenderService {
             console.error("could not initilize render service");
             console.error(err);
         }
-
-        await this.createScene();
-        this.initStats();
-        this.startRenderingLoop();
     }
 
     private initStats(): void {

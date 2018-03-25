@@ -52,12 +52,7 @@ export class GameComponent implements AfterViewInit {
             trackName = DEFAULT_TRACKNAME;
 
         await this.raceDataHandlerService.initialize(trackName);
-       // await this.renderService.initialize(this.containerRef.nativeElement);
-        await this.renderService
-                  .initialize(this.containerRef.nativeElement)
-                  .then(/* do nothing*/)
-                  .catch((err) => console.error(err));
-
+        await this.renderService.initialize(this.containerRef.nativeElement);
         this.raceDataHandlerService.startRace();
     }
 
