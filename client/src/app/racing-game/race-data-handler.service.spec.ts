@@ -14,7 +14,7 @@ describe('RaceDataHandlerService', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService,
-                        RaceProgressionHandlerService, CarHandlerService]
+                        RaceProgressionHandlerService, CarHandlerService, TrackLoaderService]
         });
     });
 

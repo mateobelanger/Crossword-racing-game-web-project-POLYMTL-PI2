@@ -7,6 +7,10 @@ import { SkyboxService } from '../../skybox.service';
 import { EndGameService } from '../../end-game/end-game.service';
 import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
 import { RaceResultsService } from '../../recordedTimes/race-results.service';
+import { TrackLoaderService } from '../../track-loader.service';
+import { SceneLoaderService } from '../../scene-loader/scene-loader.service';
+import { SceneLightsService } from '../../scene-lights/scene-lights.service';
+import { AudioService } from '../../audio/audio.service';
 
 describe('SpeedComponent', () => {
     let component: SpeedComponent;
@@ -15,7 +19,8 @@ describe('SpeedComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [SpeedComponent],
-            providers: [RenderService, CameraService, SkyboxService, EndGameService, BestTimeHandlerService, RaceResultsService]
+            providers: [RenderService, CameraService, SkyboxService, EndGameService, BestTimeHandlerService, RaceResultsService,
+                        TrackLoaderService, SceneLoaderService, SceneLightsService, AudioService]
         })
             .compileComponents();
     }));
