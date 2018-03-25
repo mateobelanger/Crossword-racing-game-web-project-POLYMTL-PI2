@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Car } from './car/car';
 import { PLAYERS_NAME } from "../constants";
+import * as THREE from "three";
+import { CarStartPosition } from './carStartPosition';
+
 @Injectable()
 export class CarHandlerService {
 
@@ -29,6 +32,12 @@ export class CarHandlerService {
         });
 
         return carsPosition;
+    }
+
+    public moveCarsToStart(waypoints: [number, number, number ][]): void {
+        const cars: Car[] = this._cars.map((car: [string, Car]) => car[1]);
+        const carsPosition: CarStartPosition = new CarStartPosition( cars, waypoints);
+        carsPosition.moveCarsToStart();
     }
 
 }
