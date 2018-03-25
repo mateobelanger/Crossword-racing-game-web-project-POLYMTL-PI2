@@ -36,7 +36,7 @@ export class RenderService {
 
 
     // To see the car's point of departure
-    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
+    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
     public get car(): Car {
         return this._car;
@@ -46,28 +46,21 @@ export class RenderService {
                        private sceneLoaderService: SceneLoaderService,
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService,
-                       private endGameService: EndGameService ) {
+                       private endGameService: EndGameService) {
         this._car = new Car();
 
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
-        try{
-            if (container) {
-                this.container = container;
-            }
-
+        try {
+            this.container = container;
             await this.createScene();
             this.initStats();
             this.startRenderingLoop();
-        } catch ( err ) {
+        } catch (err) {
             console.error("could not initilize render service");
             console.error(err);
         }
-
-        await this.createScene();
-        this.initStats();
-        this.startRenderingLoop();
     }
 
     private initStats(): void {

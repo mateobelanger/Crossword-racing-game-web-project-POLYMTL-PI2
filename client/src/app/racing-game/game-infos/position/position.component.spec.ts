@@ -8,6 +8,7 @@ import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.se
 import { RaceResultsService } from '../../recordedTimes/race-results.service';
 import { RaceProgressionHandlerService } from '../../raceProgression/race-progression-handler.service';
 import { CarHandlerService } from '../../cars/car-handler.service';
+import { TrackLoaderService } from '../../track-loader.service';
 
 describe('PositionComponent', () => {
     let component: PositionComponent;
@@ -18,7 +19,7 @@ describe('PositionComponent', () => {
             declarations: [PositionComponent],
             imports: [HttpClientTestingModule],
             providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService,
-                        RaceProgressionHandlerService, CarHandlerService]
+                        RaceProgressionHandlerService, CarHandlerService, TrackLoaderService]
         })
             .compileComponents();
     }));
