@@ -33,12 +33,12 @@ export class GameComponent implements AfterViewInit {
 
     @HostListener("window:keydown", ["$event"])
     public onKeyDown(event: KeyboardEvent): void {
-        this.inputHandlerService.handleInput(event, true, this.car);
+        this.inputHandlerService.handleInput(event, true);
     }
 
     @HostListener("window:keyup", ["$event"])
     public onKeyUp(event: KeyboardEvent): void {
-        this.inputHandlerService.handleInput(event, false, this.car);
+        this.inputHandlerService.handleInput(event, false);
     }
 
     public async ngAfterViewInit(): Promise<void> {
