@@ -20,8 +20,8 @@ export class RaceDataHandlerService {
     public constructor(private tracksProxyService: TracksProxyService,
                        private bestTimesService: BestTimeHandlerService,
                        private raceResultService: RaceResultsService,
-                       private raceProgressionService: RaceProgressionHandlerService,
-                       private carsHandlerService: CarHandlerService,
+                       private _raceProgressionService: RaceProgressionHandlerService,
+                       private _carsHandlerService: CarHandlerService,
                        private trackLoaderService: TrackLoaderService) {
         this._totalTimeTimer = new Timer();
         this._uiLapTimer = new Timer();

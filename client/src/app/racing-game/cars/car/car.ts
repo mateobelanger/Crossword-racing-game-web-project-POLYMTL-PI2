@@ -27,7 +27,7 @@ export class Car extends Object3D {
     private carLights: CarLights;
     private _speed: Vector3;
     private isBraking: boolean;
-    private _mesh: Object3D;
+    public _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
 

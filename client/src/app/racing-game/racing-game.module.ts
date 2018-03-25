@@ -32,6 +32,7 @@ import { ResultTableComponent } from './end-game/result-table/result-table.compo
 import { EndGameService } from "./end-game/end-game.service";
 import { PodiumTableComponent } from './end-game/podium-table/podium-table.component';
 import { FormsModule } from "@angular/forms";
+import { OutOfBoundsHandlerService } from "./collisions/out-of-bounds-handler.service";
 
 @NgModule({
 
@@ -78,6 +79,7 @@ import { FormsModule } from "@angular/forms";
     RaceResultsService,
     RaceProgressionHandlerService,
     CarHandlerService,
+    OutOfBoundsHandlerService,
     EndGameService
   ],
 

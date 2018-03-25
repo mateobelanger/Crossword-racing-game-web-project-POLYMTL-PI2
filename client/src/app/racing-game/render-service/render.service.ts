@@ -8,6 +8,7 @@ import { EndGameService } from "../end-game/end-game.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
+import { OutOfBoundsHandlerService } from "../collisions/out-of-bounds-handler.service";
 import { CarHandlerService } from "../cars/car-handler.service";
 
 
@@ -48,6 +49,7 @@ export class RenderService {
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService,
                        private endGameService: EndGameService,
+                       private outOfBoundsHandlerService: OutOfBoundsHandlerService) {
                        private carHandlerService: CarHandlerService) {
 
     }
@@ -60,7 +62,7 @@ export class RenderService {
             this.initStats();
             this.startRenderingLoop();
         } catch (err) {
-            console.error("could not initilize render service");
+            console.error("could not initialize render service");
             console.error(err);
         }
     }
@@ -76,6 +78,7 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
+        this.outOfBoundsHandlerService.handleCollisionOnTrackLimits(this._car);
         this.lastDate = Date.now();
     }
 
@@ -84,7 +87,6 @@ export class RenderService {
 
         await this._car.init();
         this.scene.add(this._car);
-
         // To see the car's point of departure
         this.scene.add(this.axesHelper);
         //this.scene.add(this.gridHelper);
@@ -94,6 +96,12 @@ export class RenderService {
 
         this.audioService.initialize(this.cameraService.getCamera());
         this.trackLoaderService.initialize(this.scene);
+
+        this.car.mesh.position.set(this.trackLoaderService.waypoints[0].position.x,
+                                   0,
+                                   this.trackLoaderService.waypoints[0].position.z);
+        this.cameraService.updatePosition();
+
     }
 
 
