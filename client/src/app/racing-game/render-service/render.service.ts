@@ -8,6 +8,7 @@ import { EndGameService } from "../end-game/end-game.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
+import { CarHandlerService } from "../cars/car-handler.service";
 
 
 
@@ -46,13 +47,14 @@ export class RenderService {
                        private sceneLoaderService: SceneLoaderService,
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService,
-                       private endGameService: EndGameService) {
-        this._car = new Car();
+                       private endGameService: EndGameService,
+                       private carHandlerService: CarHandlerService) {
 
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
+            this._car = this.carHandlerService.cars[1][1];
             this.container = container;
             await this.createScene();
             this.initStats();
@@ -132,7 +134,6 @@ export class RenderService {
                 break;
             case BRAKE_KEYCODE:
                 this._car.brake();
-                this.audioService.stopSound(0);
                 break;
             default:
                 break;

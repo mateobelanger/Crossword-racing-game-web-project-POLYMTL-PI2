@@ -37,6 +37,7 @@ export class RaceDataHandlerService {
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             this.trackLoaderService.points = this._ITrackData.waypoints;
             await this.carsHandlerService.initialize();
+            this.carsHandlerService.moveCarsToStart(this._ITrackData.waypoints);
             this.raceProgressionService.initialize(this.carsHandlerService.carsPosition, this._ITrackData.waypoints);
             this.raceResultService.initialize();
             this.subscribeToDoneLap();
