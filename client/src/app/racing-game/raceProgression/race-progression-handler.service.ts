@@ -17,14 +17,14 @@ export class RaceProgressionHandlerService {
         this._lapDoneStream$ = new Subject();
         this._userProgression = new UserRaceProgression();
     }
-    //mavais car position
-    public initialize(names: string[], carPosition: THREE.Vector3, waypoints: [number, number, number][]): void {
-        names.forEach( (name: string) => {
-            if (name === USERNAME) {
-                this._userProgression = new UserRaceProgression(carPosition, waypoints);
-                this._playersProgression.push([name, this._userProgression]);
+
+    public initialize(carsPosition: [string, THREE.Vector3][], waypoints: [number, number, number][]): void {
+        carsPosition.forEach( (carPosition: [string, THREE.Vector3]) => {
+            if (carPosition[0] === USERNAME) {
+                this._userProgression = new UserRaceProgression(carPosition[1], waypoints);
+                this._playersProgression.push([carPosition[0], this._userProgression]);
             } else
-                this._playersProgression.push([name, new RaceProgression(carPosition, waypoints)]);
+                this._playersProgression.push([name, new RaceProgression(carPosition[1], waypoints)]);
         });
         this.initializeLapDoneStream();
     }

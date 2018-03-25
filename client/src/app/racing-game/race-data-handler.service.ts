@@ -5,8 +5,7 @@
     import { RaceResultsService } from "./recordedTimes/race-results.service";
     import { Timer } from "./timer/timer";
     import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
-    import * as THREE from "three";
-    import { PLAYERS_NAME } from "./constants";
+    import { CarHandlerService } from './cars/car-handler.service';
     const USERNAME: string = "user";
 
     @Injectable()
@@ -19,26 +18,29 @@
     public constructor( private tracksProxyService: TracksProxyService,
                         private bestTimesService: BestTimeHandlerService,
                         private raceResultService: RaceResultsService,
-                        private raceProgressionService: RaceProgressionHandlerService) {
+                        private raceProgressionService: RaceProgressionHandlerService,
+                        private carsHandlerService: CarHandlerService) {
         this._totalTimeTimer = new Timer();
         this._uiLapTimer = new Timer();
         this.resetValues();
     }
 
-    public async initialize(trackname: string, carPosition: THREE.Vector3): Promise<void> {
-        this.tracksProxyService.initialize()
-        .then(() => {
+    public async initialize(trackname: string): Promise<void> {
+        try {
+            await this.tracksProxyService.initialize();
+            console.log(this.tracksProxyService.findTrack(trackname));
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
-            this.raceProgressionService.initialize(PLAYERS_NAME, carPosition, this._ITrackData.waypoints);
-            this.raceResultService.initialize(PLAYERS_NAME);
+            await this.carsHandlerService.initialize();
+            console.log("euh allo");
+            this.raceProgressionService.initialize(this.carsHandlerService.carsPosition, this._ITrackData.waypoints);
+            this.raceResultService.initialize();
             this.subscribeToDoneLap();
             this.subscribeToEndOfRace();
-            })
-        .catch((err) => {
+        } catch (err) {
             console.error("could not initialize race-data-handler");
             console.error(err);
-        });
+        }
     }
 
     public update(): void {

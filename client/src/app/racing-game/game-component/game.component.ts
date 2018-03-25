@@ -47,11 +47,12 @@ export class GameComponent implements AfterViewInit {
     public async ngAfterViewInit(): Promise<void> {
         this.endGameService.displayTable = EndGameTable.NO_TABLE;
         let trackName: string = this.route.snapshot.paramMap.get("trackName");
+        console.log(trackName);
         if (!this.isDefined(trackName))
             trackName = DEFAULT_TRACKNAME;
         this.renderService
             .initialize(this.containerRef.nativeElement)
-            .then( () => this.raceDataHandlerService.initialize(trackName, this.renderService.car.mesh.position))
+            .then( async () => { await this.raceDataHandlerService.initialize(trackName); } )
             .catch((err) => console.error(err));
 
         this.raceDataHandlerService.startRace();
