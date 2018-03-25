@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RaceDataHandlerService} from "../../race-data-handler.service";
 
-const TO_MINUTES: number = 6000;
-const TO_SECONDS: number = 100;
+const TO_MINUTES: number = 60000;
+const TO_SECONDS: number = 1000;
 const MAX_SECONDS: number = 60;
 const MAX_HUNDREDTH_SECOND: number = 100;
 

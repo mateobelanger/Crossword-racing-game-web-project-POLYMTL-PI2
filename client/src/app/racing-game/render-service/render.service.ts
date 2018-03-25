@@ -4,8 +4,11 @@ import * as THREE from "three";
 
 import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
-import { SkyboxService } from "../skybox.service";
 import { EndGameService } from "../end-game/end-game.service";
+import { SceneLoaderService } from "../scene-loader/scene-loader.service";
+import { TrackLoaderService } from "../track-loader.service";
+import { AudioService } from "../audio/audio.service";
+
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -13,14 +16,13 @@ const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 const CAMERA_KEYCODE: number = 67;      // c
+const SCENE_STATE_KEYCODE: number = 78; // n
 const END_GAME: number = 69;            // e
 
-const WHITE: number = 0xFFFFFF;
-const AMBIENT_LIGHT_OPACITY: number = 0.8;
 
 // To see the car"s point of departure
 const HELPER_AXES_SIZE: number = 500;
-const HELPER_GRID_SIZE: number = 50;
+//const HELPER_GRID_SIZE: number = 500;
 
 
 @Injectable()
@@ -34,28 +36,31 @@ export class RenderService {
 
 
     // To see the car's point of departure
-    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper( HELPER_AXES_SIZE );
-    private gridHelper: THREE.GridHelper = new THREE.GridHelper( HELPER_GRID_SIZE, HELPER_GRID_SIZE );
+    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
     public get car(): Car {
         return this._car;
     }
 
     public constructor(private cameraService: CameraService,
-                       private skyboxService: SkyboxService,
-                       private endGameService: EndGameService ) {
+                       private sceneLoaderService: SceneLoaderService,
+                       private trackLoaderService: TrackLoaderService,
+                       private audioService: AudioService,
+                       private endGameService: EndGameService) {
         this._car = new Car();
 
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
-        if (container) {
+        try {
             this.container = container;
+            await this.createScene();
+            this.initStats();
+            this.startRenderingLoop();
+        } catch (err) {
+            console.error("could not initilize render service");
+            console.error(err);
         }
-
-        await this.createScene();
-        this.initStats();
-        this.startRenderingLoop();
     }
 
     private initStats(): void {
@@ -78,21 +83,23 @@ export class RenderService {
         await this._car.init();
         this.scene.add(this._car);
 
-        this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
-
-        this.cameraService.initialize(this.container, this._car.mesh);
-
         // To see the car's point of departure
         this.scene.add(this.axesHelper);
-        this.scene.add(this.gridHelper);
+        //this.scene.add(this.gridHelper);
 
-        this.skyboxService.initialize(this.scene);
-        this.skyboxService.generateSkybox();
+        this.cameraService.initialize(this.container, this._car.mesh);
+        this.sceneLoaderService.initialize(this.scene);
+
+        this.audioService.initialize(this.cameraService.getCamera());
+        this.trackLoaderService.initialize(this.scene);
     }
+
 
     private startRenderingLoop(): void {
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.lastDate = Date.now();
         this.container.appendChild(this.renderer.domElement);
@@ -101,8 +108,8 @@ export class RenderService {
 
     private render(): void {
         requestAnimationFrame(() => this.render());
-        this.cameraService.updatePosition();
         this.update();
+        this.cameraService.updatePosition();
         this.renderer.render(this.scene, this.cameraService.getCamera());
         this.stats.update();
     }
@@ -125,6 +132,7 @@ export class RenderService {
                 break;
             case BRAKE_KEYCODE:
                 this._car.brake();
+                this.audioService.stopSound(0);
                 break;
             default:
                 break;
@@ -147,6 +155,10 @@ export class RenderService {
             case CAMERA_KEYCODE:
                 this.cameraService.changeCamera();
                 break;
+            case SCENE_STATE_KEYCODE:
+                this.sceneLoaderService.updateScene();
+                this._car.switchLights();
+                break;
             case END_GAME:
                 this.endGameService.displayResultTable();
                 break;
@@ -155,3 +167,5 @@ export class RenderService {
         }
     }
 }
+
+

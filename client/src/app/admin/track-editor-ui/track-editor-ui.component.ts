@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from "@angular/core";
 import { TracksProxyService } from "../../racing-game/tracks-proxy.service";
-import { ITrackData } from "../../../../../common/trackData";
+import { ITrackData } from "../../../../../common/ItrackData";
 
 import { TrackEditorService } from '../../racing-game/track-editor/track-editor.service';
 import { ActivatedRoute } from '@angular/router';
@@ -23,7 +23,6 @@ const CHAR_9: number = 57;
 })
 
 
-
 export class TrackEditorUiComponent implements AfterViewInit {
     public readonly MAX_TITLE_LENGTH: number = 30;
     public readonly MAX_DESCRIPTION_LENGTH: number = 300;
@@ -43,7 +42,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
             await this.proxy.initialize();
             this.setTrack();
         } catch (e) {
-            return;
+            console.error(e);
         }
     }
 
@@ -51,7 +50,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
         try {
             await this.proxy.initialize();
         } catch (e) {
-            return;
+            console.error(e);
         }
 
         if (!this.isValidTrack()) {
@@ -65,6 +64,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.updateTrackWaypoints(this.trackEditorService.track.waypoints);
             this.track.name = this.name;
             this.track.description = this.description;
+            this.track.image = this.trackEditorService.takeScreenShot();
             void this.proxy.saveTrack(this.track);
         }
     }
@@ -112,7 +112,8 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.track = {
                 name: "", description: "",
                 timesPlayed: 0,
-                bestTimes: [], waypoints: []
+                bestTimes: [], waypoints: [],
+                image: ""
             };
 
         } else {
@@ -128,7 +129,8 @@ export class TrackEditorUiComponent implements AfterViewInit {
         this.track = {
             name: track.name, description: track.description,
             timesPlayed: track.timesPlayed,
-            bestTimes: track.bestTimes, waypoints: track.waypoints
+            bestTimes: track.bestTimes, waypoints: track.waypoints,
+            image: track.image
         };
         this.name = track.name;
         this.description = track.description;

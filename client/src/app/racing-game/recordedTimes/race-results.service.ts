@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RaceResults } from "./raceResults";
-
+import {PLAYERS_NAME } from "../constants";
 @Injectable()
 export class RaceResultsService {
 
@@ -10,8 +10,8 @@ export class RaceResultsService {
     this._raceResults = {};
     }
 
-    public initialize(names: string[]): void {
-        names.forEach( (name) => {
+    public initialize(): void {
+        PLAYERS_NAME.forEach( (name) => {
             this._raceResults[name] = new RaceResults();
         });
     }

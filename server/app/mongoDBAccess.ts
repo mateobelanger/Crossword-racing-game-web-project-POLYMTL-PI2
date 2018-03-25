@@ -1,4 +1,4 @@
-import { ITrackData } from "../../common/trackData";
+import { ITrackData } from "../../common/ITrackData";
 import { Schema, Connection, Mongoose, Error } from "mongoose";
 
 // Connection URL
@@ -13,7 +13,8 @@ const trackSchema: Schema = new MONGOOSE.Schema({
     description: String,
     timesPlayed: Number,
     bestTimes: [[String, Number]],
-    waypoints: [[Number, Number, Number]]
+    waypoints: [[Number, Number, Number]],
+    image: String
 });
 
 const TRACK: any = MONGOOSE.model("Track", trackSchema);
@@ -100,7 +101,8 @@ export class MongoDBAccess {
                     {
                         $set: {
                             description: track.description, timesPlayed: 0,
-                            bestTimes: [], waypoints: track.waypoints
+                            bestTimes: [], waypoints: track.waypoints,
+                            image: track.image
                         }
                     },
                     (err: Error, numAffected: number) => {

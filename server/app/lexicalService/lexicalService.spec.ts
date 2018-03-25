@@ -1,6 +1,6 @@
 import { WordSelector } from "./wordSelector";
 import { assert } from "chai";
-import { DatamuseResponse, IDatamuseResponse } from "./IdatamuseResponse";
+import { DatamuseResponse, IDatamuseResponse } from "./datamuseResponse";
 
 const expectedResultEasy: JSON = require("./testFiles/expectedOutputTestEasy.json");
 const expectedResultNormal: JSON = require("./testFiles/expectedOutputTestNormal.json");

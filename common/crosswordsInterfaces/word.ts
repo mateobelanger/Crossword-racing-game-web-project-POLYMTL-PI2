@@ -20,4 +20,14 @@ export class GridWord implements IWord {
         this.value = value;
         this.definition = definition;
     }
+
+    public includesCell(row: number, column: number): boolean {
+        return this.direction === Direction.HORIZONTAL? 
+                    row === this.row && column >= this.column && column < this.column + this.value.length :
+                    column === this.column && row >= this.row && row < this.row + this.value.length;
+    }
+
+    public get size(): number {
+        return this.value.length;
+    }
 }

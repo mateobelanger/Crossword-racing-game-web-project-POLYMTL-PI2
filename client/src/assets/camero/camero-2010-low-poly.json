@@ -55,7 +55,7 @@
             "mapBumpWrap": ["RepeatWrapping","RepeatWrapping"],
             "colorEmissive": [0,0,0],
             "DbgIndex": 0,
-            "mapDiffuse": "camero map.png",
+            "mapDiffuse": "camero map-3.png",
             "transparent": false,
             "visible": true,
             "specularCoef": 50,
@@ -63,13 +63,13 @@
             "mapDiffuseWrap": ["RepeatWrapping","RepeatWrapping"],
             "mapDiffuseRepeat": [1,1],
             "colorDiffuse": [0.878431,0.878431,0.878431],
-            "mapSpecular": "camero map.png",
+            "mapSpecular": "camero map-3.png",
             "mapDiffuseAnisotropy": 1,
             "depthWrite": true,
             "DbgName": "Carcamero_ma",
             "mapSpecularRepeat": [1,1],
             "DbgColor": 15658734,
-            "mapBump": "camero map.png",
+            "mapBump": "camero map-3.png",
             "colorAmbient": [0.878431,0.878431,0.878431],
             "doubleSided": true,
             "mapBumpScale": 1,
@@ -137,7 +137,7 @@
     },
     "images": [{
         "uuid": "B6A6440D-820E-3FF9-BEB3-3FB2F73E7F8A",
-        "name": "camero map.png",
-        "url": "camero map.png"
+        "name": "camero map-3.png",
+        "url": "camero map-3.png"
     }]
 }
