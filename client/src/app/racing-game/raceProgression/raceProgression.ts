@@ -23,7 +23,7 @@ export class RaceProgression {
             this._waypoints[this._waypoints.length - 1][0],
             this._waypoints[this._waypoints.length - 1][1], // tslint:disable-next-line:no-magic-numbers
             this._waypoints[this._waypoints.length - 1][2]
-        )
+        );
         this._lapDone$ = new Subject();
     }
 
@@ -37,6 +37,14 @@ export class RaceProgression {
 
     public get nextWaypointIndex(): number {
         return this._nextWaypointIndex;
+    }
+
+    public get nextWaypointPosition(): THREE.Vector3 {
+        return this._nextWaypointPosition;
+    }
+
+    public get lastWaypointPosition(): THREE.Vector3 {
+        return this._lastWaypointPosition;
     }
 
     public update(): void {
@@ -75,7 +83,7 @@ export class RaceProgression {
             this._waypoints[this._nextWaypointIndex - 1][0],
             this._waypoints[this._nextWaypointIndex - 1][0],
             this._waypoints[this._nextWaypointIndex - 1][2]
-        )
+        );
     }
 
     private updateNLap(): void {
