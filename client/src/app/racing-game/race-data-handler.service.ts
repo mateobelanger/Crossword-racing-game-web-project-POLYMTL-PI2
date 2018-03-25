@@ -50,11 +50,11 @@
     }
 
     public get totalTimeElapsed(): number {
-        return this._totalTimeTimer.hundrethSecondElapsed;
+        return this._totalTimeTimer.millisecondsElapsed;
     }
 
     public get lapTimeElapsed(): number {
-        return this._uiLapTimer.hundrethSecondElapsed;
+        return this._uiLapTimer.millisecondsElapsed;
     }
 
     public get position(): number {
@@ -68,7 +68,7 @@
 
     // lap done from one player (ai or user)
     public doneLap(name: string): void {
-        this.raceResultService.doneLap(name, this._totalTimeTimer.hundrethSecondElapsed);
+        this.raceResultService.doneLap(name, this._totalTimeTimer.millisecondsElapsed);
     }
 
     public doneRace(): void {
@@ -91,7 +91,6 @@
         this._uiLapTimer.stop();
         this._totalTimeTimer.stop();
     }
-
     private subscribeToDoneLap(): void {
             this.raceProgressionService.lapDoneStream$.subscribe( (name: string) => {
                 this.doneLap(name);

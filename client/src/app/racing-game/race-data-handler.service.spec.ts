@@ -13,12 +13,11 @@ describe('RaceDataHandlerService', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService,
-                RaceProgressionHandlerService, CarHandlerService]
+                        RaceProgressionHandlerService, CarHandlerService]
         });
     });
 
-    it('should be created', inject([RaceDataHandlerService],
-        (service: RaceDataHandlerService) => {
+    it('should be created', inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
             expect(service).toBeTruthy();
         }));
 
