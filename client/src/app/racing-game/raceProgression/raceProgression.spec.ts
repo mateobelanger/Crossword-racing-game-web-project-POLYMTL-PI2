@@ -1,8 +1,27 @@
 import { RaceProgression } from "./raceProgression";
 import * as THREE from "three";
 
+
 // tslint:disable:no-magic-numbers
 describe("RaceProgression", () => {
+
+    // tslint:disable-next-line
+    function fullLap(): void {
+        carPosition.set(10, 10, 10);
+        raceProgression.update();
+        expect(raceProgression.nextWaypointIndex).toEqual(1);
+        carPosition.set(40, 40, 40);
+        raceProgression.update();
+        expect(raceProgression.nextWaypointIndex).toEqual(2);
+        carPosition.set(60, 60, 60);
+        raceProgression.update();
+        expect(raceProgression.nextWaypointIndex).toEqual(3);
+        carPosition.set(80, 80, 80);
+        raceProgression.update();
+        expect(raceProgression.nextWaypointIndex).toEqual(4);
+        carPosition.set(100, 100, 100);
+        raceProgression.update();
+    }
 
     let raceProgression: RaceProgression;
     const waypoints: [number, number, number][] = [
@@ -30,20 +49,7 @@ describe("RaceProgression", () => {
     });
 
     it("should increment nLap", () => {
-        carPosition.set(10, 10, 10);
-        raceProgression.update();
-        expect(raceProgression.nextWaypointIndex).toEqual(1);
-        carPosition.set(40, 40, 40);
-        raceProgression.update();
-        expect(raceProgression.nextWaypointIndex).toEqual(2);
-        carPosition.set(60, 60, 60);
-        raceProgression.update();
-        expect(raceProgression.nextWaypointIndex).toEqual(3);
-        carPosition.set(80, 80, 80);
-        raceProgression.update();
-        expect(raceProgression.nextWaypointIndex).toEqual(4);
-        carPosition.set(100, 100, 100);
-        raceProgression.update();
+        fullLap();
         expect(raceProgression.nLap).toEqual(1);
     });
 

@@ -24,10 +24,7 @@ export class CarHandlerService {
 
     public get carsPosition(): [string, THREE.Vector3][] {
         const carsPosition: [string, THREE.Vector3][] = [];
-        console.log("carPosition function");
         this._cars.forEach((car: [string, Car]) => {
-            console.log(car[1]);
-            console.log(car[1].mesh);
             carsPosition.push([car[0], car[1].mesh.position]);
         });
 

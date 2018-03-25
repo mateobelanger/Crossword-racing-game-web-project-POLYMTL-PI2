@@ -7,27 +7,29 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
 import { RaceResultsService } from '../../recordedTimes/race-results.service';
 import { RaceProgressionHandlerService } from '../../raceProgression/race-progression-handler.service';
+import { CarHandlerService } from '../../cars/car-handler.service';
 
 describe('TimeComponent', () => {
-  let component: TimeComponent;
-  let fixture: ComponentFixture<TimeComponent>;
+    let component: TimeComponent;
+    let fixture: ComponentFixture<TimeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TimeComponent ],
-      imports: [HttpClientTestingModule],
-      providers: [ RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService, RaceProgressionHandlerService ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [TimeComponent],
+            imports: [HttpClientTestingModule],
+            providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService,
+                        RaceResultsService, RaceProgressionHandlerService, CarHandlerService]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TimeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TimeComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -28,11 +28,9 @@
     public async initialize(trackname: string): Promise<void> {
         try {
             await this.tracksProxyService.initialize();
-            console.log(this.tracksProxyService.findTrack(trackname));
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             await this.carsHandlerService.initialize();
-            console.log("euh allo");
             this.raceProgressionService.initialize(this.carsHandlerService.carsPosition, this._ITrackData.waypoints);
             this.raceResultService.initialize();
             this.subscribeToDoneLap();

@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { EndGameService } from './end-game.service';
+import { BestTimeHandlerService } from '../recordedTimes/best-time-handler.service';
+import { RaceResultsService } from '../recordedTimes/race-results.service';
 
 describe('EndGameService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [EndGameService]
+      providers: [EndGameService, RaceResultsService, BestTimeHandlerService]
     });
   });
 

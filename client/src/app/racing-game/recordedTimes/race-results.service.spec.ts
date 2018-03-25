@@ -14,7 +14,7 @@ describe('RaceResultsService', () => {
   }));
 
   it('doneLap should find right player', inject([RaceResultsService], (service: RaceResultsService) => {
-    service.initialize(PLAYERS_NAME);
+    service.initialize();
     service.doneLap(PLAYERS_NAME[0], 90);
 
     expect(service.getPlayerRaceResults(PLAYERS_NAME[0]).laps[0]).toEqual(90);

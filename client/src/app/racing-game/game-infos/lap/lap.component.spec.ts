@@ -7,28 +7,30 @@ import { TracksProxyService } from '../../tracks-proxy.service';
 import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
 import { RaceResultsService } from '../../recordedTimes/race-results.service';
 import { RaceProgressionHandlerService } from '../../raceProgression/race-progression-handler.service';
+import { CarHandlerService } from '../../cars/car-handler.service';
 
 describe('LapComponent', () => {
-  let component: LapComponent;
-  let fixture: ComponentFixture<LapComponent>;
+    let component: LapComponent;
+    let fixture: ComponentFixture<LapComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LapComponent ],
-      imports: [HttpClientTestingModule],
-      providers: [ RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService, RaceProgressionHandlerService ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [LapComponent],
+            imports: [HttpClientTestingModule],
+            providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService,
+                        RaceProgressionHandlerService, CarHandlerService]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LapComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(LapComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 
 });
