@@ -17,6 +17,10 @@ export class BestTimeHandlerService {
         return this._bestTimes.sort((time1, time2) => (time1[1] - time2[1]));
   }
 
+  public isBestTime(time: number): boolean {
+      return this._bestTimes.length < MAX_NB_BEST_TIMES || time < this._bestTimes[this.findWorstTimeIndex()][1];
+  }
+
   public addTime( time: [string, number]): void {
       if (this._bestTimes.length < MAX_NB_BEST_TIMES)
           this._bestTimes.push(time);

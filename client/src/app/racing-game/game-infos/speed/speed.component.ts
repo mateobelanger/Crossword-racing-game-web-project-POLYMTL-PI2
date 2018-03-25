@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RenderService } from '../../render-service/render.service';
-import { Car } from '../../car/car';
+import { Car } from '../../cars/car/car';
 
 @Component({
   selector: 'app-speed',
