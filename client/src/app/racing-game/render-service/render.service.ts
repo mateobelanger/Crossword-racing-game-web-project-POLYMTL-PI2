@@ -9,14 +9,14 @@ import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
 
 
-
+/*
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 const CAMERA_KEYCODE: number = 67;      // c
 const SCENE_STATE_KEYCODE: number = 78; // n
-
+*/
 
 // To see the car"s point of departure
 const HELPER_AXES_SIZE: number = 500;
@@ -114,7 +114,7 @@ export class RenderService {
     public onResize(): void {
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
-
+/*
     // Create an event handler service.
     public handleKeyDown(event: KeyboardEvent): void {
         switch (event.keyCode) {
@@ -160,6 +160,7 @@ export class RenderService {
                 break;
         }
     }
+    */
 }
 
 

@@ -3,6 +3,7 @@ import { RenderService } from "../render-service/render.service";
 import { Car } from "../car/car";
 import { RaceDataHandlerService } from "../race-data-handler.service";
 import { ActivatedRoute } from "@angular/router";
+import { InputHandlerService } from "../controller/input-handler.service";
 
 const DEFAULT_TRACKNAME: string = "test";
 
@@ -11,7 +12,7 @@ const DEFAULT_TRACKNAME: string = "test";
     selector: "app-game-component",
     templateUrl: "./game.component.html",
     styleUrls: ["./game.component.css"],
-    providers: [RenderService]
+    providers: [RenderService, InputHandlerService]
 })
 
 export class GameComponent implements AfterViewInit {
@@ -21,7 +22,8 @@ export class GameComponent implements AfterViewInit {
 
     public constructor(private renderService: RenderService,
                        private raceDataHandlerService: RaceDataHandlerService,
-                       private route: ActivatedRoute) { }
+                       private route: ActivatedRoute,
+                       private inputHandlerService: InputHandlerService) { }
 
 
     @HostListener("window:resize", ["$event"])
@@ -31,12 +33,12 @@ export class GameComponent implements AfterViewInit {
 
     @HostListener("window:keydown", ["$event"])
     public onKeyDown(event: KeyboardEvent): void {
-        this.renderService.handleKeyDown(event);
+        this.inputHandlerService.handleInput(event, true, this.car);
     }
 
     @HostListener("window:keyup", ["$event"])
     public onKeyUp(event: KeyboardEvent): void {
-        this.renderService.handleKeyUp(event);
+        this.inputHandlerService.handleInput(event, false, this.car);
     }
 
     public async ngAfterViewInit(): Promise<void> {
