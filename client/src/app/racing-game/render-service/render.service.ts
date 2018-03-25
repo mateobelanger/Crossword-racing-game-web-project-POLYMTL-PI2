@@ -132,7 +132,6 @@ export class RenderService {
                 break;
             case BRAKE_KEYCODE:
                 this._car.brake();
-                this.audioService.stopSound(0);
                 break;
             default:
                 break;
