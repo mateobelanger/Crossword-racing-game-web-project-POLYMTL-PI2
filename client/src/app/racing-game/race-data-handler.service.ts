@@ -48,11 +48,19 @@ export class RaceDataHandlerService {
     }
 
     public update(): void {
-        this.raceProgressionService.update();
+        this._raceProgressionService.update();
+    }
+
+    public get raceProgressionService(): RaceProgressionHandlerService {
+        return this._raceProgressionService;
+    }
+
+    public get carsHandlerService(): CarHandlerService {
+        return this._carsHandlerService;
     }
 
     public get lapElapsed(): number {
-        return this.raceProgressionService.user.nLap;
+        return this._raceProgressionService.user.nLap;
     }
 
     public get totalTimeElapsed(): number {
@@ -64,7 +72,7 @@ export class RaceDataHandlerService {
     }
 
     public get position(): number {
-        return this.raceProgressionService.userPosition;
+        return this._raceProgressionService.userPosition;
     }
 
     public startRace(): void {
