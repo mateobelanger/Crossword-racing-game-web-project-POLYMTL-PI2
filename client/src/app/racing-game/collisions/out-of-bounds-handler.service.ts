@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
 import * as THREE from "three";
-
-import { RaceProgressionHandlerService } from "../raceProgression/race-progression-handler.service";
-import { CarHandlerService } from "../cars/car-handler.service";
 import { Car } from "../cars/car/car";
-
 import { TRACK_WIDTH } from "../constants";
 import { RaceProgression } from '../raceProgression/raceProgression';
+import { RaceDataHandlerService } from '../race-data-handler.service';
+
+const SLOWDOWN_FACTOR: number = 0.6;
 @Injectable()
 export class OutOfBoundsHandlerService {
 
-    private _cars: [Car, RaceProgression][];
+    private _cars: [RaceProgression, Car][];
 
-    public constructor(private carService: CarHandlerService,
-                       private raceProgression: RaceProgressionHandlerService) {
-        this.carService.cars.forEach( (car) => {
-            this._cars.push([car[1], this.raceProgression.getPlayerProgression(car[0])]);
+    public constructor(private raceData: RaceDataHandlerService) {
+        this.raceData.carsHandlerService.cars.forEach( (car) => {
+            this._cars.push([this.raceData.raceProgressionService.getPlayerProgression(car[0]), car[1]]);
         });
     }
 
     public handleCollisionOnTrackLimits(): void {
         this._cars.forEach( (car) => {
-            if (!this.isCarinTrack(car[0], car[1])) {
-                const trackLimitNormal: THREE.Vector3 = car[1].getCurrTrackSegmentVector();
+            if (!this.isCarinTrack(car[1], car[0])) {
+                const trackLimitNormal: THREE.Vector3 = car[0].getCurrTrackSegmentVector();
                 trackLimitNormal.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-                car[0].speed = car[0].speed.reflect(trackLimitNormal.normalize());
+                car[1].speed = car[1].speed.reflect(trackLimitNormal.normalize());
+                car[1].speed = car[1].speed.multiplyScalar(SLOWDOWN_FACTOR);
                 console.log("COLLIZIONNNNN");
             }
         });

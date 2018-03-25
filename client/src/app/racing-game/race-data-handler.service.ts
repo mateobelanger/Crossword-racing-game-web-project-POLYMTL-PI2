@@ -42,11 +42,19 @@
     }
 
     public update(): void {
-        this.raceProgressionService.update();
+        this._raceProgressionService.update();
+    }
+
+    public get raceProgressionService(): RaceProgressionHandlerService {
+        return this._raceProgressionService;
+    }
+
+    public get carsHandlerService(): CarHandlerService {
+        return this._carsHandlerService;
     }
 
     public get lapElapsed(): number {
-        return this.raceProgressionService.user.nLap;
+        return this._raceProgressionService.user.nLap;
     }
 
     public get totalTimeElapsed(): number {
@@ -58,7 +66,7 @@
     }
 
     public get position(): number {
-        return this.raceProgressionService.userPosition;
+        return this._raceProgressionService.userPosition;
     }
 
     public startRace(): void {
@@ -93,13 +101,13 @@
     }
 
     private subscribeToDoneLap(): void {
-            this.raceProgressionService.lapDoneStream$.subscribe( (name: string) => {
+            this._raceProgressionService.lapDoneStream$.subscribe( (name: string) => {
                 this.doneLap(name);
             });
     }
 
     private subscribeToEndOfRace(): void {
-        this.raceProgressionService.user.endOfRace$.subscribe( () => {
+        this._raceProgressionService.user.endOfRace$.subscribe( () => {
                 this.doneRace();
             });
     }
