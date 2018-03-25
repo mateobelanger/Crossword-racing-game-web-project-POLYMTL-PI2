@@ -11,6 +11,9 @@ const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
 const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 100;
 const IMAGE_QUALITY: number = 0.5;
 
+const AMBIENT_LIGHT_OPACITY: number = 1;
+const AMBIENT_LIGHT_COLOR: number = 0xFFFFFF;
+
 @Injectable()
 export class TrackEditorRenderService {
 
@@ -24,6 +27,7 @@ export class TrackEditorRenderService {
     private _raycaster: THREE.Raycaster;
     private _scene: THREE.Scene;
     private _backgroundPlane: BackgroundPlane;
+    private ambientLight: THREE.AmbientLight;
 
     public constructor() {
         this._container = null;
@@ -33,6 +37,7 @@ export class TrackEditorRenderService {
         this._raycaster = null;
         this._scene = null;
         this._backgroundPlane = null;
+        this.ambientLight = null;
     }
 
     public initialize(container: HTMLDivElement): void {
@@ -83,6 +88,9 @@ export class TrackEditorRenderService {
         // tslint:enable:no-magic-numbers
         this._camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
         this._camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY);
+        this._scene.add(this.ambientLight);
 
         this._circleHandler = new CircleHandler(this._scene);
 

@@ -81,7 +81,7 @@ export class CircleHandler {
         return circleGeometries;
       }
 
-    private getFirstCircleMaterial(inTrackEditor: boolean): THREE.MeshBasicMaterial {
+    private getFirstCircleMaterial(inTrackEditor: boolean): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture = inTrackEditor ?
         new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v2.jpg") :
         new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v3.jpg");
@@ -89,7 +89,7 @@ export class CircleHandler {
         return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
-    private getCircleMaterial(inTrackEditor: boolean): THREE.MeshBasicMaterial {
+    private getCircleMaterial(inTrackEditor: boolean): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture = inTrackEditor ?
               new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v2.jpg") :
               new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v3.jpg");
