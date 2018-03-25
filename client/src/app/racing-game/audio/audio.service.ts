@@ -27,7 +27,7 @@ export class AudioService {
             (buffer: AudioBuffer) => {
                 const newSound: Audio = new Audio(this._listener);
                 newSound.setBuffer(buffer);
-                newSound.setLoop(true);
+                newSound.setLoop(false);
                 newSound.setVolume(DEFAULT_VOLUME_VALUE);
                 this._sounds.push(newSound);
             },
@@ -52,6 +52,14 @@ export class AudioService {
         this.findSound(soundId).setVolume(volume);
     }
 
+    public setPlaybackRate(soundId: number, value: number): void {
+        this.findSound(soundId).setPlaybackRate(value);
+    }
+
+    public setLoop(soundId: number): void {
+        this.findSound(soundId).setLoop(true);
+    }
+
     public stopAllSounds(): void {
         for (const sound of this._sounds) {
             sound.stop();
@@ -60,9 +68,18 @@ export class AudioService {
 
     private findSound(soundId: number): Audio {
         if (soundId < 0 || soundId >= this._sounds.length) {
-            return new Audio(this._listener);       // acts like a null object since its buffer is never loaded.
+            return new NullAudio(this._listener);
         }
 
         return this._sounds[soundId];
     }
+}
+
+// null object of THREE.Audio
+class NullAudio extends Audio {
+    public play(): Audio { return null; }
+    public stop(): Audio { return null; }
+    public setVolume(volume: number): Audio { return null; }
+    public setPlaybackRate(value: number): Audio { return null; }
+    public setLoop(value: boolean): void {}
 }
