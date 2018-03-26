@@ -7,7 +7,8 @@ import { Timer } from "./timer/timer";
 import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
 import { CarHandlerService } from './cars/car-handler.service';
 import { TrackLoaderService } from './track-loader.service';
-const USERNAME: string = "user";
+import { EndGameService } from './end-game/end-game.service';
+
 
 
 @Injectable()
@@ -22,7 +23,8 @@ export class RaceDataHandlerService {
                        private raceResultService: RaceResultsService,
                        private raceProgressionService: RaceProgressionHandlerService,
                        private carsHandlerService: CarHandlerService,
-                       private trackLoaderService: TrackLoaderService) {
+                       private trackLoaderService: TrackLoaderService,
+                       private endGameService: EndGameService) {
         this._totalTimeTimer = new Timer();
         this._uiLapTimer = new Timer();
         this.resetValues();
@@ -92,7 +94,7 @@ export class RaceDataHandlerService {
 
     public doneRace(): void {
         this.stopTimers();
-        this.bestTimesService.addTime([USERNAME, this.raceResultService.getPlayerRaceResults(USERNAME).totalTime]);
+        this.endGameService.endGame(this.raceProgressionService.isUserFirst());
     }
 
 

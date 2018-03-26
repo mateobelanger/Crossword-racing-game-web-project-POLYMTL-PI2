@@ -24,7 +24,8 @@
   </div>
 
   <div class="tableFooter clearfix background">
-    <div class="buttons btn-sm col-2" (click)="saveUserName()">Next</div>
+    <div class="buttons btn-sm col-2" *ngIf="isNewBestTime()" (click)="saveUserName()">Next</div>
+    <div class="buttons btn-sm col-2" *ngIf="!isNewBestTime()" (click)="displayTimeTable()">Next</div>
     <div class="buttons btn-sm col-2" (click)="displayResultTable()">Previous</div>
   </div>
 </div>

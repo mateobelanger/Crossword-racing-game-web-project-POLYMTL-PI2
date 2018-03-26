@@ -5,7 +5,6 @@ import * as THREE from "three";
 import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
 
-import { EndGameService } from "../end-game/end-game.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
@@ -45,7 +44,6 @@ export class RenderService implements OnDestroy {
                        private sceneLoaderService: SceneLoaderService,
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService,
-                       private endGameService: EndGameService,
                        private carHandlerService: CarHandlerService,
                        private raceDataHandler: RaceDataHandlerService,
                        private collisionHandlerService: CollisionHandlerService) {
@@ -168,12 +166,13 @@ export class RenderService implements OnDestroy {
                 this.car.switchLights();
                 break;
             case END_GAME:
-                this.endGameService.displayResultTable();
+                this.raceDataHandler.doneRace();
                 break;
             default:
                 break;
         }
     }
+
 
 }
 
