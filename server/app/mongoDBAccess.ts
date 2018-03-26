@@ -1,5 +1,5 @@
 import { ITrackData } from "../../common/ITrackData";
-import { Schema, Connection, Mongoose, Error } from "mongoose";
+import { Schema, Connection, Mongoose, Error, Model, Document } from "mongoose";
 
 // Connection URL
 const userName: string = "admin";
@@ -16,7 +16,7 @@ const trackSchema: Schema = new MONGOOSE.Schema({
     waypoints: [[Number, Number, Number]]
 });
 
-const TRACK: any = MONGOOSE.model("Track", trackSchema);
+const TRACK: Model<Document> = MONGOOSE.model("Track", trackSchema);
 
 export class MongoDBAccess {
 
@@ -40,7 +40,7 @@ export class MongoDBAccess {
         });
     }
 
-    public static async addTrack(track: ITrackData): Promise<any> {
+    public static async addTrack(track: ITrackData): Promise<ITrackData> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
@@ -48,7 +48,7 @@ export class MongoDBAccess {
         newTrack.bestTimes = [];
         newTrack.timesPlayed = 0;
 
-        return new Promise((resolve: Function, reject: Function) => {
+        return new Promise<ITrackData>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 newTrack.save(
                     (err: Error, trackSaved: ITrackData) => {
@@ -89,11 +89,11 @@ export class MongoDBAccess {
         });
     }
 
-    public static async updateExistingTrack(track: ITrackData): Promise<any> {
+    public static async updateExistingTrack(track: ITrackData): Promise<string> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
-        return new Promise((resolve: Function, reject: Function) => {
+        return new Promise<string>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.update(
                     { name: track.name },
