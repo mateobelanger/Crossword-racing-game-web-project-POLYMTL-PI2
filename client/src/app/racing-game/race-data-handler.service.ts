@@ -92,7 +92,8 @@ export class RaceDataHandlerService {
 
     public doneRace(): void {
         this.stopTimers();
-        this.bestTimesService.addTime([USERNAME, this.raceResultService.getPlayerRaceResults(USERNAME).totalTime]);
+        if (this.raceProgressionService.isUserFirst())
+            this.bestTimesService.addTime([USERNAME, this.raceResultService.getPlayerRaceResults(USERNAME).totalTime]);
     }
 
 
@@ -113,12 +114,14 @@ export class RaceDataHandlerService {
     private subscribeToDoneLap(): void {
         this.raceProgressionService.lapDoneStream$.subscribe((name: string) => {
             this.doneLap(name);
+            console.log("done lap niggu");
         });
     }
 
     private subscribeToEndOfRace(): void {
         this.raceProgressionService.user.endOfRace$.subscribe(() => {
             this.doneRace();
+            console.log("done race niggu");
         });
     }
 

@@ -63,6 +63,10 @@ export class RaceProgressionHandlerService {
         return position;
     }
 
+    public isUserFirst(): boolean {
+        return this.userPosition === 1;
+    }
+
     public get unfinishedPlayers(): [string, RaceProgression][] {
         return this._playersProgression.filter( (playerProgression) => playerProgression[1].nLap < MAX_N_LAPS );
     }

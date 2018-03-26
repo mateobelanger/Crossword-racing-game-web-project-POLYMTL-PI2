@@ -35,6 +35,8 @@ export class RaceProgression {
         if (this.distanceToNextWaypoint() < WAYPOINT_RADIUS) {
             this.incrementNextWaypointPosition();
             this.updateNLap();
+            console.log(this._nextWaypointIndex);
+            console.log(this._nLap);
         }
     }
 
