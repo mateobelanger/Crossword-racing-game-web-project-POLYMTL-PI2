@@ -49,7 +49,7 @@ export class RenderService {
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService,
                        private endGameService: EndGameService,
-                       private outOfBoundsHandlerService: OutOfBoundsHandlerService) {
+                       private outOfBoundsHandlerService: OutOfBoundsHandlerService,
                        private carHandlerService: CarHandlerService) {
 
     }
@@ -78,7 +78,7 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
-        this.outOfBoundsHandlerService.handleCollisionOnTrackLimits(this._car);
+        this.outOfBoundsHandlerService.handleCollisionOnTrackLimits();
         this.lastDate = Date.now();
     }
 
