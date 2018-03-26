@@ -56,7 +56,7 @@ export class RenderService {
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
-            this._car = this.carHandlerService.cars[1][1];
+            this._car = this.carHandlerService.cars[0][1];
             this.container = container;
             await this.createScene();
             this.initStats();
@@ -96,9 +96,6 @@ export class RenderService {
         this.audioService.initialize(this.cameraService.getCamera());
         this.trackLoaderService.initialize(this.scene);
 
-        this.car.mesh.position.set(this.trackLoaderService.waypoints[0].position.x,
-                                   0,
-                                   this.trackLoaderService.waypoints[0].position.z);
         this.cameraService.updatePosition();
 
     }

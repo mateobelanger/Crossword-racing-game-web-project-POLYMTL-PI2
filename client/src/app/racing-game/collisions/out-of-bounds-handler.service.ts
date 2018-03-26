@@ -9,7 +9,7 @@ const SLOWDOWN_FACTOR: number = 0.6;
 @Injectable()
 export class OutOfBoundsHandlerService {
 
-    private _cars: [RaceProgression, Car][];
+    private _cars: [RaceProgression, Car][] = [];
 
     public constructor(private raceData: RaceDataHandlerService) {
         this.raceData.carsHandlerService.cars.forEach( (car) => {
@@ -18,6 +18,7 @@ export class OutOfBoundsHandlerService {
     }
 
     public handleCollisionOnTrackLimits(): void {
+        console.log("testing collisions");
         this._cars.forEach( (car) => {
             if (!this.isCarinTrack(car[1], car[0])) {
                 const trackLimitNormal: THREE.Vector3 = car[0].getCurrTrackSegmentVector();

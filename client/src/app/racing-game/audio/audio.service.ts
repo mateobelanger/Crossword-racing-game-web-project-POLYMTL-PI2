@@ -15,6 +15,7 @@ export class AudioService {
     public constructor() {
         this._listener = new AudioListener();
         this._audioLoader = new AudioLoader();
+        this._sounds = [];
     }
 
     public initialize(camera: Camera): void {
