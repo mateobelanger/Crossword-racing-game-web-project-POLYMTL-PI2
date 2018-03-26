@@ -33,10 +33,11 @@ export class OutOfBoundsHandlerService {
     private isCarinTrack(car: Car, carProgression: RaceProgression): boolean {
         const carPosRelativeToLastWaypoint: THREE.Vector3 = new THREE.Vector3();
         carPosRelativeToLastWaypoint.subVectors(car.mesh.position, carProgression.lastWaypointPosition);
-        let projection: THREE.Vector3 = carPosRelativeToLastWaypoint.projectOnVector(carProgression.getCurrTrackSegmentVector());
-
-        projection.sub(carPosRelativeToLastWaypoint);
+        let projection: THREE.Vector3 = carProgression.getCurrTrackSegmentVector().projectOnVector(carPosRelativeToLastWaypoint);
+        const distanceFromTrackCenterVect: THREE.Vector3 = new THREE.Vector3();
+        distanceFromTrackCenterVect.subVectors(projection, carPosRelativeToLastWaypoint);
         console.log(projection.length());
+
         return carPosRelativeToLastWaypoint.length() <= TRACK_WIDTH/2;
 
     }

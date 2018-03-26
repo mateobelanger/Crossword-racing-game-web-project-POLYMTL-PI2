@@ -12,13 +12,10 @@ export class RaceProgression {
 
     public constructor(private _carPosition: THREE.Vector3,
                        private _waypoints: [number, number, number][]) {
-        this._waypoints.forEach( (waypoint) => {
-            waypoint[1] = 0;
-            console.log(waypoint);
-        });
         this._nLap = 0;
         this._nextWaypointIndex = 0;
         this._lastWaypointIndex = this._waypoints.length - 1;
+
         this._nextWaypointPosition = new THREE.Vector3(
             this._waypoints[this._nextWaypointIndex][0],
             0, // tslint:disable-next-line:no-magic-numbers
@@ -79,7 +76,7 @@ export class RaceProgression {
     }
 
     private incrementNextWaypointIndex(): void {
-        this._lastWaypointIndex = this._nextWaypointIndex;
+        this._lastWaypointIndex = (this._lastWaypointIndex + 1) % this._waypoints.length;
         this._nextWaypointIndex = (this._nextWaypointIndex + 1) % this._waypoints.length;
 
     }
