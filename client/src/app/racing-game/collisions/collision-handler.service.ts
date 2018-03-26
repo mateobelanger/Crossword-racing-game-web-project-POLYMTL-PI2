@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { Car } from "../cars/car/car";
 import { Collision } from "./collision";
 import { CollisionType } from "../constants";
+import { AudioService, SOUND } from "../audio/audio.service";
 
 @Injectable()
 export class CollisionHandlerService {
@@ -11,7 +12,7 @@ export class CollisionHandlerService {
     private _collisions: Collision[];
     private _cars: Car[];
 
-    public constructor() {
+    public constructor(private audioService: AudioService) {
         this._collisions = [];
     }
 
@@ -34,7 +35,6 @@ export class CollisionHandlerService {
         }
 
         this.applyCollisionRotations();
-
     }
 
     private updateCollisions(): void {
@@ -49,7 +49,6 @@ export class CollisionHandlerService {
         for (const index of collisionIndexesToRemove) {
             this._collisions.splice(index, 1);
         }
-
     }
 
     private handleCollision(car1: Car, car2: Car): void {
@@ -59,11 +58,12 @@ export class CollisionHandlerService {
             this._collisions.push(newCollision);
 
             this.switchCarsSpeed(car1, car2);
+
+            this.audioService.playSound(SOUND.COLLISION_SOUND);
         }
     }
 
     private isNewCollision(car1: Car, car2: Car): boolean {
-
         let isNewCollision: boolean = true;
         this._collisions.forEach( (collision: Collision) => {
             if (collision.contains(car1) && collision.contains(car2)) {
@@ -98,8 +98,5 @@ export class CollisionHandlerService {
             collision.remainingFrames--;
         });
 
-
     }
-
-
 }
