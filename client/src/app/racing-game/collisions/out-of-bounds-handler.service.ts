@@ -31,12 +31,12 @@ export class OutOfBoundsHandlerService {
         });
     }
     private isCarinTrack(car: Car, carProgression: RaceProgression): boolean {
-        let carPosRelativeToLastWaypoint: THREE.Vector3 = new THREE.Vector3();
+        const carPosRelativeToLastWaypoint: THREE.Vector3 = new THREE.Vector3();
         carPosRelativeToLastWaypoint.subVectors(car.mesh.position, carProgression.lastWaypointPosition);
-        carPosRelativeToLastWaypoint.projectOnVector(carProgression.getCurrTrackSegmentVector());
-        console.log(carProgression.getCurrTrackSegmentVector());
-        carPosRelativeToLastWaypoint = carPosRelativeToLastWaypoint.sub(car.mesh.position);
+        let projection: THREE.Vector3 = carPosRelativeToLastWaypoint.projectOnVector(carProgression.getCurrTrackSegmentVector());
 
+        projection.sub(carPosRelativeToLastWaypoint);
+        console.log(projection.length());
         return carPosRelativeToLastWaypoint.length() <= TRACK_WIDTH/2;
 
     }
