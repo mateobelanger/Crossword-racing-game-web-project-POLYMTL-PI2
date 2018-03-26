@@ -30,5 +30,5 @@ export const BACKGROUND_PLANE_POSITION_Y: number = -1;
 export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE}
 
 // RACE
-export const PLAYERS_NAME: string[] = ["bob1", "bob2", "bob3", "bob4", "bob5", "user"];
+export const PLAYERS_NAME: string[] = ["bob1", "user"];
 export const MAX_N_LAPS: number = 3;

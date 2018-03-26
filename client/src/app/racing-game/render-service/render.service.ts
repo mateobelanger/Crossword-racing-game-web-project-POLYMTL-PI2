@@ -51,7 +51,7 @@ export class RenderService {
                        private endGameService: EndGameService,
                        private outOfBoundsHandlerService: OutOfBoundsHandlerService,
                        private carHandlerService: CarHandlerService) {
-
+        this._car = new Car();
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -85,7 +85,6 @@ export class RenderService {
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
-        await this._car.init();
         this.scene.add(this._car);
         // To see the car's point of departure
         this.scene.add(this.axesHelper);
