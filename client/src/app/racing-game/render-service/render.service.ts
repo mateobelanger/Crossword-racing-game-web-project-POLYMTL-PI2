@@ -7,10 +7,11 @@ import { CameraService } from "../camera.service";
 
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
-import { AudioService } from "../audio/audio.service";
+import { AudioService, SOUND } from "../audio/audio.service";
 import { CarHandlerService } from "../cars/car-handler.service";
 import { RaceDataHandlerService } from "../race-data-handler.service";
 import { CollisionHandlerService } from "../collisions/collision-handler.service";
+import { DEFAULT_MAX_RPM } from "../cars/car/engine";
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -21,6 +22,8 @@ const CAMERA_KEYCODE: number = 67;      // c
 const SCENE_STATE_KEYCODE: number = 78; // n
 const END_GAME: number = 69;            // e
 
+const ENGINE_MIN_VOLUME: number = 0.20;
+const ENGINE_MAX_VOLUME: number = 0.75;
 
 @Injectable()
 export class RenderService implements OnDestroy {
@@ -78,6 +81,10 @@ export class RenderService implements OnDestroy {
             car.update(timeSinceLastFrame);
         });
 
+        this.audioService.setVolume(SOUND.ENGINE_SOUND, Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this.car.rpm / DEFAULT_MAX_RPM)));
+        this.audioService.setLoop(SOUND.ENGINE_SOUND);
+        this.audioService.playSound(SOUND.ENGINE_SOUND);
+
         this.lastDate = Date.now();
         this.raceDataHandler.update();
     }
@@ -93,6 +100,8 @@ export class RenderService implements OnDestroy {
         this.sceneLoaderService.initialize(this.scene);
 
         this.audioService.initialize(this.cameraService.getCamera());
+        this.audioService.loadSounds();
+
         this.trackLoaderService.initialize(this.scene);
     }
 
@@ -110,13 +119,13 @@ export class RenderService implements OnDestroy {
 
     private render(): void {
         if (!this.destroyed) {
-        requestAnimationFrame(() => this.render());
-        this.update();
+            requestAnimationFrame(() => this.render());
+            this.update();
 
-        this.collisionHandlerService.handleCarCollisions();
+            this.collisionHandlerService.handleCarCollisions();
 
-        this.cameraService.updatePosition();
-        this.renderer.render(this.scene, this.cameraService.getCamera());
+            this.cameraService.updatePosition();
+            this.renderer.render(this.scene, this.cameraService.getCamera());
         }
         this.stats.update();
     }
