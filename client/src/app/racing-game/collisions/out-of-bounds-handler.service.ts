@@ -5,7 +5,7 @@ import { TRACK_WIDTH } from "../constants";
 import { RaceProgression } from '../raceProgression/raceProgression';
 import { RaceDataHandlerService } from '../race-data-handler.service';
 
-const SLOWDOWN_FACTOR: number = 0.1;
+//const SLOWDOWN_FACTOR: number = 0.1;
 @Injectable()
 export class OutOfBoundsHandlerService {
 
@@ -31,15 +31,13 @@ export class OutOfBoundsHandlerService {
         });
     }
     private isCarinTrack(car: Car, carProgression: RaceProgression): boolean {
-        const carPosRelativeToLastWayPoint: THREE.Vector3 = new THREE.Vector3();
-        carPosRelativeToLastWayPoint.subVectors(car.mesh.position, carProgression.lastWaypointPosition);
-        carPosRelativeToLastWayPoint.projectOnVector(carProgression.getCurrTrackSegmentVector());
-        carPosRelativeToLastWayPoint.sub(car.mesh.position);
+        let carPosRelativeToLastWaypoint: THREE.Vector3 = new THREE.Vector3();
+        carPosRelativeToLastWaypoint.subVectors(car.mesh.position, carProgression.lastWaypointPosition);
+        carPosRelativeToLastWaypoint.projectOnVector(carProgression.getCurrTrackSegmentVector());
+        console.log(carProgression.getCurrTrackSegmentVector());
+        carPosRelativeToLastWaypoint = carPosRelativeToLastWaypoint.sub(car.mesh.position);
 
-        if (carPosRelativeToLastWayPoint.length() < 50)
-            console.log(carPosRelativeToLastWayPoint.length());
-
-        return carPosRelativeToLastWayPoint.length() <= TRACK_WIDTH;
+        return carPosRelativeToLastWaypoint.length() <= TRACK_WIDTH/2;
 
     }
 

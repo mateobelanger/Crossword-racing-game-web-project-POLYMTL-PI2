@@ -12,18 +12,22 @@ export class RaceProgression {
 
     public constructor(private _carPosition: THREE.Vector3,
                        private _waypoints: [number, number, number][]) {
+        this._waypoints.forEach( (waypoint) => {
+            waypoint[1] = 0;
+            console.log(waypoint);
+        });
         this._nLap = 0;
         this._nextWaypointIndex = 0;
         this._lastWaypointIndex = this._waypoints.length - 1;
         this._nextWaypointPosition = new THREE.Vector3(
             this._waypoints[this._nextWaypointIndex][0],
-            this._waypoints[this._nextWaypointIndex][1], // tslint:disable-next-line:no-magic-numbers
+            0, // tslint:disable-next-line:no-magic-numbers
             this._waypoints[this._nextWaypointIndex][2]
         );
 
         this._lastWaypointPosition = new THREE.Vector3(
             this._waypoints[this._waypoints.length - 1][0],
-            this._waypoints[this._waypoints.length - 1][1], // tslint:disable-next-line:no-magic-numbers
+            0, // tslint:disable-next-line:no-magic-numbers
             this._waypoints[this._waypoints.length - 1][2]
         );
         this._lapDone$ = new Subject();
@@ -51,7 +55,6 @@ export class RaceProgression {
 
     public update(): void {
         if (this.distanceToNextWaypoint() < WAYPOINT_RADIUS) {
-            console.log("waypoint passed!")
             this.updateNLap();
             this.incrementNextWaypointPosition();
         }
@@ -84,12 +87,12 @@ export class RaceProgression {
     private reassignNextWaypointIndex(): void {
         this._nextWaypointPosition.set(
             this._waypoints[this._nextWaypointIndex][0],
-            this._waypoints[this._nextWaypointIndex][1],
+            0,
             this._waypoints[this._nextWaypointIndex][2]
         );
         this._lastWaypointPosition.set(
             this._waypoints[this._lastWaypointIndex][0],
-            this._waypoints[this._lastWaypointIndex][0],
+            0,
             this._waypoints[this._lastWaypointIndex][2]
         );
     }
