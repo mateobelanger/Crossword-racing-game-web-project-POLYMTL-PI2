@@ -39,7 +39,6 @@ export class RaceDataHandlerService {
 
             await this.carsHandlerService.initialize();
             this.carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
-
             this.raceProgressionService.initialize(this.carsHandlerService.carsPosition,
                                                    this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
             this.raceResultService.initialize();
@@ -53,10 +52,10 @@ export class RaceDataHandlerService {
 
     // Invert x/z coordinates to fit the actual scene
     private castPointsToSceneWaypoints(waypoints: [number, number, number][]): [number, number, number][] {
-        const finalWaypoints: [number, number, number][] = new Array<[number, number, number]>();
-
-        for ( let i: number = 0; i < waypoints.length - 1; i++)
-            finalWaypoints.push([waypoints[i][0], 0, waypoints[i][1]]);
+        const finalWaypoints: [number, number, number][] = [];
+        waypoints.forEach( (waypoint: [number, number, number]) => {
+            finalWaypoints.push([waypoint[0], 0, waypoint[1]]);
+        });
 
         return finalWaypoints;
     }
