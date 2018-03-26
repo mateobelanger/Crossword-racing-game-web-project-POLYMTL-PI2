@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Car } from "../car/car";
+import { Car } from "../cars/car/car";
 import { Collision } from "./collision";
 import {CollisionType} from "../constants";
 

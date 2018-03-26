@@ -4,7 +4,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { RacingGameComponent } from "./racing-game.component";
 import { routes } from "../app-routes.module";
 import { AppModule } from "../app.module";
-import { ITrackData } from "../../../../common/trackData";
+import { ITrackData } from "../../../../common/ItrackData";
 import { TracksProxyService } from "../racing-game/tracks-proxy.service";
 
 const tracks: ITrackData[] = [

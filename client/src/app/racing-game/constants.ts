@@ -22,13 +22,16 @@ export const EDITOR_LAND_WIDTH: number = 1000;
 export const EDITOR_LAND_HEIGHT: number = 800;
 
 // SKYBOX for now & others in the future
-export const LAND_WIDTH: number = 500;
-export const LAND_HEIGHT: number = 400;
-export const BACKGROUND_PLANE_POSITION_Y: number = -3;
+export const LAND_WIDTH: number = 1000;
+export const LAND_HEIGHT: number = 800;
+export const BACKGROUND_PLANE_POSITION_Y: number = -1;
 
 // CONSTRAINTS
-export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE};
+export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE}
 
 // COLLISIONS
-// TODO: trouver un meilleur premier type
 export enum CollisionType {FIRST_CAR_HIT, SECOND_CAR_HIT, FACE_TO_FACE}
+
+// RACE
+export const PLAYERS_NAME: string[] = ["bob1", "user"];
+export const MAX_N_LAPS: number = 3;

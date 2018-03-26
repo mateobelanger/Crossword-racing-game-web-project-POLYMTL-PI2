@@ -1,4 +1,4 @@
-import { ITrackData } from "../../common/trackData";
+import { ITrackData } from "../../common/ITrackData";
 import { Schema, Connection, Mongoose, Error } from "mongoose";
 
 // Connection URL

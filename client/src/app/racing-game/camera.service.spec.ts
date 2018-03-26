@@ -5,8 +5,8 @@ import {
     CameraService, ORTHOGRAPHIC_INITIAL_POSITION_Y,
     PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z
 } from "./camera.service";
-import { Car } from "./car/car";
-import { Engine } from "./car/engine";
+import { Car } from "./cars/car/car";
+import { Engine } from "./cars/car/engine";
 
 const DELTA_X: number = 100;
 const DELTA_Z: number = 200;

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Car } from "../car/car";
+import { Car } from "../cars/car/car";
 import { CollisionType } from "../constants";
 
 const FRAMES_PER_RAD: number = 30;
