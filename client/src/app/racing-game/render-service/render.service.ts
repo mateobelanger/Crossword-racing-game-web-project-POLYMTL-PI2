@@ -9,6 +9,7 @@ import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
 import { CarHandlerService } from "../cars/car-handler.service";
+import { RaceDataHandlerService } from "../race-data-handler.service";
 
 
 
@@ -48,7 +49,8 @@ export class RenderService {
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService,
                        private endGameService: EndGameService,
-                       private carHandlerService: CarHandlerService) {
+                       private carHandlerService: CarHandlerService,
+                       private raceDataHandler: RaceDataHandlerService) {
         this._car = new Car();
     }
 
@@ -77,6 +79,7 @@ export class RenderService {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
         this.lastDate = Date.now();
+        this.raceDataHandler.update();
     }
 
     private async createScene(): Promise<void> {
