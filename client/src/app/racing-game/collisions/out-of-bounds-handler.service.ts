@@ -5,36 +5,42 @@ import { TRACK_WIDTH } from "../constants";
 import { RaceProgression } from '../raceProgression/raceProgression';
 import { RaceDataHandlerService } from '../race-data-handler.service';
 
-const SLOWDOWN_FACTOR: number = 0.6;
+const SLOWDOWN_FACTOR: number = 0.1;
 @Injectable()
 export class OutOfBoundsHandlerService {
 
     private _cars: [RaceProgression, Car][] = [];
 
     public constructor(private raceData: RaceDataHandlerService) {
+
+    }
+
+    public initialize(): void {
         this.raceData.carsHandlerService.cars.forEach( (car) => {
             this._cars.push([this.raceData.raceProgressionService.getPlayerProgression(car[0]), car[1]]);
         });
     }
 
     public handleCollisionOnTrackLimits(): void {
-        console.log("testing collisions");
         this._cars.forEach( (car) => {
             if (!this.isCarinTrack(car[1], car[0])) {
                 const trackLimitNormal: THREE.Vector3 = car[0].getCurrTrackSegmentVector();
                 trackLimitNormal.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-                car[1].speed = car[1].speed.reflect(trackLimitNormal.normalize());
-                car[1].speed = car[1].speed.multiplyScalar(SLOWDOWN_FACTOR);
-                console.log("COLLIZIONNNNN");
+                //car[1].speed = car[1].speed.reflect(trackLimitNormal.normalize()).multiplyScalar(SLOWDOWN_FACTOR);
             }
         });
     }
     private isCarinTrack(car: Car, carProgression: RaceProgression): boolean {
-        const carPosRelativeToLastWayPoint: THREE.Vector3 = car.mesh.position
-                                                                    .sub(carProgression.lastWaypointPosition);
+        const carPosRelativeToLastWayPoint: THREE.Vector3 = new THREE.Vector3();
+        carPosRelativeToLastWayPoint.subVectors(car.mesh.position, carProgression.lastWaypointPosition);
+        carPosRelativeToLastWayPoint.projectOnVector(carProgression.getCurrTrackSegmentVector());
+        carPosRelativeToLastWayPoint.sub(car.mesh.position);
 
-        return carPosRelativeToLastWayPoint.projectOnVector(carProgression.getCurrTrackSegmentVector())
-               .length() <= (TRACK_WIDTH / 2);
+        if (carPosRelativeToLastWayPoint.length() < 50)
+            console.log(carPosRelativeToLastWayPoint.length());
+
+        return carPosRelativeToLastWayPoint.length() <= TRACK_WIDTH;
+
     }
 
     /*

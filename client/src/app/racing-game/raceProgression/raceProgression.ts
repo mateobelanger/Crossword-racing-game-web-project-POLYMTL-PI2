@@ -6,6 +6,7 @@ export class RaceProgression {
     private _nLap: number;
     private _lapDone$: Subject<void>;
     private _nextWaypointIndex: number;
+    private _lastWaypointIndex: number;
     private _nextWaypointPosition: THREE.Vector3;
     private _lastWaypointPosition: THREE.Vector3;
 
@@ -13,6 +14,7 @@ export class RaceProgression {
                        private _waypoints: [number, number, number][]) {
         this._nLap = 0;
         this._nextWaypointIndex = 0;
+        this._lastWaypointIndex = this._waypoints.length - 1;
         this._nextWaypointPosition = new THREE.Vector3(
             this._waypoints[this._nextWaypointIndex][0],
             this._waypoints[this._nextWaypointIndex][1], // tslint:disable-next-line:no-magic-numbers
@@ -49,6 +51,7 @@ export class RaceProgression {
 
     public update(): void {
         if (this.distanceToNextWaypoint() < WAYPOINT_RADIUS) {
+            console.log("waypoint passed!")
             this.updateNLap();
             this.incrementNextWaypointPosition();
         }
@@ -61,7 +64,10 @@ export class RaceProgression {
     }
 
     public getCurrTrackSegmentVector(): THREE.Vector3 {
-        return this._nextWaypointPosition.sub(this._lastWaypointPosition);
+        const trackSegment: THREE.Vector3 = new THREE.Vector3();
+        trackSegment.subVectors(this._nextWaypointPosition, this._lastWaypointPosition);
+
+        return trackSegment;
     }
     // tslint:disable:no-magic-numbers
     private incrementNextWaypointPosition(): void {
@@ -70,7 +76,9 @@ export class RaceProgression {
     }
 
     private incrementNextWaypointIndex(): void {
+        this._lastWaypointIndex = this._nextWaypointIndex;
         this._nextWaypointIndex = (this._nextWaypointIndex + 1) % this._waypoints.length;
+
     }
 
     private reassignNextWaypointIndex(): void {
@@ -80,14 +88,14 @@ export class RaceProgression {
             this._waypoints[this._nextWaypointIndex][2]
         );
         this._lastWaypointPosition.set(
-            this._waypoints[this._nextWaypointIndex - 1][0],
-            this._waypoints[this._nextWaypointIndex - 1][0],
-            this._waypoints[this._nextWaypointIndex - 1][2]
+            this._waypoints[this._lastWaypointIndex][0],
+            this._waypoints[this._lastWaypointIndex][0],
+            this._waypoints[this._lastWaypointIndex][2]
         );
     }
 
     private updateNLap(): void {
-        if (this._nextWaypointIndex === 0) {
+        if (this._nextWaypointIndex === 0 && this._lastWaypointIndex === (this._waypoints.length - 1)) {
             this._nLap++;
             this._lapDone$.next();
         }

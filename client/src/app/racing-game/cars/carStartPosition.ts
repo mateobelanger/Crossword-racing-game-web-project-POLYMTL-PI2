@@ -7,20 +7,20 @@ const CAR_INIT_DIRECTION: THREE.Vector3 = new THREE.Vector3(-1, 0, 0);
 
 export class CarStartPosition {
     private _start: THREE.Vector3;
-    private  _end: THREE.Vector3;
+    private  _2ndWaypoint: THREE.Vector3;
 
     public constructor( private _cars: Car[], waypoints: [number, number, number ][]) {
         this._start = new THREE.Vector3(waypoints[0][0],
                                         waypoints[0][1],
                                         waypoints[0][2]);
-        this._end = new THREE.Vector3(waypoints[waypoints.length - 1][0],
-                                      waypoints[waypoints.length - 1][1],
-                                      waypoints[waypoints.length - 1][2]);
+        this._2ndWaypoint = new THREE.Vector3(waypoints[1][0],
+                                              waypoints[1][1],
+                                              waypoints[1][2]);
     }
 
     public moveCarsToStart(): void {
         const  startingTrackDirection: THREE.Vector3 = new THREE.Vector3();
-        startingTrackDirection.subVectors(this._end, this._start);
+        startingTrackDirection.subVectors(this._2ndWaypoint, this._start);
 
         this._cars.forEach( (car: Car, startPosition: number) => {
             this.moveCarToStart(car);

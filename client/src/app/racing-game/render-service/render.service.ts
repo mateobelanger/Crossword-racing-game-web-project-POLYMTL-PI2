@@ -10,6 +10,7 @@ import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
 import { OutOfBoundsHandlerService } from "../collisions/out-of-bounds-handler.service";
 import { CarHandlerService } from "../cars/car-handler.service";
+import { RaceDataHandlerService } from "../race-data-handler.service";
 
 
 
@@ -50,7 +51,8 @@ export class RenderService {
                        private audioService: AudioService,
                        private endGameService: EndGameService,
                        private outOfBoundsHandlerService: OutOfBoundsHandlerService,
-                       private carHandlerService: CarHandlerService) {
+                       private carHandlerService: CarHandlerService,
+                       private raceDataHandler: RaceDataHandlerService) {
         this._car = new Car();
     }
 
@@ -79,6 +81,7 @@ export class RenderService {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
         this.outOfBoundsHandlerService.handleCollisionOnTrackLimits();
+        this.raceDataHandler.update();
         this.lastDate = Date.now();
     }
 
@@ -95,6 +98,7 @@ export class RenderService {
 
         this.audioService.initialize(this.cameraService.getCamera());
         this.trackLoaderService.initialize(this.scene);
+        this.outOfBoundsHandlerService.initialize();
 
         this.cameraService.updatePosition();
 
