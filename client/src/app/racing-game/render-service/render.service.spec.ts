@@ -10,12 +10,14 @@ import { AudioService } from "../audio/audio.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { SceneLightsService } from "../scene-lights/scene-lights.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
+import { CarHandlerService } from "../cars/car-handler.service";
 
 describe("RenderService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [RenderService, CameraService, SkyboxService, EndGameService, BestTimeHandlerService,
-                        RaceResultsService, SceneLightsService, SceneLoaderService, AudioService, TrackLoaderService]
+                        RaceResultsService, SceneLightsService, SceneLoaderService, AudioService, TrackLoaderService,
+                        CarHandlerService]
         });
     });
 

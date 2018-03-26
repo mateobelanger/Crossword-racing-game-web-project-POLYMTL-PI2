@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from 'three';
 
-export const testSound: string = "../../../assets/audio/RG/space.mp3";
+export const testSound: string = "../../../assets/audio/RG/car-engine.wav";
+export const DEFAULT_MIN_VOLUME: number = 0.2;
 const DEFAULT_VOLUME_VALUE: number = 0.5;
+
 
 @Injectable()
 export class AudioService {
@@ -11,18 +13,18 @@ export class AudioService {
     private _audioLoader: AudioLoader;
 
     public constructor() {
-        this._sounds = [];
         this._listener = new AudioListener();
         this._audioLoader = new AudioLoader();
     }
 
     public initialize(camera: Camera): void {
+        this._sounds = [];
         camera.add(this._listener);
     }
 
-    public async registerSound(source: string): Promise<number> {
+    public registerSound(source: string): number {
         const id: number = this._sounds.length;
-        await this._audioLoader.load(
+        this._audioLoader.load(
             source,
             (buffer: AudioBuffer) => {
                 const newSound: Audio = new Audio(this._listener);
@@ -41,14 +43,16 @@ export class AudioService {
     }
 
     public playSound(soundId: number): void {
-        this.findSound(soundId).play();
+        if (!this.findSound(soundId).isPlaying) {
+            this.findSound(soundId).play();
+        }
     }
 
     public stopSound(soundId: number): void {
         this.findSound(soundId).stop();
     }
 
-    public setVolume(soundId: number, volume: number): void {
+    public setVolume(soundId: number, volume: number): void {       // volume between 0 and 1
         this.findSound(soundId).setVolume(volume);
     }
 
