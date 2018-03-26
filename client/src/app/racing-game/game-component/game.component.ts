@@ -5,6 +5,7 @@ import { RaceDataHandlerService} from "../race-data-handler.service";
 import { ActivatedRoute } from "@angular/router";
 import { EndGameService, EndGameTable } from "../end-game/end-game.service";
 
+
 const DEFAULT_TRACKNAME: string = "test";
 
 @Component({
