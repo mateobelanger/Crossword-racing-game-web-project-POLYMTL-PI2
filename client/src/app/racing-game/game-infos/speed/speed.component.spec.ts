@@ -11,6 +11,7 @@ import { TrackLoaderService } from '../../track-loader.service';
 import { SceneLoaderService } from '../../scene-loader/scene-loader.service';
 import { SceneLightsService } from '../../scene-lights/scene-lights.service';
 import { AudioService } from '../../audio/audio.service';
+import { CarHandlerService } from '../../cars/car-handler.service';
 
 describe('SpeedComponent', () => {
     let component: SpeedComponent;
@@ -20,7 +21,7 @@ describe('SpeedComponent', () => {
         TestBed.configureTestingModule({
             declarations: [SpeedComponent],
             providers: [RenderService, CameraService, SkyboxService, EndGameService, BestTimeHandlerService, RaceResultsService,
-                        TrackLoaderService, SceneLoaderService, SceneLightsService, AudioService]
+                        TrackLoaderService, SceneLoaderService, SceneLightsService, AudioService, CarHandlerService]
         })
             .compileComponents();
     }));
