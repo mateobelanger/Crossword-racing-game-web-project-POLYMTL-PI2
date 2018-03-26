@@ -13,6 +13,7 @@ export class AudioService {
     private _audioLoader: AudioLoader;
 
     public constructor() {
+        this._sounds = [];
         this._listener = new AudioListener();
         this._audioLoader = new AudioLoader();
     }
