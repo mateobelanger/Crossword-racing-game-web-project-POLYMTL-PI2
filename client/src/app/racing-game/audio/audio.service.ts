@@ -13,18 +13,18 @@ export class AudioService {
     private _audioLoader: AudioLoader;
 
     public constructor() {
-        this._sounds = [];
         this._listener = new AudioListener();
         this._audioLoader = new AudioLoader();
     }
 
     public initialize(camera: Camera): void {
+        this._sounds = [];
         camera.add(this._listener);
     }
 
-    public async registerSound(source: string): Promise<number> {
+    public registerSound(source: string): number {
         const id: number = this._sounds.length;
-        await this._audioLoader.load(
+        this._audioLoader.load(
             source,
             (buffer: AudioBuffer) => {
                 const newSound: Audio = new Audio(this._listener);

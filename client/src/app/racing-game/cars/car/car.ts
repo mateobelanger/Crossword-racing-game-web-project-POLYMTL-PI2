@@ -122,7 +122,7 @@ export class Car extends Object3D {
         this._mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
         this.audioService = ReflectiveInjector.resolveAndCreate([AudioService]).get(AudioService);
-        this.engineSoundId = await this.audioService.registerSound(testSound);
+        this.engineSoundId = this.audioService.registerSound(testSound);
     }
 
     public steerLeft(): void {
