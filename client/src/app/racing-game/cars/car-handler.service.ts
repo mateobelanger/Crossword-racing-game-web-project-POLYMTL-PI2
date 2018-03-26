@@ -25,6 +25,15 @@ export class CarHandlerService {
         return this._cars;
     }
 
+    public get carsOnly(): Car[] {
+        const cars: Car[] = [];
+        this.cars.forEach((car: [string, Car]) => {
+            cars.push(car[1]);
+        });
+
+        return cars;
+    }
+
     public get carsPosition(): [string, THREE.Vector3][] {
         const carsPosition: [string, THREE.Vector3][] = [];
         this._cars.forEach((car: [string, Car]) => {

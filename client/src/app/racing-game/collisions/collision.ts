@@ -37,15 +37,12 @@ export class Collision {
         if (this.getsHitBy(car1, car2) && this.getsHitBy(car2, car1)) {
             this.assignCars(car1, car2);
             this._type = CollisionType.FACE_TO_FACE;
-            console.log("les 2 autos se rentrent dedans");
         } else if (this.getsHitBy(car1, car2)) {
             this.assignCars(car1, car2);
             this._type = CollisionType.FIRST_CAR_HIT;
-            console.log("car1 se fait rentrer dedans");
         } else {
             this.assignCars(car2, car1);
             this._type = CollisionType.SECOND_CAR_HIT;
-            console.log("car2 se fait rentrer dedans");
         }
     }
 

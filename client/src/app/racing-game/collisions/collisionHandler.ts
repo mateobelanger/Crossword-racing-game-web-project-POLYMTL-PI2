@@ -75,22 +75,6 @@ export class CollisionHandler {
         car2.speed = temp;
     }
 
-    /*private rotateCars(car1: Car, car2: Car): void {
-
-        // doesn't really work
-        switch (this._collisions[0].type) {
-            case CollisionType.FACE_TO_FACE:    // car1.rotate(Math.PI);
-                                                // car2.rotate(Math.PI);
-                                                break;
-            case CollisionType.FIRST_CAR_HIT:   car1.rotate(-car1.direction.angleTo(car2.direction));
-                                                break;
-            case CollisionType.SECOND_CAR_HIT:
-            default:    car2.rotate(-car2.direction.angleTo(car1.direction));
-                        break;
-        }
-
-    }*/
-
     private applyCollisionRotations(): void {
         this._collisions.forEach( (collision: Collision) => {
             switch (collision.type) {
@@ -107,7 +91,6 @@ export class CollisionHandler {
                     break;
             }
             collision.remainingFrames--;
-            console.log(collision.remainingFrames);
         });
     }
 
