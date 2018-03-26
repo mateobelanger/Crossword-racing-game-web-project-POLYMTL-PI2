@@ -4,16 +4,13 @@ import * as THREE from "three";
 
 import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
-// import { CollisionHandler } from "../collisions/collisionHandler";
 
-// import { CollisionHandlerService } from "../collisions/collision-handler.service";
 import { EndGameService } from "../end-game/end-game.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
 import { CarHandlerService } from "../cars/car-handler.service";
 import { CollisionHandlerService } from "../collisions/collision-handler.service";
-
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -25,11 +22,6 @@ const SCENE_STATE_KEYCODE: number = 78; // n
 const END_GAME: number = 69;            // e
 
 
-// To see the car"s point of departure
-// const HELPER_AXES_SIZE: number = 500;
-// const HELPER_GRID_SIZE: number = 500;
-
-
 @Injectable()
 export class RenderService {
     private container: HTMLDivElement;
@@ -37,8 +29,6 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
-
-    // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
     public get car(): Car {
         return this.carHandlerService.cars[0][1];
@@ -90,10 +80,6 @@ export class RenderService {
         this.carHandlerService.carsOnly.forEach((car: Car) => {
             this.scene.add(car);
         });
-
-        // To see the car's point of departure
-        // this.scene.add(this.axesHelper);
-        // this.scene.add(this.gridHelper);
 
         this.cameraService.initialize(this.container, this.car.mesh);
         this.sceneLoaderService.initialize(this.scene);
