@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import Stats = require("stats.js");
 import * as THREE from "three";
 
@@ -31,15 +31,19 @@ const END_GAME: number = 69;            // e
 
 
 @Injectable()
-export class RenderService {
+export class RenderService implements OnDestroy {
     private container: HTMLDivElement;
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
+    private destroyed: boolean = false;
 
     // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
+    public ngOnDestroy(): void {
+        this.destroyed = true;
+    }
     public get car(): Car {
         return this.carHandlerService.cars[0][1];
     }
@@ -61,6 +65,7 @@ export class RenderService {
             await this.createScene();
             this.initStats();
             this.startRenderingLoop();
+            this.destroyed = false;
         } catch (err) {
             console.error("could not initilize render service");
             console.error(err);
@@ -115,6 +120,7 @@ export class RenderService {
     }
 
     private render(): void {
+        if (!this.destroyed) {
         requestAnimationFrame(() => this.render());
         this.update();
 
@@ -122,6 +128,7 @@ export class RenderService {
 
         this.cameraService.updatePosition();
         this.renderer.render(this.scene, this.cameraService.getCamera());
+        }
         this.stats.update();
     }
 
