@@ -78,7 +78,7 @@ import { FormsModule } from "@angular/forms";
     RaceResultsService,
     RaceProgressionHandlerService,
     CarHandlerService,
-    EndGameService
+    EndGameService,
   ],
 
 })

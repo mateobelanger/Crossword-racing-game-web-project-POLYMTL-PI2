@@ -7,6 +7,8 @@ import { Timer } from "./timer/timer";
 import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
 import { CarHandlerService } from './cars/car-handler.service';
 import { TrackLoaderService } from './track-loader.service';
+import { RaceProgression } from './raceProgression/raceProgression';
+import { EndResultSimulator } from './simulateEndResults/endResultSimaltor';
 const USERNAME: string = "user";
 
 
@@ -86,12 +88,13 @@ export class RaceDataHandlerService {
     }
 
     // lap done from one player (ai or user)
-    public doneLap(name: string): void {
+    private doneLap(name: string): void {
         this.raceResultService.doneLap(name, this._totalTimeTimer.millisecondsElapsed);
     }
 
-    public doneRace(): void {
+    private doneRace(): void {
         this.stopTimers();
+        this.simulateEndRaceResult();
         if (this.raceProgressionService.isUserFirst())
             this.bestTimesService.addTime([USERNAME, this.raceResultService.getPlayerRaceResults(USERNAME).totalTime]);
     }
@@ -122,6 +125,22 @@ export class RaceDataHandlerService {
         this.raceProgressionService.user.endOfRace$.subscribe(() => {
             this.doneRace();
             console.log("done race niggu");
+        });
+    }
+
+    private simulateEndRaceResult(): void {
+        const endResultsSimulator: EndResultSimulator = new EndResultSimulator();
+        endResultsSimulator.initialize(this._ITrackData.waypoints);
+
+        console.log("unfinished player: ");
+        console.log(this.raceProgressionService.unfinishedPlayers);
+
+        this.raceProgressionService.unfinishedPlayers.forEach( (player: [string, RaceProgression]) => {
+            for ( let i: number = 1; i <= player[1].remainingNLap; i++)
+            this.raceResultService.doneLap( player[0],
+                                            i * endResultsSimulator.
+                                            simulatedTime(this.raceResultService.getPlayerRaceResults(player[0]).laps));
+            console.log(this.raceResultService.raceFinalResults);
         });
     }
 

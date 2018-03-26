@@ -24,7 +24,7 @@ export class RaceProgressionHandlerService {
                 this._userProgression = new UserRaceProgression(carPosition[1], waypoints);
                 this._playersProgression.push([carPosition[0], this._userProgression]);
             } else
-                this._playersProgression.push([name, new RaceProgression(carPosition[1], waypoints)]);
+                this._playersProgression.push([carPosition[0], new RaceProgression(carPosition[1], waypoints)]);
         });
         this.initializeLapDoneStream();
     }
@@ -44,7 +44,7 @@ export class RaceProgressionHandlerService {
     }
 
     public get userPosition(): number {
-        let position: number = 0;
+        let position: number = 1;
         this._playersProgression.forEach((player) => {
             const playerProgression: RaceProgression = player[1];
             if (playerProgression.nLap > this.user.nLap)

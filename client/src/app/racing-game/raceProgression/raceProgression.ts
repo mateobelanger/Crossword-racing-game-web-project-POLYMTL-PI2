@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { Subject } from "rxjs/Subject";
+import { MAX_N_LAPS } from "../constants";
+
 const WAYPOINT_RADIUS: number = 10;
 
 export class RaceProgression {
@@ -21,6 +23,10 @@ export class RaceProgression {
 
     public get nLap(): number {
         return this._nLap;
+    }
+
+    public get remainingNLap(): number {
+        return MAX_N_LAPS - this._nLap;
     }
 
     public get lapDone$(): Subject<void> {
