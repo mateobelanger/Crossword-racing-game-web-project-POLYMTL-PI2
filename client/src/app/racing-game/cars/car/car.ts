@@ -1,8 +1,10 @@
 import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion } from "three";
-import { Engine } from "./engine";
+import { Engine, DEFAULT_MAX_RPM } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../../constants";
 import { Wheel } from "./wheel";
 import { CarLights } from "../../car-lights/car-lights";
+import { ReflectiveInjector } from "@angular/core";
+import { AudioService, testSound } from "../../audio/audio.service";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -14,6 +16,8 @@ const INITIAL_WEIGHT_DISTRIBUTION: number = 0.5;
 const MINIMUM_SPEED: number = 0.05;
 const NUMBER_REAR_WHEELS: number = 2;
 const NUMBER_WHEELS: number = 4;
+
+const ENGINE_MIN_VOLUME: number = 0.35;
 
 export class Car extends Object3D {
     public isAcceleratorPressed: boolean;
@@ -30,6 +34,9 @@ export class Car extends Object3D {
     private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
+
+    private audioService: AudioService;
+    private engineSoundId: number;
 
     public constructor(
         engine: Engine = new Engine(),
@@ -114,6 +121,8 @@ export class Car extends Object3D {
         this.carLights.switchLights();
         this._mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
+        this.audioService = ReflectiveInjector.resolveAndCreate([AudioService]).get(AudioService);
+        this.engineSoundId = await this.audioService.registerSound(testSound);
     }
 
     public steerLeft(): void {
@@ -160,6 +169,10 @@ export class Car extends Object3D {
         const R: number = DEFAULT_WHEELBASE / Math.sin(this.steeringWheelDirection * deltaTime);
         const omega: number = this._speed.length() / R;
         this._mesh.rotateY(omega);
+
+        // Sound
+        this.audioService.setVolume(this.engineSoundId, Math.max(ENGINE_MIN_VOLUME, this.rpm / DEFAULT_MAX_RPM));
+        this.audioService.playSound(this.engineSoundId);
     }
 
     private physicsUpdate(deltaTime: number): void {
