@@ -191,7 +191,7 @@ export class Car extends Object3D {
         this._mesh.rotateY(omega);
 
         this.box.setFromObject(this._mesh);
-        
+
         // Sound
         this.audioService.setVolume(this.engineSoundId, Math.max(ENGINE_MIN_VOLUME, this.rpm / DEFAULT_MAX_RPM));
         this.audioService.playSound(this.engineSoundId);
