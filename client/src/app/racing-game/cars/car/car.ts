@@ -81,8 +81,8 @@ export class Car extends Object3D {
         return this.mesh.position;
     }
 
-    public setPosition(position: Vector3): void {
-        this.mesh.position.set(position.x, position.y, position.z);
+    public setPosition(x: number, y: number, z: number): void {
+        this.mesh.position.set(x, y, z);
     }
 
     public get speed(): Vector3 {

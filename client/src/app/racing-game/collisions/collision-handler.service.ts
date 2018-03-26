@@ -87,16 +87,19 @@ export class CollisionHandlerService {
                     collision.frontCar.rotate(collision.rotationPerFrame);
                     collision.backCar.rotate(collision.rotationPerFrame);
                     break;
-                case CollisionType.FIRST_CAR_HIT:
-                    collision.backCar.rotate(collision.rotationPerFrame);
+                case CollisionType.FRONT_CAR_HIT_FROM_RIGHT:
+                    collision.frontCar.rotate(-collision.rotationPerFrame);
                     break;
-                case CollisionType.SECOND_CAR_HIT:
+                case CollisionType.FRONT_CAR_HIT_FROM_LEFT:
                 default:
                     collision.frontCar.rotate(collision.rotationPerFrame);
                     break;
             }
             collision.remainingFrames--;
         });
+
+
     }
+
 
 }
