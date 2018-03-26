@@ -28,7 +28,7 @@ export class DatamuseResponse implements IDatamuseResponse {
 
     public findDefinitionIndex(isEasy: boolean): number {
         if (this.defs == null) {
-            return -1;
+            throw new Error(this.word + " has no definitions");
         } else {
             return this.establishDefinitionIndex(isEasy);
         }
@@ -54,7 +54,12 @@ export class DatamuseResponse implements IDatamuseResponse {
             }
         }
 
-        return definitionIndex;
+        if (definitionIndex === -1) {
+            throw new Error(this.word + " has no definition responding to criteria");
+        } else {
+            return definitionIndex;
+        }
+
     }
 
     private isNounOrVerb(definitionIndex: number): boolean {

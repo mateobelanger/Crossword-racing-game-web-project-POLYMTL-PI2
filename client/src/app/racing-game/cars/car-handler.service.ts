@@ -16,9 +16,11 @@ export class CarHandlerService {
         PLAYERS_NAME.forEach((name: string) => {
             this._cars.push([name, new Car()]);
         });
-        // tslint:disable-next-line
-        for( let i: number = 0; i< this._cars.length; i++)
+        // because await does not work in for-of loop
+        // tslint:disable prefer-for-of
+        for ( let i: number = 0; i < this._cars.length; i++) {
             await this._cars[i][1].init();
+        }
     }
 
     public get cars(): [string, Car][] {
