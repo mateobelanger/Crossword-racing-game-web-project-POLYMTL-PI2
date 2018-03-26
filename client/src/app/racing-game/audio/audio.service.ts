@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from 'three';
 
-export const testSound: string = "../../../assets/audio/RG/car-engine.wav";
-export const DEFAULT_MIN_VOLUME: number = 0.2;
-const DEFAULT_VOLUME_VALUE: number = 0.5;
+// TODO: move sound files paths outside Audio Service to their proper location
+export const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
+export const CAR_COLLISION_SOUND: string = "../../../assets/audio/RG/car-collision.wav"
+export const FORCE_FIELD_SOUND: string = "../../../assets/audio/RG/force-field.wav";
 
+const DEFAULT_VOLUME_VALUE: number = 0.5;
 
 @Injectable()
 export class AudioService {

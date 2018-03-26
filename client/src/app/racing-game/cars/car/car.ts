@@ -4,7 +4,7 @@ import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../../constants";
 import { Wheel } from "./wheel";
 import { CarLights } from "../../car-lights/car-lights";
 import { ReflectiveInjector } from "@angular/core";
-import { AudioService, testSound } from "../../audio/audio.service";
+import { AudioService, CAR_ENGINE_SOUND } from "../../audio/audio.service";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -17,7 +17,8 @@ const MINIMUM_SPEED: number = 0.05;
 const NUMBER_REAR_WHEELS: number = 2;
 const NUMBER_WHEELS: number = 4;
 
-const ENGINE_MIN_VOLUME: number = 0.35;
+const ENGINE_MIN_VOLUME: number = 0.20;
+const ENGINE_MAX_VOLUME: number = 0.80;
 
 export class Car extends Object3D {
     public isAcceleratorPressed: boolean;
@@ -142,7 +143,7 @@ export class Car extends Object3D {
         this.add(this._mesh);
         this.box = new Box3().setFromObject(this._mesh);
         this.audioService = ReflectiveInjector.resolveAndCreate([AudioService]).get(AudioService);
-        this.engineSoundId = this.audioService.registerSound(testSound);
+        this.engineSoundId = this.audioService.registerSound(CAR_ENGINE_SOUND);
     }
 
     public steerLeft(): void {
@@ -193,8 +194,9 @@ export class Car extends Object3D {
         this.box.setFromObject(this._mesh);
 
         // Sound
-        this.audioService.setVolume(this.engineSoundId, Math.max(ENGINE_MIN_VOLUME, this.rpm / DEFAULT_MAX_RPM));
+        this.audioService.setVolume(this.engineSoundId, Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this.rpm / DEFAULT_MAX_RPM)));
         this.audioService.playSound(this.engineSoundId);
+        this.audioService.setLoop(this.engineSoundId);
     }
 
     public rotate(rotationAngle: number): void {
