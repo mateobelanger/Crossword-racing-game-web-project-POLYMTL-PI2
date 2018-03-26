@@ -1,6 +1,6 @@
 import { Waypoint } from "..//trackData/waypoint";
 import { CircleHandler } from "./circleHandler";
-import * as THREE from 'three';
+import * as THREE from "three";
 
 /* tslint:disable: no-magic-numbers */
 describe("CircleHandler", () => {

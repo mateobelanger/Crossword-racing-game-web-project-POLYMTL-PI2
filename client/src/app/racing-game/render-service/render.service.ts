@@ -4,12 +4,16 @@ import * as THREE from "three";
 
 import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
+// import { CollisionHandler } from "../collisions/collisionHandler";
+
+// import { CollisionHandlerService } from "../collisions/collision-handler.service";
 import { EndGameService } from "../end-game/end-game.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService } from "../audio/audio.service";
 import { CarHandlerService } from "../cars/car-handler.service";
 import { RaceDataHandlerService } from "../race-data-handler.service";
+import { CollisionHandlerService } from "../collisions/collision-handler.service";
 
 
 
@@ -23,25 +27,22 @@ const END_GAME: number = 69;            // e
 
 
 // To see the car"s point of departure
-const HELPER_AXES_SIZE: number = 500;
-//const HELPER_GRID_SIZE: number = 500;
+// const HELPER_AXES_SIZE: number = 500;
+// const HELPER_GRID_SIZE: number = 500;
 
 
 @Injectable()
 export class RenderService {
     private container: HTMLDivElement;
-    private _car: Car;
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
 
-
-    // To see the car's point of departure
-    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
+    // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
     public get car(): Car {
-        return this._car;
+        return this.carHandlerService.cars[0][1];
     }
 
     public constructor(private cameraService: CameraService,
@@ -50,13 +51,14 @@ export class RenderService {
                        private audioService: AudioService,
                        private endGameService: EndGameService,
                        private carHandlerService: CarHandlerService,
-                       private raceDataHandler: RaceDataHandlerService) {
-        this._car = new Car();
+                       private raceDataHandler: RaceDataHandlerService,
+                       private collisionHandlerService: CollisionHandlerService) {
+        this.carHandlerService.initialize();
+        this.collisionHandlerService.initialize(carHandlerService.carsOnly);
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
-            this._car = this.carHandlerService.cars[1][1];
             this.container = container;
             await this.createScene();
             this.initStats();
@@ -77,7 +79,10 @@ export class RenderService {
 
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        this._car.update(timeSinceLastFrame);
+        this.carHandlerService.carsOnly.forEach((car: Car) => {
+            car.update(timeSinceLastFrame);
+        });
+
         this.lastDate = Date.now();
         this.raceDataHandler.update();
     }
@@ -85,13 +90,15 @@ export class RenderService {
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
-        this.scene.add(this._car);
+        this.carHandlerService.carsOnly.forEach((car: Car) => {
+            this.scene.add(car);
+        });
 
         // To see the car's point of departure
-        this.scene.add(this.axesHelper);
-        //this.scene.add(this.gridHelper);
+        // this.scene.add(this.axesHelper);
+        // this.scene.add(this.gridHelper);
 
-        this.cameraService.initialize(this.container, this._car.mesh);
+        this.cameraService.initialize(this.container, this.car.mesh);
         this.sceneLoaderService.initialize(this.scene);
 
         this.audioService.initialize(this.cameraService.getCamera());
@@ -113,6 +120,9 @@ export class RenderService {
     private render(): void {
         requestAnimationFrame(() => this.render());
         this.update();
+
+        this.collisionHandlerService.handleCarCollisions(this.carHandlerService.carsOnly, this.scene);
+
         this.cameraService.updatePosition();
         this.renderer.render(this.scene, this.cameraService.getCamera());
         this.stats.update();
@@ -126,16 +136,16 @@ export class RenderService {
     public handleKeyDown(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
-                this._car.isAcceleratorPressed = true;
+                this.car.isAcceleratorPressed = true;
                 break;
             case LEFT_KEYCODE:
-                this._car.steerLeft();
+                this.car.steerLeft();
                 break;
             case RIGHT_KEYCODE:
-                this._car.steerRight();
+                this.car.steerRight();
                 break;
             case BRAKE_KEYCODE:
-                this._car.brake();
+                this.car.brake();
                 break;
             default:
                 break;
@@ -146,21 +156,21 @@ export class RenderService {
     public handleKeyUp(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
-                this._car.isAcceleratorPressed = false;
+                this.car.isAcceleratorPressed = false;
                 break;
             case LEFT_KEYCODE:
             case RIGHT_KEYCODE:
-                this._car.releaseSteering();
+                this.car.releaseSteering();
                 break;
             case BRAKE_KEYCODE:
-                this._car.releaseBrakes();
+                this.car.releaseBrakes();
                 break;
             case CAMERA_KEYCODE:
                 this.cameraService.changeCamera();
                 break;
             case SCENE_STATE_KEYCODE:
                 this.sceneLoaderService.updateScene();
-                this._car.switchLights();
+                this.car.switchLights();
                 break;
             case END_GAME:
                 this.endGameService.displayResultTable();
@@ -169,6 +179,7 @@ export class RenderService {
                 break;
         }
     }
+
 }
 
 

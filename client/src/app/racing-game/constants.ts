@@ -29,6 +29,9 @@ export const BACKGROUND_PLANE_POSITION_Y: number = -1;
 // CONSTRAINTS
 export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE}
 
+// COLLISIONS
+export enum CollisionType {FIRST_CAR_HIT, SECOND_CAR_HIT, FACE_TO_FACE}
+
 // RACE
 export const PLAYERS_NAME: string[] = ["bob1", "user"];
 export const MAX_N_LAPS: number = 3;
