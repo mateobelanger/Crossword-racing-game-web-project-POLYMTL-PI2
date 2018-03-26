@@ -37,17 +37,10 @@ export class CarStartPosition {
     }
 
     private alignCarWithTrack(car: Car, trackDirection: THREE.Vector3): void {
-        console.log("trackdirection");
-        console.log(trackDirection);
         let rotation: number = trackDirection.angleTo(CAR_INIT_DIRECTION);
-        console.log("rotation");
-        console.log(rotation);
-        console.log("oldmesh");
-        console.log(car.mesh);
         if (trackDirection.y < 0)
             rotation *= -1;
-        car.mesh.rotateOnAxis( new THREE.Vector3(0, 1, 0), Math.PI/2);
-        console.log("new mesh", car.mesh);
+        car.mesh.rotateOnAxis( new THREE.Vector3(0, 1, 0), rotation);
     }
 
     private positionCar( position: number ): void {
