@@ -66,7 +66,7 @@ export class WordPlacer {
             const response: Response = await fetch("http://localhost:3000/service/lexical/wordsearch/" + word);
             const data: DatamuseResponse = await response.json();
 
-            return data.defs.length ? data.defs[0].slice(data.defs[0].indexOf("\t") + 1) : NO_DEFINITION;
+            return data.defs.length ? data.defs[0] : NO_DEFINITION;
         } catch (err) {
             return NO_DEFINITION;
         }
@@ -78,13 +78,20 @@ export class WordPlacer {
         return Promise.all(definitions);
     }
 
+    // removes tag and capitalize first letter.
+    private formatDefinition(definition: string): string {
+        const formattedDefinition: string = definition.slice(definition.indexOf("\t") + 1);
+
+        return formattedDefinition.charAt(0).toUpperCase() + formattedDefinition.slice(1);
+    }
+
     private setAllDefinitions(definitions: string[]): void {
         let counter: number = 1;
         for (let i: number = 0; i < definitions.length; i++) {
             if (definitions[i] === NO_DEFINITION) {
                 definitions[i] += "  " + counter++;
             }
-            this._placedWords[i].definition = definitions[i];
+            this._placedWords[i].definition = this.formatDefinition(definitions[i]);
         }
     }
 
