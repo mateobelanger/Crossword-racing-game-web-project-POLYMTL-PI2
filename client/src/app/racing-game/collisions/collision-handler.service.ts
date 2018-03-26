@@ -20,43 +20,21 @@ export class CollisionHandlerService {
         this._cars = cars;
     }
 
-    private isNewCollision(car1: Car, car2: Car): boolean {
-
-        let isNewCollision: boolean = true;
-        this._collisions.forEach( (collision: Collision) => {
-            if (collision.contains(car1) && collision.contains(car2)) {
-                isNewCollision = false;
-            }
-        });
-
-        return isNewCollision;
-    }
-
-    public handleCarCollisions(cars: Car[], scene: THREE.Scene): void {
+    public handleCarCollisions(): void {
 
         this.updateCollisions();
 
         // go through all possibilities of cars colliding
         for (let i: number = 0; i < this._cars.length; i++) {
             for (let j: number = i + 1; j < this._cars.length; j++) {
-                if (this._cars[i].box.intersectsBox(cars[j].box)) {
-                    this.handleCollision(this._cars[i], this._cars[j], scene);
+                if (this._cars[i].box.intersectsBox(this._cars[j].box)) {
+                    this.handleCollision(this._cars[i], this._cars[j]);
                 }
             }
         }
 
         this.applyCollisionRotations();
 
-    }
-
-    private handleCollision(car1: Car, car2: Car, scene: THREE.Scene): void {
-        if (this.isNewCollision(car1, car2)) {
-
-            const newCollision: Collision = new Collision(car1, car2);
-            this._collisions.push(newCollision);
-
-            this.switchCarsSpeed(car1, car2);
-        }
     }
 
     private updateCollisions(): void {
@@ -72,6 +50,28 @@ export class CollisionHandlerService {
             this._collisions.splice(index, 1);
         }
 
+    }
+
+    private handleCollision(car1: Car, car2: Car): void {
+        if (this.isNewCollision(car1, car2)) {
+
+            const newCollision: Collision = new Collision(car1, car2);
+            this._collisions.push(newCollision);
+
+            this.switchCarsSpeed(car1, car2);
+        }
+    }
+
+    private isNewCollision(car1: Car, car2: Car): boolean {
+
+        let isNewCollision: boolean = true;
+        this._collisions.forEach( (collision: Collision) => {
+            if (collision.contains(car1) && collision.contains(car2)) {
+                isNewCollision = false;
+            }
+        });
+
+        return isNewCollision;
     }
 
     private switchCarsSpeed(car1: Car, car2: Car): void {

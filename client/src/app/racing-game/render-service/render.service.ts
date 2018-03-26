@@ -118,7 +118,7 @@ export class RenderService {
         requestAnimationFrame(() => this.render());
         this.update();
 
-        this.collisionHandlerService.handleCarCollisions(this.carHandlerService.carsOnly, this.scene);
+        this.collisionHandlerService.handleCarCollisions();
 
         this.cameraService.updatePosition();
         this.renderer.render(this.scene, this.cameraService.getCamera());
