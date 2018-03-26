@@ -55,11 +55,8 @@ export class RaceDataHandlerService {
     private castPointsToSceneWaypoints(waypoints: [number, number, number][]): [number, number, number][] {
         const finalWaypoints: [number, number, number][] = new Array<[number, number, number]>();
 
-        for ( let i: number = 0; i < waypoints.length - 1; i++) {
-            finalWaypoints[i][0] = waypoints[i][0];
-            finalWaypoints[i][1] = 0;
-            finalWaypoints[i][2] = waypoints[i][1];
-        }
+        for ( let i: number = 0; i < waypoints.length - 1; i++)
+            finalWaypoints.push([waypoints[i][0], 0, waypoints[i][1]]);
 
         return finalWaypoints;
     }
