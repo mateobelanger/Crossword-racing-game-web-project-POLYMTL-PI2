@@ -15,7 +15,7 @@ export const CIRCLE_POSITION_Z: number = -1;
 export const UPPER_PLANE_POSITION_Z: number = -1.05;
 export const LOWER_PLANE_POSITION_Z: number = -1.06;
 export const BACKGROUND_PLANE_POSITION_Z: number = -3;
-export const TRACK_WIDTH: number = 20;       // ** 20 pour track editor
+export const TRACK_WIDTH: number = 20;
 export const BACKGROUND_PLANE: string = "backgroundPlane";
 export const POINT: string = "point";
 export const EDITOR_LAND_WIDTH: number = 1000;
@@ -30,7 +30,7 @@ export const BACKGROUND_PLANE_POSITION_Y: number = -1;
 export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE}
 
 // COLLISIONS
-export enum CollisionType {FIRST_CAR_HIT, SECOND_CAR_HIT, FACE_TO_FACE}
+export enum CollisionType {FRONT_CAR_HIT_FROM_LEFT, FRONT_CAR_HIT_FROM_RIGHT, FACE_TO_FACE}
 
 // RACE
 export const PLAYERS_NAME: string[] = ["bob1", "user"];
