@@ -16,7 +16,7 @@ const DEFAULT_TRACKNAME: string = "test";
     selector: "app-game-component",
     templateUrl: "./game.component.html",
     styleUrls: ["./game.component.css"],
-    providers: [RenderService, CarHandlerService, AudioService, CollisionHandlerService]
+    providers: [RenderService, CarHandlerService, AudioService, CollisionHandlerService, RaceDataHandlerService]
 })
 
 export class GameComponent implements AfterViewInit {
