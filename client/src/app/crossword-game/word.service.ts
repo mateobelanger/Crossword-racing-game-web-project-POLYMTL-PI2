@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http"
+import { HttpClient } from "@angular/common/http";
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { words as mockWords } from "./mock-words";
 import { GRID_SIZE } from '../../../../common/constants';
@@ -15,7 +15,7 @@ export class WordService {
         this._words = [];
         this._selectedWord = null;
     }
-    
+
     public get words(): GridWord[] {
         return this._words;
     }
@@ -27,15 +27,15 @@ export class WordService {
     public get selectedWord(): GridWord {
         return this._selectedWord;
     }
-    
+
     public get definition(): string {
         if (this._selectedWord === null) {
             return null;
         }
-        
+
         return this._selectedWord.definition;
     }
-    
+
     public set definition(definition: string) {
         for (const word of this._words) {
             if (word.definition === definition) {
@@ -47,11 +47,11 @@ export class WordService {
 
     // public method to be initialized only once the words are fetched from the server.
     public async initialize(difficulty: string = "easy"): Promise<void> {
-        await this.fetchWords(difficulty) 
-                .then(httpWords => { this._words = this.castHttpToGridWordObj(httpWords); })
+        await this.fetchWords(difficulty)
+                .then((httpWords: GridWord[]) => { this._words = this.castHttpToGridWordObj(httpWords); })
                 .catch(() => { this._words = mockWords; });  // default grid if any problem occurs.
     }
-    
+
     public selectWord(row: number, column: number): void {
         for (const word of this._words) {
             if (word === this._selectedWord) {
@@ -63,13 +63,13 @@ export class WordService {
             }
         }
     }
-    
+
     public getDefinitions(direction: Direction): string[][] {
         const definitions: string[][] = [];
         for (let i: number = 0; i < GRID_SIZE; i++) {
             definitions.push([]);
         }
-        
+
         for (const word of this._words) {
             if (word.direction !== direction) {
                 continue;
@@ -80,10 +80,10 @@ export class WordService {
                 definitions[word.column].push(word.definition);
             }
         }
-        
+
         return definitions;
     }
-    
+
     public deselect(): void {
         this._selectedWord = null;
     }
@@ -98,7 +98,7 @@ export class WordService {
         return "";
     }
 
-    private fetchWords(difficulty: string): Promise<GridWord[]> {
+    private async fetchWords(difficulty: string): Promise<GridWord[]> {
         return this._http.get<GridWord[]>(GRID_GENERATOR_URL + difficulty).toPromise();
     }
 

@@ -29,7 +29,7 @@ export class RaceDataHandlerService {
         this.doneRace();
     }
 
-    // TODO: MODIFY DATA IN HUD 
+    // TODO: MODIFY DATA IN HUD
   }
 
   private doneRace(): void {

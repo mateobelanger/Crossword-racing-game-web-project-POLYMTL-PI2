@@ -15,6 +15,7 @@ const KEY_QUOTE: number = 222;
 const KEY_A: number = 65;
 const KEY_Z: number = 90;
 
+// tslint:disable:no-magic-numbers
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
 const word3: GridWord = new GridWord (0, 1, Direction.VERTICAL, "image", "JPEG, PNG, GIF");
