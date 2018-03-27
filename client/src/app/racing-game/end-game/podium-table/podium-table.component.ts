@@ -27,9 +27,9 @@ export class PodiumTableComponent {
     }
 
     public saveUserName(): void {
-        if (this.playerName.length !== 0) {
+        if (this.endGameService.isFirst && this.playerName.length !== 0) {
             this.endGameService.updateBestTimes(this.playerName);
-            this.displayTimeTable();
         }
+        this.displayTimeTable();
     }
 }
