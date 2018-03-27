@@ -104,6 +104,8 @@ export class RenderService implements OnDestroy {
         this.audioService.playSound(SOUND.ENGINE_SOUND);
 
         this.outOfBoundsHandlerService.handleCollisionOnTrackLimits();
+        this.collisionHandlerService.handleCarCollisions();
+
         this.lastDate = Date.now();
         this.raceDataHandler.update();
     }
@@ -143,8 +145,6 @@ export class RenderService implements OnDestroy {
         if (!this.destroyed) {
             requestAnimationFrame(() => this.render());
             this.update();
-
-            this.collisionHandlerService.handleCarCollisions();
 
             this.cameraService.updatePosition();
             this.renderer.render(this.scene, this.cameraService.getCamera());

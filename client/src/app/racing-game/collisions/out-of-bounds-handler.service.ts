@@ -17,17 +17,13 @@ export class OutOfBoundsHandlerService {
     public constructor(private raceData: RaceDataHandlerService, private audioService: AudioService) { }
 
     public initialize(): void {
-        console.log(this.raceData.carsHandlerService.cars)
         this.raceData.carsHandlerService.cars.forEach( (car: [string, Car]) => {
             this._cars.push([this.raceData.raceProgressionService.getPlayerProgression(car[0]), car[1]]);
-            console.log("caaaatrrr")
-            console.log(this._cars);
         });
     }
 
     public handleCollisionOnTrackLimits(): void {
         this._cars.forEach( (car) => {
-            console.log("collizionnn")
             if (!this.isCarinTrack(car[1], car[0])) {
                 const positionFromLastWaypoint = this.getPositionFromLastWaypoint(car[1], car[0]);
                 const projection: THREE.Vector3 = positionFromLastWaypoint.clone().projectOnVector(car[0].getCurrentTrackSegment());

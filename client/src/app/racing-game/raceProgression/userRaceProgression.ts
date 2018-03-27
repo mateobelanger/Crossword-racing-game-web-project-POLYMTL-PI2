@@ -19,7 +19,6 @@ export class UserRaceProgression extends RaceProgression {
     public update(): void {
         super.update();
         if ( this.nLap === MAX_N_LAPS) {
-            console.log("user updating")
             this._endOfRace$.next();
             this._endOfRace$.complete();
         }
