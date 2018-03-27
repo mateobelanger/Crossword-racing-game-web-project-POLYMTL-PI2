@@ -18,7 +18,7 @@ export class EndGameService {
     public displayTable: EndGameTable = EndGameTable.NO_TABLE;
 
 
-    public isNewBestTime: boolean;
+    public isFirst: boolean;
     public playerTime: number;
 
 
@@ -34,7 +34,7 @@ export class EndGameService {
     }
 
     public updateBestTimes(playerName: string): void {
-        if (this.isNewBestTime)
+        if (this.isFirst)
             this.bestTimesService.addTime([playerName, this.playerTime]);
     }
 
@@ -50,8 +50,8 @@ export class EndGameService {
         this.displayTable = EndGameTable.PODIUM_TABLE;
     }
 
-    public endGame(isNewBestTime: boolean): void {
-        this.isNewBestTime = isNewBestTime;
+    public endGame(isFirst: boolean): void {
+        this.isFirst = isFirst;
         this.playerTime = this.raceResultService.getPlayerRaceResults(USERNAME).totalTime;
         this.displayResultTable();
     }

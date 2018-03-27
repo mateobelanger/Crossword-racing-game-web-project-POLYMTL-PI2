@@ -37,18 +37,17 @@ export class AudioService {
         this.registerSound(CAR_COLLISION_SOUND);
         this.registerSound(FORCE_FIELD_SOUND);
     }
-    
-    
+
     public playSound(soundId: number): void {
         if (!this.findSound(soundId).isPlaying) {
             this.findSound(soundId).play();
         }
     }
-    
+
     public stopSound(soundId: number): void {
         this.findSound(soundId).stop();
     }
-    
+
     public setVolume(soundId: number, volume: number): void {       // volume between 0 and 1
         this.findSound(soundId).setVolume(volume);
     }
@@ -56,16 +55,25 @@ export class AudioService {
     public setPlaybackRate(soundId: number, value: number): void {
         this.findSound(soundId).setPlaybackRate(value);
     }
-    
+
     public setLoop(soundId: number): void {
         this.findSound(soundId).setLoop(true);
     }
-    
+
+    /* Sounds can't be played after this method is called */
+    public stopAllSounds(): void {
+       /* for (const sound of this._sounds) {
+            sound.stop();
+        }
+        */
+        this._sounds = [];
+    }
+
     private findSound(soundId: number): Audio {
         if (soundId < 0 || soundId >= this._sounds.length) {
             return new NullAudio(this._listener);
         }
-        
+
         return this._sounds[soundId];
     }
 
@@ -73,7 +81,7 @@ export class AudioService {
         this._audioLoader.load(
             source,
             (buffer: AudioBuffer) => {
-                const audio = new Audio(this._listener);
+                const audio: Audio = new Audio(this._listener);
                 audio.setBuffer(buffer);
                 audio.setLoop(false);
                 audio.setVolume(DEFAULT_VOLUME_VALUE);
