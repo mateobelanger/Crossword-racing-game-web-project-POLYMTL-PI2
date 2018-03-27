@@ -5,6 +5,7 @@ import { Car } from "../cars/car/car";
 import { routes } from "../../app-routes.module";
 import { AppModule } from "../../app.module";
 import { APP_BASE_HREF } from "@angular/common";
+import { AudioService } from "../audio/audio.service";
 
 describe("CollisionHandlerService", () => {
 
@@ -20,7 +21,7 @@ describe("CollisionHandlerService", () => {
         });
         await car1.init();
         cars.push(car1);
-        collisionHandler = new CollisionHandlerService();
+        collisionHandler = new CollisionHandlerService(new AudioService());
 
         done();
     });
