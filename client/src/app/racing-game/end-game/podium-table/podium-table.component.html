@@ -14,7 +14,7 @@
       <br/>
       <p>Enter Your Name: </p>
 
-      <input ng-model="name" class="form-control"type="text" required minlength="1" maxlength="10" autofocus [(ngModel)]="playerName" />
+      <input [(ngModel)]="playerName" (keyup)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" class="form-control"type="text" required minlength="1" maxlength="10" autofocus />
 
     </div>
 

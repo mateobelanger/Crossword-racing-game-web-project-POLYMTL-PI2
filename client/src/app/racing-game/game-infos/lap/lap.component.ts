@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RaceDataHandlerService } from '../../race-data-handler.service';
-
+import { MAX_N_LAPS} from "../../constants";
 @Component({
   selector: 'app-lap',
   templateUrl: './lap.component.html',
@@ -14,6 +14,6 @@ export class LapComponent implements OnInit {
   }
 
   public get lapsElapsed(): number {
-    return this.raceDataHandler.lapElapsed + 1;
+    return Math.min(this.raceDataHandler.lapElapsed + 1, MAX_N_LAPS);
   }
 }

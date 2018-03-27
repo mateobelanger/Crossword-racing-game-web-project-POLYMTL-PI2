@@ -33,10 +33,13 @@ export class RenderService implements OnDestroy {
     private stats: Stats;
     private lastDate: number;
     private destroyed: boolean = false;
-    private car: Car;
+    private _car: Car;
 
     // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
+    public get car(): Car {
+        return this._car;
+    }
     public ngOnDestroy(): void {
         this.destroyed = true;
     }
@@ -48,12 +51,12 @@ export class RenderService implements OnDestroy {
                        private carHandlerService: CarHandlerService,
                        private raceDataHandler: RaceDataHandlerService,
                        private collisionHandlerService: CollisionHandlerService) {
-        this.car = new Car();
+        this._car = new Car();
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
-            this.car = this.carHandlerService.cars[1][1];
+            this._car = this.carHandlerService.cars[1][1];
             this.collisionHandlerService.initialize(this.carHandlerService.carsOnly);
             this.container = container;
             await this.createScene();
@@ -80,7 +83,7 @@ export class RenderService implements OnDestroy {
             car.update(timeSinceLastFrame);
         });
 
-        this.audioService.setVolume(SOUND.ENGINE_SOUND, Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this.car.rpm / DEFAULT_MAX_RPM)));
+        this.audioService.setVolume(SOUND.ENGINE_SOUND, Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM)));
         this.audioService.setLoop(SOUND.ENGINE_SOUND);
         this.audioService.playSound(SOUND.ENGINE_SOUND);
 
@@ -95,7 +98,7 @@ export class RenderService implements OnDestroy {
             this.scene.add(car);
         });
 
-        this.cameraService.initialize(this.container, this.car.mesh);
+        this.cameraService.initialize(this.container, this._car.mesh);
         this.sceneLoaderService.initialize(this.scene);
 
         this.audioService.initialize(this.cameraService.getCamera());
@@ -137,16 +140,16 @@ export class RenderService implements OnDestroy {
     public handleKeyDown(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
-                this.car.isAcceleratorPressed = true;
+                this._car.isAcceleratorPressed = true;
                 break;
             case LEFT_KEYCODE:
-                this.car.steerLeft();
+                this._car.steerLeft();
                 break;
             case RIGHT_KEYCODE:
-                this.car.steerRight();
+                this._car.steerRight();
                 break;
             case BRAKE_KEYCODE:
-                this.car.brake();
+                this._car.brake();
                 break;
             default:
                 break;
@@ -157,21 +160,21 @@ export class RenderService implements OnDestroy {
     public handleKeyUp(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
-                this.car.isAcceleratorPressed = false;
+                this._car.isAcceleratorPressed = false;
                 break;
             case LEFT_KEYCODE:
             case RIGHT_KEYCODE:
-                this.car.releaseSteering();
+                this._car.releaseSteering();
                 break;
             case BRAKE_KEYCODE:
-                this.car.releaseBrakes();
+                this._car.releaseBrakes();
                 break;
             case CAMERA_KEYCODE:
                 this.cameraService.changeCamera();
                 break;
             case SCENE_STATE_KEYCODE:
                 this.sceneLoaderService.updateScene();
-                this.car.switchLights();
+                this._car.switchLights();
                 break;
             case END_GAME:
                 this.raceDataHandler.doneRace();
