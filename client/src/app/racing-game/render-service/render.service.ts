@@ -44,9 +44,6 @@ export class RenderService implements OnDestroy {
 
     // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
-    public get car(): Car {
-        return this._car;
-    }
     public ngOnDestroy(): void {
         this.destroyed = true;
     }
@@ -57,7 +54,7 @@ export class RenderService implements OnDestroy {
                        private audioService: AudioService,
                        private carHandlerService: CarHandlerService,
                        private raceDataHandler: RaceDataHandlerService,
-                       private raceProgressionService: RaceProgressionHandlerService) {
+                       private raceProgressionService: RaceProgressionHandlerService,
                        private collisionHandlerService: CollisionHandlerService,
                        private outOfBoundsHandlerService: OutOfBoundsHandlerService) {
         this._car = new Car();
@@ -158,55 +155,6 @@ export class RenderService implements OnDestroy {
     public onResize(): void {
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
-/*
-    // Create an event handler service.
-    public handleKeyDown(event: KeyboardEvent): void {
-        switch (event.keyCode) {
-            case ACCELERATE_KEYCODE:
-                this._car.isAcceleratorPressed = true;
-                break;
-            case LEFT_KEYCODE:
-                this._car.steerLeft();
-                break;
-            case RIGHT_KEYCODE:
-                this._car.steerRight();
-                break;
-            case BRAKE_KEYCODE:
-                this._car.brake();
-                break;
-            default:
-                break;
-        }
-    }
-
-    // Create an event handler service.
-    public handleKeyUp(event: KeyboardEvent): void {
-        switch (event.keyCode) {
-            case ACCELERATE_KEYCODE:
-                this._car.isAcceleratorPressed = false;
-                break;
-            case LEFT_KEYCODE:
-            case RIGHT_KEYCODE:
-                this._car.releaseSteering();
-                break;
-            case BRAKE_KEYCODE:
-                this._car.releaseBrakes();
-                break;
-            case CAMERA_KEYCODE:
-                this.cameraService.changeCamera();
-                break;
-            case SCENE_STATE_KEYCODE:
-                this.sceneLoaderService.updateScene();
-                this._car.switchLights();
-                break;
-            case END_GAME:
-                this.raceDataHandler.doneRace();
-                break;
-            default:
-                break;
-        }
-    }
-    */
 }
 
 
