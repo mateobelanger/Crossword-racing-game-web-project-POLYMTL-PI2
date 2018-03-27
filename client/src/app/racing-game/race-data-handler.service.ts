@@ -7,8 +7,9 @@ import { Timer } from "./timer/timer";
 import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
 import { CarHandlerService } from './cars/car-handler.service';
 import { TrackLoaderService } from './track-loader.service';
-const USERNAME: string = "user";
-
+import { EndGameService } from './end-game/end-game.service';
+import { RaceProgression } from './raceProgression/raceProgression';
+import { EndResultSimulator } from './simulateEndResults/endResultSimaltor';
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -22,7 +23,8 @@ export class RaceDataHandlerService {
                        private raceResultService: RaceResultsService,
                        private raceProgressionService: RaceProgressionHandlerService,
                        private carsHandlerService: CarHandlerService,
-                       private trackLoaderService: TrackLoaderService) {
+                       private trackLoaderService: TrackLoaderService,
+                       private endGameService: EndGameService) {
         this._totalTimeTimer = new Timer();
         this._uiLapTimer = new Timer();
         this.resetValues();
@@ -36,8 +38,11 @@ export class RaceDataHandlerService {
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             this.trackLoaderService.points = this._ITrackData.waypoints;
+
             await this.carsHandlerService.initialize();
-            this.raceProgressionService.initialize(this.carsHandlerService.carsPosition, this._ITrackData.waypoints);
+            this.carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
+            this.raceProgressionService.initialize(this.carsHandlerService.carsPosition,
+                                                   this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
             this.raceResultService.initialize();
             this.subscribeToDoneLap();
             this.subscribeToEndOfRace();
@@ -45,6 +50,16 @@ export class RaceDataHandlerService {
             console.error("could not initialize race-data-handler");
             console.error(err);
         }
+    }
+
+    // Invert x/z coordinates to fit the actual scene
+    private castPointsToSceneWaypoints(waypoints: [number, number, number][]): [number, number, number][] {
+        const finalWaypoints: [number, number, number][] = [];
+        waypoints.forEach( (waypoint: [number, number, number]) => {
+            finalWaypoints.push([waypoint[0], 0, waypoint[1]]);
+        });
+
+        return finalWaypoints;
     }
 
     public update(): void {
@@ -72,17 +87,16 @@ export class RaceDataHandlerService {
         this.startTimers();
     }
 
-    // lap done from one player (ai or user)
-    public doneLap(name: string): void {
-        this.raceResultService.doneLap(name, this._totalTimeTimer.millisecondsElapsed);
-    }
-
     public doneRace(): void {
         this.stopTimers();
-        this.bestTimesService.addTime([USERNAME, this.raceResultService.getPlayerRaceResults(USERNAME).totalTime]);
+        this.simulateEndRaceResult();
+        this.endGameService.endGame(this.raceProgressionService.isUserFirst());
     }
 
-
+    // lap done from one player (ai or user)
+    private doneLap(name: string): void {
+        this.raceResultService.doneLap(name, this._totalTimeTimer.millisecondsElapsed);
+    }
     private resetValues(): void {
         this._uiLapTimer.reset();
         this._totalTimeTimer.reset();
@@ -100,12 +114,31 @@ export class RaceDataHandlerService {
     private subscribeToDoneLap(): void {
         this.raceProgressionService.lapDoneStream$.subscribe((name: string) => {
             this.doneLap(name);
+            console.log(name);
+            console.log("done lap niggu");
         });
     }
 
     private subscribeToEndOfRace(): void {
         this.raceProgressionService.user.endOfRace$.subscribe(() => {
             this.doneRace();
+            console.log("done race niggu");
+        });
+    }
+
+    private simulateEndRaceResult(): void {
+        const endResultsSimulator: EndResultSimulator = new EndResultSimulator();
+        endResultsSimulator.initialize(this._ITrackData.waypoints);
+
+        console.log("unfinished player: ");
+        console.log(this.raceProgressionService.unfinishedPlayers);
+
+        this.raceProgressionService.unfinishedPlayers.forEach( (player: [string, RaceProgression]) => {
+            for ( let i: number = 1; i <= player[1].remainingNLap; i++)
+            this.raceResultService.doneLap( player[0],
+                                            i * endResultsSimulator.
+                                            simulatedTime(this.raceResultService.getPlayerRaceResults(player[0]).laps));
+            console.log(this.raceResultService.raceFinalResults);
         });
     }
 

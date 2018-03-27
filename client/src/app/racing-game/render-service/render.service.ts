@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import Stats = require("stats.js");
 import * as THREE from "three";
 
@@ -6,8 +6,11 @@ import { Car } from "../cars/car/car";
 import { CameraService } from "../camera.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
-import { AudioService } from "../audio/audio.service";
-
+import { AudioService, SOUND } from "../audio/audio.service";
+import { CarHandlerService } from "../cars/car-handler.service";
+import { RaceDataHandlerService } from "../race-data-handler.service";
+import { CollisionHandlerService } from "../collisions/collision-handler.service";
+import { DEFAULT_MAX_RPM } from "../cars/car/engine";
 
 /*
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -20,41 +23,52 @@ const END_GAME: number = 69;            // e
 */
 
 // To see the car"s point of departure
-const HELPER_AXES_SIZE: number = 500;
-//const HELPER_GRID_SIZE: number = 500;
+// const HELPER_AXES_SIZE: number = 500;
+// const HELPER_GRID_SIZE: number = 500;
 
+
+const ENGINE_MIN_VOLUME: number = 0.2;
+const ENGINE_MAX_VOLUME: number = 0.75;
 
 @Injectable()
-export class RenderService {
+export class RenderService implements OnDestroy {
     private container: HTMLDivElement;
-    private _car: Car;
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
+    private destroyed: boolean = false;
+    private _car: Car;
 
+    // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
-    // To see the car's point of departure
-    private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
-
-    public get car(): Car {
-        return this._car;
+    public ngOnDestroy(): void {
+        this.destroyed = true;
     }
 
     public constructor(private cameraService: CameraService,
                        private sceneLoaderService: SceneLoaderService,
                        private trackLoaderService: TrackLoaderService,
-                       private audioService: AudioService) {
+                       private audioService: AudioService,
+                       private carHandlerService: CarHandlerService,
+                       private raceDataHandler: RaceDataHandlerService,
+                       private collisionHandlerService: CollisionHandlerService) {
         this._car = new Car();
+    }
 
+    public get car(): Car {
+        return this._car;
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
+            this._car = this.carHandlerService.cars[1][1];
+            this.collisionHandlerService.initialize(this.carHandlerService.carsOnly);
             this.container = container;
             await this.createScene();
             this.initStats();
             this.startRenderingLoop();
+            this.destroyed = false;
         } catch (err) {
             console.error("could not initilize render service");
             console.error(err);
@@ -71,24 +85,31 @@ export class RenderService {
 
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        this._car.update(timeSinceLastFrame);
+        this.carHandlerService.carsOnly.forEach((car: Car) => {
+            car.update(timeSinceLastFrame);
+        });
+
+        this.audioService.setVolume(SOUND.ENGINE_SOUND, Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM)));
+        this.audioService.setLoop(SOUND.ENGINE_SOUND);
+        this.audioService.playSound(SOUND.ENGINE_SOUND);
+
         this.lastDate = Date.now();
+        this.raceDataHandler.update();
     }
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
-        await this._car.init();
-        this.scene.add(this._car);
-
-        // To see the car's point of departure
-        this.scene.add(this.axesHelper);
-        //this.scene.add(this.gridHelper);
+        this.carHandlerService.carsOnly.forEach((car: Car) => {
+            this.scene.add(car);
+        });
 
         this.cameraService.initialize(this.container, this._car.mesh);
         this.sceneLoaderService.initialize(this.scene);
 
         this.audioService.initialize(this.cameraService.getCamera());
+        this.audioService.loadSounds();
+
         this.trackLoaderService.initialize(this.scene);
     }
 
@@ -105,10 +126,15 @@ export class RenderService {
     }
 
     private render(): void {
-        requestAnimationFrame(() => this.render());
-        this.update();
-        this.cameraService.updatePosition();
-        this.renderer.render(this.scene, this.cameraService.getCamera());
+        if (!this.destroyed) {
+            requestAnimationFrame(() => this.render());
+            this.update();
+
+            this.collisionHandlerService.handleCarCollisions();
+
+            this.cameraService.updatePosition();
+            this.renderer.render(this.scene, this.cameraService.getCamera());
+        }
         this.stats.update();
     }
 
@@ -120,16 +146,16 @@ export class RenderService {
     public handleKeyDown(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
-                this._car.isAcceleratorPressed = true;
+                this.car.isAcceleratorPressed = true;
                 break;
             case LEFT_KEYCODE:
-                this._car.steerLeft();
+                this.car.steerLeft();
                 break;
             case RIGHT_KEYCODE:
-                this._car.steerRight();
+                this.car.steerRight();
                 break;
             case BRAKE_KEYCODE:
-                this._car.brake();
+                this.car.brake();
                 break;
             default:
                 break;
@@ -140,24 +166,24 @@ export class RenderService {
     public handleKeyUp(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
-                this._car.isAcceleratorPressed = false;
+                this.car.isAcceleratorPressed = false;
                 break;
             case LEFT_KEYCODE:
             case RIGHT_KEYCODE:
-                this._car.releaseSteering();
+                this.car.releaseSteering();
                 break;
             case BRAKE_KEYCODE:
-                this._car.releaseBrakes();
+                this.car.releaseBrakes();
                 break;
             case CAMERA_KEYCODE:
                 this.cameraService.changeCamera();
                 break;
             case SCENE_STATE_KEYCODE:
                 this.sceneLoaderService.updateScene();
-                this._car.switchLights();
+                this.car.switchLights();
                 break;
             case END_GAME:
-                this.endGameService.displayResultTable();
+                this.raceDataHandler.doneRace();
                 break;
             default:
                 break;

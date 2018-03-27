@@ -21,6 +21,7 @@ import { LapComponent } from './game-infos/lap/lap.component';
 import { TimeComponent } from './game-infos/time/time.component';
 import { PositionComponent } from './game-infos/position/position.component';
 import { TrackLoaderService } from "./track-loader.service";
+import { CollisionHandlerService } from './collisions/collision-handler.service';
 import { AudioService } from "./audio/audio.service";
 import { BestTimesComponent } from './recordedTimes/time-table/time-table.component';
 import { BestTimeHandlerService } from "./recordedTimes/best-time-handler.service";
@@ -75,10 +76,12 @@ import { FormsModule } from "@angular/forms";
     SceneLightsService,
     SceneLoaderService,
     BestTimeHandlerService,
+    TrackLoaderService,
+    CollisionHandlerService,
     RaceResultsService,
     RaceProgressionHandlerService,
     CarHandlerService,
-    EndGameService
+    EndGameService,
   ],
 
 })

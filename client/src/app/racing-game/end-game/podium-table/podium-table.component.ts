@@ -9,11 +9,9 @@ import { EndGameService } from '../end-game.service';
 export class PodiumTableComponent {
 
     @Input() public playerName: string;
-    // TODO: on peut entrer un nom vide en ce moment
-    public isPlayerNameEntered: Boolean;
 
     public constructor(private endGameService: EndGameService) {
-        this.isPlayerNameEntered = false;
+        this.playerName = "";
     }
 
     public isNewBestTime(): boolean {
@@ -29,9 +27,9 @@ export class PodiumTableComponent {
     }
 
     public saveUserName(): void {
-        this.endGameService.updateBestTimes(this.playerName);
-
-        this.isPlayerNameEntered = true;
-        this.displayTimeTable();
+        if (this.playerName.length !== 0) {
+            this.endGameService.updateBestTimes(this.playerName);
+            this.displayTimeTable();
+        }
     }
 }

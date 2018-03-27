@@ -61,12 +61,18 @@ export class WordSelector {
     public static getValidWordsByDifficulty(words: Array<DatamuseResponse>, criteria: string,
                                             isCommon: boolean, isEasy: boolean): Array<IWord> {
         const selectedWords: Array<IWord> = new Array<IWord>();
+        let definitionIndex: number;
         for (const word of words) {
-            const definitionIndex: number = word.findDefinitionIndex(isEasy);
-            if (word.isValidWithTemplate(criteria) && word.isCommon() === isCommon && definitionIndex !== -1) {
+            try {
+                definitionIndex = word.findDefinitionIndex(isEasy);
+            } catch (e) {
+                console.error(e);
+                continue;
+            }
+            if (word.isValidWithTemplate(criteria) && word.isCommon() === isCommon) {
                 selectedWords.push(this.datamuseResponseToWord(word, definitionIndex));
             }
-        }
+       }
 
         return selectedWords;
     }

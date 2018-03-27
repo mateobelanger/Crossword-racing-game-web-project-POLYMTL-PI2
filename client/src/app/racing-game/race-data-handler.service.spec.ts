@@ -1,20 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { TracksProxyService } from "./tracks-proxy.service";
+
 import { RaceDataHandlerService } from './race-data-handler.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TrackLoaderService } from './track-loader.service';
-import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
-import { RaceResultsService } from './recordedTimes/race-results.service';
-import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
-import { CarHandlerService } from './cars/car-handler.service';
+import { routes } from '../app-routes.module';
+import { AppModule } from '../app.module';
+import { APP_BASE_HREF } from '@angular/common';
 // tslint:disable:no-magic-numbers
 describe('RaceDataHandlerService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
-            providers: [RaceDataHandlerService, TracksProxyService, BestTimeHandlerService, RaceResultsService,
-                        RaceProgressionHandlerService, CarHandlerService, TrackLoaderService]
+            imports: [routes, AppModule],
+            providers: [{provide: APP_BASE_HREF, useValue : '/' }]
         });
     });
 

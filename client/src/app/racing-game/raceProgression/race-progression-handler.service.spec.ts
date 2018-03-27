@@ -12,4 +12,8 @@ describe('RaceProgressionHandlerService', () => {
   it('should be created', inject([RaceProgressionHandlerService], (service: RaceProgressionHandlerService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('should be created', inject([RaceProgressionHandlerService], (service: RaceProgressionHandlerService) => {
+    expect(service).toBeTruthy();
+  }));
 });

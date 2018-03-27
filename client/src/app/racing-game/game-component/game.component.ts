@@ -5,6 +5,10 @@ import { RaceDataHandlerService} from "../race-data-handler.service";
 import { ActivatedRoute } from "@angular/router";
 import { InputHandlerService } from "../controller/input-handler.service";
 import { EndGameService, EndGameTable } from "../end-game/end-game.service";
+import { CarHandlerService } from "../cars/car-handler.service";
+import { AudioService } from "../audio/audio.service";
+import { CollisionHandlerService } from "../collisions/collision-handler.service";
+
 
 const DEFAULT_TRACKNAME: string = "test";
 
@@ -13,7 +17,7 @@ const DEFAULT_TRACKNAME: string = "test";
     selector: "app-game-component",
     templateUrl: "./game.component.html",
     styleUrls: ["./game.component.css"],
-    providers: [RenderService, InputHandlerService]
+    providers: [RenderService, CarHandlerService, AudioService, CollisionHandlerService, RaceDataHandlerService, InputHandlerService]
 })
 
 export class GameComponent implements AfterViewInit {
