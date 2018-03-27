@@ -12,6 +12,7 @@ import { CarHandlerService } from "../cars/car-handler.service";
 import { RaceDataHandlerService } from "../race-data-handler.service";
 import { CollisionHandlerService } from "../collisions/collision-handler.service";
 import { DEFAULT_MAX_RPM } from "../cars/car/engine";
+import { RaceProgressionHandlerService } from "../raceProgression/race-progression-handler.service";
 
 
 const ACCELERATE_KEYCODE: number = 87;  // w
@@ -50,7 +51,8 @@ export class RenderService implements OnDestroy {
                        private audioService: AudioService,
                        private carHandlerService: CarHandlerService,
                        private raceDataHandler: RaceDataHandlerService,
-                       private collisionHandlerService: CollisionHandlerService) {
+                       private collisionHandlerService: CollisionHandlerService,
+                       private raceProgressionService: RaceProgressionHandlerService) {
         this._car = new Car();
     }
 
@@ -63,6 +65,9 @@ export class RenderService implements OnDestroy {
             this.initStats();
             this.startRenderingLoop();
             this.destroyed = false;
+            this.raceProgressionService.user.endOfRace$.subscribe(() => {
+                this.ngOnDestroy();
+            });
         } catch (err) {
             console.error("could not initilize render service");
             console.error(err);
@@ -83,7 +88,8 @@ export class RenderService implements OnDestroy {
             car.update(timeSinceLastFrame);
         });
 
-        this.audioService.setVolume(SOUND.ENGINE_SOUND, Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM)));
+        this.audioService.setVolume(SOUND.ENGINE_SOUND,
+                                    Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM)));
         this.audioService.setLoop(SOUND.ENGINE_SOUND);
         this.audioService.playSound(SOUND.ENGINE_SOUND);
 

@@ -15,7 +15,7 @@ export class PodiumTableComponent {
     }
 
     public isNewBestTime(): boolean {
-        return this.endGameService.isNewBestTime;
+        return this.endGameService.isFirst;
     }
 
     public displayTimeTable(): void {
