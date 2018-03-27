@@ -114,6 +114,7 @@ export class RaceDataHandlerService {
     private subscribeToDoneLap(): void {
         this.raceProgressionService.lapDoneStream$.subscribe((name: string) => {
             this.doneLap(name);
+            console.log(name);
             console.log("done lap niggu");
         });
     }

@@ -22,7 +22,7 @@ const CAMERA_KEYCODE: number = 67;      // c
 const SCENE_STATE_KEYCODE: number = 78; // n
 const END_GAME: number = 69;            // e
 
-const ENGINE_MIN_VOLUME: number = 0.20;
+const ENGINE_MIN_VOLUME: number = 0.2;
 const ENGINE_MAX_VOLUME: number = 0.75;
 
 @Injectable()
@@ -33,14 +33,12 @@ export class RenderService implements OnDestroy {
     private stats: Stats;
     private lastDate: number;
     private destroyed: boolean = false;
+    private car: Car;
 
     // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
     public ngOnDestroy(): void {
         this.destroyed = true;
-    }
-    public get car(): Car {
-        return this.carHandlerService.cars[0][1];
     }
 
     public constructor(private cameraService: CameraService,
@@ -50,12 +48,13 @@ export class RenderService implements OnDestroy {
                        private carHandlerService: CarHandlerService,
                        private raceDataHandler: RaceDataHandlerService,
                        private collisionHandlerService: CollisionHandlerService) {
-        this.carHandlerService.initialize();
-        this.collisionHandlerService.initialize(carHandlerService.carsOnly);
+        this.car = new Car();
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
+            this.car = this.carHandlerService.cars[1][1];
+            this.collisionHandlerService.initialize(this.carHandlerService.carsOnly);
             this.container = container;
             await this.createScene();
             this.initStats();
