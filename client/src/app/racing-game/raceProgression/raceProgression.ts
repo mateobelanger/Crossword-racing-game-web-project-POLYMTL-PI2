@@ -59,16 +59,13 @@ export class RaceProgression {
 
 
     public distanceToNextWaypoint(): number {
-        // tslint:disable-next-line:prefer-const
         return this._carPosition.distanceTo(this._nextWaypointPosition);
     }
 
-    public getCurrTrackSegmentVector(): THREE.Vector3 {
-        const trackSegment: THREE.Vector3 = new THREE.Vector3();
-        trackSegment.subVectors(this._nextWaypointPosition, this._lastWaypointPosition);
-
-        return trackSegment;
+    public getCurrentTrackSegment(): THREE.Vector3 {
+        return new THREE.Vector3().subVectors(this._nextWaypointPosition, this._lastWaypointPosition);
     }
+
     // tslint:disable:no-magic-numbers
     private incrementNextWaypointPosition(): void {
         this.incrementNextWaypointIndex();

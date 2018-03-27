@@ -1,11 +1,10 @@
-import { OutOfBoundsHandlerService } from "./out-of-bounds-handler.service";
+/*import { OutOfBoundsHandlerService } from "./out-of-bounds-handler.service";
 import { CarHandlerService } from "../cars/car-handler.service";
 import { inject, TestBed } from '@angular/core/testing';
 import * as THREE from 'three';
 
-/* tslint:disable: no-magic-numbers */
+/* tslint:disable: no-magic-numbers 
 describe("Collision", () => {
-
     const car1: Car = new Car();
     const car2: Car = new Car();
     let collision: Collision;
@@ -29,9 +28,6 @@ describe("Collision", () => {
     }));
 
     it("should be instantiated correctly when passing parameters", () => {
-        console.log(car1);
-        console.log(car2);
-        console.log(car2.getPosition);
         collision = new Collision(car1, car2);
         expect(collision).toBeDefined();
     });
@@ -42,4 +38,4 @@ describe("Collision", () => {
         expect(collision.contains(car2)).toBe(true);
     });
 
-});
+}); */
