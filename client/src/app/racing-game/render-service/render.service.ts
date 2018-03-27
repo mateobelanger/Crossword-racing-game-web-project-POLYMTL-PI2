@@ -67,6 +67,7 @@ export class RenderService implements OnDestroy {
             this.destroyed = false;
             this.raceProgressionService.user.endOfRace$.subscribe(() => {
                 this.ngOnDestroy();
+                this.audioService.stopAllSounds();
             });
         } catch (err) {
             console.error("could not initilize render service");

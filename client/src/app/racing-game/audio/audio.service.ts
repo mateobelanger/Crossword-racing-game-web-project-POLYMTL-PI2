@@ -61,10 +61,10 @@ export class AudioService {
 
     /* Sounds can't be played after this method is called */
     public stopAllSounds(): void {
-        for (const sound of this._sounds) {
+       /* for (const sound of this._sounds) {
             sound.stop();
         }
-
+        */
         this._sounds = [];
     }
 
