@@ -14,7 +14,7 @@
       <br/>
       <p>Enter Your Name: </p>
 
-      <input ng-model="name" class="form-control"type="text" required minlength="1" maxlength="10" autofocus [(ngModel)]="playerName" />
+      <input [(ngModel)]="playerName" (keyup)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" class="form-control"type="text" required minlength="1" maxlength="10" autofocus />
 
     </div>
 
@@ -24,8 +24,7 @@
   </div>
 
   <div class="tableFooter clearfix background">
-    <div class="buttons btn-sm col-2" *ngIf="isNewBestTime()" (click)="saveUserName()">Next</div>
-    <div class="buttons btn-sm col-2" *ngIf="!isNewBestTime()" (click)="displayTimeTable()">Next</div>
+    <div class="buttons btn-sm col-2" (click)="saveUserName()">Next</div>
     <div class="buttons btn-sm col-2" (click)="displayResultTable()">Previous</div>
   </div>
 </div>

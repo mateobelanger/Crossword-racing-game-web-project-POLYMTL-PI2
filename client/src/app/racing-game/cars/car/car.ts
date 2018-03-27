@@ -27,7 +27,7 @@ export class Car extends Object3D {
     private carLights: CarLights;
     private _speed: Vector3;
     private isBraking: boolean;
-    private _mesh: Object3D;
+    public _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
     public box: Box3;
@@ -84,10 +84,6 @@ export class Car extends Object3D {
 
     public set speed(speed: Vector3) {
         this._speed = speed;
-    }
-
-    public getSpeed(): Vector3 {
-        return this._speed;
     }
 
     public get currentGear(): number {
@@ -181,7 +177,7 @@ export class Car extends Object3D {
         const omega: number = this._speed.length() / R;
         this._mesh.rotateY(omega);
 
-        this.box.setFromObject(this._mesh);        
+        this.box.setFromObject(this._mesh);
     }
 
     public rotate(rotationAngle: number): void {
@@ -193,7 +189,7 @@ export class Car extends Object3D {
         this.engine.update(this._speed.length(), this.rearWheel.radius);
         this.weightRear = this.getWeightDistribution();
         this._speed.add(this.getDeltaSpeed(deltaTime));
-        this._speed.setLength(this._speed.length() <= MINIMUM_SPEED ? 0 : this._speed.length());
+        this._speed.setLength(this._speed.length() <= MINIMUM_SPEED || !this.isGoingForward() ? 0 : this._speed.length());
         this._mesh.position.add(this.getDeltaPosition(deltaTime));
         this.rearWheel.update(this._speed.length());
     }

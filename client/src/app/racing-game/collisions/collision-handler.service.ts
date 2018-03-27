@@ -75,8 +75,8 @@ export class CollisionHandlerService {
     }
 
     private switchCarsSpeed(car1: Car, car2: Car): void {
-        const temp: THREE.Vector3 = car1.getSpeed().clone();
-        car1.speed = car2.getSpeed().clone();
+        const temp: THREE.Vector3 = car1.speed;
+        car1.speed = car2.speed;
         car2.speed = temp;
     }
 
