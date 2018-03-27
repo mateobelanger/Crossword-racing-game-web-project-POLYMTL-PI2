@@ -1,10 +1,8 @@
-import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion } from "three";
-import { Engine, DEFAULT_MAX_RPM } from "./engine";
+import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion, Box3 } from "three";
+import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../../constants";
 import { Wheel } from "./wheel";
 import { CarLights } from "../../car-lights/car-lights";
-import { ReflectiveInjector } from "@angular/core";
-import { AudioService, testSound } from "../../audio/audio.service";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -16,8 +14,6 @@ const INITIAL_WEIGHT_DISTRIBUTION: number = 0.5;
 const MINIMUM_SPEED: number = 0.05;
 const NUMBER_REAR_WHEELS: number = 2;
 const NUMBER_WHEELS: number = 4;
-
-const ENGINE_MIN_VOLUME: number = 0.35;
 
 export class Car extends Object3D {
     public isAcceleratorPressed: boolean;
@@ -34,9 +30,7 @@ export class Car extends Object3D {
     private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
-
-    private audioService: AudioService;
-    private engineSoundId: number;
+    public box: Box3;
 
     public constructor(
         engine: Engine = new Engine(),
@@ -72,10 +66,28 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
+
+        // this.box = new Box3().setFromObject(this._mesh);
+    }
+
+    public getPosition(): Vector3 {
+        return this.mesh.position;
+    }
+
+    public setPosition(x: number, y: number, z: number): void {
+        this.mesh.position.set(x, y, z);
     }
 
     public get speed(): Vector3 {
         return this._speed.clone();
+    }
+
+    public set speed(speed: Vector3) {
+        this._speed = speed;
+    }
+
+    public getSpeed(): Vector3 {
+        return this._speed;
     }
 
     public get currentGear(): number {
@@ -94,7 +106,7 @@ export class Car extends Object3D {
         return this._mesh;
     }
 
-    private get direction(): Vector3 {
+    public get direction(): Vector3 {
         const rotationMatrix: Matrix4 = new Matrix4();
         const carDirection: Vector3 = new Vector3(0, 0, -1);
 
@@ -121,8 +133,7 @@ export class Car extends Object3D {
         this.carLights.switchLights();
         this._mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
-        this.audioService = ReflectiveInjector.resolveAndCreate([AudioService]).get(AudioService);
-        this.engineSoundId = this.audioService.registerSound(testSound);
+        this.box = new Box3().setFromObject(this._mesh);
     }
 
     public steerLeft(): void {
@@ -170,9 +181,11 @@ export class Car extends Object3D {
         const omega: number = this._speed.length() / R;
         this._mesh.rotateY(omega);
 
-        // Sound
-        this.audioService.setVolume(this.engineSoundId, Math.max(ENGINE_MIN_VOLUME, this.rpm / DEFAULT_MAX_RPM));
-        this.audioService.playSound(this.engineSoundId);
+        this.box.setFromObject(this._mesh);        
+    }
+
+    public rotate(rotationAngle: number): void {
+        this._mesh.rotateY(rotationAngle);
     }
 
     private physicsUpdate(deltaTime: number): void {

@@ -7,7 +7,7 @@ export class RaceResultsService {
     private _raceResults: {[name: string]: RaceResults};
 
     public constructor() {
-    this._raceResults = {};
+        this._raceResults = {};
     }
 
     public initialize(): void {

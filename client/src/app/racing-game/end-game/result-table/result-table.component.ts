@@ -10,7 +10,7 @@ import { EndGameService } from '../end-game.service';
 export class ResultTableComponent implements OnInit {
 
     public MOCKDATA: [string, RaceResults][];
-    public SHOWMOCK: boolean = true;
+    public SHOWMOCK: boolean = false;
 
 
     public constructor(private endGameService: EndGameService) { }

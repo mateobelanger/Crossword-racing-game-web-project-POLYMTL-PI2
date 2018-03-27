@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { RaceProgression } from './raceProgression';
 import { UserRaceProgression} from "./userRaceProgression";
-import { MAX_N_LAPS } from "../constants";
+import { MAX_N_LAPS, USERNAME } from "../constants";
 import { Subject } from 'rxjs/Subject';
 
-const USERNAME: string = "user";
+
+
 @Injectable()
 export class RaceProgressionHandlerService {
 
