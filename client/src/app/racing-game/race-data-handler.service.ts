@@ -23,8 +23,9 @@ export class RaceDataHandlerService {
                        private raceResultService: RaceResultsService,
                        private _raceProgressionService: RaceProgressionHandlerService,
                        private _carsHandlerService: CarHandlerService,
-                       private endGameService: EndGameService) {
-                       private trackLoaderService: TrackLoaderService,
+                       private endGameService: EndGameService,
+                       private trackLoaderService: TrackLoaderService) {
+                       
         this._totalTimeTimer = new Timer();
         this._uiLapTimer = new Timer();
         this.resetValues();

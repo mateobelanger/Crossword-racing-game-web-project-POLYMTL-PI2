@@ -14,7 +14,7 @@ export class RaceProgression {
 
     public constructor(private _carPosition: THREE.Vector3,
                        private _waypoints: [number, number, number][]) {
-        this._nLap = 0;
+        this._nLap = -1;
         this._nextWaypointIndex = 0;
         this._lastWaypointIndex = this._waypoints.length - 1;
 

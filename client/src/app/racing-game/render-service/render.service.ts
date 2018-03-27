@@ -51,9 +51,8 @@ export class RenderService implements OnDestroy {
                        private audioService: AudioService,
                        private carHandlerService: CarHandlerService,
                        private raceDataHandler: RaceDataHandlerService,
-                       private collisionHandlerService: CollisionHandlerService) {
-                       private endGameService: EndGameService,
-                       private outOfBoundsHandlerService: OutOfBoundsHandlerService,
+                       private collisionHandlerService: CollisionHandlerService,
+                       private outOfBoundsHandlerService: OutOfBoundsHandlerService) {
         this._car = new Car();
     }
 
@@ -61,6 +60,7 @@ export class RenderService implements OnDestroy {
         try {
             this._car = this.carHandlerService.cars[1][1];
             this.collisionHandlerService.initialize(this.carHandlerService.carsOnly);
+            this.outOfBoundsHandlerService.initialize();
             this.container = container;
             await this.createScene();
             this.initStats();
@@ -109,7 +109,6 @@ export class RenderService implements OnDestroy {
         this.audioService.loadSounds();
 
         this.trackLoaderService.initialize(this.scene);
-        this.outOfBoundsHandlerService.initialize();
 
         this.cameraService.updatePosition();
 

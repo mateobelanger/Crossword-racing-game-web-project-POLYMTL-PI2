@@ -41,7 +41,7 @@ export class AudioService {
     
     public playSound(soundId: number): void {
         if (!this.findSound(soundId).isPlaying) {
-            //todo: this.findSound(soundId).play();
+            this.findSound(soundId).play();
         }
     }
     
