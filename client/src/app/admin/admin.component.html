@@ -7,8 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col col-md-4 caneva" *ngFor="let track of tracks; let trackIndex = index;">
-                <div class="">
-                    <!-- If we want to make it work with col-md-4 -->
+
                     <div class="canevaHeader clearfix">
                         <li class="trackNameBlock left">
                             <h4 class="trackName"> {{track.name}} </h4>
@@ -37,7 +36,6 @@
                         <div class="descriptionText "> {{track.description}} </div>
                     </div>
 
-                </div>
             </div>
         </div>
     </div>

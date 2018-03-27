@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { TrackEditorRenderService } from "./track-editor-render.service";
 import { Track } from "../track/trackData/track";
 import { Waypoint } from "../track/trackData/waypoint";
-import { POINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from "../constants";
+import { WAYPOINTS_POSITION_Z, BACKGROUND_PLANE, POINT } from "../constants";
 import { Constraints } from "./constraints/constraints";
 import * as THREE from "three";
 
@@ -33,7 +33,7 @@ export class TrackEditorService {
 
     public initialize(container: HTMLDivElement): void {
         this._container = container;
-        this.trackEditorRenderService.initialize(this._container, this._track);
+        this.trackEditorRenderService.initialize(this._container);
         this._track = new Track();
         this._dragDropActive = false;
         this._track.isClosed = false;
@@ -44,16 +44,20 @@ export class TrackEditorService {
         return this._track;
     }
 
+    public takeScreenShot(): string {
+        return this.trackEditorRenderService.takeScreenShot();
+    }
+
     public addWaypoints(waypoints: Waypoint[]): void {
         waypoints.forEach((waypoint) => {
-            waypoint.setPositionZ(POINTS_POSITION_Z);
+            waypoint.setPositionZ(WAYPOINTS_POSITION_Z);
             this._track.addWaypoint(waypoint);
         });
-        this.trackEditorRenderService._circleHandler.generateCircles(waypoints);
+        this.trackEditorRenderService._circleHandler.generateCircles(waypoints, false);
         if (this._track.getTrackSize() > 1) {
             if (waypoints.length === 1)
                 waypoints.unshift(this._track.getPreviousToLastWaypoint());
-            this.trackEditorRenderService._planeHandler.generatePlanes(waypoints);
+            this.trackEditorRenderService._planeHandler.generatePlanes(waypoints, false);
             this._constraints.addRoads(waypoints);
         }
       }
@@ -88,7 +92,7 @@ export class TrackEditorService {
 
     public closeTrack(): void {
         const waypoints: Waypoint[] = [this._track.getLastWaypoint(), this._track.getFirstWaypoint()];
-        this.trackEditorRenderService._planeHandler.generatePlanes(waypoints);
+        this.trackEditorRenderService._planeHandler.generatePlanes(waypoints, false);
         this._constraints.addRoads(waypoints);
         this._constraints.closeRoad();
         this._track.isClosed = true;
@@ -149,7 +153,7 @@ export class TrackEditorService {
             this.trackEditorRenderService.updateRaycastMousePos(event);
             const backgroundPlaneSelected: THREE.Intersection[] = this.trackEditorRenderService.getBackgroundPlaneWithRaycast();
             event.stopPropagation();
-            backgroundPlaneSelected[0].point.z = POINTS_POSITION_Z;
+            backgroundPlaneSelected[0].point.z = WAYPOINTS_POSITION_Z;
             this.trackEditorRenderService.updateRaycastMousePos(event);
             this.moveWaypoint(this._selectedWaypoint.circleId, backgroundPlaneSelected[0].point);
         }

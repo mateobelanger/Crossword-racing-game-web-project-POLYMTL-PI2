@@ -16,7 +16,7 @@ describe("PlaneHandlerHandler", () => {
             waypoints.push(waypoint);
         }
         planeHandler = new PlaneHandler(scene);
-        planeHandler.generatePlanes(waypoints);
+        planeHandler.generatePlanes(waypoints, false);
     });
 
     afterEach(() => {

@@ -1,14 +1,15 @@
 import { TestBed, inject } from "@angular/core/testing";
 
 import { RenderService } from "./render.service";
-import { CameraService } from '../camera.service';
-import { SkyboxService } from '../skybox.service';
-import { AudioService } from "../audio/audio.service";
+import { routes } from "../../app-routes.module";
+import { AppModule } from "../../app.module";
+import { APP_BASE_HREF } from "@angular/common";
 
 describe("RenderService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [RenderService, CameraService, SkyboxService, AudioService]
+            imports: [routes, AppModule],
+            providers: [{provide: APP_BASE_HREF, useValue : '/' }]
         });
     });
 

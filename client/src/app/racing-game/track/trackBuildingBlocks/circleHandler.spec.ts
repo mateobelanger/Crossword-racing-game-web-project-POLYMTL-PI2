@@ -1,6 +1,6 @@
 import { Waypoint } from "..//trackData/waypoint";
 import { CircleHandler } from "./circleHandler";
-import * as THREE from 'three';
+import * as THREE from "three";
 
 /* tslint:disable: no-magic-numbers */
 describe("CircleHandler", () => {
@@ -16,7 +16,7 @@ describe("CircleHandler", () => {
             waypoints.push(waypoint);
         }
         circleHandler = new CircleHandler(scene);
-        circleHandler.generateCircles(waypoints);
+        circleHandler.generateCircles(waypoints, false);
     });
 
     afterEach(() => {

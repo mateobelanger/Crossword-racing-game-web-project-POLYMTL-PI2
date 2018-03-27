@@ -13,7 +13,8 @@ const fakeTrack: ITrackData = {
     timesPlayed: 12,
     bestTimes: [],
     // tslint:disable-next-line:no-magic-numbers
-    waypoints: [[1, 1, 1], [2, 2, 2]]
+    waypoints: [[1, 1, 1], [2, 2, 2]],
+    image: "ab"
 
 };
 
@@ -24,7 +25,8 @@ const tracks: ITrackData[] = [
         timesPlayed: 12,
         bestTimes: [],
         // tslint:disable-next-line:no-magic-numbers
-        waypoints: [[1, 1, 1], [2, 2, 2]]
+        waypoints: [[1, 1, 1], [2, 2, 2]],
+        image: "cd"
     },
     {
         name: "Test2",
@@ -33,7 +35,8 @@ const tracks: ITrackData[] = [
         // tslint:disable-next-line:no-magic-numbers
         bestTimes: [["gen", 2], ["p-o ;)", 1]],
         // tslint:disable-next-line:no-magic-numbers
-        waypoints: [[1, 1, 1], [2, 2, 2]]
+        waypoints: [[1, 1, 1], [2, 2, 2]],
+        image: "ef"
     }
 ];
 

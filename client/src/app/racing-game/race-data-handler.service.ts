@@ -1,46 +1,138 @@
 import { Injectable } from '@angular/core';
-
-const MAX_NB_LAPS: number = 3;
+import { TracksProxyService } from "./tracks-proxy.service";
+import { ITrackData } from "../../../../common/itrackData";
+import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
+import { RaceResultsService } from "./recordedTimes/race-results.service";
+import { Timer } from "./timer/timer";
+import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
+import { CarHandlerService } from './cars/car-handler.service';
+import { TrackLoaderService } from './track-loader.service';
+import { EndGameService } from './end-game/end-game.service';
+import { RaceProgression } from './raceProgression/raceProgression';
+import { EndResultSimulator } from './simulateEndResults/endResultSimaltor';
 
 @Injectable()
 export class RaceDataHandlerService {
 
-  private _lapElapsed: number;
-  private _timeLaps: number[];
+    private _uiLapTimer: Timer;
+    private _totalTimeTimer: Timer;
+    private _ITrackData: ITrackData;
 
-  public constructor() {
-    this._lapElapsed = 0;
-    this._timeLaps = [0, 0, 0];
-  }
-
-  public get lapElapsed(): number {
-    return this._lapElapsed;
-  }
-
-  public get timeLaps(): number[] {
-    return this._timeLaps;
-  }
-
-  public doneLap(newTotalTime: number): void {
-    if (this._lapElapsed < MAX_NB_LAPS) {
-      this._timeLaps[this._lapElapsed] = newTotalTime - this.totalTime();
-      this.incLapElapsed();
-      if (this._lapElapsed === MAX_NB_LAPS)
-        this.doneRace();
+    public constructor(private tracksProxyService: TracksProxyService,
+                       private bestTimesService: BestTimeHandlerService,
+                       private raceResultService: RaceResultsService,
+                       private raceProgressionService: RaceProgressionHandlerService,
+                       private carsHandlerService: CarHandlerService,
+                       private trackLoaderService: TrackLoaderService,
+                       private endGameService: EndGameService) {
+        this._totalTimeTimer = new Timer();
+        this._uiLapTimer = new Timer();
+        this.resetValues();
     }
 
-    // TODO: MODIFY DATA IN HUD
-  }
 
-  private doneRace(): void {
-    // TODO:  totalTime -> results and best times
-  }
+    public async initialize(trackname: string): Promise<void> {
+        try {
+            await this.tracksProxyService.initialize();
 
-  public totalTime(): number {
-    return this._timeLaps.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-  }
+            this._ITrackData = this.tracksProxyService.findTrack(trackname);
+            this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
+            this.trackLoaderService.points = this._ITrackData.waypoints;
 
-  private incLapElapsed(): void {
-    this._lapElapsed++;
-  }
+            await this.carsHandlerService.initialize();
+            this.carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
+            this.raceProgressionService.initialize(this.carsHandlerService.carsPosition,
+                                                   this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
+            this.raceResultService.initialize();
+            this.subscribeToDoneLap();
+            this.subscribeToEndOfRace();
+        } catch (err) {
+            console.error("could not initialize race-data-handler");
+            console.error(err);
+        }
+    }
+
+    // Invert x/z coordinates to fit the actual scene
+    private castPointsToSceneWaypoints(waypoints: [number, number, number][]): [number, number, number][] {
+        const finalWaypoints: [number, number, number][] = [];
+        waypoints.forEach( (waypoint: [number, number, number]) => {
+            finalWaypoints.push([waypoint[0], 0, waypoint[1]]);
+        });
+
+        return finalWaypoints;
+    }
+
+    public update(): void {
+        this.raceProgressionService.update();
+    }
+
+    public get lapElapsed(): number {
+        return this.raceProgressionService.user.nLap;
+    }
+
+    public get totalTimeElapsed(): number {
+        return this._totalTimeTimer.millisecondsElapsed;
+    }
+
+    public get lapTimeElapsed(): number {
+        return this._uiLapTimer.millisecondsElapsed;
+    }
+
+    public get position(): number {
+        return this.raceProgressionService.userPosition;
+    }
+
+    public startRace(): void {
+        this.resetValues();
+        this.startTimers();
+    }
+
+    public doneRace(): void {
+        this.stopTimers();
+        this.simulateEndRaceResult();
+        this.endGameService.endGame(this.raceProgressionService.isUserFirst());
+    }
+
+    // lap done from one player (ai or user)
+    private doneLap(name: string): void {
+        this.raceResultService.doneLap(name, this._totalTimeTimer.millisecondsElapsed);
+    }
+    private resetValues(): void {
+        this._uiLapTimer.reset();
+        this._totalTimeTimer.reset();
+    }
+
+    private startTimers(): void {
+        this._uiLapTimer.start();
+        this._totalTimeTimer.start();
+    }
+
+    private stopTimers(): void {
+        this._uiLapTimer.stop();
+        this._totalTimeTimer.stop();
+    }
+    private subscribeToDoneLap(): void {
+        this.raceProgressionService.lapDoneStream$.subscribe((name: string) => {
+            this.doneLap(name);
+        });
+    }
+
+    private subscribeToEndOfRace(): void {
+        this.raceProgressionService.user.endOfRace$.subscribe(() => {
+            this.doneRace();
+        });
+    }
+
+    private simulateEndRaceResult(): void {
+        const endResultsSimulator: EndResultSimulator = new EndResultSimulator();
+        endResultsSimulator.initialize(this._ITrackData.waypoints);
+
+        this.raceProgressionService.unfinishedPlayers.forEach( (player: [string, RaceProgression]) => {
+            for ( let i: number = 1; i <= player[1].remainingNLap; i++)
+            this.raceResultService.doneLap( player[0],
+                                            i * endResultsSimulator.
+                                            simulatedTime(this.raceResultService.getPlayerRaceResults(player[0]).laps));
+        });
+    }
+
 }

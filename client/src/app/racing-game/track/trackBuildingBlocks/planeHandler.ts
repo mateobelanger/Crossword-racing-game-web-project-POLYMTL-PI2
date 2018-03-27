@@ -1,16 +1,16 @@
 import {Waypoint} from "../trackData/waypoint";
 import {Plane} from "./plane";
-import { PLANE_POSITION_Z, TRACKWIDTH, PlaneType } from '../../constants';
+import { UPPER_PLANE_POSITION_Z, TRACK_WIDTH, PlaneType, LOWER_PLANE_POSITION_Z } from '../../constants';
 import * as THREE from "three";
 
-const RATIO_IMAGE_PER_PLANE_LENGTH: number = 90;
-const RATIO_IMAGE_PER_FIRST_PLANE_LENGTH: number = 70;
+const RATIO_IMAGE_PER_PLANE_LENGTH: number = 40;
+const RATIO_IMAGE_PER_FIRST_PLANE_LENGTH: number = 40;
 const ASSETS_FOLDER: string = "../../../../assets/track_editor_texture/";
-const ASSETS_NAME: string[] = ["first_road_texture.png", "first_road_texture_red.png",
-                               "road_texture.png", "road_texture_red.png"];
+const ASSETS_NAME: string[] = ["first_road_texture-v2.jpg", "first_road_texture-v2_red.jpg",
+                               "road_texture-v2.jpg", "road_texture-v2_red.jpg"];
 
-export const TRACKLENGTH: number = 1;
-
+export const TRACK_LENGTH: number = 1;
+const EVEN_NUMBER: number = 2;
 
 export class PlaneHandler {
 
@@ -23,21 +23,26 @@ export class PlaneHandler {
         this._firstPlaneId = undefined;
     }
 
-    public generatePlanes(waypoints: Waypoint[]): void {
+    public generatePlanes(waypoints: Waypoint[], hasReversedAxes: boolean): void {
+        const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+
         const geometries: THREE.PlaneGeometry[] = this.generatePlaneGeometry(waypoints.length);
 
         for ( let i: number = 0; i < waypoints.length - 1; i++) {
             const plane: Plane = new Plane(waypoints[i], waypoints[i + 1]);
-            const material: THREE.MeshBasicMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
+            const material: THREE.MeshPhongMaterial = this.getPlaneMaterial(plane.length, PlaneType.VALID_PLANE);
             const mesh: THREE.Mesh = new THREE.Mesh( geometries[i], this._planes.length === 0 ?
                                                     this.getPlaneMaterial(plane.length, PlaneType.VALID_FIRST_PLANE) :
                                                     material );
-
             plane.mesh = (mesh);
             if (this._planes.length === 0) {
                 this._firstPlaneId = mesh.id;
             }
             this._planes.push(plane);
+
+            plane.mesh.position.z = i % EVEN_NUMBER === 0 ? UPPER_PLANE_POSITION_Z : LOWER_PLANE_POSITION_Z;
+
+            hasReversedAxes ? plane.mesh.rotateOnAxis(axis, Math.PI / 2) : plane.mesh.rotateOnAxis(axis, 0);
 
             this.scene.add(plane.mesh);
             this.bindPlanes(plane.id, waypoints[i], waypoints[i + 1]);
@@ -51,7 +56,7 @@ export class PlaneHandler {
     }
 
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
-        newPos.z = PLANE_POSITION_Z;
+        newPos.z = UPPER_PLANE_POSITION_Z;
         const firstPlane: Plane = this.getPlane(waypoint.getIncomingPlaneId());
         const secondPlane: Plane = this.getPlane(waypoint.getOutgoingPlaneId());
 
@@ -156,13 +161,13 @@ export class PlaneHandler {
     private generatePlaneGeometry(nPlanes: number): THREE.PlaneGeometry[] {
         const planeGeometries: THREE.PlaneGeometry[] = [];
         for (let i: number = 0 ; i < nPlanes; i++)
-            planeGeometries.push(new THREE.PlaneGeometry(TRACKLENGTH, TRACKWIDTH));
+            planeGeometries.push(new THREE.PlaneGeometry(TRACK_LENGTH, TRACK_WIDTH));
 
         return planeGeometries;
     }
 
 
-    private getPlaneMaterial(planeLength: number, planeType: PlaneType): THREE.MeshBasicMaterial {
+    private getPlaneMaterial(planeLength: number, planeType: PlaneType): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
@@ -170,7 +175,7 @@ export class PlaneHandler {
                                                             RATIO_IMAGE_PER_FIRST_PLANE_LENGTH : RATIO_IMAGE_PER_PLANE_LENGTH;
         createTexture.repeat.set( planeLength / ratio, 1);
 
-        return new THREE.MeshBasicMaterial({ map: createTexture, side: THREE.DoubleSide});
+        return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
     // tslint:disable:no-any

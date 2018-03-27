@@ -10,19 +10,29 @@ export const RAD_TO_DEG: number = STRAIGHT_ANGLE_DEG / Math.PI;
 export const PI_OVER_2: number = Math.PI / 2;
 
 // TRACK-EDITOR
-export const POINTS_POSITION_Z: number = 0;
-export const PLANE_POSITION_Z: number = -1;
+export const WAYPOINTS_POSITION_Z: number = 10;
+export const CIRCLE_POSITION_Z: number = -1;
+export const UPPER_PLANE_POSITION_Z: number = -1.05;
+export const LOWER_PLANE_POSITION_Z: number = -1.06;
 export const BACKGROUND_PLANE_POSITION_Z: number = -3;
-export const TRACKWIDTH: number = 20;
+export const TRACK_WIDTH: number = 20;
 export const BACKGROUND_PLANE: string = "backgroundPlane";
 export const POINT: string = "point";
 export const EDITOR_LAND_WIDTH: number = 1000;
 export const EDITOR_LAND_HEIGHT: number = 800;
 
 // SKYBOX for now & others in the future
-export const LAND_WIDTH: number = 500;
-export const LAND_HEIGHT: number = 400;
-export const BACKGROUND_PLANE_POSITION_Y: number = -3;
+export const LAND_WIDTH: number = 1000;
+export const LAND_HEIGHT: number = 800;
+export const BACKGROUND_PLANE_POSITION_Y: number = -1;
 
 // CONSTRAINTS
 export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVALID_PLANE}
+
+// COLLISIONS
+export enum CollisionType {FRONT_CAR_HIT_FROM_LEFT, FRONT_CAR_HIT_FROM_RIGHT, FACE_TO_FACE}
+
+// RACE
+export const PLAYERS_NAME: string[] = ["bob1", "user"];
+export const MAX_N_LAPS: number = 3;
+export const USERNAME: string = "user";

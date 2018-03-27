@@ -1,8 +1,7 @@
 import { Waypoint } from "..//trackData/waypoint";
-import { Plane } from "./plane";
-import * as THREE from 'three';
-
-const CIRLEDIAMETER: number = 10;
+import { Plane, PIVOT_POINT_SHIFT } from "./plane";
+import * as THREE from "three";
+import { UPPER_PLANE_POSITION_Z } from "../../constants";
 
 /* tslint:disable: no-magic-numbers */
 describe("Plane", () => {
@@ -18,8 +17,8 @@ describe("Plane", () => {
 
         const plane: Plane = new Plane(beginingPoint, endPoint);
         expect(plane).toBeDefined();
-        expect(plane.beginingPoint).toEqual(new THREE.Vector3(0, 0, -1));
-        expect(plane.endPoint).toEqual(new THREE.Vector3(1, 1, -1));
+        expect(plane.beginingPoint).toEqual(new THREE.Vector3(0, 0, UPPER_PLANE_POSITION_Z));
+        expect(plane.endPoint).toEqual(new THREE.Vector3(1, 1, UPPER_PLANE_POSITION_Z));
         expect(plane.mesh).toBeNull();
         expect(plane.previousAngle).toEqual(0);
     });
@@ -42,14 +41,14 @@ describe("Plane", () => {
         const beginingPoint: Waypoint = new Waypoint (new THREE.Vector3(1, 1, 4));
         const endPoint: Waypoint = new Waypoint (new THREE.Vector3(4, 5, 0));
         const plane: Plane = new Plane(beginingPoint, endPoint);
-        expect(plane.length).toEqual(5 - CIRLEDIAMETER);
+        expect(plane.length).toEqual(5 - PIVOT_POINT_SHIFT);
     });
 
     it("should calculate center point properly", () => {
         const beginingPoint: Waypoint = new Waypoint (new THREE.Vector3(0, 0, 4));
         const endPoint: Waypoint = new Waypoint (new THREE.Vector3(4, 4, 0));
         const plane: Plane = new Plane(beginingPoint, endPoint);
-        expect(plane.centerPoint).toEqual(new THREE.Vector3(2, 2, -1));
+        expect(plane.centerPoint).toEqual(new THREE.Vector3(2, 2, UPPER_PLANE_POSITION_Z));
     });
 
 

@@ -23,7 +23,6 @@ const CHAR_9: number = 57;
 })
 
 
-
 export class TrackEditorUiComponent implements AfterViewInit {
     public readonly MAX_TITLE_LENGTH: number = 30;
     public readonly MAX_DESCRIPTION_LENGTH: number = 300;
@@ -54,7 +53,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
             console.error(e);
         }
 
-        if (!this.trackEditorService.track.isValid || !this.trackEditorService.track.isClosed) {
+        if (!this.isValidTrack()) {
             this.invalidTrackPopup();
         } else if (this.proxy.findTrack(this.name) !== null && this.track.name !== this.name) {
             this.alreadyUsedNamePopup();
@@ -65,6 +64,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.updateTrackWaypoints(this.trackEditorService.track.waypoints);
             this.track.name = this.name;
             this.track.description = this.description;
+            this.track.image = this.trackEditorService.takeScreenShot();
             void this.proxy.saveTrack(this.track);
         }
     }
@@ -112,7 +112,8 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.track = {
                 name: "", description: "",
                 timesPlayed: 0,
-                bestTimes: [], waypoints: []
+                bestTimes: [], waypoints: [],
+                image: ""
             };
 
         } else {
@@ -128,7 +129,8 @@ export class TrackEditorUiComponent implements AfterViewInit {
         this.track = {
             name: track.name, description: track.description,
             timesPlayed: track.timesPlayed,
-            bestTimes: track.bestTimes, waypoints: track.waypoints
+            bestTimes: track.bestTimes, waypoints: track.waypoints,
+            image: track.image
         };
         this.name = track.name;
         this.description = track.description;
@@ -145,5 +147,13 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.track.waypoints.push(position);
         });
 
+    }
+
+    private isValidTrack(): boolean {
+
+        return  this.name.length > 0 &&
+                this.description.length > 0 &&
+                this.trackEditorService.track.isValid &&
+                this.trackEditorService.track.isClosed;
     }
 }
