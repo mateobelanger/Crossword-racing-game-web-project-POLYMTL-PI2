@@ -10,9 +10,6 @@ import { TrackLoaderService } from './track-loader.service';
 import { EndGameService } from './end-game/end-game.service';
 import { RaceProgression } from './raceProgression/raceProgression';
 import { EndResultSimulator } from './simulateEndResults/endResultSimaltor';
-const USERNAME: string = "user";
-
-
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -90,17 +87,16 @@ export class RaceDataHandlerService {
         this.startTimers();
     }
 
+    public doneRace(): void {
+        this.stopTimers();
+        this.simulateEndRaceResult();
+        this.endGameService.endGame(this.raceProgressionService.isUserFirst());
+    }
+
     // lap done from one player (ai or user)
     private doneLap(name: string): void {
         this.raceResultService.doneLap(name, this._totalTimeTimer.millisecondsElapsed);
     }
-
-    private doneRace(): void {
-        this.stopTimers();
-        this.endGameService.endGame(this.raceProgressionService.isUserFirst());
-    }
-
-
     private resetValues(): void {
         this._uiLapTimer.reset();
         this._totalTimeTimer.reset();
