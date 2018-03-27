@@ -27,7 +27,7 @@ export class Car extends Object3D {
     private carLights: CarLights;
     private _speed: Vector3;
     private isBraking: boolean;
-    private _mesh: Object3D;
+    public _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
     public box: Box3;
@@ -84,10 +84,6 @@ export class Car extends Object3D {
 
     public set speed(speed: Vector3) {
         this._speed = speed;
-    }
-
-    public getSpeed(): Vector3 {
-        return this._speed;
     }
 
     public get currentGear(): number {

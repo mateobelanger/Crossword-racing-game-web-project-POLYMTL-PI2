@@ -8,6 +8,7 @@ import { CameraService } from "../camera.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
 import { AudioService, SOUND } from "../audio/audio.service";
+import { OutOfBoundsHandlerService } from "../collisions/out-of-bounds-handler.service";
 import { CarHandlerService } from "../cars/car-handler.service";
 import { RaceDataHandlerService } from "../race-data-handler.service";
 import { CollisionHandlerService } from "../collisions/collision-handler.service";
@@ -51,6 +52,8 @@ export class RenderService implements OnDestroy {
                        private carHandlerService: CarHandlerService,
                        private raceDataHandler: RaceDataHandlerService,
                        private collisionHandlerService: CollisionHandlerService) {
+                       private endGameService: EndGameService,
+                       private outOfBoundsHandlerService: OutOfBoundsHandlerService,
         this._car = new Car();
     }
 
@@ -64,7 +67,7 @@ export class RenderService implements OnDestroy {
             this.startRenderingLoop();
             this.destroyed = false;
         } catch (err) {
-            console.error("could not initilize render service");
+            console.error("could not initialize render service");
             console.error(err);
         }
     }
@@ -87,6 +90,7 @@ export class RenderService implements OnDestroy {
         this.audioService.setLoop(SOUND.ENGINE_SOUND);
         this.audioService.playSound(SOUND.ENGINE_SOUND);
 
+        this.outOfBoundsHandlerService.handleCollisionOnTrackLimits();
         this.lastDate = Date.now();
         this.raceDataHandler.update();
     }
@@ -105,6 +109,10 @@ export class RenderService implements OnDestroy {
         this.audioService.loadSounds();
 
         this.trackLoaderService.initialize(this.scene);
+        this.outOfBoundsHandlerService.initialize();
+
+        this.cameraService.updatePosition();
+
     }
 
 

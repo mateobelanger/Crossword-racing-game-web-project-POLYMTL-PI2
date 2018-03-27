@@ -37,6 +37,10 @@ export class RaceProgressionHandlerService {
         });
     }
 
+    public get playersProgression(): [string, RaceProgression][] {
+        return this._playersProgression;
+    }
+
     public get lapDoneStream$(): Subject<string> {
         return this._lapDoneStream$;
     }
@@ -74,6 +78,12 @@ export class RaceProgressionHandlerService {
 
     public get finishedPlayers(): [string, RaceProgression][] {
         return this._playersProgression.filter( (playerProgression) => playerProgression[1].nLap === MAX_N_LAPS );
+    }
+
+    public getPlayerProgression(playerName: string): RaceProgression {
+        return this._playersProgression.find((player) => {
+            return player[0] === playerName;
+        })[1];
     }
 
     private initializeLapDoneStream(): void {

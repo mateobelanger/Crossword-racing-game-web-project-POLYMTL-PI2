@@ -21,10 +21,10 @@ export class RaceDataHandlerService {
     public constructor(private tracksProxyService: TracksProxyService,
                        private bestTimesService: BestTimeHandlerService,
                        private raceResultService: RaceResultsService,
-                       private raceProgressionService: RaceProgressionHandlerService,
-                       private carsHandlerService: CarHandlerService,
-                       private trackLoaderService: TrackLoaderService,
+                       private _raceProgressionService: RaceProgressionHandlerService,
+                       private _carsHandlerService: CarHandlerService,
                        private endGameService: EndGameService) {
+                       private trackLoaderService: TrackLoaderService,
         this._totalTimeTimer = new Timer();
         this._uiLapTimer = new Timer();
         this.resetValues();
@@ -63,11 +63,19 @@ export class RaceDataHandlerService {
     }
 
     public update(): void {
-        this.raceProgressionService.update();
+        this._raceProgressionService.update();
+    }
+
+    public get raceProgressionService(): RaceProgressionHandlerService {
+        return this._raceProgressionService;
+    }
+
+    public get carsHandlerService(): CarHandlerService {
+        return this._carsHandlerService;
     }
 
     public get lapElapsed(): number {
-        return this.raceProgressionService.user.nLap;
+        return this._raceProgressionService.user.nLap;
     }
 
     public get totalTimeElapsed(): number {
@@ -79,7 +87,7 @@ export class RaceDataHandlerService {
     }
 
     public get position(): number {
-        return this.raceProgressionService.userPosition;
+        return this._raceProgressionService.userPosition;
     }
 
     public startRace(): void {

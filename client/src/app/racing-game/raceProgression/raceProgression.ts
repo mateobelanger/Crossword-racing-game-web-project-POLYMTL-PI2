@@ -8,18 +8,29 @@ export class RaceProgression {
     private _nLap: number;
     private _lapDone$: Subject<void>;
     private _nextWaypointIndex: number;
+    private _lastWaypointIndex: number;
     private _nextWaypointPosition: THREE.Vector3;
+    private _lastWaypointPosition: THREE.Vector3;
+
     public constructor(private _carPosition: THREE.Vector3,
                        private _waypoints: [number, number, number][]) {
-                           this._nLap = 0;
-                           this._nextWaypointIndex = 0;
-                           this._nextWaypointPosition = new THREE.Vector3(
-                            this._waypoints[this._nextWaypointIndex][0],
-                            this._waypoints[this._nextWaypointIndex][1], // tslint:disable-next-line:no-magic-numbers
-                            this._waypoints[this._nextWaypointIndex][2]
-                           );
-                           this._lapDone$ = new Subject();
-                       }
+        this._nLap = 0;
+        this._nextWaypointIndex = 0;
+        this._lastWaypointIndex = this._waypoints.length - 1;
+
+        this._nextWaypointPosition = new THREE.Vector3(
+            this._waypoints[this._nextWaypointIndex][0],
+            0, // tslint:disable-next-line:no-magic-numbers
+            this._waypoints[this._nextWaypointIndex][2]
+        );
+
+        this._lastWaypointPosition = new THREE.Vector3(
+            this._waypoints[this._waypoints.length - 1][0],
+            0, // tslint:disable-next-line:no-magic-numbers
+            this._waypoints[this._waypoints.length - 1][2]
+        );
+        this._lapDone$ = new Subject();
+    }
 
     public get nLap(): number {
         return this._nLap;
@@ -37,20 +48,30 @@ export class RaceProgression {
         return this._nextWaypointIndex;
     }
 
+    public get nextWaypointPosition(): THREE.Vector3 {
+        return this._nextWaypointPosition;
+    }
+
+    public get lastWaypointPosition(): THREE.Vector3 {
+        return this._lastWaypointPosition;
+    }
+
     public update(): void {
         if (this.distanceToNextWaypoint() < WAYPOINT_RADIUS) {
-            this.incrementNextWaypointPosition();
             this.updateNLap();
-            console.log(this._nextWaypointIndex);
-            console.log(this._nLap);
+            this.incrementNextWaypointPosition();
         }
     }
 
 
     public distanceToNextWaypoint(): number {
-        // tslint:disable-next-line:prefer-const
         return this._carPosition.distanceTo(this._nextWaypointPosition);
     }
+
+    public getCurrentTrackSegment(): THREE.Vector3 {
+        return new THREE.Vector3().subVectors(this._nextWaypointPosition, this._lastWaypointPosition);
+    }
+
     // tslint:disable:no-magic-numbers
     private incrementNextWaypointPosition(): void {
         this.incrementNextWaypointIndex();
@@ -58,19 +79,26 @@ export class RaceProgression {
     }
 
     private incrementNextWaypointIndex(): void {
+        this._lastWaypointIndex = (this._lastWaypointIndex + 1) % this._waypoints.length;
         this._nextWaypointIndex = (this._nextWaypointIndex + 1) % this._waypoints.length;
+
     }
 
     private reassignNextWaypointIndex(): void {
         this._nextWaypointPosition.set(
             this._waypoints[this._nextWaypointIndex][0],
-            this._waypoints[this._nextWaypointIndex][1],
+            0,
             this._waypoints[this._nextWaypointIndex][2]
+        );
+        this._lastWaypointPosition.set(
+            this._waypoints[this._lastWaypointIndex][0],
+            0,
+            this._waypoints[this._lastWaypointIndex][2]
         );
     }
 
     private updateNLap(): void {
-        if (this._nextWaypointIndex === 0) {
+        if (this._nextWaypointIndex === 0 && this._lastWaypointIndex === (this._waypoints.length - 1)) {
             this._nLap++;
             this._lapDone$.next();
         }
