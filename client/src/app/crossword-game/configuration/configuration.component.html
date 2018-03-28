@@ -1,3 +1,5 @@
+<button routerLink='../'>Back</button>
+
 <div class="configuration">
     <h4>Game Configuration</h4>
     <div class="difficuly">
@@ -13,11 +15,11 @@
         <br>
 
         <div *ngIf="difficulty; else elseBlock">
-            <button routerLink="{{difficulty}}/ui">Create Game</button>
+            <button class="create" routerLink="../{{difficulty}}/ui">Create Game</button>
         </div>
 
         <ng-template #elseBlock>
-            <button disabled="true">Create Game</button>
+            <button class="create" disabled="true">Create Game</button>
         </ng-template>
 
     </div>

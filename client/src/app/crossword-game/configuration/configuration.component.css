@@ -12,7 +12,7 @@ h4 {
     
 }
 
-button {
+button.create {
     width: 80%;
     text-align: center;
     font-size: 20px;
@@ -26,7 +26,7 @@ button {
     cursor: pointer;
 }
 
-button[disabled] {
+button.create[disabled] {
     color: lightgray;
     background-color: darkgray;
     outline: auto;

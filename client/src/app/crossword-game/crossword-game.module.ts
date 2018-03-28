@@ -14,6 +14,7 @@ import { WordService } from './word.service';
 import { GridService } from './grid.service';
 import { ValidatorService } from './validator.service';
 import { EndOfGameModalComponent } from './end-of-game-modal/end-of-game-modal.component';
+import { HostConfigurationComponent } from './host-configuration/host-configuration.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { EndOfGameModalComponent } from './end-of-game-modal/end-of-game-modal.c
         GridComponent,
         DefinitionsComponent,
         InformationsComponent,
-        EndOfGameModalComponent
+        EndOfGameModalComponent,
+        HostConfigurationComponent
     ],
 
     providers: [
