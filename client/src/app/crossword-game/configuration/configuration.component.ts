@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
-
-enum Difficulty {
-    EASY = "easy",
-    NORMAL = "normal",
-    HARD = "hard"
-}
+import { ConfigurationHandlerService } from '../configuration-handler.service';
+import { Difficulty } from '../../../../../common/constants';
 
 @Component({
     selector: 'app-configuration',
@@ -13,10 +9,11 @@ enum Difficulty {
 })
 
 export class ConfigurationComponent {
-    public difficulty: Difficulty;
+    public constructor(private configurationHandlerService: ConfigurationHandlerService) {
+    }
 
-    public constructor() {
-        this.difficulty = null;
+    public set difficulty(difficulty: Difficulty) {
+        this.configurationHandlerService.difficulty = difficulty;
     }
 
 }

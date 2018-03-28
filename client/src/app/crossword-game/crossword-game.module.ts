@@ -15,6 +15,7 @@ import { GridService } from './grid.service';
 import { ValidatorService } from './validator.service';
 import { EndOfGameModalComponent } from './end-of-game-modal/end-of-game-modal.component';
 import { HostConfigurationComponent } from './host-configuration/host-configuration.component';
+import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { HostConfigurationComponent } from './host-configuration/host-configurat
         DefinitionsComponent,
         InformationsComponent,
         EndOfGameModalComponent,
-        HostConfigurationComponent
+        HostConfigurationComponent,
+        CreateLobbyComponent
     ],
 
     providers: [

@@ -12,12 +12,14 @@ import { AdminComponent } from "./admin/admin.component";
 import { TrackEditorUiComponent } from "./admin/track-editor-ui/track-editor-ui.component";
 import { RacingGameSceneComponent } from "./racing-game/racing-game-scene/racing-game-scene.component";
 import { HostConfigurationComponent } from "./crossword-game/host-configuration/host-configuration.component";
+import { CreateLobbyComponent } from "./crossword-game/create-lobby/create-lobby.component";
 
 
 export const appRoutes: Routes = [
   { path : "", redirectTo: "homepage", pathMatch: "full" },
   { path : "homepage", component: HomepageComponent },
   { path : "crossword-game", component: HostConfigurationComponent},
+  { path : "crossword-game/online/create-lobby", component: CreateLobbyComponent},
   { path : "crossword-game/selectDifficulty", component: CrosswordGameComponent },
   { path : "crossword-game/:difficulty/ui", component: GameUiComponent },
   { path : "racing-game", component: RacingGameComponent },
