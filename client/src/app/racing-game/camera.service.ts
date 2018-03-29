@@ -15,6 +15,12 @@ export const ORTHOGRAPHIC_FIELD_OF_VIEW: number = 50;
 export const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = -10;
 export const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 1000;
 
+// ZOOM
+export const CAMERA_ZOOM_ADJUSTMENT: number = 0.5;
+export const CAMERA_INITIAL_ZOOM: number = 1;
+export const CAMERA_MAX_ZOOM: number = 5;
+export const CAMERA_MIN_ZOOM: number = 0.5;
+
 enum CameraType { PERSPECTIVE, ORTHOGRAPHIC }
 
 @Injectable()
@@ -25,6 +31,8 @@ export class CameraService {
     private _perspectiveCamera: THREE.PerspectiveCamera;
     private target: THREE.Object3D;
     private container: HTMLDivElement;
+    private zoomFactor: number;
+
 
     public constructor() {
         this.camera = CameraType.PERSPECTIVE;
@@ -32,6 +40,7 @@ export class CameraService {
         this._perspectiveCamera = null;
         this.target = null;
         this.container = null;
+        this.zoomFactor = null;
      }
 
     public get perspectiveCamera(): THREE.PerspectiveCamera {
@@ -46,6 +55,8 @@ export class CameraService {
         this.container = container;
         this.target = target;
         this.initializeCameras();
+        this.zoomIn(); //TODO : Sinon on ne peut pas "dézommer" au début ..?!?
+        this.zoomIn();
     }
 
     public initializeCameras(): void {
@@ -64,6 +75,20 @@ export class CameraService {
 
     public changeCamera(): void {
         this.camera = this.camera === CameraType.PERSPECTIVE ? CameraType.ORTHOGRAPHIC : CameraType.PERSPECTIVE;
+    }
+
+    public zoomIn(): void {
+        if (this.zoomFactor < CAMERA_MAX_ZOOM) {
+            this.zoomFactor += CAMERA_ZOOM_ADJUSTMENT;
+            this.updateZooms();
+        }
+    }
+
+    public zoomOut(): void {
+        if (this.zoomFactor > CAMERA_MIN_ZOOM) {
+            this.zoomFactor -= CAMERA_ZOOM_ADJUSTMENT;
+            this.updateZooms();
+        }
     }
 
     private initializeOrhographicCamera(): void {
@@ -114,4 +139,20 @@ export class CameraService {
     private getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
     }
+
+    private updateZooms(): void {
+        this.updateOrthographicZoom();
+        this.updatePerspectiveZoom();
+    }
+
+    private updateOrthographicZoom(): void {
+        this.orthographicCamera.zoom = this.zoomFactor;
+        this.orthographicCamera.updateProjectionMatrix();
+    }
+
+    private updatePerspectiveZoom(): void {
+        this.perspectiveCamera.zoom = this.zoomFactor;
+        this.perspectiveCamera.updateProjectionMatrix();
+    }
+
 }
