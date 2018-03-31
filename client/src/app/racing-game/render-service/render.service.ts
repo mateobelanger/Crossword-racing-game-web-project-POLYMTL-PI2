@@ -101,7 +101,7 @@ export class RenderService implements OnDestroy {
         this.audioService.setVolume(SOUND.ENGINE_SOUND,
                                     Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM)));
         this.audioService.setLoop(SOUND.ENGINE_SOUND);
-        this.audioService.playSound(SOUND.ENGINE_SOUND);
+        // this.audioService.playSound(SOUND.ENGINE_SOUND);
 
         this.outOfBoundsHandlerService.handleCollisionOnTrackLimits();
         this.collisionHandlerService.handleCarCollisions();

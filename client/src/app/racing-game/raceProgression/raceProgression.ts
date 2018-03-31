@@ -18,9 +18,9 @@ export class RaceProgression {
         this._nextWaypointIndex = 0;
 
         this._nextWaypointPosition = new THREE.Vector3(
-            this._waypoints[this._nextWaypointIndex + 1][0],
+            this._waypoints[(this._nextWaypointIndex + 1) % (this._waypoints.length)][0],
             0, // tslint:disable-next-line:no-magic-numbers
-            this._waypoints[this._nextWaypointIndex + 1][2]
+            this._waypoints[(this._nextWaypointIndex + 1) % (this._waypoints.length)][2]
         );
 
         this._currentWaypointPosition = new THREE.Vector3(
@@ -53,6 +53,22 @@ export class RaceProgression {
         return this._nextWaypointIndex;
     }
 
+    public get currentWaypointIndex(): number {
+        let index: number = (this._nextWaypointIndex - 1) % this._waypoints.length;
+        if (index < 0)
+            index += this._waypoints.length;
+
+        return index;
+    }
+
+    public get previousWaypointIndex(): number {
+        let index: number = (this._nextWaypointIndex - 2) % this._waypoints.length;
+        if (index < 0)
+            index += this._waypoints.length;
+
+        return index;
+    }
+
     public get nextWaypointPosition(): THREE.Vector3 {
         return this._nextWaypointPosition;
     }
@@ -65,8 +81,16 @@ export class RaceProgression {
         if (this.reachedNextWaypoint()) {
             this.incrementNextWaypointPosition();
             this.updateNLap();
+            console.log("increment")
+            console.log(this._previousWaypointPosition)
+            console.log(this._currentWaypointPosition)
+            console.log(this._nextWaypointPosition)
         } else if (this.reachedPreviousWaypoint()) {
             this.decrementNextWaypointPosition();
+            console.log("decrement")
+            console.log(this._previousWaypointPosition)
+            console.log(this._currentWaypointPosition)
+            console.log(this._nextWaypointPosition)
         }
     }
 
@@ -94,12 +118,12 @@ export class RaceProgression {
     // tslint:disable:no-magic-numbers
     private incrementNextWaypointPosition(): void {
         this.incrementNextWaypointIndex();
-        this.incrementNextWaypointPostion();
+        this.reassignNextWaypointPostion();
     }
 
     private decrementNextWaypointPosition(): void {
         this.decrementNextWaypointIndex();
-        this.decrementNextWaypointPostion();
+        this.reassignNextWaypointPostion();
     }
 
     private incrementNextWaypointIndex(): void {
@@ -108,23 +132,28 @@ export class RaceProgression {
     }
 
     private decrementNextWaypointIndex(): void {
-        this._nextWaypointIndex = (this._nextWaypointIndex - 1) % this._waypoints.length;
+        let index: number = (this._nextWaypointIndex - 1) % this._waypoints.length;
+        if (index < 0)
+            index += this._waypoints.length;
+
+        this._nextWaypointIndex = index;
     }
 
-    private incrementNextWaypointPostion(): void {
-        this._previousWaypointPosition = this._currentWaypointPosition;
-        this._currentWaypointPosition = this._nextWaypointPosition;
-        this._nextWaypointPosition = new THREE.Vector3(
-            this._waypoints[this._nextWaypointIndex][0],
+    private reassignNextWaypointPostion(): void {
+        this._previousWaypointPosition.set(
+            this._waypoints[this.previousWaypointIndex][0],
             0,
-            this._waypoints[this._nextWaypointIndex][2]
+            this._waypoints[this.previousWaypointIndex][2]
         );
-    }
 
-    private decrementNextWaypointPostion(): void {
-        this._nextWaypointPosition = this._currentWaypointPosition;
-        this._currentWaypointPosition = this._previousWaypointPosition;
-        this._previousWaypointPosition = new THREE.Vector3(
+        this._currentWaypointPosition.set(
+            this._waypoints[this.currentWaypointIndex][0],
+            0,
+            this._waypoints[this.currentWaypointIndex][2]
+        );
+
+
+        this._nextWaypointPosition.set(
             this._waypoints[this._nextWaypointIndex][0],
             0,
             this._waypoints[this._nextWaypointIndex][2]
