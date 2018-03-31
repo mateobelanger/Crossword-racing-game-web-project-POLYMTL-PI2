@@ -4,10 +4,10 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 // Modules
-import { HomepageModule} from "./homepage/homepage.module";
-import { CrosswordGameModule} from "./crossword-game/crossword-game.module";
-import { RacingGameModule} from "./racing-game/racing-game.module";
-import { AdminModule} from "./admin/admin.module";
+import { HomepageModule } from "./homepage/homepage.module";
+import { CrosswordGameModule } from "./crossword-game/crossword-game.module";
+import { TronRacingGameModule } from "./tron-racing-game/tron-racing-game.module";
+import { AdminModule } from "./tron-racing-game/admin/admin.module";
 
 // Routing
 import { routes } from "./app-routes.module";
@@ -22,7 +22,7 @@ import { routes } from "./app-routes.module";
         routes,
         HomepageModule,
         CrosswordGameModule,
-        RacingGameModule,
+        TronRacingGameModule,
         AdminModule
 
     ],

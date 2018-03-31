@@ -6,11 +6,11 @@ import { Routes, RouterModule} from "@angular/router";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { CrosswordGameComponent } from "./crossword-game/crossword-game.component";
 import { GameUiComponent } from "./crossword-game/game-ui/game-ui.component";
-import { RacingGameComponent } from "./racing-game/racing-game.component";
-import { AdminComponent } from "./admin/admin.component";
+import { TrackListComponent } from "./tron-racing-game/track-list.component";
+import { AdminComponent } from "./tron-racing-game/admin/admin.component";
 
-import { TrackEditorUiComponent } from "./admin/track-editor-ui/track-editor-ui.component";
-import { RacingGameSceneComponent } from "./racing-game/racing-game-scene/racing-game-scene.component";
+import { TrackEditorUiComponent } from "./tron-racing-game/admin/track-editor-ui/track-editor-ui.component";
+import { GameFrameComponent } from "./tron-racing-game/game-frame/game-frame.component";
 
 
 export const appRoutes: Routes = [
@@ -18,11 +18,11 @@ export const appRoutes: Routes = [
   { path : "homepage", component: HomepageComponent },
   { path : "crossword-game", component: CrosswordGameComponent },
   { path : "crossword-game/:difficulty/ui", component: GameUiComponent },
-  { path : "racing-game", component: RacingGameComponent },
+  { path : "racing-game", component: TrackListComponent },
   { path : "admin", component: AdminComponent },
   { path : "admin/track-editor/:trackName", component: TrackEditorUiComponent },
-  { path : "racing-game-scene/:trackName", component: RacingGameSceneComponent },
-  { path : "racing-game-scene", component: RacingGameSceneComponent } // *a retirer avant la remise**
+  { path : "racing-game-scene/:trackName", component: GameFrameComponent },
+  { path : "racing-game-scene", component: GameFrameComponent } // *a retirer avant la remise**
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);
