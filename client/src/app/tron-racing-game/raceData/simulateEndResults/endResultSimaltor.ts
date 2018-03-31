@@ -1,4 +1,4 @@
-const AVERAGE_SPEED_PER_SECOND: number = 1;
+const AVERAGE_SPEED_PER_SECOND: number = 0.5;
 
 export class EndResultSimulator {
 

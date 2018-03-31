@@ -9,6 +9,10 @@ export class Timer {
         this._stopped = false;
     }
 
+    public get millisecondsElapsed(): number {
+        return this._stopped ? this._pausedTime : Date.now() - this._beginTime + this._pausedTime;
+    }
+
     public start(): void {
         this._beginTime = Date.now();
         this._stopped = false;
@@ -24,7 +28,4 @@ export class Timer {
         this._stopped = false;
     }
 
-    public get millisecondsElapsed(): number {
-        return this._stopped ? this._pausedTime : Date.now() - this._beginTime + this._pausedTime;
-    }
 }
