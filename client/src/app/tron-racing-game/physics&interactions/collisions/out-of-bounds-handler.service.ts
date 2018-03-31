@@ -28,7 +28,7 @@ export class OutOfBoundsHandlerService {
                 const positionFromLastWaypoint: THREE.Vector3 = this.getPositionFromLastWaypoint(car[1], car[0]);
                 const projection: THREE.Vector3 = positionFromLastWaypoint.clone().projectOnVector(car[0].getCurrentTrackSegment());
                 car[1].speed.setLength(car[1].speed.length() * SLOWDOWN_FACTOR);
-                car[1].mesh.position.addVectors(car[0].lastWaypointPosition, projection);
+                car[1].mesh.position.addVectors(car[0].currentWaypointPosition, projection);
                 this.audioService.playSound(SOUND.WALL_SOUND);
             }
         });
@@ -45,6 +45,6 @@ export class OutOfBoundsHandlerService {
     }
 
     private getPositionFromLastWaypoint(car: Car, progression: RaceProgression): THREE.Vector3 {
-        return new THREE.Vector3().subVectors(car.mesh.position, progression.lastWaypointPosition);
+        return new THREE.Vector3().subVectors(car.mesh.position, progression.currentWaypointPosition);
     }
 }
