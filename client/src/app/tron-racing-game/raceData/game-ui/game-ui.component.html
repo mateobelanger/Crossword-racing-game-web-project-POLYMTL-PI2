@@ -1,0 +1,47 @@
+<div class="background">
+
+  <div #container id="container">
+
+    <div class="lap">
+      <app-lap></app-lap>
+    </div>
+
+    <div class="speed">
+      <app-speed></app-speed>
+    </div>
+
+    <div class="exit">
+      <a routerLink="../racing-game">
+        <i class="icon-exit"></i>
+      </a>
+    </div>
+
+    <div class="time">
+      <app-time></app-time>
+    </div>
+
+    <div class="position">
+      <app-position></app-position>
+    </div>
+
+    <div [ngSwitch]="endGameService.displayTable" *ngIf="endGameService.displayTable !== EndGameTable.NO_TABLE">
+      <div *ngSwitchCase="EndGameTable.RESULT_TABLE">
+        <div class="bestTimes">
+            <app-result-table></app-result-table> 
+        </div>
+      </div>
+      <div *ngSwitchCase="EndGameTable.TIME_TABLE">
+        <div class="bestTimes">
+          <app-time-table></app-time-table>
+        </div>
+      </div>
+        <div *ngSwitchCase="EndGameTable.PODIUM_TABLE">
+          <div class="bestTimes">
+            <app-podium-table></app-podium-table>
+          </div>
+        </div>
+    </div>
+
+  </div>
+
+  </div>
