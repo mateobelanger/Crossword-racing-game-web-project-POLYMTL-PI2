@@ -9,7 +9,6 @@ import { TrackLoaderService } from "../track-loader.service";
 import { AudioService, CAR_ENGINE_SOUND } from "../../audio/audio.service";
 import { OutOfBoundsHandlerService } from "../../physics&interactions/collisions/out-of-bounds-handler.service";
 import { CarHandlerService } from "../../physics&interactions/cars/car-handler.service";
-import { RaceDataHandlerService } from "../../raceData/race-data-handler.service";
 import { CollisionHandlerService } from "../../physics&interactions/collisions/collision-handler.service";
 import { DEFAULT_MAX_RPM } from "../../physics&interactions/cars/car/engine";
 import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
@@ -35,7 +34,6 @@ export class RenderService implements OnDestroy {
     // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
     public ngOnDestroy(): void {
-        console.log("destroyed");
         this.destroyed = true;
         this.audioService.stopAllSounds();
     }
@@ -45,7 +43,6 @@ export class RenderService implements OnDestroy {
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService,
                        private carHandlerService: CarHandlerService,
-                       public raceDataHandler: RaceDataHandlerService,
                        private raceProgressionService: RaceProgressionHandlerService,
                        private collisionHandlerService: CollisionHandlerService,
                        private outOfBoundsHandlerService: OutOfBoundsHandlerService) {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { RaceResults } from '../../raceResults';
+import { RaceResults } from '../../recordedTimes/raceResults';
 
 @Component({
   selector: 'app-time-show',
