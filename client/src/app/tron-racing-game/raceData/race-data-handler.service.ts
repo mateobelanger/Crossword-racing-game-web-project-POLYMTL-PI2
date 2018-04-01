@@ -61,10 +61,6 @@ export class RaceDataHandlerService {
         return finalWaypoints;
     }
 
-    public update(): void {
-        this._raceProgressionService.update();
-    }
-
     public get lapElapsed(): number {
         return this._raceProgressionService.user.nLap;
     }

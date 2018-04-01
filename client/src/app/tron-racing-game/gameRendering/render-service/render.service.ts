@@ -97,7 +97,7 @@ export class RenderService implements OnDestroy {
         this.collisionHandlerService.handleCarCollisions();
 
         this.lastDate = Date.now();
-        this.raceDataHandler.update();
+        this.raceProgressionService.update();
     }
 
     private async createScene(): Promise<void> {
