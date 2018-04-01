@@ -14,7 +14,7 @@ export class RaceProgression {
 
     public constructor(private _carPosition: THREE.Vector3,
                        private _waypoints: [number, number, number][]) {
-        this._nLap = -1;
+        this._nLap = 0;
         this._currentWaypointIndex = 0;
 
         this._nextWaypointPosition = new THREE.Vector3(
@@ -120,21 +120,21 @@ export class RaceProgression {
 
     // tslint:disable:no-magic-numbers
     private incrementNextWaypointPosition(): void {
-        this.incrementNextWaypointIndex();
-        this.reassignNextWaypointPostion();
+        this.incrementCurrentWaypointIndex();
+        this.reassignWaypointPostion();
     }
 
     private decrementNextWaypointPosition(): void {
-        this.decrementNextWaypointIndex();
-        this.reassignNextWaypointPostion();
+        this.decrementCurrentWaypointIndex();
+        this.reassignWaypointPostion();
     }
 
-    private incrementNextWaypointIndex(): void {
+    private incrementCurrentWaypointIndex(): void {
         this._currentWaypointIndex = (this._currentWaypointIndex + 1) % this._waypoints.length;
 
     }
 
-    private decrementNextWaypointIndex(): void {
+    private decrementCurrentWaypointIndex(): void {
         let index: number = (this.nextWaypointIndex - 1) % this._waypoints.length;
         if (index < 0)
             index += this._waypoints.length;
@@ -142,7 +142,7 @@ export class RaceProgression {
         this._currentWaypointIndex  = index;
     }
 
-    private reassignNextWaypointPostion(): void {
+    private reassignWaypointPostion(): void {
         this._previousWaypointPosition.set(
             this._waypoints[this.previousWaypointIndex][0],
             0,
