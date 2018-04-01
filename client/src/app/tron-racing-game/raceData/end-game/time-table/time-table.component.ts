@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { RaceResults } from '../raceResults';
+import { RaceResults } from '../../recordedTimes/raceResults';
 import { EndGameService } from '../../end-game/end-game.service';
 
 @Component({

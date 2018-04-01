@@ -10,6 +10,7 @@ import { EndGameService } from './end-game/end-game.service';
 import { RaceProgression } from './raceProgression/raceProgression';
 import { EndResultSimulator } from './simulateEndResults/endResultSimaltor';
 import { TimerHandler } from './timer/timerHandler';
+import { USERNAME } from '../constants';
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -37,6 +38,8 @@ export class RaceDataHandlerService {
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             this.trackLoaderService.points = this._ITrackData.waypoints;
+            console.log("waypoints")
+            console.log(this._ITrackData.waypoints)
 
             await this._carsHandlerService.initialize();
             this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
@@ -73,7 +76,7 @@ export class RaceDataHandlerService {
         return this._timer.uiMillisecondsElapsed;
     }
     public get uiLapTimeElapsed(): number {
-        return this._timer.uiMillisecondsElapsed - this.raceResultService.getPlayerRaceResults("user").calculateTotalTime();
+        return this._timer.lapMillisecondsElapsed;
     }
 
     public get position(): number {
@@ -99,6 +102,8 @@ export class RaceDataHandlerService {
     private subscribeToDoneLap(): void {
         this._raceProgressionService.lapDoneStream$.subscribe((name: string) => {
             this.doneLap(name);
+            if (name === USERNAME)
+                this._timer.uiDoneLap();
         });
     }
 

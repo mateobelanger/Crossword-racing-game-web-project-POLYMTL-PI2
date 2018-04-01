@@ -2,17 +2,22 @@ const MILLISECONDS_TO_HUNDRETH_SECONDS: number = 10;
 
 export class UiTimer {
     private _id: number;
-    private _time: number;
+    private _totalTime: number;
+    private _lapTime: number;
     public constructor() {
-        this._time = 0;
+        this._totalTime = 0;
     }
 
     public get millisecondsElapsed(): number {
-        return this._time;
+        return this._totalTime;
+    }
+
+    public get lapMillisecondsElapsed(): number {
+        return this._lapTime;
     }
 
     public start(): void {
-        this._id = window.setInterval( () => { this._time++; }, MILLISECONDS_TO_HUNDRETH_SECONDS);
+        this._id = window.setInterval( () => { this._totalTime++; this._lapTime++; }, MILLISECONDS_TO_HUNDRETH_SECONDS);
     }
 
     public stop(): void {
@@ -20,7 +25,12 @@ export class UiTimer {
     }
 
     public reset(): void {
-        this._time = 0;
+        this._totalTime = 0;
+        this._lapTime = 0;
+    }
+
+    public lap(): void {
+        this._lapTime = 0;
     }
 
 }

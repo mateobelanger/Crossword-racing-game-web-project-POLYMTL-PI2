@@ -17,6 +17,10 @@ export class TimerHandler {
         return this._uiTimer.millisecondsElapsed;
     }
 
+    public get lapMillisecondsElapsed(): number {
+        return this._uiTimer.lapMillisecondsElapsed;
+    }
+
     public start(): void {
         this._dataTimer.start();
         this._uiTimer.start();
@@ -30,6 +34,10 @@ export class TimerHandler {
     public reset(): void {
         this._dataTimer.reset();
         this._uiTimer.reset();
+    }
+
+    public uiDoneLap(): void {
+        this._uiTimer.lap();
     }
 
 }

@@ -27,10 +27,10 @@ import { TimeComponent } from './raceData/raceInfos/time/time.component';
 import { PositionComponent } from './raceData/raceInfos/position/position.component';
 
 import { RaceDataHandlerService } from "./raceData/race-data-handler.service";
-import { BestTimesComponent } from './raceData/recordedTimes/time-table/time-table.component';
+import { BestTimesComponent } from "./raceData/end-game/time-table/time-table.component";
 import { BestTimeHandlerService } from "./raceData/recordedTimes/best-time-handler.service";
 import { RaceResultsService } from './raceData/recordedTimes/race-results.service';
-import { TimeShowComponent } from './raceData/recordedTimes/time-table/time-show/time-show.component';
+import { TimeShowComponent } from "./raceData/end-game/time-show/time-show.component";
 import { RaceProgressionHandlerService } from "./raceData/raceProgression/race-progression-handler.service";
 import { ResultTableComponent } from './raceData/end-game/result-table/result-table.component';
 import { EndGameService } from "./raceData/end-game/end-game.service";
