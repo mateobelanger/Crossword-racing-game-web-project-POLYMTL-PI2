@@ -32,6 +32,7 @@ export enum PlaneType {VALID_FIRST_PLANE, INVALID_FIRST_PLANE, VALID_PLANE, INVA
 export enum CollisionType {FRONT_CAR_HIT_FROM_LEFT, FRONT_CAR_HIT_FROM_RIGHT, FACE_TO_FACE}
 
 // RACE
-export const PLAYERS_NAME: string[] = ["bob1", "user"];
-export const MAX_N_LAPS: number = 3;
 export const USERNAME: string = "user";
+export const PLAYERS_NAME: string[] = ["bob1", USERNAME];
+export const MAX_N_LAPS: number = 3;
+

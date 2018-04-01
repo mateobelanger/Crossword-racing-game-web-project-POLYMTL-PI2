@@ -12,11 +12,11 @@ export class UiTimer {
     }
 
     public start(): void {
-        this._id = window.setTimeout( () => { this._time++; }, MILLISECONDS_TO_HUNDRETH_SECONDS);
+        this._id = window.setInterval( () => { this._time++; }, MILLISECONDS_TO_HUNDRETH_SECONDS);
     }
 
     public stop(): void {
-        window.clearTimeout(this._id);
+        window.clearInterval(this._id);
     }
 
     public reset(): void {

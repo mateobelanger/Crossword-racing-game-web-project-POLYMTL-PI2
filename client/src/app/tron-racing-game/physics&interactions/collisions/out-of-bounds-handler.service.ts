@@ -3,8 +3,9 @@ import * as THREE from "three";
 import { Car } from "../cars/car/car";
 import { TRACK_WIDTH } from "../../constants";
 import { RaceProgression } from '../../raceData/raceProgression/raceProgression';
-import { RaceDataHandlerService } from '../../raceData/race-data-handler.service';
 import { AudioService, SOUND } from '../../audio/audio.service';
+import { CarHandlerService } from '../cars/car-handler.service';
+import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 
 const SLOWDOWN_FACTOR: number = 0.6;
 const CAR_WIDTH: number = 1;
@@ -14,11 +15,13 @@ export class OutOfBoundsHandlerService {
 
     private _cars: [RaceProgression, Car][] = [];
 
-    public constructor(private raceData: RaceDataHandlerService, private audioService: AudioService) { }
+    public constructor( private audioService: AudioService,
+                        private carsHandlerService: CarHandlerService,
+                        private raceProgressionService: RaceProgressionHandlerService) { }
 
     public initialize(): void {
-        this.raceData.carsHandlerService.cars.forEach( (car: [string, Car]) => {
-            this._cars.push([this.raceData.raceProgressionService.getPlayerProgression(car[0]), car[1]]);
+        this.carsHandlerService.cars.forEach( (car: [string, Car]) => {
+            this._cars.push([this.raceProgressionService.getPlayerProgression(car[0]), car[1]]);
         });
     }
 

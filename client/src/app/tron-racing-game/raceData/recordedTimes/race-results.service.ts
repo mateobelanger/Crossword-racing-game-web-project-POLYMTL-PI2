@@ -17,12 +17,9 @@ export class RaceResultsService {
     }
 
     public getPlayerRaceResults(name: string): RaceResults {
-        try {
+        if ( this.isDefined(this._raceResults[name]))
             return this._raceResults[name];
-        } catch (err) {
-            console.error("no corresponding player name");
-            console.error(err);
-
+        else {
             return new RaceResults();
         }
     }
@@ -45,5 +42,10 @@ export class RaceResultsService {
     public doneLap( name: string, time: number): void {
         this.getPlayerRaceResults(name).doneLap(time);
     }
+
+    /*tslint:disable:no-any*/
+    private isDefined(object: any): boolean {
+        return ((object !== null) && (object !== undefined));
+    }/*tslint:enable:no-any*/
 
 }
