@@ -2,29 +2,27 @@ import { Injectable } from '@angular/core';
 import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from 'three';
 
 // TODO: move sound files paths outside Audio Service to their proper location
-const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
-const CAR_COLLISION_SOUND: string = "../../../assets/audio/RG/car-collision.wav"
-const FORCE_FIELD_SOUND: string = "../../../assets/audio/RG/force-field.wav";
+export const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
+export const CAR_COLLISION_SOUND: string = "../../../assets/audio/RG/car-collision.wav";
+export const FORCE_FIELD_SOUND: string = "../../../assets/audio/RG/force-field.wav";
 
 const DEFAULT_VOLUME_VALUE: number = 0.5;
 
-export enum SOUND {
-    COLLISION_SOUND,
-    WALL_SOUND,
-    ENGINE_SOUND
+interface ISound {
+    path: string;       /* Id to distinguish between different Audio objects */
+    audio: Audio;
 }
 
 @Injectable()
 export class AudioService {
+    private _sounds: ISound[];
     private _listener: AudioListener;
-    private _sounds: Audio[];
     private _audioLoader: AudioLoader;
 
     public constructor() {
         this._sounds = [];
         this._listener = new AudioListener();
         this._audioLoader = new AudioLoader();
-        this._sounds = [];
     }
 
     public initialize(camera: Camera): void {
@@ -32,60 +30,57 @@ export class AudioService {
         camera.add(this._listener);
     }
 
-    public loadSounds(): void {
-        this.registerSound(CAR_ENGINE_SOUND);
-        this.registerSound(CAR_COLLISION_SOUND);
-        this.registerSound(FORCE_FIELD_SOUND);
-    }
-
-    public playSound(soundId: number): void {
-        if (!this.findSound(soundId).isPlaying) {
-            this.findSound(soundId).play();
+    public playSound(path: string, volume: number = DEFAULT_VOLUME_VALUE, isLooping: boolean = false): void {
+        const sound: ISound = this.findSound(path);
+        if (sound !== null) {
+            sound.audio.setVolume(volume);
+            if (!sound.audio.isPlaying) {
+                sound.audio.setLoop(isLooping);
+                sound.audio.play();
+            }
+        } else {
+            this.loadAndPlaySound(path, volume, isLooping);
         }
     }
 
-    public stopSound(soundId: number): void {
-        this.findSound(soundId).stop();
+    public stopSound(path: string): void {
+        const sound: ISound = this.findSound(path);
+        if (sound !== null) {
+            sound.audio.setLoop(false);
+            sound.audio.stop();
+        }
     }
 
-    public setVolume(soundId: number, volume: number): void {       // volume between 0 and 1
-        this.findSound(soundId).setVolume(volume);
-    }
-
-    public setPlaybackRate(soundId: number, value: number): void {
-        this.findSound(soundId).setPlaybackRate(value);
-    }
-
-    public setLoop(soundId: number): void {
-        this.findSound(soundId).setLoop(true);
-    }
-
-    /* Sounds can't be played after this method is called */
     public stopAllSounds(): void {
-       /* for (const sound of this._sounds) {
-            sound.stop();
-        }
-        */
-        this._sounds = [];
+        this._sounds.forEach( (sound: ISound, index: number) => {
+            this.stopSound(sound.path);
+        });
     }
 
-    private findSound(soundId: number): Audio {
-        if (soundId < 0 || soundId >= this._sounds.length) {
-            return new NullAudio(this._listener);
+    private findSound(path: string): ISound {
+        for (const sound of this._sounds) {
+            if (sound.path === path) {
+                return sound;
+            }
         }
 
-        return this._sounds[soundId];
+        return null;
     }
 
-    private registerSound(source: string): void {
+    private loadAndPlaySound(source: string, volume: number, isLooping: boolean): void {
+        // temporary null audio to prevent duplicates while buffer is loading */
+        this._sounds.push({path: source, audio: new NullAudio(this._listener)});
+
         this._audioLoader.load(
             source,
             (buffer: AudioBuffer) => {
                 const audio: Audio = new Audio(this._listener);
                 audio.setBuffer(buffer);
-                audio.setLoop(false);
-                audio.setVolume(DEFAULT_VOLUME_VALUE);
-                this._sounds.push(audio);
+                audio.setLoop(isLooping);
+                audio.setVolume(volume);
+                audio.play();
+
+                this.findSound(source).audio = audio;
             },
             // on progress
             () => { /* do nothing */ },

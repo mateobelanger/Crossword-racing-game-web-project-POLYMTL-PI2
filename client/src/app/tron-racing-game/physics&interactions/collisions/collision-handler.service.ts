@@ -4,11 +4,10 @@ import * as THREE from "three";
 import { Car } from "../cars/car/car";
 import { Collision } from "./collision";
 import { CollisionType } from "../../constants";
-import { AudioService, SOUND } from "../../audio/audio.service";
+import { AudioService, CAR_COLLISION_SOUND } from "../../audio/audio.service";
 
 @Injectable()
 export class CollisionHandlerService {
-
     private _collisions: Collision[];
     private _cars: Car[];
 
@@ -59,7 +58,7 @@ export class CollisionHandlerService {
 
             this.switchCarsSpeed(car1, car2);
 
-            this.audioService.playSound(SOUND.COLLISION_SOUND);
+            this.audioService.playSound(CAR_COLLISION_SOUND);
         }
     }
 

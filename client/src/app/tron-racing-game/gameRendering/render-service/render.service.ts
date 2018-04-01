@@ -6,7 +6,7 @@ import { Car } from "../../physics&interactions/cars/car/car";
 import { CameraService } from "../camera.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
-import { AudioService, SOUND } from "../../audio/audio.service";
+import { AudioService, CAR_ENGINE_SOUND } from "../../audio/audio.service";
 import { OutOfBoundsHandlerService } from "../../physics&interactions/collisions/out-of-bounds-handler.service";
 import { CarHandlerService } from "../../physics&interactions/cars/car-handler.service";
 import { RaceDataHandlerService } from "../../raceData/race-data-handler.service";
@@ -20,7 +20,7 @@ import { RaceProgressionHandlerService } from "../../raceData/raceProgression/ra
 
 
 const ENGINE_MIN_VOLUME: number = 0.2;
-const ENGINE_MAX_VOLUME: number = 0.75;
+const ENGINE_MAX_VOLUME: number = 0.65;
 
 @Injectable()
 export class RenderService implements OnDestroy {
@@ -35,7 +35,9 @@ export class RenderService implements OnDestroy {
     // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
     public ngOnDestroy(): void {
+        console.log("destroyed");
         this.destroyed = true;
+        this.audioService.stopAllSounds();
     }
 
     public constructor(private cameraService: CameraService,
@@ -43,7 +45,7 @@ export class RenderService implements OnDestroy {
                        private trackLoaderService: TrackLoaderService,
                        private audioService: AudioService,
                        private carHandlerService: CarHandlerService,
-                       private raceDataHandler: RaceDataHandlerService,
+                       public raceDataHandler: RaceDataHandlerService,
                        private raceProgressionService: RaceProgressionHandlerService,
                        private collisionHandlerService: CollisionHandlerService,
                        private outOfBoundsHandlerService: OutOfBoundsHandlerService) {
@@ -66,7 +68,6 @@ export class RenderService implements OnDestroy {
             this.destroyed = false;
             this.raceProgressionService.user.endOfRace$.subscribe(() => {
                 this.ngOnDestroy();
-                this.audioService.stopAllSounds();
             });
         } catch (err) {
             console.error("could not initialize render service");
@@ -88,13 +89,11 @@ export class RenderService implements OnDestroy {
             car.update(timeSinceLastFrame);
         });
 
-        this.audioService.setVolume(SOUND.ENGINE_SOUND,
-                                    Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM)));
-        this.audioService.setLoop(SOUND.ENGINE_SOUND);
-        // this.audioService.playSound(SOUND.ENGINE_SOUND);
-
         this.outOfBoundsHandlerService.handleCollisionOnTrackLimits();
         this.collisionHandlerService.handleCarCollisions();
+
+        const carEngineVolume: number = Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM));
+        this.audioService.playSound(CAR_ENGINE_SOUND, carEngineVolume, true);
 
         this.lastDate = Date.now();
         this.raceProgressionService.update();
@@ -111,14 +110,11 @@ export class RenderService implements OnDestroy {
         this.sceneLoaderService.initialize(this.scene);
 
         this.audioService.initialize(this.cameraService.getCamera());
-        this.audioService.loadSounds();
 
         this.trackLoaderService.initialize(this.scene);
 
         this.cameraService.updatePosition();
-
     }
-
 
     private startRenderingLoop(): void {
         this.renderer = new THREE.WebGLRenderer();

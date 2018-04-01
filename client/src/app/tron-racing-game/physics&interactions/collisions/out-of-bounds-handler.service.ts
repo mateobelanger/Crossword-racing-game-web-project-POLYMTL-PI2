@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { Car } from "../cars/car/car";
 import { TRACK_WIDTH } from "../../constants";
 import { RaceProgression } from '../../raceData/raceProgression/raceProgression';
-import { AudioService, SOUND } from '../../audio/audio.service';
+import { AudioService, FORCE_FIELD_SOUND } from '../../audio/audio.service';
 import { CarHandlerService } from '../cars/car-handler.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 
@@ -32,7 +32,7 @@ export class OutOfBoundsHandlerService {
                 const projection: THREE.Vector3 = positionFromLastWaypoint.clone().projectOnVector(car[0].getCurrentTrackSegment());
                 car[1].speed.setLength(car[1].speed.length() * SLOWDOWN_FACTOR);
                 car[1].mesh.position.addVectors(car[0].currentWaypointPosition, projection);
-                this.audioService.playSound(SOUND.WALL_SOUND);
+                this.audioService.playSound(FORCE_FIELD_SOUND);
             }
         });
     }
