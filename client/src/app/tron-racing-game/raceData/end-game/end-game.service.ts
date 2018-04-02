@@ -3,6 +3,7 @@ import { BestTimeHandlerService } from '../recordedTimes/best-time-handler.servi
 import { RaceResultsService } from '../recordedTimes/race-results.service';
 import { RaceResults } from '../recordedTimes/raceResults';
 import { USERNAME } from '../../constants';
+import { Subject } from 'rxjs/Subject';
 
 
 export enum EndGameTable {
@@ -20,10 +21,13 @@ export class EndGameService {
 
     public isFirst: boolean;
     public playerTime: number;
+    public endGameCycleFinished: Subject<void>;
 
 
-    public constructor(private bestTimesService: BestTimeHandlerService,
-                       private raceResultService: RaceResultsService ) {}
+    public constructor( private bestTimesService: BestTimeHandlerService,
+                        private raceResultService: RaceResultsService) {
+                            this.endGameCycleFinished = new Subject();
+                        }
 
     public displayTimeTable(): void {
         this.displayTable = EndGameTable.TIME_TABLE;
@@ -34,8 +38,10 @@ export class EndGameService {
     }
 
     public updateBestTimes(playerName: string): void {
-        if (this.isFirst)
+        if (this.isFirst) {
             this.bestTimesService.addTime([playerName, this.playerTime]);
+            this.endGameCycleFinished.next();
+        }
     }
 
     public get bestTimes(): [string, number][] {
@@ -50,9 +56,11 @@ export class EndGameService {
         this.displayTable = EndGameTable.PODIUM_TABLE;
     }
 
-    public endGame(isFirst: boolean): void {
+    public endGame(isFirst: boolean): Subject<void> {
         this.isFirst = isFirst;
         this.playerTime = this.raceResultService.getPlayerRaceResults(USERNAME).totalTime;
         this.displayResultTable();
+
+        return this.endGameCycleFinished;
     }
 }

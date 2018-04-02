@@ -93,7 +93,7 @@ export class MongoDBAccess {
     public static async updateExistingTrack(track: ITrackData): Promise<string> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
-
+        console.log("hello");
         return new Promise<string>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.update(

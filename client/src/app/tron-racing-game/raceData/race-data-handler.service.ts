@@ -86,12 +86,19 @@ export class RaceDataHandlerService {
     public startRace(): void {
         this._timer.reset();
         this._timer.start();
+        this._ITrackData.timesPlayed++;
     }
 
     public doneRace(): void {
         this._timer.stop();
         this.simulateEndRaceResult();
-        this.endGameService.endGame(this._raceProgressionService.isUserFirst());
+        this.endGameService.endGame(this._raceProgressionService.isUserFirst()).subscribe( () => {
+        this.updateITrackOnServer(); });
+    }
+
+    public updateITrackOnServer(): void {
+        this._ITrackData.bestTimes = this.bestTimesService.bestTimes;
+        this.tracksProxyService.saveTrack(this._ITrackData);
     }
 
     // lap done from one player (ai or user)
