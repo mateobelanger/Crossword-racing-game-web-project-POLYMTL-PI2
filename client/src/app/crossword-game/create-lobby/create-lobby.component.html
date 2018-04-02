@@ -6,7 +6,7 @@
 <app-configuration></app-configuration>
 <div class="configuration">
     <div *ngIf="isValidConfiguration(); else elseBlock">
-        <button class="create" routerLink="../{{difficulty}}/ui">Create Game</button>
+        <button class="create" routerLink="../../{{difficulty}}/ui">Create Game</button>
     </div>
 
     <ng-template #elseBlock>

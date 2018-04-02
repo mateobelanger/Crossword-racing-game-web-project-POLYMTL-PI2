@@ -16,6 +16,7 @@ import { ValidatorService } from './validator.service';
 import { EndOfGameModalComponent } from './end-of-game-modal/end-of-game-modal.component';
 import { HostConfigurationComponent } from './host-configuration/host-configuration.component';
 import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
+import { ConfigurationHandlerService } from './configuration-handler.service';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
     providers: [
         WordService,
         GridService,
-        ValidatorService
+        ValidatorService,
+        ConfigurationHandlerService
     ],
 
     exports: [
