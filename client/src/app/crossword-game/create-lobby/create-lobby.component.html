@@ -1,12 +1,12 @@
 <button routerLink='../..'>Back</button>
-<p>Username: 
-  <input [(ngModel)]="configurationHandlerService.username">
+<p>Username:
+    <input [(ngModel)]="configurationHandlerService.username">
 </p>
 <p>Difficulty:</p>
 <app-configuration></app-configuration>
 <div class="configuration">
     <div *ngIf="isValidConfiguration(); else elseBlock">
-        <button class="create" routerLink="../../{{difficulty}}/ui">Create Game</button>
+        <button class="create" routerLink="../../{{difficulty}}/ui" (click)="createGame(configurationHandlerService.username)">Create Game</button>
     </div>
 
     <ng-template #elseBlock>
