@@ -7,8 +7,6 @@ import { RaceProgressionHandlerService } from './raceProgression/race-progressio
 import { CarHandlerService } from './../physics&interactions/cars/car-handler.service';
 import { TrackLoaderService } from '../gameRendering/track-loader.service';
 import { EndGameService } from './end-game/end-game.service';
-import { RaceProgression } from './raceProgression/raceProgression';
-import { EndResultSimulator } from './simulateEndResults/endResultSimaltor';
 import { TimerHandler } from './timer/timerHandler';
 import { USERNAME } from '../constants';
 import { ResultsSimulatorService } from './simulateEndResults/results-simulator.service';
