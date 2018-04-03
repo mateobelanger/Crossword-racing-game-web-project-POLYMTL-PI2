@@ -68,8 +68,7 @@ export class GameUiComponent implements AfterViewInit {
         return this.renderService.car;
     }
 
-    // tslint:disable:no-any
-    private isDefined(object: any): boolean {
+    private isDefined<T>(object: T): boolean {
         return ((object !== null) && (object !== undefined));
-    }// tslint:enable:no-any
+    }
 }
