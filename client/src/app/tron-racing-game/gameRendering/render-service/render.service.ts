@@ -86,7 +86,7 @@ export class RenderService implements OnDestroy {
             car.update(timeSinceLastFrame);
         });
 
-        this.outOfBoundsHandlerService.handleCollisionOnTrackLimits();
+        this.outOfBoundsHandlerService.handleWallCollisions();
         this.collisionHandlerService.handleCarCollisions();
 
         const carEngineVolume: number = Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM));

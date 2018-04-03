@@ -7,7 +7,7 @@ import { AudioService, FORCE_FIELD_SOUND } from '../../audio/audio.service';
 import { CarHandlerService } from '../cars/car-handler.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 
-const SLOWDOWN_FACTOR: number = 0.6;
+const SLOWDOWN_FACTOR: number = 1.15;
 const CAR_WIDTH: number = 1;
 
 @Injectable()
@@ -25,13 +25,15 @@ export class OutOfBoundsHandlerService {
         });
     }
 
-    public handleCollisionOnTrackLimits(): void {
-        this._cars.forEach( (car) => {
-            if (!this.isCarinTrack(car[1], car[0])) {
-                const positionFromLastWaypoint: THREE.Vector3 = this.getPositionFromLastWaypoint(car[1], car[0]);
-                const projection: THREE.Vector3 = positionFromLastWaypoint.clone().projectOnVector(car[0].getCurrentTrackSegment());
-                car[1].speed.setLength(car[1].speed.length() * SLOWDOWN_FACTOR);
-                car[1].mesh.position.addVectors(car[0].currentWaypointPosition, projection);
+    public handleWallCollisions(): void {
+        this._cars.forEach( (raceCar: [RaceProgression, Car]) => {
+            const progression: RaceProgression = raceCar[0];
+            const car: Car = raceCar[1];
+            if (!this.isCarinTrack(car, progression)) {
+                const projection: THREE.Vector3 = this.getPositionFromLastWaypoint(car, progression)
+                                                        .projectOnVector(progression.getCurrentTrackSegment());
+                car.speed = car.speed.setLength(car.speed.length() / SLOWDOWN_FACTOR);
+                car.mesh.position.addVectors(progression.currentWaypointPosition, projection);
                 this.audioService.playSound(FORCE_FIELD_SOUND);
             }
         });
