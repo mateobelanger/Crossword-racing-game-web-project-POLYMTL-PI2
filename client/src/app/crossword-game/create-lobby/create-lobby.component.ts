@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigurationHandlerService } from '../configuration-handler.service';
 import { Difficulty } from '../../../../../common/constants';
-import * as io from "socket.io-client";
+import { SocketService } from "../socket.service";
 
 @Component({
     selector: 'app-create-lobby',
@@ -10,11 +10,9 @@ import * as io from "socket.io-client";
 })
 export class CreateLobbyComponent implements OnInit {
 
-    private socket: SocketIOClient.Socket;
-
-    public constructor(private configurationHandlerService: ConfigurationHandlerService) {
+    public constructor( private configurationHandlerService: ConfigurationHandlerService,
+                        private socketService: SocketService) {
         this.configurationHandlerService.difficulty = null;
-        this.socket = io.connect("http://localhost:3000");
     }
 
     public ngOnInit(): void {
@@ -34,7 +32,7 @@ export class CreateLobbyComponent implements OnInit {
     }
 
     public createGame(username: string): void {
-        this.socket.emit("connect", username);
+        this.socketService.connectToGame(username);
     }
 
 }

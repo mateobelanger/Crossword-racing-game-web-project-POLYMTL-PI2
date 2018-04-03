@@ -17,6 +17,7 @@ import { EndOfGameModalComponent } from './end-of-game-modal/end-of-game-modal.c
 import { HostConfigurationComponent } from './host-configuration/host-configuration.component';
 import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
 import { ConfigurationHandlerService } from './configuration-handler.service';
+import { SocketService } from './socket.service';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { ConfigurationHandlerService } from './configuration-handler.service';
         WordService,
         GridService,
         ValidatorService,
-        ConfigurationHandlerService
+        ConfigurationHandlerService,
+        SocketService
     ],
 
     exports: [
