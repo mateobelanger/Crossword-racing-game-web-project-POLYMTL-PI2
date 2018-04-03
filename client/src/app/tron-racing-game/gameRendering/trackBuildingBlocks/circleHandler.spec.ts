@@ -1,4 +1,4 @@
-import { Waypoint } from "..//trackData/waypoint";
+import { Waypoint } from "../../tracks/trackData/waypoint";
 import { CircleHandler } from "./circleHandler";
 import * as THREE from "three";
 

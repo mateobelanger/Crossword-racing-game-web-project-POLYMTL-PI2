@@ -1,4 +1,4 @@
-import { Waypoint } from "../../track/trackData/waypoint";
+import { Waypoint } from "../../../tracks/trackData/waypoint";
 import { Constraints } from "./constraints";
 import * as THREE from "three";
 
