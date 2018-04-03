@@ -80,6 +80,14 @@ export class RaceProgression {
         return this._currentWaypointPosition;
     }
 
+    public get waypoints(): [number, number, number][] {
+        return this._waypoints;
+    }
+
+    public get carPosition(): THREE.Vector3 {
+        return this._carPosition;
+    }
+
     public update(): void {
         if (this.reachedNextWaypoint()) {
             this.incrementNextWaypointPosition();

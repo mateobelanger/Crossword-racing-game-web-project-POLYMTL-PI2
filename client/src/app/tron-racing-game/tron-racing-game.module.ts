@@ -39,6 +39,7 @@ import { PodiumTableComponent } from './raceData/end-game/podium-table/podium-ta
 import { CarHandlerService } from './physics&interactions/cars/car-handler.service';
 import { CollisionHandlerService } from './physics&interactions/collisions/collision-handler.service';
 import { OutOfBoundsHandlerService } from "./physics&interactions/collisions/out-of-bounds-handler.service";
+import { ResultsSimulatorService } from './raceData/simulateEndResults/results-simulator.service';
 
 @NgModule({
 
@@ -88,7 +89,8 @@ import { OutOfBoundsHandlerService } from "./physics&interactions/collisions/out
     RaceProgressionHandlerService,
     CarHandlerService,
     OutOfBoundsHandlerService,
-    EndGameService
+    EndGameService,
+    ResultsSimulatorService
   ],
 
 })
