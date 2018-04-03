@@ -12,7 +12,7 @@ export class TimeShowComponent implements OnInit {
   public constructor() { }
 
   public ngOnInit(): void {
-    console.log(this.raceTime);
+    // console.log(this.raceTime);
   }
 
   public showLapTime(): void {

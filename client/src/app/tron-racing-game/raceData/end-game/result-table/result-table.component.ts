@@ -27,7 +27,7 @@ export class ResultTableComponent implements OnInit {
         // todo: remove
         if (this.SHOWMOCK)
             return this.MOCKDATA;
-
+        console.log(this.endGameService.raceResults)
         return this.endGameService.raceResults;
     }
 
