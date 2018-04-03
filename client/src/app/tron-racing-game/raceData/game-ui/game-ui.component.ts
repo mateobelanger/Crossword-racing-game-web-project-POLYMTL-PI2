@@ -8,7 +8,7 @@ import { EndGameService, EndGameTable } from "../end-game/end-game.service";
 import { CarHandlerService } from "../../physics&interactions/cars/car-handler.service";
 import { AudioService } from "../../audio/audio.service";
 import { CollisionHandlerService } from "../../physics&interactions/collisions/collision-handler.service";
-
+import { OutOfBoundsHandlerService } from "../../physics&interactions/collisions/out-of-bounds-handler.service";
 
 const DEFAULT_TRACKNAME: string = "test";
 
@@ -17,17 +17,19 @@ const DEFAULT_TRACKNAME: string = "test";
     selector: "app-game-ui-component",
     templateUrl: "./game-ui.component.html",
     styleUrls: ["./game-ui.component.css"],
-    providers: [RenderService, CarHandlerService, AudioService, CollisionHandlerService, RaceDataHandlerService, InputHandlerService]
+    providers: [
+        RenderService, CarHandlerService, AudioService, 
+        CollisionHandlerService, OutOfBoundsHandlerService, 
+        RaceDataHandlerService, InputHandlerService
+    ]
 })
 
 export class GameUiComponent implements AfterViewInit {
 
+    public EndGameTable = EndGameTable;
+
     @ViewChild("container")
     private containerRef: ElementRef;
-
-    // todo
-    // tslint:disable-next-line
-    public EndGameTable = EndGameTable;
 
     public constructor(private renderService: RenderService,
                        private raceDataHandlerService: RaceDataHandlerService,
