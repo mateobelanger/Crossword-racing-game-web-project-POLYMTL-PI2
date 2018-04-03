@@ -3,7 +3,6 @@ import { RaceProgressionHandlerService } from '../raceProgression/race-progressi
 import { RaceResultsService } from '../recordedTimes/race-results.service';
 import { RaceProgression } from '../raceProgression/raceProgression';
 import { MAX_N_LAPS } from '../../constants';
-import { DISABLED } from '@angular/forms/src/model';
 
 
 const AVERAGE_SPEED: number = 0.1;
@@ -17,9 +16,16 @@ export class ResultsSimulatorService {
 
     public simulateEndResults(endTime: number): void {
         this.raceProgressionService.unfinishedPlayers.forEach( (player: [string, RaceProgression]) => {
-            this.raceResultsService.getPlayerRaceResults(player[0]).simulatedTime =
-            this.time(this.distanceLeft(player[1]));
-            this.raceResultsService.doneLap(player[0], endTime);
+            let time: number = endTime;
+
+            time += this.time(this.lapDistanceLeft(player[1]));
+            this.raceResultsService.doneLap(player[0], time);
+
+
+            for (let i: number = 0; i < MAX_N_LAPS - (player[1].nLap + 1); i++) {
+                time += this.time(this.trackLength(player[1].waypoints));
+                this.raceResultsService.doneLap(player[0], time);
+            }
         });
     }
 
@@ -27,16 +33,21 @@ export class ResultsSimulatorService {
         return distance / AVERAGE_SPEED;
     }
 
-    public distanceLeft(playerResults: RaceProgression): number {
+    private lapDistanceLeft(playerResults: RaceProgression): number {
         let distanceLeft: number = 0;
-        for (let i: number = 0; i < MAX_N_LAPS - (playerResults.nLap + 1); i++)
-            distanceLeft += this.trackLength(playerResults.waypoints);
-
         for (let i: number = playerResults.nextWaypointIndex; i < playerResults.waypoints.length; i++)
             distanceLeft += this.segmentLength( playerResults.waypoints[i],
                                                 playerResults.waypoints[i + 1 < playerResults.waypoints.length ? i + 1 : 0]);
 
         distanceLeft += playerResults.distanceToNextWaypoint();
+
+        return distanceLeft;
+    }
+
+    private raceDistanceLeft(playerResults: RaceProgression): number {
+        let distanceLeft: number = 0;
+        for (let i: number = 0; i < MAX_N_LAPS - (playerResults.nLap + 1); i++)
+            distanceLeft += this.trackLength(playerResults.waypoints);
 
         return distanceLeft;
     }

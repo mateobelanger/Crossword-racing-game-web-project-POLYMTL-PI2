@@ -12,6 +12,16 @@ export class TimeShowComponent implements OnInit {
   public constructor() { }
 
   public ngOnInit(): void {
+    console.log(this.raceTime);
   }
 
+  public showLapTime(): void {
+    if (!this.showLapsTime)
+      this.showLapsTime = true;
+  }
+
+  public hideLapTime(): void {
+    if (this.showLapsTime)
+      this.showLapsTime = false;
+  }
 }
