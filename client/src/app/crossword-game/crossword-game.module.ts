@@ -18,6 +18,8 @@ import { HostConfigurationComponent } from './host-configuration/host-configurat
 import { CreateOnlineGameComponent } from './create-online-game/create-online-game.component';
 import { ConfigurationHandlerService } from './configuration-handler.service';
 import { SocketService } from './socket.service';
+import { LobbyComponent } from './lobby/lobby.component';
+import { LobbyService } from './lobby/lobby.service';
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { SocketService } from './socket.service';
         InformationsComponent,
         EndOfGameModalComponent,
         HostConfigurationComponent,
-        CreateOnlineGameComponent
+        CreateOnlineGameComponent,
+        LobbyComponent
     ],
 
     providers: [
@@ -43,7 +46,8 @@ import { SocketService } from './socket.service';
         GridService,
         ValidatorService,
         ConfigurationHandlerService,
-        SocketService
+        SocketService,
+        LobbyService
     ],
 
     exports: [

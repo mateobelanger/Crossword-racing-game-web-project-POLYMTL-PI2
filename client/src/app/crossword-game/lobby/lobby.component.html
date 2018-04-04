@@ -1,0 +1,28 @@
+<button routerLink='../..'>Back</button>
+<div class="container lobby">
+  <div class="row">
+
+      <div class="col-sm title">
+        <h5> Room id </h5>
+      </div>
+      <div class="col-sm title">
+        <h5> Host </h5>
+      </div>
+      <div class="col-sm title">
+        <h5> Difficulty </h5>
+      </div>
+      <div class="col-sm title"> </div>
+
+  </div>
+
+  <div *ngFor="let onlineGame of lobbyService.onlineGames">
+    <div class="row">
+      <div class="col-sm"> {{onlineGame.roomId}} </div>
+      <div class="col-sm"> {{onlineGame.hostUsername}} </div>
+      <div class="col-sm"> {{onlineGame.difficulty}} </div>
+      <div class="col-sm">
+        <button> Join Game </button>
+      </div>
+    </div>
+  </div>
+</div>

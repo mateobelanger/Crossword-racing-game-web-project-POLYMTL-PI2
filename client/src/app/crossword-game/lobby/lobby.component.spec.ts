@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateOnlineGameComponent } from './create-online-game.component';
+import { LobbyComponent } from './lobby.component';
 import { routes } from '../../app-routes.module';
 import { AppModule } from '../../app.module';
 import { APP_BASE_HREF } from '@angular/common';
 
-describe('CreateOnlineGameComponent', () => {
-  let component: CreateOnlineGameComponent;
-  let fixture: ComponentFixture<CreateOnlineGameComponent>;
+describe('LobbyComponent', () => {
+  let component: LobbyComponent;
+  let fixture: ComponentFixture<LobbyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -18,7 +18,7 @@ describe('CreateOnlineGameComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateOnlineGameComponent);
+    fixture = TestBed.createComponent(LobbyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
