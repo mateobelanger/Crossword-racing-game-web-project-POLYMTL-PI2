@@ -15,7 +15,7 @@ import { GridService } from './grid.service';
 import { ValidatorService } from './validator.service';
 import { EndOfGameModalComponent } from './end-of-game-modal/end-of-game-modal.component';
 import { HostConfigurationComponent } from './host-configuration/host-configuration.component';
-import { CreateLobbyComponent } from './create-lobby/create-lobby.component';
+import { CreateOnlineGameComponent } from './create-online-game/create-online-game.component';
 import { ConfigurationHandlerService } from './configuration-handler.service';
 import { SocketService } from './socket.service';
 
@@ -35,7 +35,7 @@ import { SocketService } from './socket.service';
         InformationsComponent,
         EndOfGameModalComponent,
         HostConfigurationComponent,
-        CreateLobbyComponent
+        CreateOnlineGameComponent
     ],
 
     providers: [

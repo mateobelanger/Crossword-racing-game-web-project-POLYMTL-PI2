@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateLobbyComponent } from './create-lobby.component';
+import { CreateOnlineGameComponent } from './create-online-game.component';
 
-describe('CreateLobbyComponent', () => {
-  let component: CreateLobbyComponent;
-  let fixture: ComponentFixture<CreateLobbyComponent>;
+describe('CreateOnlineGameComponent', () => {
+  let component: CreateOnlineGameComponent;
+  let fixture: ComponentFixture<CreateOnlineGameComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateLobbyComponent ]
+      declarations: [ CreateOnlineGameComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateLobbyComponent);
+    fixture = TestBed.createComponent(CreateOnlineGameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

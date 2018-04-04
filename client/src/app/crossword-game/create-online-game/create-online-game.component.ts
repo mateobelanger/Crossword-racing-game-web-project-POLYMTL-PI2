@@ -4,11 +4,11 @@ import { Difficulty } from '../../../../../common/constants';
 import { SocketService } from "../socket.service";
 
 @Component({
-    selector: 'app-create-lobby',
-    templateUrl: './create-lobby.component.html',
-    styleUrls: ['./create-lobby.component.css']
+    selector: 'app-create-online-game',
+    templateUrl: './create-online-game.component.html',
+    styleUrls: ['./create-online-game.component.css']
 })
-export class CreateLobbyComponent implements OnInit {
+export class CreateOnlineGameComponent implements OnInit {
 
     public constructor( private configurationHandlerService: ConfigurationHandlerService,
                         private socketService: SocketService) {
