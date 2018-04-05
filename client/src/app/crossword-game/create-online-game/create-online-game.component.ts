@@ -3,6 +3,8 @@ import { ConfigurationHandlerService } from '../configuration-handler.service';
 import { Difficulty } from '../../../../../common/constants';
 import { SocketService } from "../socket.service";
 
+import { Router } from "@angular/router";
+
 @Component({
     selector: 'app-create-online-game',
     templateUrl: './create-online-game.component.html',
@@ -11,7 +13,8 @@ import { SocketService } from "../socket.service";
 export class CreateOnlineGameComponent implements OnInit {
 
     public constructor( private configurationHandlerService: ConfigurationHandlerService,
-                        private socketService: SocketService) {
+                        private socketService: SocketService,
+                        private router: Router ) {
         this.configurationHandlerService.difficulty = null;
     }
 
@@ -31,8 +34,10 @@ export class CreateOnlineGameComponent implements OnInit {
       return (username.length > 0);
     }
 
-    public createGame(username: string): void {
-        this.socketService.createGame(username, this.difficulty);
+    public async createGame(username: string): Promise<void> {
+        await this.socketService.createGame(username, this.difficulty);
+        console.log("created");
+        this.router.navigate(["crossword-game/" + this.difficulty + "/ui"]);
     }
 
 }
