@@ -6,6 +6,7 @@ import { RaceProgression } from '../../raceData/raceProgression/raceProgression'
 import { AudioService, FORCE_FIELD_SOUND } from '../../audio/audio.service';
 import { CarHandlerService } from '../cars/car-handler.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
+import { Quaternion } from 'three';
 
 const SLOWDOWN_FACTOR: number = 1.15;
 const CAR_WIDTH: number = 1;
@@ -29,11 +30,21 @@ export class OutOfBoundsHandlerService {
         this._cars.forEach( (raceCar: [RaceProgression, Car]) => {
             const progression: RaceProgression = raceCar[0];
             const car: Car = raceCar[1];
+
             if (!this.isCarinTrack(car, progression)) {
-                const projection: THREE.Vector3 = this.getPositionFromLastWaypoint(car, progression)
-                                                        .projectOnVector(progression.getCurrentTrackSegment());
+
+                const rotationFactor: number = 0.1;
+                const trackDirection: THREE.Vector3 = progression.getCurrentTrackSegment().normalize();
+                const carDirection: THREE.Vector3 = new THREE.Vector3(0, 0, 1)
+                                                        .applyMatrix4(new THREE.Matrix4().extractRotation(car.mesh.matrix));
+
+                // gradually rotates the car to be parallel with the track
+                car.mesh.quaternion.slerp(new Quaternion().setFromUnitVectors(carDirection, trackDirection),  rotationFactor);
+
+                // adjust car speed after collison
                 car.speed = car.speed.setLength(car.speed.length() / SLOWDOWN_FACTOR);
-                car.mesh.position.addVectors(progression.currentWaypointPosition, projection);
+
+                // plays wall collision sound
                 this.audioService.playSound(FORCE_FIELD_SOUND);
             }
         });
@@ -46,7 +57,7 @@ export class OutOfBoundsHandlerService {
         const distanceFromTrackCenter: THREE.Vector3 = new THREE.Vector3();
         distanceFromTrackCenter.subVectors(projection, this.getPositionFromLastWaypoint(car, carProgression));
 
-        return distanceFromTrackCenter.length() <= TRACK_WIDTH / 2 - CAR_WIDTH;
+        return distanceFromTrackCenter.length() <= (TRACK_WIDTH / 2 - CAR_WIDTH);
     }
 
     private getPositionFromLastWaypoint(car: Car, progression: RaceProgression): THREE.Vector3 {
