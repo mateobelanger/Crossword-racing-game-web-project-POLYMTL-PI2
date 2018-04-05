@@ -32,7 +32,7 @@ export class CreateOnlineGameComponent implements OnInit {
     }
 
     public createGame(username: string): void {
-        this.socketService.connectToGame(username);
+        this.socketService.createGame(username, this.difficulty);
     }
 
 }

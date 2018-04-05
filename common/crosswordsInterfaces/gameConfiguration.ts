@@ -2,11 +2,11 @@ import { Difficulty } from "../constants";
 
 
 export class GameConfiguration  {
-    roomId: number;
+    roomId: string;
     hostUsername: string;
     difficulty: string;
 
-    constructor(roomId: number, hostUsername: string, difficulty: Difficulty) {
+    constructor(roomId: string, hostUsername: string, difficulty: Difficulty) {
         this.roomId = roomId;
         this.hostUsername = hostUsername;
         this.difficulty = difficulty;
