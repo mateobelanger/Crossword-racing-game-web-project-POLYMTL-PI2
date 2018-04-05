@@ -44,14 +44,6 @@ export class ResultsSimulatorService {
         return distanceLeft;
     }
 
-    private raceDistanceLeft(playerResults: RaceProgression): number {
-        let distanceLeft: number = 0;
-        for (let i: number = 0; i < MAX_N_LAPS - (playerResults.nLap + 1); i++)
-            distanceLeft += this.trackLength(playerResults.waypoints);
-
-        return distanceLeft;
-    }
-
 
     private trackLength(waypoints: [number, number, number][]): number {
         let tracklength: number = 0;
