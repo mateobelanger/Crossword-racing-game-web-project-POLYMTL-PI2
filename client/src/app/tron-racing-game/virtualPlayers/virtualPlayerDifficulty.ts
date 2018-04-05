@@ -1,0 +1,41 @@
+const MAX_SPEED: number = 200;
+const E_FAST: number = 1;
+const E_SLOW: number = 0.6;
+const B_FAST: number = 0.6;
+const B_SLOW: number = 0.2;
+
+export class VirtualPlayerDifficulty {
+    public constructor() {}
+
+    public get defaultSpeed(): number {
+        return 0;
+    }
+
+    public get cornerSpeed(): number {
+        return 0;
+    }
+}
+
+export class ExpertVirtualPlayer extends VirtualPlayerDifficulty {
+    public constructor() { super(); }
+
+    public get defaultSpeed(): number {
+        return MAX_SPEED * E_FAST;
+    }
+
+    public get cornerSpeed(): number {
+        return MAX_SPEED * E_SLOW;
+    }
+}
+// tslint:disable:max-classes-per-file
+export class BeginnerVirtualPlayer extends VirtualPlayerDifficulty {
+    public constructor() { super(); }
+
+    public get defaultSpeed(): number {
+        return MAX_SPEED * B_FAST;
+    }
+
+    public get cornerSpeed(): number {
+        return MAX_SPEED * B_SLOW;
+    }
+}
