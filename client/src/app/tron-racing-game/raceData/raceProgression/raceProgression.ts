@@ -89,7 +89,6 @@ export class RaceProgression {
         }
     }
 
-
     public distanceToNextWaypoint(): number {
         return this._carPosition.distanceTo(this._nextWaypointPosition);
     }
@@ -110,7 +109,6 @@ export class RaceProgression {
         return this.distanceToPreviousWaypoint() < WAYPOINT_RADIUS;
     }
 
-    // tslint:disable:no-magic-numbers
     private incrementNextWaypointPosition(): void {
         this.incrementCurrentWaypointIndex();
         this.reassignWaypointPostion();

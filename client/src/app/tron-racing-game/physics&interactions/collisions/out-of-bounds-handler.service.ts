@@ -34,10 +34,10 @@ export class OutOfBoundsHandlerService {
                 const trackDirection: Vector3 = progression.getCurrentTrackSegment().multiplyScalar(-1).normalize();
                 const carDirection: Vector3 = new Vector3(0, 0, 1).applyMatrix4(new Matrix4().extractRotation(car.mesh.matrix));
 
-                // absolute rotation to bring the car parallel to the track
+                // relative rotation quaternion to bring the car parallel to the track
                 const rotationQuaternion: Quaternion = new Quaternion().setFromUnitVectors(carDirection, trackDirection);
 
-                // calculates relative rotation from car's Quaternion
+                // calculates absolute rotation quaternion from car's current quaternion
                 rotationQuaternion.multiply(car.mesh.quaternion);
 
                 // gradually rotates the car
