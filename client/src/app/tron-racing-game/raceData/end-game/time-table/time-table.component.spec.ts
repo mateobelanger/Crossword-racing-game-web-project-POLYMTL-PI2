@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BestTimesComponent } from './time-table.component';
-import { BestTimeHandlerService } from '../best-time-handler.service';
+import { BestTimeHandlerService } from '../../recordedTimes/best-time-handler.service';
 import { RaceDataHandlerService } from '../../race-data-handler.service';
 import { TracksProxyService } from '../../../tracks/tracks-proxy.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RaceResultsService } from '../race-results.service';
+import { RaceResultsService } from '../../recordedTimes/race-results.service';
 
 import { routes } from '../../../../app-routes.module';
 import { AppModule } from '../../../../app.module';

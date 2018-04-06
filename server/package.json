@@ -34,7 +34,7 @@
     "request-promise": "^4.2.2",
     "request-promise-native": "^1.0.5",
     "serve-favicon": "~2.3.0",
-    "socket.io": "1.4.4",
+    "socket.io": "^1.4.4",
     "systemjs": "0.19.39",
     "ts-node": "^4.1.0"
   },

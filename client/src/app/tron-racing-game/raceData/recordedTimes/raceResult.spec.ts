@@ -28,7 +28,7 @@ describe("RaceResult", () => {
         });
 
         expect(raceResults.laps.length).toEqual(2);
-        expect(raceResults.totalTime).toEqual(0);
+        expect(raceResults.totalTime).toEqual(23);
     });
 
     it("doneLap -> nbLap = 3, should have totalTime", () => {

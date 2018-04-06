@@ -80,20 +80,20 @@ export class RaceProgression {
         return this._currentWaypointPosition;
     }
 
+    public get waypoints(): [number, number, number][] {
+        return this._waypoints;
+    }
+
+    public get carPosition(): THREE.Vector3 {
+        return this._carPosition;
+    }
+
     public update(): void {
         if (this.reachedNextWaypoint()) {
             this.incrementNextWaypointPosition();
             this.updateNLap();
-            console.log("increment")
-            console.log(this._previousWaypointPosition)
-            console.log(this._currentWaypointPosition)
-            console.log(this._nextWaypointPosition)
         } else if (this.reachedPreviousWaypoint()) {
             this.decrementNextWaypointPosition();
-            console.log("decrement")
-            console.log(this._previousWaypointPosition)
-            console.log(this._currentWaypointPosition)
-            console.log(this._nextWaypointPosition)
         }
     }
 

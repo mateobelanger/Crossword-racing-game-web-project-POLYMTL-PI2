@@ -7,10 +7,9 @@ import { RaceProgressionHandlerService } from './raceProgression/race-progressio
 import { CarHandlerService } from './../physics&interactions/cars/car-handler.service';
 import { TrackLoaderService } from '../gameRendering/track-loader.service';
 import { EndGameService } from './end-game/end-game.service';
-import { RaceProgression } from './raceProgression/raceProgression';
-import { EndResultSimulator } from './simulateEndResults/endResultSimaltor';
 import { TimerHandler } from './timer/timerHandler';
 import { USERNAME } from '../constants';
+import { ResultsSimulatorService } from './simulateEndResults/results-simulator.service';
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -18,13 +17,14 @@ export class RaceDataHandlerService {
     private _timer: TimerHandler;
     private _ITrackData: ITrackData;
 
-    public constructor(private tracksProxyService: TracksProxyService,
-                       private bestTimesService: BestTimeHandlerService,
-                       private raceResultService: RaceResultsService,
-                       private _raceProgressionService: RaceProgressionHandlerService,
-                       private _carsHandlerService: CarHandlerService,
-                       private endGameService: EndGameService,
-                       private trackLoaderService: TrackLoaderService) {
+    public constructor( private tracksProxyService: TracksProxyService,
+                        private bestTimesService: BestTimeHandlerService,
+                        private raceResultService: RaceResultsService,
+                        private _raceProgressionService: RaceProgressionHandlerService,
+                        private _carsHandlerService: CarHandlerService,
+                        private endGameService: EndGameService,
+                        private trackLoaderService: TrackLoaderService,
+                        private resultsSimulatorService: ResultsSimulatorService) {
 
         this._timer = new TimerHandler();
         this._timer.reset();
@@ -38,8 +38,6 @@ export class RaceDataHandlerService {
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             this.trackLoaderService.points = this._ITrackData.waypoints;
-            console.log("waypoints")
-            console.log(this._ITrackData.waypoints)
 
             await this._carsHandlerService.initialize();
             this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
@@ -76,7 +74,7 @@ export class RaceDataHandlerService {
         return this._timer.uiMillisecondsElapsed;
     }
     public get uiLapTimeElapsed(): number {
-        return this._timer.lapMillisecondsElapsed;
+        return this._timer.uiLapMillisecondsElapsed;
     }
 
     public get position(): number {
@@ -86,12 +84,19 @@ export class RaceDataHandlerService {
     public startRace(): void {
         this._timer.reset();
         this._timer.start();
+        this._ITrackData.timesPlayed++;
     }
 
     public doneRace(): void {
         this._timer.stop();
         this.simulateEndRaceResult();
-        this.endGameService.endGame(this._raceProgressionService.isUserFirst());
+        this.endGameService.endGame(this._raceProgressionService.isUserFirst()).subscribe( () => {
+        this.updateITrackOnServer(); });
+    }
+
+    public updateITrackOnServer(): void {
+        this._ITrackData.bestTimes = this.bestTimesService.bestTimes;
+        this.tracksProxyService.saveTrack(this._ITrackData);
     }
 
     // lap done from one player (ai or user)
@@ -114,15 +119,7 @@ export class RaceDataHandlerService {
     }
 
     private simulateEndRaceResult(): void {
-        const endResultsSimulator: EndResultSimulator = new EndResultSimulator();
-        endResultsSimulator.initialize(this._ITrackData.waypoints);
-
-        this._raceProgressionService.unfinishedPlayers.forEach( (player: [string, RaceProgression]) => {
-            for ( let i: number = 1; i <= player[1].remainingNLap; i++)
-            this.raceResultService.doneLap( player[0],
-                                            i * endResultsSimulator.
-                                            simulatedTime(this.raceResultService.getPlayerRaceResults(player[0]).laps));
-        });
+        this.resultsSimulatorService.simulateEndResults(this._timer.millisecondsElapsed);
     }
 
 }

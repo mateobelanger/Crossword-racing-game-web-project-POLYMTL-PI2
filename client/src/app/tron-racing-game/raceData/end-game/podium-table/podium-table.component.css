@@ -24,7 +24,7 @@
 }
 
 .background{
-    background: url("/client/src/assets/time_table/background.png");
+    background-image: url("../../../../../assets/time_table/background.png");
     background-repeat: no-repeat; 
     background-position: center;
 }

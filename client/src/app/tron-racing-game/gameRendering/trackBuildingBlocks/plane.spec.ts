@@ -1,4 +1,4 @@
-import { Waypoint } from "..//trackData/waypoint";
+import { Waypoint } from "../../tracks/trackData/waypoint";
 import { Plane, PIVOT_POINT_SHIFT } from "./plane";
 import * as THREE from "three";
 import { UPPER_PLANE_POSITION_Z } from "../../constants";

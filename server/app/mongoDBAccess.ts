@@ -33,7 +33,7 @@ export class MongoDBAccess {
                             console.error(err);
                             reject(err);
                         } else {
-                        resolve(trackData);
+                            resolve(trackData);
                         }
                     }
                 );
@@ -66,11 +66,11 @@ export class MongoDBAccess {
         });
     }
 
-    public static async remove(trackName: string): Promise<string> {
+    public static async remove(trackName: string): Promise<void> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
-        return new Promise<string>((resolve: Function, reject: Function) => {
+        return new Promise<void>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.findOne({ name: trackName })
                     .remove((err: Error) => {
@@ -84,24 +84,24 @@ export class MongoDBAccess {
                             console.error(err);
                             reject(err);
                         }
-                        resolve(trackName);
+                        resolve();
                     });
             });
         });
     }
 
-    public static async updateExistingTrack(track: ITrackData): Promise<string> {
+    public static async updateExistingTrack(track: ITrackData): Promise<void> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
-        return new Promise<string>((resolve: Function, reject: Function) => {
+        return new Promise<void>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.update(
                     { name: track.name },
                     {
                         $set: {
-                            description: track.description, timesPlayed: 0,
-                            bestTimes: [], waypoints: track.waypoints,
+                            description: track.description, timesPlayed: track.timesPlayed,
+                            bestTimes: track.bestTimes, waypoints: track.waypoints,
                             image: track.image
                         }
                     },
@@ -110,7 +110,7 @@ export class MongoDBAccess {
                             console.error(err);
                             reject(err);
                         }
-                        resolve(track.name);
+                        resolve();
                     }
                 );
 
@@ -119,11 +119,11 @@ export class MongoDBAccess {
         });
     }
 
-    public static async incrementTimesPlayed(trackName: string): Promise<String> {
+    public static async incrementTimesPlayed(trackName: string): Promise<void> {
         MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
-        return new Promise<string>((resolve: Function, reject: Function) => {
+        return new Promise<void>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.update(
                     { name: trackName },
@@ -133,11 +133,11 @@ export class MongoDBAccess {
                             console.error(err);
                             reject(err);
                         }
-                        resolve(trackName);
+                        resolve();
                     }
                 );
 
-                resolve(trackName);
+                resolve();
             });
         });
     }

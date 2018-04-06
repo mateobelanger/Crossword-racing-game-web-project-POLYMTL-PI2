@@ -25,22 +25,20 @@ export class MongoDBService {
 
         router.delete(  "/service/mongoDB/:name",
                         async (req: Request, res: Response) => {
-                            const trackName: string = await MongoDBAccess.remove(req.params.name);
-
-                            res.send(trackName);
+                            await MongoDBAccess.remove(req.params.name);
+                            res.send();
                         });
 
         router.put( "/service/mongoDB",
                     async (req: Request, res: Response) => {
-                        const trackName: string = await MongoDBAccess.updateExistingTrack(req.body as ITrackData);
-
-                        res.send(trackName);
+                        await MongoDBAccess.updateExistingTrack(req.body as ITrackData);
+                        res.send();
                     });
 
         router.patch(   "/service/mongoDB/:name",
                         async (req: Request, res: Response) => {
-                            const trackName: String = await MongoDBAccess.incrementTimesPlayed(req.params.name);
-                            res.send(trackName);
+                            await MongoDBAccess.incrementTimesPlayed(req.params.name);
+                            res.send();
                         });
 
         return router;

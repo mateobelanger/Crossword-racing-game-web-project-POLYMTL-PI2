@@ -17,7 +17,7 @@ export class TimerHandler {
         return this._uiTimer.millisecondsElapsed;
     }
 
-    public get lapMillisecondsElapsed(): number {
+    public get uiLapMillisecondsElapsed(): number {
         return this._uiTimer.lapMillisecondsElapsed;
     }
 
