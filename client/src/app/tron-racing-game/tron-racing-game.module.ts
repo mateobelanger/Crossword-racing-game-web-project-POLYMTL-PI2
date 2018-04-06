@@ -40,6 +40,7 @@ import { CarHandlerService } from './physics&interactions/cars/car-handler.servi
 import { CollisionHandlerService } from './physics&interactions/collisions/collision-handler.service';
 import { OutOfBoundsHandlerService } from "./physics&interactions/collisions/out-of-bounds-handler.service";
 import { ResultsSimulatorService } from './raceData/simulateEndResults/results-simulator.service';
+import { SpeedZonesService } from './virtualPlayers/speed-zones.service';
 
 @NgModule({
 
@@ -90,7 +91,8 @@ import { ResultsSimulatorService } from './raceData/simulateEndResults/results-s
     CarHandlerService,
     OutOfBoundsHandlerService,
     EndGameService,
-    ResultsSimulatorService
+    ResultsSimulatorService,
+    SpeedZonesService
   ],
 
 })
