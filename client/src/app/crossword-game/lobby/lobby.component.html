@@ -21,7 +21,7 @@
             <div class="col-sm"> {{onlineGame.hostUsername}} </div>
             <div class="col-sm"> {{onlineGame.difficulty}} </div>
             <div class="col-sm">
-                <button routerLink="../{{difficulty}}/ui" (click)="joinGame(onlineGame.roomId)"> Join Game </button>
+                <button (click)="joinGame(onlineGame.roomId)"> Join Game </button>
             </div>
         </div>
     </div>

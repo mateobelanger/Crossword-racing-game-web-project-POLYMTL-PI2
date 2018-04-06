@@ -24,6 +24,8 @@ export class GameUiComponent implements OnInit {
     //         });
         // this.wordService = this.socketService.getWords();
 
+        console.log(this.wordService.words.length);
+
         this.gridService.initialize();
         this.validator.initialize();
 
