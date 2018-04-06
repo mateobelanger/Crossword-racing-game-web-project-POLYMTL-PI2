@@ -30,7 +30,7 @@ export class Io {
             // ne fonctionne pas
             socket.on("joinGame", (roomId: string) => {
                 socket.join("roomId");
-                this.socketServer.to(socket.id).emit("grid", this.getGameByRoomId(roomId)._words);
+                this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(roomId) );
             });
 
             // ne fonctionne pas

@@ -10,8 +10,6 @@ import { DefinitionsComponent } from "./definitions/definitions.component";
 import { InformationsComponent } from "./informations/informations.component";
 
 import { WordService } from "./word.service";
-import { GridService } from "./grid.service";
-import { ValidatorService } from "./validator.service";
 import { EndOfGameModalComponent } from "./end-of-game-modal/end-of-game-modal.component";
 import { HostConfigurationComponent } from "./host-configuration/host-configuration.component";
 import { ConfigurationHandlerService } from "./configuration-handler.service";
@@ -43,8 +41,6 @@ import { DifficultyConfigurationComponent } from "./configuration/difficultyConf
 
     providers: [
         WordService,
-        GridService,
-        ValidatorService,
         ConfigurationHandlerService,
         SocketService,
         LobbyService

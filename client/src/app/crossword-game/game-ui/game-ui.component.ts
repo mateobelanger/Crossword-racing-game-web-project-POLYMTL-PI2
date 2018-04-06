@@ -9,12 +9,12 @@ import { ValidatorService } from "../validator.service";
     selector: 'app-game-ui',
     templateUrl: './game-ui.component.html',
     styleUrls: ['./game-ui.component.css'],
-    providers: [WordService, ValidatorService, GridService]
+    providers: [ValidatorService, GridService]
 })
 
 export class GameUiComponent implements OnInit {
     public constructor( private wordService: WordService, public validator: ValidatorService,
-                        public grid: GridService/*, private route: ActivatedRoute, private socketService: SocketService*/) {}
+                        public gridService: GridService/*, private route: ActivatedRoute, private socketService: SocketService*/) {}
 
     public async ngOnInit(): Promise<void> {
     //     await this.wordService.initialize(this.route.snapshot.paramMap.get("difficulty"))
@@ -23,6 +23,12 @@ export class GameUiComponent implements OnInit {
     //             this.validator.initialize();
     //         });
         // this.wordService = this.socketService.getWords();
+
+        console.log(this.wordService.words.length);
+
+        this.gridService.initialize();
+        this.validator.initialize();
+
         console.log("onInit");
         console.log(this.wordService.words);
     }
