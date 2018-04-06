@@ -7,8 +7,10 @@ import { CarHandlerService } from '../cars/car-handler.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 import { Vector3, Matrix4, Quaternion } from "three";
 
-const SLOWDOWN_FACTOR: number = 1.15;
-// const CAR_WIDTH: number = 1;
+const SLOWING_FACTOR: number = 0.05;
+const ROTATION_FACTOR: number = 0.05;
+const TRANSLATION_FACTOR: number = 0.1;
+const CAR_WIDTH: number = 1;
 
 @Injectable()
 export class OutOfBoundsHandlerService {
@@ -40,15 +42,14 @@ export class OutOfBoundsHandlerService {
                 // calculates absolute rotation quaternion from car's current quaternion
                 rotationQuaternion.multiply(car.mesh.quaternion);
 
-                // gradually rotates the car
-                const rotationFactor: number = 0.15;
-                car.mesh.quaternion.slerp(rotationQuaternion,  rotationFactor);
-
                 // translate car a bit towards center of track to prevent getting stuck outside the limit
-                // car.mesh.position.add(this.getTrackRejectionVecor(car, progression).setLength(1));
+                car.mesh.position.add(this.getTrackRejectionVector(car, progression).setLength(-TRANSLATION_FACTOR));
+
+                // gradually rotates the car
+                car.mesh.quaternion.slerp(rotationQuaternion,  ROTATION_FACTOR);
 
                 // adjust car speed after collison
-                car.speed = car.speed.setLength(car.speed.length() / SLOWDOWN_FACTOR);
+                car.speed = car.speed.setLength(car.speed.length() * (1 - SLOWING_FACTOR));
 
                 // play wall collision sound
                 this.audioService.playSound(FORCE_FIELD_SOUND);
@@ -57,14 +58,14 @@ export class OutOfBoundsHandlerService {
     }
 
     private isCarinTrack(car: Car, progression: RaceProgression): boolean {
-        return this.getTrackRejectionVector(car, progression).length() <= TRACK_WIDTH / 2;
+        return this.getTrackRejectionVector(car, progression).length() <= TRACK_WIDTH / 2 - CAR_WIDTH;
     }
 
+    // computes the rejection vector of the car position relative to the track by the track segment
     private getTrackRejectionVector(car: Car, progression: RaceProgression): Vector3 {
         const projection: Vector3 = this.getPositionFromLastWaypoint(car, progression)
                                             .projectOnVector(progression.getCurrentTrackSegment());
 
-        // rejection of A by B = A - projection of A on B
         return this.getPositionFromLastWaypoint(car, progression).sub(projection);
     }
 
