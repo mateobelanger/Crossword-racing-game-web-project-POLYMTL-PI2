@@ -1,16 +1,17 @@
 import { TrackSegmentSpeed } from "./trackSegmentSpeed";
 import { VirtualPlayerDifficulty } from "./virtualPlayerDifficulty";
 import * as THREE from "three";
-// import { VIRTUAL_PLAYER_SKILL } from "../constants";
+import { RaceProgressionHandlerService } from "../raceData/raceProgression/race-progression-handler.service";
+import { WAYPOINT_RADIUS } from "../constants";
 const PI: number = 3.14;
+// tslint:disable-next-line:no-magic-numbers
+const CORNER_ZONE: number =  WAYPOINT_RADIUS * 4;
 export class RaceSpeedZones {
 
     private speedZones: TrackSegmentSpeed[];
-    public constructor() {
+    public constructor( private raceProgrssionService: RaceProgressionHandlerService) {
+        this.speedZones = [];
     }
-
-    // TODO: create indexSpeddZone and update it when signal reached waypoint
-    // TODO: get speed changes from tracks segment and in corner
 
     public initialize(playerSkill: VirtualPlayerDifficulty, waypoints: [number, number, number][]): void {
         waypoints.forEach( (waypoint: [number, number, number], index: number) => {
@@ -19,6 +20,20 @@ export class RaceSpeedZones {
                                                             waypoints[(index + 2) % waypoints.length]);
             this.speedZones.push(this.createTrackSpeedZone(playerSkill, angle));
         });
+    }
+
+    public speedZone(name: string): number {
+        return this.isInCornerZone(name) ?
+        this.speedZones[this.currentTrackIndex(name)].cornerSpeed :
+        this.speedZones[this.currentTrackIndex(name)].defaultSpeed;
+    }
+
+    private isInCornerZone(name: string): boolean {
+        return this.raceProgrssionService.getPlayerProgression(name).distanceToNextWaypoint() < CORNER_ZONE; 
+    }
+
+    private currentTrackIndex(name: string): number {
+        return this.raceProgrssionService.getPlayerProgression(name).currentWaypointIndex;
     }
 
     private calculateRadianAngle(   firstWaypoint: [number, number, number],
@@ -50,6 +65,6 @@ export class RaceSpeedZones {
     }
 
     private cornerSlowDownFactor(angle: number): number {
-        return (PI - angle) / PI;
+        return Math.sqrt((PI - angle) / PI);
     }
 }

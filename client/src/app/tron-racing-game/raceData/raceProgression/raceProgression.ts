@@ -1,8 +1,6 @@
 import * as THREE from "three";
 import { Subject } from "rxjs/Subject";
-import { MAX_N_LAPS } from "../../constants";
-
-const WAYPOINT_RADIUS: number = 10;
+import { MAX_N_LAPS, WAYPOINT_RADIUS } from "../../constants";
 
 export class RaceProgression {
     private _nLap: number;
@@ -54,7 +52,8 @@ export class RaceProgression {
         if (index < 0)
             index += this._waypoints.length;
 
-        return index;    }
+        return index;
+    }
 
     public get currentWaypointIndex(): number {
         let index: number = this._currentWaypointIndex % this._waypoints.length;
