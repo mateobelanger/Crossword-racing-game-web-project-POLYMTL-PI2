@@ -5,10 +5,10 @@ import { RaceProgression } from '../../raceData/raceProgression/raceProgression'
 import { AudioService, FORCE_FIELD_SOUND } from '../../audio/audio.service';
 import { CarHandlerService } from '../cars/car-handler.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
-import { Vector3, Matrix4, Quaternion }from "three";
+import { Vector3, Matrix4, Quaternion } from "three";
 
 const SLOWDOWN_FACTOR: number = 1.15;
-const CAR_WIDTH: number = 1;
+// const CAR_WIDTH: number = 1;
 
 @Injectable()
 export class OutOfBoundsHandlerService {
@@ -39,10 +39,9 @@ export class OutOfBoundsHandlerService {
 
                 // calculates relative rotation from car's Quaternion
                 rotationQuaternion.multiply(car.mesh.quaternion);
-                
-                
+
                 // gradually rotates the car
-                const rotationFactor: number = 0.20;
+                const rotationFactor: number = 0.15;
                 car.mesh.quaternion.slerp(rotationQuaternion,  rotationFactor);
 
                 // translate car a bit towards center of track to prevent getting stuck outside the limit
@@ -58,17 +57,18 @@ export class OutOfBoundsHandlerService {
     }
 
     private isCarinTrack(car: Car, progression: RaceProgression): boolean {
-        return this.getTrackRejectionVecor(car, progression).length() <= (TRACK_WIDTH / 2 - CAR_WIDTH);
+        return this.getTrackRejectionVector(car, progression).length() <= TRACK_WIDTH / 2;
     }
 
-    private getTrackRejectionVecor(car: Car, progression: RaceProgression): Vector3 {
-        const positionFromLastWaypoint: Vector3 = this.getPositionFromLastWaypoint(car, progression);
-        const projection: Vector3 = positionFromLastWaypoint.clone().projectOnVector(progression.getCurrentTrackSegment());
+    private getTrackRejectionVector(car: Car, progression: RaceProgression): Vector3 {
+        const projection: Vector3 = this.getPositionFromLastWaypoint(car, progression)
+                                            .projectOnVector(progression.getCurrentTrackSegment());
 
-        return new Vector3().subVectors(projection, this.getPositionFromLastWaypoint(car, progression));
+        // rejection of A by B = A - projection of A on B
+        return this.getPositionFromLastWaypoint(car, progression).sub(projection);
     }
 
     private getPositionFromLastWaypoint(car: Car, progression: RaceProgression): Vector3 {
-        return new Vector3().subVectors(car.mesh.position, progression.currentWaypointPosition);
+        return car.mesh.position.clone().sub ( progression.currentWaypointPosition );
     }
 }

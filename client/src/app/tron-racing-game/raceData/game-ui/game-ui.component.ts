@@ -18,8 +18,8 @@ const DEFAULT_TRACKNAME: string = "test";
     templateUrl: "./game-ui.component.html",
     styleUrls: ["./game-ui.component.css"],
     providers: [
-        RenderService, CarHandlerService, AudioService, 
-        CollisionHandlerService, OutOfBoundsHandlerService, 
+        RenderService, CarHandlerService, AudioService,
+        CollisionHandlerService, OutOfBoundsHandlerService,
         RaceDataHandlerService, InputHandlerService
     ]
 })
