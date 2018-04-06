@@ -58,7 +58,6 @@ export class InputHandlerService {
             case S_KEYCODE:
                 this.keyS.execute(isKeyDown, this.renderService.car); break;
             case D_KEYCODE:
-                console.log(event.keyCode);
                 this.keyD.execute(isKeyDown, this.renderService.car); break;
             case C_KEYCODE:
                 this.keyC.execute(isKeyDown, this.renderService.car, this.cameraService); break;
