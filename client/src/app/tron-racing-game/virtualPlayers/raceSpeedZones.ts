@@ -3,9 +3,9 @@ import { VirtualPlayerDifficulty } from "./virtualPlayerDifficulty";
 import * as THREE from "three";
 import { RaceProgressionHandlerService } from "../raceData/raceProgression/race-progression-handler.service";
 import { WAYPOINT_RADIUS } from "../constants";
-const PI: number = 3.14;
+
 // tslint:disable-next-line:no-magic-numbers
-const CORNER_ZONE: number =  WAYPOINT_RADIUS * 4;
+const CORNER_ZONE: number =  WAYPOINT_RADIUS * 3;
 export class RaceSpeedZones {
 
     private speedZones: TrackSegmentSpeed[];
@@ -44,7 +44,7 @@ export class RaceSpeedZones {
 
         let angle: number = secondTrackDirection.angleTo(firstTrackDirection);
         if ( Math.sign(firstTrackDirection.x) !== Math.sign(secondTrackDirection.x)) {
-            angle = PI - angle;
+            angle = Math.PI - angle;
         }
 
         return angle;
@@ -65,6 +65,6 @@ export class RaceSpeedZones {
     }
 
     private cornerSlowDownFactor(angle: number): number {
-        return Math.sqrt((PI - angle) / PI);
+        return Math.sqrt((Math.PI - angle) / Math.PI);
     }
 }
