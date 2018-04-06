@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SocketService } from "../socket.service";
 
 @Component({
     selector: 'app-host-configuration',
@@ -8,10 +7,7 @@ import { SocketService } from "../socket.service";
 })
 export class HostConfigurationComponent {
 
-    public constructor(private socketService: SocketService) { }
+    public constructor() { }
 
-    public getGameLobbies(): void {
-        this.socketService.getGameLobbies();
-    }
 
 }

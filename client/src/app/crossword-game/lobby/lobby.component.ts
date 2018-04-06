@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LobbyService } from './lobby.service';
 import { SocketService } from "../socket.service";
 
@@ -7,9 +7,14 @@ import { SocketService } from "../socket.service";
     templateUrl: './lobby.component.html',
     styleUrls: ['./lobby.component.css']
 })
-export class LobbyComponent {
+export class LobbyComponent implements OnInit  {
 
     public constructor(private lobbyService: LobbyService, private socketService: SocketService) { }
+
+
+    public ngOnInit(): void {
+        this.socketService.getGameLobbies();
+    }
 
     //TODO: REMOVE
     public toRemove(): void {
