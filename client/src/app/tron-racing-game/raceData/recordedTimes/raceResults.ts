@@ -3,11 +3,9 @@ const MAX_NB_LAPS: number = 3;
 export class RaceResults {
 
     private _laps: number[];
-    private _simulatedTime: number;
 
     public constructor() {
         this._laps = [];
-        this._simulatedTime = 0;
     }
 
     public get laps(): number[] {
@@ -15,11 +13,7 @@ export class RaceResults {
     }
 
     public get totalTime(): number {
-        return this._simulatedTime + this.calculateTotalTime();
-    }
-
-    public set simulatedTime(time: number) {
-        this._simulatedTime = time;
+        return this.calculateTotalTime();
     }
 
     public doneLap(time: number): void {

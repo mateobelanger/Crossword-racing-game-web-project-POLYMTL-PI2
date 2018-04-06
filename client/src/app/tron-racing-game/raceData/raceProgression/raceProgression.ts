@@ -17,19 +17,19 @@ export class RaceProgression {
 
         this._nextWaypointPosition = new THREE.Vector3(
             this._waypoints[this.nextWaypointIndex][0],
-            0, // tslint:disable-next-line:no-magic-numbers
+            0,
             this._waypoints[this.nextWaypointIndex][2]
         );
 
         this._currentWaypointPosition = new THREE.Vector3(
             this._waypoints[this.currentWaypointIndex][0],
-            0, // tslint:disable-next-line:no-magic-numbers
+            0,
             this._waypoints[this.currentWaypointIndex][2]
         );
 
         this._previousWaypointPosition = new THREE.Vector3(
             this._waypoints[this.previousWaypointIndex][0],
-            0, // tslint:disable-next-line:no-magic-numbers
+            0,
             this._waypoints[this.previousWaypointIndex][2]
         );
         this._lapDone$ = new Subject();
@@ -91,19 +91,10 @@ export class RaceProgression {
         if (this.reachedNextWaypoint()) {
             this.incrementNextWaypointPosition();
             this.updateNLap();
-            console.log("increment")
-            console.log(this._previousWaypointPosition)
-            console.log(this._currentWaypointPosition)
-            console.log(this._nextWaypointPosition)
         } else if (this.reachedPreviousWaypoint()) {
             this.decrementNextWaypointPosition();
-            console.log("decrement")
-            console.log(this._previousWaypointPosition)
-            console.log(this._currentWaypointPosition)
-            console.log(this._nextWaypointPosition)
         }
     }
-
 
     public distanceToNextWaypoint(): number {
         return this._carPosition.distanceTo(this._nextWaypointPosition);
@@ -114,7 +105,7 @@ export class RaceProgression {
     }
 
     public getCurrentTrackSegment(): THREE.Vector3 {
-        return new THREE.Vector3().subVectors(this._nextWaypointPosition, this._currentWaypointPosition);
+        return this._nextWaypointPosition.clone().sub(this._currentWaypointPosition);
     }
 
     private reachedNextWaypoint(): boolean {
@@ -125,7 +116,6 @@ export class RaceProgression {
         return this.distanceToPreviousWaypoint() < WAYPOINT_RADIUS;
     }
 
-    // tslint:disable:no-magic-numbers
     private incrementNextWaypointPosition(): void {
         this.incrementCurrentWaypointIndex();
         this.reassignWaypointPostion();

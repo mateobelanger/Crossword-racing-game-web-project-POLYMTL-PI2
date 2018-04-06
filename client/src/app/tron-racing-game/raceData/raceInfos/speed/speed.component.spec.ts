@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SpeedComponent } from './speed.component';
-import { routes } from '../../../app-routes.module';
-import { AppModule } from '../../../app.module';
+import { routes } from '../../../../app-routes.module';
+import { AppModule } from '../../../../app.module';
 import { APP_BASE_HREF } from '@angular/common';
 
 describe('SpeedComponent', () => {
