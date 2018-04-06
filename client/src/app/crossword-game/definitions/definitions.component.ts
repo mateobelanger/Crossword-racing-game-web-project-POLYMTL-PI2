@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { WordService } from '../word.service';
-import { ValidatorService } from '../validator.service';
-import { Direction } from '../../../../../common/crosswordsInterfaces/word';
-import { GridService } from '../grid.service';
+import { Component, OnInit } from "@angular/core";
+import { WordService } from "../word.service";
+import { ValidatorService } from "../validator.service";
+import { Direction } from "../../../../../common/crosswordsInterfaces/word";
+import { GridService } from "../grid.service";
 
 @Component({
-    selector: 'app-definitions',
-    templateUrl: './definitions.component.html',
-    styleUrls: ['./definitions.component.css']
+    selector: "app-definitions",
+    templateUrl: "./definitions.component.html",
+    styleUrls: ["./definitions.component.css"]
 })
 export class DefinitionsComponent implements OnInit {
     private isCheatMode: boolean;

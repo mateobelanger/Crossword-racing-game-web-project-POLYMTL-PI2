@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ConfigurationHandlerService } from '../configuration-handler.service';
-import { Difficulty } from '../../../../../common/constants';
-import { SocketService } from "../socket.service";
+import { Component, OnInit } from "@angular/core";
+import { ConfigurationHandlerService } from "../../configuration-handler.service";
+import { Difficulty } from "../../../../../../common/constants";
+import { SocketService } from "../../socket.service";
 
 import { Router } from "@angular/router";
 
 @Component({
-    selector: 'app-create-online-game',
-    templateUrl: './create-online-game.component.html',
-    styleUrls: ['./create-online-game.component.css']
+    selector: "app-create-online-game",
+    templateUrl: "./onlineConfiguration.component.html",
+    styleUrls: ["./onlineConfiguration.component.css"]
 })
-export class CreateOnlineGameComponent implements OnInit {
+export class OnlineConfigurationComponent implements OnInit {
 
     public constructor( private configurationHandlerService: ConfigurationHandlerService,
                         private socketService: SocketService,
