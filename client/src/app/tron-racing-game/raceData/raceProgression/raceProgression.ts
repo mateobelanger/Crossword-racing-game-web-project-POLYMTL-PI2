@@ -92,16 +92,8 @@ export class RaceProgression {
         if (this.reachedNextWaypoint()) {
             this.incrementNextWaypointPosition();
             this.updateNLap();
-            console.log("increment")
-            console.log(this._previousWaypointPosition)
-            console.log(this._currentWaypointPosition)
-            console.log(this._nextWaypointPosition)
         } else if (this.reachedPreviousWaypoint()) {
             this.decrementNextWaypointPosition();
-            console.log("decrement")
-            console.log(this._previousWaypointPosition)
-            console.log(this._currentWaypointPosition)
-            console.log(this._nextWaypointPosition)
         }
     }
 

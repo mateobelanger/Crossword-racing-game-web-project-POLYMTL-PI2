@@ -40,7 +40,6 @@ export class TracksProxyService {
     }
 
     public async saveTrack(track: ITrackData): Promise<void> {
-        console.log(track);
         if (this.findTrack(track.name) !== null) {
             return this._http.put<ITrackData>(URI_MONGO_DB, track).toPromise()
                 .then(() => { })

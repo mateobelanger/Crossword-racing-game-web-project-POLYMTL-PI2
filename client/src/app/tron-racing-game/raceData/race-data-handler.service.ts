@@ -38,8 +38,6 @@ export class RaceDataHandlerService {
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             this.trackLoaderService.points = this._ITrackData.waypoints;
-            console.log("waypoints")
-            console.log(this._ITrackData.waypoints)
 
             await this._carsHandlerService.initialize();
             this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
