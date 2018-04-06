@@ -14,8 +14,8 @@ export class SocketService {
 
     private socket: SocketIOClient.Socket;
 
-    public constructor( private lobbyService: LobbyService, private wordService: WordService,
-                        private validator: ValidatorService, private gridService: GridService ) {
+    public constructor( private lobbyService: LobbyService, public wordService: WordService,
+                        public validator: ValidatorService, public gridService: GridService ) {
         this.socket = io.connect("http://localhost:3000");
 
         this.socket.on("gameLobbies", (gameLobbies: GameConfiguration[]) => {
@@ -30,6 +30,7 @@ export class SocketService {
     }
 
     public async createGame(username: string, difficulty: Difficulty): Promise<void> {
+        console.log("try to create");
         await this.createGrid(difficulty);
         this.socket.emit("createGame", username, difficulty, this.wordService.words);
     }
@@ -43,10 +44,10 @@ export class SocketService {
     }
 
     private async createGrid(difficulty: Difficulty): Promise<void> {
-        await this.wordService.initialize(difficulty)
-            .then(() => {
-                this.gridService.initialize();
-                this.validator.initialize();
-            });
+        await this.wordService.initialize(difficulty) ;
+            // .then(() => {
+            //     this.gridService.initialize();
+            //     this.validator.initialize();
+            // });
     }
 }

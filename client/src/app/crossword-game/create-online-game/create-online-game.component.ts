@@ -35,6 +35,7 @@ export class CreateOnlineGameComponent implements OnInit {
     }
 
     public async createGame(username: string): Promise<void> {
+        
         await this.socketService.createGame(username, this.difficulty);
         console.log("created");
         this.router.navigate(["crossword-game/" + this.difficulty + "/ui"]);
