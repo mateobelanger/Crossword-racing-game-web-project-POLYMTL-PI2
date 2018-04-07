@@ -5,7 +5,7 @@ import { RaceProgression } from '../../raceData/raceProgression/raceProgression'
 import { AudioService, FORCE_FIELD_SOUND } from '../../audio/audio.service';
 import { CarHandlerService } from '../cars/car-handler.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
-import { Vector3, Matrix4, Quaternion } from "three";
+import { Vector3, Quaternion } from "three";
 
 const SLOWING_FACTOR: number = 0.05;
 const ROTATION_FACTOR: number = 0.05;
@@ -33,11 +33,10 @@ export class OutOfBoundsHandlerService {
             const car: Car = raceCar[1];
 
             if (!this.isCarinTrack(car, progression)) {
-                const trackDirection: Vector3 = progression.getCurrentTrackSegment().multiplyScalar(-1).normalize();
-                const carDirection: Vector3 = new Vector3(0, 0, 1).applyMatrix4(new Matrix4().extractRotation(car.mesh.matrix));
+                const trackDirection: Vector3 = progression.getCurrentTrackSegment().normalize();
 
                 // relative rotation quaternion to bring the car parallel to the track
-                const rotationQuaternion: Quaternion = new Quaternion().setFromUnitVectors(carDirection, trackDirection);
+                const rotationQuaternion: Quaternion = new Quaternion().setFromUnitVectors(car.direction, trackDirection);
 
                 // calculates absolute rotation quaternion from car's current quaternion
                 rotationQuaternion.multiply(car.mesh.quaternion);
