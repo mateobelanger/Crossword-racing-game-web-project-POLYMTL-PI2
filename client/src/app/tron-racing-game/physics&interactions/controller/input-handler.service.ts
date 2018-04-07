@@ -11,8 +11,8 @@ import { CommandNightDay } from "./commandNightDay";
 import { RenderService } from "../../gameRendering/render-service/render.service";
 import { CameraService } from "../../gameRendering/camera.service";
 import { SceneLoaderService } from "../../gameRendering/scene-loader/scene-loader.service";
-import { RaceDataHandlerService } from "../../raceData/race-data-handler.service";
 import { CommandEndOfGame } from "./commandEndOfGame";
+import { CommandNull } from "./commandNull";
 
 const W_KEYCODE: number = 87;
 const A_KEYCODE: number = 65;
@@ -32,21 +32,19 @@ export class InputHandlerService {
     private keyD: CommandFormat;
     private keyC: CommandFormat;
     private keyN: CommandFormat;
-    private keyE: CommandFormat;
     private keyI: CommandFormat;
     private keyO: CommandFormat;
 
     public constructor(private renderService: RenderService, private cameraService: CameraService ,
-                       private sceneLoaderService: SceneLoaderService, private raceDataHandlerService: RaceDataHandlerService) {
-        this.keyA = new CommandTurnLeft();
-        this.keyW = new CommandAccelerate();
-        this.keyS = new CommandBrake();
-        this.keyD = new CommandTurnRight();
+                       private sceneLoaderService: SceneLoaderService) {
+        this.keyA = new CommandNull();
+        this.keyW = new CommandNull();
+        this.keyS = new CommandNull();
+        this.keyD = new CommandNull();
         this.keyC = new CommandCamera();
         this.keyI = new CommandCameraZoomIn();
         this.keyO = new CommandCameraZoomOut();
         this.keyN = new CommandNightDay();
-        this.keyE = new CommandEndOfGame();
     }
 
     public handleInput(event: KeyboardEvent, isKeyDown: boolean): void {
@@ -63,13 +61,18 @@ export class InputHandlerService {
                 this.keyC.execute(isKeyDown, this.renderService.car, this.cameraService); break;
             case N_KEYCODE:
                 this.keyN.execute(isKeyDown, this.renderService.car, this.sceneLoaderService); break;
-            case E_KEYCODE:
-                this.keyE.execute(isKeyDown, this.renderService.car, this.raceDataHandlerService); break;
             case I_KEYCODE:
                 this.keyI.execute(isKeyDown, this.renderService.car, this.cameraService); break;
             case O_KEYCODE:
                 this.keyO.execute(isKeyDown, this.renderService.car, this.cameraService); break;
             default: break;
         }
+    }
+
+    public enableControlKeys(): void {
+        this.keyA = new CommandTurnLeft();
+        this.keyW = new CommandAccelerate();
+        this.keyS = new CommandBrake();
+        this.keyD = new CommandTurnRight();
     }
 }

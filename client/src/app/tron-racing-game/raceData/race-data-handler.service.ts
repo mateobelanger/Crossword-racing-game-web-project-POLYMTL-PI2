@@ -8,8 +8,11 @@ import { CarHandlerService } from './../physics&interactions/cars/car-handler.se
 import { TrackLoaderService } from '../gameRendering/track-loader.service';
 import { EndGameService } from './end-game/end-game.service';
 import { TimerHandler } from './timer/timerHandler';
-import { USERNAME } from '../constants';
+import { USERNAME, COUNTDOWN_TIME } from '../constants';
 import { ResultsSimulatorService } from './simulateEndResults/results-simulator.service';
+import { Countdown } from './timer/countdown';
+import { AudioService, COUNTDOWN_SOUND, COUNTDOWN_END_SOUND } from '../audio/audio.service';
+import { InputHandlerService } from '../physics&interactions/controller/input-handler.service';
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -24,7 +27,9 @@ export class RaceDataHandlerService {
                         private _carsHandlerService: CarHandlerService,
                         private endGameService: EndGameService,
                         private trackLoaderService: TrackLoaderService,
-                        private resultsSimulatorService: ResultsSimulatorService) {
+                        private resultsSimulatorService: ResultsSimulatorService,
+                        private audioService: AudioService,
+                        private inputHandlerService: InputHandlerService) {
 
         this._timer = new TimerHandler();
         this._timer.reset();
@@ -81,6 +86,21 @@ export class RaceDataHandlerService {
         return this._raceProgressionService.userPosition;
     }
 
+    public startCountdown(): void {
+        const countdown: Countdown = new Countdown();
+        countdown.start(COUNTDOWN_TIME).subscribe(
+            () => {
+                this.audioService.playSound(COUNTDOWN_SOUND);
+            },
+            (err: Error) => {
+                console.error(err);
+            },
+            () => {
+                this.audioService.playSound(COUNTDOWN_END_SOUND);
+                this.inputHandlerService.enableControlKeys();
+            });
+    }
+
     public startRace(): void {
         this._timer.reset();
         this._timer.start();
@@ -90,8 +110,10 @@ export class RaceDataHandlerService {
     public doneRace(): void {
         this._timer.stop();
         this.simulateEndRaceResult();
-        this.endGameService.endGame(this._raceProgressionService.isUserFirst()).subscribe( () => {
-        this.updateITrackOnServer(); });
+        this.endGameService.endGame(this._raceProgressionService.isUserFirst())
+            .subscribe(() => {
+                this.updateITrackOnServer();
+            });
     }
 
     public updateITrackOnServer(): void {
