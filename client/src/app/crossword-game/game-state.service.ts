@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Difficulty } from '../../../../common/constants';
 
 @Injectable()
-export class ConfigurationHandlerService {
+export class GameStateService {
     public difficulty: Difficulty;
     public username: String;
     public isMultiplayer: boolean;

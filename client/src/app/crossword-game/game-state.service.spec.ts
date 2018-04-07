@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { GameStateService } from './game-state.service';
 
-describe('ConfigurationHandlerService', () => {
+describe('GameStateService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [GameStateService]
