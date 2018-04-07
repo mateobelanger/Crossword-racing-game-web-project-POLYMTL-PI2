@@ -24,6 +24,10 @@
       <app-position></app-position>
     </div>
 
+    <div class="coutndown">
+      <app-countdown></app-countdown>
+    </div>
+
     <div [ngSwitch]="endGameService.displayTable" *ngIf="endGameService.displayTable !== EndGameTable.NO_TABLE">
       <div *ngSwitchCase="EndGameTable.RESULT_TABLE">
         <div class="bestTimes">

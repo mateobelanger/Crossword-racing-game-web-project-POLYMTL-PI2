@@ -84,6 +84,10 @@ export class RaceDataHandlerService {
         return this._timer.uiLapMillisecondsElapsed;
     }
 
+    public get countdownTime(): number {
+        return this._countdown.timeLeft;
+    }
+
     public get position(): number {
         return this._raceProgressionService.userPosition;
     }

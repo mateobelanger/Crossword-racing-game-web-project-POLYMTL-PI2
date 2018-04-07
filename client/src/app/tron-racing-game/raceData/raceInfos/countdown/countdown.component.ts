@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RaceDataHandlerService } from '../../race-data-handler.service';
 
 @Component({
   selector: 'app-countdown',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CountdownComponent implements OnInit {
 
-  constructor() { }
+  public constructor(private raceDataHandler: RaceDataHandlerService) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
+  }
+
+  public get time(): number {
+    return this.raceDataHandler.countdownTime;
   }
 
 }
