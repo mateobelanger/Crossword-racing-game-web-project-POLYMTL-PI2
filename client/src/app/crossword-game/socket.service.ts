@@ -3,9 +3,8 @@ import * as io from "socket.io-client";
 import { GameConfiguration } from "../../../../common/crosswordsInterfaces/gameConfiguration";
 import { LobbyService } from "./lobby/lobby.service";
 import { Difficulty } from "../../../../common/constants";
-// import { GridService } from "./grid.service";
 import { WordService } from "./word.service";
-// import { ValidatorService } from "./validator.service";
+import { GameStateService } from "./game-state.service";
 
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
 import { Router } from "@angular/router";
@@ -17,8 +16,10 @@ export class SocketService {
     private socket: SocketIOClient.Socket;
     public game: GameConfiguration;
 
-    public constructor(private lobbyService: LobbyService, public wordService: WordService,
-        private router: Router) {
+    public constructor(private lobbyService: LobbyService,
+                       public wordService: WordService,
+                       private router: Router,
+                       private gameState: GameStateService) {
         this.game = null;
         this.socket = io.connect("http://localhost:3000");
 
