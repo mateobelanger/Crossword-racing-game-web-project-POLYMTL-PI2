@@ -13,6 +13,8 @@ import { ResultsSimulatorService } from './simulateEndResults/results-simulator.
 import { Countdown } from './timer/countdown';
 import { AudioService, COUNTDOWN_SOUND, COUNTDOWN_END_SOUND } from '../audio/audio.service';
 import { InputHandlerService } from '../physics&interactions/controller/input-handler.service';
+import { SpeedZonesService } from '../virtualPlayers/speed-zones.service';
+import { ExpertVirtualPlayer, BeginnerVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -30,7 +32,8 @@ export class RaceDataHandlerService {
                         private trackLoaderService: TrackLoaderService,
                         private resultsSimulatorService: ResultsSimulatorService,
                         private audioService: AudioService,
-                        private inputHandlerService: InputHandlerService) {
+                        private inputHandlerService: InputHandlerService,
+                        private speedZonesService: SpeedZonesService) {
 
         this._timer = new TimerHandler();
         this._countdown = new Countdown();
@@ -50,6 +53,8 @@ export class RaceDataHandlerService {
             this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
             this._raceProgressionService.initialize(this._carsHandlerService.carsPosition,
                                                     this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
+            this.speedZonesService.initialize(  new BeginnerVirtualPlayer(),
+                                                this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
             this.raceResultService.initialize();
             this.subscribeToDoneLap();
             this.subscribeToEndOfRace();
