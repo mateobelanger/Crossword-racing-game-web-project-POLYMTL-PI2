@@ -8,6 +8,6 @@ import { GameStateService } from '../game-state.service';
 })
 export class InformationsComponent {
 
-    public constructor(private gameState: GameStateService) {}
+    public constructor(public gameState: GameStateService) {}
 
 }

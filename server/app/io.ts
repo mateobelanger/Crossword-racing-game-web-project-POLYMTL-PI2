@@ -73,7 +73,7 @@ export class Io {
     private createGame(id: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
         const newGame: GameConfiguration = new GameConfiguration(id, username, difficulty, words);
         this.socketServer.to(id).emit("initializeGame", newGame);
-        this._games.push(newGame);
+        this._waitingGames.push(newGame);
     }
 
     private getGameByRoomId(games: GameConfiguration[], id: string): GameConfiguration {
@@ -111,7 +111,7 @@ export class Io {
         } else {
             gameRoom.guestValidatedwords.push(word);
         }
-        this.getGameByRoomId(gameRoom.roomId).guestValidatedwords = gameRoom.guestValidatedwords;
-        this.getGameByRoomId(gameRoom.roomId).hostValidatedWords = gameRoom.hostValidatedWords;
+        this.getGameByRoomId(this._ongoingGames, gameRoom.roomId).guestValidatedwords = gameRoom.guestValidatedwords;
+        this.getGameByRoomId(this._ongoingGames, gameRoom.roomId).hostValidatedWords = gameRoom.hostValidatedWords;
     }
 }
