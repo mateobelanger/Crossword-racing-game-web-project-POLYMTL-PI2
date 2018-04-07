@@ -7,14 +7,12 @@ export class GameStateService {
     public difficulty: Difficulty;
     public isMultiplayer: boolean;
     public state: GameState;
-    private _names: string[];
-    private scores: number[];
+    public hostName: string;
+    public opponentName: string;
+    public hostScore: number;
+    public opponentScore: number;
 
     public constructor() {
         this.isMultiplayer = false;
-    }
-
-    public get names(): string[] {
-        return this.names;
     }
 }
