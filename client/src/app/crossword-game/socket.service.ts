@@ -15,10 +15,11 @@ import { Router } from "@angular/router";
 export class SocketService {
 
     private socket: SocketIOClient.Socket;
+    public game: GameConfiguration;
 
     public constructor( private lobbyService: LobbyService, public wordService: WordService,
-                       /* public validator: ValidatorService, public gridService: GridService,*/
                         private router: Router) {
+        this.game = null;
         this.socket = io.connect("http://localhost:3000");
 
         this.socket.on("gameLobbies", (waitingGames: GameConfiguration[], ongoingGames: GameConfiguration[]) => {
@@ -27,15 +28,20 @@ export class SocketService {
         });
 
         this.socket.on("gridFromJoin", (game: GameConfiguration) => {
+            this.game = game;
             game._words.forEach((word) => {
                 this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
             });
-            console.log(this.wordService.words.length);
             this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
         });
 
         this.socket.on("newGameCreated", (waitingGames: GameConfiguration[]) => {
             this.lobbyService.onlineGames = waitingGames;
+        });
+
+        this.socket.on("disconnected", (game: GameConfiguration) => {
+            // this.lobbyService.onlineGames.splice;
+            console.log("socket disconnected");
         });
 
     }
