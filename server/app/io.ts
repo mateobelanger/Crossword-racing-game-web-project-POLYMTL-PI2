@@ -44,6 +44,10 @@ export class Io {
                 }
             });
 
+            socket.on("addValidatedWord", (word: GridWord, game: GameConfiguration) => {
+                this.addValidatedWord(word, game, socket);
+                this.socketServer.in(game.roomId).emit("updateValidatedWord", game);
+            });
             socket.on("disconnect", () => {
                 console.log("got disconnected");
                 let game: GameConfiguration;
@@ -67,7 +71,9 @@ export class Io {
     }
 
     private createGame(id: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
-        this._waitingGames.push(new GameConfiguration(id, username, difficulty, words));
+        const newGame: GameConfiguration = new GameConfiguration(id, username, difficulty, words);
+        this.socketServer.to(id).emit("initializeGame", newGame);
+        this._games.push(newGame);
     }
 
     private getGameByRoomId(games: GameConfiguration[], id: string): GameConfiguration {
@@ -97,5 +103,15 @@ export class Io {
         });
 
         return isInAGame;
+    }
+
+    private addValidatedWord(word: GridWord, gameRoom: GameConfiguration, socket: SocketIO.Socket): void {
+        if (socket.id === gameRoom.roomId) {
+            gameRoom.hostValidatedWords.push(word);
+        } else {
+            gameRoom.guestValidatedwords.push(word);
+        }
+        this.getGameByRoomId(gameRoom.roomId).guestValidatedwords = gameRoom.guestValidatedwords;
+        this.getGameByRoomId(gameRoom.roomId).hostValidatedWords = gameRoom.hostValidatedWords;
     }
 }

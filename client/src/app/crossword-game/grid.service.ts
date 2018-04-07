@@ -60,10 +60,6 @@ export class GridService {
         return word.includesCell(row, column);
     }
 
-    public isValidatedCell(row: number, column: number): boolean {
-        return this.validatorService.isValidatedCell(row, column);
-    }
-
     public focusOnSelectedWord(): void {
         this.focusOnCell(this.idOfFirstEmptyCell());
     }
@@ -85,6 +81,26 @@ export class GridService {
         }
     }
 
+    public isEndOfGame(): boolean {
+        return this.validatorService.isEndOfGame;
+    }
+
+    public setEndOfGame(state: boolean): void {
+        this.validatorService.isEndOfGame = state;
+    }
+
+    public isValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isValidatedCell(row, column);
+    }
+
+    public isLocalValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isLocalValidatedCell(row, column);
+    }
+
+    public isRemnoteValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isRemoteValidatedCell(row, column);
+    }
+
     private backspace(row: number, column: number): void {
         if (this.userGrid[row][column] === "") {
             const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
@@ -93,14 +109,6 @@ export class GridService {
         } else {
             this.userGrid[row][column] = "";
         }
-    }
-
-    public isEndOfGame(): boolean {
-        return this.validatorService.isEndOfGame;
-    }
-
-    public setEndOfGame(state: boolean): void {
-        this.validatorService.isEndOfGame = state;
     }
 
     private initializeGrid(): void {

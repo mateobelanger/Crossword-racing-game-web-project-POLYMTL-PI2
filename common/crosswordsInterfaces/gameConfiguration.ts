@@ -7,14 +7,18 @@ export class GameConfiguration  {
     public roomId: string;      // hostId ??????????
     public guestId: string;    
     public hostUsername: string;
-    public difficulty: string;
+    public difficulty: Difficulty;
     public _words: GridWord[];
+    public hostValidatedWords: GridWord[];
+    public guestValidatedwords: GridWord[];
 
     constructor(roomId: string, hostUsername: string, difficulty: Difficulty, words: GridWord[]) {
         this.roomId = roomId;
         this.hostUsername = hostUsername;
         this.difficulty = difficulty;
         this._words = words;
+        this.guestValidatedwords = [];
+        this.hostValidatedWords = [];
     }
 
     public isInGame(id: string): boolean {
