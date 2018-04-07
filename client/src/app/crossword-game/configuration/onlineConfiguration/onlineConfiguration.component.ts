@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ConfigurationHandlerService } from "../../configuration-handler.service";
+import { GameStateService } from "../../game-state.service";
 import { Difficulty } from "../../../../../../common/constants";
 import { SocketService } from "../../socket.service";
 
@@ -12,22 +12,22 @@ import { SocketService } from "../../socket.service";
 })
 export class OnlineConfigurationComponent implements OnInit {
 
-    public constructor( private configurationHandlerService: ConfigurationHandlerService,
+    public constructor( private gameState: GameStateService,
                         private socketService: SocketService/*,
                         private router: Router*/ ) {
-        this.configurationHandlerService.difficulty = null;
+        this.gameState.difficulty = null;
     }
 
     public ngOnInit(): void {
-        this.configurationHandlerService.isMultiplayer = true;
+        this.gameState.isMultiplayer = true;
     }
 
     public get difficulty(): Difficulty {
-        return this.configurationHandlerService.difficulty;
+        return this.gameState.difficulty;
     }
 
     public isValidConfiguration(): boolean {
-        return this.configurationHandlerService.difficulty && this.isValidUsername(this.configurationHandlerService.username);
+        return this.gameState.difficulty && this.isValidUsername(this.gameState.username);
     }
 
     public isValidUsername(username: String): boolean {

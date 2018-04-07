@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ConfigurationHandlerService } from "../../configuration-handler.service";
+import { GameStateService } from "../../game-state.service";
 import { Difficulty } from "../../../../../../common/constants";
 
 @Component({
@@ -9,15 +9,15 @@ import { Difficulty } from "../../../../../../common/constants";
 })
 
 export class DifficultyConfigurationComponent implements OnInit {
-    public constructor(private configurationHandlerService: ConfigurationHandlerService) {
+    public constructor(private gameState: GameStateService) {
     }
 
     public ngOnInit(): void {
-        this.configurationHandlerService.isMultiplayer = false;
+        this.gameState.isMultiplayer = false;
     }
 
     public set difficulty(difficulty: Difficulty) {
-        this.configurationHandlerService.difficulty = difficulty;
+        this.gameState.difficulty = difficulty;
     }
 
 }

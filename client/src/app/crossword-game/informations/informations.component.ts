@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigurationHandlerService } from '../configuration-handler.service';
+import { GameStateService } from '../game-state.service';
 
 @Component({
     selector: 'app-informations',
@@ -11,14 +11,14 @@ export class InformationsComponent implements OnInit {
     private names: string[];
     private scores: number[];
 
-    public constructor(private configurationHandlerService: ConfigurationHandlerService) {
+    public constructor(private gameState: GameStateService) {
         this.names = [];
         this.scores = [];
     }
 
     public ngOnInit(): void {
         this.addPlayer("Me");
-        this.difficulty = this.configurationHandlerService.difficulty;
+        this.difficulty = this.gameState.difficulty;
     }
 
     private addPlayer(name: string): void {
