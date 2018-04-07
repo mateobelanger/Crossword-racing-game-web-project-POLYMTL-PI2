@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Car } from "../cars/car/car";
 import { TRACK_WIDTH } from "../../constants";
 import { RaceProgression } from '../../raceData/raceProgression/raceProgression';
-import { AudioService, FORCE_FIELD_SOUND } from '../../audio/audio.service';
+import { AudioService } from '../../audio/audio.service';
 import { CarHandlerService } from '../cars/car-handler.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 import { Vector3, Quaternion } from "three";
 
+const FORCE_FIELD_SOUND: string = "../../../assets/audio/RG/force-field.wav";
 const SLOWING_FACTOR: number = 0.05;
 const ROTATION_FACTOR: number = 0.05;
 const TRANSLATION_FACTOR: number = 0.1;
