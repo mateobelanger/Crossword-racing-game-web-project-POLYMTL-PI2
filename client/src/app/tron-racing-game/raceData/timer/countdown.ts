@@ -1,40 +1,34 @@
 import { Subject } from "rxjs/Subject";
 
-const MILLISECONDS_TO_SECONDS: number = 1000;
+const MILLISECONDS_TO_TWO_SECONDS: number = 1000;
 export class Countdown {
 
     private _secondDoneStream$: Subject<void>;
-    private _secondsLeft: number;
-    private _totalTime: number;
-    private _beginTime: number;
+    private _timeLeft: number;
+
 
     public constructor() {
         this._secondDoneStream$ = new Subject();
-        this._secondsLeft = 0;
+        this._timeLeft = 0;
     }
 
     public start(time: number): Subject<void> {
-        this._totalTime = time;
-        this._beginTime = Date.now();
+        this._timeLeft = time;
+        const id: number = window.setInterval(() => {
+            this._timeLeft--;
+            if ( this._timeLeft > 0) {
+                this._secondDoneStream$.next();
+            } else {
+                this._secondDoneStream$.complete();
+                window.clearInterval(id);
+            }
+        },                                    MILLISECONDS_TO_TWO_SECONDS);
 
         return this._secondDoneStream$;
     }
 
-    public get secondsLeft(): number {
-        this.updateSecondsLeft();
-
-        return this.secondsLeft;
+    public get timeLeft(): number {
+        return this._timeLeft;
     }
 
-    public get secondsElapsed(): number {
-        return Date.now() - this._beginTime;
-    }
-
-    private updateSecondsLeft(): void {
-        const time: number = Math.ceil( (this._totalTime - this.secondsElapsed) / MILLISECONDS_TO_SECONDS );
-        if ( time !== this._secondsLeft) {
-            this._secondsLeft = time;
-            this._secondDoneStream$.next();
-        }
-    }
 }

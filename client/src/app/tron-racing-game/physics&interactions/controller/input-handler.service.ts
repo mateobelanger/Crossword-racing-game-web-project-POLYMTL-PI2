@@ -11,7 +11,7 @@ import { CommandNightDay } from "./commandNightDay";
 import { RenderService } from "../../gameRendering/render-service/render.service";
 import { CameraService } from "../../gameRendering/camera.service";
 import { SceneLoaderService } from "../../gameRendering/scene-loader/scene-loader.service";
-import { CommandEndOfGame } from "./commandEndOfGame";
+// import { CommandEndOfGame } from "./commandEndOfGame";
 import { CommandNull } from "./commandNull";
 
 const W_KEYCODE: number = 87;
@@ -20,7 +20,7 @@ const S_KEYCODE: number = 83;
 const D_KEYCODE: number = 68;
 const C_KEYCODE: number = 67;
 const N_KEYCODE: number = 78;
-const E_KEYCODE: number = 69;
+// const E_KEYCODE: number = 69;
 const I_KEYCODE: number = 187;
 const O_KEYCODE: number = 189;
 

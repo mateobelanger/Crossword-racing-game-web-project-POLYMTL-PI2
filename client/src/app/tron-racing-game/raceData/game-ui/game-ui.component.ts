@@ -61,6 +61,7 @@ export class GameUiComponent implements AfterViewInit {
 
         await this.raceDataHandlerService.initialize(trackName);
         await this.renderService.initialize(this.containerRef.nativeElement);
+        await this.raceDataHandlerService.startCountdown();
         this.raceDataHandlerService.startRace();
     }
 

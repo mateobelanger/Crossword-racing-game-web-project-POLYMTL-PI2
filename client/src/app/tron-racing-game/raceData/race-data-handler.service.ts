@@ -18,6 +18,7 @@ import { InputHandlerService } from '../physics&interactions/controller/input-ha
 export class RaceDataHandlerService {
 
     private _timer: TimerHandler;
+    private _countdown: Countdown;
     private _ITrackData: ITrackData;
 
     public constructor( private tracksProxyService: TracksProxyService,
@@ -32,6 +33,7 @@ export class RaceDataHandlerService {
                         private inputHandlerService: InputHandlerService) {
 
         this._timer = new TimerHandler();
+        this._countdown = new Countdown();
         this._timer.reset();
     }
 
@@ -86,9 +88,8 @@ export class RaceDataHandlerService {
         return this._raceProgressionService.userPosition;
     }
 
-    public startCountdown(): void {
-        const countdown: Countdown = new Countdown();
-        countdown.start(COUNTDOWN_TIME).subscribe(
+    public async startCountdown(): Promise<void> {
+        await this._countdown.start(COUNTDOWN_TIME).subscribe(
             () => {
                 this.audioService.playSound(COUNTDOWN_SOUND);
             },

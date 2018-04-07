@@ -6,11 +6,11 @@ import { Car } from "../../physics&interactions/cars/car/car";
 import { CameraService } from "../camera.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
-import { AudioService, CAR_ENGINE_SOUND } from "../../audio/audio.service";
+import { AudioService,  } from "../../audio/audio.service"; // CAR_ENGINE_SOUND
 import { OutOfBoundsHandlerService } from "../../physics&interactions/collisions/out-of-bounds-handler.service";
 import { CarHandlerService } from "../../physics&interactions/cars/car-handler.service";
 import { CollisionHandlerService } from "../../physics&interactions/collisions/collision-handler.service";
-import { DEFAULT_MAX_RPM } from "../../physics&interactions/cars/car/engine";
+// import { DEFAULT_MAX_RPM } from "../../physics&interactions/cars/car/engine";
 import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
 
 // To see the car"s point of departure
@@ -18,8 +18,8 @@ import { RaceProgressionHandlerService } from "../../raceData/raceProgression/ra
 // const HELPER_GRID_SIZE: number = 500;
 
 
-const ENGINE_MIN_VOLUME: number = 0.2;
-const ENGINE_MAX_VOLUME: number = 0.65;
+// const ENGINE_MIN_VOLUME: number = 0.2;
+// const ENGINE_MAX_VOLUME: number = 0.65;
 
 @Injectable()
 export class RenderService implements OnDestroy {

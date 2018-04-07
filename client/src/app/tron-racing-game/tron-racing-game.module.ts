@@ -41,6 +41,7 @@ import { CollisionHandlerService } from './physics&interactions/collisions/colli
 import { OutOfBoundsHandlerService } from "./physics&interactions/collisions/out-of-bounds-handler.service";
 import { ResultsSimulatorService } from './raceData/simulateEndResults/results-simulator.service';
 import { SpeedZonesService } from './virtualPlayers/speed-zones.service';
+import { CountdownComponent } from './raceData/raceInfos/coundown/countdown/countdown.component';
 
 @NgModule({
 
@@ -64,6 +65,7 @@ import { SpeedZonesService } from './virtualPlayers/speed-zones.service';
     TimeShowComponent,
     ResultTableComponent,
     PodiumTableComponent,
+    CountdownComponent,
   ],
 
   exports: [
