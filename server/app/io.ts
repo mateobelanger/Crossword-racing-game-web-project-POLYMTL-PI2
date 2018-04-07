@@ -30,15 +30,13 @@ export class Io {
             // ne fonctionne pas
             socket.on("joinGame", (roomId: string) => {
                 socket.join("roomId");
-                this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(roomId) );
+                this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(roomId));
             });
 
-            // ne fonctionne pas
-            // socket.on("updateGrids", (words: GridWord[]) => {
-            //     console.log("update grids"); console.log(words);
-            //     this.getGame(socket.id).words = words;
-            //     this.socketServer.in(socket.id).emit("grid", this.getGame(socket.id)._words);
-            // });
+            socket.on("addValidatedWord", (word: GridWord, game: GameConfiguration) => {
+                this.addValidatedWord(word, game, socket);
+                this.socketServer.in(game.roomId).emit("updateValidatedWord", game);
+            });
         });
 
     }
@@ -49,5 +47,13 @@ export class Io {
 
     private getGameByRoomId(id: string): GameConfiguration {
         return this._games.find((game: GameConfiguration) => game.roomId === id);
+    }
+
+    private addValidatedWord(word: GridWord, gameRoom: GameConfiguration, socket: SocketIO.Socket): void {
+        if (socket.id === gameRoom.roomId) {
+            gameRoom.hostValidatedWords.push(word);
+        } else {
+            gameRoom.guestValidatedwords.push(word);
+        }
     }
 }

@@ -8,12 +8,16 @@ export class GameConfiguration  {
     public hostUsername: string;
     public difficulty: string;
     public _words: GridWord[];
+    public hostValidatedWords: GridWord[];
+    public guestValidatedwords: GridWord[];
 
     constructor(roomId: string, hostUsername: string, difficulty: Difficulty, words: GridWord[]) {
         this.roomId = roomId;
         this.hostUsername = hostUsername;
         this.difficulty = difficulty;
         this._words = words;
+        this.guestValidatedwords = [];
+        this.hostValidatedWords = [];
     }
 
     // public set words(words: GridWord[]) {

@@ -10,15 +10,15 @@ import { WordService } from "./word.service";
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
 import { Router } from "@angular/router";
 
-
 @Injectable()
 export class SocketService {
 
     private socket: SocketIOClient.Socket;
+    public game: GameConfiguration;
 
     public constructor( private lobbyService: LobbyService, public wordService: WordService,
-                       /* public validator: ValidatorService, public gridService: GridService,*/
                         private router: Router) {
+        this.game = null;
         this.socket = io.connect("http://localhost:3000");
 
         this.socket.on("gameLobbies", (gameLobbies: GameConfiguration[]) => {
@@ -26,11 +26,15 @@ export class SocketService {
         });
 
         this.socket.on("gridFromJoin", (game: GameConfiguration) => {
+            this.game = game;
             game._words.forEach((word) => {
                 this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
             });
-            console.log(this.wordService.words.length);
             this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
+        });
+
+        this.socket.on("updateValidatedWord", (game: GameConfiguration) => {
+            this.game = game;
         });
 
     }
@@ -49,12 +53,12 @@ export class SocketService {
         this.socket.emit("getGameLobbies");
     }
 
+    public addValidatedWord(word: GridWord): void {
+        this.socket.emit("addValidatedWord", word, this.game);
+    }
+
     private async createGrid(difficulty: Difficulty): Promise<void> {
         await this.wordService.initialize(difficulty);
-        // .then(() => {
-        //     this.gridService.initialize();
-        //     this.validator.initialize();
-        // });
         this.router.navigate(["crossword-game/" + difficulty + "/ui"]);
     }
 }

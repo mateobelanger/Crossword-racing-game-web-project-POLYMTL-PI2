@@ -2,41 +2,39 @@ import { Injectable } from '@angular/core';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GRID_SIZE } from '../../../../common/constants';
 import { WordService } from './word.service';
+import { SocketService } from './socket.service';
 
 @Injectable()
 export class ValidatorService {
-    private validatedWords: GridWord[];
+    private localValidatedWords: GridWord[];
+    private remoteValidatedWords: GridWord[];
     private filledGrid: string[][];
 
     public isEndOfGame: boolean = false;
 
-    public constructor(private wordService: WordService) {
+    public constructor(private wordService: WordService, private socketService: SocketService) {
     }
 
     // public method to be initialized only once the words are fetched from the server.
     public initialize(): void {
-        this.validatedWords = [];
+        this.localValidatedWords = [];
+        this.remoteValidatedWords = [];
         this.initializeGrid();
         this.fillGrid();
     }
 
     public isValidatedWord(word: GridWord): boolean {
-        return this.validatedWords.includes(word);
+        return this.localValidatedWords.includes(word) || this.remoteValidatedWords.includes(word);
     }
 
     public isValidatedDefinition(definition: string): boolean {
-        for (const word of this.validatedWords) {
+        for (const word of this.localValidatedWords) {
             if (word.definition === definition) {
                 return true;
             }
         }
-
-        return false;
-    }
-
-    public isValidatedCell(row: number, column: number): boolean {
-        for (const word of this.validatedWords) {
-            if (word.includesCell(row, column)) {
+        for (const word of this.remoteValidatedWords) {
+            if (word.definition === definition) {
                 return true;
             }
         }
@@ -46,7 +44,9 @@ export class ValidatorService {
 
     public updateValidatedWords(grid: string[][]): void {
         for (const word of this.wordService.words) {
-            if (this.validatedWords.includes(word)) {
+            if (this.localValidatedWords.includes(word)) {
+                continue;
+            } else if (this.remoteValidatedWords.includes(word)) {
                 continue;
             }
 
@@ -69,11 +69,41 @@ export class ValidatorService {
         }
     }
 
+    public setValidatedWords(local: GridWord[], remote: GridWord[]): void {
+        this.localValidatedWords = local;
+        this.remoteValidatedWords = remote;
+    }
+
     private addValidatedWord(word: GridWord): void {
-        if (!this.validatedWords.includes(word)) {
-            this.validatedWords.push(word);
+        if (!this.localValidatedWords.includes(word) && !this.remoteValidatedWords.includes(word)) {
+            this.localValidatedWords.push(word);
+            this.socketService.addValidatedWord(word);
         }
     }
+
+    public isValidatedCell(row: number, column: number): boolean {
+        return this.isLocalValidatedCell(row, column) || this.isRemoteValidatedCell(row, column);
+    }
+
+    public isLocalValidatedCell(row: number, column: number): boolean {
+        for (const word of this.localValidatedWords) {
+            if (word.includesCell(row, column)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public isRemoteValidatedCell(row: number, column: number): boolean {
+       for (const word of this.remoteValidatedWords) {
+           if (word.includesCell(row, column)) {
+               return true;
+           }
+       }
+
+       return false;
+   }
 
     private initializeGrid(): void {
         this.filledGrid = [];
@@ -101,7 +131,7 @@ export class ValidatorService {
 
     private updateEndOfGame(): void {
         for (const word of this.wordService.words) {
-            if (!this.validatedWords.includes(word)) {
+            if (!this.localValidatedWords.includes(word) || !this.remoteValidatedWords.includes(word)) {
                 this.isEndOfGame = false;
 
                 return;
