@@ -37,7 +37,7 @@ export class SocketService {
             this.game = this.castGame(game);
         });
 
-        this.socket.on("initialiseGame", (game: GameConfiguration) => {
+        this.socket.on("initializeGame", (game: GameConfiguration) => {
             this.game = this.castGame(game);
             this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
             console.log(this.game.hostValidatedWords);
