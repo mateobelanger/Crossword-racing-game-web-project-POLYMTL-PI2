@@ -21,8 +21,9 @@ export class SocketService {
                         private router: Router) {
         this.socket = io.connect("http://localhost:3000");
 
-        this.socket.on("gameLobbies", (gameLobbies: GameConfiguration[]) => {
-            this.lobbyService.onlineGames = gameLobbies;
+        this.socket.on("gameLobbies", (waitingGames: GameConfiguration[], ongoingGames: GameConfiguration[]) => {
+            this.lobbyService.onlineGames = ongoingGames;
+            this.lobbyService.waitingGames = waitingGames;
         });
 
         this.socket.on("gridFromJoin", (game: GameConfiguration) => {
@@ -31,6 +32,10 @@ export class SocketService {
             });
             console.log(this.wordService.words.length);
             this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
+        });
+
+        this.socket.on("newGameCreated", (waitingGames: GameConfiguration[]) => {
+            this.lobbyService.onlineGames = waitingGames;
         });
 
     }
