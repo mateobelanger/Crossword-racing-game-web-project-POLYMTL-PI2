@@ -43,7 +43,7 @@ export class Io {
                     game = this.getGameByRoomId(this._ongoingGames, socket.id);
                     game.isHost(socket.id) ? this.socketServer.to(game.guestId).emit("disconnected") :
                     this.socketServer.to(game.roomId).emit("disconnected");
-                    this.deleteGameById(this._waitingGames, socket.id);
+                    this.deleteGameById(this._ongoingGames, socket.id);
                 } catch (error) {
                     game = this.getGameByRoomId(this._waitingGames, socket.id);
                     this.deleteGameById(this._waitingGames, socket.id);
