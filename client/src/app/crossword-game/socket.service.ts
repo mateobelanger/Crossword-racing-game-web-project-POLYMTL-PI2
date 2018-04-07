@@ -32,6 +32,7 @@ export class SocketService {
             game._words.forEach((word) => {
                 this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
             });
+            console.log(this.wordService.words);
             this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
         });
 
