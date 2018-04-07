@@ -93,6 +93,7 @@ export class RaceDataHandlerService {
     }
 
     public async startCountdown(): Promise<void> {
+        this.audioService.playSound(COUNTDOWN_SOUND);
         await this._countdown.start(COUNTDOWN_TIME).subscribe(
             () => {
                 this.audioService.playSound(COUNTDOWN_SOUND);
