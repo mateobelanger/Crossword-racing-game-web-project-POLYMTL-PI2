@@ -55,5 +55,7 @@ export class Io {
         } else {
             gameRoom.guestValidatedwords.push(word);
         }
+        this.getGameByRoomId(gameRoom.roomId).guestValidatedwords = gameRoom.guestValidatedwords;
+        this.getGameByRoomId(gameRoom.roomId).hostValidatedWords = gameRoom.hostValidatedWords;
     }
 }
