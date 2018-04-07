@@ -19,8 +19,10 @@ export class Io {
         this.socketServer.on("connection", (socket: SocketIO.Socket) => {
 
             socket.on("createGame", (username: string, difficulty: Difficulty, words: GridWord[]) => {
-                this.createGame(socket.id, username, difficulty, words);
-                socket.broadcast.emit("gameLobbies", this._waitingGames);
+                if (!this.isAlreadyInAGame(socket.id)) {
+                    this.createGame(socket.id, username, difficulty, words);
+                    socket.broadcast.emit("gameLobbies", this._waitingGames);
+                }
             });
 
             socket.on("getGameLobbies", () => {
@@ -28,14 +30,24 @@ export class Io {
             });
 
             socket.on("joinGame", (roomId: string) => {
-                socket.join("roomId");
-                // TODO: mettre dans fonction ??
-                this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId));
-                this.deleteGameById(this._waitingGames, roomId);
-                this.getGameByRoomId(this._ongoingGames, roomId).guestId = socket.id;
-                this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(this._ongoingGames, roomId));
+                if (!this.isAlreadyInAGame(socket.id)) {
+                    try {
+                        socket.join("roomId");
+                        // TODO: mettre dans fonction ??
+                        this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId));
+                        this.deleteGameById(this._waitingGames, roomId);
+                        this.getGameByRoomId(this._ongoingGames, roomId).guestId = socket.id;
+                        this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(this._ongoingGames, roomId));
+                    } catch (error) {
+                        return;
+                    }
+                }
             });
 
+            socket.on("addValidatedWord", (word: GridWord, game: GameConfiguration) => {
+                this.addValidatedWord(word, game, socket);
+                this.socketServer.in(game.roomId).emit("updateValidatedWord", game);
+            });
             socket.on("disconnect", () => {
                 console.log("got disconnected");
                 let game: GameConfiguration;
@@ -59,19 +71,47 @@ export class Io {
     }
 
     private createGame(id: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
-        this._waitingGames.push(new GameConfiguration(id, username, difficulty, words));
+        const newGame: GameConfiguration = new GameConfiguration(id, username, difficulty, words);
+        this.socketServer.to(id).emit("initializeGame", newGame);
+        this._games.push(newGame);
     }
 
     private getGameByRoomId(games: GameConfiguration[], id: string): GameConfiguration {
-        if (games.find((game: GameConfiguration) => game.isInGame(id) !== undefined)) {
+        if (games.find((game: GameConfiguration) => game.isInGame(id)) === undefined) {
             throw Error("no game");
         } else {
-            return games.find((game: GameConfiguration) => game.isInGame(id) !== undefined);
+            return games.find((game: GameConfiguration) => game.isInGame(id));
         }
     }
 
     // ordre des parametres ?????????????????????????
     private deleteGameById(games: GameConfiguration[], id: string): void {
         games.splice(games.findIndex((game: GameConfiguration) => game.isInGame(id)));
+    }
+
+    private isAlreadyInAGame(id: string): boolean {
+        let isInAGame: boolean = false;
+        this._ongoingGames.forEach( (game: GameConfiguration) => {
+            if (game.isInGame(id)) {
+                isInAGame = true;
+            }
+        });
+        this._waitingGames.forEach( (game: GameConfiguration) => {
+            if (game.isInGame(id)) {
+                isInAGame = true;
+            }
+        });
+
+        return isInAGame;
+    }
+
+    private addValidatedWord(word: GridWord, gameRoom: GameConfiguration, socket: SocketIO.Socket): void {
+        if (socket.id === gameRoom.roomId) {
+            gameRoom.hostValidatedWords.push(word);
+        } else {
+            gameRoom.guestValidatedwords.push(word);
+        }
+        this.getGameByRoomId(gameRoom.roomId).guestValidatedwords = gameRoom.guestValidatedwords;
+        this.getGameByRoomId(gameRoom.roomId).hostValidatedWords = gameRoom.hostValidatedWords;
     }
 }
