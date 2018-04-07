@@ -1,6 +1,6 @@
 import { Subject } from "rxjs/Subject";
 
-const MILLISECONDS_TO_TWO_SECONDS: number = 1000;
+const MILLISECONDS_TO_SECONDS: number = 1000;
 export class Countdown {
 
     private _secondDoneStream$: Subject<void>;
@@ -9,7 +9,7 @@ export class Countdown {
 
     public constructor() {
         this._secondDoneStream$ = new Subject();
-        this._timeLeft = 0;
+        this._timeLeft = -1;
     }
 
     public start(time: number): Subject<void> {
@@ -21,8 +21,11 @@ export class Countdown {
             } else {
                 this._secondDoneStream$.complete();
                 window.clearInterval(id);
+                window.setTimeout(() => {
+                    this._timeLeft--;
+                },                MILLISECONDS_TO_SECONDS);
             }
-        },                                    MILLISECONDS_TO_TWO_SECONDS);
+        },                                    MILLISECONDS_TO_SECONDS);
 
         return this._secondDoneStream$;
     }
