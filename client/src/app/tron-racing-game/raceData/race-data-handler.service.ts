@@ -100,6 +100,7 @@ export class RaceDataHandlerService {
             },
             (err: Error) => {
                 console.error(err);
+                this.inputHandlerService.enableControlKeys();
             },
             () => {
                 this.audioService.playSound(COUNTDOWN_END_SOUND);
