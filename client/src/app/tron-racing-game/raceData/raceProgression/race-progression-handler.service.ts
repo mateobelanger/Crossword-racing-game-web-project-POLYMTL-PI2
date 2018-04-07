@@ -19,15 +19,18 @@ export class RaceProgressionHandlerService {
         this._userProgression = new UserRaceProgression();
     }
 
-    public initialize(carsPosition: [string, THREE.Vector3][], waypoints: [number, number, number][]): void {
-        carsPosition.forEach( (carPosition: [string, THREE.Vector3]) => {
-            if (carPosition[0] === USERNAME) {
-                this._userProgression = new UserRaceProgression(carPosition[1], waypoints);
-                this._playersProgression.push([carPosition[0], this._userProgression]);
-            } else
-                this._playersProgression.push([carPosition[0], new RaceProgression(carPosition[1], waypoints)]);
+    public async initialize(carsPosition: [string, THREE.Vector3][], waypoints: [number, number, number][]): Promise<void> {
+        return new Promise<void>( (resolve: Function, reject: Function) => {
+            carsPosition.forEach( (carPosition: [string, THREE.Vector3]) => {
+                if (carPosition[0] === USERNAME) {
+                    this._userProgression = new UserRaceProgression(carPosition[1], waypoints);
+                    this._playersProgression.push([carPosition[0], this._userProgression]);
+                } else
+                    this._playersProgression.push([carPosition[0], new RaceProgression(carPosition[1], waypoints)]);
+            });
+            this.initializeLapDoneStream();
+            resolve();
         });
-        this.initializeLapDoneStream();
     }
 
     public update(): void {

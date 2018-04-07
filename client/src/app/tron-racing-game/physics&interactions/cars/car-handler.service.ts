@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Car } from './car/car';
-import { PLAYERS_NAME } from "../../constants";
+import { PLAYERS_NAME, USERNAME } from "../../constants";
 import * as THREE from "three";
 import { CarStartPosition } from './carStartPosition';
+import { VirtualPlayerController } from '../../virtualPlayers/virtualPlayerController';
+import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
+import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 
 @Injectable()
 export class CarHandlerService {
 
     private _cars: [string, Car][];
-    public constructor() {
+    public constructor( private speedZoneService: SpeedZonesService,
+                        private raceProgressionService: RaceProgressionHandlerService) {
         this._cars = [];
     }
 
     public async initialize(): Promise<void> {
         PLAYERS_NAME.forEach((name: string) => {
-            this._cars.push([name, new Car()]);
+            this._cars.push([   name,
+                                name !== USERNAME ? new VirtualPlayerController(this.speedZoneService,
+                                                                                this.raceProgressionService,
+                                                                                name) :
+                                                    new Car()]);
         });
         // because await does not work in for-of loop
         // tslint:disable prefer-for-of
@@ -25,6 +33,10 @@ export class CarHandlerService {
 
     public get cars(): [string, Car][] {
         return this._cars;
+    }
+
+    public update(deltaTime: number): void {
+        this._cars.forEach( (car: [string, Car]) => { car[1].update(deltaTime); });
     }
 
     public get carsOnly(): Car[] {

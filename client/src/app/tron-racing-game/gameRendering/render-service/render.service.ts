@@ -82,9 +82,7 @@ export class RenderService implements OnDestroy {
 
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        this.carHandlerService.carsOnly.forEach((car: Car) => {
-            car.update(timeSinceLastFrame);
-        });
+        this.carHandlerService.update(timeSinceLastFrame);
 
         this.outOfBoundsHandlerService.handleWallCollisions();
         this.collisionHandlerService.handleCarCollisions();

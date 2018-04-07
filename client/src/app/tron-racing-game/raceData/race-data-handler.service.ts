@@ -14,7 +14,7 @@ import { Countdown } from './timer/countdown';
 import { AudioService, COUNTDOWN_SOUND, COUNTDOWN_END_SOUND } from '../audio/audio.service';
 import { InputHandlerService } from '../physics&interactions/controller/input-handler.service';
 import { SpeedZonesService } from '../virtualPlayers/speed-zones.service';
-import { ExpertVirtualPlayer, BeginnerVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
+import { BeginnerVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -49,12 +49,14 @@ export class RaceDataHandlerService {
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             this.trackLoaderService.points = this._ITrackData.waypoints;
 
-            await this._carsHandlerService.initialize();
-            this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
-            this._raceProgressionService.initialize(this._carsHandlerService.carsPosition,
-                                                    this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
             this.speedZonesService.initialize(  new BeginnerVirtualPlayer(),
                                                 this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
+            await this._carsHandlerService.initialize();
+
+            await this._raceProgressionService.initialize(  this._carsHandlerService.carsPosition,
+                                                            this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
+
+            this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
             this.raceResultService.initialize();
             this.subscribeToDoneLap();
             this.subscribeToEndOfRace();
