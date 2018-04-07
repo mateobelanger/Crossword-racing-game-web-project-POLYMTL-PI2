@@ -27,11 +27,16 @@ export class OnlineConfigurationComponent implements OnInit {
     }
 
     public isValidConfiguration(): boolean {
-        return this.gameState.difficulty && this.isValidUsername(this.gameState.username);
+        return this.gameState.difficulty && this.isValidUsername(this.gameState.names);
     }
 
-    public isValidUsername(username: String): boolean {
-      return (username.length > 0);
+    public isValidUsername(names: String[]): boolean {
+        let isValid: boolean = true;
+        names.forEach( (name: String) => {
+            isValid = name.length > 0;
+        });
+
+        return isValid;
     }
 
     public async createGame(username: string): Promise<void> {
