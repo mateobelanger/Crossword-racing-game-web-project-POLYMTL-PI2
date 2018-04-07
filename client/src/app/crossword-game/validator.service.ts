@@ -6,8 +6,8 @@ import { SocketService } from './socket.service';
 
 @Injectable()
 export class ValidatorService {
-    private localValidatedWords: GridWord[];
-    private remoteValidatedWords: GridWord[];
+    // private localValidatedWords: GridWord[];
+    // private remoteValidatedWords: GridWord[];
     private filledGrid: string[][];
 
     public isEndOfGame: boolean = false;
@@ -17,23 +17,21 @@ export class ValidatorService {
 
     // public method to be initialized only once the words are fetched from the server.
     public initialize(): void {
-        this.localValidatedWords = [];
-        this.remoteValidatedWords = [];
         this.initializeGrid();
         this.fillGrid();
     }
 
     public isValidatedWord(word: GridWord): boolean {
-        return this.localValidatedWords.includes(word) || this.remoteValidatedWords.includes(word);
+        return this.socketService.game.hostValidatedWords.includes(word) || this.socketService.game.guestValidatedwords.includes(word);
     }
 
     public isValidatedDefinition(definition: string): boolean {
-        for (const word of this.localValidatedWords) {
+        for (const word of this.socketService.game.hostValidatedWords) {
             if (word.definition === definition) {
                 return true;
             }
         }
-        for (const word of this.remoteValidatedWords) {
+        for (const word of this.socketService.game.guestValidatedwords) {
             if (word.definition === definition) {
                 return true;
             }
@@ -44,9 +42,9 @@ export class ValidatorService {
 
     public updateValidatedWords(grid: string[][]): void {
         for (const word of this.wordService.words) {
-            if (this.localValidatedWords.includes(word)) {
+            if (this.socketService.game.hostValidatedWords.includes(word)) {
                 continue;
-            } else if (this.remoteValidatedWords.includes(word)) {
+            } else if (this.socketService.game.guestValidatedwords.includes(word)) {
                 continue;
             }
 
@@ -70,13 +68,13 @@ export class ValidatorService {
     }
 
     public setValidatedWords(local: GridWord[], remote: GridWord[]): void {
-        this.localValidatedWords = local;
-        this.remoteValidatedWords = remote;
+        this.socketService.game.hostValidatedWords = local;
+        this.socketService.game.guestValidatedwords = remote;
     }
 
     private addValidatedWord(word: GridWord): void {
-        if (!this.localValidatedWords.includes(word) && !this.remoteValidatedWords.includes(word)) {
-            this.localValidatedWords.push(word);
+        if (!this.socketService.game.hostValidatedWords.includes(word) && !this.socketService.game.guestValidatedwords.includes(word)) {
+            this.socketService.game.hostValidatedWords.push(word);
             this.socketService.addValidatedWord(word);
         }
     }
@@ -86,7 +84,7 @@ export class ValidatorService {
     }
 
     public isLocalValidatedCell(row: number, column: number): boolean {
-        for (const word of this.localValidatedWords) {
+        for (const word of this.socketService.game.hostValidatedWords) {
             if (word.includesCell(row, column)) {
                 return true;
             }
@@ -96,7 +94,7 @@ export class ValidatorService {
     }
 
     public isRemoteValidatedCell(row: number, column: number): boolean {
-       for (const word of this.remoteValidatedWords) {
+       for (const word of this.socketService.game.guestValidatedwords) {
            if (word.includesCell(row, column)) {
                return true;
            }
@@ -131,7 +129,7 @@ export class ValidatorService {
 
     private updateEndOfGame(): void {
         for (const word of this.wordService.words) {
-            if (!this.localValidatedWords.includes(word) || !this.remoteValidatedWords.includes(word)) {
+            if (!this.socketService.game.hostValidatedWords.includes(word) || !this.socketService.game.guestValidatedwords.includes(word)) {
                 this.isEndOfGame = false;
 
                 return;

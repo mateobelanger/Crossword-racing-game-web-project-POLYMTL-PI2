@@ -6,7 +6,7 @@ import { GridWord } from '../../common/crosswordsInterfaces/word';
 export class GameConfiguration  {
     public roomId: string;
     public hostUsername: string;
-    public difficulty: string;
+    public difficulty: Difficulty;
     public _words: GridWord[];
     public hostValidatedWords: GridWord[];
     public guestValidatedwords: GridWord[];

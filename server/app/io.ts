@@ -42,7 +42,9 @@ export class Io {
     }
 
     private createGame(id: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
-        this._games.push(new GameConfiguration(id, username, difficulty, words));
+        const newGame: GameConfiguration = new GameConfiguration(id, username, difficulty, words);
+        this._games.push(newGame);
+        this.socketServer.to(id).emit("initialiseGame", newGame);
     }
 
     private getGameByRoomId(id: string): GameConfiguration {

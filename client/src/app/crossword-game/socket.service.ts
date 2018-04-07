@@ -26,7 +26,7 @@ export class SocketService {
         });
 
         this.socket.on("gridFromJoin", (game: GameConfiguration) => {
-            this.game = game;
+            this.game = this.castGame(game);
             game._words.forEach((word) => {
                 this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
             });
@@ -34,9 +34,38 @@ export class SocketService {
         });
 
         this.socket.on("updateValidatedWord", (game: GameConfiguration) => {
-            this.game = game;
+            this.game = this.castGame(game);
         });
 
+        this.socket.on("initialiseGame", (game: GameConfiguration) => {
+            this.game = this.castGame(game);
+            this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
+            console.log(this.game.hostValidatedWords);
+            console.log(this.game.guestValidatedwords);
+        });
+
+    }
+
+
+    public castGame(game: GameConfiguration): GameConfiguration {
+        const words: GridWord[] = this.castHttpToGridWord(game._words);
+        const hostValidatedWords: GridWord[] = this.castHttpToGridWord(game.hostValidatedWords);
+        const guestValidatedwords: GridWord[] = this.castHttpToGridWord(game.guestValidatedwords);
+        const castedGame: GameConfiguration = new GameConfiguration(game.roomId, game.hostUsername, game.difficulty, words);
+
+        castedGame.guestValidatedwords = guestValidatedwords;
+        castedGame.hostValidatedWords = hostValidatedWords;
+
+        return castedGame;
+    }
+
+    private castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
+        const words: GridWord[] = [];
+        for (const word of httpWords) {
+            words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
+        }
+
+        return words;
     }
 
     public async createGame(username: string, difficulty: Difficulty): Promise<void> {
@@ -59,6 +88,5 @@ export class SocketService {
 
     private async createGrid(difficulty: Difficulty): Promise<void> {
         await this.wordService.initialize(difficulty);
-        this.router.navigate(["crossword-game/" + difficulty + "/ui"]);
     }
 }
