@@ -46,23 +46,24 @@ export class ValidatorService {
                 continue;
             } else if (this.socketService.game.guestValidatedwords.includes(word)) {
                 continue;
-            }
+            } else {
 
-            let row: number = word.row;
-            let column: number = word.column;
-            let isValidated: boolean = true;
-            for (let i: number = 0; i < word.value.length; i++) {
-                word.direction === Direction.HORIZONTAL ?
-                    column = word.column + i : row = word.row + i;
+                let row: number = word.row;
+                let column: number = word.column;
+                let isValidated: boolean = true;
+                for (let i: number = 0; i < word.value.length; i++) {
+                    word.direction === Direction.HORIZONTAL ?
+                        column = word.column + i : row = word.row + i;
 
-                if (grid[row][column].toLowerCase() !== this.filledGrid[row][column]) {
-                    isValidated = false;
-                    break;
+                    if (grid[row][column].toLowerCase() !== this.filledGrid[row][column]) {
+                        isValidated = false;
+                        break;
+                    }
                 }
-            }
-            if (isValidated) {
-                this.addValidatedWord(word);
-                this.updateEndOfGame();
+                if (isValidated) {
+                    this.addValidatedWord(word);
+                    this.updateEndOfGame();
+                }
             }
         }
     }
@@ -74,8 +75,11 @@ export class ValidatorService {
 
     private addValidatedWord(word: GridWord): void {
         if (!this.socketService.game.hostValidatedWords.includes(word) && !this.socketService.game.guestValidatedwords.includes(word)) {
-            this.socketService.game.hostValidatedWords.push(word);
-            this.socketService.addValidatedWord(word);
+            console.log("adding validated word (host: " + this.socketService.isHost + ")");
+            if (this.socketService.isHost) {
+                this.socketService.game.hostValidatedWords.push(word);
+                this.socketService.addValidatedWord();
+            }
         }
     }
 
