@@ -17,6 +17,14 @@ export class GameConfiguration  {
         this._words = words;
     }
 
+    public isInGame(id: string): boolean {
+        return this.roomId === id || this.guestId === id;
+    }
+
+    public isHost(id: string): boolean {
+        return this.roomId === id;
+    }
+
     // public set words(words: GridWord[]) {
     //     this._words = words;
     // }

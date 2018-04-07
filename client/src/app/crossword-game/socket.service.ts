@@ -17,8 +17,8 @@ export class SocketService {
     private socket: SocketIOClient.Socket;
     public game: GameConfiguration;
 
-    public constructor( private lobbyService: LobbyService, public wordService: WordService,
-                        private router: Router) {
+    public constructor(private lobbyService: LobbyService, public wordService: WordService,
+        private router: Router) {
         this.game = null;
         this.socket = io.connect("http://localhost:3000");
 
@@ -33,10 +33,6 @@ export class SocketService {
                 this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
             });
             this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
-        });
-
-        this.socket.on("newGameCreated", (waitingGames: GameConfiguration[]) => {
-            this.lobbyService.onlineGames = waitingGames;
         });
 
         this.socket.on("disconnected", (game: GameConfiguration) => {

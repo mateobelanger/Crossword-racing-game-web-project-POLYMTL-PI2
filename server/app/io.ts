@@ -9,19 +9,18 @@ import { GridWord } from "../../common/crosswordsInterfaces/word";
 export class Io {
 
     private socketServer: SocketIO.Server;
-    // private rooms: number[];
     private _ongoingGames: GameConfiguration[] = [];
     private _waitingGames: GameConfiguration[] = [];
 
+    // tslint:disable-next-line:max-func-body-length
     constructor(server: http.Server) {
-        // this.rooms = [];
         this.socketServer = SocketIo(server);
-
+        // tslint:disable-next-line:max-func-body-length
         this.socketServer.on("connection", (socket: SocketIO.Socket) => {
 
             socket.on("createGame", (username: string, difficulty: Difficulty, words: GridWord[]) => {
                 this.createGame(socket.id, username, difficulty, words);
-                socket.broadcast.emit("newGameCreated", this._waitingGames);
+                socket.broadcast.emit("gameLobbies", this._waitingGames);
             });
 
             socket.on("getGameLobbies", () => {
@@ -31,17 +30,24 @@ export class Io {
             socket.on("joinGame", (roomId: string) => {
                 socket.join("roomId");
                 // TODO: mettre dans fonction ??
-                this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId, true));
-                this.deleteGameById(this._waitingGames, roomId, true);
-                this.getGameByRoomId(this._ongoingGames, roomId, true).guestId = socket.id;
-
-                this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(this._ongoingGames, roomId, true));
+                this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId));
+                this.deleteGameById(this._waitingGames, roomId);
+                this.getGameByRoomId(this._ongoingGames, roomId).guestId = socket.id;
+                this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(this._ongoingGames, roomId));
             });
 
             socket.on("disconnect", () => {
                 console.log("got disconnected");
-                this.socketServer.to(this.getGameByRoomId(this._ongoingGames, socket.id, false).roomId).emit("disconnected");
-                this.socketServer.to(this.getGameByRoomId(this._ongoingGames, socket.id, false).guestId).emit("disconnected");
+                let game: GameConfiguration;
+                try {
+                    game = this.getGameByRoomId(this._ongoingGames, socket.id);
+                    game.isHost(socket.id) ? this.socketServer.to(game.guestId).emit("disconnected") :
+                    this.socketServer.to(game.roomId).emit("disconnected");
+                    this.deleteGameById(this._waitingGames, socket.id);
+                } catch (error) {
+                    game = this.getGameByRoomId(this._waitingGames, socket.id);
+                    this.deleteGameById(this._waitingGames, socket.id);
+                }
             });
             // socket.on("updateGrids", (words: GridWord[]) => {
             //     console.log("update grids"); console.log(words);
@@ -56,14 +62,16 @@ export class Io {
         this._waitingGames.push(new GameConfiguration(id, username, difficulty, words));
     }
 
-    private getGameByRoomId(games: GameConfiguration[], id: string, isHostId: boolean): GameConfiguration {
-        return isHostId ? games.find((game: GameConfiguration) => game.roomId === id) :
-            games.find((game: GameConfiguration) => game.guestId === id);
+    private getGameByRoomId(games: GameConfiguration[], id: string): GameConfiguration {
+        if (games.find((game: GameConfiguration) => game.isInGame(id) !== undefined)) {
+            throw Error("no game");
+        } else {
+            return games.find((game: GameConfiguration) => game.isInGame(id) !== undefined);
+        }
     }
 
-    // ordre des parametres?
-    private deleteGameById(games: GameConfiguration[], id: string, isHostId: boolean): void {
-        isHostId ? games.splice(games.findIndex((game: GameConfiguration) => game.roomId === id)) :
-            games.splice(games.findIndex((game: GameConfiguration) => game.guestId === id));
+    // ordre des parametres ?????????????????????????
+    private deleteGameById(games: GameConfiguration[], id: string): void {
+        games.splice(games.findIndex((game: GameConfiguration) => game.isInGame(id)));
     }
 }
