@@ -2,10 +2,10 @@
   <!--row of index!-->
   <div class="row">
     <div class="col header"></div>
-    <div *ngFor="let block of gridService.userGrid[0]; let index = index;" class="col header">{{index+1}}</div>
+    <div *ngFor="let block of gridService.userGridService.userGrid[0]; let index = index;" class="col header">{{index+1}}</div>
   </div>
  
-    <div *ngFor="let row of gridService.userGrid; let indexR = index;" class="row">
+    <div *ngFor="let row of gridService.userGridService.userGrid; let indexR = index;" class="row">
         <!--first cell with index!-->
         <div class="col header">{{indexR+1}}</div>
         <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex" type="text"
@@ -18,7 +18,7 @@
                [class.remotlySelected]="gridService.isRemoteSelectedWord(indexR, indexC)"  
                [class.localySelected]="gridService.isSelectedWord(indexR, indexC)"
                [class.filled]="block === '-'"
-               [(ngModel)]="gridService.userGrid[indexR][indexC]"
+               [(ngModel)]="gridService.userGridService.userGrid[indexR][indexC]"
                (keydown)="gridService.keyDown($event.keyCode, indexR, indexC)"
                (keyup)="keyUp(indexR, indexC)"
                (click)="onSelect(indexR, indexC); $event.stopPropagation()"

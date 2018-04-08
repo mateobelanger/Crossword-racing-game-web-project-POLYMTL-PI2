@@ -4,13 +4,14 @@ import { WordService } from '../word.service';
 import { GridService } from "../grid.service";
 import { ValidatorService } from "../validator.service";
 import { SelectionService } from '../selection/selection.service';
+import { UserGridService } from '../user-grid.service';
 // import { SocketService } from "../socket.service";
 
 @Component({
     selector: 'app-game-ui',
     templateUrl: './game-ui.component.html',
     styleUrls: ['./game-ui.component.css'],
-    providers: [ValidatorService, GridService]
+    providers: [ValidatorService, GridService, UserGridService]
 })
 
 export class GameUiComponent implements OnInit {
