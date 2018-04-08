@@ -4,7 +4,9 @@ import * as THREE from "three";
 import { Car } from "../cars/car/car";
 import { Collision } from "./collision";
 import { CollisionType } from "../../constants";
-import { AudioService, CAR_COLLISION_SOUND } from "../../audio/audio.service";
+import { AudioService } from "../../audio/audio.service";
+
+const CAR_COLLISION_SOUND: string = "../../../assets/audio/RG/car-collision.wav";
 
 @Injectable()
 export class CollisionHandlerService {

@@ -6,7 +6,7 @@ import { Car } from "../../physics&interactions/cars/car/car";
 import { CameraService } from "../camera.service";
 import { SceneLoaderService } from "../scene-loader/scene-loader.service";
 import { TrackLoaderService } from "../track-loader.service";
-import { AudioService,  } from "../../audio/audio.service"; // CAR_ENGINE_SOUND
+import { AudioService } from "../../audio/audio.service";
 import { OutOfBoundsHandlerService } from "../../physics&interactions/collisions/out-of-bounds-handler.service";
 import { CarHandlerService } from "../../physics&interactions/cars/car-handler.service";
 import { CollisionHandlerService } from "../../physics&interactions/collisions/collision-handler.service";
@@ -18,8 +18,9 @@ import { RaceProgressionHandlerService } from "../../raceData/raceProgression/ra
 // const HELPER_GRID_SIZE: number = 500;
 
 
-// const ENGINE_MIN_VOLUME: number = 0.2;
-// const ENGINE_MAX_VOLUME: number = 0.65;
+const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
+const ENGINE_MIN_VOLUME: number = 0.2;
+const ENGINE_MAX_VOLUME: number = 0.65;
 
 @Injectable()
 export class RenderService implements OnDestroy {
@@ -84,7 +85,7 @@ export class RenderService implements OnDestroy {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this.carHandlerService.update(timeSinceLastFrame);
 
-        this.outOfBoundsHandlerService.handleWallCollisions();
+        this.outOfBoundsHandlerService.update();
         this.collisionHandlerService.handleCarCollisions();
 
         // const carEngineVolume: number = Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM));
