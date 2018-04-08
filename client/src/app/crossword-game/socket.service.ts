@@ -46,6 +46,7 @@ export class SocketService {
             this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
         });
         this.socket.on("remoteSelectedWord", (selectedWord: GridWord) => {
+            console.log("hope");
             this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
         });
 
@@ -65,7 +66,7 @@ export class SocketService {
         const words: GridWord[] = this.castHttpToGridWord(game._words);
         const hostValidatedWords: GridWord[] = this.castHttpToGridWord(game.hostValidatedWords);
         const guestValidatedwords: GridWord[] = this.castHttpToGridWord(game.guestValidatedwords);
-        const castedGame: GameConfiguration = new GameConfiguration(game.roomId, game.hostUsername, game.difficulty, words);
+        const castedGame: GameConfiguration = new GameConfiguration(game.roomId, game.hostId, game.hostUsername, game.difficulty, words);
 
         castedGame.guestValidatedwords = guestValidatedwords;
         castedGame.hostValidatedWords = hostValidatedWords;

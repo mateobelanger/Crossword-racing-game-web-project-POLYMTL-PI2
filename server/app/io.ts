@@ -5,16 +5,12 @@ import { GameConfiguration } from "../../common/crosswordsInterfaces/gameConfigu
 import { Difficulty } from "../../common/constants";
 import { GridWord } from "../../common/crosswordsInterfaces/word";
 
-enum SocketId { HOST, GUEST }
-
 // @injectable()
 export class Io {
 
     private socketServer: SocketIO.Server;
     private _ongoingGames: GameConfiguration[] = [];
     private _waitingGames: GameConfiguration[] = [];
-
-    private playerSocketId: string[] = [];
 
     // tslint:disable-next-line:max-func-body-length
     constructor(server: http.Server) {
@@ -23,10 +19,11 @@ export class Io {
         this.socketServer.on("connection", (socket: SocketIO.Socket) => {
 
             socket.on("createGame", (username: string, difficulty: Difficulty, words: GridWord[]) => {
-                this.playerSocketId[SocketId.HOST] = socket.id;
-                this.createGame(socket.id, username, difficulty, words);
+
+                const roomId: string = "game" + (this._ongoingGames.length + this._waitingGames.length).toString();
+                socket.join(roomId);
                 if (!this.isAlreadyInAGame(socket.id)) {
-                    this.createGame(socket.id, username, difficulty, words);
+                    this.createGame(roomId, socket.id, username, difficulty, words);
                     socket.broadcast.emit("gameLobbies", this._waitingGames);
                 }
             });
@@ -36,7 +33,6 @@ export class Io {
             });
 
             socket.on("joinGame", (roomId: string) => {
-                this.playerSocketId[SocketId.GUEST] = socket.id;
                 if (!this.isAlreadyInAGame(socket.id)) {
                     try {
                         socket.join(roomId);
@@ -60,38 +56,44 @@ export class Io {
                 try {
                     game = this.getGameByRoomId(this._ongoingGames, socket.id);
                     game.isHost(socket.id) ? this.socketServer.to(game.guestId).emit("disconnected") :
-                    this.socketServer.to(game.roomId).emit("disconnected");
-                    this.deleteGameById(this._ongoingGames, socket.id);
+                        this.socketServer.to(game.hostId).emit("disconnected");
+                    // this.deleteGameById(this._ongoingGames, socket.id);
                 } catch (error) {
                     game = this.getGameByRoomId(this._waitingGames, socket.id);
-                    this.deleteGameById(this._waitingGames, socket.id);
+                    // this.deleteGameById(this._waitingGames, socket.id);
                 }
             });
-            // socket.on("updateGrids", (words: GridWord[]) => {
-            //     console.log("update grids"); console.log(words);
-            //     this.getGame(socket.id).words = words;
-            //     this.socketServer.in(socket.id).emit("grid", this.getGame(socket.id)._words);
-            // });
+
             socket.on("selectWord", (selectedWord: GridWord) => {
-                const socketId: string = socket.id ===  this.playerSocketId[SocketId.GUEST] ?
-                    this.playerSocketId[SocketId.HOST] : this.playerSocketId[SocketId.GUEST];
+                const game: GameConfiguration = this.getGameBySocketId(this._ongoingGames, socket.id);
+                const socketId: string = game.isHost(socket.id) ?
+                    game.guestId : game.hostId;
+
                 this.socketServer.to(socketId).emit("remoteSelectedWord", selectedWord);
             });
         });
 
     }
 
-    private createGame(id: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
-        const newGame: GameConfiguration = new GameConfiguration(id, username, difficulty, this.castHttpToGridWord(words));
-        this.socketServer.to(id).emit("initializeGame", newGame);
+    private createGame(roomId: string, hostId: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
+        const newGame: GameConfiguration = new GameConfiguration(roomId, hostId, username, difficulty, this.castHttpToGridWord(words));
+        this.socketServer.to(roomId).emit("initializeGame", newGame); // quel ID ??????????
         this._waitingGames.push(newGame);
     }
 
-    private getGameByRoomId(games: GameConfiguration[], id: string): GameConfiguration {
-       /* if (games.find((game: GameConfiguration) => game.isInGame(id)) === undefined) {
-            // throw Error("no game");
-        } else {*/
-            return games.find((game: GameConfiguration) => game.isInGame(id));
+    private getGameBySocketId(games: GameConfiguration[], id: string): GameConfiguration {
+        /* if (games.find((game: GameConfiguration) => game.isInGame(id)) === undefined) {
+             // throw Error("no game");
+         } else {*/
+        return games.find((game: GameConfiguration) => game.isInGame(id));
+        // }
+    }
+
+    private getGameByRoomId(games: GameConfiguration[], roomId: string): GameConfiguration {
+        /* if (games.find((game: GameConfiguration) => game.isInGame(id)) === undefined) {
+             // throw Error("no game");
+         } else {*/
+        return games.find((game: GameConfiguration) => game.roomId === roomId);
         // }
     }
 
@@ -102,12 +104,12 @@ export class Io {
 
     private isAlreadyInAGame(id: string): boolean {
         let isInAGame: boolean = false;
-        this._ongoingGames.forEach( (game: GameConfiguration) => {
+        this._ongoingGames.forEach((game: GameConfiguration) => {
             if (game.isInGame(id)) {
                 isInAGame = true;
             }
         });
-        this._waitingGames.forEach( (game: GameConfiguration) => {
+        this._waitingGames.forEach((game: GameConfiguration) => {
             if (game.isInGame(id)) {
                 isInAGame = true;
             }
