@@ -18,6 +18,7 @@
                [disabled]="gridService.isValidatedCell(indexR, indexC)"
                [class.remoteSelected]="gridService.isRemoteSelectedWord(indexR, indexC)"  
                [class.localSelected]="gridService.isSelectedWord(indexR, indexC)"
+               [class.bothSelected]="gridService.isBothSelectedWord(indexR, indexC)"
                [class.filled]="block === '-'"
                [(ngModel)]="gridService.userGridService.userGrid[indexR][indexC]"
                (keydown)="gridService.keyDown($event.keyCode, indexR, indexC)"

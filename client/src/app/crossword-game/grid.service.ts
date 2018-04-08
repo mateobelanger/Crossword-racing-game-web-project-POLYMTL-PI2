@@ -51,6 +51,8 @@ export class GridService {
         this.focusOnSelectedWord();
     }
 
+
+
     public isSelectedWord(row: number, column: number): boolean {
         const word: GridWord = this.selectionService.selectedWord;
         if (word === null || this.validatorService.isValidatedWord(word)) {
@@ -67,6 +69,10 @@ export class GridService {
         }
 
         return word.includesCell(row, column);
+    }
+
+    public isBothSelectedWord(row: number, column: number): boolean {
+        return this.isRemoteSelectedWord(row, column) && this.isSelectedWord(row, column);
     }
 
     public focusOnSelectedWord(): void {
