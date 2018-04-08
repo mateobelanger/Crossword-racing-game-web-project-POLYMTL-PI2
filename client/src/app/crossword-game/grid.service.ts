@@ -108,7 +108,7 @@ export class GridService {
         return this.validatorService.isLocalValidatedCell(row, column);
     }
 
-    public isRemnoteValidatedCell(row: number, column: number): boolean {
+    public isRemoteValidatedCell(row: number, column: number): boolean {
         return this.validatorService.isRemoteValidatedCell(row, column);
     }
 
