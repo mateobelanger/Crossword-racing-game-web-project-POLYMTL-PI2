@@ -58,9 +58,16 @@ li:hover {
     color: white;
 }
 
-.validated {
-    color: rgb(3, 231, 3);
-    background: white;
+.localValidatedDefinition {
+    background: red;
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.remoteValidatedDefinition {
+    background: blue;
+    color: white;
     font-weight: bold;
     pointer-events: none;
 }

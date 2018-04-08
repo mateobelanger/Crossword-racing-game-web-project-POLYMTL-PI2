@@ -24,12 +24,33 @@ export class ValidatorService {
         return this.socketService.game.hostValidatedWords.includes(word) || this.socketService.game.guestValidatedwords.includes(word);
     }
 
-    public isValidatedDefinition(definition: string): boolean {
+    public isLocalValidatedDefinition(definition: string): boolean {
+        return this.isValidatedDefinition(!this.socketService.isHost, definition);
+    }
+
+    public isRemoteValidatedDefinition(definition: string): boolean {
+        return this.isValidatedDefinition(this.socketService.isHost, definition);
+    }
+
+    public isValidatedDefinition(isHost: boolean, definition: string): boolean {
+        if (isHost) {
+            return this.isHostValidatedDefinition(definition);
+        } else {
+            return this.isGuestValidatedDefinition(definition);
+        }
+    }
+
+    public isHostValidatedDefinition(definition: string): boolean {
         for (const word of this.socketService.game.hostValidatedWords) {
             if (word.definition === definition) {
                 return true;
             }
         }
+
+        return false;
+    }
+
+    public isGuestValidatedDefinition(definition: string): boolean {
         for (const word of this.socketService.game.guestValidatedwords) {
             if (word.definition === definition) {
                 return true;
@@ -73,7 +94,10 @@ export class ValidatorService {
     }
 
     private addValidatedWord(word: GridWord): void {
-        this.socketService.addValidatedWord(word);
+        if (!this.isValidatedWord(word)) {
+            //this.selectionService.deselect();
+            this.socketService.addValidatedWord(word);
+        }
     }
 
     public isValidatedCell(row: number, column: number): boolean {

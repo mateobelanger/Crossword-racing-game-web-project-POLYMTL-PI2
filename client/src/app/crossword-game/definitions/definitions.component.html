@@ -11,7 +11,8 @@
                 <li *ngFor="let definition of row; let indexI = index;" 
                     (click)="onSelect(definition); $event.stopPropagation()" 
                     [class.selected]="isSelectedDefinition(definition)" 
-                    [class.validated]="isValidatedDefinition(definition)">
+                    [class.remoteValidatedDefinition]="isRemoteValidatedDefinition(definition)"
+                    [class.localValidatedDefinition]="isLocalValidatedDefinition(definition)">
 
                     [{{indexI+1}}] {{isCheatMode? wordService.getWordWithDefinition(definition) : definition}}
                 </li>
@@ -32,7 +33,8 @@
                 <li *ngFor="let definition of row; let indexI = index;" 
                     (click)="onSelect(definition); $event.stopPropagation()" 
                     [class.selected]="isSelectedDefinition(definition)" 
-                    [class.validated]="isValidatedDefinition(definition)">
+                    [class.remoteValidatedDefinition]="isRemoteValidatedDefinition(definition)"
+                    [class.localValidatedDefinition]="isLocalValidatedDefinition(definition)">
 
                     [{{indexI+1}}] {{isCheatMode? wordService.getWordWithDefinition(definition) : definition}}
                 </li>

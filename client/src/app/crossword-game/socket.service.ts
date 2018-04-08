@@ -102,15 +102,12 @@ export class SocketService {
     }
 
     public addValidatedWord(word: GridWord): void {
-        if (!this.includesWord(word)) {
-            this.socket.emit("addValidatedWord", word, this.game.roomId);
-        }
+        this.socket.emit("addValidatedWord", word, this.game.roomId);
     }
 
     public selectWord(selectedWord: GridWord): void {
         this.socket.emit("selectWord", selectedWord);
     }
-
 
     private async createGrid(difficulty: Difficulty): Promise<void> {
         await this.wordService.initialize(difficulty);
@@ -125,18 +122,4 @@ export class SocketService {
 
     }
 
-    private includesWord(wordToFind: GridWord): boolean {
-        for (const word of this.game.hostValidatedWords) {
-            if (word.value === wordToFind.value) {
-                return true;
-            }
-        }
-        for (const word of this.game.guestValidatedwords) {
-            if (word.value === wordToFind.value) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

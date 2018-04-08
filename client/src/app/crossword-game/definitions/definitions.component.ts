@@ -28,8 +28,12 @@ export class DefinitionsComponent implements OnInit {
         this.gridService.focusOnSelectedWord();
     }
 
-    public isValidatedDefinition(definition: string): boolean {
-        return this.validatorService.isValidatedDefinition(definition);
+    public isLocalValidatedDefinition(definition: string): boolean {
+        return this.validatorService.isLocalValidatedDefinition(definition);
+    }
+
+    public isRemoteValidatedDefinition(definition: string): boolean {
+        return this.validatorService.isRemoteValidatedDefinition(definition);
     }
 
     public isSelectedDefinition(defintion: string): boolean {
