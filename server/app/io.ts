@@ -51,7 +51,6 @@ export class Io {
 
             socket.on("addValidatedWord", (word: GridWord, roomId: string) => {
                 this.addValidatedWord(word, roomId, socket);
-                this.socketServer.in(roomId).emit("updateValidatedWord", this.getGameByRoomId(this._ongoingGames, roomId));
             });
             socket.on("disconnect", () => {
                 console.log("got disconnected");
@@ -121,6 +120,7 @@ export class Io {
             } else {
                 this.getGameByRoomId(this._ongoingGames, roomId).guestValidatedwords.push(word);
             }
+            this.socketServer.in(roomId).emit("updateValidatedWord", this.getGameByRoomId(this._ongoingGames, roomId));
         }
     }
 

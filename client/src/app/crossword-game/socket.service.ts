@@ -44,9 +44,6 @@ export class SocketService {
         this.socket.on("initializeGame", (game: GameConfiguration) => {
             this.game = this.castGame(game);
             this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
-            console.log("Validated host and guest: ");
-            console.log(this.game.hostValidatedWords); console.log(this.game.guestValidatedwords);
-
         });
         this.socket.on("remoteSelectedWord", (selectedWord: GridWord) => {
             this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
@@ -102,7 +99,9 @@ export class SocketService {
     }
 
     public addValidatedWord(word: GridWord): void {
-        this.socket.emit("addValidatedWord", word, this.game.roomId);
+        if (!this.includesWord(word)) {
+            this.socket.emit("addValidatedWord", word, this.game.roomId);
+        }
     }
 
     public selectWord(selectedWord: GridWord): void {
@@ -121,5 +120,20 @@ export class SocketService {
         });
         this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
 
+    }
+
+    private includesWord(wordToFind: GridWord): boolean {
+        for (const word of this.game.hostValidatedWords) {
+            if (word.value === wordToFind.value) {
+                return true;
+            }
+        }
+        for (const word of this.game.guestValidatedwords) {
+            if (word.value === wordToFind.value) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
