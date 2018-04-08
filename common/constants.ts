@@ -5,3 +5,5 @@ export enum Difficulty {
     NORMAL = "normal",
     HARD = "hard"
 }
+
+export const BLACK_CELL: string = "-";

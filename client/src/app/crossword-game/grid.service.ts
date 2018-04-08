@@ -4,25 +4,23 @@ import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/wor
 import { GRID_SIZE } from '../../../../common/constants';
 import { ValidatorService } from './validator.service';
 import { SelectionService } from './selection/selection.service';
+import { UserGridService } from './user-grid.service';
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;
 const KEY_A: number = 65;
 const KEY_Z: number = 90;
 
-const BLACK_CELL: string = '-';
-
 @Injectable()
 export class GridService {
-    public userGrid: string[][];
 
     public constructor(private selectionService: SelectionService,
-                       private wordService: WordService, private validatorService: ValidatorService) {
-        this.userGrid = [];
+                       private wordService: WordService, private validatorService: ValidatorService,
+                       private userGridService: UserGridService) {
     }
 
     public initialize(): void {
-        this.initializeGrid();
+        this.userGridService.initialize();
         this.fillGrid();
     }
 
@@ -45,7 +43,7 @@ export class GridService {
             this.focusOnSelectedWord();
         }
 
-        this.validatorService.updateValidatedWords(this.userGrid);
+        this.validatorService.updateValidatedWords(this.userGridService.userGrid);
     }
 
     public selectWord(row: number, column: number): void {
@@ -87,7 +85,7 @@ export class GridService {
                 word.direction === Direction.HORIZONTAL ?
                     col = word.column + i : row = word.row + i;
 
-                this.userGrid[row][col] = "";
+                this.userGridService.userGrid[row][col] = "";
             }
         }
     }
@@ -104,6 +102,10 @@ export class GridService {
         return this.validatorService.isValidatedCell(row, column);
     }
 
+    public isBothValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isBothValidatedCell(row, column);
+    }
+
     public isLocalValidatedCell(row: number, column: number): boolean {
         return this.validatorService.isLocalValidatedCell(row, column);
     }
@@ -113,23 +115,12 @@ export class GridService {
     }
 
     private backspace(row: number, column: number): void {
-        if (this.userGrid[row][column] === "") {
+        if (this.userGridService.userGrid[row][column] === "") {
             const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
-            this.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
+            this.userGridService.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
             this.focusOnSelectedWord();
         } else {
-            this.userGrid[row][column] = "";
-        }
-    }
-
-    private initializeGrid(): void {
-        this.userGrid = [];
-        for (let i: number = 0; i < GRID_SIZE; i++) {
-            const row: string[] = [];
-            for (let j: number = 0; j < GRID_SIZE; j++) {
-                row.push(BLACK_CELL);
-            }
-            this.userGrid.push(row);
+            this.userGridService.userGrid[row][column] = "";
         }
     }
 
@@ -149,7 +140,7 @@ export class GridService {
                 column = this.selectionService.selectedWord.column + i :
                 row = this.selectionService.selectedWord.row + i;
 
-            if (this.userGrid[row][column] === "") {
+            if (this.userGridService.userGrid[row][column] === "") {
                 break;
             }
         }
