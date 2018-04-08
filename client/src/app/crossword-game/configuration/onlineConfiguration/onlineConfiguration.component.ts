@@ -15,7 +15,7 @@ export class OnlineConfigurationComponent implements OnInit {
     public constructor( private gameState: GameStateService,
                         private socketService: SocketService/*,
                         private router: Router*/ ) {
-        this.gameState.difficulty = null;
+        this.gameState.difficulty = null;       // le mettre dans le constructeur de gameState??????
     }
 
     public ngOnInit(): void {
@@ -27,7 +27,7 @@ export class OnlineConfigurationComponent implements OnInit {
     }
 
     public isValidConfiguration(): boolean {
-        return this.gameState.difficulty && this.isValidUsername(this.gameState.hostName);
+        return this.gameState.difficulty && this.isValidUsername(this.gameState.hostName) && this.gameState.state === null;
     }
 
     public isValidUsername(name: String): boolean {
@@ -35,6 +35,7 @@ export class OnlineConfigurationComponent implements OnInit {
     }
 
     public async createGame(username: string): Promise<void> {
+        this.gameState.waitForGame();
         await this.socketService.createGame(username, this.difficulty);
         // this.router.navigate(["crossword-game/" + this.difficulty + "/ui"]);
     }

@@ -24,7 +24,7 @@ export class Io {
                 socket.join(roomId);
                 if (!this.isAlreadyInAGame(socket.id)) {
                     this.createGame(roomId, socket.id, username, difficulty, words);
-                    socket.broadcast.emit("gameLobbies", this._waitingGames);
+                    socket.broadcast.emit("gameLobbies", this._waitingGames, this._ongoingGames);
                 }
             });
 
@@ -38,9 +38,14 @@ export class Io {
                         socket.join(roomId);
                         // TODO: mettre dans fonction ??
                         this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId));
-                        this.deleteGameById(this._waitingGames, roomId);
-                        this.getGameByRoomId(this._ongoingGames, roomId).guestId = socket.id;
-                        this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(this._ongoingGames, roomId));
+                        this.deleteGameByRoomId(this._waitingGames, roomId);
+                        const joinedGame: GameConfiguration = this.getGameByRoomId(this._ongoingGames, roomId);
+                        joinedGame.guestId = socket.id;
+
+                        this.socketServer.to(socket.id).emit("gridFromJoin", joinedGame);
+                        this.socketServer.to(joinedGame.hostId).emit("initializeGame", joinedGame); // quel ID ??????????
+
+                        socket.broadcast.emit("gameLobbies", this._waitingGames, this._ongoingGames);
                     } catch (error) {
                         return;
                     }
@@ -51,7 +56,6 @@ export class Io {
                 this.addValidatedWord(word, roomId, socket);
             });
             socket.on("disconnect", () => {
-                console.log("got disconnected");
                 let game: GameConfiguration;
                 try {
                     game = this.getGameByRoomId(this._ongoingGames, socket.id);
@@ -77,7 +81,7 @@ export class Io {
 
     private createGame(roomId: string, hostId: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
         const newGame: GameConfiguration = new GameConfiguration(roomId, hostId, username, difficulty, this.castHttpToGridWord(words));
-        this.socketServer.to(roomId).emit("initializeGame", newGame); // quel ID ??????????
+        // this.socketServer.to(hostId).emit("initializeGame", newGame); // quel ID ??????????
         this._waitingGames.push(newGame);
     }
 
@@ -98,8 +102,8 @@ export class Io {
     }
 
     // ordre des parametres ?????????????????????????
-    private deleteGameById(games: GameConfiguration[], id: string): void {
-        games.splice(games.findIndex((game: GameConfiguration) => game.isInGame(id)));
+    private deleteGameByRoomId(games: GameConfiguration[], id: string): void {
+        games.splice(games.findIndex((game: GameConfiguration) => game.roomId === id));
     }
 
     private isAlreadyInAGame(id: string): boolean {
