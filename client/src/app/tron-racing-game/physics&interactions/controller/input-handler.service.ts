@@ -69,6 +69,7 @@ export class InputHandlerService {
         }
     }
 
+    // WASD controls are enabled once the race signal is given
     public enableControlKeys(): void {
         this.keyA = new CommandTurnLeft();
         this.keyW = new CommandAccelerate();

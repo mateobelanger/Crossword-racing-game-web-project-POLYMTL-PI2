@@ -5,8 +5,6 @@ import * as THREE from "three";
 
 const SPEED_GAP: number = 5;
 const MAX_SPEED_MOFIFIER: number = 1;
-const REFERENCE_VECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
-const ROTATION_AXIS: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
 
 export class VirtualPlayerController extends Car {
 
@@ -25,19 +23,21 @@ export class VirtualPlayerController extends Car {
 
     private control(): void {
         this.reset();
-        this.ajustSteer();
-        this.ajustSpeed();
+        this.adjustSteer();
+        this.adjustSpeed();
     }
 
-    private ajustSteer(): void {
-        if (this.direction.applyAxisAngle(ROTATION_AXIS, this.angleToTrackDirectionReferential()).z < 0) {
-            this.steerRight();
-        } else if (this.direction.applyAxisAngle(ROTATION_AXIS, this.angleToTrackDirectionReferential()).z > 0) {
+    private adjustSteer(): void {
+        const crossVector: THREE.Vector3 = this.direction.cross(this.trackDirection());
+
+        if (crossVector.y > 0) {
             this.steerLeft();
+        } else {
+            this.steerRight();
         }
     }
 
-    private ajustSpeed(): void {
+    private adjustSpeed(): void {
         if (this.speed.length() >  this.aimedSpeed + SPEED_GAP) {
             this.brake();
         } else if (this.speed.length() < this.aimedSpeed - SPEED_GAP) {
@@ -50,11 +50,6 @@ export class VirtualPlayerController extends Car {
     }
 
     private reset(): void {
-        this.isAcceleratorPressed = false;
-        this.resetSpeedModifiers();
-    }
-
-    private resetSpeedModifiers(): void {
         this.releaseBrakes();
         this.isAcceleratorPressed = false;
     }
@@ -65,12 +60,4 @@ export class VirtualPlayerController extends Car {
             this.raceProgressionService.getPlayerProgression(this.aiPlayerName).currentWaypointPosition
         );
     }
-
-    private angleToTrackDirectionReferential(): number {
-        let angle: number = this.trackDirection().angleTo(REFERENCE_VECTOR);
-        angle *= this.trackDirection().z > 0 ? -1 : 0;
-
-        return angle;
-    }
-
 }
