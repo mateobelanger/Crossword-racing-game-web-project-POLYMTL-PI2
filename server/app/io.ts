@@ -120,7 +120,7 @@ export class Io {
 
     private addValidatedWord(word: GridWord, roomId: string, socket: SocketIO.Socket): void {
         if (!this.includesWord(word, this.getGameByRoomId(this._ongoingGames, roomId))) {
-            if (socket.id === roomId) {
+            if (socket.id === this.getGameByRoomId(this._ongoingGames, roomId).hostId) {
                 this.getGameByRoomId(this._ongoingGames, roomId).hostValidatedWords.push(word);
             } else {
                 this.getGameByRoomId(this._ongoingGames, roomId).guestValidatedwords.push(word);
