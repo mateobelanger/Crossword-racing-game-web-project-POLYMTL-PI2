@@ -68,7 +68,12 @@ export class Io {
             });
 
             socket.on("addValidatedWord", (word: GridWord, roomId: string) => {
-                this.addValidatedWord(word, roomId, socket);
+                const gameType: GameType = this.getGameType(socket.id);
+                if (gameType === GameType.ONGOING) {
+                    this.addValidatedWord(word, roomId, socket);
+                } else if (gameType === GameType.SOLO) {
+                    this.addValidatedWordSolo(word, roomId, socket);
+                }
             });
 
             socket.on("disconnect", () => {
@@ -175,7 +180,18 @@ export class Io {
             } else {
                 this.getGameByRoomId(this._ongoingGames, roomId).guestValidatedwords.push(word);
             }
-            this.socketServer.in(roomId).emit("updateValidatedWord", this.getGameByRoomId(this._ongoingGames, roomId));
+            this.socketServer.in(roomId).emit("updateValidatedWord", this.getGameByRoomId  (this._ongoingGames, roomId));
+        }
+    }
+
+    private addValidatedWordSolo(word: GridWord, roomId: string, socket: SocketIO.Socket): void {
+        if (!this.includesWord(word, this.getGameByRoomId(this._soloGames, roomId))) {
+            if (socket.id === this.getGameByRoomId(this._soloGames, roomId).hostId) {
+                this.getGameByRoomId(this._soloGames, roomId).hostValidatedWords.push(word);
+            } else {
+                this.getGameByRoomId(this._soloGames, roomId).guestValidatedwords.push(word);
+            }
+            this.socketServer.in(roomId).emit("updateValidatedWord", this.getGameByRoomId  (this._soloGames, roomId));
         }
     }
 
@@ -216,5 +232,4 @@ export class Io {
             return GameType.WAITING;
         }
     }
-
 }

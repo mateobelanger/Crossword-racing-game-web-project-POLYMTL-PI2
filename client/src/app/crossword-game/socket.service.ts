@@ -44,6 +44,8 @@ export class SocketService {
         this.socket.on("initializeGame", (game: GameConfiguration) => {
             this.game = this.castGame(game);
             this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
+            console.log("Validated host and guest: ");
+            console.log(this.game.hostValidatedWords); console.log(this.game.guestValidatedwords);
         });
         this.socket.on("remoteSelectedWord", (selectedWord: GridWord) => {
             console.log("hope");
