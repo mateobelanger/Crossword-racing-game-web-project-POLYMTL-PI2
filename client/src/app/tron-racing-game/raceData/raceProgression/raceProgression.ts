@@ -109,12 +109,17 @@ export class RaceProgression {
         return this._nextWaypointPosition.clone().sub(this._currentWaypointPosition);
     }
 
+    public isOnWaypoint(): boolean {
+        return this.distanceToNextWaypoint() <= WAYPOINT_RADIUS ||
+               this._carPosition.distanceTo(this._currentWaypointPosition) <= WAYPOINT_RADIUS;
+    }
+
     private reachedNextWaypoint(): boolean {
-        return this.distanceToNextWaypoint() < WAYPOINT_RADIUS;
+        return this.distanceToNextWaypoint() <= WAYPOINT_RADIUS;
     }
 
     private reachedPreviousWaypoint(): boolean {
-        return this.distanceToPreviousWaypoint() < WAYPOINT_RADIUS;
+        return this.distanceToPreviousWaypoint() <= WAYPOINT_RADIUS;
     }
 
     private incrementNextWaypointPosition(): void {
