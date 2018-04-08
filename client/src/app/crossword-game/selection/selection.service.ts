@@ -35,6 +35,7 @@ export class SelectionService {
         for (const word of this.wordService.words) {
             if (word.definition === definition) {
                 this._selectedWord = word;
+                this.socketService.selectWord(this._selectedWord);
                 break;
             }
         }
