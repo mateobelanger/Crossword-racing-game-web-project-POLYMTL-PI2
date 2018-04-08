@@ -14,6 +14,7 @@
                class="col"
                [class.localValidatedCell]="gridService.isLocalValidatedCell(indexR, indexC)"
                [class.remoteValidatedCell]="gridService.isRemoteValidatedCell(indexR, indexC)"
+               [class.remoteValidatedCell]="gridService.isBothValidatedCell(indexR, indexC)"
                [disabled]="gridService.isValidatedCell(indexR, indexC)"
                [class.remotlySelected]="gridService.isRemoteSelectedWord(indexR, indexC)"  
                [class.localySelected]="gridService.isSelectedWord(indexR, indexC)"

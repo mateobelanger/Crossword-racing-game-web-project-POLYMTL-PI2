@@ -80,6 +80,10 @@ export class ValidatorService {
         return this.isLocalValidatedCell(row, column) || this.isRemoteValidatedCell(row, column);
     }
 
+    public isBothValidatedCell(row: number, column: number): boolean {
+        return this.isLocalValidatedCell(row, column) && this.isRemoteValidatedCell(row, column);
+    }
+
     public isLocalValidatedCell(row: number, column: number): boolean {
         if (!this.socketService.isHost) {
             return this.isGuestValidatedCell(row, column);

@@ -102,6 +102,10 @@ export class GridService {
         return this.validatorService.isValidatedCell(row, column);
     }
 
+    public isBothValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isBothValidatedCell(row, column);
+    }
+
     public isLocalValidatedCell(row: number, column: number): boolean {
         return this.validatorService.isLocalValidatedCell(row, column);
     }
