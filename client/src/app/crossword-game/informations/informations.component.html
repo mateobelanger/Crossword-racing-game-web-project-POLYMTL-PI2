@@ -1,14 +1,14 @@
 <div>
 
-    <div class="difficulty">Difficulty: {{difficulty}}</div>
+    <div class="difficulty">Difficulty: {{gameState.difficulty}}</div>
 
-    <div class="scoreBoard" *ngIf="configurationHandlerService.isMultiplayer">
+    <div class="scoreBoard" *ngIf="gameState.isMultiplayer">
         <div class="player" id="p1">
-            <span>{{names[0]}}</span>: {{scores[0]}}
+            <span>{{gameState.hostName}}</span>: {{gameState.scores[0]}}
 
         </div>
         <div class="player" id="p2">
-            <span>{{names[1]}}</span>: {{scores[1]}}
+            <span>{{gameState.opponentName}}</span>: {{gameState.scores[1]}}
         </div>
     </div>
 

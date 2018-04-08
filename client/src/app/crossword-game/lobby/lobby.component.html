@@ -1,4 +1,5 @@
 <button routerLink='../..'>Back</button>
+<title> Waiting </title>
 <div class="container lobby">
     <div class="row">
 
@@ -15,14 +16,40 @@
 
     </div>
 
-    <div *ngFor="let onlineGame of lobbyService.onlineGames">
+    <div *ngFor="let waitingGame of lobbyService.waitingGames ">
+        <div class="row">
+            <div class="col-sm"> {{waitingGame.roomId}} </div>
+            <div class="col-sm"> {{waitingGame.hostUsername}} </div>
+            <div class="col-sm"> {{waitingGame.difficulty}} </div>
+            <div class="col-sm">
+                <button (click)="joinGame(waitingGame.roomId)"> Join Game </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<title> Ongoing </title>
+<div class="container lobby">
+    <div class="row">
+
+        <div class="col-sm title">
+            <h5> Room id </h5>
+        </div>
+        <div class="col-sm title">
+            <h5> Host </h5>
+        </div>
+        <div class="col-sm title">
+            <h5> Difficulty </h5>
+        </div>
+        <div class="col-sm title"> </div>
+
+    </div>
+
+    <div *ngFor="let onlineGame of lobbyService.onlineGames ">
         <div class="row">
             <div class="col-sm"> {{onlineGame.roomId}} </div>
             <div class="col-sm"> {{onlineGame.hostUsername}} </div>
             <div class="col-sm"> {{onlineGame.difficulty}} </div>
-            <div class="col-sm">
-                <button (click)="joinGame(onlineGame.roomId)"> Join Game </button>
-            </div>
         </div>
     </div>
 </div>

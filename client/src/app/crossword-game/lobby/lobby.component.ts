@@ -9,16 +9,11 @@ import { SocketService } from "../socket.service";
 })
 export class LobbyComponent implements OnInit  {
 
-    public constructor(private lobbyService: LobbyService, private socketService: SocketService) { }
+    public constructor(public lobbyService: LobbyService, private socketService: SocketService) { }
 
 
     public ngOnInit(): void {
         this.socketService.getGameLobbies();
-    }
-
-    //TODO: REMOVE
-    public toRemove(): void {
-        this.lobbyService.SHOW_MOCK_DATA = false;
     }
 
     public joinGame(roomId: string): void {

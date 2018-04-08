@@ -25,8 +25,9 @@ export class SocketService {
         this._remoteSelectedWord = null;
         this.socket = io.connect("http://localhost:3000");
 
-        this.socket.on("gameLobbies", (gameLobbies: GameConfiguration[]) => {
-            this.lobbyService.onlineGames = gameLobbies;
+        this.socket.on("gameLobbies", (waitingGames: GameConfiguration[], ongoingGames: GameConfiguration[]) => {
+            this.lobbyService.onlineGames = ongoingGames;
+            this.lobbyService.waitingGames = waitingGames;
         });
 
         this.socket.on("gridFromJoin", (game: GameConfiguration) => {
@@ -48,6 +49,11 @@ export class SocketService {
         });
         this.socket.on("remoteSelectedWord", (selectedWord: GridWord) => {
             this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
+        });
+
+        this.socket.on("disconnected", (game: GameConfiguration) => {
+            // this.lobbyService.onlineGames.splice;
+            console.log("socket disconnected");
         });
 
     }

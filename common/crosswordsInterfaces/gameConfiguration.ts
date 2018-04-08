@@ -4,7 +4,8 @@ import { GridWord } from '../../common/crosswordsInterfaces/word';
 
 
 export class GameConfiguration  {
-    public roomId: string;
+    public roomId: string;      // hostId ??????????
+    public guestId: string;    
     public hostUsername: string;
     public difficulty: Difficulty;
     public _words: GridWord[];
@@ -18,6 +19,14 @@ export class GameConfiguration  {
         this._words = words;
         this.guestValidatedwords = [];
         this.hostValidatedWords = [];
+    }
+
+    public isInGame(id: string): boolean {
+        return this.roomId === id || this.guestId === id;
+    }
+
+    public isHost(id: string): boolean {
+        return this.roomId === id;
     }
 
     // public set words(words: GridWord[]) {
