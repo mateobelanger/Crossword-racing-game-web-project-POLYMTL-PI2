@@ -11,6 +11,9 @@ export class Io {
     private socketServer: SocketIO.Server;
     // private rooms: number[];
     private _games: GameConfiguration[] = [];
+    private guestSocketId: string = "";
+    private hostSocketId: string = "";
+
 
     constructor(server: http.Server) {
         // this.rooms = [];
@@ -20,15 +23,16 @@ export class Io {
             console.log("nouvelle connection");
 
             socket.on("createGame", (username: string, difficulty: Difficulty, words: GridWord[]) => {
+                this.hostSocketId = socket.id;
                 this.createGame(socket.id, username, difficulty, words);
             });
 
             socket.on("getGameLobbies", () => {
                 this.socketServer.to(socket.id).emit("gameLobbies", this._games);
             });
-
             socket.on("joinGame", (roomId: string) => {
                 socket.join(roomId);
+                this.guestSocketId = socket.id;
                 this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(roomId));
             });
 
@@ -36,9 +40,9 @@ export class Io {
                 this.addValidatedWord(game);
                 this.socketServer.in(game.roomId).emit("updateValidatedWord", game);
             });
-
             socket.on("selectWord", (game: GameConfiguration, selectedWord: GridWord) => {
-                this.socketServer.to(game.roomId).emit("remoteSelectedWord", selectedWord);
+                const socketId: string = socket.id === this.guestSocketId ?  this.hostSocketId : this.guestSocketId;
+                this.socketServer.to(socketId).emit("remoteSelectedWord", selectedWord);
             });
         });
 
