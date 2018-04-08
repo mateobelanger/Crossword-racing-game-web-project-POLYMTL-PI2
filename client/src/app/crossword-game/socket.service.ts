@@ -94,8 +94,8 @@ export class SocketService {
         this.socket.emit("getGameLobbies");
     }
 
-    public addValidatedWord(): void {
-        this.socket.emit("addedValidatedWord", this.game);
+    public addValidatedWord(word: GridWord): void {
+        this.socket.emit("addValidatedWord", word, this.game.roomId);
     }
 
     public selectWord(selectedWord: GridWord): void {
