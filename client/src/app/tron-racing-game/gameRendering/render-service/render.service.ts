@@ -18,9 +18,9 @@ import { RaceProgressionHandlerService } from "../../raceData/raceProgression/ra
 // const HELPER_GRID_SIZE: number = 500;
 
 
-const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
-const ENGINE_MIN_VOLUME: number = 0.2;
-const ENGINE_MAX_VOLUME: number = 0.65;
+// const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
+// const ENGINE_MIN_VOLUME: number = 0.2;
+// const ENGINE_MAX_VOLUME: number = 0.65;
 
 @Injectable()
 export class RenderService implements OnDestroy {
