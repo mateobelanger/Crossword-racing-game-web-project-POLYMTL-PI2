@@ -3,16 +3,15 @@ import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/wor
 import { GRID_SIZE } from '../../../../common/constants';
 import { WordService } from './word.service';
 import { SocketService } from './socket.service';
+import { UserGridService } from './user-grid.service';
 
 @Injectable()
 export class ValidatorService {
-    // private localValidatedWords: GridWord[];
-    // private remoteValidatedWords: GridWord[];
     private filledGrid: string[][];
 
     public isEndOfGame: boolean = false;
 
-    public constructor(private wordService: WordService, private socketService: SocketService) {
+    public constructor(private wordService: WordService, private socketService: SocketService, private userGridService: UserGridService) {
     }
 
     // public method to be initialized only once the words are fetched from the server.
@@ -46,23 +45,24 @@ export class ValidatorService {
                 continue;
             } else if (this.socketService.game.guestValidatedwords.includes(word)) {
                 continue;
-            }
+            } else {
 
-            let row: number = word.row;
-            let column: number = word.column;
-            let isValidated: boolean = true;
-            for (let i: number = 0; i < word.value.length; i++) {
-                word.direction === Direction.HORIZONTAL ?
-                    column = word.column + i : row = word.row + i;
+                let row: number = word.row;
+                let column: number = word.column;
+                let isValidated: boolean = true;
+                for (let i: number = 0; i < word.value.length; i++) {
+                    word.direction === Direction.HORIZONTAL ?
+                        column = word.column + i : row = word.row + i;
 
-                if (grid[row][column].toLowerCase() !== this.filledGrid[row][column]) {
-                    isValidated = false;
-                    break;
+                    if (grid[row][column].toLowerCase() !== this.filledGrid[row][column]) {
+                        isValidated = false;
+                        break;
+                    }
                 }
-            }
-            if (isValidated) {
-                this.addValidatedWord(word);
-                this.updateEndOfGame();
+                if (isValidated) {
+                    this.addValidatedWord(word);
+                    this.updateEndOfGame();
+                }
             }
         }
     }
@@ -73,17 +73,37 @@ export class ValidatorService {
     }
 
     private addValidatedWord(word: GridWord): void {
-        if (!this.socketService.game.hostValidatedWords.includes(word) && !this.socketService.game.guestValidatedwords.includes(word)) {
-            this.socketService.game.hostValidatedWords.push(word);
-            this.socketService.addValidatedWord(word);
-        }
+        this.socketService.addValidatedWord(word);
     }
 
     public isValidatedCell(row: number, column: number): boolean {
         return this.isLocalValidatedCell(row, column) || this.isRemoteValidatedCell(row, column);
     }
 
+    public isBothValidatedCell(row: number, column: number): boolean {
+        return this.isLocalValidatedCell(row, column) && this.isRemoteValidatedCell(row, column);
+    }
+
     public isLocalValidatedCell(row: number, column: number): boolean {
+        if (!this.socketService.isHost) {
+            return this.isGuestValidatedCell(row, column);
+        } else {
+            return this.isHostValidatedCell(row, column);
+        }
+    }
+
+    public isRemoteValidatedCell(row: number, column: number): boolean {
+        let isRemoteValidatedCell: boolean = false;
+        isRemoteValidatedCell = this.socketService.isHost ?
+            this.isGuestValidatedCell(row, column) : this.isHostValidatedCell(row, column);
+        if (isRemoteValidatedCell) {
+            this.userGridService.userGrid[row][column] = this.expectedLetterInCell(row, column);
+        }
+
+        return isRemoteValidatedCell;
+    }
+
+    private isHostValidatedCell(row: number, column: number): boolean {
         for (const word of this.socketService.game.hostValidatedWords) {
             if (word.includesCell(row, column)) {
                 return true;
@@ -93,15 +113,15 @@ export class ValidatorService {
         return false;
     }
 
-    public isRemoteValidatedCell(row: number, column: number): boolean {
-       for (const word of this.socketService.game.guestValidatedwords) {
-           if (word.includesCell(row, column)) {
-               return true;
-           }
-       }
+    private isGuestValidatedCell(row: number, column: number): boolean {
+        for (const word of this.socketService.game.guestValidatedwords) {
+            if (word.includesCell(row, column)) {
+                return true;
+            }
+        }
 
-       return false;
-   }
+        return false;
+    }
 
     private initializeGrid(): void {
         this.filledGrid = [];
@@ -137,5 +157,19 @@ export class ValidatorService {
         }
 
         this.isEndOfGame = true;
+    }
+
+    private expectedLetterInCell (row: number, column: number): string {
+        for (const word of this.wordService.words) {
+            if (word.includesCell(row, column)) {
+                if (word.direction === Direction.HORIZONTAL) {
+                    return word.value[column - word.column];
+                } else {
+                    return word.value[row - word.row];
+                }
+            }
+        }
+
+        return "";
     }
 }

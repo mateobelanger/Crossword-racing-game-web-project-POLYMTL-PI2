@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Difficulty } from '../../../../common/constants';
 
+enum GameState { ONGOING, WON, LOST, OPPONENT_DISCONNECTED }
+
 @Injectable()
 export class GameStateService {
     public difficulty: Difficulty;

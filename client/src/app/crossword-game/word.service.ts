@@ -4,16 +4,16 @@ import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/wor
 import { words as mockWords } from "./mock-words";
 import { GRID_SIZE } from '../../../../common/constants';
 
+
 export const GRID_GENERATOR_URL: string = "http://localhost:3000/service/gridgenerator/";
 
 @Injectable()
 export class WordService {
     private _words: GridWord[];
-    private _selectedWord: GridWord;
 
     public constructor(private _http: HttpClient) {
         this._words = [];
-        this._selectedWord = null;
+
     }
 
     public get words(): GridWord[] {
@@ -24,26 +24,6 @@ export class WordService {
         this._words = words;
     }
 
-    public get selectedWord(): GridWord {
-        return this._selectedWord;
-    }
-
-    public get definition(): string {
-        if (this._selectedWord === null) {
-            return null;
-        }
-
-        return this._selectedWord.definition;
-    }
-
-    public set definition(definition: string) {
-        for (const word of this._words) {
-            if (word.definition === definition) {
-                this._selectedWord = word;
-                break;
-            }
-        }
-    }
 
     // public method to be initialized only once the words are fetched from the server.
     public async initialize(difficulty: string = "easy"): Promise<void> {
@@ -52,17 +32,6 @@ export class WordService {
                 .catch(() => { this._words = mockWords; });  // default grid if any problem occurs.
     }
 
-    public selectWord(row: number, column: number): void {
-        for (const word of this._words) {
-            if (word === this._selectedWord) {
-                continue;
-            }
-            if (word.includesCell(row, column)) {
-                this._selectedWord = word;
-                break;
-            }
-        }
-    }
 
     public getDefinitions(direction: Direction): string[][] {
         const definitions: string[][] = [];
@@ -82,10 +51,6 @@ export class WordService {
         }
 
         return definitions;
-    }
-
-    public deselect(): void {
-        this._selectedWord = null;
     }
 
     public getWordWithDefinition(definition: string): string {

@@ -13,6 +13,16 @@
     color: white;
  }
 
+ .bothValidatedCell {
+    background: repeating-linear-gradient(
+        -45deg,
+        red,
+        blue 10px,
+        red 10px,
+        blue 20px
+      );
+}
+
 .filled {
     color: black;
     background: black;
@@ -38,8 +48,16 @@
     cursor: pointer;
 }
 
-.selected {
+.localSelected {
     box-shadow: inset 0 0 0 2.5px blue;
     -webkit-box-shadow: inset 0 0 0 2.5px blue;
     -moz-box-shadow: inset 0 0 0 2.5px blue;
+    border: 1px dashed rgb(37, 235, 119);
 }
+
+.remoteSelected {
+    box-shadow: inset 0 0 0 2.5px red;
+    -webkit-box-shadow: inset 0 0 0 2.5px red;
+    -moz-box-shadow: inset 0 0 0 2.5px red;
+}
+
