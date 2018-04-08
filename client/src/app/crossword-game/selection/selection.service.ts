@@ -48,7 +48,6 @@ export class SelectionService {
             }
             if (word.includesCell(row, column)) {
                 this._selectedWord = word;
-                // TODO : C'EST ICI QU'IL FAUT EMIT
                 this.socketService.selectWord(this._selectedWord);
                 break;
             }
