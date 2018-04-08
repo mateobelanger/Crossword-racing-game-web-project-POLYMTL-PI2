@@ -5,14 +5,16 @@ import { GameConfiguration } from "../../common/crosswordsInterfaces/gameConfigu
 import { Difficulty } from "../../common/constants";
 import { GridWord } from "../../common/crosswordsInterfaces/word";
 
+enum SocketId { HOST, GUEST }
+
 // @injectable()
 export class Io {
 
     private socketServer: SocketIO.Server;
     private _ongoingGames: GameConfiguration[] = [];
     private _waitingGames: GameConfiguration[] = [];
-    private guestSocketId: string = "";
-    private hostSocketId: string = "";
+
+    private playerSocketId: string[] = [];
 
     // tslint:disable-next-line:max-func-body-length
     constructor(server: http.Server) {
@@ -21,7 +23,7 @@ export class Io {
         this.socketServer.on("connection", (socket: SocketIO.Socket) => {
 
             socket.on("createGame", (username: string, difficulty: Difficulty, words: GridWord[]) => {
-                this.hostSocketId = socket.id;
+                this.playerSocketId[SocketId.HOST] = socket.id;
                 this.createGame(socket.id, username, difficulty, words);
                 if (!this.isAlreadyInAGame(socket.id)) {
                     this.createGame(socket.id, username, difficulty, words);
@@ -34,7 +36,7 @@ export class Io {
             });
 
             socket.on("joinGame", (roomId: string) => {
-                this.guestSocketId = socket.id;
+                this.playerSocketId[SocketId.GUEST] = socket.id;
                 if (!this.isAlreadyInAGame(socket.id)) {
                     try {
                         socket.join(roomId);
@@ -72,7 +74,8 @@ export class Io {
             //     this.socketServer.in(socket.id).emit("grid", this.getGame(socket.id)._words);
             // });
             socket.on("selectWord", (selectedWord: GridWord) => {
-                const socketId: string = socket.id === this.guestSocketId ?  this.hostSocketId : this.guestSocketId;
+                const socketId: string = socket.id ===  this.playerSocketId[SocketId.GUEST] ?
+                    this.playerSocketId[SocketId.HOST] : this.playerSocketId[SocketId.GUEST];
                 this.socketServer.to(socketId).emit("remoteSelectedWord", selectedWord);
             });
         });
