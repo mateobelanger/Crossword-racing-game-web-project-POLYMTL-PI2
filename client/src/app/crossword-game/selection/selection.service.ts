@@ -58,5 +58,6 @@ export class SelectionService {
 
     public deselect(): void {
         this._selectedWord = null;
+        this.socketService.selectWord(this._selectedWord);
     }
 }

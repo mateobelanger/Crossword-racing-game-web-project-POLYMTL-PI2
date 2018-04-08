@@ -47,7 +47,9 @@ export class SocketService {
         });
         this.socket.on("remoteSelectedWord", (selectedWord: GridWord) => {
             console.log("hope");
-            this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
+            this._remoteSelectedWord = selectedWord === null ?
+                this._remoteSelectedWord = null :
+                this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
         });
 
         this.socket.on("disconnected", (game: GameConfiguration) => {
