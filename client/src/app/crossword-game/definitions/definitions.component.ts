@@ -3,6 +3,7 @@ import { WordService } from "../word.service";
 import { ValidatorService } from "../validator.service";
 import { Direction } from "../../../../../common/crosswordsInterfaces/word";
 import { GridService } from "../grid.service";
+import { SelectionService } from "../selection/selection.service";
 
 @Component({
     selector: "app-definitions",
@@ -14,7 +15,8 @@ export class DefinitionsComponent implements OnInit {
     public horizontalDefinitions: string[][];
     public verticalDefinitions: string[][];
 
-    public constructor(private wordService: WordService, private validatorService: ValidatorService, private gridService: GridService) {}
+    public constructor(private selectionService: SelectionService,
+                       private wordService: WordService, private validatorService: ValidatorService, private gridService: GridService) {}
 
     public ngOnInit(): void {
         this.horizontalDefinitions = this.wordService.getDefinitions(Direction.HORIZONTAL);
@@ -22,7 +24,7 @@ export class DefinitionsComponent implements OnInit {
     }
 
     public onSelect(definition: string): void {
-        this.wordService.definition = definition;
+        this.selectionService.definition = definition;
         this.gridService.focusOnSelectedWord();
     }
 
@@ -31,7 +33,7 @@ export class DefinitionsComponent implements OnInit {
     }
 
     public isSelectedDefinition(defintion: string): boolean {
-        return this.wordService.definition === defintion;
+        return this.selectionService.definition === defintion;
     }
 
     public switchMode(): void {

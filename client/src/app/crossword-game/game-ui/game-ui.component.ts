@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { WordService } from '../word.service';
 import { GridService } from "../grid.service";
 import { ValidatorService } from "../validator.service";
+import { SelectionService } from '../selection/selection.service';
 // import { SocketService } from "../socket.service";
 
 @Component({
@@ -13,7 +14,8 @@ import { ValidatorService } from "../validator.service";
 })
 
 export class GameUiComponent implements OnInit {
-    public constructor( private wordService: WordService, public validator: ValidatorService,
+    public constructor( private selectionService: SelectionService,
+                        private wordService: WordService, public validator: ValidatorService,
                         public gridService: GridService/*, private route: ActivatedRoute, private socketService: SocketService*/) {}
 
     public async ngOnInit(): Promise<void> {
@@ -34,6 +36,6 @@ export class GameUiComponent implements OnInit {
     }
 
     public deselect(): void {
-        this.wordService.deselect();
+        this.selectionService.deselect();
     }
 }

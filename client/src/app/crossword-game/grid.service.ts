@@ -3,6 +3,7 @@ import { WordService } from './word.service';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
 import { GRID_SIZE } from '../../../../common/constants';
 import { ValidatorService } from './validator.service';
+import { SelectionService } from './selection/selection.service';
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;
@@ -15,7 +16,8 @@ const BLACK_CELL: string = '-';
 export class GridService {
     public userGrid: string[][];
 
-    public constructor(private wordService: WordService, private validatorService: ValidatorService) {
+    public constructor(private selectionService: SelectionService,
+                       private wordService: WordService, private validatorService: ValidatorService) {
         this.userGrid = [];
     }
 
@@ -35,11 +37,11 @@ export class GridService {
     }
 
     public keyUp(row: number, column: number): void {
-        if (this.wordService.selectedWord.direction === Direction.HORIZONTAL &&
-            this.wordService.selectedWord.column + this.wordService.selectedWord.value.length - 1 !== column) {
+        if (this.selectionService.selectedWord.direction === Direction.HORIZONTAL &&
+            this.selectionService.selectedWord.column + this.selectionService.selectedWord.value.length - 1 !== column) {
             this.focusOnSelectedWord();
 
-        } else if (this.wordService.selectedWord.row + this.wordService.selectedWord.value.length - 1 !== row) {
+        } else if (this.selectionService.selectedWord.row + this.selectionService.selectedWord.value.length - 1 !== row) {
             this.focusOnSelectedWord();
         }
 
@@ -47,12 +49,21 @@ export class GridService {
     }
 
     public selectWord(row: number, column: number): void {
-        this.wordService.selectWord(row, column);
+        this.selectionService.selectWord(row, column);
         this.focusOnSelectedWord();
     }
 
     public isSelectedWord(row: number, column: number): boolean {
-        const word: GridWord = this.wordService.selectedWord;
+        const word: GridWord = this.selectionService.selectedWord;
+        if (word === null || this.validatorService.isValidatedWord(word)) {
+            return false;
+        }
+
+        return word.includesCell(row, column);
+    }
+
+    public isRemoteSelectedWord(row: number, column: number): boolean {
+        const word: GridWord = this.selectionService.remoteSelectedWord;
         if (word === null || this.validatorService.isValidatedWord(word)) {
             return false;
         }
@@ -130,13 +141,13 @@ export class GridService {
     }
 
     private idOfFirstEmptyCell(): number {
-        let row: number = this.wordService.selectedWord.row;
-        let column: number = this.wordService.selectedWord.column;
+        let row: number = this.selectionService.selectedWord.row;
+        let column: number = this.selectionService.selectedWord.column;
 
-        for (let i: number = 0; i < this.wordService.selectedWord.value.length; i++) {
-            this.wordService.selectedWord.direction === Direction.HORIZONTAL ?
-                column = this.wordService.selectedWord.column + i :
-                row = this.wordService.selectedWord.row + i;
+        for (let i: number = 0; i < this.selectionService.selectedWord.value.length; i++) {
+            this.selectionService.selectedWord.direction === Direction.HORIZONTAL ?
+                column = this.selectionService.selectedWord.column + i :
+                row = this.selectionService.selectedWord.row + i;
 
             if (this.userGrid[row][column] === "") {
                 break;
@@ -151,9 +162,9 @@ export class GridService {
         const oldCol: number = column;
 
         do {
-            this.wordService.selectedWord.direction === Direction.HORIZONTAL ?
+            this.selectionService.selectedWord.direction === Direction.HORIZONTAL ?
                 column-- : row--;
-            if (row < this.wordService.selectedWord.row || column < this.wordService.selectedWord.column) {
+            if (row < this.selectionService.selectedWord.row || column < this.selectionService.selectedWord.column) {
                     row = oldRow;
                     column = oldCol;
                     break;

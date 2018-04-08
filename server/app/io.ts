@@ -36,6 +36,10 @@ export class Io {
                 this.addValidatedWord(game);
                 this.socketServer.in(game.roomId).emit("updateValidatedWord", game);
             });
+
+            socket.on("selectWord", (game: GameConfiguration, selectedWord: GridWord) => {
+                this.socketServer.to(game.roomId).emit("remoteSelectedWord", selectedWord);
+            });
         });
 
     }

@@ -10,16 +10,19 @@ import { WordService } from "./word.service";
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
 import { Router } from "@angular/router";
 
+
 @Injectable()
 export class SocketService {
 
     public socket: SocketIOClient.Socket;
     public game: GameConfiguration;
     public isHost: boolean;
+    public _remoteSelectedWord: GridWord;
 
     public constructor( private lobbyService: LobbyService, public wordService: WordService,
                         private router: Router) {
         this.game = null;
+        this._remoteSelectedWord = null;
         this.socket = io.connect("http://localhost:3000");
 
         this.socket.on("gameLobbies", (gameLobbies: GameConfiguration[]) => {
@@ -33,18 +36,24 @@ export class SocketService {
         this.socket.on("updateValidatedWord", (game: GameConfiguration) => {
             this.game = this.castGame(game);
             console.log("Validated host and guest: ");
-            console.log(this.game.hostValidatedWords);
-            console.log(this.game.guestValidatedwords);
+            console.log(this.game.hostValidatedWords); console.log(this.game.guestValidatedwords);
         });
 
         this.socket.on("initializeGame", (game: GameConfiguration) => {
             this.game = this.castGame(game);
             this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
             console.log("Validated host and guest: ");
-            console.log(this.game.hostValidatedWords);
-            console.log(this.game.guestValidatedwords);
+            console.log(this.game.hostValidatedWords); console.log(this.game.guestValidatedwords);
+
+        });
+        this.socket.on("remoteSelectedWord", (selectedWord: GridWord) => {
+            this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
         });
 
+    }
+
+    public get remoteSelectedWord(): GridWord {
+        return this._remoteSelectedWord;
     }
 
 
@@ -88,6 +97,11 @@ export class SocketService {
     public addValidatedWord(): void {
         this.socket.emit("addedValidatedWord", this.game);
     }
+
+    public selectWord(selectedWord: GridWord): void {
+        this.socket.emit("selectWord", this.game, selectedWord);
+    }
+
 
     private async createGrid(difficulty: Difficulty): Promise<void> {
         await this.wordService.initialize(difficulty);
