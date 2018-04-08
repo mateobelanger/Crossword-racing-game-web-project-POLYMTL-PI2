@@ -37,7 +37,7 @@ export class Io {
                 this.guestSocketId = socket.id;
                 if (!this.isAlreadyInAGame(socket.id)) {
                     try {
-                        socket.join("roomId");
+                        socket.join(roomId);
                         // TODO: mettre dans fonction ??
                         this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId));
                         this.deleteGameById(this._waitingGames, roomId);
@@ -51,7 +51,7 @@ export class Io {
 
             socket.on("addValidatedWord", (word: GridWord, roomId: string) => {
                 this.addValidatedWord(word, roomId, socket);
-                this.socketServer.in(roomId).emit("updateValidatedWord", this.getGameByRoomId(roomId));
+                this.socketServer.in(roomId).emit("updateValidatedWord", this.getGameByRoomId(this._ongoingGames, roomId));
             });
             socket.on("disconnect", () => {
                 console.log("got disconnected");
@@ -71,7 +71,7 @@ export class Io {
             //     this.getGame(socket.id).words = words;
             //     this.socketServer.in(socket.id).emit("grid", this.getGame(socket.id)._words);
             // });
-            socket.on("selectWord", (game: GameConfiguration, selectedWord: GridWord) => {
+            socket.on("selectWord", (selectedWord: GridWord) => {
                 const socketId: string = socket.id === this.guestSocketId ?  this.hostSocketId : this.guestSocketId;
                 this.socketServer.to(socketId).emit("remoteSelectedWord", selectedWord);
             });
@@ -86,11 +86,11 @@ export class Io {
     }
 
     private getGameByRoomId(games: GameConfiguration[], id: string): GameConfiguration {
-        if (games.find((game: GameConfiguration) => game.isInGame(id)) === undefined) {
-            throw Error("no game");
-        } else {
+       /* if (games.find((game: GameConfiguration) => game.isInGame(id)) === undefined) {
+            // throw Error("no game");
+        } else {*/
             return games.find((game: GameConfiguration) => game.isInGame(id));
-        }
+        // }
     }
 
     // ordre des parametres ?????????????????????????
@@ -115,15 +115,13 @@ export class Io {
     }
 
     private addValidatedWord(word: GridWord, roomId: string, socket: SocketIO.Socket): void {
-        if (!this.includesWord(word, this.getGameByRoomId(roomId))) {
+        if (!this.includesWord(word, this.getGameByRoomId(this._ongoingGames, roomId))) {
             if (socket.id === roomId) {
-                this.getGameByRoomId(roomId).hostValidatedWords.push(word);
+                this.getGameByRoomId(this._ongoingGames, roomId).hostValidatedWords.push(word);
             } else {
-                this.getGameByRoomId(roomId).guestValidatedwords.push(word);
+                this.getGameByRoomId(this._ongoingGames, roomId).guestValidatedwords.push(word);
             }
         }
-        this.getGameByRoomId(gameRoom.roomId).guestValidatedwords = gameRoom.guestValidatedwords;
-        this.getGameByRoomId(gameRoom.roomId).hostValidatedWords = gameRoom.hostValidatedWords;
     }
 
     private includesWord(wordToFind: GridWord, game: GameConfiguration): boolean {

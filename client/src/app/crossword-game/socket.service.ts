@@ -19,6 +19,7 @@ export class SocketService {
     public isHost: boolean;
     public _remoteSelectedWord: GridWord;
 
+    // tslint:disable-next-line:max-func-body-length
     public constructor( private lobbyService: LobbyService, public wordService: WordService,
                         private router: Router) {
         this.game = null;
@@ -105,7 +106,7 @@ export class SocketService {
     }
 
     public selectWord(selectedWord: GridWord): void {
-        this.socket.emit("selectWord", this.game, selectedWord);
+        this.socket.emit("selectWord", selectedWord);
     }
 
 
