@@ -17,6 +17,7 @@ export class GameConfiguration  {
     constructor(roomId: string, hostId: string, hostUsername: string, difficulty: Difficulty, words: GridWord[]) {
         this.roomId = roomId;        
         this.hostId = hostId;
+        this.guestId = null;
         this.hostUsername = hostUsername;
         this.difficulty = difficulty;
         this._words = words;

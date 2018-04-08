@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Difficulty } from '../../../../common/constants';
 
-enum GameState { ONGOING, WON, LOST, OPPONENT_DISCONNECTED }
+enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST, OPPONENT_DISCONNECTED }
 
 @Injectable()
 export class GameStateService {
@@ -17,5 +17,14 @@ export class GameStateService {
     public constructor() {
         this.username = "";
         this.isMultiplayer = false;
+        this.state = null;          // NO_GAME ? verification sans onlineConfigurationcomponent.ts plus dure (import enum)
+    }
+
+    public waitForGame(): void {
+        this.state = GameState.WAITING_FOR_OPPONENT;
+    }
+
+    public startGame(): void {
+        this.state = GameState.ONGOING;
     }
 }

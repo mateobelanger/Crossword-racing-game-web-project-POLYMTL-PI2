@@ -5,10 +5,13 @@ import { GameConfiguration } from "../../common/crosswordsInterfaces/gameConfigu
 import { Difficulty } from "../../common/constants";
 import { GridWord } from "../../common/crosswordsInterfaces/word";
 
+enum GameType { SOLO, WAITING, ONGOING }
+
 // @injectable()
 export class Io {
 
     private socketServer: SocketIO.Server;
+    private _soloGames: GameConfiguration[] = [];
     private _ongoingGames: GameConfiguration[] = [];
     private _waitingGames: GameConfiguration[] = [];
 
@@ -20,11 +23,23 @@ export class Io {
 
             socket.on("createGame", (username: string, difficulty: Difficulty, words: GridWord[]) => {
 
-                const roomId: string = "game" + (this._ongoingGames.length + this._waitingGames.length).toString();
+                const roomId: string = "game" + (this._soloGames.length + this._ongoingGames.length + this._waitingGames.length).toString();
                 socket.join(roomId);
                 if (!this.isAlreadyInAGame(socket.id)) {
                     this.createGame(roomId, socket.id, username, difficulty, words);
-                    socket.broadcast.emit("gameLobbies", this._waitingGames);
+                    socket.broadcast.emit("gameLobbies", this._waitingGames, this._ongoingGames);
+                }
+            });
+
+            socket.on("create solo game", (username: string, difficulty: Difficulty, words: GridWord[]) => {
+
+                const roomId: string = "game" + (this._soloGames.length + this._ongoingGames.length + this._waitingGames.length).toString();
+                socket.join(roomId);
+                if (!this.isAlreadyInAGame(socket.id)) {
+                    const newGame: GameConfiguration =
+                        new GameConfiguration(roomId, socket.id, username, difficulty, this.castHttpToGridWord(words));
+                    this._soloGames.push(newGame);
+                    socket.emit("initializeGame", newGame);
                 }
             });
 
@@ -38,9 +53,14 @@ export class Io {
                         socket.join(roomId);
                         // TODO: mettre dans fonction ??
                         this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId));
-                        this.deleteGameById(this._waitingGames, roomId);
-                        this.getGameByRoomId(this._ongoingGames, roomId).guestId = socket.id;
-                        this.socketServer.to(socket.id).emit("gridFromJoin", this.getGameByRoomId(this._ongoingGames, roomId));
+                        this.deleteGameByRoomId(this._waitingGames, roomId);
+                        const joinedGame: GameConfiguration = this.getGameByRoomId(this._ongoingGames, roomId);
+                        joinedGame.guestId = socket.id;
+
+                        socket.emit("gridFromJoin", joinedGame);
+                        socket.to(joinedGame.hostId).emit("initializeGame", joinedGame); // quel ID ??????????
+
+                        socket.broadcast.emit("gameLobbies", this._waitingGames, this._ongoingGames);
                     } catch (error) {
                         return;
                     }
@@ -50,60 +70,90 @@ export class Io {
             socket.on("addValidatedWord", (word: GridWord, roomId: string) => {
                 this.addValidatedWord(word, roomId, socket);
             });
+
             socket.on("disconnect", () => {
-                console.log("got disconnected");
-                let game: GameConfiguration;
-                try {
-                    game = this.getGameByRoomId(this._ongoingGames, socket.id);
-                    game.isHost(socket.id) ? this.socketServer.to(game.guestId).emit("disconnected") :
-                        this.socketServer.to(game.hostId).emit("disconnected");
-                    // this.deleteGameById(this._ongoingGames, socket.id);
-                } catch (error) {
-                    game = this.getGameByRoomId(this._waitingGames, socket.id);
-                    // this.deleteGameById(this._waitingGames, socket.id);
+                if (this.isAlreadyInAGame(socket.id)) {
+                    const gameType: GameType = this.getGameType(socket.id);
+                    const game: GameConfiguration = this.getGameBySocketId(gameType, socket.id);
+
+                    switch (gameType) {
+                        case GameType.SOLO:
+                            this.deleteGameByRoomId(this._soloGames, game.roomId);
+                            break;
+                        case GameType.WAITING:
+                            this.deleteGameBySocketId(this._waitingGames, game.roomId);
+                            break;
+                        case GameType.ONGOING:
+                        default:
+                            if (game.isHost(socket.id)) {
+                                game.hostId = game.guestId;
+                            }
+                            game.guestId = null;
+                            this.socketServer.to(game.hostId).emit("disconnected");
+
+                            this._soloGames.push(game);
+                            this.deleteGameBySocketId(this._ongoingGames, socket.id);
+                    }
+
                 }
+                console.log(this._soloGames.length);
+                console.log(this._waitingGames.length);
+                console.log(this._ongoingGames.length);
             });
 
             socket.on("selectWord", (selectedWord: GridWord) => {
-                const game: GameConfiguration = this.getGameBySocketId(this._ongoingGames, socket.id);
-                const socketId: string = game.isHost(socket.id) ?
-                    game.guestId : game.hostId;
+                const gameType: GameType = this.getGameType(socket.id);
+                const game: GameConfiguration = this.getGameBySocketId(gameType, socket.id);
+                // const socketId: string = game.isHost(socket.id) ?
+                //     game.guestId : game.hostId;
 
-                this.socketServer.to(socketId).emit("remoteSelectedWord", selectedWord);
+                socket.to(game.roomId).emit("remoteSelectedWord", selectedWord);
             });
+
         });
 
     }
 
     private createGame(roomId: string, hostId: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
-        const newGame: GameConfiguration = new GameConfiguration(roomId, hostId, username, difficulty, this.castHttpToGridWord(words));
-        this.socketServer.to(roomId).emit("initializeGame", newGame); // quel ID ??????????
-        this._waitingGames.push(newGame);
+        this._waitingGames.push(new GameConfiguration(roomId, hostId, username, difficulty, this.castHttpToGridWord(words)));
     }
 
-    private getGameBySocketId(games: GameConfiguration[], id: string): GameConfiguration {
-        /* if (games.find((game: GameConfiguration) => game.isInGame(id)) === undefined) {
-             // throw Error("no game");
-         } else {*/
+    private getGameBySocketId(gameType: GameType, id: string): GameConfiguration {
+        let games: GameConfiguration[];
+        switch (gameType) {
+            case GameType.SOLO:
+                games = this._soloGames;
+                break;
+            case GameType.WAITING:
+                games = this._waitingGames;
+                break;
+            default:
+                games = this._ongoingGames;
+        }
+
         return games.find((game: GameConfiguration) => game.isInGame(id));
-        // }
     }
 
     private getGameByRoomId(games: GameConfiguration[], roomId: string): GameConfiguration {
-        /* if (games.find((game: GameConfiguration) => game.isInGame(id)) === undefined) {
-             // throw Error("no game");
-         } else {*/
         return games.find((game: GameConfiguration) => game.roomId === roomId);
-        // }
     }
 
     // ordre des parametres ?????????????????????????
-    private deleteGameById(games: GameConfiguration[], id: string): void {
+    private deleteGameByRoomId(games: GameConfiguration[], id: string): void {
+        games.splice(games.findIndex((game: GameConfiguration) => game.roomId === id));
+    }
+
+    private deleteGameBySocketId(games: GameConfiguration[], id: string): void {
         games.splice(games.findIndex((game: GameConfiguration) => game.isInGame(id)));
     }
 
     private isAlreadyInAGame(id: string): boolean {
         let isInAGame: boolean = false;
+        this._soloGames.forEach((game: GameConfiguration) => {
+            if (game.isInGame(id)) {
+                isInAGame = true;
+            }
+        });
         this._ongoingGames.forEach((game: GameConfiguration) => {
             if (game.isInGame(id)) {
                 isInAGame = true;
@@ -152,4 +202,19 @@ export class Io {
 
         return words;
     }
+
+    // private getNumberOfRooms(): number {
+    //     return this._soloGames.length + this._ongoingGames.length + this._waitingGames.length;
+    // }
+
+    private getGameType(socketId: string): GameType {
+        if (this._soloGames.find((game: GameConfiguration) => game.isInGame(socketId)) !== undefined) {
+            return GameType.SOLO;
+        } else if (this._ongoingGames.find((game: GameConfiguration) => game.isInGame(socketId)) !== undefined) {
+            return GameType.ONGOING;
+        } else {
+            return GameType.WAITING;
+        }
+    }
+
 }

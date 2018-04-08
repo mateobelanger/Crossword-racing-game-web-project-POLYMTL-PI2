@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { GameStateService } from "../../game-state.service";
 import { Difficulty } from "../../../../../../common/constants";
+import { SocketService } from "../../socket.service";
 
 @Component({
     selector: "app-crossword-game",
@@ -9,7 +10,7 @@ import { Difficulty } from "../../../../../../common/constants";
 })
 export class SoloConfigurationComponent {
 
-    public constructor(private gameState: GameStateService) {
+    public constructor(private gameState: GameStateService, private socketService: SocketService) {
         gameState.difficulty = null;
     }
 
@@ -17,4 +18,8 @@ export class SoloConfigurationComponent {
         return this.gameState.difficulty;
     }
 
+    public async createGame(): Promise<void> {
+        this.gameState.startGame();
+        await this.socketService.createSoloGame("bob", this.difficulty);
+    }
 }

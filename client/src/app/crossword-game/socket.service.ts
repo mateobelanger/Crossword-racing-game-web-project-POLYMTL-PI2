@@ -53,7 +53,6 @@ export class SocketService {
         });
 
         this.socket.on("disconnected", (game: GameConfiguration) => {
-            // this.lobbyService.onlineGames.splice;
             console.log("socket disconnected");
         });
 
@@ -86,9 +85,14 @@ export class SocketService {
     }
 
     public async createGame(username: string, difficulty: Difficulty): Promise<void> {
-        // console.log("try to create");
         await this.createGrid(difficulty);
         this.socket.emit("createGame", username, difficulty, this.wordService.words);
+        this.isHost = true;
+    }
+
+    public async createSoloGame(username: string, difficulty: Difficulty): Promise<void> {
+        await this.createGrid(difficulty);
+        this.socket.emit("create solo game", username, difficulty, this.wordService.words);
         this.isHost = true;
     }
 
