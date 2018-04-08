@@ -50,6 +50,11 @@ export class VirtualPlayerController extends Car {
     }
 
     private reset(): void {
+        this.releaseSteering();
+        this.resetSpeedModifiers();
+    }
+
+    private resetSpeedModifiers(): void {
         this.releaseBrakes();
         this.isAcceleratorPressed = false;
     }
