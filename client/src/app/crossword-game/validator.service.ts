@@ -75,11 +75,7 @@ export class ValidatorService {
 
     private addValidatedWord(word: GridWord): void {
         if (!this.socketService.game.hostValidatedWords.includes(word) && !this.socketService.game.guestValidatedwords.includes(word)) {
-            console.log("adding validated word (host: " + this.socketService.isHost + ")");
-            if (this.socketService.isHost) {
-                this.socketService.game.hostValidatedWords.push(word);
-                this.socketService.addValidatedWord();
-            }
+            this.socketService.addValidatedWord(word);
         }
     }
 
