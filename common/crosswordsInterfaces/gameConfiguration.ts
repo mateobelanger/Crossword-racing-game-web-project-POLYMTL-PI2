@@ -9,6 +9,7 @@ export class GameConfiguration  {
     public guestId: string;
 
     public hostUsername: string;
+    public guestUserName: string;
     public difficulty: Difficulty;
     public _words: GridWord[];
     public hostValidatedWords: GridWord[];
@@ -19,6 +20,7 @@ export class GameConfiguration  {
         this.hostId = hostId;
         this.guestId = null;
         this.hostUsername = hostUsername;
+        this.guestUserName = "";
         this.difficulty = difficulty;
         this._words = words;
         this.guestValidatedwords = [];

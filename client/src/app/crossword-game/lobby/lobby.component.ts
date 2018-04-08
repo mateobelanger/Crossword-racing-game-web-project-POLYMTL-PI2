@@ -9,7 +9,11 @@ import { SocketService } from "../socket.service";
 })
 export class LobbyComponent implements OnInit  {
 
-    public constructor(public lobbyService: LobbyService, private socketService: SocketService) { }
+    public guestName: string;
+
+    public constructor(public lobbyService: LobbyService, private socketService: SocketService) {
+        this.guestName = "";
+    }
 
 
     public ngOnInit(): void {
@@ -17,7 +21,11 @@ export class LobbyComponent implements OnInit  {
     }
 
     public joinGame(roomId: string): void {
-        this.socketService.joinGame(roomId);
+        this.socketService.joinGame(roomId, this.guestName);        // opponentName
+    }
+
+    public isValidName(): boolean {
+        return this.guestName.length > 0;        // TODO: ajouter alphanumerique
     }
 
 }
