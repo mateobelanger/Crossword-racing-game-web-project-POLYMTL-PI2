@@ -3,7 +3,7 @@
 <app-configuration></app-configuration>
 <div class="configuration">
     <div *ngIf="difficulty; else elseBlock">
-        <button class="create" routerLink="../{{difficulty}}/ui">Create Game</button>
+        <button class="create" (click)="createGame()">Create Game</button>
     </div>
 
     <ng-template #elseBlock>

@@ -23,4 +23,8 @@ export class GameStateService {
     public waitForGame(): void {
         this.state = GameState.WAITING_FOR_OPPONENT;
     }
+
+    public startGame(): void {
+        this.state = GameState.ONGOING;
+    }
 }
