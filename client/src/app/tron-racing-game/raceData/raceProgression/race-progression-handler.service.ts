@@ -61,7 +61,7 @@ export class RaceProgressionHandlerService {
                 if (playerProgression.nextWaypointIndex > this.user.nextWaypointIndex)
                     position++;
                 else if (playerProgression.nextWaypointIndex === this.user.nextWaypointIndex) {
-                    if (playerProgression.distanceToNextWaypoint() > this.user.distanceToNextWaypoint())
+                    if (playerProgression.distanceToNextWaypoint() < this.user.distanceToNextWaypoint())
                         position++;
                 }
             }
