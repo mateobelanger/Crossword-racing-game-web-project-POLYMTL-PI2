@@ -56,6 +56,7 @@ export class SelectionService {
 
 
     public deselect(): void {
+        console.log("DESELECT");
         this._selectedWord = null;
         this.socketService.selectWord(this._selectedWord);
     }

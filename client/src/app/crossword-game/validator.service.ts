@@ -4,7 +4,7 @@ import { GRID_SIZE } from '../../../../common/constants';
 import { WordService } from './word.service';
 import { SocketService } from './socket.service';
 import { UserGridService } from './user-grid.service';
-//import { SelectionService } from './selection/selection.service';
+import { SelectionService } from './selection/selection.service';
 
 @Injectable()
 export class ValidatorService {
@@ -15,7 +15,7 @@ export class ValidatorService {
     public constructor(private wordService: WordService,
                        private socketService: SocketService,
                        private userGridService: UserGridService,
-                      /* private selectionService: SelectionService*/) {
+                       private selectionService: SelectionService) {
     }
 
     // public method to be initialized only once the words are fetched from the server.
@@ -85,6 +85,7 @@ export class ValidatorService {
                     }
                 }
                 if (isValidated) {
+                    console.log("AAAAAAA")
                     this.addValidatedWord(word);
                     this.updateEndOfGame();
                 }
@@ -99,7 +100,7 @@ export class ValidatorService {
 
     private addValidatedWord(word: GridWord): void {
         if (!this.isValidatedWord(word)) {
-            //this.selectionService.deselect();
+            this.selectionService.deselect();
             this.socketService.addValidatedWord(word);
         }
     }
