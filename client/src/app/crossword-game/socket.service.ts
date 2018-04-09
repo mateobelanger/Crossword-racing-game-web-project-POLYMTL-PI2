@@ -10,6 +10,7 @@ import { WordService } from "./word.service";
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
 import { Router } from "@angular/router";
 import { GameStateService } from "./game-state.service";
+import { SelectionStateService } from "./selection-state/selection-state.service";
 
 
 @Injectable()
@@ -18,12 +19,12 @@ export class SocketService {
     public socket: SocketIOClient.Socket;
     public game: GameConfiguration;
     public isHost: boolean;
-    public _remoteSelectedWord: GridWord;
 
     public constructor( private lobbyService: LobbyService, public wordService: WordService,
-                        private gameStateService: GameStateService, private router: Router) {
+                        private gameStateService: GameStateService, private router: Router,
+                        private selectionState: SelectionStateService) {
         this.game = null;
-        this._remoteSelectedWord = null;
+
         this.socket = io.connect("http://localhost:3000");
 
         this.initializeSocketGameManager();
@@ -31,7 +32,7 @@ export class SocketService {
     }
 
     public get remoteSelectedWord(): GridWord {
-        return this._remoteSelectedWord;
+        return this.selectionState.remoteSelectedWord;
     }
 
     public castGame(game: GameConfiguration): GameConfiguration {
@@ -80,7 +81,16 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.REMOTE_SELECTED_WORD, (selectedWord: GridWord) => {
-            this._remoteSelectedWord = selectedWord === null ? null : this.castHttpToGridWord([selectedWord])[0];
+            this.selectionState.remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
+        });
+
+        this.socket.on(SocketMessage.REMOTE_DESELECTED_WORD, (word: GridWord) => {
+            if (this.selectionState.localSelectedWord !== null && word.value === this.selectionState.localSelectedWord.value) {
+                console.log("ADDDDDDDDDDDDDDDDDDDDDDD");
+                this.selectionState.unselectWords();
+            } else {
+                this.selectionState.remoteSelectedWord = null;
+            }
         });
     }
 
@@ -112,6 +122,7 @@ export class SocketService {
     }
 
     public async createGame(username: string, difficulty: Difficulty): Promise<void> {
+        this.selectionState.unselectWords();
         await this.createGrid(difficulty);
         this.socket.emit(SocketMessage.CREATE_GAME, username, difficulty, this.wordService.words);
         this.isHost = true;
@@ -138,6 +149,10 @@ export class SocketService {
 
     public selectWord(selectedWord: GridWord): void {
         this.socket.emit(SocketMessage.SELECT_WORD, selectedWord);
+    }
+
+    public deselectWord(word: GridWord): void {
+        this.socket.emit(SocketMessage.DESELECT_WORD, word);
     }
 
     private async createGrid(difficulty: Difficulty): Promise<void> {

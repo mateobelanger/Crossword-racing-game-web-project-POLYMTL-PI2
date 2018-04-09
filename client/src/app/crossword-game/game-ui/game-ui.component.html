@@ -1,8 +1,7 @@
 <button routerLink='../..'>Back to config</button>
 <app-informations class="informations"></app-informations>
 
-<div *ngIf="wordService.words.length != 0" class="game" >
-<!-- (click)="deselect()" -->
+<div *ngIf="wordService.words.length != 0" class="game" (click)="deselect()">
     <app-grid class="grid"></app-grid>
     <app-definitions class="definitions"></app-definitions>
 </div>

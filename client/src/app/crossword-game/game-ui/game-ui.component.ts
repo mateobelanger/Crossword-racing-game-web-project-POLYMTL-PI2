@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { WordService } from '../word.service';
 import { GridService } from "../grid.service";
 import { ValidatorService } from "../validator.service";
-import { SelectionService } from '../selection/selection.service';
 import { UserGridService } from '../user-grid.service';
+import { SelectionStateService } from '../selection-state/selection-state.service';
 // import { SocketService } from "../socket.service";
 
 @Component({
@@ -15,7 +15,7 @@ import { UserGridService } from '../user-grid.service';
 })
 
 export class GameUiComponent implements OnInit {
-    public constructor( private selectionService: SelectionService,
+    public constructor( private selectionStateService: SelectionStateService,
                         private wordService: WordService, public validator: ValidatorService,
                         public gridService: GridService/*, private route: ActivatedRoute, private socketService: SocketService*/) {}
 
@@ -37,6 +37,6 @@ export class GameUiComponent implements OnInit {
     }
 
     public deselect(): void {
-        this.selectionService.deselect();
+        this.selectionStateService.localSelectedWord = null;
     }
 }

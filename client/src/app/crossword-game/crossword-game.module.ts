@@ -19,6 +19,7 @@ import { LobbyService } from "./lobby/lobby.service";
 import { OnlineConfigurationComponent } from "./configuration/onlineConfiguration/onlineConfiguration.component";
 import { DifficultyConfigurationComponent } from "./configuration/difficultyConfiguration/difficultyConfiguration.component";
 import { SelectionService } from "./selection/selection.service";
+import { SelectionStateService } from "./selection-state/selection-state.service";
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { SelectionService } from "./selection/selection.service";
         GameStateService,
         SocketService,
         LobbyService,
-        SelectionService
+        SelectionService,
+        SelectionStateService
     ],
 
     exports: [

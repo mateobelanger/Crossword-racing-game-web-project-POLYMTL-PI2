@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { GridWord } from '../../../../../common/crosswordsInterfaces/word';
 import { WordService } from '../word.service';
 import { SocketService } from '../socket.service';
+import { SelectionStateService } from '../selection-state/selection-state.service';
 
 @Injectable()
 export class SelectionService {
 
-    private _selectedWord: GridWord;
 
-    public constructor(private wordService: WordService, private socketService: SocketService) {
-        this._selectedWord = null;
 
-    }
+    public constructor(private wordService: WordService,
+                       private socketService: SocketService,
+                       private selectionState: SelectionStateService) {}
 
 
     public get selectedWord(): GridWord {
-        return this._selectedWord;
+        return this.selectionState.localSelectedWord;
     }
 
     public get remoteSelectedWord(): GridWord {
@@ -24,18 +24,18 @@ export class SelectionService {
 
 
     public get definition(): string {
-        if (this._selectedWord === null) {
+        if (this.selectionState.localSelectedWord === null) {
             return null;
         }
 
-        return this._selectedWord.definition;
+        return this.selectionState.localSelectedWord.definition;
     }
 
     public set definition(definition: string) {
         for (const word of this.wordService.words) {
             if (word.definition === definition) {
-                this._selectedWord = word;
-                this.socketService.selectWord(this._selectedWord);
+                this.selectionState.localSelectedWord = word;
+                this.socketService.selectWord(this.selectionState.localSelectedWord);
                 break;
             }
         }
@@ -43,12 +43,12 @@ export class SelectionService {
 
     public selectWord(row: number, column: number): void {
         for (const word of this.wordService.words) {
-            if (word === this._selectedWord) {
+            if (word === this.selectionState.localSelectedWord) {
                 continue;
             }
             if (word.includesCell(row, column)) {
-                this._selectedWord = word;
-                this.socketService.selectWord(this._selectedWord);
+                this.selectionState.localSelectedWord = word;
+                this.socketService.selectWord(this.selectionState.localSelectedWord);
                 break;
             }
         }
@@ -56,8 +56,11 @@ export class SelectionService {
 
 
     public deselect(): void {
-        console.log("DESELECT");
-        this._selectedWord = null;
-        this.socketService.selectWord(this._selectedWord);
+        this.socketService.deselectWord(this.selectionState.localSelectedWord);
+        if (this.selectionState.localSelectedWord.value === this.selectionState.remoteSelectedWord.value) {
+            this.selectionState.remoteSelectedWord = null;
+        }
+        this.selectionState.localSelectedWord = null;
+
     }
 }

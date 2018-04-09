@@ -56,6 +56,10 @@ export class Io {
         socket.on(SocketMessage.SELECT_WORD, (selectedWord: GridWord) => {
             this.selectWord(socket, selectedWord);
         });
+
+        socket.on(SocketMessage.DESELECT_WORD, (word: GridWord) => {
+            this.deselectWord(socket, word);
+        });
     }
 
     private createGame(socket: SocketIO.Socket, username: string, difficulty: Difficulty, words: GridWord[], isSolo: boolean): void {
@@ -143,7 +147,13 @@ export class Io {
         const game: GameConfiguration = this.getGameBySocketId(gameType, socket.id);
 
         socket.to(game.roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
+    }
 
+    private deselectWord(socket: SocketIO.Socket, word: GridWord): void {
+        const gameType: GameType = this.getGameType(socket.id);
+        const game: GameConfiguration = this.getGameBySocketId(gameType, socket.id);
+
+        socket.to(game.roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
     }
 
     private broadcastGameLists(): void {

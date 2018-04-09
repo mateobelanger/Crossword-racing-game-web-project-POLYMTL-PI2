@@ -14,6 +14,7 @@ export enum SocketMessage {
     UPDATE_VALIDATED_WORD = "updateValidatedWord",
     INITIALIZE_GAME = "initializeGame",
     REMOTE_SELECTED_WORD = "remoteSelectedWord",
+    REMOTE_DESELECTED_WORD = "remoteDeselectedWord",
     DISCONNECTED = "disconnected",
     CREATE_GAME = "createGame",
     CREATE_SOLO_GAME = "create solo game",
@@ -21,6 +22,7 @@ export enum SocketMessage {
     GET_GAME_LOBBIES = "getGameLobbies",
     ADD_VALIDATED_WORD = "addValidatedWord",
     SELECT_WORD = "selectWord",
+    DESELECT_WORD = "deselectWord",
     DISCONNECT = "disconnect",
     CONNECTION = "connection"
 }
