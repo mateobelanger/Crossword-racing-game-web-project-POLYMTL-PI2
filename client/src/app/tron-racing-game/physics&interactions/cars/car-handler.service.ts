@@ -6,6 +6,7 @@ import { CarStartPosition } from './carStartPosition';
 import { VirtualPlayerController } from '../../virtualPlayers/virtualPlayerController';
 import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
+import { VirtualPlayerDifficulty } from '../../virtualPlayers/virtualPlayerDifficulty';
 
 @Injectable()
 export class CarHandlerService {
@@ -16,12 +17,13 @@ export class CarHandlerService {
         this._cars = [];
     }
 
-    public async initialize(): Promise<void> {
+    public async initialize( playerSkill: VirtualPlayerDifficulty): Promise<void> {
         PLAYERS_NAME.forEach((name: string) => {
             this._cars.push([   name,
                                 name !== USERNAME ? new VirtualPlayerController(this.speedZoneService,
                                                                                 this.raceProgressionService,
-                                                                                name) :
+                                                                                name,
+                                                                                playerSkill) :
                                                     new Car()]);
         });
         // because await does not work in for-of loop

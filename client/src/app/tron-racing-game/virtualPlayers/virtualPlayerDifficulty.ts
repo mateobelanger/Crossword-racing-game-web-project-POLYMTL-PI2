@@ -14,6 +14,10 @@ export class VirtualPlayerDifficulty {
     public get cornerSpeed(): number {
         return 0;
     }
+
+    public get isExperimented(): boolean {
+        return false;
+    }
 }
 
 export class ExpertVirtualPlayer extends VirtualPlayerDifficulty {
@@ -26,6 +30,10 @@ export class ExpertVirtualPlayer extends VirtualPlayerDifficulty {
     public get cornerSpeed(): number {
         return MAX_SPEED * E_SLOW;
     }
+
+    public get isExperimented(): boolean {
+        return true;
+    }
 }
 // tslint:disable:max-classes-per-file
 export class BeginnerVirtualPlayer extends VirtualPlayerDifficulty {
@@ -37,5 +45,9 @@ export class BeginnerVirtualPlayer extends VirtualPlayerDifficulty {
 
     public get cornerSpeed(): number {
         return MAX_SPEED * B_SLOW;
+    }
+
+    public get isExperimented(): boolean {
+        return false;
     }
 }
