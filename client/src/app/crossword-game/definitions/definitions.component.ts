@@ -16,7 +16,9 @@ export class DefinitionsComponent implements OnInit {
     public verticalDefinitions: string[][];
 
     public constructor(private selectionService: SelectionService,
-                       private wordService: WordService, private validatorService: ValidatorService, private gridService: GridService) {}
+                       private wordService: WordService,
+                       private validatorService: ValidatorService,
+                       private gridService: GridService) {}
 
     public ngOnInit(): void {
         this.horizontalDefinitions = this.wordService.getDefinitions(Direction.HORIZONTAL);

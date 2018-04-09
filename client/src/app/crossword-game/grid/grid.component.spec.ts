@@ -5,6 +5,10 @@ import { GridComponent } from './grid.component';
 import { FormsModule } from '@angular/forms';
 import { routes } from '../../app-routes.module';
 import { AppModule } from '../../app.module';
+import { GridService } from '../grid.service';
+import { ValidatorService } from '../validator.service';
+import { WordService } from '../word.service';
+import { UserGridService } from '../user-grid.service';
 
 describe('GridComponent', () => {
     let component: GridComponent;
@@ -14,7 +18,7 @@ describe('GridComponent', () => {
         // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule, FormsModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }]
+            providers: [GridService, ValidatorService, WordService, UserGridService, {provide: APP_BASE_HREF, useValue : '/' }]
         })
         .compileComponents();
     }));

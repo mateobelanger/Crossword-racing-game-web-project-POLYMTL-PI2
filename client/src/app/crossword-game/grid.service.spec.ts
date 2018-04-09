@@ -5,6 +5,12 @@ import { GridService } from './grid.service';
 import { WordService } from './word.service';
 import { ValidatorService } from './validator.service';
 import { GRID_SIZE } from '../../../../common/constants';
+import { UserGridService } from './user-grid.service';
+import { GameConfiguration } from '../../../../common/crosswordsInterfaces/gameConfiguration';
+import { SelectionService } from './selection/selection.service';
+import { SocketService } from './socket.service';
+import { LobbyService } from './lobby/lobby.service';
+import { Router } from '@angular/router';
 
 const KEY_BACKSPACE: number = 8;
 const KEY_TAB: number = 9;
@@ -29,15 +35,18 @@ describe('GridService', () => {
     let wordService: WordService;
     let userGrid: string[][];
     let gridService: GridService;
-    let validatorService: ValidatorService;
+    // let validatorService: ValidatorService;
     let validatedWords: GridWord[];
+    let userGridService: UserGridService;
+    let game: GameConfiguration;
+    let selectionService: SelectionService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientModule],
-            providers: [GridService, ValidatorService, WordService]
+            providers: [GridService, ValidatorService, WordService, UserGridService,
+                        SelectionService, SocketService, LobbyService, Router]
         });
-
         userGrid = [
             ["s", "", "t", "q", "", "", "", "", "", ""],
             ["a", "", "o", "", "", "", "", "", "", ""],
@@ -55,12 +64,13 @@ describe('GridService', () => {
         wordService["_words"] = words;
 
         validatedWords = [word2, word4];
-        validatorService = TestBed.get(ValidatorService);
-        validatorService["validatedWords"] = validatedWords;
+        selectionService = TestBed.get(SelectionService);
 
         gridService = TestBed.get(GridService);
-        gridService.userGrid = userGrid;
-
+        userGridService = TestBed.get(UserGridService);
+        userGridService.userGrid = userGrid;
+        game = TestBed.get(GameConfiguration);
+        game.hostValidatedWords = validatedWords;
     });
 
     it('should be created', () => {
@@ -91,36 +101,36 @@ describe('GridService', () => {
 
     it("should make cell empty when backspace is entered", () => {
         gridService.keyDown(KEY_BACKSPACE, 0, 3);
-        expect(gridService.userGrid[0][3]).toBe("");
+        expect(userGridService.userGrid[0][3]).toBe("");
     });
 
     it("should select the right word when a word is selected", () => {
         gridService.selectWord(0, 0);
-        expect(wordService.selectedWord.value).toBe(word1.value);
+        expect(selectionService.selectedWord.value).toBe(word1.value);
     });
 
     it("should return true if the selected is the right one", () => {
-        wordService["_selectedWord"] = word1;
+        selectionService["_selectedWord"] = word1;
         expect(gridService.isSelectedWord(0, 0)).toBeTruthy();
     });
 
     it("should return false if the selected is the not the right one", () => {
-        wordService["_selectedWord"] = word5;
+        selectionService["_selectedWord"] = word5;
         expect(gridService.isSelectedWord(0, 0)).toBeFalsy();
     });
 
     it("should return false if there is no selected word", () => {
-        wordService["_selectedWord"] = null;
+        selectionService["_selectedWord"] = null;
         expect(gridService.isSelectedWord(0, 0)).toBeFalsy();
     });
 
     it("should return the right id", () => {
-        wordService["_selectedWord"] = word5;
+        selectionService["_selectedWord"] = word5;
         expect(gridService.generateId(2, 3)).toBe((GRID_SIZE * 2) + 3);
     });
 
     it("should initially fill the grid properly", () => {
         gridService.fillGrid();
-        expect(gridService.userGrid).toBe(userGrid);
+        expect(userGridService.userGrid).toBe(userGrid);
     });
 });

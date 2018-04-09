@@ -15,7 +15,8 @@ const KEY_Z: number = 90;
 export class GridService {
 
     public constructor(private selectionService: SelectionService,
-                       private wordService: WordService, private validatorService: ValidatorService,
+                       private wordService: WordService,
+                       private validatorService: ValidatorService,
                        private userGridService: UserGridService) {
     }
 

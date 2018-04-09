@@ -3,12 +3,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { ValidatorService } from './validator.service';
 import { WordService } from './word.service';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GameConfiguration } from '../../../../common/crosswordsInterfaces/gameConfiguration';
+import { SocketService } from './socket.service';
+import { UserGridService } from './user-grid.service';
 
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
 const word3: GridWord = new GridWord (0, 2, Direction.VERTICAL, "tom", "__ a la ferme.");
 
 const words: GridWord[] = [word1, word2, word3];
+
+const IS_HOST: boolean = true;
 
 describe('ValidatorService', () => {
     let filledGrid: string[][];
@@ -17,18 +22,22 @@ describe('ValidatorService', () => {
 
     let validatorService: ValidatorService;
     let validatedWords: GridWord[];
+    let game: GameConfiguration;
+
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientModule],
-            providers: [ValidatorService, WordService]
+            providers: [ValidatorService, WordService, SocketService, UserGridService, GameConfiguration]
         });
+
+        game = TestBed.get(GameConfiguration);
         wordService = TestBed.get(WordService);
         wordService["_words"] = words;
 
         validatedWords = [word2, word3];
         validatorService = TestBed.get(ValidatorService);
-        validatorService["validatedWords"] = validatedWords;
+        game.hostValidatedWords = validatedWords;
 
         initialGrid = [
             ["s", "", "t", "", "", "", "", "", "", ""], ["a", "", "o", "", "", "", "", "", "", ""],
@@ -64,12 +73,12 @@ describe('ValidatorService', () => {
 
     it("should validate the definition of a word when it is completed", () => {
         validatorService.updateValidatedWords(initialGrid);
-        expect(validatorService.isValidatedDefinition(word2.definition)).toBeTruthy();
+        expect(validatorService.isValidatedDefinition(IS_HOST, word2.definition)).toBeTruthy();
     });
 
     it("should not validate the definition of a word when it not completed", () => {
         validatorService.updateValidatedWords(initialGrid);
-        expect(validatorService.isValidatedDefinition(word1.definition)).toBeFalsy();
+        expect(validatorService.isValidatedDefinition(IS_HOST, word1.definition)).toBeFalsy();
     });
 
     it("should return true if the cell is validated", () => {

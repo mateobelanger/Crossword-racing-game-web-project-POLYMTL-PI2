@@ -11,7 +11,9 @@ export class ValidatorService {
 
     public isEndOfGame: boolean = false;
 
-    public constructor(private wordService: WordService, private socketService: SocketService, private userGridService: UserGridService) {
+    public constructor(private wordService: WordService,
+                       private socketService: SocketService,
+                       private userGridService: UserGridService) {
     }
 
     // public method to be initialized only once the words are fetched from the server.
