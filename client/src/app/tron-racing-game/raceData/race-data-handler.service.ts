@@ -149,8 +149,10 @@ export class RaceDataHandlerService {
     }
 
     private subscribeToEndOfRace(): void {
-        this._raceProgressionService.user.endOfRace$.subscribe(() => {
-            this.doneRace();
+        this._raceProgressionService.raceDoneStream$.subscribe((name: string) => {
+            if (name === USERNAME) {
+                this.doneRace();
+            }
         });
     }
 

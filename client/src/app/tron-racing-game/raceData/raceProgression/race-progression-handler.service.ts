@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { RaceProgression } from './raceProgression';
-import { UserRaceProgression} from "./userRaceProgression";
 import { MAX_N_LAPS, USERNAME } from "../../constants";
 import { Subject } from 'rxjs/Subject';
 
@@ -10,25 +9,28 @@ import { Subject } from 'rxjs/Subject';
 export class RaceProgressionHandlerService {
 
     private _playersProgression: [string, RaceProgression][];
-    private _userProgression: UserRaceProgression;
+    private _userProgression: RaceProgression;
     private _lapDoneStream$: Subject<string>;
+    private _raceDoneStream$: Subject<string>;
 
     public constructor() {
         this._playersProgression = [];
         this._lapDoneStream$ = new Subject();
-        this._userProgression = new UserRaceProgression();
+        this._raceDoneStream$ = new Subject();
+        this._userProgression = new RaceProgression();
     }
 
     public async initialize(carsPosition: [string, THREE.Vector3][], waypoints: [number, number, number][]): Promise<void> {
         return new Promise<void>( (resolve: Function, reject: Function) => {
             carsPosition.forEach( (carPosition: [string, THREE.Vector3]) => {
                 if (carPosition[0] === USERNAME) {
-                    this._userProgression = new UserRaceProgression(carPosition[1], waypoints);
+                    this._userProgression = new RaceProgression(carPosition[1], waypoints);
                     this._playersProgression.push([carPosition[0], this._userProgression]);
                 } else
                     this._playersProgression.push([carPosition[0], new RaceProgression(carPosition[1], waypoints)]);
             });
             this.initializeLapDoneStream();
+            this.initializeRaceDoneStream();
             resolve();
         });
     }
@@ -47,7 +49,12 @@ export class RaceProgressionHandlerService {
     public get lapDoneStream$(): Subject<string> {
         return this._lapDoneStream$;
     }
-    public get user(): UserRaceProgression {
+
+    public get raceDoneStream$(): Subject<string> {
+        return this._raceDoneStream$;
+    }
+
+    public get user(): RaceProgression {
         return this._userProgression;
     }
 
@@ -93,6 +100,14 @@ export class RaceProgressionHandlerService {
         this._playersProgression.forEach( (playerProgression: [string, RaceProgression]) => {
             playerProgression[1].lapDone$.subscribe( () => {
                 this._lapDoneStream$.next(playerProgression[0]);
+            });
+        });
+    }
+
+    private initializeRaceDoneStream(): void {
+        this._playersProgression.forEach( (playerProgression: [string, RaceProgression]) => {
+            playerProgression[1].endOfRace$.subscribe( () => {
+                this._raceDoneStream$.next(playerProgression[0]);
             });
         });
     }
