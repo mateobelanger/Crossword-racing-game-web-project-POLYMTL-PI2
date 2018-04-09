@@ -1,15 +1,22 @@
 <button routerLink="../..">Back</button>
 <p>Username:
-    <input [(ngModel)]="gameState.hostName">
+  <input [(ngModel)]="gameState.hostName">
 </p>
 <p>Difficulty:</p>
 <app-configuration></app-configuration>
+
+<div *ngIf="isGameCreated">
+  <div class="loading-gif"></div>
+  <div class="loading-text">Waiting for other player to join the game</div>
+</div>
+
+
 <div class="configuration">
-    <div *ngIf="isValidConfiguration(); else elseBlock">
-        <button class="create" (click)="createGame(gameState.hostName)">Create Game</button>
-    </div>
-    <!-- routerLink="../../{{difficulty}}/ui" -->
-    <ng-template #elseBlock>
-        <button class="create" disabled="true">Create Game</button>
-    </ng-template>
+  <div *ngIf="isValidConfiguration(); else elseBlock">
+    <button class="create" (click)="createGame(gameState.hostName)">Create Game</button>
+  </div>
+
+  <ng-template #elseBlock>
+    <button class="create" disabled="true">Create Game</button>
+  </ng-template>
 </div>
