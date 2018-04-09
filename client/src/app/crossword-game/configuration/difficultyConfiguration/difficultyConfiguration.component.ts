@@ -13,7 +13,6 @@ export class DifficultyConfigurationComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.gameState.isMultiplayer = false;
     }
 
     public set difficulty(difficulty: Difficulty) {

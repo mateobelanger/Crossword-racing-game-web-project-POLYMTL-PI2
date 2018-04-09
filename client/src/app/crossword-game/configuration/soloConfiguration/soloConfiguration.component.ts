@@ -11,7 +11,6 @@ import { SocketService } from "../../socket.service";
 export class SoloConfigurationComponent {
 
     public constructor(private gameState: GameStateService, private socketService: SocketService) {
-        gameState.difficulty = null;
     }
 
     public get difficulty(): Difficulty {
@@ -19,7 +18,7 @@ export class SoloConfigurationComponent {
     }
 
     public async createGame(): Promise<void> {
-        this.gameState.startGame();
+        this.gameState.isOngoing = true;
         await this.socketService.createSoloGame("bob", this.difficulty);
     }
 }
