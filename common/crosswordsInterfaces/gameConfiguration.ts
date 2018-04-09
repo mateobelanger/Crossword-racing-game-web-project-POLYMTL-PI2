@@ -1,7 +1,7 @@
 import { Difficulty } from "../constants";
 import { GridWord } from '../../common/crosswordsInterfaces/word';
 
-
+enum PlayerType {HOST, GUEST};
 
 export class GameConfiguration  {
     public roomId: string;
@@ -39,51 +39,51 @@ export class GameConfiguration  {
     }
 
     public get hostId(): string {
-        return this.ids[0];
+        return this.ids[PlayerType.HOST];
     }
 
     public set hostId(hostId: string) {
-        this.ids[0] = hostId;
+        this.ids[PlayerType.HOST] = hostId;
     }
 
     public get guestId(): string {
-        return this.ids[1];
+        return this.ids[PlayerType.GUEST];
     }
 
     public set guestId(guestId: string) {
-        this.ids[1] = guestId;
+        this.ids[PlayerType.GUEST] = guestId;
     }
 
     public get hostUsername(): string {
-        return this.usernames[0];
+        return this.usernames[PlayerType.HOST];
     }
 
     public set hostUsername(hostUsername: string) {
-        this.usernames[0] = hostUsername;
+        this.usernames[PlayerType.HOST] = hostUsername;
     }
 
     public get guestUsername(): string {
-        return this.usernames[1];
+        return this.usernames[PlayerType.GUEST];
     }
 
     public set guestUsername(guestUsername: string) {
-        this.usernames[1] = guestUsername;
+        this.usernames[PlayerType.GUEST] = guestUsername;
     }
 
     public get hostValidatedWords(): GridWord[] {
-        return this.validatedWords[0];
+        return this.validatedWords[PlayerType.HOST];
     }
 
     public set hostValidatedWords(hostValidatedWords: GridWord[]) {
-        this.validatedWords[0] = hostValidatedWords;
+        this.validatedWords[PlayerType.HOST] = hostValidatedWords;
     }
 
     public get guestValidatedWords(): GridWord[] {
-        return this.validatedWords[1];
+        return this.validatedWords[PlayerType.GUEST];
     }
 
     public set guestValidatedWords(guestValidatedWords: GridWord[]) {
-        this.validatedWords[1] = guestValidatedWords;
+        this.validatedWords[PlayerType.GUEST] = guestValidatedWords;
     }
 
     public updateGuestInformation(socketId: string, guestName: string): void {

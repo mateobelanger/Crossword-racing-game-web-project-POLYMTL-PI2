@@ -80,6 +80,7 @@ export class Io {
     private createWaitingGame(socket: SocketIO.Socket, roomId: string,
                               username: string, difficulty: Difficulty, words: GridWord[]): void {
         this._waitingGames.push(new GameConfiguration(roomId, socket.id, username, difficulty, this.castHttpToGridWord(words)));
+        console.log(username);
         socket.broadcast.emit(SocketMessage.GAME_LOBBIES, this._waitingGames, this._ongoingGames);
     }
 
