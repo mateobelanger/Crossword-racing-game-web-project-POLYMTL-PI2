@@ -2,7 +2,7 @@
 <h4 class="configuration">Game Configuration</h4>
 <app-configuration></app-configuration>
 <div class="configuration">
-    <div *ngIf="difficulty; else elseBlock">
+    <div *ngIf="canStartGame; else elseBlock">
         <button class="create" (click)="createGame()">Create Game</button>
     </div>
 

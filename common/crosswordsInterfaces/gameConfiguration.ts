@@ -88,6 +88,10 @@ export class GameConfiguration  {
         this.validatedWords[PlayerType.GUEST] = guestValidatedWords;
     }
 
+    public isMultiplayer(): boolean {
+        return this.usernames[1].length !== 0; 
+    }
+
     public updateGuestInformation(socketId: string, guestName: string): void {
         this.guestId = socketId;
         this.guestUsername = guestName;

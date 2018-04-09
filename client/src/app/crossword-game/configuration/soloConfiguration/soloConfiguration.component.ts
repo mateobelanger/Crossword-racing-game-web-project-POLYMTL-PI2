@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { GameStateService } from "../../game-state.service";
-import { Difficulty } from "../../../../../../common/constants";
 import { SocketService } from "../../socket.service";
 
 @Component({
@@ -13,12 +12,12 @@ export class SoloConfigurationComponent {
     public constructor(private gameState: GameStateService, private socketService: SocketService) {
     }
 
-    public get difficulty(): Difficulty {
-        return this.gameState.difficulty;
+    public get canStartGame(): boolean {
+        return !this.gameState.isOngoing() && this.gameState.difficulty !== null;
     }
 
     public async createGame(): Promise<void> {
-        this.gameState.isOngoing = true;
-        await this.socketService.createSoloGame("Score", this.difficulty);
+        this.gameState.startGame();
+        await this.socketService.createSoloGame("Score", this.gameState.difficulty);
     }
 }
