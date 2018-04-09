@@ -34,9 +34,10 @@ export class OutOfBoundsHandlerService {
             const car: Car = raceCar[1];
 
             if (progression.isOnWaypoint()) {
-                return;
-            }
-            if (!this.isCarinTrack(car, progression)) {
+                if (this.carTouchesWaypointWall(car, progression)) {
+                    this.handleWallCollision(car, progression);
+                }
+            } else if (!this.isCarInTrack(car, progression)) {
                 this.handleWallCollision(car, progression);
             }
         });
@@ -63,8 +64,15 @@ export class OutOfBoundsHandlerService {
         this.audioService.playSound(FORCE_FIELD_SOUND);
     }
 
-    private isCarinTrack(car: Car, progression: RaceProgression): boolean {
+    private isCarInTrack(car: Car, progression: RaceProgression): boolean {
         return this.getTrackRejectionVector(car, progression).length() <= TRACK_WIDTH / 2 - CAR_WIDTH;
+    }
+
+    private carTouchesWaypointWall(car: Car, progression: RaceProgression): boolean {
+        const trackLength: number = progression.getCurrentTrackSegment().length();
+
+        return car.mesh.position.distanceTo(progression.nextWaypointPosition) > trackLength
+            && car.mesh.position.distanceTo(progression.currentWaypointPosition) >= TRACK_WIDTH / 2 - CAR_WIDTH;
     }
 
     // computes the rejection vector of the car position relative to the track by the track segment
