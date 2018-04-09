@@ -84,8 +84,10 @@ export class ValidatorService {
                         break;
                     }
                 }
+                if (isValidated && this.selectionService.selectedWord === word) {
+                    this.selectionService.deselect();
+                }
                 if (isValidated) {
-                    console.log("AAAAAAA")
                     this.addValidatedWord(word);
                     this.updateEndOfGame();
                 }
@@ -100,7 +102,6 @@ export class ValidatorService {
 
     private addValidatedWord(word: GridWord): void {
         if (!this.isValidatedWord(word)) {
-            this.selectionService.deselect();
             this.socketService.addValidatedWord(word);
         }
     }
