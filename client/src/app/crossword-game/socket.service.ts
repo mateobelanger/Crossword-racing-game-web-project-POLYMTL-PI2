@@ -9,6 +9,7 @@ import { WordService } from "./word.service";
 
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
 import { Router } from "@angular/router";
+import { GameStateService } from "./game-state.service";
 
 
 @Injectable()
@@ -21,7 +22,7 @@ export class SocketService {
 
     // tslint:disable-next-line:max-func-body-length
     public constructor( private lobbyService: LobbyService, public wordService: WordService,
-                        private router: Router) {
+                        private gameStateService: GameStateService, private router: Router) {
         this.game = null;
         this._remoteSelectedWord = null;
         this.socket = io.connect("http://localhost:3000");
@@ -32,6 +33,11 @@ export class SocketService {
         });
 
         this.socket.on("gridFromJoin", (game: GameConfiguration) => {
+            console.log("gridJoin");
+            this.gameStateService.difficulty = game.difficulty;
+            this.gameStateService.hostName = game.hostUsername;
+            this.gameStateService.hostName = game.hostUsername;
+            this.gameStateService.startGame();
             this.initializeGridFromJoin(game);
         });
 
@@ -39,13 +45,15 @@ export class SocketService {
             this.game = this.castGame(game);
             console.log("Validated host and guest: ");
             console.log(this.game.hostValidatedWords); console.log(this.game.guestValidatedwords);
+            this.gameStateService.hostScore = this.game.hostValidatedWords.length;
+            this.gameStateService.guestScore = this.game.guestValidatedwords.length;
         });
 
         this.socket.on("initializeGame", (game: GameConfiguration) => {
             this.game = this.castGame(game);
             this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
-            console.log("Validated host and guest: ");
-            console.log(this.game.hostValidatedWords); console.log(this.game.guestValidatedwords);
+            this.gameStateService.guestName = game.guestUserName;
+            this.gameStateService.startGame();
         });
         this.socket.on("remoteSelectedWord", (selectedWord: GridWord) => {
             console.log("hope");
@@ -98,8 +106,8 @@ export class SocketService {
         this.isHost = true;
     }
 
-    public joinGame(roomId: string): void {
-        this.socket.emit("joinGame", roomId);
+    public joinGame(roomId: string, opponentName: string): void {
+        this.socket.emit("joinGame", roomId, opponentName);
         this.isHost = false;
     }
 

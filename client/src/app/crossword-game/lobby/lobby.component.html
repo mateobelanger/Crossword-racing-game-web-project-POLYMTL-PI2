@@ -1,5 +1,9 @@
 <button routerLink='../..'>Back</button>
-<title> Waiting </title>
+
+<div class="username">Username:
+    <input [(ngModel)]="guestName">
+</div>
+
 <div class="container lobby">
     <div class="row">
 
@@ -22,13 +26,18 @@
             <div class="col-sm"> {{waitingGame.hostUsername}} </div>
             <div class="col-sm"> {{waitingGame.difficulty}} </div>
             <div class="col-sm">
-                <button (click)="joinGame(waitingGame.roomId)"> Join Game </button>
+                <div *ngIf="isValidName(); else elseBlock">
+                    <button (click)="joinGame(waitingGame.roomId)"> Join Game </button>
+                </div>
+                <ng-template #elseBlock>
+                    <button class="create" disabled="true">Join Game</button>
+                </ng-template>
+
             </div>
         </div>
     </div>
 </div>
 
-<title> Ongoing </title>
 <div class="container lobby">
     <div class="row">
 

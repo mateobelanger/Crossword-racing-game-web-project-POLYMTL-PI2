@@ -47,7 +47,7 @@ export class Io {
                 this.socketServer.to(socket.id).emit("gameLobbies", this._waitingGames, this._ongoingGames);
             });
 
-            socket.on("joinGame", (roomId: string) => {
+            socket.on("joinGame", (roomId: string, guestName: string) => {
                 if (!this.isAlreadyInAGame(socket.id)) {
                     try {
                         socket.join(roomId);
@@ -56,6 +56,7 @@ export class Io {
                         this.deleteGameByRoomId(this._waitingGames, roomId);
                         const joinedGame: GameConfiguration = this.getGameByRoomId(this._ongoingGames, roomId);
                         joinedGame.guestId = socket.id;
+                        joinedGame.guestUserName = guestName;
 
                         socket.emit("gridFromJoin", joinedGame);
                         socket.to(joinedGame.hostId).emit("initializeGame", joinedGame); // quel ID ??????????

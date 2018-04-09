@@ -10,14 +10,16 @@ export class GameStateService {
     public isMultiplayer: boolean;
     public state: GameState;
     public hostName: string;
-    public opponentName: string;
+    public guestName: string = "opponent"; // TODO: le charger? ajouter a join game
     public hostScore: number;
-    public opponentScore: number;
+    public guestScore: number;
 
     public constructor() {
         this.username = "";
         this.isMultiplayer = false;
         this.state = null;          // NO_GAME ? verification sans onlineConfigurationcomponent.ts plus dure (import enum)
+        this.hostScore = 0;
+        this.guestScore = 0;
     }
 
     public waitForGame(): void {
