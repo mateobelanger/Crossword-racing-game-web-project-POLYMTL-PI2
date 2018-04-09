@@ -4,6 +4,7 @@ import { GRID_SIZE } from '../../../../common/constants';
 import { WordService } from './word.service';
 import { SocketService } from './socket.service';
 import { UserGridService } from './user-grid.service';
+//import { SelectionService } from './selection/selection.service';
 
 @Injectable()
 export class ValidatorService {
@@ -13,7 +14,8 @@ export class ValidatorService {
 
     public constructor(private wordService: WordService,
                        private socketService: SocketService,
-                       private userGridService: UserGridService) {
+                       private userGridService: UserGridService,
+                      /* private selectionService: SelectionService*/) {
     }
 
     // public method to be initialized only once the words are fetched from the server.

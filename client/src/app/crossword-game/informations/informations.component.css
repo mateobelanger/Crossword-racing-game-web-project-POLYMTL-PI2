@@ -9,6 +9,8 @@
     display: inline-block;
     font-size: 19px;
     font-weight: bold;
+    width: 100px;
+    background-color: yellow;
 }
 
 .p1 {
@@ -17,8 +19,6 @@
 
 .p2 {
     color: red;
-    /* float: right; */
-    padding-right: 1%;
 }
 
 button {

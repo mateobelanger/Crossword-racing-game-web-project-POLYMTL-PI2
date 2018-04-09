@@ -80,9 +80,7 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.REMOTE_SELECTED_WORD, (selectedWord: GridWord) => {
-            this._remoteSelectedWord = selectedWord === null ?
-                this._remoteSelectedWord = null :
-                this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
+            this._remoteSelectedWord = selectedWord === null ? null : this.castHttpToGridWord([selectedWord])[0];
         });
     }
 
@@ -155,8 +153,8 @@ export class SocketService {
     }
 
     private gridFromJoin(game: GameConfiguration): void {
-        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
         this.initializeGridFromJoin(game);
+        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
     }
 
     private updateValidatedWord(game: GameConfiguration): void {
