@@ -11,11 +11,11 @@
     font-weight: bold;
 }
 
-#p1 {
+.p1 {
     color: blue;
 }
 
-#p2 {
+.p2 {
     color: red;
     /* float: right; */
     padding-right: 1%;
@@ -23,4 +23,30 @@
 
 button {
     display: block;
+}
+
+.scoreBoard {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    width: 20%;
+    height: 100px;
+}
+
+.right {
+    position: relative;
+    float: right;
+}
+
+.left {
+    position: relative;
+    float: left;
+}
+
+.clearfix::after {
+    content: " ";
+    clear: both;
+    display: block;
+    visibility: none;
 }

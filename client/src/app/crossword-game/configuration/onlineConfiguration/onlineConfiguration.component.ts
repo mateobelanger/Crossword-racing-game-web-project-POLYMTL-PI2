@@ -12,10 +12,13 @@ import { SocketService } from "../../socket.service";
 })
 export class OnlineConfigurationComponent implements OnInit {
 
+    public isGameCreated: boolean;
+
     public constructor( private gameState: GameStateService,
                         private socketService: SocketService/*,
                         private router: Router*/ ) {
         this.gameState.difficulty = null;       // le mettre dans le constructeur de gameState??????
+        this.isGameCreated = false;
     }
 
     public ngOnInit(): void {
@@ -35,6 +38,7 @@ export class OnlineConfigurationComponent implements OnInit {
     }
 
     public async createGame(username: string): Promise<void> {
+        this.isGameCreated = true;
         this.gameState.waitForGame();
         await this.socketService.createGame(username, this.difficulty);
         // this.router.navigate(["crossword-game/" + this.difficulty + "/ui"]);
