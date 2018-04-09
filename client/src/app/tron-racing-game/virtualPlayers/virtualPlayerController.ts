@@ -8,7 +8,7 @@ const SPEED_GAP: number = 5;
 const MAX_SPEED_MOFIFIER: number = 1;
 // tslint:disable-next-line:no-magic-numbers
 const MAX_DIRECTION_MODIFIER: number = Math.PI / 10;
-const INTERVAL: number = 1000;
+const INTERVAL: number = 700;
 const ROTATION_AXIS: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
 // tslint:disable-next-line:no-magic-numbers
 const ANGLE_THRESHOLD: number = Math.PI / 60;
@@ -23,12 +23,7 @@ export class VirtualPlayerController extends Car {
                         playerSkill: VirtualPlayerDifficulty ) {
         super();
         this.speedModifier = (Math.random() * MAX_SPEED_MOFIFIER - (MAX_SPEED_MOFIFIER / 2)) + 1;
-        if (!playerSkill.isExperimented) {
-            window.setInterval(( ) => {
-                this.directionModifier =
-                (Math.random() * MAX_DIRECTION_MODIFIER - (MAX_DIRECTION_MODIFIER / 2)); },
-                               INTERVAL);
-        }
+        this.setDirectionModifier(playerSkill);
     }
 
     public update(detltaTime: number): void {
@@ -84,5 +79,16 @@ export class VirtualPlayerController extends Car {
 
     private applyDirectionModifier(vector: THREE.Vector3): THREE.Vector3 {
         return vector.applyAxisAngle(ROTATION_AXIS, this.directionModifier);
+    }
+
+    private setDirectionModifier( playerSkill: VirtualPlayerDifficulty ): void {
+        if (playerSkill.isExperimented) {
+            this.directionModifier = 0;
+        } else {
+            window.setInterval(( ) => {
+                this.directionModifier =
+                (Math.random() * MAX_DIRECTION_MODIFIER - (MAX_DIRECTION_MODIFIER / 2)); },
+                               INTERVAL);
+        }
     }
 }

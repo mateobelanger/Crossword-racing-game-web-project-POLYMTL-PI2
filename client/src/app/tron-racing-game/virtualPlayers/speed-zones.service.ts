@@ -13,7 +13,7 @@ const CORNER_ZONE: number =  WAYPOINT_RADIUS * 3;
 export class SpeedZonesService {
 
   private speedZones: TrackSegmentSpeed[];
-  public constructor( private raceProgrssionService: RaceProgressionHandlerService) {
+  public constructor( private raceProgressionService: RaceProgressionHandlerService) {
       this.speedZones = [];
   }
 
@@ -33,11 +33,11 @@ export class SpeedZonesService {
   }
 
   private isInCornerZone(name: string): boolean {
-      return this.raceProgrssionService.getPlayerProgression(name).distanceToNextWaypoint() < CORNER_ZONE;
+      return this.raceProgressionService.getPlayerProgression(name).distanceToNextWaypoint() < CORNER_ZONE;
   }
 
   private currentTrackIndex(name: string): number {
-      return this.raceProgrssionService.getPlayerProgression(name).currentWaypointIndex;
+      return this.raceProgressionService.getPlayerProgression(name).currentWaypointIndex;
   }
 
   private calculateRadianAngle(   firstWaypoint: [number, number, number],

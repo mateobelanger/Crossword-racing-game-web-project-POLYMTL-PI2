@@ -1,8 +1,8 @@
-const MAX_SPEED: number = 200;
+const MAX_SPEED: number = 65;
 const E_FAST: number = 1;
-const E_SLOW: number = 0.6;
-const B_FAST: number = 0.6;
-const B_SLOW: number = 0.2;
+const E_SLOW: number = 0.7;
+const B_FAST: number = 0.7;
+const B_SLOW: number = 0.4;
 
 export class VirtualPlayerDifficulty {
     public constructor() {}
