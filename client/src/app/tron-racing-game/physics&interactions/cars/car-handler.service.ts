@@ -19,17 +19,14 @@ export class CarHandlerService {
 
     public async initialize( playerSkill: VirtualPlayerDifficulty): Promise<void> {
         PLAYERS_NAME.forEach((name: string) => {
-            this._cars.push([   name,
-                                name !== USERNAME ? new VirtualPlayerController(this.speedZoneService,
-                                                                                this.raceProgressionService,
-                                                                                name,
-                                                                                playerSkill) :
-                                                    new Car()]);
+            const car: Car = name !== USERNAME ?
+                                new VirtualPlayerController(this.speedZoneService, this.raceProgressionService, name) :
+                                new Car();
+            this._cars.push([name, car]);
         });
-        // because await does not work in for-of loop
-        // tslint:disable prefer-for-of
-        for ( let i: number = 0; i < this._cars.length; i++) {
-            await this._cars[i][1].init();
+
+        for (const car of this._cars) {
+            await car[1].init();
         }
     }
 
