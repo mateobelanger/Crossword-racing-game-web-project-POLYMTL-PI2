@@ -91,8 +91,10 @@ export class Io {
                 this.deleteGameByRoomId(this._waitingGames, roomId);
                 const joinedGame: GameConfiguration = this.getGameByRoomId(this._ongoingGames, roomId);
                 joinedGame.updateGuestInformation(socket.id, guestName);
+                console.log(joinedGame.guestUsername);
+                console.log(joinedGame.hostUsername);
 
-                socket.emit(SocketMessage.GRID_FROM_JOIN, joinedGame);
+                this.socketServer.in(joinedGame.guestId).emit(SocketMessage.GRID_FROM_JOIN, joinedGame);
                 socket.to(joinedGame.hostId).emit(SocketMessage.INITIALIZE_GAME, joinedGame); // quel ID ?????????? room id serait ok
 
                 this.broadcastGameLists();
