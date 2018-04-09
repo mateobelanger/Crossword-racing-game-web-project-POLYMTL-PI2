@@ -21,11 +21,19 @@ export class LobbyComponent implements OnInit  {
     }
 
     public joinGame(roomId: string): void {
-        this.socketService.joinGame(roomId, this.guestName);        // opponentName
+        this.socketService.joinGame(roomId, this.guestName);
     }
 
     public isValidName(): boolean {
-        return this.guestName.length > 0;        // TODO: ajouter alphanumerique
+        let containsOnlySpaces: boolean = true;
+        for (const char of this.guestName) {
+            if (char !== " ") {
+                containsOnlySpaces = false;
+                break;
+            }
+        }
+
+        return this.guestName.length > 0 && !containsOnlySpaces;
     }
 
 }

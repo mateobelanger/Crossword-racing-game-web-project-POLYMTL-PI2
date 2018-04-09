@@ -39,10 +39,7 @@ export class SocketService {
         const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
         const usernames: string[] = [];
         usernames.push(game.usernames[0]);
-        // console.log(usernames[0]);
-
         usernames.push(game.usernames[1]);
-        // console.log(usernames[1]);
         const ids: string[] = [];
         ids.push(game.ids[0]);
         ids.push(game.ids[1]);
