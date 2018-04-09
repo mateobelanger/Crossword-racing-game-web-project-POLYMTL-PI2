@@ -49,12 +49,12 @@ export class RaceDataHandlerService {
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             this.trackLoaderService.points = this._ITrackData.waypoints;
 
-            this.speedZonesService.initialize(  new BeginnerVirtualPlayer(),
-                                                this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
-            await this._carsHandlerService.initialize();
+            this.speedZonesService.initialize( new BeginnerVirtualPlayer(),
+                                               this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
-            await this._raceProgressionService.initialize(  this._carsHandlerService.carsPosition,
-                                                            this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
+            await this._carsHandlerService.initialize();
+            await this._raceProgressionService.initialize( this._carsHandlerService.carsPosition,
+                                                           this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
             this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
             this.raceResultService.initialize();

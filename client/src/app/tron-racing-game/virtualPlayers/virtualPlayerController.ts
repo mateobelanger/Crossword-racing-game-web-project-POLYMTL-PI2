@@ -7,14 +7,14 @@ const SPEED_GAP: number = 5;
 const MAX_SPEED_MOFIFIER: number = 1;
 
 export class VirtualPlayerController extends Car {
-
     private speedModifier: number;
+
     public constructor( private speedZonesService: SpeedZonesService,
                         private raceProgressionService: RaceProgressionHandlerService,
-                        private aiPlayerName: string) {
-                            super();
-                            this.speedModifier = (Math.random() * MAX_SPEED_MOFIFIER - (MAX_SPEED_MOFIFIER / 2)) + 1;
-                        }
+                        private aiPlayerName: string ) {
+        super();
+        this.speedModifier = (Math.random() * MAX_SPEED_MOFIFIER - (MAX_SPEED_MOFIFIER / 2)) + 1;
+    }
 
     public update(detltaTime: number): void {
         this.control();

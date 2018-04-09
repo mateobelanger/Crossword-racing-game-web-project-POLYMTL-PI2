@@ -1,5 +1,6 @@
 import { Timer } from "./timer";
 import { UiTimer } from "./uiTimer";
+
 export class TimerHandler {
 
     private _dataTimer: Timer;
