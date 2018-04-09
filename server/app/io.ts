@@ -205,7 +205,7 @@ export class Io {
             if (socket.id === this.getGameByRoomId(this._ongoingGames, roomId).hostId) {
                 this.getGameByRoomId(this._ongoingGames, roomId).hostValidatedWords.push(word);
             } else {
-                this.getGameByRoomId(this._ongoingGames, roomId).guestValidatedwords.push(word);
+                this.getGameByRoomId(this._ongoingGames, roomId).guestValidatedWords.push(word);
             }
             this.socketServer.in(roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, this.getGameByRoomId  (this._ongoingGames, roomId));
         }
@@ -216,7 +216,7 @@ export class Io {
             if (socket.id === this.getGameByRoomId(this._soloGames, roomId).hostId) {
                 this.getGameByRoomId(this._soloGames, roomId).hostValidatedWords.push(word);
             } else {
-                this.getGameByRoomId(this._soloGames, roomId).guestValidatedwords.push(word);
+                this.getGameByRoomId(this._soloGames, roomId).guestValidatedWords.push(word);
             }
             this.socketServer.in(roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, this.getGameByRoomId  (this._soloGames, roomId));
         }
@@ -228,7 +228,7 @@ export class Io {
                 return true;
             }
         }
-        for (const word of game.guestValidatedwords) {
+        for (const word of game.guestValidatedWords) {
             if (word.value === wordToFind.value) {
                 return true;
             }

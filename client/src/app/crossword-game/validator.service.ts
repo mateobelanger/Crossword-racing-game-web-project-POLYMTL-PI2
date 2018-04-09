@@ -23,7 +23,7 @@ export class ValidatorService {
     }
 
     public isValidatedWord(word: GridWord): boolean {
-        return this.socketService.game.hostValidatedWords.includes(word) || this.socketService.game.guestValidatedwords.includes(word);
+        return this.socketService.game.hostValidatedWords.includes(word) || this.socketService.game.guestValidatedWords.includes(word);
     }
 
     public isLocalValidatedDefinition(definition: string): boolean {
@@ -53,7 +53,7 @@ export class ValidatorService {
     }
 
     public isGuestValidatedDefinition(definition: string): boolean {
-        for (const word of this.socketService.game.guestValidatedwords) {
+        for (const word of this.socketService.game.guestValidatedWords) {
             if (word.definition === definition) {
                 return true;
             }
@@ -66,7 +66,7 @@ export class ValidatorService {
         for (const word of this.wordService.words) {
             if (this.socketService.game.hostValidatedWords.includes(word)) {
                 continue;
-            } else if (this.socketService.game.guestValidatedwords.includes(word)) {
+            } else if (this.socketService.game.guestValidatedWords.includes(word)) {
                 continue;
             } else {
 
@@ -92,7 +92,7 @@ export class ValidatorService {
 
     public setValidatedWords(local: GridWord[], remote: GridWord[]): void {
         this.socketService.game.hostValidatedWords = local;
-        this.socketService.game.guestValidatedwords = remote;
+        this.socketService.game.guestValidatedWords = remote;
     }
 
     private addValidatedWord(word: GridWord): void {
@@ -140,7 +140,7 @@ export class ValidatorService {
     }
 
     private isGuestValidatedCell(row: number, column: number): boolean {
-        for (const word of this.socketService.game.guestValidatedwords) {
+        for (const word of this.socketService.game.guestValidatedWords) {
             if (word.includesCell(row, column)) {
                 return true;
             }
@@ -175,7 +175,7 @@ export class ValidatorService {
 
     private updateEndOfGame(): void {
         for (const word of this.wordService.words) {
-            if (!this.socketService.game.hostValidatedWords.includes(word) || !this.socketService.game.guestValidatedwords.includes(word)) {
+            if (!this.socketService.game.hostValidatedWords.includes(word) || !this.socketService.game.guestValidatedWords.includes(word)) {
                 this.isEndOfGame = false;
 
                 return;

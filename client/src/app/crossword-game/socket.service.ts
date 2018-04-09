@@ -36,12 +36,10 @@ export class SocketService {
 
     public castGame(game: GameConfiguration): GameConfiguration {
         const words: GridWord[] = this.castHttpToGridWord(game._words);
-        const hostValidatedWords: GridWord[] = this.castHttpToGridWord(game.hostValidatedWords);
-        const guestValidatedwords: GridWord[] = this.castHttpToGridWord(game.guestValidatedwords);
+        const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
         const castedGame: GameConfiguration = new GameConfiguration(game.roomId, game.hostId, game.hostUsername, game.difficulty, words);
 
-        castedGame.guestValidatedwords = guestValidatedwords;
-        castedGame.hostValidatedWords = hostValidatedWords;
+        castedGame.validatedWords = validatedWords;
 
         return castedGame;
     }
@@ -77,6 +75,7 @@ export class SocketService {
                 this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
         });
     }
+
     private castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
         const words: GridWord[] = [];
         for (const word of httpWords) {
@@ -84,6 +83,15 @@ export class SocketService {
         }
 
         return words;
+    }
+
+    private castHttpToArrayOfGridWord(arrayOfGridWords: GridWord[][]): GridWord[][] {
+        const arrayOfWords: GridWord[][] = [];
+        for (const words of arrayOfGridWords) {
+            arrayOfWords.push(this.castHttpToGridWord(words));
+        }
+
+        return arrayOfWords;
     }
 
     public async createGame(username: string, difficulty: Difficulty): Promise<void> {
@@ -134,7 +142,7 @@ export class SocketService {
 
     private updateValidatedWord(game: GameConfiguration): void {
         this.game = this.castGame(game);
-        this.gameStateService.updateScores(this.game.hostValidatedWords.length, this.game.guestValidatedwords.length);
+        this.gameStateService.updateScores(this.game.hostValidatedWords.length, this.game.guestValidatedWords.length);
     }
 
     private initializeGame(game: GameConfiguration): void {
