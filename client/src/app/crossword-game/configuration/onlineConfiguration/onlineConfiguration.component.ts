@@ -27,10 +27,6 @@ export class OnlineConfigurationComponent implements OnInit {
         return this.gameState.isValidState();
     }
 
-    public isValidUsername(name: String): boolean {
-        return name.length > 0;
-    }
-
     public async createGame(username: string): Promise<void> {
         this.isGameCreated = true;
         await this.socketService.createGame(username, this.gameState.difficulty);

@@ -19,6 +19,6 @@ export class SoloConfigurationComponent {
 
     public async createGame(): Promise<void> {
         this.gameState.isOngoing = true;
-        await this.socketService.createSoloGame("bob", this.difficulty);
+        await this.socketService.createSoloGame("Score", this.difficulty);
     }
 }

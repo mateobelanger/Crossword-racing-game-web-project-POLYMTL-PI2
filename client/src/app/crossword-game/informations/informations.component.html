@@ -1,17 +1,15 @@
 <title>informations</title>
 <div>
 
-  <div class="difficulty">Difficulty: {{difficulty}}</div>
+    <div class="difficulty">Difficulty: {{difficulty}}</div>
 
-  <div class="scoreBoard">
-    <!-- *ngIf="gameState.isMultiplayer" -->
-    <!-- TODO Vérfifier si c'Est le host ou non  -->
-    <div class="player p1 left">
-      {{gameState.hostName}}: {{gameState.hostScore}}
+    <div class="scoreBoard">
+        <div class="player p1 left">
+            {{gameState.hostName}}: {{gameState.hostScore}}
+        </div>
+        <div *ngIf="!gameState.isMultiplayer" class="player p2 right">
+            {{gameState.guestName}}: {{gameState.guestScore}}
+        </div>
     </div>
-    <div class="player p2 right">
-      {{gameState.guestName}}: {{gameState.guestScore}}
-    </div>
-  </div>
 
 </div>

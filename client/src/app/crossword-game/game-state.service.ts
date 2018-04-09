@@ -39,10 +39,22 @@ export class GameStateService {
     }
 
     public isValidState(): boolean {
-        return this.difficulty && this.hostName.length > 0;
+        return this.difficulty !== null && this.isValidHostName();
     }
 
     public get isMultiplayer(): boolean {
         return this._isMultiplayer;
+    }
+
+    private isValidHostName(): boolean {
+        let containsOnlySpaces: boolean = true;
+        for (const char of this.hostName) {
+            if (char !== " ") {
+                containsOnlySpaces = false;
+                break;
+            }
+        }
+
+        return this.hostName.length > 0 && !containsOnlySpaces;
     }
 }
