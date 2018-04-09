@@ -39,9 +39,10 @@ export class SocketService {
         const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
         const usernames: string[] = [];
         usernames.push(game.usernames[0]);
-        console.log(game.usernames[0]);
+        // console.log(usernames[0]);
 
         usernames.push(game.usernames[1]);
+        // console.log(usernames[1]);
         const ids: string[] = [];
         ids.push(game.ids[0]);
         ids.push(game.ids[1]);
@@ -150,14 +151,13 @@ export class SocketService {
         this.game = this.castGame(game);
         game._words.forEach((word) => {
             this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
-        });     // TODO: pourquoi on a besoin de ca? grille ne s'affiche pas si je l'enleve
+        });
         this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
     }
 
     private gridFromJoin(game: GameConfiguration): void {
-        // console.log(game.hostUsername);
         this.initializeGridFromJoin(game);
-        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
+        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.usernames[0], game.usernames[1]);
     }
 
     private updateValidatedWord(game: GameConfiguration): void {
@@ -168,7 +168,7 @@ export class SocketService {
     private initializeGame(game: GameConfiguration): void {
         this.game = this.castGame(game);
         this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
-        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
+        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.usernames[0], game.usernames[1]);
     }
 
 }

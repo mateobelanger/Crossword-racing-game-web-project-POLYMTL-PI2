@@ -54,6 +54,7 @@ export class GameConfiguration  {
         this.ids[PlayerType.GUEST] = guestId;
     }
 
+    // TODO: Ces getters ne fonctionnent pas
     public get hostUsername(): string {
         return this.usernames[PlayerType.HOST];
     }
@@ -62,6 +63,7 @@ export class GameConfiguration  {
         this.usernames[PlayerType.HOST] = hostUsername;
     }
 
+    // TODO: Ces getters ne fonctionnent pas    
     public get guestUsername(): string {
         return this.usernames[PlayerType.GUEST];
     }
