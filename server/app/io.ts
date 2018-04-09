@@ -27,7 +27,7 @@ export class Io {
                 socket.join(roomId);
                 if (!this.isAlreadyInAGame(socket.id)) {
                     this.createGame(roomId, socket.id, username, difficulty, words);
-                    socket.broadcast.emit("gameLobbies", this._waitingGames, this._ongoingGames);
+                    this.broadcastGameLists();
                 }
             });
 
@@ -49,22 +49,17 @@ export class Io {
 
             socket.on("joinGame", (roomId: string, guestName: string) => {
                 if (!this.isAlreadyInAGame(socket.id)) {
-                    try {
-                        socket.join(roomId);
-                        // TODO: mettre dans fonction ??
-                        this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId));
-                        this.deleteGameByRoomId(this._waitingGames, roomId);
-                        const joinedGame: GameConfiguration = this.getGameByRoomId(this._ongoingGames, roomId);
-                        joinedGame.guestId = socket.id;
-                        joinedGame.guestUserName = guestName;
+                    socket.join(roomId);
+                    // TODO: mettre dans fonction ??
+                    this._ongoingGames.push(this.getGameByRoomId(this._waitingGames, roomId));
+                    this.deleteGameByRoomId(this._waitingGames, roomId);
+                    const joinedGame: GameConfiguration = this.getGameByRoomId(this._ongoingGames, roomId);
+                    joinedGame.updateGuestInformation(socket.id, guestName);
 
-                        socket.emit("gridFromJoin", joinedGame);
-                        socket.to(joinedGame.hostId).emit("initializeGame", joinedGame); // quel ID ??????????
+                    socket.emit("gridFromJoin", joinedGame);
+                    socket.to(joinedGame.hostId).emit("initializeGame", joinedGame); // quel ID ?????????? roomId serait ok
 
-                        socket.broadcast.emit("gameLobbies", this._waitingGames, this._ongoingGames);
-                    } catch (error) {
-                        return;
-                    }
+                    this.broadcastGameLists();
                 }
             });
 
@@ -97,6 +92,7 @@ export class Io {
                     }
 
                 }
+                this.broadcastGameLists();
                 console.log(this._soloGames.length);
                 console.log(this._waitingGames.length);
                 console.log(this._ongoingGames.length);
@@ -113,6 +109,10 @@ export class Io {
 
         });
 
+    }
+
+    private broadcastGameLists(): void {
+        this.socketServer.emit("gameLobbies", this._waitingGames, this._ongoingGames);
     }
 
     private createGame(roomId: string, hostId: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
@@ -203,10 +203,6 @@ export class Io {
 
         return words;
     }
-
-    // private getNumberOfRooms(): number {
-    //     return this._soloGames.length + this._ongoingGames.length + this._waitingGames.length;
-    // }
 
     private getGameType(socketId: string): GameType {
         if (this._soloGames.find((game: GameConfiguration) => game.isInGame(socketId)) !== undefined) {

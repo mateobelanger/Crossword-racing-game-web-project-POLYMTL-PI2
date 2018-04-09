@@ -28,16 +28,12 @@ export class SocketService {
         this.socket = io.connect("http://localhost:3000");
 
         this.socket.on("gameLobbies", (waitingGames: GameConfiguration[], ongoingGames: GameConfiguration[]) => {
-            this.lobbyService.onlineGames = ongoingGames;
-            this.lobbyService.waitingGames = waitingGames;
+            this.lobbyService.updateGameLists(ongoingGames, waitingGames);
         });
 
         this.socket.on("gridFromJoin", (game: GameConfiguration) => {
             console.log("gridJoin");
-            this.gameStateService.difficulty = game.difficulty;
-            this.gameStateService.hostName = game.hostUsername;
-            this.gameStateService.hostName = game.hostUsername;
-            this.gameStateService.startGame();
+            this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
             this.initializeGridFromJoin(game);
         });
 
@@ -45,16 +41,16 @@ export class SocketService {
             this.game = this.castGame(game);
             console.log("Validated host and guest: ");
             console.log(this.game.hostValidatedWords); console.log(this.game.guestValidatedwords);
-            this.gameStateService.hostScore = this.game.hostValidatedWords.length;
-            this.gameStateService.guestScore = this.game.guestValidatedwords.length;
+
+            this.gameStateService.updateScores(this.game.hostValidatedWords.length, this.game.guestValidatedwords.length);
         });
 
         this.socket.on("initializeGame", (game: GameConfiguration) => {
             this.game = this.castGame(game);
             this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
-            this.gameStateService.guestName = game.guestUserName;
-            this.gameStateService.startGame();
+            this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
         });
+
         this.socket.on("remoteSelectedWord", (selectedWord: GridWord) => {
             this._remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
         });
@@ -68,7 +64,6 @@ export class SocketService {
     public get remoteSelectedWord(): GridWord {
         return this._remoteSelectedWord;
     }
-
 
     public castGame(game: GameConfiguration): GameConfiguration {
         const words: GridWord[] = this.castHttpToGridWord(game._words);
@@ -122,7 +117,6 @@ export class SocketService {
         this.socket.emit("selectWord", selectedWord);
     }
 
-
     private async createGrid(difficulty: Difficulty): Promise<void> {
         await this.wordService.initialize(difficulty);
     }
@@ -131,9 +125,8 @@ export class SocketService {
         this.game = this.castGame(game);
         game._words.forEach((word) => {
             this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
-        });
+        });     // TODO: pourquoi on a besoin de ca? grille ne s'affiche pas si je l'enleve
         this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
-
     }
 
     private includesWord(wordToFind: GridWord): boolean {

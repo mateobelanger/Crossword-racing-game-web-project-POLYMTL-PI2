@@ -6,16 +6,18 @@ enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST, OPPONENT_DIS
 @Injectable()
 export class GameStateService {
     public difficulty: Difficulty;
-    public username: String;
+    public hostName: string;
+    public guestName: string;
+
     public isMultiplayer: boolean;
     public state: GameState;
-    public hostName: string;
-    public guestName: string = "opponent"; // TODO: le charger? ajouter a join game
     public hostScore: number;
     public guestScore: number;
 
     public constructor() {
-        this.username = "";
+        this.hostName = "";
+        this.guestName = "";
+
         this.isMultiplayer = false;
         this.state = null;          // NO_GAME ? verification sans onlineConfigurationcomponent.ts plus dure (import enum)
         this.hostScore = 0;
@@ -28,5 +30,17 @@ export class GameStateService {
 
     public startGame(): void {
         this.state = GameState.ONGOING;
+    }
+
+    public setMultiplayerGameInfo(difficulty: Difficulty, hostName: string, guestName: string): void {
+        this.difficulty = difficulty;
+        this.hostName = hostName;
+        this.guestName = guestName;
+        this.startGame();
+    }
+
+    public updateScores(hostScore: number, guestScore: number): void {
+        this.hostScore = hostScore;
+        this.guestScore = guestScore;
     }
 }

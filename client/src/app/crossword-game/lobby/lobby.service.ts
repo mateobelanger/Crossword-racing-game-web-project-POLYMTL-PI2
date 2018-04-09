@@ -7,9 +7,17 @@ import { GameConfiguration } from "../../../../../common/crosswordsInterfaces/ga
 @Injectable()
 export class LobbyService {
 
-    public onlineGames: GameConfiguration[] = [];
-    public waitingGames: GameConfiguration[] = [];
+    public onlineGames: GameConfiguration[];
+    public waitingGames: GameConfiguration[];
 
-    public constructor() { }
+    public constructor() {
+        this.onlineGames = [];
+        this.waitingGames = [];
+    }
+
+    public updateGameLists(ongoingGames: GameConfiguration[], waitingGames: GameConfiguration[]): void {
+        this.onlineGames = ongoingGames;
+        this.waitingGames = waitingGames;
+    }
 
 }
