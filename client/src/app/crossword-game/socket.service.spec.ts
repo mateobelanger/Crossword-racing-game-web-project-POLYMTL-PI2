@@ -3,13 +3,18 @@ import { TestBed, inject } from '@angular/core/testing';
 import { SocketService } from './socket.service';
 import { LobbyService } from './lobby/lobby.service';
 import { WordService } from './word.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { AppModule } from '../app.module';
+import { routes } from '../app-routes.module';
+import { HttpClientModule } from '@angular/common/http';
+import { APP_BASE_HREF } from '@angular/common';
+
 
 describe('SocketService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SocketService, LobbyService, WordService, HttpClient, HttpHandler, Router]
+      imports: [routes, AppModule, HttpClientModule],
+      providers: [{provide: APP_BASE_HREF, useValue : '/' }, WordService,
+                  SocketService, LobbyService]
     });
   });
 
