@@ -39,6 +39,8 @@ export class SocketService {
         const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
         const usernames: string[] = [];
         usernames.push(game.usernames[0]);
+        console.log(game.usernames[0]);
+
         usernames.push(game.usernames[1]);
         const ids: string[] = [];
         ids.push(game.ids[0]);
@@ -123,8 +125,8 @@ export class SocketService {
         this.isHost = true;
     }
 
-    public joinGame(roomId: string, opponentName: string): void {
-        this.socket.emit(SocketMessage.JOIN_GAME, roomId, opponentName);
+    public joinGame(roomId: string, guestName: string): void {
+        this.socket.emit(SocketMessage.JOIN_GAME, roomId, guestName);
         this.isHost = false;
     }
 
@@ -153,6 +155,7 @@ export class SocketService {
     }
 
     private gridFromJoin(game: GameConfiguration): void {
+        // console.log(game.hostUsername);
         this.initializeGridFromJoin(game);
         this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
     }

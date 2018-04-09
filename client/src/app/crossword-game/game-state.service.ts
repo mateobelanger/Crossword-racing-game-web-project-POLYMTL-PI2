@@ -15,6 +15,7 @@ export class GameStateService {
     public guestScore: number;
 
     public constructor() {
+        this.difficulty = null;
         this.hostName = "";
         this.guestName = "";
 
@@ -33,14 +34,21 @@ export class GameStateService {
     }
 
     public setMultiplayerGameInfo(difficulty: Difficulty, hostName: string, guestName: string): void {
+        this.isMultiplayer = true;
         this.difficulty = difficulty;
         this.hostName = hostName;
+        // console.log(hostName);
         this.guestName = guestName;
+        // console.log(guestName);
         this.startGame();
     }
 
     public updateScores(hostScore: number, guestScore: number): void {
         this.hostScore = hostScore;
         this.guestScore = guestScore;
+    }
+
+    public isValidState(): boolean {
+        return this.difficulty && this.hostName.length > 0 && this.state === null;
     }
 }
