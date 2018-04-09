@@ -34,7 +34,6 @@ export class SocketService {
         return this._remoteSelectedWord;
     }
 
-
     public castGame(game: GameConfiguration): GameConfiguration {
         const words: GridWord[] = this.castHttpToGridWord(game._words);
         const hostValidatedWords: GridWord[] = this.castHttpToGridWord(game.hostValidatedWords);
@@ -50,8 +49,7 @@ export class SocketService {
     private initializeSocketGameManager(): void {
 
         this.socket.on(SocketMessage.GAME_LOBBIES, (waitingGames: GameConfiguration[], ongoingGames: GameConfiguration[]) => {
-            this.lobbyService.onlineGames = ongoingGames;
-            this.lobbyService.waitingGames = waitingGames;
+            this.lobbyService.updateGameLists(ongoingGames, waitingGames);
         });
 
         this.socket.on(SocketMessage.INITIALIZE_GAME, (game: GameConfiguration) => {
@@ -125,30 +123,24 @@ export class SocketService {
         this.game = this.castGame(game);
         game._words.forEach((word) => {
             this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
-        });
+        });     // TODO: pourquoi on a besoin de ca? grille ne s'affiche pas si je l'enleve
         this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
-
     }
 
     private gridFromJoin(game: GameConfiguration): void {
-        this.gameStateService.difficulty = game.difficulty;
-        this.gameStateService.hostName = game.hostUsername;
-        this.gameStateService.hostName = game.hostUsername;
-        this.gameStateService.startGame();
+        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
         this.initializeGridFromJoin(game);
     }
 
     private updateValidatedWord(game: GameConfiguration): void {
         this.game = this.castGame(game);
-        this.gameStateService.hostScore = this.game.hostValidatedWords.length;
-        this.gameStateService.guestScore = this.game.guestValidatedwords.length;
+        this.gameStateService.updateScores(this.game.hostValidatedWords.length, this.game.guestValidatedwords.length);
     }
 
     private initializeGame(game: GameConfiguration): void {
         this.game = this.castGame(game);
         this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
-        this.gameStateService.guestName = game.guestUserName;
-        this.gameStateService.startGame();
+        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.hostUsername, game.guestUsername);
     }
 
 }

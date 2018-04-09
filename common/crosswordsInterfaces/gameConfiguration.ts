@@ -9,7 +9,7 @@ export class GameConfiguration  {
     public guestId: string;
 
     public hostUsername: string;
-    public guestUserName: string;
+    public guestUsername: string;
     public difficulty: Difficulty;
     public _words: GridWord[];
     public hostValidatedWords: GridWord[];
@@ -20,7 +20,7 @@ export class GameConfiguration  {
         this.hostId = hostId;
         this.guestId = null;
         this.hostUsername = hostUsername;
-        this.guestUserName = "";
+        this.guestUsername = "";
         this.difficulty = difficulty;
         this._words = words;
         this.guestValidatedwords = [];
@@ -33,6 +33,12 @@ export class GameConfiguration  {
 
     public isHost(id: string): boolean {
         return this.hostId === id;
+    }
+
+
+    public updateGuestInformation(socketId: string, guestName: string): void {
+        this.guestId = socketId;
+        this.guestUsername = guestName;
     }
 
     // public set words(words: GridWord[]) {
