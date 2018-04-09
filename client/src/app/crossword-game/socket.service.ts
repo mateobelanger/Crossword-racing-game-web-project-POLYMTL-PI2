@@ -37,9 +37,17 @@ export class SocketService {
     public castGame(game: GameConfiguration): GameConfiguration {
         const words: GridWord[] = this.castHttpToGridWord(game._words);
         const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
+        const usernames: string[] = [];
+        usernames.push(game.usernames[0]);
+        usernames.push(game.usernames[1]);
+        const ids: string[] = [];
+        ids.push(game.ids[0]);
+        ids.push(game.ids[1]);
         const castedGame: GameConfiguration = new GameConfiguration(game.roomId, game.hostId, game.hostUsername, game.difficulty, words);
 
         castedGame.validatedWords = validatedWords;
+        castedGame.usernames = usernames;
+        castedGame.ids = ids;
 
         return castedGame;
     }
@@ -47,6 +55,8 @@ export class SocketService {
     private initializeSocketGameManager(): void {
 
         this.socket.on(SocketMessage.GAME_LOBBIES, (waitingGames: GameConfiguration[], ongoingGames: GameConfiguration[]) => {
+            waitingGames = this.castHttpToArrayOfGames(waitingGames);
+            ongoingGames = this.castHttpToArrayOfGames(ongoingGames);
             this.lobbyService.updateGameLists(ongoingGames, waitingGames);
         });
 
@@ -92,6 +102,15 @@ export class SocketService {
         }
 
         return arrayOfWords;
+    }
+
+    private castHttpToArrayOfGames(gameConfigurations: GameConfiguration[]): GameConfiguration[] {
+        const castedGameConfigurations: GameConfiguration[] = [];
+        for (const game of gameConfigurations) {
+            castedGameConfigurations.push(this.castGame(game));
+        }
+
+        return castedGameConfigurations;
     }
 
     public async createGame(username: string, difficulty: Difficulty): Promise<void> {
