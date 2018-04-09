@@ -70,6 +70,7 @@ export class SocketService {
 
         this.socket.on(SocketMessage.DISCONNECTED, (game: GameConfiguration) => {
             console.log("socket disconnected");
+            this.gameStateService.initializeGameState();
         });
     }
 
@@ -154,7 +155,7 @@ export class SocketService {
 
     private gridFromJoin(game: GameConfiguration): void {
         this.initializeGridFromJoin(game);
-        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.usernames[0], game.usernames[1]);
+        this.gameStateService.setGameInfo(game.usernames[0], game.usernames[1], game.difficulty, true);
     }
 
     private updateValidatedWord(game: GameConfiguration): void {
@@ -165,7 +166,9 @@ export class SocketService {
     private initializeGame(game: GameConfiguration): void {
         this.game = this.castGame(game);
         this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
-        this.gameStateService.setMultiplayerGameInfo(game.difficulty, game.usernames[0], game.usernames[1]);
+        console.log(this.game.isMultiplayer());
+        this.gameStateService.setGameInfo(game.usernames[0], game.usernames[1], game.difficulty, this.game.isMultiplayer());
+        // TODO solo
     }
 
 }

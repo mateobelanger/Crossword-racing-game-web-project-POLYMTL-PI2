@@ -7,7 +7,7 @@
         <div class="player p1 left">
             {{gameState.hostName}}: {{gameState.hostScore}}
         </div>
-        <div *ngIf="!gameState.isMultiplayer" class="player p2 right">
+        <div *ngIf="gameState.isMultiplayer" class="player p2 right">
             {{gameState.guestName}}: {{gameState.guestScore}}
         </div>
     </div>
