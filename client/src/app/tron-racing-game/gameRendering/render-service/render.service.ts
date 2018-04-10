@@ -10,17 +10,12 @@ import { AudioService } from "../../audio/audio.service";
 import { OutOfBoundsHandlerService } from "../../physics&interactions/collisions/out-of-bounds-handler.service";
 import { CarHandlerService } from "../../physics&interactions/cars/car-handler.service";
 import { CollisionHandlerService } from "../../physics&interactions/collisions/collision-handler.service";
-// import { DEFAULT_MAX_RPM } from "../../physics&interactions/cars/car/engine";
+import { DEFAULT_MAX_RPM } from "../../physics&interactions/cars/car/engine";
 import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
 
-// To see the car"s point of departure
-// const HELPER_AXES_SIZE: number = 500;
-// const HELPER_GRID_SIZE: number = 500;
-
-
-// const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
-// const ENGINE_MIN_VOLUME: number = 0.2;
-// const ENGINE_MAX_VOLUME: number = 0.65;
+const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
+const ENGINE_MIN_VOLUME: number = 0.2;
+const ENGINE_MAX_VOLUME: number = 0.65;
 
 @Injectable()
 export class RenderService implements OnDestroy {
@@ -31,8 +26,6 @@ export class RenderService implements OnDestroy {
     private lastDate: number;
     private destroyed: boolean = false;
     private _car: Car;
-
-    // private axesHelper: THREE.AxisHelper = new THREE.AxisHelper(HELPER_AXES_SIZE);
 
     public ngOnDestroy(): void {
         this.destroyed = true;
@@ -88,8 +81,8 @@ export class RenderService implements OnDestroy {
         this.outOfBoundsHandlerService.update();
         this.collisionHandlerService.handleCarCollisions();
 
-        // const carEngineVolume: number = Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM));
-        // this.audioService.playSound(CAR_ENGINE_SOUND, carEngineVolume, true);
+        const carEngineVolume: number = Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM));
+        this.audioService.playSound(CAR_ENGINE_SOUND, carEngineVolume, true);
 
         this.lastDate = Date.now();
         this.raceProgressionService.update();
