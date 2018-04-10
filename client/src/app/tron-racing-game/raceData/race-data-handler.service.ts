@@ -11,10 +11,13 @@ import { TimerHandler } from './timer/timerHandler';
 import { USERNAME, COUNTDOWN_TIME } from '../constants';
 import { ResultsSimulatorService } from './simulateEndResults/results-simulator.service';
 import { Countdown } from './timer/countdown';
-import { AudioService, COUNTDOWN_SOUND, COUNTDOWN_END_SOUND } from '../audio/audio.service';
+import { AudioService } from '../audio/audio.service';
 import { InputHandlerService } from '../physics&interactions/controller/input-handler.service';
 import { SpeedZonesService } from '../virtualPlayers/speed-zones.service';
 import { VirtualPlayerDifficulty, BeginnerVirtualPlayer, ExpertVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
+
+const COUNTDOWN_SOUND: string = "../../../assets/audio/RG/countdown.wav";
+const RACE_START_SOUND: string = "../../../assets/audio/RG/start.wav";
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -112,7 +115,7 @@ export class RaceDataHandlerService {
                 this._carsHandlerService.startRace();
             },
             () => {
-                this.audioService.playSound(COUNTDOWN_END_SOUND);
+                this.audioService.playSound(RACE_START_SOUND);
                 this.inputHandlerService.enableControlKeys();
                 this._carsHandlerService.startRace();
             });
