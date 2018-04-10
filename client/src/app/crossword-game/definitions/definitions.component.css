@@ -59,14 +59,14 @@ li:hover {
 }
 
 .localValidatedDefinition {
-    background: red;
+    background: #dc6256;
     color: white;
     font-weight: bold;
     pointer-events: none;
 }
 
 .remoteValidatedDefinition {
-    background: blue;
+    background: #62a8ca;
     color: white;
     font-weight: bold;
     pointer-events: none;

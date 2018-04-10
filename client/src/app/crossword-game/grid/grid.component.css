@@ -1,26 +1,25 @@
 #header {
-    background-color: #e8c77f;
+    background-color: #64b0a1;
     cursor: default !important;
-    z-index: 1000;
 }
 
 .localValidatedCell {
-    background-color: blue !important;
+    background-color: #62a8ca !important;
     color: white !important;
  }
  
  .remoteValidatedCell {
-    background-color: red !important;
+    background-color: #dc6256 !important;
     color: white !important;
  }
 
  .bothValidatedCell {
     background: repeating-linear-gradient(
         -45deg,
-        red,
-        blue 10px,
-        red 10px,
-        blue 20px
+        #dc6256,
+        #62a8ca 10px,
+        #dc6256 10px,
+        #62a8ca 20px
       );
 }
 
@@ -48,15 +47,15 @@
     text-align: center;
     text-transform: capitalize;
     cursor: pointer;
-    background-color: #e4e8e7;
+    background-color: #e8c77f;
 }
 
 .localSelected {
-    border: 6px solid blue;
+    border: 6px solid #62a8ca;
 }
 
 .remoteSelected {
-    border: 6px solid red;
+    border: 6px solid #dc6256;
 }
 
 .bothSelected {
