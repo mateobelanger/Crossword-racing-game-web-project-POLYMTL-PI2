@@ -57,7 +57,8 @@ export class SelectionService {
 
     public deselect(): void {
         this.socketService.deselectWord(this.selectionState.localSelectedWord);
-        if (this.selectionState.localSelectedWord.value === this.selectionState.remoteSelectedWord.value) {
+        if (this.selectionState.remoteSelectedWord !== null &&
+                this.selectionState.localSelectedWord.value === this.selectionState.remoteSelectedWord.value) {
             this.selectionState.remoteSelectedWord = null;
         }
         this.selectionState.localSelectedWord = null;
