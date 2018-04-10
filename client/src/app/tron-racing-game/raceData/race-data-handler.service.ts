@@ -52,7 +52,7 @@ export class RaceDataHandlerService {
             this.speedZonesService.initialize( new BeginnerVirtualPlayer(),
                                                this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
-            await this._carsHandlerService.initialize();
+            await this._carsHandlerService.initialize(new BeginnerVirtualPlayer());
             await this._raceProgressionService.initialize( this._carsHandlerService.carsPosition,
                                                            this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 

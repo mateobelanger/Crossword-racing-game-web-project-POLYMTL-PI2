@@ -2,18 +2,28 @@ import { Car } from "../physics&interactions/cars/car/car";
 import { SpeedZonesService } from "./speed-zones.service";
 import { RaceProgressionHandlerService } from "../raceData/raceProgression/race-progression-handler.service";
 import * as THREE from "three";
+import { VirtualPlayerDifficulty } from "./virtualPlayerDifficulty";
 
 const SPEED_GAP: number = 5;
 const MAX_SPEED_MOFIFIER: number = 1;
+// tslint:disable-next-line:no-magic-numbers
+const MAX_DIRECTION_MODIFIER: number = Math.PI / 10;
+const INTERVAL: number = 700;
+const ROTATION_AXIS: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
+// tslint:disable-next-line:no-magic-numbers
+const ANGLE_THRESHOLD: number = Math.PI / 60;
 
 export class VirtualPlayerController extends Car {
     private speedModifier: number;
+    private directionModifier: number;
 
     public constructor( private speedZonesService: SpeedZonesService,
                         private raceProgressionService: RaceProgressionHandlerService,
-                        private aiPlayerName: string ) {
+                        private aiPlayerName: string,
+                        playerSkill: VirtualPlayerDifficulty ) {
         super();
         this.speedModifier = (Math.random() * MAX_SPEED_MOFIFIER - (MAX_SPEED_MOFIFIER / 2)) + 1;
+        this.setDirectionModifier(playerSkill);
     }
 
     public update(detltaTime: number): void {
@@ -29,11 +39,12 @@ export class VirtualPlayerController extends Car {
 
     private adjustSteer(): void {
         const crossVector: THREE.Vector3 = this.direction.cross(this.trackDirection());
-
-        if (crossVector.y > 0) {
-            this.steerLeft();
-        } else {
-            this.steerRight();
+        if ( this.direction.angleTo(this.trackDirection()) > ANGLE_THRESHOLD) {
+            if (crossVector.y > 0) {
+                this.steerLeft();
+            } else {
+                this.steerRight();
+            }
         }
     }
 
@@ -60,9 +71,24 @@ export class VirtualPlayerController extends Car {
     }
 
     private trackDirection(): THREE.Vector3 {
-        return new THREE.Vector3().subVectors(
+        return this.applyDirectionModifier(new THREE.Vector3().subVectors(
             this.raceProgressionService.getPlayerProgression(this.aiPlayerName).nextWaypointPosition,
             this.raceProgressionService.getPlayerProgression(this.aiPlayerName).currentWaypointPosition
-        );
+        ));
+    }
+
+    private applyDirectionModifier(vector: THREE.Vector3): THREE.Vector3 {
+        return vector.applyAxisAngle(ROTATION_AXIS, this.directionModifier);
+    }
+
+    private setDirectionModifier( playerSkill: VirtualPlayerDifficulty ): void {
+        if (playerSkill.isExperimented) {
+            this.directionModifier = 0;
+        } else {
+            window.setInterval(( ) => {
+                this.directionModifier =
+                (Math.random() * MAX_DIRECTION_MODIFIER - (MAX_DIRECTION_MODIFIER / 2)); },
+                               INTERVAL);
+        }
     }
 }
