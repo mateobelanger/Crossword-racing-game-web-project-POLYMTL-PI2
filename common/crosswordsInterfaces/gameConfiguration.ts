@@ -31,7 +31,7 @@ export class GameConfiguration  {
     }
 
     public isInGame(id: string): boolean {
-        return this.hostId === id || this.guestId === id;
+        return this.roomId === id || this.hostId === id || this.guestId === id;
     }
 
     public isHost(id: string): boolean {
