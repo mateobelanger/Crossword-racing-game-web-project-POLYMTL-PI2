@@ -9,10 +9,11 @@ import { ITrackData } from "../../../../common/ItrackData";
 
 export class TrackListComponent implements AfterViewInit {
     public tracks: ITrackData[];
-
+    public easyDifficulty: boolean;
     public constructor(private proxy: TracksProxyService) { }
 
     public async ngAfterViewInit(): Promise<void> {
+        this.easyDifficulty = true;
 
         await this.proxy.initialize();
         this.tracks = this.proxy.tracks;
@@ -20,5 +21,9 @@ export class TrackListComponent implements AfterViewInit {
 
     public selectModalId(button: HTMLElement, track: ITrackData): void {
         button.setAttribute("data-target", "#" + track.name);
+    }
+
+    public switchDifficulty(): void {
+        this.easyDifficulty = !this.easyDifficulty;
     }
 }
