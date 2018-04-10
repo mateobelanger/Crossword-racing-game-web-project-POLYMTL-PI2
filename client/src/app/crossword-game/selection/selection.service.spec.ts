@@ -7,6 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { GridWord, Direction } from '../../../../../common/crosswordsInterfaces/word';
 import { WordService } from '../word.service';
 import { SocketService } from '../socket.service';
+import { SelectionStateService } from '../selection-state/selection-state.service';
 
 
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to . . . on my chair.");
@@ -20,6 +21,7 @@ describe('SelectionService', () => {
     let selectionService: SelectionService;
     let wordService: WordService;
     let socketService: SocketService;
+    let selectionState: SelectionStateService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -31,7 +33,9 @@ describe('SelectionService', () => {
         wordService = TestBed.get(WordService);
         wordService.words = words;
 
-        selectionService = new SelectionService(wordService, socketService);
+        selectionState = new SelectionStateService();
+
+        selectionService = new SelectionService(wordService, socketService, selectionState);
     });
 
     it('should be created', inject([SelectionService], (service: SelectionService) => {
@@ -39,12 +43,12 @@ describe('SelectionService', () => {
     }));
 
     it("should return the selected word", () => {
-        selectionService["_selectedWord"] = word1;
+        selectionState.localSelectedWord = word1;
         expect(selectionService.selectedWord).toBe(word1);
     });
 
     it("should return the definition of the selected word", () => {
-        selectionService["_selectedWord"] = word1;
+        selectionState.localSelectedWord = word1;
         expect(selectionService.definition).toBe(word1.definition);
     });
 
@@ -53,13 +57,13 @@ describe('SelectionService', () => {
     });
 
     it("should set the definition of the selected word properly", () => {
-        selectionService["_selectedWord"] = word1;
+        selectionState.localSelectedWord = word1;
         selectionService.definition = word2.definition;
         expect(selectionService.definition).toBe(word2.definition);
     });
 
     it("should deselect the selected word properly", () => {
-        selectionService["_selectedWord"] = word1;
+        selectionState.localSelectedWord = word1;
         selectionService.deselect();
         expect(selectionService.selectedWord).toBeNull();
     });

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameStateService } from '../game-state.service';
 
-const DIFFICULTY_LENGTH: number = 11;
+// const DIFFICULTY_LENGTH: number = 11;
 
 @Component({
     selector: 'app-informations',
@@ -13,10 +13,11 @@ export class InformationsComponent implements OnInit {
     public difficulty: string;
 
     public constructor(public gameState: GameStateService) {
+        this.difficulty = "";
     }
 
     public ngOnInit(): void {
-        this.difficulty = this.gameState.difficulty.substring(DIFFICULTY_LENGTH);
+        // TODO TEST this.difficulty = this.gameState.difficulty.substring(DIFFICULTY_LENGTH);
     }
 
 

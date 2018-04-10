@@ -13,6 +13,7 @@ import { LobbyService } from './lobby/lobby.service';
 import { routes } from '../app-routes.module';
 import { AppModule } from '../app.module';
 import { APP_BASE_HREF } from '@angular/common';
+import { SelectionStateService } from './selection-state/selection-state.service';
 
 const KEY_BACKSPACE: number = 8;
 const KEY_TAB: number = 9;
@@ -46,6 +47,7 @@ describe('GridService', () => {
     let userGridService: UserGridService;
     let game: GameConfiguration;
     let selectionService: SelectionService;
+    let selectionState: SelectionStateService;
 
     // tslint:disable-next-line:max-func-body-length
     beforeEach(() => {
@@ -81,7 +83,9 @@ describe('GridService', () => {
         socketService = TestBed.get(SocketService);
         socketService.game = game;
 
-        selectionService = new SelectionService(wordService, socketService);
+        selectionState = new SelectionStateService();
+
+        selectionService = new SelectionService(wordService, socketService, selectionState);
 
         userGridService = new UserGridService();
         userGridService.userGrid = userGrid;
@@ -128,22 +132,22 @@ describe('GridService', () => {
     });
 
     it("should return true if the selected is the right one", () => {
-        selectionService["_selectedWord"] = word1;
+        selectionState.localSelectedWord = word1;
         expect(gridService.isSelectedWord(0, 0)).toBeTruthy();
     });
 
     it("should return false if the selected is the not the right one", () => {
-        selectionService["_selectedWord"] = word5;
+        selectionState.localSelectedWord = word5;
         expect(gridService.isSelectedWord(0, 0)).toBeFalsy();
     });
 
     it("should return false if there is no selected word", () => {
-        selectionService["_selectedWord"] = null;
+        selectionState.localSelectedWord = null;
         expect(gridService.isSelectedWord(0, 0)).toBeFalsy();
     });
 
     it("should return the right id", () => {
-        selectionService["_selectedWord"] = word5;
+        selectionState.localSelectedWord = word5;
         expect(gridService.generateId(2, 3)).toBe((GRID_SIZE * 2) + 3);
     });
 
