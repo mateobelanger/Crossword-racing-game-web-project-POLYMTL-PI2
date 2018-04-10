@@ -1,7 +1,7 @@
 <table>
     <thead>
         <tr>
-            <th class="title">Across:</th>
+            <th class="title">Horizontal:</th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +23,7 @@
 <table>
     <thead>
         <tr>
-            <th class="title">Down:</th>
+            <th class="title">Vertical:</th>
         </tr>
     </thead>
     <tbody>
@@ -42,4 +42,6 @@
         </tr>
     </tbody>
 </table>
-<button [class.toggled]="isCheatMode" [class.untoggled]="!isCheatMode" (click)="switchMode()"> Switch to  {{ (isCheatMode ? 'Normal' : 'Cheat')}} Mode</button>
+<div class="button">
+        <button [class.toggled]="isCheatMode" [class.untoggled]="!isCheatMode" (click)="switchMode()"> Switch to  {{ (isCheatMode ? 'Normal' : 'Cheat')}} Mode</button>
+</div>

@@ -1,13 +1,13 @@
 <div>
   <!--row of index!-->
   <div class="row">
-    <div class="col header"></div>
-    <div *ngFor="let block of gridService.userGridService.userGrid[0]; let index = index;" class="col header">{{index+1}}</div>
+    <div class="col" id="header"></div>
+    <div *ngFor="let block of gridService.userGridService.userGrid[0]; let index = index;" class="col" id="header">{{index+1}}</div>
   </div>
  
     <div *ngFor="let row of gridService.userGridService.userGrid; let indexR = index;" class="row">
         <!--first cell with index!-->
-        <div class="col header">{{indexR+1}}</div>
+        <div class="col" id="header">{{indexR+1}}</div>
         <input *ngFor="let block of row; let indexC=index; trackBy: trackByIndex" type="text"
                value={{block}}
                [attr.id]="gridService.generateId(indexR, indexC)"

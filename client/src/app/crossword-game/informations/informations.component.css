@@ -6,11 +6,10 @@
 }
 
 .player {
-    display: inline-block;
     font-size: 19px;
     font-weight: bold;
     width: 100px;
-    background-color: yellow;
+    /* background-color: yellow; */
 }
 
 .p1 {
@@ -26,9 +25,9 @@ button {
 }
 
 .scoreBoard {
-    justify-content: center;
+    /* justify-content: center;
     align-items: center;
-    text-align: center;
+    text-align: center; */
     margin: auto;
     width: 20%;
     height: 100px;
@@ -49,4 +48,9 @@ button {
     clear: both;
     display: block;
     visibility: none;
+}
+
+.scores {
+    width: 50%;
+    float: left;
 }

@@ -1,3 +1,9 @@
+/* jaune : #e8c77f
+gris : #e4e8e7
+vert : #64b0a1
+bleu : #62a8ca
+roubge : #dc6256 */
+
 .game {
     display: grid;
     grid-template-columns: 29em 50%;
@@ -15,8 +21,9 @@
 .grid {
     grid-column: 1;
     grid-row: 2/4;
-    width: 440px;
-    margin-left: 1em;
+    width: 506px;
+    margin: auto;
+    margin-top: 25px;
 }
 
 .definitions {
@@ -29,4 +36,28 @@
 button {
     margin-top: 1em;
     margin-left: 6em;
+}
+
+.gridContainer {
+    /* background-color: #F5F5F5; */
+    /* background-color: yellow; */
+    width: 49%;
+    float: left;
+    height: 50vh;
+}
+
+.definitionsContainer {
+    /* background-color: green; */
+    width: 49%;
+    float: left;
+}
+
+.InformationsContainer {
+    margin: 0;
+    /* background-color: pink; */
+}
+
+.gameUI {
+    /* background-color: #F5F5F5; */
+    margin: 0;
 }

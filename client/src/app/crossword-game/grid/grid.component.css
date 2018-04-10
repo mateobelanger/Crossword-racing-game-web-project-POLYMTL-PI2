@@ -1,6 +1,7 @@
-.header {
-    background-color: gray;
+#header {
+    background-color: #e8c77f;
     cursor: default !important;
+    z-index: 1000;
 }
 
 .localValidatedCell {
@@ -24,8 +25,8 @@
 }
 
 .filled {
-    color: black;
-    background: black;
+    color: #4c4c4c !important;
+    background: #4c4c4c !important;
     font-size: 0px;
     pointer-events: none;
 
@@ -38,22 +39,24 @@
 .col {
     font-size: 1.3em;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    height: 42px !important;
-    width: 40px !important;
-    border: 2px solid black;
+    height: 46px !important;
+    width: 46px !important;
+    border: 6px solid;
+    border-color: white;
     padding: 0;
     margin: 0;
     text-align: center;
     text-transform: capitalize;
     cursor: pointer;
+    background-color: #e4e8e7;
 }
 
 .localSelected {
-    border: 2px solid blue;
+    border: 6px solid blue;
 }
 
 .remoteSelected {
-    border: 2px solid red;
+    border: 6px solid red;
 }
 
 .bothSelected {

@@ -1,5 +1,5 @@
 table {
-    width: 100%;
+    width: 75%;
 }
 
 thead,
@@ -72,12 +72,21 @@ li:hover {
     pointer-events: none;
 }
 
+.button {
+    margin-top: 10px;
+}
+
 .toggled {
     color: white;
-    background: red;
+    background: #dc6256;
 }
 
 .untoggled {
     color:white;
-    background: grey;
+    background: #64b0a1;
 }
+
+thead[_ngcontent-c4], tbody[_ngcontent-c4] {
+    border: 0px;
+}
+
