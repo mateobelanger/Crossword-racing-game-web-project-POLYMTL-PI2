@@ -22,6 +22,17 @@ export class GameStateService {
         return this._isMultiplayer;
     }
 
+    public initializeGameState(): void {
+        this.hostName = "";
+        this.guestName = "";
+        this.hostScore = 0;
+        this.guestScore = 0;
+
+        this.difficulty = null;
+        this.state = GameState.NO_GAME;
+        this._isMultiplayer = false;
+    }
+
     public startGame(): void {
         this.state = GameState.ONGOING;
     }
@@ -45,17 +56,6 @@ export class GameStateService {
 
     public isValidState(): boolean {
         return this.difficulty !== null && this.isValidHostName() && this.state === GameState.NO_GAME;
-    }
-
-    public initializeGameState(): void {
-        this.hostName = "";
-        this.guestName = "";
-        this.hostScore = 0;
-        this.guestScore = 0;
-
-        this.difficulty = null;
-        this.state = GameState.NO_GAME;
-        this._isMultiplayer = false;
     }
 
     private isValidHostName(): boolean {

@@ -16,24 +16,14 @@ import { SelectionStateService } from '../selection-state/selection-state.servic
 
 export class GameUiComponent implements OnInit {
     public constructor( private selectionStateService: SelectionStateService,
-                        private wordService: WordService, public validator: ValidatorService,
+                        public wordService: WordService, public validator: ValidatorService,
                         public gridService: GridService/*, private route: ActivatedRoute, private socketService: SocketService*/) {}
 
     public async ngOnInit(): Promise<void> {
-    //     await this.wordService.initialize(this.route.snapshot.paramMap.get("difficulty"))
-    //         .then(() => {
-    //             this.grid.initialize();
-    //             this.validator.initialize();
-    //         });
-        // this.wordService = this.socketService.getWords();
-
-        console.log(this.wordService.words.length);
 
         this.gridService.initialize();
         this.validator.initialize();
 
-        console.log("onInit");
-        console.log(this.wordService.words);
     }
 
     public deselect(): void {

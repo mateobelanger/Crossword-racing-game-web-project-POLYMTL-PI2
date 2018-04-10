@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { Router, Request, Response } from "express";
-import { GridCreator } from "./crossword-game/gridCreator";
-import { WordPlacer } from "./crossword-game/wordPlacer";
+import { GridCreator } from "./crossword-grid/gridCreator";
+import { WordPlacer } from "./crossword-grid/wordPlacer";
 
 const N_BLACK_CELLS: number = 35;
 
