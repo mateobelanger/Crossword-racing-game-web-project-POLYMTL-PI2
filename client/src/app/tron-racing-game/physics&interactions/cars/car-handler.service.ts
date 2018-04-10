@@ -3,7 +3,7 @@ import { Car } from './car/car';
 import { PLAYERS_NAME, USERNAME, GameState } from "../../constants";
 import * as THREE from "three";
 import { CarStartPosition } from './carStartPosition';
-import { VirtualPlayerController } from '../../virtualPlayers/virtualPlayerController';
+import { VirtualPlayerCar } from '../../virtualPlayers/virtualPlayerCar';
 import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 import { VirtualPlayerDifficulty } from '../../virtualPlayers/virtualPlayerDifficulty';
@@ -17,14 +17,13 @@ export class CarHandlerService {
         this._cars = [];
     }
 
-    public async initialize( playerSkill: VirtualPlayerDifficulty): Promise<void> {
-        PLAYERS_NAME.forEach((name: string) => {
-            this._cars.push([   name,
-                                name !== USERNAME ? new VirtualPlayerController(this.speedZoneService,
-                                                                                this.raceProgressionService,
-                                                                                name,
-                                                                                playerSkill) :
-                                                    new Car()]);
+    public async initialize(playerSkill: VirtualPlayerDifficulty): Promise<void> {
+        PLAYERS_NAME.forEach( (name: string) => {
+            const newCar: Car = name !== USERNAME ?
+                        new VirtualPlayerCar(playerSkill, name, this.speedZoneService, this.raceProgressionService) :
+                        new Car();
+
+            this._cars.push([name, newCar]);
         });
         // because await does not work in for-of loop
         // tslint:disable prefer-for-of

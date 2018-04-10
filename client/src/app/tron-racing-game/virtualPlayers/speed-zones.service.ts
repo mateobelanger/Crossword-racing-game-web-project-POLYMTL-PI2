@@ -28,8 +28,8 @@ export class SpeedZonesService {
 
   public speedZone(name: string): number {
       return this.isInCornerZone(name) ?
-      this.speedZones[this.currentTrackIndex(name)].cornerSpeed :
-      this.speedZones[this.currentTrackIndex(name)].defaultSpeed;
+                        this.speedZones[this.currentTrackIndex(name)].cornerSpeed :
+                        this.speedZones[this.currentTrackIndex(name)].defaultSpeed;
   }
 
   private isInCornerZone(name: string): boolean {
@@ -40,9 +40,9 @@ export class SpeedZonesService {
       return this.raceProgressionService.getPlayerProgression(name).currentWaypointIndex;
   }
 
-  private calculateRadianAngle(   firstWaypoint: [number, number, number],
-                                  secondWaypoint: [number, number, number],
-                                  thirdWaypoint: [number, number, number]): number {
+  private calculateRadianAngle( firstWaypoint: [number, number, number],
+                                secondWaypoint: [number, number, number],
+                                thirdWaypoint: [number, number, number] ): number {
       const firstTrackDirection: THREE.Vector3 = this.waypointsToVector(firstWaypoint, secondWaypoint);
       const secondTrackDirection: THREE.Vector3 = this.waypointsToVector(secondWaypoint, thirdWaypoint);
 
@@ -64,8 +64,8 @@ export class SpeedZonesService {
   }
 
   private createTrackSpeedZone(playerSkill: VirtualPlayerDifficulty, angle: number): TrackSegmentSpeed {
-      return {cornerSpeed: playerSkill.cornerSpeed * this.cornerSlowDownFactor(angle),
-              defaultSpeed: playerSkill.defaultSpeed * this.cornerSlowDownFactor(angle)};
+      return {cornerSpeed: playerSkill.cornerSpeed() * this.cornerSlowDownFactor(angle),
+              defaultSpeed: playerSkill.defaultSpeed() * this.cornerSlowDownFactor(angle)};
   }
 
   private cornerSlowDownFactor(angle: number): number {
