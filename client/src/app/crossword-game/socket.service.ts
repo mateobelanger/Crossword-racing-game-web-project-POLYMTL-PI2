@@ -35,22 +35,38 @@ export class SocketService {
         return this.selectionState.remoteSelectedWord;
     }
 
-    public castGame(game: GameConfiguration): GameConfiguration {
-        const words: GridWord[] = this.castHttpToGridWord(game._words);
-        const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
-        const usernames: string[] = [];
-        usernames.push(game.usernames[0]);
-        usernames.push(game.usernames[1]);
-        const ids: string[] = [];
-        ids.push(game.ids[0]);
-        ids.push(game.ids[1]);
-        const castedGame: GameConfiguration = new GameConfiguration(game.roomId, game.hostId, game.hostUsername, game.difficulty, words);
+    public async createGame(username: string, difficulty: Difficulty): Promise<void> {
+        this.selectionState.unselectWords();
+        await this.createGrid(difficulty);
+        this.socket.emit(SocketMessage.CREATE_GAME, username, difficulty, this.wordService.words);
+        this.isHost = true;
+    }
 
-        castedGame.validatedWords = validatedWords;
-        castedGame.usernames = usernames;
-        castedGame.ids = ids;
+    public async createSoloGame(username: string, difficulty: Difficulty): Promise<void> {
+        await this.createGrid(difficulty);
+        this.socket.emit(SocketMessage.CREATE_SOLO_GAME, username, difficulty, this.wordService.words);
+        this.isHost = true;
+    }
 
-        return castedGame;
+    public joinGame(roomId: string, guestName: string): void {
+        this.socket.emit(SocketMessage.JOIN_GAME, roomId, guestName);
+        this.isHost = false;
+    }
+
+    public getGameLobbies(): void {
+        this.socket.emit(SocketMessage.GET_GAME_LOBBIES);
+    }
+
+    public addValidatedWord(word: GridWord): void {
+        this.socket.emit(SocketMessage.ADD_VALIDATED_WORD, word, this.game.roomId);
+    }
+
+    public selectWord(selectedWord: GridWord): void {
+        this.socket.emit(SocketMessage.SELECT_WORD, selectedWord);
+    }
+
+    public deselectWord(word: GridWord): void {
+        this.socket.emit(SocketMessage.DESELECT_WORD, word);
     }
 
     private initializeSocketGameManager(): void {
@@ -95,6 +111,24 @@ export class SocketService {
         });
     }
 
+    private castGame(game: GameConfiguration): GameConfiguration {
+        const words: GridWord[] = this.castHttpToGridWord(game._words);
+        const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
+        const usernames: string[] = [];
+        usernames.push(game.usernames[0]);
+        usernames.push(game.usernames[1]);
+        const ids: string[] = [];
+        ids.push(game.ids[0]);
+        ids.push(game.ids[1]);
+        const castedGame: GameConfiguration = new GameConfiguration(game.roomId, game.hostId, game.hostUsername, game.difficulty, words);
+
+        castedGame.validatedWords = validatedWords;
+        castedGame.usernames = usernames;
+        castedGame.ids = ids;
+
+        return castedGame;
+    }
+
     private castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
         const words: GridWord[] = [];
         for (const word of httpWords) {
@@ -120,40 +154,6 @@ export class SocketService {
         }
 
         return castedGameConfigurations;
-    }
-
-    public async createGame(username: string, difficulty: Difficulty): Promise<void> {
-        this.selectionState.unselectWords();
-        await this.createGrid(difficulty);
-        this.socket.emit(SocketMessage.CREATE_GAME, username, difficulty, this.wordService.words);
-        this.isHost = true;
-    }
-
-    public async createSoloGame(username: string, difficulty: Difficulty): Promise<void> {
-        await this.createGrid(difficulty);
-        this.socket.emit(SocketMessage.CREATE_SOLO_GAME, username, difficulty, this.wordService.words);
-        this.isHost = true;
-    }
-
-    public joinGame(roomId: string, guestName: string): void {
-        this.socket.emit(SocketMessage.JOIN_GAME, roomId, guestName);
-        this.isHost = false;
-    }
-
-    public getGameLobbies(): void {
-        this.socket.emit(SocketMessage.GET_GAME_LOBBIES);
-    }
-
-    public addValidatedWord(word: GridWord): void {
-        this.socket.emit(SocketMessage.ADD_VALIDATED_WORD, word, this.game.roomId);
-    }
-
-    public selectWord(selectedWord: GridWord): void {
-        this.socket.emit(SocketMessage.SELECT_WORD, selectedWord);
-    }
-
-    public deselectWord(word: GridWord): void {
-        this.socket.emit(SocketMessage.DESELECT_WORD, word);
     }
 
     private async createGrid(difficulty: Difficulty): Promise<void> {
@@ -183,7 +183,6 @@ export class SocketService {
         this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
         console.log(this.game.isMultiplayer());
         this.gameStateService.setGameInfo(game.usernames[0], game.usernames[1], game.difficulty, this.game.isMultiplayer());
-        // TODO solo
     }
 
 }

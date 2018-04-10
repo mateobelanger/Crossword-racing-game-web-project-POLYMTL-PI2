@@ -27,6 +27,7 @@ describe('ValidatorService', () => {
     let initialGrid: string[][];
     let wordService: WordService;
     let socketService: SocketService;
+    let userGridService: UserGridService;
 
     let validatorService: ValidatorService;
     let validatedWords: GridWord[];
@@ -68,6 +69,9 @@ describe('ValidatorService', () => {
         ];
         validatorService = TestBed.get(ValidatorService);
         validatorService["filledGrid"] = filledGrid;
+
+        userGridService = TestBed.get(UserGridService);
+        userGridService.userGrid = initialGrid;
     });
 
     it('should be created', () => {
