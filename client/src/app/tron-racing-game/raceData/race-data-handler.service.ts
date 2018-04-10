@@ -44,7 +44,6 @@ export class RaceDataHandlerService {
     public async initialize(trackname: string, choseEasyDifficulty: boolean): Promise<void> {
         try {
             const playerDifficulty: VirtualPlayerDifficulty = choseEasyDifficulty ? new BeginnerVirtualPlayer() : new ExpertVirtualPlayer();
-            console.log(playerDifficulty)
             await this.tracksProxyService.initialize();
 
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
@@ -110,10 +109,12 @@ export class RaceDataHandlerService {
             (err: Error) => {
                 console.error(err);
                 this.inputHandlerService.enableControlKeys();
+                this._carsHandlerService.startRace();
             },
             () => {
                 this.audioService.playSound(COUNTDOWN_END_SOUND);
                 this.inputHandlerService.enableControlKeys();
+                this._carsHandlerService.startRace();
             });
     }
 
@@ -125,6 +126,7 @@ export class RaceDataHandlerService {
 
     public doneRace(): void {
         this._timer.stop();
+        this._carsHandlerService.endRace();
         this.simulateEndRaceResult();
         this.endGameService.endGame(this._raceProgressionService.isUserFirst())
             .subscribe(() => {
@@ -154,6 +156,8 @@ export class RaceDataHandlerService {
         this._raceProgressionService.raceDoneStream$.subscribe((name: string) => {
             if (name === USERNAME) {
                 this.doneRace();
+            } else {
+                this._carsHandlerService.virtualPlayerFinished(name);
             }
         });
     }

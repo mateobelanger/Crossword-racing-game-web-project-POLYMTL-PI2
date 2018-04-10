@@ -3,7 +3,7 @@ import { SpeedZonesService } from "./speed-zones.service";
 import { RaceProgressionHandlerService } from "../raceData/raceProgression/race-progression-handler.service";
 import * as THREE from "three";
 import { VirtualPlayerDifficulty } from "./virtualPlayerDifficulty";
-
+import { GameState } from "../constants";
 const SPEED_GAP: number = 5;
 const MAX_SPEED_MOFIFIER: number = 1;
 // tslint:disable-next-line:no-magic-numbers
@@ -16,19 +16,37 @@ const ANGLE_THRESHOLD: number = Math.PI / 60;
 export class VirtualPlayerController extends Car {
     private speedModifier: number;
     private directionModifier: number;
+    private gameState: GameState;
 
     public constructor( private speedZonesService: SpeedZonesService,
                         private raceProgressionService: RaceProgressionHandlerService,
                         private aiPlayerName: string,
                         playerSkill: VirtualPlayerDifficulty ) {
         super();
+        this.gameState = GameState.COUTNDOWN;
         this.speedModifier = (Math.random() * MAX_SPEED_MOFIFIER - (MAX_SPEED_MOFIFIER / 2)) + 1;
         this.setDirectionModifier(playerSkill);
     }
 
     public update(detltaTime: number): void {
-        this.control();
+        switch (this.gameState) {
+            case GameState.COUTNDOWN:
+                break;
+            case GameState.RACE:
+                this.control();
+                break;
+            case GameState.END:
+                this.speed = this.speed.setLength(0);
+                console.log("fin")
+                break;
+            default:
+                break;
+        }
         super.update(detltaTime);
+    }
+
+    public changeState(gameState: GameState): void {
+        this.gameState = gameState;
     }
 
     private control(): void {

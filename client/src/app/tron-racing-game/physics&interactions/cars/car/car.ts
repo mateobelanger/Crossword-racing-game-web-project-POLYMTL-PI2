@@ -1,9 +1,8 @@
 import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion, Box3 } from "three";
 import { Engine } from "./engine";
-import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../../../constants";
+import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG, GameState } from "../../../constants";
 import { Wheel } from "./wheel";
 import { CarLights } from "../../../gameRendering/car-lights/car-lights";
-
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
 export const DEFAULT_DRAG_COEFFICIENT: number = 0.35;
@@ -182,6 +181,9 @@ export class Car extends Object3D {
 
     public rotate(rotationAngle: number): void {
         this._mesh.rotateY(rotationAngle);
+    }
+
+    public changeState(state: GameState): void {
     }
 
     private physicsUpdate(deltaTime: number): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Car } from './car/car';
-import { PLAYERS_NAME, USERNAME } from "../../constants";
+import { PLAYERS_NAME, USERNAME, GameState } from "../../constants";
 import * as THREE from "three";
 import { CarStartPosition } from './carStartPosition';
 import { VirtualPlayerController } from '../../virtualPlayers/virtualPlayerController';
@@ -63,6 +63,28 @@ export class CarHandlerService {
         const cars: Car[] = this._cars.map((car: [string, Car]) => car[1]);
         const carsPosition: CarStartPosition = new CarStartPosition( cars, waypoints);
         carsPosition.moveCarsToStart();
+    }
+
+    public startRace(): void {
+        this._cars.forEach( (car: [string, Car]) => {
+            car[1].changeState(GameState.RACE);
+        });
+    }
+
+    public endRace(): void {
+        this._cars.forEach( (car: [string, Car]) => {
+            car[1].changeState(GameState.END);
+        });
+    }
+
+    public virtualPlayerFinished(virtualPlayerName: string): void {
+        this.findVirtualPlayer(virtualPlayerName).changeState(GameState.END);
+    }
+
+    private findVirtualPlayer(virtualPlayerName: string): Car {
+        return  this._cars.filter( (car: [string, Car]) =>
+                car[0] === virtualPlayerName
+                )[0][1];
     }
 
 }
