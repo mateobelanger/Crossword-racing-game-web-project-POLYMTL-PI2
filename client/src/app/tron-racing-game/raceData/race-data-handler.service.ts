@@ -14,7 +14,7 @@ import { Countdown } from './timer/countdown';
 import { AudioService, COUNTDOWN_SOUND, COUNTDOWN_END_SOUND } from '../audio/audio.service';
 import { InputHandlerService } from '../physics&interactions/controller/input-handler.service';
 import { SpeedZonesService } from '../virtualPlayers/speed-zones.service';
-import { BeginnerVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
+import { VirtualPlayerDifficulty, BeginnerVirtualPlayer, ExpertVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
 
 @Injectable()
 export class RaceDataHandlerService {
@@ -41,18 +41,20 @@ export class RaceDataHandlerService {
     }
 
 
-    public async initialize(trackname: string): Promise<void> {
+    public async initialize(trackname: string, choseEasyDifficulty: boolean): Promise<void> {
         try {
+            const playerDifficulty: VirtualPlayerDifficulty = choseEasyDifficulty ? new BeginnerVirtualPlayer() : new ExpertVirtualPlayer();
+            console.log(playerDifficulty)
             await this.tracksProxyService.initialize();
 
             this._ITrackData = this.tracksProxyService.findTrack(trackname);
             this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
             this.trackLoaderService.points = this._ITrackData.waypoints;
 
-            this.speedZonesService.initialize( new BeginnerVirtualPlayer(),
+            this.speedZonesService.initialize( playerDifficulty,
                                                this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
-            await this._carsHandlerService.initialize(new BeginnerVirtualPlayer());
+            await this._carsHandlerService.initialize( playerDifficulty );
             await this._raceProgressionService.initialize( this._carsHandlerService.carsPosition,
                                                            this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 

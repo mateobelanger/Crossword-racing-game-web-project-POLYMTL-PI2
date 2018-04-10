@@ -59,10 +59,14 @@ export class GameUiComponent implements AfterViewInit {
         if (!this.isDefined(trackName))
             trackName = DEFAULT_TRACKNAME;
 
-        await this.raceDataHandlerService.initialize(trackName);
+        await this.raceDataHandlerService.initialize(trackName, this.choseEasyDifficulty);
         await this.renderService.initialize(this.containerRef.nativeElement);
         await this.raceDataHandlerService.startCountdown();
         this.raceDataHandlerService.startRace();
+    }
+
+    public get choseEasyDifficulty(): boolean {
+        return this.route.snapshot.paramMap.get("difficulty").localeCompare("true") === 0;
     }
 
     public get car(): Car {

@@ -21,8 +21,8 @@ export const appRoutes: Routes = [
   { path : "racing-game", component: TrackListComponent },
   { path : "admin", component: AdminComponent },
   { path : "admin/track-editor/:trackName", component: TrackEditorUiComponent },
-  { path : "racing-game-scene/:trackName", component: GameFrameComponent },
-  { path : "racing-game-scene", component: GameFrameComponent } // *a retirer avant la remise**
+  { path : "racing-game-scene/:trackName/:difficulty", component: GameFrameComponent },
+  { path : "racing-game-scene", component: GameFrameComponent } // TODO: *a retirer avant la remise**
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);
