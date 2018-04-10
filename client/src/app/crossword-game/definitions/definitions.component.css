@@ -87,6 +87,6 @@ li:hover {
 }
 
 thead[_ngcontent-c4], tbody[_ngcontent-c4] {
-    border: 0px;
+    border: 0px !important;
 }
 
