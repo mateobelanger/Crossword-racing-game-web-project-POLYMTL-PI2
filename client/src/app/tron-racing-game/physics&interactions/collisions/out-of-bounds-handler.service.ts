@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Car } from "../cars/car/car";
-import { TRACK_WIDTH } from "../../constants";
+import { TRACK_WIDTH, WAYPOINT_RADIUS } from "../../constants";
 import { RaceProgression } from '../../raceData/raceProgression/raceProgression';
 import { AudioService } from '../../audio/audio.service';
 import { CarHandlerService } from '../cars/car-handler.service';
@@ -32,14 +32,15 @@ export class OutOfBoundsHandlerService {
         this._cars.forEach((raceCar: [RaceProgression, Car]) => {
             const progression: RaceProgression = raceCar[0];
             const car: Car = raceCar[1];
+            const trackLength: number = progression.getCurrentTrackSegment().length();
 
-            if (progression.isOnWaypoint()) {
-                if (this.carTouchesWaypointWall(car, progression)) {
-                    this.handleWallCollision(car, progression);
-                }
-            } else if (!this.isCarInTrack(car, progression)) {
-                this.handleWallCollision(car, progression);
+            if (car.mesh.position.distanceTo(progression.currentWaypointPosition) <= WAYPOINT_RADIUS) {
+                return;
             }
+            if (progression.distanceToNextWaypoint() < trackLength && this.isCarInTrack(car, progression)) {
+                return;
+            }
+            this.handleWallCollision(car, progression);
         });
     }
 
@@ -66,13 +67,6 @@ export class OutOfBoundsHandlerService {
 
     private isCarInTrack(car: Car, progression: RaceProgression): boolean {
         return this.getTrackRejectionVector(car, progression).length() <= TRACK_WIDTH / 2 - CAR_WIDTH;
-    }
-
-    private carTouchesWaypointWall(car: Car, progression: RaceProgression): boolean {
-        const trackLength: number = progression.getCurrentTrackSegment().length();
-
-        return car.mesh.position.distanceTo(progression.nextWaypointPosition) > trackLength
-            && car.mesh.position.distanceTo(progression.currentWaypointPosition) >= TRACK_WIDTH / 2 - CAR_WIDTH;
     }
 
     // computes the rejection vector of the car position relative to the track by the track segment
