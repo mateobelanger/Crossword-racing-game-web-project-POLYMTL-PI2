@@ -13,6 +13,8 @@ import { CollisionHandlerService } from "../../physics&interactions/collisions/c
 // import { DEFAULT_MAX_RPM } from "../../physics&interactions/cars/car/engine";
 import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
 import { Portal } from "../../virtualPlayers/teleportation/portal";
+import { PortalsHandlerService } from "../../virtualPlayers/teleportation/portals-handler.service";
+import { Vector2, Vector3 } from "three";
 
 // To see the car"s point of departure
 // const HELPER_AXES_SIZE: number = 500;
@@ -47,7 +49,8 @@ export class RenderService implements OnDestroy {
                        private carHandlerService: CarHandlerService,
                        private raceProgressionService: RaceProgressionHandlerService,
                        private collisionHandlerService: CollisionHandlerService,
-                       private outOfBoundsHandlerService: OutOfBoundsHandlerService) {
+                       private outOfBoundsHandlerService: OutOfBoundsHandlerService,
+                       private portalhandlerService: PortalsHandlerService) {
         this._car = new Car();
     }
 
@@ -62,15 +65,14 @@ export class RenderService implements OnDestroy {
             this.outOfBoundsHandlerService.initialize();
             this.container = container;
             await this.createScene();
+            this.portalhandlerService.initialize(this.scene);
             this.initStats();
             this.startRenderingLoop();
             this.destroyed = false;
             this.raceProgressionService.user.endOfRace$.subscribe(() => {
                 this.ngOnDestroy();
             });
-            const test: Portal = new Portal(this.scene);
-            test.createPortal(new THREE.Vector3(0, 0, 0));
-            test.portalAnimation();
+            this.portalhandlerService.spawnPortal(new Vector3(0, 0, 0));
         } catch (err) {
             console.error("could not initialize render service");
             console.error(err);

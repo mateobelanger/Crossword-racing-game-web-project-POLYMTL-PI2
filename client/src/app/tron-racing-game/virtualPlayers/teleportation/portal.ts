@@ -31,6 +31,10 @@ export class Portal {
         this.createGlowEffect();
     }
 
+    public destroyPortal(): void {
+        this._scene.remove(this.sphericalMesh);
+    }
+
     private growPortal(): Promise<void> {
         return new Promise( (resolve, reject) => {
             const id: number = window.setInterval(() => {

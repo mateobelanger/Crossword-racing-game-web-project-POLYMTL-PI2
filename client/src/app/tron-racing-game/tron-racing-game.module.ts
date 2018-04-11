@@ -42,6 +42,7 @@ import { OutOfBoundsHandlerService } from "./physics&interactions/collisions/out
 import { ResultsSimulatorService } from './raceData/simulateEndResults/results-simulator.service';
 import { SpeedZonesService } from './virtualPlayers/speed-zones.service';
 import { CountdownComponent } from './raceData/raceInfos/countdown/countdown.component';
+import { PortalsHandlerService } from './virtualPlayers/teleportation/portals-handler.service';
 
 @NgModule({
 
@@ -94,7 +95,8 @@ import { CountdownComponent } from './raceData/raceInfos/countdown/countdown.com
     OutOfBoundsHandlerService,
     EndGameService,
     ResultsSimulatorService,
-    SpeedZonesService
+    SpeedZonesService,
+    PortalsHandlerService
   ],
 
 })
