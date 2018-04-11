@@ -70,7 +70,6 @@ export class RenderService implements OnDestroy {
             this.raceProgressionService.user.endOfRace$.subscribe(() => {
                 this.ngOnDestroy();
             });
-            this.portalhandlerService.spawnPortal(new THREE.Vector3(0, 0, 0));
         } catch (err) {
             console.error("could not initialize render service");
             console.error(err);
