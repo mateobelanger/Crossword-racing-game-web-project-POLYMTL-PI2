@@ -7,12 +7,15 @@ export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
 export const DEFAULT_DRAG_COEFFICIENT: number = 0.35;
 
+
 const MAXIMUM_STEERING_ANGLE: number = 0.25;
 const INITIAL_MODEL_ROTATION: Euler = new Euler(0, PI_OVER_2, 0);
 const INITIAL_WEIGHT_DISTRIBUTION: number = 0.5;
 const MINIMUM_SPEED: number = 0.05;
 const NUMBER_REAR_WHEELS: number = 2;
 const NUMBER_WHEELS: number = 4;
+const MAX_SPEED: number = 70;
+const STEERING_MODIFIER: number = 0.4;
 
 export class Car extends Object3D {
     public isAcceleratorPressed: boolean;
@@ -172,7 +175,8 @@ export class Car extends Object3D {
         this._speed = this.speed.applyQuaternion(rotationQuaternion.inverse());
 
         // Angular rotation of the car
-        const R: number = DEFAULT_WHEELBASE / Math.sin(this.steeringWheelDirection * deltaTime);
+        const R: number =   DEFAULT_WHEELBASE / Math.sin(this.steeringWheelDirection * deltaTime *
+                             Math.pow((1 - (this._speed.length() / MAX_SPEED)), STEERING_MODIFIER) );
         const omega: number = this._speed.length() / R;
         this._mesh.rotateY(omega);
 
