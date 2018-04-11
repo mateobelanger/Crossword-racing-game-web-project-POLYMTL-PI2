@@ -12,6 +12,7 @@ import { CarHandlerService } from "../../physics&interactions/cars/car-handler.s
 import { CollisionHandlerService } from "../../physics&interactions/collisions/collision-handler.service";
 // import { DEFAULT_MAX_RPM } from "../../physics&interactions/cars/car/engine";
 import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
+import { Portal } from "../../virtualPlayers/teleportation/portal";
 
 // To see the car"s point of departure
 // const HELPER_AXES_SIZE: number = 500;
@@ -67,6 +68,9 @@ export class RenderService implements OnDestroy {
             this.raceProgressionService.user.endOfRace$.subscribe(() => {
                 this.ngOnDestroy();
             });
+            const test: Portal = new Portal(this.scene);
+            test.createPortal(new THREE.Vector3(0, 0, 0));
+            test.portalAnimation();
         } catch (err) {
             console.error("could not initialize render service");
             console.error(err);
