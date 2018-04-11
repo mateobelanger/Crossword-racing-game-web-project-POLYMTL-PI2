@@ -58,6 +58,10 @@ export class CarHandlerService {
         return carsPosition;
     }
 
+    public getCar(name: string): Car {
+        return this._cars.find( (car: [string, Car]) =>  car[0] === name)[1];
+    }
+
     public moveCarsToStart(waypoints: [number, number, number ][]): void {
         const cars: Car[] = this._cars.map((car: [string, Car]) => car[1]);
         const carsPosition: CarStartPosition = new CarStartPosition( cars, waypoints);
