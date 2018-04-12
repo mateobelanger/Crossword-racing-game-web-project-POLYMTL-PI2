@@ -49,7 +49,7 @@ export class Io {
         });
 
         socket.on(SocketMessage.DISCONNECT, () => {
-            this.gameLobbiesHandler.disconnect(socket);
+            this.gameLobbiesHandler.disconnect(socket.id);
             this.broadcastGameLists();
         });
 
@@ -59,22 +59,24 @@ export class Io {
 
         socket.on(SocketMessage.ADD_VALIDATED_WORD, (word: GridWord, roomId: string) => {
             const game: GameConfiguration = this.gameLobbiesHandler.getGameById(roomId);
-            if (this.gameProgressionHandler.isAddValidatedWord(word, game, socket)) {
+            if (this.gameProgressionHandler.isAddValidatedWord(word, game, socket.id)) {
                 this.socketServer.in(game.roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, game);
             }
         });
 
         socket.on(SocketMessage.SELECT_WORD, (selectedWord: GridWord) => {
-            this.gameProgressionHandler.selectWord(this.gameLobbiesHandler.getGameById(socket.id), socket, selectedWord);
+            // this.gameProgressionHandler.selectWord(this.gameLobbiesHandler.getGameById(socket.id), socket, selectedWord);
+            socket.to(this.gameLobbiesHandler.getGameById(socket.id).roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
         });
 
         socket.on(SocketMessage.DESELECT_WORD, (word: GridWord) => {
-            this.gameProgressionHandler.deselectWord(this.gameLobbiesHandler.getGameById(socket.id), socket, word);
+            // this.gameProgressionHandler.deselectWord(this.gameLobbiesHandler.getGameById(socket.id), socket, word);
+            socket.to(this.gameLobbiesHandler.getGameById(socket.id).roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
         });
     }
 
     private broadcastGameLists(): void {
-        this.socketServer.emit("gameLobbies", this.gameLobbiesHandler._pendingGames, this.gameLobbiesHandler._multiplayerGames);
+        this.socketServer.emit("gameLobbies", this.gameLobbiesHandler.pendingGames, this.gameLobbiesHandler.multiplayerGames);
     }
 
 }
