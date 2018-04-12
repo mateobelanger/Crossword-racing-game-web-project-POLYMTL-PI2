@@ -102,6 +102,7 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.REMOTE_DESELECTED_WORD, (word: GridWord) => {
+            console.log("ADDDDDDDDDDDDDDDDDDDDDDD");
             if (this.selectionState.localSelectedWord !== null && word.value === this.selectionState.localSelectedWord.value) {
                 console.log("ADDDDDDDDDDDDDDDDDDDDDDD");
                 this.selectionState.unselectWords();

@@ -52,10 +52,8 @@ export class GridService {
         this.focusOnSelectedWord();
     }
 
-
-
-    public isSelectedWord(row: number, column: number): boolean {
-        const word: GridWord = this.selectionService.selectedWord;
+    public isHostSelectedWord(row: number, column: number): boolean {
+        const word: GridWord = this.selectionService.hostSelectedWord;
         if (word === null || this.validatorService.isValidatedWord(word)) {
             return false;
         }
@@ -63,8 +61,8 @@ export class GridService {
         return word.includesCell(row, column);
     }
 
-    public isRemoteSelectedWord(row: number, column: number): boolean {
-        const word: GridWord = this.selectionService.remoteSelectedWord;
+    public isGuestSelectedWord(row: number, column: number): boolean {
+        const word: GridWord = this.selectionService.guestSelectedWord;
         if (word === null || this.validatorService.isValidatedWord(word)) {
             return false;
         }
@@ -73,7 +71,7 @@ export class GridService {
     }
 
     public isBothSelectedWord(row: number, column: number): boolean {
-        return this.isRemoteSelectedWord(row, column) && this.isSelectedWord(row, column);
+        return this.isGuestSelectedWord(row, column) && this.isHostSelectedWord(row, column);
     }
 
     public focusOnSelectedWord(): void {
@@ -113,12 +111,12 @@ export class GridService {
         return this.validatorService.isBothValidatedCell(row, column);
     }
 
-    public isLocalValidatedCell(row: number, column: number): boolean {
-        return this.validatorService.isLocalValidatedCell(row, column);
+    public isHostValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isHostValidatedCell(row, column);
     }
 
-    public isRemoteValidatedCell(row: number, column: number): boolean {
-        return this.validatorService.isRemoteValidatedCell(row, column);
+    public isGuestValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isGuestValidatedCell(row, column);
     }
 
     private backspace(row: number, column: number): void {

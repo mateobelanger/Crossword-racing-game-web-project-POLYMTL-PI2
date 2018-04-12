@@ -4,8 +4,8 @@ import { WordService } from '../word.service';
 import { GridService } from "../grid.service";
 import { ValidatorService } from "../validator.service";
 import { UserGridService } from '../user-grid.service';
-import { SelectionStateService } from '../selection-state/selection-state.service';
-// import { SocketService } from "../socket.service";
+import { SelectionService } from '../selection/selection.service';
+// TODO : import { SocketService } from "../socket.service";
 
 @Component({
     selector: 'app-game-ui',
@@ -15,7 +15,7 @@ import { SelectionStateService } from '../selection-state/selection-state.servic
 })
 
 export class GameUiComponent implements OnInit {
-    public constructor( private selectionStateService: SelectionStateService,
+    public constructor( private selectionService: SelectionService,
                         public wordService: WordService, public validator: ValidatorService,
                         public gridService: GridService/*, private route: ActivatedRoute, private socketService: SocketService*/) {}
 
@@ -27,6 +27,6 @@ export class GameUiComponent implements OnInit {
     }
 
     public deselect(): void {
-        this.selectionStateService.localSelectedWord = null;
+        this.selectionService.deselect();
     }
 }

@@ -131,19 +131,14 @@ describe('GridService', () => {
         expect(selectionService.selectedWord.value).toBe(word1.value);
     });
 
-    it("should return true if the selected is the right one", () => {
-        selectionState.localSelectedWord = word1;
-        expect(gridService.isSelectedWord(0, 0)).toBeTruthy();
-    });
-
     it("should return false if the selected is the not the right one", () => {
         selectionState.localSelectedWord = word5;
-        expect(gridService.isSelectedWord(0, 0)).toBeFalsy();
+        expect(gridService.selectWord(0, 0)).toBeFalsy();
     });
 
     it("should return false if there is no selected word", () => {
         selectionState.localSelectedWord = null;
-        expect(gridService.isSelectedWord(0, 0)).toBeFalsy();
+        expect(gridService.selectWord(0, 0)).toBeFalsy();
     });
 
     it("should return the right id", () => {

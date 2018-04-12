@@ -22,7 +22,6 @@ export class SelectionService {
         return this.socketService.remoteSelectedWord;
     }
 
-
     public get definition(): string {
         if (this.selectionState.localSelectedWord === null) {
             return null;
@@ -56,6 +55,7 @@ export class SelectionService {
 
 
     public deselect(): void {
+        console.log("asdfasdgasgg");
         this.socketService.deselectWord(this.selectionState.localSelectedWord);
         if (this.selectionState.remoteSelectedWord !== null &&
                 this.selectionState.localSelectedWord.value === this.selectionState.remoteSelectedWord.value) {
@@ -63,5 +63,21 @@ export class SelectionService {
         }
         this.selectionState.localSelectedWord = null;
 
+    }
+
+    public get hostSelectedWord(): GridWord {
+        if (this.socketService.isHost) {
+            return this.selectionState.localSelectedWord;
+        } else {
+            return this.socketService.remoteSelectedWord;
+        }
+    }
+
+    public get guestSelectedWord(): GridWord {
+        if (!this.socketService.isHost) {
+            return this.selectionState.localSelectedWord;
+        } else {
+            return this.socketService.remoteSelectedWord;
+        }
     }
 }

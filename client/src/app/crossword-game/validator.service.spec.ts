@@ -108,9 +108,4 @@ describe('ValidatorService', () => {
         expect(validatorService.isValidatedCell(0, 1)).toBeFalsy();
     });
 
-    it("should validate the new valid word", () => {
-        validatorService.updateValidatedWords(filledGrid);
-        expect(validatorService.isValidatedWord(word1)).toBeTruthy();
-    });
-
 });
