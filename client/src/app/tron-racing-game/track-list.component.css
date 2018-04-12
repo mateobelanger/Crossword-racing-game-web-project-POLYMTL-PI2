@@ -99,13 +99,14 @@ img.resize {
 }
 
 .descriptionBlock {
+    color: rgba(49, 49, 49, 0.9);
     height: 215px;
     display: flex;
     justify-content: top;
     align-items: center;
     flex-direction: column;
     text-align: center;
-    background-color: rgba(127, 127, 127, 0.7);
+    background-color: rgba(248, 248, 255, 0.6);
     cursor: default;
     padding-top: 10px;
 }
@@ -127,7 +128,7 @@ img.resize {
 
 .canevaFooter {
     height: 50px;
-    background-color: rgba(105, 105, 105, 0.9);
+    background-color: rgba(49, 49, 49, 0.9);
 }
 
 .timesPlayed {

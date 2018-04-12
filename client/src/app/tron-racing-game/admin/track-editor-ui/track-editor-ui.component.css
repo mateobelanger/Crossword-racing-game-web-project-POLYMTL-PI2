@@ -2,10 +2,11 @@
     margin-top: 2%;
 }
 
-h3 {
+h1 {
+    color: white;
     text-align: center;
-    padding-bottom: 3%;
-    padding-top: 1.5%;
+    margin-bottom: 60px;
+    background-color: rgba(52, 78, 76, 0.8);
 }
 
 .btn-warning {
@@ -36,8 +37,8 @@ h3 {
 .track-editor {
     margin-left: 20%;
     padding: 0;
-    width: 750px;
-    height: 600px;
+    width: 1000px;
+    height: 800px;
     background: red;
 }
 
@@ -104,7 +105,6 @@ h5 {
     height: 100%;
     width: 20%;
     margin-top: 20px;
-    padding: 20px 30px;
 }
 
 input {
@@ -154,4 +154,12 @@ input {
 
 .trackInfo {
     border: solid;
+}
+
+.containerTrackEditorUI {
+    background: url("../../../../assets/admin/background.jpg") fixed no-repeat;
+    background-position: center auto;
+    background-size: 220vh;
+    min-height: 90vh;
+    margin: 0;
 }

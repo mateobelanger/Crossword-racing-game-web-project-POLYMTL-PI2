@@ -30,7 +30,7 @@ export class BackgroundPlane {
 
     private getBackgroundMaterial(): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture =
-                         new THREE.TextureLoader().load("../../../../assets/track_editor_texture/cell_bg4.jpg");
+                         new THREE.TextureLoader().load("../../../../assets/track_editor_texture/cell_bg_3.jpg");
 
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;
