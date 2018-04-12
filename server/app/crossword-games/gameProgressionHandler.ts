@@ -1,30 +1,24 @@
-// import * as http from "http";
-// import { injectable } from "inversify";
-// import * as SocketIo from "socket.io";
 import { GameConfiguration } from "../../../common/crosswordsInterfaces/gameConfiguration";
-import { /*Difficulty,*/ SocketMessage } from "../../../common/constants";
 import { GridWord } from "../../../common/crosswordsInterfaces/word";
-
-// enum GameType { SOLO, MULTIPLAYER, PENDING }
 
 export class GameProgessionHandler {
 
     // constructor() { }
 
-    public selectWord(game: GameConfiguration, socket: SocketIO.Socket, selectedWord: GridWord): void {
+    // public selectWord(game: GameConfiguration, socket: SocketIO.Socket, selectedWord: GridWord): void {
 
-        socket.to(game.roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
-    }
+    //     socket.to(game.roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
+    // }
 
-    public deselectWord(game: GameConfiguration, socket: SocketIO.Socket, word: GridWord): void {
+    // public deselectWord(game: GameConfiguration, socket: SocketIO.Socket, word: GridWord): void {
 
-        socket.to(game.roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
-    }
+    //     socket.to(game.roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
+    // }
 
-    public isAddValidatedWord(word: GridWord, game: GameConfiguration, socket: SocketIO.Socket): boolean {
+    public isAddValidatedWord(word: GridWord, game: GameConfiguration, socketId: string): boolean {
         const isNewValidatedWord: boolean = !this.includesWord(word, game);
         if (isNewValidatedWord) {
-            this.addValidatedWord(socket, game, word);
+            this.addValidatedWord(socketId, game, word);
             // this.socketServer.in(game.roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, game);
         }
 
@@ -46,8 +40,8 @@ export class GameProgessionHandler {
         return false;
     }
 
-    private addValidatedWord(socket: SocketIO.Socket, game: GameConfiguration, word: GridWord): void {
-        if (socket.id === game.hostId) {
+    private addValidatedWord(socketId: string, game: GameConfiguration, word: GridWord): void {
+        if (socketId === game.hostId) {
             game.hostValidatedWords.push(word);
         } else {
             game.guestValidatedWords.push(word);
