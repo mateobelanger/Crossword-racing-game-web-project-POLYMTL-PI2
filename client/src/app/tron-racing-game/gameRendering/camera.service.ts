@@ -10,7 +10,7 @@ const PERSPECTIVE_FIELD_OF_VIEW: number = 40;
 
 
 // ORTHOGRAPHIC_CAMERA
-export const ORTHOGRAPHIC_INITIAL_POSITION_Y: number = 100;
+export const ORTHOGRAPHIC_INITIAL_POSITION_Y: number = 15;
 export const ORTHOGRAPHIC_FIELD_OF_VIEW: number = 50;
 export const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = -10;
 export const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 1000;
@@ -19,7 +19,7 @@ export const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 1000;
 export const CAMERA_ZOOM_ADJUSTMENT: number = 0.5;
 export const CAMERA_INITIAL_ZOOM: number = 1;
 export const CAMERA_MAX_ZOOM: number = 5;
-export const CAMERA_MIN_ZOOM: number = 0.5;
+export const CAMERA_MIN_ZOOM: number = 1;
 
 enum CameraType { PERSPECTIVE, ORTHOGRAPHIC }
 
@@ -40,7 +40,7 @@ export class CameraService {
         this._perspectiveCamera = null;
         this.target = null;
         this.container = null;
-        this.zoomFactor = null;
+        this.zoomFactor = CAMERA_INITIAL_ZOOM;
      }
 
     public get perspectiveCamera(): THREE.PerspectiveCamera {
@@ -55,8 +55,6 @@ export class CameraService {
         this.container = container;
         this.target = target;
         this.initializeCameras();
-        this.zoomIn(); //TODO : Sinon on ne peut pas "dézommer" au début ..?!?
-        this.zoomIn();
     }
 
     public initializeCameras(): void {
@@ -92,7 +90,6 @@ export class CameraService {
     }
 
     private initializeOrhographicCamera(): void {
-        // tslint:disable:no-magic-numbers
         this._orthographicCamera = new THREE.OrthographicCamera (
             ORTHOGRAPHIC_FIELD_OF_VIEW / - 2,
             ORTHOGRAPHIC_FIELD_OF_VIEW / 2,
@@ -101,7 +98,6 @@ export class CameraService {
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
-        // tslint:enable:no-magic-numbers
         this._orthographicCamera.position.x = this.target.position.x;
         this._orthographicCamera.position.y = ORTHOGRAPHIC_INITIAL_POSITION_Y;
         this._orthographicCamera.position.z = this.target.position.z;

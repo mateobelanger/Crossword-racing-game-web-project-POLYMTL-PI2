@@ -20,7 +20,7 @@ const S_KEYCODE: number = 83;
 const D_KEYCODE: number = 68;
 const C_KEYCODE: number = 67;
 const N_KEYCODE: number = 78;
-// const E_KEYCODE: number = 69;
+// TODO : const E_KEYCODE: number = 69;
 const I_KEYCODE: number = 187;
 const O_KEYCODE: number = 189;
 

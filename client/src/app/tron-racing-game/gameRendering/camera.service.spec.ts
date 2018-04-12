@@ -3,8 +3,8 @@ import * as THREE from "three";
 
 import {
     CameraService, ORTHOGRAPHIC_INITIAL_POSITION_Y,
-    PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z
-} from "./camera.service";
+    PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z/*,
+    CAMERA_INITIAL_ZOOM, CAMERA_MIN_ZOOM, CAMERA_MAX_ZOOM*/} from "./camera.service";
 import { Car } from "../physics&interactions/cars/car/car";
 import { Engine } from "../physics&interactions/cars/car/engine";
 
@@ -13,10 +13,9 @@ const DELTA_Z: number = 200;
 const PERSPECTIVE_CAMERA: string = "PerspectiveCamera";
 const ORTHOGRAPHIC_CAMERA: string = "OrthographicCamera";
 
-// tslint:disable: no-magic-numbers
-
 class MockEngine extends Engine {
     public getDriveTorque(): number {
+        // tslint:disable-next-line:no-magic-numbers
         return 10000;
     }
 }
@@ -115,4 +114,37 @@ describe("CameraService", () => {
         }
     });
 
+    /* TODO : ADD TESTS :
+    it("should zoom in properly ", () => {
+        cameraService.zoomIn();
+        expect(cameraService["zoomFactor"]).toBeGreaterThan(CAMERA_INITIAL_ZOOM);
+    });
+
+    it("should zoom out properly ", () => {
+        cameraService.zoomIn();
+        cameraService.zoomIn();
+        cameraService.zoomOut();
+        cameraService.zoomOut();
+        expect(cameraService["zoomFactor"]).toBe(CAMERA_INITIAL_ZOOM);
+    });
+
+    it("should have a maximum zoom", () => {
+        cameraService.zoomIn();
+        cameraService.zoomIn();
+        cameraService.zoomIn();
+        cameraService.zoomIn();
+        cameraService.zoomIn();
+        cameraService.zoomIn();
+        expect(cameraService["zoomFactor"]).toBe(CAMERA_MAX_ZOOM);
+    });
+
+    it("should have a minimum zoom", () => {
+        cameraService.zoomIn();
+        cameraService.zoomIn();
+        cameraService.zoomOut();
+        cameraService.zoomOut();
+        cameraService.zoomOut();
+        expect(cameraService["zoomFactor"]).toBe(CAMERA_MIN_ZOOM);
+    });
+    */
 });
