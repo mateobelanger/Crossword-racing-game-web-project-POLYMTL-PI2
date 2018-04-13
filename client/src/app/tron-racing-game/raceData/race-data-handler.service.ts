@@ -17,6 +17,7 @@ import { SpeedZonesService } from '../virtualPlayers/speed-zones.service';
 import { VirtualPlayerDifficulty, BeginnerVirtualPlayer, ExpertVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
 import { PortalsHandlerService } from '../virtualPlayers/teleportation/portals-handler.service';
 import * as THREE from "three";
+import { CollisionHandlerService } from '../physics&interactions/collisions/collision-handler.service';
 const COUNTDOWN_SOUND: string = "../../../assets/audio/RG/countdown.wav";
 const RACE_START_SOUND: string = "../../../assets/audio/RG/start.wav";
 
@@ -38,7 +39,8 @@ export class RaceDataHandlerService {
                         private audioService: AudioService,
                         private inputHandlerService: InputHandlerService,
                         private speedZonesService: SpeedZonesService,
-                        private portalHandlerService: PortalsHandlerService) {
+                        private portalHandlerService: PortalsHandlerService,
+                        private collisionHandler: CollisionHandlerService) {
 
         this._timer = new TimerHandler();
         this._countdown = new Countdown();
@@ -163,6 +165,7 @@ export class RaceDataHandlerService {
                 this.doneRace();
             } else {
                 this._carsHandlerService.virtualPlayerFinished(name);
+                this.collisionHandler.stopWatchingForCollision(this._carsHandlerService.getCar(name));
                 this.portalHandlerService.teleport( this._carsHandlerService.getCar(name),
                                                     new THREE.Vector3(0, 0, 0));
             }

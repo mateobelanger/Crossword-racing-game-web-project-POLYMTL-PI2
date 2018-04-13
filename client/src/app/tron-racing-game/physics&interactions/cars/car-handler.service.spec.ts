@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CarHandlerService } from './car-handler.service';
+import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
+import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 
 describe('CarHandlerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CarHandlerService]
+      providers: [CarHandlerService, SpeedZonesService, RaceProgressionHandlerService]
     });
   });
 

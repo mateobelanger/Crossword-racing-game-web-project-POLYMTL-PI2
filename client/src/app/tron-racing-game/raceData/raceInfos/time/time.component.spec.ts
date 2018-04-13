@@ -4,6 +4,7 @@ import { TimeComponent } from './time.component';
 import { AppModule } from '../../../../app.module';
 import { routes } from '../../../../app-routes.module';
 import { APP_BASE_HREF } from '@angular/common';
+import { InputHandlerService } from '../../../physics&interactions/controller/input-handler.service';
 
 describe('TimeComponent', () => {
     let component: TimeComponent;
@@ -12,7 +13,7 @@ describe('TimeComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }]
+            providers: [{provide: APP_BASE_HREF, useValue : '/' }, InputHandlerService]
         })
             .compileComponents();
     }));

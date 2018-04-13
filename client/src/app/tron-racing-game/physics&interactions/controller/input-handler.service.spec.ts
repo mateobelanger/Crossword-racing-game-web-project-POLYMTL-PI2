@@ -19,6 +19,8 @@ import { BestTimeHandlerService } from '../../raceData/recordedTimes/best-time-h
 import { RaceResultsService } from '../../raceData/recordedTimes/race-results.service';
 import { EndGameService } from '../../raceData/end-game/end-game.service';
 import { ResultsSimulatorService } from '../../raceData/simulateEndResults/results-simulator.service';
+import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
+import { PortalsHandlerService } from '../../virtualPlayers/teleportation/portals-handler.service';
 
 describe('InputHandlerService', () => {
   beforeEach(() => {
@@ -28,7 +30,7 @@ describe('InputHandlerService', () => {
                   SkyboxService, OutOfBoundsHandlerService, RaceDataHandlerService, TracksProxyService,
                   SceneLightsService, TrackLoaderService, AudioService, BestTimeHandlerService,
                   RaceResultsService, EndGameService, ResultsSimulatorService,
-                  HttpClient, HttpHandler ]
+                  HttpClient, HttpHandler, SpeedZonesService, PortalsHandlerService ]
     });
   });
 

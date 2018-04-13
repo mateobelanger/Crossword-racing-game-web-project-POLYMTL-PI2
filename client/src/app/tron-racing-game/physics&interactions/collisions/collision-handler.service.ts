@@ -38,6 +38,11 @@ export class CollisionHandlerService {
         this.applyCollisionRotations();
     }
 
+    public stopWatchingForCollision( car: Car): void {
+        const index: number = this._cars.findIndex((carInArray: Car) => car === carInArray);
+        this._cars.splice(index, 1);
+    }
+
     private updateCollisions(): void {
 
         const collisionIndexesToRemove: number[] = [];
