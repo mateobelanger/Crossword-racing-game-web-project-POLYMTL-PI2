@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Car } from "./car/car";
-import { ArrayHelper } from "../../../../../../server/app/lexicalService/arrayHelper";
+import { ArrayHelper } from "../../../../../../common/arrayHelper";
 import { TRACK_WIDTH } from "../../constants";
 
 const DISTANCE_BETWEEN_CARS: number = 10;
