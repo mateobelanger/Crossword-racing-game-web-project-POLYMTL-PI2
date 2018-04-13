@@ -5,7 +5,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let row of horizontalDefinitions; let indexR = index;" class="index">
+        <tr *ngFor="let row of getVerticalDefinitions(); let indexR = index;" class="index">
             <div *ngIf="row.length > 0">
                 <span>{{indexR+1}}.</span>
                 <li *ngFor="let definition of row; let indexI = index;" 
@@ -27,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let row of verticalDefinitions; let indexR = index;" class="index">
+        <tr *ngFor="let row of getVerticalDefinitions(); let indexR = index;" class="index">
             <div *ngIf="row.length > 0">
                 <span>{{indexR+1}}.</span>
                 <li *ngFor="let definition of row; let indexI = index;" 

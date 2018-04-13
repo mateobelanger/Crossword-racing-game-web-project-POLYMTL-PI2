@@ -1,7 +1,7 @@
 import { Difficulty } from "../constants";
 import { GridWord } from '../../common/crosswordsInterfaces/word';
 
-enum PlayerType {HOST, GUEST};
+enum PlayerType {HOST, GUEST}
 
 export class GameConfiguration  {
     public roomId: string;
@@ -10,6 +10,7 @@ export class GameConfiguration  {
     public difficulty: Difficulty;
     public _words: GridWord[];
     public validatedWords: GridWord[][];
+    public isWaitingForRestart: boolean[]; 
 
     constructor(roomId: string, hostId: string, hostUsername: string, difficulty: Difficulty, words: GridWord[]) {
         this.roomId = roomId;
@@ -21,6 +22,8 @@ export class GameConfiguration  {
         this.usernames = [];
         this.hostUsername = hostUsername;
         this.guestUsername = "";
+    
+        this.isWaitingForRestart = [false, false]; 
 
         this.difficulty = difficulty;
         this._words = words;
@@ -96,4 +99,16 @@ export class GameConfiguration  {
         this.guestId = socketId;
         this.guestUsername = guestName;
     }
+
+    public areAllWordsValidated(): boolean { 
+        return this.guestValidatedWords.length + this.hostValidatedWords.length >= 1; 
+        // TODO: change "1" for this._words.length; 
+    } 
+
+    public restartGame(): void { 
+        this.validatedWords = []; 
+        this.guestValidatedWords = []; 
+        this.hostValidatedWords = []; 
+        this._words = []; 
+    } 
 }

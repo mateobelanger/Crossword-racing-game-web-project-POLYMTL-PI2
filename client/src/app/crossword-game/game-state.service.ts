@@ -13,6 +13,8 @@ export class GameStateService {
     public difficulty: Difficulty;
     private state: GameState;
     private _isMultiplayer: boolean;
+    public _isEndOfGame: boolean;
+
 
     public constructor() {
         this.initializeGameState();
@@ -31,6 +33,13 @@ export class GameStateService {
         this.difficulty = null;
         this.state = GameState.NO_GAME;
         this._isMultiplayer = false;
+        this._isEndOfGame = false;
+    }
+
+    public resetGameState(): void {
+        this.hostScore = 0;
+        this.guestScore = 0;
+        this.state = GameState.ONGOING;
     }
 
     public startGame(): void {
@@ -39,6 +48,10 @@ export class GameStateService {
 
     public isOngoing(): boolean {
         return this.state === GameState.ONGOING;
+    }
+
+    public waitForGame(): void {
+        this.state = GameState.WAITING_FOR_OPPONENT;
     }
 
     public setGameInfo(hostName: string, guestName: string, difficulty: Difficulty, isMultiplayer: boolean): void {

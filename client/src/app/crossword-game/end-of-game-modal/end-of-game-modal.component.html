@@ -2,12 +2,27 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Congratulation!</h4>
+                <div *ngIf="isVictorious(); else elseBlock">
+                    <h4 class="modal-title" >Congratulation!</h4>
+                </div>
+            
+                <ng-template #elseBlock>
+                    <h4 class="modal-title">ohh... well that's sad :(</h4>
+                </ng-template>
+                <div *ngIf="gameState.isMultiplayer">
+                    <div class="modal-body"> {{gameState.hostName}} : {{gameState.hostScore}} </div>
+                    <div class="modal-body"> {{gameState.guestName}} : {{gameState.guestScore}} </div>
+                </div>
             </div>
             <div class="modal-body"> 
-                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="restart()" routerLink="">Go to menu</button>
-                <button type="button" id="restart" class="btn btn-default" data-dismiss="modal" routerLink="../ui" (click)="restart()">Restart</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" routerLink="">Go to menu</button>
+                <button type="button" id="restart" class="btn btn-default" data-dismiss="modal" (click)="restart()">Restart</button>
             </div>
         </div>
     </div>
+</div>
+ 
+<div *ngIf="isWaitingForOpponent">
+    <div class="loading-gif"></div>
+    <div class="loading-text">Waiting for other player to join the game</div>
 </div>

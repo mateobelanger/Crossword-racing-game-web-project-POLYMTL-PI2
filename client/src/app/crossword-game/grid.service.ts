@@ -95,14 +95,6 @@ export class GridService {
         }
     }
 
-    public isEndOfGame(): boolean {
-        return this.validatorService.isEndOfGame;
-    }
-
-    public setEndOfGame(state: boolean): void {
-        this.validatorService.isEndOfGame = state;
-    }
-
     public isValidatedCell(row: number, column: number): boolean {
         return this.validatorService.isValidatedCell(row, column);
     }

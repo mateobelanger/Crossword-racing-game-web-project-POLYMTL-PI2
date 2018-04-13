@@ -4,6 +4,8 @@ import { GridWord } from "../../../common/crosswordsInterfaces/word";
 
 enum GameType { SOLO, MULTIPLAYER, PENDING }
 
+enum PlayerType {HOST, GUEST}
+
 export class GameLobbiesHandler {
 
     private _soloGames: GameConfiguration[];
@@ -44,7 +46,7 @@ export class GameLobbiesHandler {
             const joinedGame: GameConfiguration = this.getGameById(roomId);
             joinedGame.updateGuestInformation(socket.id, guestName);
             socket.emit(SocketMessage.GRID_FROM_JOIN, joinedGame);
-            socket.to(joinedGame.hostId).emit(SocketMessage.INITIALIZE_GAME, joinedGame); // quel ID ?????????? room id serait ok
+            socket.to(joinedGame.hostId).emit(SocketMessage.INITIALIZE_GAME, joinedGame); // TODO quel ID ?????????? room id serait ok
         }
     }
 
@@ -64,7 +66,7 @@ export class GameLobbiesHandler {
                         game.hostId = game.guestId;
                     }
                     game.guestId = null;
-                    // this.socketServer.to(game.hostId).emit(SocketMessage.DISCONNECTED);
+                    // TODO : this.socketServer.to(game.hostId).emit(SocketMessage.DISCONNECTED);
 
                     this._soloGames.push(game);
                     this.deleteGameWithId(this._multiplayerGames, socketId);
@@ -78,6 +80,32 @@ export class GameLobbiesHandler {
         const games: GameConfiguration[] = this.getGameTypeList(gameType);
 
         return games.find((game: GameConfiguration) => game.isInGame(id));
+    }
+
+    /// TODO  GAME_RESTART
+    public hostAskForRestart(roomId: string, socket: SocketIO.Socket,
+                             isGuestReady: boolean, newWords: GridWord[], socketServer: SocketIO.Server): void {
+        let game: GameConfiguration = this.getGameById(roomId);
+        // TODO: potentiellement a changer , TRESSS SKETCH
+        if (game === undefined) {
+            game = this.getGameById(roomId);
+        }
+        game.restartGame();
+        game._words = this.castHttpToGridWord(newWords);
+        socketServer.in(roomId).emit(SocketMessage.HOST_ASK_FOR_RESTART, game);
+        //socket.to(game.roomId).emit(SocketMessage.HOST_ASK_FOR_RESTART, game);
+        //socket.to(game.).emit(SocketMessage.HOST_ASK_FOR_RESTART, game);
+
+        if (isGuestReady) {
+            game.isWaitingForRestart[PlayerType.HOST] = false;
+            game.isWaitingForRestart[PlayerType.GUEST] = false;
+            socketServer.in(roomId).emit(SocketMessage.GRID_FROM_JOIN, game);
+        }
+    }
+    /// TODO  GAME_RESTART
+    public guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
+        const game: GameConfiguration = this.getGameById(roomId);
+        socket.to(game.hostId).emit(SocketMessage.GUEST_ASK_FOR_RESTART, game);
     }
 
     private deleteGameById(id: string): void {
