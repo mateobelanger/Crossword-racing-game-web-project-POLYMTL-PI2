@@ -1,4 +1,4 @@
-// import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 import { RaceDataHandlerService } from './race-data-handler.service';
 import { routes } from '../../app-routes.module';
@@ -17,9 +17,9 @@ describe('RaceDataHandlerService', () => {
         });
     });
 
-//     it('should be created', inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
-//             expect(service).toBeTruthy();
-//         }));
+    it('should be created', inject([RaceDataHandlerService], (service: RaceDataHandlerService) => {
+            expect(service).toBeTruthy();
+        }));
 
-// });
+});
 

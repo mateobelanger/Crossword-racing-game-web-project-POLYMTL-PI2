@@ -1,4 +1,4 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameFrameComponent } from './game-frame.component';
 import { routes } from '../../app-routes.module';
@@ -9,14 +9,14 @@ describe('RacingGameSceneComponent', () => {
     let component: GameFrameComponent;
     let fixture: ComponentFixture<GameFrameComponent>;
 
-//     beforeEach(async(() => {
-//         // tslint:disable-next-line:no-floating-promises
-//         TestBed.configureTestingModule({
-//             imports: [routes, AppModule],
-//             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
-//         })
-//             .compileComponents();
-//     }));
+    beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
+        TestBed.configureTestingModule({
+            imports: [routes, AppModule],
+            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+        })
+            .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(GameFrameComponent);
@@ -24,7 +24,7 @@ describe('RacingGameSceneComponent', () => {
         fixture.detectChanges();
     });
 
-//     it('should create', () => {
-//         expect(component).toBeTruthy();
-//     });
-// });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+});

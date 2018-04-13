@@ -10,7 +10,6 @@ import { TrackListComponent } from "./tron-racing-game/track-list.component";
 import { AdminComponent } from "./tron-racing-game/admin/admin.component";
 
 import { GameFrameComponent } from "./tron-racing-game/game-frame/game-frame.component";
-import { RacingGameSceneComponent } from "./racing-game/racing-game-scene/racing-game-scene.component";
 import { HostConfigurationComponent } from "./crossword-game/host-configuration/host-configuration.component";
 import { OnlineConfigurationComponent } from "./crossword-game/configuration/onlineConfiguration/onlineConfiguration.component";
 import { LobbyComponent } from "./crossword-game/lobby/lobby.component";

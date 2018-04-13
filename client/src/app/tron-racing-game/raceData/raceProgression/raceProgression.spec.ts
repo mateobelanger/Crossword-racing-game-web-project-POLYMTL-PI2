@@ -1,9 +1,9 @@
-// import { RaceProgression } from "./raceProgression";
-// import * as THREE from "three";
+import { RaceProgression } from "./raceProgression";
+import * as THREE from "three";
 
 
-// // tslint:disable:no-magic-numbers
-// describe("RaceProgression", () => {
+// tslint:disable:no-magic-numbers
+describe("RaceProgression", () => {
 
     // tslint:disable-next-line
     function fullLap(carPosition: THREE.Vector3): void {
@@ -31,10 +31,10 @@
     ];
     let carPosition: THREE.Vector3;
 
-//     beforeEach(() => {
-//         carPosition = new THREE.Vector3(0, 0, 0);
-//         raceProgression = new RaceProgression(carPosition, waypoints);
-//     });
+    beforeEach(() => {
+        carPosition = new THREE.Vector3(0, 0, 0);
+        raceProgression = new RaceProgression(carPosition, waypoints);
+    });
 
     it("should increment waypoint", () => {
         carPosition.set(40, 0, 40);
@@ -60,8 +60,9 @@
         expect(raceProgression.distanceToNextWaypoint()).toEqual(Math.sqrt(3200));
     });
 
+    // TODO: enlever
 //     it("", () => {
 
 //     });
 
-// });
+});

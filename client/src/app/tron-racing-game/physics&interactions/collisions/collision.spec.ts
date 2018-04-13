@@ -1,6 +1,5 @@
 import { Collision } from "./collision";
 import { Car } from "../cars/car/car";
-// import * as THREE from 'three';
 import { CollisionType } from "../../constants";
 
 /* tslint:disable: no-magic-numbers */
