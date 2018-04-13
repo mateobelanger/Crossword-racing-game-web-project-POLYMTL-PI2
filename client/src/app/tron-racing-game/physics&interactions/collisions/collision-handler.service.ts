@@ -23,7 +23,6 @@ export class CollisionHandlerService {
     }
 
     public handleCarCollisions(): void {
-
         this.updateCollisions();
 
         // go through all possibilities of cars colliding
@@ -44,7 +43,6 @@ export class CollisionHandlerService {
     }
 
     private updateCollisions(): void {
-
         const collisionIndexesToRemove: number[] = [];
         this._collisions.forEach( (collision: Collision, index: number) => {
             if (!collision.frontCar.box.intersectsBox(collision.backCar.box) && collision.remainingFrames <= 0) {
