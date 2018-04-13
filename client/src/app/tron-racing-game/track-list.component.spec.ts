@@ -74,15 +74,15 @@ describe("RacingGameComponent", () => {
     });
 
     it("should not have tracks before proxy service returned tracks", () => {
-        fixture.detectChanges();
+        // fixture.detectChanges();
         // initialize service is async => still has not returned with tracks
         expect(component.tracks).toBeUndefined();
-        expect(spyInitialize.calls.any()).toBe(true, "initialize called");
+        expect(spyInitialize.calls.any()).toBe(false, "initialize called");
     });
 
     it("should have tracks once proxy service returned tracks", () => {
 
-        fixture.detectChanges();
+        // fixture.detectChanges();
         async(() => {
             fixture.whenStable().then(() => {   // wait for async initialize
                 expect(component.tracks).toBe(tracks);
