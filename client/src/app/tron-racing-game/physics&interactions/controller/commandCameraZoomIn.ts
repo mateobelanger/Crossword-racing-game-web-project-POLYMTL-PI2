@@ -5,8 +5,6 @@ import { Car } from "../cars/car/car";
 export class CommandCameraZoomIn extends CommandFormat  {
 
     public execute(isKeyDown: boolean, car: Car,  service: CameraService): void {
-        if (!isKeyDown) {
-            service.zoomIn();
-        }
+        service.isZoomingIn = isKeyDown;
     }
 }

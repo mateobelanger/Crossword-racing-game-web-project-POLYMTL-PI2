@@ -16,7 +16,7 @@ export const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = -10;
 export const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 1000;
 
 // ZOOM
-export const CAMERA_ZOOM_ADJUSTMENT: number = 0.5;
+export const CAMERA_ZOOM_ADJUSTMENT: number = 0.05;
 export const CAMERA_INITIAL_ZOOM: number = 1;
 export const CAMERA_MAX_ZOOM: number = 5;
 export const CAMERA_MIN_ZOOM: number = 1;
@@ -32,6 +32,8 @@ export class CameraService {
     private target: THREE.Object3D;
     private container: HTMLDivElement;
     private zoomFactor: number;
+    private _isZoomingIn: boolean;
+    private _isZoomingOut: boolean;
 
 
     public constructor() {
@@ -41,6 +43,8 @@ export class CameraService {
         this.target = null;
         this.container = null;
         this.zoomFactor = CAMERA_INITIAL_ZOOM;
+        this.isZoomingIn = false;
+        this.isZoomingOut = false;
      }
 
     public get perspectiveCamera(): THREE.PerspectiveCamera {
@@ -49,6 +53,14 @@ export class CameraService {
 
     public get orthographicCamera(): THREE.OrthographicCamera {
         return this._orthographicCamera;
+    }
+
+    public set isZoomingIn(isZoomingIn: boolean) {
+        this._isZoomingIn = isZoomingIn;
+    }
+
+    public set isZoomingOut(isZoomingOut: boolean) {
+        this._isZoomingOut = isZoomingOut;
     }
 
     public initialize(container: HTMLDivElement, target: THREE.Object3D): void {
@@ -63,6 +75,12 @@ export class CameraService {
     }
 
     public updatePosition(): void {
+        if (this._isZoomingIn) {
+            this.zoomIn();
+        }
+        if (this._isZoomingOut) {
+            this.zoomOut();
+        }
         this.updateOrhographicCameraPosition();
         this.updatePerspectiveCameraPosition();
     }
