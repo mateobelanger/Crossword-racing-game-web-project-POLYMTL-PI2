@@ -2,7 +2,7 @@ import { DatamuseResponse } from "./datamuseResponse";
 import { IWord } from "../../../common/crosswordsInterfaces/word";
 import { MIN_WORD_LENGTH, WHITE_CELL as ANY_CHAR } from "../crossword-grid/gridCreator";
 import { WORDS } from "./words";
-import { ArrayHelper } from "./arrayHelper";
+import { ArrayHelper } from "../../../common/arrayHelper";
 import { INVALID_DOUBLES } from "./invalidDoubles";
 import { INVALID_TRIPLES } from "./invalidTriples";
 
