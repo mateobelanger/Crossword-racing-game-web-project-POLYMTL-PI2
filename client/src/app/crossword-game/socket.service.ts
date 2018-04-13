@@ -5,13 +5,15 @@ import { LobbyService } from "./lobby/lobby.service";
 import { Difficulty, SocketMessage } from "../../../../common/constants";
 // import { GridService } from "./grid.service";
 import { WordService } from "./word.service";
-// import { ValidatorService } from "./validator.service";
+// TODO : import { ValidatorService } from "./validator.service";
 
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
 import { Router } from "@angular/router";
 import { GameStateService } from "./game-state.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
+import { Subject } from "rxjs/Subject";
 
+enum PlayerType { HOST, GUEST }
 
 @Injectable()
 export class SocketService {
@@ -19,16 +21,26 @@ export class SocketService {
     public socket: SocketIOClient.Socket;
     public game: GameConfiguration;
     public isHost: boolean;
+    /// TODO  GAME_RESTART
+    private _gameInitialized$: Subject<void>;
 
-    public constructor( private lobbyService: LobbyService, public wordService: WordService,
-                        private gameStateService: GameStateService, private router: Router,
-                        private selectionState: SelectionStateService) {
+    public constructor(private lobbyService: LobbyService, public wordService: WordService,
+                       private gameStateService: GameStateService, private router: Router,
+                       private selectionState: SelectionStateService) {
         this.game = null;
 
         this.socket = io.connect("http://localhost:3000");
 
         this.initializeSocketGameManager();
         this.initializeSocketGameProgression();
+
+        /// TODO  GAME_RESTART
+        this._gameInitialized$ = new Subject();
+    }
+
+    /// TODO  GAME_RESTART
+    public get gameInitialized(): Subject<void> {
+        return this._gameInitialized$;
     }
 
     public get remoteSelectedWord(): GridWord {
@@ -86,8 +98,20 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.DISCONNECTED, (game: GameConfiguration) => {
+            // TODO :
             console.log("socket disconnected");
             this.gameStateService.initializeGameState();
+        });
+
+        /// TODO  GAME_RESTART
+        this.socket.on(SocketMessage.HOST_ASK_FOR_RESTART, (game: GameConfiguration) => {
+            this.game.isWaitingForRestart[PlayerType.HOST] = true;
+            if (!this.gameStateService.isMultiplayer) { this.initializeGridFromJoin(game); }
+        });
+
+        /// TODO  GAME_RESTART
+        this.socket.on(SocketMessage.GUEST_ASK_FOR_RESTART, () => {
+            this.game.isWaitingForRestart[PlayerType.GUEST] = true;
         });
     }
 
@@ -102,6 +126,7 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.REMOTE_DESELECTED_WORD, (word: GridWord) => {
+            // TODO : 
             console.log("ADDDDDDDDDDDDDDDDDDDDDDD");
             if (this.selectionState.localSelectedWord !== null && word.value === this.selectionState.localSelectedWord.value) {
                 console.log("ADDDDDDDDDDDDDDDDDDDDDDD");
@@ -163,20 +188,25 @@ export class SocketService {
 
     private initializeGridFromJoin(game: GameConfiguration): void {
         this.game = this.castGame(game);
+        this.wordService.words = [];
         game._words.forEach((word) => {
             this.wordService.words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
         });
         this.router.navigate(["crossword-game/" + game.difficulty + "/ui"]);
+        this._gameInitialized$.next();
     }
 
     private gridFromJoin(game: GameConfiguration): void {
         this.initializeGridFromJoin(game);
-        this.gameStateService.setGameInfo(game.usernames[0], game.usernames[1], game.difficulty, true);
+        this.gameStateService.setGameInfo(game.usernames[PlayerType.HOST], game.usernames[PlayerType.GUEST], game.difficulty, true);
     }
 
     private updateValidatedWord(game: GameConfiguration): void {
         this.game = this.castGame(game);
         this.gameStateService.updateScores(this.game.hostValidatedWords.length, this.game.guestValidatedWords.length);
+        if (this.game.areAllWordsValidated()) {
+            this.gameStateService._isEndOfGame = true;
+        }
     }
 
     private initializeGame(game: GameConfiguration): void {
@@ -186,4 +216,23 @@ export class SocketService {
         this.gameStateService.setGameInfo(game.usernames[0], game.usernames[1], game.difficulty, this.game.isMultiplayer());
     }
 
+    /// TODO  GAME_RESTART
+    public async restartNewGame(difficulty: Difficulty): Promise<void> {
+        if (this.isHost) {
+            this.game.isWaitingForRestart[PlayerType.HOST] = true;
+            this.hostCreateNewGame(difficulty);
+        } else {
+            this.game.isWaitingForRestart[PlayerType.GUEST] = true;
+            if (this.game.isWaitingForRestart[PlayerType.HOST]) {
+                this.hostCreateNewGame(difficulty);
+            }
+            this.socket.emit(SocketMessage.GUEST_RESTART_PENDING, this.game.roomId, this.game.isWaitingForRestart[PlayerType.HOST]);
+        }
+    }
+    /// TODO  GAME_RESTART
+    private async hostCreateNewGame(difficulty: Difficulty): Promise<void> {
+        await this.createGrid(difficulty);
+        this.socket.emit(SocketMessage.HOST_RESTART_PENDING, this.game.roomId,
+            this.game.isWaitingForRestart[PlayerType.GUEST], this.wordService.words);
+    }
 }

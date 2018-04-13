@@ -9,7 +9,7 @@ import { GameLobbiesHandler } from "./crossword-games/gameLobbiesHandler";
 
 // enum GameType { SOLO, MULTIPLAYER, PENDING }
 
-// @injectable()
+// TODO : @injectable()
 export class Io {
 
     private socketServer: SocketIO.Server;
@@ -28,6 +28,7 @@ export class Io {
         });
     }
 
+    // tslint:disable-next-line:max-func-body-length
     private initializeServerGameManager(socket: SocketIO.Socket): void {
 
         socket.on(SocketMessage.CREATE_GAME, (username: string, difficulty: Difficulty, words: GridWord[]) => {
@@ -46,6 +47,15 @@ export class Io {
         socket.on(SocketMessage.JOIN_GAME, (roomId: string, guestName: string) => {
             this.gameLobbiesHandler.joinGame(socket, roomId, guestName);
             this.broadcastGameLists();
+        });
+
+        /// TODO  GAME_RESTART
+        socket.on(SocketMessage.HOST_RESTART_PENDING, (roomId: string, isGuestReady: boolean, newWords: GridWord[]) => {
+            this.gameLobbiesHandler.hostAskForRestart(roomId, socket, isGuestReady, newWords, this.socketServer);
+        });
+        /// TODO  GAME_RESTART
+        socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, newWords: GridWord[], isHostReady: boolean) => {
+            this.gameLobbiesHandler.guestAskForRestart(roomId, socket, isHostReady);
         });
 
         socket.on(SocketMessage.DISCONNECT, () => {

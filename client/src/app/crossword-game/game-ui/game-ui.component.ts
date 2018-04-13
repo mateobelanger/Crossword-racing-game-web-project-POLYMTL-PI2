@@ -17,13 +17,15 @@ import { SelectionService } from '../selection/selection.service';
 export class GameUiComponent implements OnInit {
     public constructor( private selectionService: SelectionService,
                         public wordService: WordService, public validator: ValidatorService,
-                        public gridService: GridService/*, private route: ActivatedRoute, private socketService: SocketService*/) {}
+                        public gridService: GridService/*, TODO private route: ActivatedRoute, private socketService: SocketService*/) {}
 
     public async ngOnInit(): Promise<void> {
+        this.initialize();
+    }
 
+    public initialize(): void {
         this.gridService.initialize();
         this.validator.initialize();
-
     }
 
     public deselect(): void {
