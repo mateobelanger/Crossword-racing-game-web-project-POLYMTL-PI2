@@ -87,7 +87,7 @@ export class Portal {
         });
         this.sprite = new THREE.Sprite( spriteMaterial );
         this.sprite.scale.set(this.spriteRadius, this.spriteRadius, NO_RESCALE);
-        this.sphericalMesh.add(this.sprite); // this centers the glow at the mesh
+        this.sphericalMesh.add(this.sprite);
     }
 
 }
