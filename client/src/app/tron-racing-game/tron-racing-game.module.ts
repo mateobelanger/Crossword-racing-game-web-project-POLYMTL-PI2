@@ -99,7 +99,10 @@ import { TextureLoaderService } from './gameRendering/textureLoader/texture-load
     EndGameService,
     ResultsSimulatorService,
     SpeedZonesService,
-    PortalsHandlerService
+    PortalsHandlerService,
+    LandService,
+    InputHandlerService,
+    TextureLoaderService
   ],
 
 })
