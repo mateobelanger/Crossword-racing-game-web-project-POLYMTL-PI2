@@ -1,69 +1,84 @@
-// import * as SocketIo from "socket.io";
-// import { GameLobbiesHandler } from "./gameLobbiesHandler";
-// import { assert } from "chai";
+import { GameLobbiesHandler } from "./gameLobbiesHandler";
+import { assert } from "chai";
 
-// import { Difficulty } from "../../../common/constants";
-// import { GridWord } from "../../../common/crosswordsInterfaces/word";
+import { Difficulty } from "../../../common/constants";
+import { GridWord } from "../../../common/crosswordsInterfaces/word";
 
-// const words: GridWord[] = [];
-// const word1: GridWord = new GridWord(0, 0, 0, "computer");
-// const word2: GridWord = new GridWord(0, 0, 1, "car");
-// const word3: GridWord = new GridWord(1, 1, 1, "word");
+const words: GridWord[] = [];
+const word1: GridWord = new GridWord(0, 0, 0, "computer");
+const word2: GridWord = new GridWord(0, 0, 1, "car");
+const word3: GridWord = new GridWord(1, 1, 1, "word");
 
-// const socket1: SocketIO.Socket;
-// const socket2: SocketIO.Socket;
+const hostId: string = "hostId";
+const guestId: string = "guestId";
+const roomId: string = "game0";
 
-// const gameLobbiesHandler: GameLobbiesHandler = new GameLobbiesHandler();
+const hostName: string = "bob";
+const guestName: string = "barb";
 
-// describe("Game progression handler:", () => {
+const gameLobbiesHandler: GameLobbiesHandler = new GameLobbiesHandler();
 
-//     words.push(word1);
-//     words.push(word2);
-//     words.push(word3);
+describe("Game progression handler:", () => {
 
-//     let expectedMultiplayerGamesLength: number = 0;
-//     let expectedPendingGamesLength: number = 0;
+    words.push(word1);
+    words.push(word2);
+    words.push(word3);
 
-//     it("should have no pending nor multiplayer games after construction", (done: MochaDone) => {
-//         assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
-//         assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
-//         done();
-//     });
+    let expectedMultiplayerGamesLength: number = 0;
+    let expectedPendingGamesLength: number = 0;
 
-//     it("should have one pending game after creation of a game", (done: MochaDone) => {
-//         gameLobbiesHandler.createGame(socket1, "bob", Difficulty.EASY, words, false);
-//         expectedPendingGamesLength = gameLobbiesHandler.pendingGames.length + 1;
+    it("should have no pending nor multiplayer games after construction", (done: MochaDone) => {
+        assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
+        assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
+        done();
+    });
 
-//         assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
-//         assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
-//         done();
-//     });
+    it("should have one pending game after creation of a game", (done: MochaDone) => {
+        gameLobbiesHandler.createGame(roomId, hostId, hostName, Difficulty.EASY, words, false);
+        expectedPendingGamesLength++;
 
-//     it("should have one more multiplayer game after a player joined a valid game", (done: MochaDone) => {
-//         gameLobbiesHandler.joinGame(socket2, socket1.id, "barbara");
-//         expectedMultiplayerGamesLength = gameLobbiesHandler.multiplayerGames.length + 1;
-//         expectedPendingGamesLength = gameLobbiesHandler.pendingGames.length - 1;
+        assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
+        assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
+        done();
+    });
 
-//         assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
-//         assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
-//         done();
-//     });
+    it("should be considered already in a game", (done: MochaDone) => {
+        assert.equal(gameLobbiesHandler.isAlreadyInAGame(hostId), true);
+        assert.equal(gameLobbiesHandler.isAlreadyInAGame(guestId), false);
+        done();
+    });
 
-//     it("should not create a game if a player already in a game tried to create it", (done: MochaDone) => {
-//         gameLobbiesHandler.createGame(socket2, "barbara", Difficulty.EASY, words, false);
+    it("should have one more multiplayer game after a player joined a valid game", (done: MochaDone) => {
+        gameLobbiesHandler.joinGame(roomId, guestId, guestName);
+        expectedMultiplayerGamesLength++;
+        expectedPendingGamesLength--;
 
-//         assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
-//         assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
-//         done();
-//     });
+        assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
+        assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
+        done();
+    });
 
-//     it("should have one less multiplayer game after a player got disconnected", (done: MochaDone) => {
-//         gameLobbiesHandler.disconnect(socket2);
-//         expectedMultiplayerGamesLength = gameLobbiesHandler.multiplayerGames.length - 1;
+    it("should be considered already in a game", (done: MochaDone) => {
+        assert.equal(gameLobbiesHandler.isAlreadyInAGame(hostId), true);
+        assert.equal(gameLobbiesHandler.isAlreadyInAGame(guestId), true);
+        done();
+    });
 
-//         assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
-//         assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
-//         done();
-//     });
+    it("should not create a game if a player already in a game tried to create it", (done: MochaDone) => {
+        gameLobbiesHandler.createGame(guestId, roomId, "barbara", Difficulty.EASY, words, false);
 
-// });
+        assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
+        assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
+        done();
+    });
+
+    it("should have one less multiplayer game after a player got disconnected", (done: MochaDone) => {
+        gameLobbiesHandler.disconnect(guestId);
+        expectedMultiplayerGamesLength--;
+
+        assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
+        assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
+        done();
+    });
+
+});

@@ -10,7 +10,7 @@ const word1: GridWord = new GridWord(0, 0, 0, "computer");
 const word2: GridWord = new GridWord(0, 0, 1, "car");
 const word3: GridWord = new GridWord(1, 1, 1, "word");
 
-const hostId: string = "hostID";
+const hostId: string = "hostId";
 
 const gameProgressionHandler: GameProgessionHandler = new GameProgessionHandler();
 

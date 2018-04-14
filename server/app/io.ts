@@ -33,13 +33,13 @@ export class Io {
 
         socket.on(SocketMessage.CREATE_GAME, (username: string, difficulty: Difficulty, words: GridWord[]) => {
             const roomId: string = this.createAndJoinNewRoom(socket);
-            this.gameLobbiesHandler.createGame(socket.id, roomId, username, difficulty, words, false);
+            this.gameLobbiesHandler.createGame(roomId, socket.id, username, difficulty, words, false);
             this.broadcastGameLists();
         });
 
         socket.on(SocketMessage.CREATE_SOLO_GAME, (username: string, difficulty: Difficulty, words: GridWord[]) => {
             const roomId: string = this.createAndJoinNewRoom(socket);
-            const newGame: GameConfiguration = this.gameLobbiesHandler.createGame(socket.id, roomId, username, difficulty, words, true);
+            const newGame: GameConfiguration = this.gameLobbiesHandler.createGame(roomId, socket.id, username, difficulty, words, true);
             socket.emit(SocketMessage.INITIALIZE_GAME, newGame);
         });
 
@@ -50,7 +50,7 @@ export class Io {
         socket.on(SocketMessage.JOIN_GAME, (roomId: string, guestName: string) => {
             if (!this.gameLobbiesHandler.isAlreadyInAGame(socket.id)) {
                 socket.join(roomId);
-                const joinedGame: GameConfiguration = this.gameLobbiesHandler.joinGame(socket.id, roomId, guestName);
+                const joinedGame: GameConfiguration = this.gameLobbiesHandler.joinGame(roomId, socket.id, guestName);
 
                 socket.emit(SocketMessage.GRID_FROM_JOIN, joinedGame);
                 socket.to(joinedGame.hostId).emit(SocketMessage.INITIALIZE_GAME, joinedGame);

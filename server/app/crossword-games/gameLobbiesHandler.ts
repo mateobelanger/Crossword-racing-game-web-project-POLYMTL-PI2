@@ -47,7 +47,7 @@ export class GameLobbiesHandler {
         return isInAGame;
     }
 
-    public createGame(  socketId: string, roomId: string, username: string,
+    public createGame(  roomId: string, socketId: string, username: string,
                         difficulty: Difficulty, words: GridWord[], isSolo: boolean): GameConfiguration {
         if (!this.isAlreadyInAGame(socketId)) {
             if (isSolo) {
@@ -60,7 +60,7 @@ export class GameLobbiesHandler {
         return null;
     }
 
-    public joinGame(socketId: string, roomId: string, guestName: string): GameConfiguration {
+    public joinGame(roomId: string, socketId: string, guestName: string): GameConfiguration {
 
         this._multiplayerGames.push(this.getGameById(roomId));
         this.deleteGameWithId(this._pendingGames, roomId);
