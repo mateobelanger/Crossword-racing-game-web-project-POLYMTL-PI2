@@ -4,7 +4,7 @@ import { GridWord } from "../../../common/crosswordsInterfaces/word";
 
 enum GameType { SOLO, MULTIPLAYER, PENDING }
 
-enum PlayerType {HOST, GUEST}
+enum PlayerType { HOST, GUEST }
 
 export class GameLobbiesHandler {
 
@@ -26,28 +26,48 @@ export class GameLobbiesHandler {
         return this._pendingGames;
     }
 
-    public createGame(socket: SocketIO.Socket, username: string, difficulty: Difficulty, words: GridWord[], isSolo: boolean): void {
-        const roomId: string = "game" + (this._soloGames.length + this._multiplayerGames.length + this._pendingGames.length).toString();
-        socket.join(roomId);
-        if (!this.isAlreadyInAGame(socket.id)) {
-            if (isSolo) {
-                this.createSoloGame(socket, roomId, username, difficulty, words);
-            } else {
-                this._pendingGames.push(new GameConfiguration(roomId, socket.id, username, difficulty, this.castHttpToGridWord(words)));
+    public isAlreadyInAGame(id: string): boolean {
+        let isInAGame: boolean = false;
+        this._soloGames.forEach((game: GameConfiguration) => {
+            if (game.isInGame(id)) {
+                isInAGame = true;
             }
-        }
+        });
+        this._multiplayerGames.forEach((game: GameConfiguration) => {
+            if (game.isInGame(id)) {
+                isInAGame = true;
+            }
+        });
+        this._pendingGames.forEach((game: GameConfiguration) => {
+            if (game.isInGame(id)) {
+                isInAGame = true;
+            }
+        });
+
+        return isInAGame;
     }
 
-    public joinGame(socket: SocketIO.Socket, roomId: string, guestName: string): void {
-        if (!this.isAlreadyInAGame(socket.id)) {
-            socket.join(roomId);
-            this._multiplayerGames.push(this.getGameById(roomId));
-            this.deleteGameWithId(this._pendingGames, roomId);
-            const joinedGame: GameConfiguration = this.getGameById(roomId);
-            joinedGame.updateGuestInformation(socket.id, guestName);
-            socket.emit(SocketMessage.GRID_FROM_JOIN, joinedGame);
-            socket.to(joinedGame.hostId).emit(SocketMessage.INITIALIZE_GAME, joinedGame); // TODO quel ID ?????????? room id serait ok
+    public createGame(  socketId: string, roomId: string, username: string,
+                        difficulty: Difficulty, words: GridWord[], isSolo: boolean): GameConfiguration {
+        if (!this.isAlreadyInAGame(socketId)) {
+            if (isSolo) {
+                return this.createSoloGame(socketId, roomId, username, difficulty, words);
+            } else {
+                this._pendingGames.push(new GameConfiguration(roomId, socketId, username, difficulty, this.castHttpToGridWord(words)));
+            }
         }
+
+        return null;
+    }
+
+    public joinGame(socketId: string, roomId: string, guestName: string): GameConfiguration {
+
+        this._multiplayerGames.push(this.getGameById(roomId));
+        this.deleteGameWithId(this._pendingGames, roomId);
+        const joinedGame: GameConfiguration = this.getGameById(roomId);
+        joinedGame.updateGuestInformation(socketId, guestName);
+
+        return joinedGame;
     }
 
     public disconnect(socketId: string): void {
@@ -82,9 +102,9 @@ export class GameLobbiesHandler {
         return games.find((game: GameConfiguration) => game.isInGame(id));
     }
 
-    /// TODO  GAME_RESTART
-    public hostAskForRestart(roomId: string, socket: SocketIO.Socket,
-                             isGuestReady: boolean, newWords: GridWord[], socketServer: SocketIO.Server): void {
+    /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre
+    public hostAskForRestart(   roomId: string, socket: SocketIO.Socket,
+                                isGuestReady: boolean, newWords: GridWord[], socketServer: SocketIO.Server): void {
         let game: GameConfiguration = this.getGameById(roomId);
         // TODO: potentiellement a changer , TRESSS SKETCH
         if (game === undefined) {
@@ -102,10 +122,22 @@ export class GameLobbiesHandler {
             socketServer.in(roomId).emit(SocketMessage.GRID_FROM_JOIN, game);
         }
     }
-    /// TODO  GAME_RESTART
+    /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre
     public guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
         const game: GameConfiguration = this.getGameById(roomId);
         socket.to(game.hostId).emit(SocketMessage.GUEST_ASK_FOR_RESTART, game);
+    }
+
+    public get newRoomIdNumber(): number {
+        return this._soloGames.length + this._multiplayerGames.length + this._pendingGames.length;
+    }
+
+    private createSoloGame(id: string, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): GameConfiguration {
+        const newGame: GameConfiguration =
+            new GameConfiguration(roomId, id, username, difficulty, this.castHttpToGridWord(words));
+        this._soloGames.push(newGame);
+
+        return newGame;
     }
 
     private deleteGameById(id: string): void {
@@ -127,34 +159,6 @@ export class GameLobbiesHandler {
         } else {
             return GameType.PENDING;
         }
-    }
-
-    private createSoloGame(socket: SocketIO.Socket, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): void {
-        const newGame: GameConfiguration =
-            new GameConfiguration(roomId, socket.id, username, difficulty, this.castHttpToGridWord(words));
-        this._soloGames.push(newGame);
-        socket.emit(SocketMessage.INITIALIZE_GAME, newGame);
-    }
-
-    private isAlreadyInAGame(id: string): boolean {
-        let isInAGame: boolean = false;
-        this._soloGames.forEach((game: GameConfiguration) => {
-            if (game.isInGame(id)) {
-                isInAGame = true;
-            }
-        });
-        this._multiplayerGames.forEach((game: GameConfiguration) => {
-            if (game.isInGame(id)) {
-                isInAGame = true;
-            }
-        });
-        this._pendingGames.forEach((game: GameConfiguration) => {
-            if (game.isInGame(id)) {
-                isInAGame = true;
-            }
-        });
-
-        return isInAGame;
     }
 
     private getGameTypeList(gameType: GameType): GameConfiguration[] {

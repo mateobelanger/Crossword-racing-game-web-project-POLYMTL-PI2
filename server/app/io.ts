@@ -32,12 +32,15 @@ export class Io {
     private initializeServerGameManager(socket: SocketIO.Socket): void {
 
         socket.on(SocketMessage.CREATE_GAME, (username: string, difficulty: Difficulty, words: GridWord[]) => {
-            this.gameLobbiesHandler.createGame(socket, username, difficulty, words, false);
+            const roomId: string = this.createAndJoinNewRoom(socket);
+            this.gameLobbiesHandler.createGame(socket.id, roomId, username, difficulty, words, false);
             this.broadcastGameLists();
         });
 
         socket.on(SocketMessage.CREATE_SOLO_GAME, (username: string, difficulty: Difficulty, words: GridWord[]) => {
-            this.gameLobbiesHandler.createGame(socket, username, difficulty, words, true);
+            const roomId: string = this.createAndJoinNewRoom(socket);
+            const newGame: GameConfiguration = this.gameLobbiesHandler.createGame(socket.id, roomId, username, difficulty, words, true);
+            socket.emit(SocketMessage.INITIALIZE_GAME, newGame);
         });
 
         socket.on(SocketMessage.GET_GAME_LOBBIES, () => {
@@ -45,8 +48,15 @@ export class Io {
         });
 
         socket.on(SocketMessage.JOIN_GAME, (roomId: string, guestName: string) => {
-            this.gameLobbiesHandler.joinGame(socket, roomId, guestName);
-            this.broadcastGameLists();
+            if (!this.gameLobbiesHandler.isAlreadyInAGame(socket.id)) {
+                socket.join(roomId);
+                const joinedGame: GameConfiguration = this.gameLobbiesHandler.joinGame(socket.id, roomId, guestName);
+
+                socket.emit(SocketMessage.GRID_FROM_JOIN, joinedGame);
+                socket.to(joinedGame.hostId).emit(SocketMessage.INITIALIZE_GAME, joinedGame);
+                this.broadcastGameLists();
+            }
+
         });
 
         /// TODO  GAME_RESTART
@@ -87,6 +97,13 @@ export class Io {
 
     private broadcastGameLists(): void {
         this.socketServer.emit("gameLobbies", this.gameLobbiesHandler.pendingGames, this.gameLobbiesHandler.multiplayerGames);
+    }
+
+    private createAndJoinNewRoom(socket: SocketIO.Socket): string {
+        const roomId: string = "game" + (this.gameLobbiesHandler.newRoomIdNumber).toString();
+        socket.join(roomId);
+
+        return roomId;
     }
 
 }
