@@ -1,7 +1,10 @@
 import { Waypoint } from "../../tracks/trackData/waypoint";
-import { POINT, CIRCLE_POSITION_Z } from "../../constants";
+import { POINT, CIRCLE_POSITION_Z, CircleType } from "../../constants";
 import * as THREE from "three";
 
+export const ASSETS_FOLDER: string = "../../../../assets/track_editor_texture/";
+export const ASSETS_NAME: string[] = ["first_button_texture-v2.jpg", "first_button_texture-v3.jpg",
+                                      "buttons_texture-v2.jpg", "buttons_texture-v3.jpg"];
 const CIRCLE_RADIUS: number = 10;
 const CIRCLE_QUALITY: number = 15;
 
@@ -16,10 +19,10 @@ export class CircleHandler {
     public generateCircles(waypoints: Waypoint[], hasReversedAxes: boolean): void {
         const circleGeometries: THREE.Geometry[] = this.generateCircleGeometry(waypoints.length);
 
-        const material: THREE.MeshBasicMaterial = this.getCircleMaterial(hasReversedAxes);
+        const material: THREE.MeshBasicMaterial = this.getCircleMaterial(!hasReversedAxes);
         circleGeometries.forEach((geometry, index) => {
             const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ?
-                                                     this.getFirstCircleMaterial(hasReversedAxes) : material );
+                                                     this.getFirstCircleMaterial(!hasReversedAxes) : material );
             this.meshs.push(mesh);
             mesh.name = POINT;
 
@@ -81,18 +84,18 @@ export class CircleHandler {
         return circleGeometries;
       }
 
-    private getFirstCircleMaterial(inTrackEditor: boolean): THREE.MeshPhongMaterial {
-        const createTexture: THREE.Texture = inTrackEditor ?
-        new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v2.jpg") :
-        new THREE.TextureLoader().load("../../../../assets/track_editor_texture/first_button_texture-v3.jpg");
+    private getFirstCircleMaterial(isInTrackEditor: boolean): THREE.MeshPhongMaterial {
+        const createTexture: THREE.Texture = isInTrackEditor ?
+        new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[CircleType.TRACK_EDITOR_FIRST_CRICLE]) :
+        new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[CircleType.TRACK_FIRST_CRICLE]);
 
         return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
     private getCircleMaterial(inTrackEditor: boolean): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture = inTrackEditor ?
-              new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v2.jpg") :
-              new THREE.TextureLoader().load("../../../../assets/track_editor_texture/buttons_texture-v3.jpg");
+              new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[CircleType.TRACK_EDITOR_CRICLES]) :
+              new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[CircleType.TRACK_CRICLES]);
 
         return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }

@@ -5,9 +5,9 @@ import * as THREE from "three";
 
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 40;
 const RATIO_IMAGE_PER_FIRST_PLANE_LENGTH: number = 40;
-const ASSETS_FOLDER: string = "../../../../assets/track_editor_texture/";
-const ASSETS_NAME: string[] = ["first_road_texture-v2.jpg", "first_road_texture-v2_red.jpg",
-                               "road_texture-v2.jpg", "road_texture-v2_red.jpg"];
+export const ASSETS_FOLDER: string = "../../../../assets/track_editor_texture/";
+export const ASSETS_NAME: string[] = ["first_road_texture-v2.jpg", "first_road_texture-v2_red.jpg",
+                                      "road_texture-v2.jpg", "road_texture-v2_red.jpg"];
 
 export const TRACK_LENGTH: number = 1;
 const EVEN_NUMBER: number = 2;

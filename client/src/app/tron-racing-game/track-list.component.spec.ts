@@ -12,9 +12,7 @@ const tracks: ITrackData[] = [
         name: "Test",
         description: "Test description",
         timesPlayed: 12,
-        // tslint:disable-next-line:no-magic-numbers
         bestTimes: [["gen", 2], ["p-o ;)", 1]],
-        // tslint:disable-next-line:no-magic-numbers
         waypoints: [[1, 1, 1], [2, 2, 2]],
         image: "ab"
     },
@@ -22,9 +20,7 @@ const tracks: ITrackData[] = [
         name: "Test2",
         description: "Test description",
         timesPlayed: 12,
-        // tslint:disable-next-line:no-magic-numbers
         bestTimes: [["gen", 2], ["p-o ;)", 1]],
-        // tslint:disable-next-line:no-magic-numbers
         waypoints: [[1, 1, 1], [2, 2, 2]],
         image: "cd"
     },
@@ -33,7 +29,6 @@ const tracks: ITrackData[] = [
         description: "Test description",
         timesPlayed: 12,
         bestTimes: [["gen", 1], ["p-o ;)", 1]],
-        // tslint:disable-next-line:no-magic-numbers
         waypoints: [[1, 1, 1], [2, 2, 2]],
         image: "ef"
     }
