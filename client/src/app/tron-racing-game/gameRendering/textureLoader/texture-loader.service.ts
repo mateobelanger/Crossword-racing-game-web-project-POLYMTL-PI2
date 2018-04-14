@@ -18,17 +18,17 @@ export class TextureLoaderService {
     private carTextureName( carColor: CAR_TEXTURE): string {
         switch (carColor) {
             case CAR_TEXTURE.DARK_BLUE:
-                return "camero-2010-low-poly.json";
+                return "camero-2010-low-poly-lb.json";
             case CAR_TEXTURE.LIGHT_BLUE:
-                return "camero-2010-low-poly.json";
+                return "camero-2010-low-poly-lb.json";
             case CAR_TEXTURE.GREEN:
-                return "camero-2010-low-poly.json";
+                return "camero-2010-low-poly-lb.json";
             case CAR_TEXTURE.RED:
-                return "camero-2010-low-poly.json";
+                return "camero-2010-low-poly-lb.json";
             case CAR_TEXTURE.YELLOW:
-                return "camero-2010-low-poly.json";
+                return "camero-2010-low-poly-lb.json";
             default:
-                return "camero-2010-low-poly.json";
+                return "camero-2010-low-poly-lb.json";
         }
     }
 
