@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Difficulty } from '../../../../common/constants';
+import { NameValidator } from "../../../../common/nameValidator";
 
 export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST }
 
@@ -68,18 +69,7 @@ export class GameStateService {
     }
 
     public isValidState(): boolean {
-        return this.difficulty !== null && this.isValidHostName() && this.state === GameState.NO_GAME;
+        return this.difficulty !== null && NameValidator.isValidName(this.hostName) && this.state === GameState.NO_GAME;
     }
 
-    private isValidHostName(): boolean {
-        let containsOnlySpaces: boolean = true;
-        for (const char of this.hostName) {
-            if (char !== " ") {
-                containsOnlySpaces = false;
-                break;
-            }
-        }
-
-        return this.hostName.length > 0 && !containsOnlySpaces;
-    }
 }

@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ValidatorService } from './validator.service';
 import { WordService } from './word.service';
 import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { GameConfiguration } from '../../../../common/crosswordsInterfaces/gameConfiguration';
+import { CrosswordGame } from '../../../../common/crosswordsInterfaces/crosswordGame';
 import { SocketService } from './socket.service';
 import { UserGridService } from './user-grid.service';
 import { Difficulty } from '../../../../common/constants';
@@ -31,7 +31,7 @@ describe('ValidatorService', () => {
 
     let validatorService: ValidatorService;
     let validatedWords: GridWord[];
-    let game: GameConfiguration;
+    let game: CrosswordGame;
 
     // tslint:disable-next-line:max-func-body-length
     beforeEach(() => {
@@ -46,7 +46,7 @@ describe('ValidatorService', () => {
 
         validatedWords = [word2, word3];
 
-        game = new GameConfiguration(MOCK_STRING, MOCK_STRING, MOCK_STRING, Difficulty.EASY, words);
+        game = new CrosswordGame(MOCK_STRING, MOCK_STRING, MOCK_STRING, Difficulty.EASY, words);
         game.hostValidatedWords = validatedWords;
 
         socketService = TestBed.get(SocketService);

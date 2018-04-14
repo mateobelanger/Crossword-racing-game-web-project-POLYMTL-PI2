@@ -6,7 +6,7 @@ import { WordService } from './word.service';
 import { ValidatorService } from './validator.service';
 import { GRID_SIZE, Difficulty } from '../../../../common/constants';
 import { UserGridService } from './user-grid.service';
-import { GameConfiguration } from '../../../../common/crosswordsInterfaces/gameConfiguration';
+import { CrosswordGame } from '../../../../common/crosswordsInterfaces/crosswordGame';
 import { SelectionService } from './selection/selection.service';
 import { SocketService } from './socket.service';
 import { LobbyService } from './lobby/lobby.service';
@@ -45,7 +45,7 @@ describe('GridService', () => {
     let validatorService: ValidatorService;
     let validatedWords: GridWord[];
     let userGridService: UserGridService;
-    let game: GameConfiguration;
+    let game: CrosswordGame;
     let selectionService: SelectionService;
     let selectionState: SelectionStateService;
 
@@ -77,7 +77,7 @@ describe('GridService', () => {
         wordService["_words"] = words;
 
         validatedWords = [word2, word4];
-        game = new GameConfiguration(MOCK_STRING, MOCK_STRING, MOCK_STRING, Difficulty.EASY, words);
+        game = new CrosswordGame(MOCK_STRING, MOCK_STRING, MOCK_STRING, Difficulty.EASY, words);
         game.hostValidatedWords = validatedWords;
 
         socketService = TestBed.get(SocketService);
