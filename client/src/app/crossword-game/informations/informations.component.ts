@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { GameStateService } from '../game-state.service';
+
+// const DIFFICULTY_LENGTH: number = 11;
 
 @Component({
     selector: 'app-informations',
@@ -7,40 +9,16 @@ import { ActivatedRoute } from "@angular/router";
     styleUrls: ['./informations.component.css']
 })
 export class InformationsComponent implements OnInit {
-    public difficulty: string;
-    private isMultiplayer: boolean;
-    private names: string[];
-    private scores: number[];
 
-    public constructor(private activatedRoute: ActivatedRoute) {
-        this.difficulty = this.activatedRoute.snapshot.paramMap.get('difficulty');
-        this.isMultiplayer = false;
-        this.names = [];
-        this.scores = [];
+    public difficulty: string;
+
+    public constructor(public gameState: GameStateService) {
+        this.difficulty = "";
     }
 
     public ngOnInit(): void {
-        this.addPlayer("Me");
+        // TODO TEST this.difficulty = this.gameState.difficulty.substring(DIFFICULTY_LENGTH);
     }
 
-    private addPlayer(name: string): void {
-        this.names.push(name);
-        this.scores.push(0);
-    }
-
-    private removePlayer(): void {
-        this.names.pop();
-        this.scores.pop();
-    }
-
-    public switchMode(): void {
-        if (this.isMultiplayer) {
-            this.removePlayer();
-            this.isMultiplayer = false;
-        } else {
-            this.addPlayer("Player 2");
-            this.isMultiplayer = true;
-        }
-    }
 
 }

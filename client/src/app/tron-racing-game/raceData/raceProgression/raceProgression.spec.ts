@@ -60,8 +60,9 @@ describe("RaceProgression", () => {
         expect(raceProgression.distanceToNextWaypoint()).toEqual(Math.sqrt(3200));
     });
 
-    it("", () => {
+    // TODO: enlever
+//     it("", () => {
 
-    });
+//     });
 
 });

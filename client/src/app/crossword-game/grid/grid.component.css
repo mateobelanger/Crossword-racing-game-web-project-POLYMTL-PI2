@@ -1,16 +1,31 @@
-.header {
-    background-color: gray;
+#header {
+    background-color: #64b0a1;
     cursor: default !important;
 }
 
-.validated {
-    background-color: green;
-    color: white;
+.localValidatedCell {
+    background-color: #62a8ca !important;
+    color: white !important;
+ }
+ 
+ .remoteValidatedCell {
+    background-color: #dc6256 !important;
+    color: white !important;
+ }
+
+ .bothValidatedCell {
+    background: repeating-linear-gradient(
+        -45deg,
+        #dc6256,
+        #62a8ca 10px,
+        #dc6256 10px,
+        #62a8ca 20px
+      );
 }
 
 .filled {
-    color: black;
-    background: black;
+    color: #4c4c4c !important;
+    background: #4c4c4c !important;
     font-size: 0px;
     pointer-events: none;
 
@@ -23,18 +38,26 @@
 .col {
     font-size: 1.3em;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    height: 42px !important;
-    width: 40px !important;
-    border: 1px solid black;
+    height: 48px !important;
+    width: 46px !important;
+    border: 6px solid;
+    border-color: white;
     padding: 0;
     margin: 0;
     text-align: center;
     text-transform: capitalize;
     cursor: pointer;
+    background-color: #e8c77f;
 }
 
-.selected {
-    box-shadow: inset 0 0 0 2.5px blue;
-    -webkit-box-shadow: inset 0 0 0 2.5px blue;
-    -moz-box-shadow: inset 0 0 0 2.5px blue;
+.localSelected {
+    border: 6px solid #62a8ca;
+}
+
+.remoteSelected {
+    border: 6px solid #dc6256;
+}
+
+.bothSelected {
+    border-image: url("../../../assets/grid/dashed.jpg") 1 1 1 1;
 }

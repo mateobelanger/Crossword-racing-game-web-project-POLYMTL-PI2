@@ -1,0 +1,64 @@
+<button routerLink='../..'>Back</button>
+
+<div class="username">Username:
+    <input [(ngModel)]="guestName">
+</div>
+
+<div class="container lobby">
+    <div class="row">
+
+        <div class="col-sm title">
+            <h5> Room id </h5>
+        </div>
+        <div class="col-sm title">
+            <h5> Host </h5>
+        </div>
+        <div class="col-sm title">
+            <h5> Difficulty </h5>
+        </div>
+        <div class="col-sm title"> </div>
+
+    </div>
+
+    <div *ngFor="let waitingGame of lobbyService.waitingGames ">
+        <div class="row">
+            <div class="col-sm"> {{waitingGame.roomId}} </div>
+            <div class="col-sm"> {{waitingGame.hostUsername}} </div>
+            <div class="col-sm"> {{waitingGame.difficulty}} </div>
+            <div class="col-sm">
+                <div *ngIf="isValidName(); else elseBlock">
+                    <button (click)="joinGame(waitingGame.roomId)"> Join Game </button>
+                </div>
+                <ng-template #elseBlock>
+                    <button class="create" disabled="true">Join Game</button>
+                </ng-template>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container lobby">
+    <div class="row">
+
+        <div class="col-sm title">
+            <h5> Room id </h5>
+        </div>
+        <div class="col-sm title">
+            <h5> Host </h5>
+        </div>
+        <div class="col-sm title">
+            <h5> Difficulty </h5>
+        </div>
+        <div class="col-sm title"> </div>
+
+    </div>
+
+    <div *ngFor="let onlineGame of lobbyService.onlineGames ">
+        <div class="row">
+            <div class="col-sm"> {{onlineGame.roomId}} </div>
+            <div class="col-sm"> {{onlineGame.hostUsername}} </div>
+            <div class="col-sm"> {{onlineGame.difficulty}} </div>
+        </div>
+    </div>
+</div>

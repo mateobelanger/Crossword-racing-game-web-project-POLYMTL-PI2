@@ -1,13 +1,18 @@
+<title>informations</title>
 <div>
 
-    <div class="difficulty">Difficulty: {{difficulty}}</div>
+  <div class="difficulty">Difficulty: {{difficulty}}</div>
 
-    <div class="player" id="p1">
-        <span>{{names[0]}}</span>: {{scores[0]}}
+  <div class="scoreBoard">
+    <div class="scores">
+      <div class="player p1 ">
+        {{gameState.hostName}}: {{gameState.hostScore}}
+      </div>
+      <div *ngIf="gameState.isMultiplayer" class="player p2 ">
+        {{gameState.guestName}}: {{gameState.guestScore}}
+      </div>
+    </div>
 
-    </div>
-    <div *ngIf="isMultiplayer" class="player" id="p2">
-        <span>{{names[1]}}</span>: {{scores[1]}}
-    </div>
+  </div>
 
 </div>

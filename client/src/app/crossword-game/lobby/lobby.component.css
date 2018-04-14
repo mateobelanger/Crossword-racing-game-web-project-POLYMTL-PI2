@@ -1,0 +1,23 @@
+.lobby {
+    text-align: center;
+    margin: 0, auto;
+    margin-top: 70px;
+}
+
+.title {
+    padding: 20px 0;
+    width: 100%;
+    background-color: rgba(41, 39, 38, 0.8);
+    color: rgb(224, 224, 224);
+    margin: 0;
+}
+
+.row {
+    margin: 0;
+    padding: 10px 0;
+    background-color: rgb(224, 224, 224);
+}
+
+.username {
+    margin-left: 100px;
+}

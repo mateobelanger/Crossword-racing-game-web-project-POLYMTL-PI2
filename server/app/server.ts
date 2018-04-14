@@ -3,6 +3,7 @@ import * as http from "http";
 import Types from "./types";
 import { injectable, inject } from "inversify";
 import { IServerAddress } from "./iserver.address";
+import { Io } from "./io";
 
 @injectable()
 export class Server {
@@ -10,8 +11,9 @@ export class Server {
     private readonly appPort: string|number|boolean = this.normalizePort(process.env.PORT || "3000");
     private readonly baseDix: number = 10;
     private server: http.Server;
+    private io: Io;
 
-    constructor(@inject(Types.Application) private application: Application) { }
+    constructor(@inject(Types.Application) private application: Application) {}
 
     public init(): void {
         this.application.app.set("port", this.appPort);
@@ -21,6 +23,8 @@ export class Server {
         this.server.listen(this.appPort);
         this.server.on("error", (error: NodeJS.ErrnoException) => this.onError(error));
         this.server.on("listening", () => this.onListening());
+
+        this.io = new Io(this.server);
     }
 
     private normalizePort(val: number | string): number | string | boolean {
