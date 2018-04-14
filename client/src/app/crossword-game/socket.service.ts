@@ -1,11 +1,9 @@
 import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
-import { GameConfiguration } from "../../../../common/crosswordsInterfaces/gameConfiguration";
+import { CrosswordGame } from "../../../../common/crosswordsInterfaces/crosswordGame";
 import { LobbyService } from "./lobby/lobby.service";
 import { Difficulty, SocketMessage } from "../../../../common/constants";
-// import { GridService } from "./grid.service";
 import { WordService } from "./word.service";
-// TODO : import { ValidatorService } from "./validator.service";
 
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
 import { Router } from "@angular/router";
@@ -19,7 +17,7 @@ enum PlayerType { HOST, GUEST }
 export class SocketService {
 
     public socket: SocketIOClient.Socket;
-    public game: GameConfiguration;
+    public game: CrosswordGame;
     public isHost: boolean;
     /// TODO  GAME_RESTART
     private _gameInitialized$: Subject<void>;
@@ -83,28 +81,28 @@ export class SocketService {
 
     private initializeSocketGameManager(): void {
 
-        this.socket.on(SocketMessage.GAME_LOBBIES, (waitingGames: GameConfiguration[], ongoingGames: GameConfiguration[]) => {
+        this.socket.on(SocketMessage.GAME_LOBBIES, (waitingGames: CrosswordGame[], ongoingGames: CrosswordGame[]) => {
             waitingGames = this.castHttpToArrayOfGames(waitingGames);
             ongoingGames = this.castHttpToArrayOfGames(ongoingGames);
             this.lobbyService.updateGameLists(ongoingGames, waitingGames);
         });
 
-        this.socket.on(SocketMessage.INITIALIZE_GAME, (game: GameConfiguration) => {
+        this.socket.on(SocketMessage.INITIALIZE_GAME, (game: CrosswordGame) => {
             this.initializeGame(game);
         });
 
-        this.socket.on(SocketMessage.GRID_FROM_JOIN, (game: GameConfiguration) => {
+        this.socket.on(SocketMessage.GRID_FROM_JOIN, (game: CrosswordGame) => {
             this.gridFromJoin(game);
         });
 
-        this.socket.on(SocketMessage.DISCONNECTED, (game: GameConfiguration) => {
+        this.socket.on(SocketMessage.DISCONNECTED, (game: CrosswordGame) => {
             // TODO :
             console.log("socket disconnected");
             this.gameStateService.initializeGameState();
         });
 
         /// TODO  GAME_RESTART
-        this.socket.on(SocketMessage.HOST_ASK_FOR_RESTART, (game: GameConfiguration) => {
+        this.socket.on(SocketMessage.HOST_ASK_FOR_RESTART, (game: CrosswordGame) => {
             this.game.isWaitingForRestart[PlayerType.HOST] = true;
             if (!this.gameStateService.isMultiplayer) { this.initializeGridFromJoin(game); }
         });
@@ -117,7 +115,7 @@ export class SocketService {
 
     private initializeSocketGameProgression(): void {
 
-        this.socket.on(SocketMessage.UPDATE_VALIDATED_WORD, (game: GameConfiguration) => {
+        this.socket.on(SocketMessage.UPDATE_VALIDATED_WORD, (game: CrosswordGame) => {
             this.updateValidatedWord(game);
         });
 
@@ -137,7 +135,7 @@ export class SocketService {
         });
     }
 
-    private castGame(game: GameConfiguration): GameConfiguration {
+    private castGame(game: CrosswordGame): CrosswordGame {
         const words: GridWord[] = this.castHttpToGridWord(game._words);
         const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
         const usernames: string[] = [];
@@ -146,7 +144,7 @@ export class SocketService {
         const ids: string[] = [];
         ids.push(game.ids[0]);
         ids.push(game.ids[1]);
-        const castedGame: GameConfiguration = new GameConfiguration(game.roomId, game.hostId, game.hostUsername, game.difficulty, words);
+        const castedGame: CrosswordGame = new CrosswordGame(game.roomId, game.hostId, game.hostUsername, game.difficulty, words);
 
         castedGame.validatedWords = validatedWords;
         castedGame.usernames = usernames;
@@ -173,20 +171,20 @@ export class SocketService {
         return arrayOfWords;
     }
 
-    private castHttpToArrayOfGames(gameConfigurations: GameConfiguration[]): GameConfiguration[] {
-        const castedGameConfigurations: GameConfiguration[] = [];
-        for (const game of gameConfigurations) {
-            castedGameConfigurations.push(this.castGame(game));
+    private castHttpToArrayOfGames(crosswordGames: CrosswordGame[]): CrosswordGame[] {
+        const castedCrosswordGames: CrosswordGame[] = [];
+        for (const game of crosswordGames) {
+            castedCrosswordGames.push(this.castGame(game));
         }
 
-        return castedGameConfigurations;
+        return castedCrosswordGames;
     }
 
     private async createGrid(difficulty: Difficulty): Promise<void> {
         await this.wordService.initialize(difficulty);
     }
 
-    private initializeGridFromJoin(game: GameConfiguration): void {
+    private initializeGridFromJoin(game: CrosswordGame): void {
         this.game = this.castGame(game);
         this.wordService.words = [];
         game._words.forEach((word) => {
@@ -196,12 +194,12 @@ export class SocketService {
         this._gameInitialized$.next();
     }
 
-    private gridFromJoin(game: GameConfiguration): void {
+    private gridFromJoin(game: CrosswordGame): void {
         this.initializeGridFromJoin(game);
         this.gameStateService.setGameInfo(game.usernames[PlayerType.HOST], game.usernames[PlayerType.GUEST], game.difficulty, true);
     }
 
-    private updateValidatedWord(game: GameConfiguration): void {
+    private updateValidatedWord(game: CrosswordGame): void {
         this.game = this.castGame(game);
         this.gameStateService.updateScores(this.game.hostValidatedWords.length, this.game.guestValidatedWords.length);
         if (this.game.areAllWordsValidated()) {
@@ -209,7 +207,7 @@ export class SocketService {
         }
     }
 
-    private initializeGame(game: GameConfiguration): void {
+    private initializeGame(game: CrosswordGame): void {
         this.game = this.castGame(game);
         this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
         console.log(this.game.isMultiplayer());
@@ -232,7 +230,7 @@ export class SocketService {
     /// TODO  GAME_RESTART
     private async hostCreateNewGame(difficulty: Difficulty): Promise<void> {
         await this.createGrid(difficulty);
-        this.socket.emit(SocketMessage.HOST_RESTART_PENDING, this.game.roomId,
-            this.game.isWaitingForRestart[PlayerType.GUEST], this.wordService.words);
+        this.socket.emit(   SocketMessage.HOST_RESTART_PENDING, this.game.roomId,
+                            this.game.isWaitingForRestart[PlayerType.GUEST], this.wordService.words);
     }
 }

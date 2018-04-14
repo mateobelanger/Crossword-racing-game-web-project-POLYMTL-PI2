@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import { GameConfiguration } from "../../../../../common/crosswordsInterfaces/gameConfiguration";
+import { CrosswordGame } from "../../../../../common/crosswordsInterfaces/crosswordGame";
 
 @Injectable()
 export class LobbyService {
 
-    public onlineGames: GameConfiguration[];
-    public waitingGames: GameConfiguration[];
+    public onlineGames: CrosswordGame[];
+    public waitingGames: CrosswordGame[];
 
     public constructor() {
         this.onlineGames = [];
         this.waitingGames = [];
     }
 
-    public updateGameLists(ongoingGames: GameConfiguration[], waitingGames: GameConfiguration[]): void {
+    public updateGameLists(ongoingGames: CrosswordGame[], waitingGames: CrosswordGame[]): void {
         this.onlineGames = ongoingGames;
         this.waitingGames = waitingGames;
     }

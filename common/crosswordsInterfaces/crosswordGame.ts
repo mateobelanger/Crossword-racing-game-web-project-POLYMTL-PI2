@@ -3,7 +3,7 @@ import { GridWord } from '../../common/crosswordsInterfaces/word';
 
 enum PlayerType {HOST, GUEST}
 
-export class GameConfiguration  {
+export class CrosswordGame  {
     public roomId: string;
     public ids: string[];
     public usernames: string[];

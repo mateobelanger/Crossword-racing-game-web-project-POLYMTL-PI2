@@ -33,18 +33,18 @@ describe("Game progression handler:", () => {
         done();
     });
 
+    it("should have no players already in a game", (done: MochaDone) => {
+        assert.equal(gameLobbiesHandler.isAlreadyInAGame(hostId), false);
+        assert.equal(gameLobbiesHandler.isAlreadyInAGame(guestId), false);
+        done();
+    });
+
     it("should have one pending game after creation of a game", (done: MochaDone) => {
         gameLobbiesHandler.createGame(roomId, hostId, hostName, Difficulty.EASY, words, false);
         expectedPendingGamesLength++;
 
         assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
         assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
-        done();
-    });
-
-    it("should be considered already in a game", (done: MochaDone) => {
-        assert.equal(gameLobbiesHandler.isAlreadyInAGame(hostId), true);
-        assert.equal(gameLobbiesHandler.isAlreadyInAGame(guestId), false);
         done();
     });
 
@@ -55,6 +55,12 @@ describe("Game progression handler:", () => {
 
         assert.equal( gameLobbiesHandler.multiplayerGames.length, expectedMultiplayerGamesLength);
         assert.equal( gameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
+        done();
+    });
+
+    it("both player should be considered already in a game", (done: MochaDone) => {
+        assert.equal(gameLobbiesHandler.isAlreadyInAGame(hostId), true);
+        assert.equal(gameLobbiesHandler.isAlreadyInAGame(guestId), true);
         done();
     });
 
