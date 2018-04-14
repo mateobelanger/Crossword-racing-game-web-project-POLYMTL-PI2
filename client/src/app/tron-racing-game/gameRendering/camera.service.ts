@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import * as THREE from "three";
 
 // PERSPECTIVE_CAMERA
-export const PERSPECTIVE_INITIAL_POSITION_Y: number = 5;
-export const PERSPECTIVE_INITIAL_POSITION_Z: number = 30;
+export const PERSPECTIVE_INITIAL_POSITION_Y: number = 3;
+export const PERSPECTIVE_INITIAL_POSITION_Z: number = 20;
 const NEAR_CLIPPING_PLANE: number = 1;
-const FAR_CLIPPING_PLANE: number = 1000;
+const FAR_CLIPPING_PLANE: number = 500;
 const PERSPECTIVE_FIELD_OF_VIEW: number = 40;
 
 
@@ -16,7 +16,7 @@ export const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = -10;
 export const ORTHOGRAPHIC_CAMERA_FAR_PLANE: number = 1000;
 
 // ZOOM
-export const CAMERA_ZOOM_ADJUSTMENT: number = 0.05;
+export const CAMERA_ZOOM_ADJUSTMENT: number = 0.04;
 export const CAMERA_INITIAL_ZOOM: number = 1;
 export const CAMERA_MAX_ZOOM: number = 5;
 export const CAMERA_MIN_ZOOM: number = 1;

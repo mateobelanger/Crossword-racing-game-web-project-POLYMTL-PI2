@@ -1,10 +1,9 @@
 import { TestBed, inject } from "@angular/core/testing";
 import * as THREE from "three";
 
-import {
-    CameraService, ORTHOGRAPHIC_INITIAL_POSITION_Y,
-    PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z/*,
-    CAMERA_INITIAL_ZOOM, CAMERA_MIN_ZOOM, CAMERA_MAX_ZOOM*/} from "./camera.service";
+import { CameraService, ORTHOGRAPHIC_INITIAL_POSITION_Y,
+         PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z,
+         CAMERA_INITIAL_ZOOM, CAMERA_MIN_ZOOM, CAMERA_MAX_ZOOM} from "./camera.service";
 import { Car } from "../physics&interactions/cars/car/car";
 import { Engine } from "../physics&interactions/cars/car/engine";
 
@@ -114,7 +113,6 @@ describe("CameraService", () => {
         }
     });
 
-    /* TODO : ADD TESTS :
     it("should zoom in properly ", () => {
         cameraService.zoomIn();
         expect(cameraService["zoomFactor"]).toBeGreaterThan(CAMERA_INITIAL_ZOOM);
@@ -129,22 +127,19 @@ describe("CameraService", () => {
     });
 
     it("should have a maximum zoom", () => {
-        cameraService.zoomIn();
-        cameraService.zoomIn();
-        cameraService.zoomIn();
-        cameraService.zoomIn();
-        cameraService.zoomIn();
-        cameraService.zoomIn();
-        expect(cameraService["zoomFactor"]).toBe(CAMERA_MAX_ZOOM);
+        // tslint:disable-next-line:no-magic-numbers
+        for (let i: number = 0; i < 100; i++) {
+            cameraService.zoomIn();
+        }
+        expect(cameraService["zoomFactor"]).toBeCloseTo(CAMERA_MAX_ZOOM);
     });
 
     it("should have a minimum zoom", () => {
-        cameraService.zoomIn();
-        cameraService.zoomIn();
-        cameraService.zoomOut();
-        cameraService.zoomOut();
-        cameraService.zoomOut();
-        expect(cameraService["zoomFactor"]).toBe(CAMERA_MIN_ZOOM);
+        // tslint:disable-next-line:no-magic-numbers
+        for (let i: number = 0; i < 100; i++) {
+            cameraService.zoomOut();
+        }
+        expect(cameraService["zoomFactor"]).toBeCloseTo(CAMERA_MIN_ZOOM);
     });
-    */
+
 });
