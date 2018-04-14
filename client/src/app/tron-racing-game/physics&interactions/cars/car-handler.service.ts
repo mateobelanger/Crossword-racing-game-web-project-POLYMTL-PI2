@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Car } from './car/car';
-import { PLAYERS_NAME, USERNAME, GameState } from "../../constants";
+import { PLAYERS_NAME, USERNAME, GameState, CAR_TEXTURE, NUMBER_OF_TEXURES } from "../../constants";
 import * as THREE from "three";
 import { CarStartPosition } from './carStartPosition';
 import { VirtualPlayerCar } from '../../virtualPlayers/virtualPlayerCar';
 import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 import { VirtualPlayerDifficulty } from '../../virtualPlayers/virtualPlayerDifficulty';
+import { TextureLoaderService } from '../../gameRendering/textureLoader/texture-loader.service';
 
 @Injectable()
 export class CarHandlerService {
 
     private _cars: [string, Car][];
     public constructor( private speedZoneService: SpeedZonesService,
-                        private raceProgressionService: RaceProgressionHandlerService) {
+                        private raceProgressionService: RaceProgressionHandlerService,
+                        private textureLoader: TextureLoaderService) {
         this._cars = [];
     }
 
@@ -28,7 +30,10 @@ export class CarHandlerService {
         // because await does not work in for-of loop
         // tslint:disable prefer-for-of
         for ( let i: number = 0; i < this._cars.length; i++) {
-            await this._cars[i][1].init();
+            await this.textureLoader.loadCarTexture(this.textureColor(i)).then(
+                (texture: THREE.Object3D) => {
+                    this._cars[i][1].init(texture);
+                });
         }
     }
 
@@ -90,4 +95,7 @@ export class CarHandlerService {
                 )[0][1];
     }
 
+    private textureColor(x: number): CAR_TEXTURE {
+        return x++ % NUMBER_OF_TEXURES;
+    }
 }

@@ -43,6 +43,7 @@ import { ResultsSimulatorService } from './raceData/simulateEndResults/results-s
 import { SpeedZonesService } from './virtualPlayers/speed-zones.service';
 import { CountdownComponent } from './raceData/raceInfos/countdown/countdown.component';
 import { PortalsHandlerService } from './virtualPlayers/teleportation/portals-handler.service';
+import { TextureLoaderService } from './gameRendering/textureLoader/texture-loader.service';
 
 @NgModule({
 
@@ -96,7 +97,8 @@ import { PortalsHandlerService } from './virtualPlayers/teleportation/portals-ha
     EndGameService,
     ResultsSimulatorService,
     SpeedZonesService,
-    PortalsHandlerService
+    PortalsHandlerService,
+    TextureLoaderService
   ],
 
 })
