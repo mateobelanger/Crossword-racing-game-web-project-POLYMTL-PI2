@@ -83,7 +83,7 @@ export class CarHandlerService {
     }
 
     private textureColor(x: number): CAR_TEXTURE {
-        return x++ % NUMBER_OF_TEXURES;
+        return ++x % NUMBER_OF_TEXURES;
     }
 
     private fillCarArray( playerSkill: VirtualPlayerDifficulty ): void {
