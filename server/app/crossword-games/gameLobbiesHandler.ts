@@ -1,10 +1,8 @@
 import { GameConfiguration } from "../../../common/crosswordsInterfaces/gameConfiguration";
-import { Difficulty, SocketMessage } from "../../../common/constants";
+import { Difficulty } from "../../../common/constants";
 import { GridWord } from "../../../common/crosswordsInterfaces/word";
 
 enum GameType { SOLO, MULTIPLAYER, PENDING }
-
-enum PlayerType { HOST, GUEST }
 
 export class GameLobbiesHandler {
 
@@ -102,34 +100,17 @@ export class GameLobbiesHandler {
         return games.find((game: GameConfiguration) => game.isInGame(id));
     }
 
-    /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre
-    public hostAskForRestart(   roomId: string, socket: SocketIO.Socket,
-                                isGuestReady: boolean, newWords: GridWord[], socketServer: SocketIO.Server): void {
-        let game: GameConfiguration = this.getGameById(roomId);
-        // TODO: potentiellement a changer , TRESSS SKETCH
-        if (game === undefined) {
-            game = this.getGameById(roomId);
-        }
-        game.restartGame();
-        game._words = this.castHttpToGridWord(newWords);
-        socketServer.in(roomId).emit(SocketMessage.HOST_ASK_FOR_RESTART, game);
-        //socket.to(game.roomId).emit(SocketMessage.HOST_ASK_FOR_RESTART, game);
-        //socket.to(game.).emit(SocketMessage.HOST_ASK_FOR_RESTART, game);
-
-        if (isGuestReady) {
-            game.isWaitingForRestart[PlayerType.HOST] = false;
-            game.isWaitingForRestart[PlayerType.GUEST] = false;
-            socketServer.in(roomId).emit(SocketMessage.GRID_FROM_JOIN, game);
-        }
-    }
-    /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre
-    public guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
-        const game: GameConfiguration = this.getGameById(roomId);
-        socket.to(game.hostId).emit(SocketMessage.GUEST_ASK_FOR_RESTART, game);
-    }
-
     public get newRoomIdNumber(): number {
         return this._soloGames.length + this._multiplayerGames.length + this._pendingGames.length;
+    }
+
+    public castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
+        const words: GridWord[] = [];
+        for (const word of httpWords) {
+            words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
+        }
+
+        return words;
     }
 
     private createSoloGame(id: string, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): GameConfiguration {
@@ -170,15 +151,6 @@ export class GameLobbiesHandler {
             default:
                 return this._multiplayerGames;
         }
-    }
-
-    private castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
-        const words: GridWord[] = [];
-        for (const word of httpWords) {
-            words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
-        }
-
-        return words;
     }
 
 }
