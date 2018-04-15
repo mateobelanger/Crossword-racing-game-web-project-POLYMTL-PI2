@@ -23,7 +23,7 @@ describe('GameUiComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
-    // TODO TEST : Cannot read property 'substring' of null
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });

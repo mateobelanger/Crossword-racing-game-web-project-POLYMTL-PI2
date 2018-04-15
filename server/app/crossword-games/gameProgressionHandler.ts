@@ -7,7 +7,6 @@ export class GameProgessionHandler {
         const isNewValidatedWord: boolean = !this.includesWord(word, game);
         if (isNewValidatedWord) {
             this.addValidatedWord(socketId, game, word);
-            // this.socketServer.in(game.roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, game);
         }
 
         return isNewValidatedWord;

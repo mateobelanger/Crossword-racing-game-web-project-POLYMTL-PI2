@@ -40,7 +40,6 @@ export class EndOfGameModalComponent {
         this.socketService.restartNewGame(this.gameState.difficulty);
 
         this.socketService.gameInitialized.subscribe(() => {
-            console.log("AAAAAAAAAAAAAAA");
             this.gameState.resetGameState();
             this.validator.initialize();
             this.gridService.initialize();

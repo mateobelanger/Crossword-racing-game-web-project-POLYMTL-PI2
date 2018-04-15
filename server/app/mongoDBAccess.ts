@@ -22,7 +22,7 @@ const TRACK: Model<Document> = MONGOOSE.model("Track", trackSchema);
 export class MongoDBAccess {
 
     public static async getAll(): Promise<ITrackData[]> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         return new Promise<ITrackData[]>((resolve: Function, reject: Function) => {
@@ -42,7 +42,7 @@ export class MongoDBAccess {
     }
 
     public static async addTrack(track: ITrackData): Promise<ITrackData> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         const newTrack: any = new TRACK(track);
@@ -67,12 +67,12 @@ export class MongoDBAccess {
     }
 
     public static async remove(trackName: string): Promise<void> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         return new Promise<void>((resolve: Function, reject: Function) => {
             db.once("open", () => {
-                TRACK.findOne({ name: trackName })
+                void TRACK.findOne({ name: trackName })
                     .remove((err: Error) => {
                         if (err) {
                             console.error(err);
@@ -91,7 +91,7 @@ export class MongoDBAccess {
     }
 
     public static async updateExistingTrack(track: ITrackData): Promise<void> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         return new Promise<void>((resolve: Function, reject: Function) => {
@@ -120,7 +120,7 @@ export class MongoDBAccess {
     }
 
     public static async incrementTimesPlayed(trackName: string): Promise<void> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         return new Promise<void>((resolve: Function, reject: Function) => {

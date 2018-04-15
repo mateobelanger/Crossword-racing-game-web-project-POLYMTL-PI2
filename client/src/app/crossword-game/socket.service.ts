@@ -91,8 +91,8 @@ export class SocketService {
             this.initializeGame(game);
         });
 
-        this.socket.on(SocketMessage.GRID_FROM_JOIN, (game: CrosswordGame) => {
-            this.gridFromJoin(game);
+        this.socket.on(SocketMessage.SENT_GAME_AFTER_JOIN, (game: CrosswordGame) => {
+            this.startGameAfterJoin(game);
         });
 
         this.socket.on(SocketMessage.DISCONNECTED, (game: CrosswordGame) => {
@@ -102,13 +102,13 @@ export class SocketService {
         });
 
         /// TODO  GAME_RESTART
-        this.socket.on(SocketMessage.HOST_ASK_FOR_RESTART, (game: CrosswordGame) => {
+        this.socket.on(SocketMessage.HOST_ASKED_FOR_RESTART, (game: CrosswordGame) => {
             this.game.isWaitingForRestart[PlayerType.HOST] = true;
-            if (!this.gameStateService.isMultiplayer) { this.initializeGridFromJoin(game); }
+            if (!this.gameStateService.isMultiplayer) { this.initializeGridAfterJoin(game); }
         });
 
         /// TODO  GAME_RESTART
-        this.socket.on(SocketMessage.GUEST_ASK_FOR_RESTART, () => {
+        this.socket.on(SocketMessage.GUEST_ASKED_FOR_RESTART, () => {
             this.game.isWaitingForRestart[PlayerType.GUEST] = true;
         });
     }
@@ -184,7 +184,7 @@ export class SocketService {
         await this.wordService.initialize(difficulty);
     }
 
-    private initializeGridFromJoin(game: CrosswordGame): void {
+    private initializeGridAfterJoin(game: CrosswordGame): void {
         this.game = this.castGame(game);
         this.wordService.words = [];
         game._words.forEach((word) => {
@@ -194,8 +194,8 @@ export class SocketService {
         this._gameInitialized$.next();
     }
 
-    private gridFromJoin(game: CrosswordGame): void {
-        this.initializeGridFromJoin(game);
+    private startGameAfterJoin(game: CrosswordGame): void {
+        this.initializeGridAfterJoin(game);
         this.gameStateService.setGameInfo(game.usernames[PlayerType.HOST], game.usernames[PlayerType.GUEST], game.difficulty, true);
     }
 

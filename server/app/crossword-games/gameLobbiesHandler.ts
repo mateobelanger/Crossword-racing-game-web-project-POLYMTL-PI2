@@ -6,37 +6,41 @@ enum GameType { SOLO, MULTIPLAYER, PENDING }
 
 export class GameLobbiesHandler {
 
-    private _soloGames: CrosswordGame[];
-    private _multiplayerGames: CrosswordGame[];
-    private _pendingGames: CrosswordGame[];
+    private static _soloGames: CrosswordGame[] = [];
+    private static _multiplayerGames: CrosswordGame[] = [];
+    private static _pendingGames: CrosswordGame[] = [];
 
-    constructor() {
-        this._soloGames = [];
-        this._multiplayerGames = [];
-        this._pendingGames = [];
+    // public constructor() {
+    //     GameLobbiesHandler._soloGames = [];
+    //     GameLobbiesHandler._multiplayerGames = [];
+    //     GameLobbiesHandler._pendingGames = [];
+    // }
+
+    public static get multiplayerGames(): CrosswordGame[] {
+        return GameLobbiesHandler._multiplayerGames;
     }
 
-    public get multiplayerGames(): CrosswordGame[] {
-        return this._multiplayerGames;
+    public static get pendingGames(): CrosswordGame[] {
+        return GameLobbiesHandler._pendingGames;
     }
 
-    public get pendingGames(): CrosswordGame[] {
-        return this._pendingGames;
+    public static get numberOfGames(): number {
+        return GameLobbiesHandler._soloGames.length + GameLobbiesHandler._multiplayerGames.length + GameLobbiesHandler._pendingGames.length;
     }
 
-    public isAlreadyInAGame(id: string): boolean {
+    public static isAlreadyInAGame(id: string): boolean {
         let isInAGame: boolean = false;
-        this._soloGames.forEach((game: CrosswordGame) => {
+        GameLobbiesHandler._soloGames.forEach((game: CrosswordGame) => {
             if (game.isInGame(id)) {
                 isInAGame = true;
             }
         });
-        this._multiplayerGames.forEach((game: CrosswordGame) => {
+        GameLobbiesHandler._multiplayerGames.forEach((game: CrosswordGame) => {
             if (game.isInGame(id)) {
                 isInAGame = true;
             }
         });
-        this._pendingGames.forEach((game: CrosswordGame) => {
+        GameLobbiesHandler._pendingGames.forEach((game: CrosswordGame) => {
             if (game.isInGame(id)) {
                 isInAGame = true;
             }
@@ -45,38 +49,39 @@ export class GameLobbiesHandler {
         return isInAGame;
     }
 
-    public createGame(  roomId: string, socketId: string, username: string,
-                        difficulty: Difficulty, words: GridWord[], isSolo: boolean): CrosswordGame {
-        if (!this.isAlreadyInAGame(socketId)) {
+    public static createGame(   roomId: string, socketId: string, username: string,
+                                difficulty: Difficulty, words: GridWord[], isSolo: boolean): CrosswordGame {
+        if (!GameLobbiesHandler.isAlreadyInAGame(socketId)) {
             if (isSolo) {
-                return this.createSoloGame(socketId, roomId, username, difficulty, words);
+                return GameLobbiesHandler.createSoloGame(socketId, roomId, username, difficulty, words);
             } else {
-                this._pendingGames.push(new CrosswordGame(roomId, socketId, username, difficulty, this.castHttpToGridWord(words)));
+                GameLobbiesHandler._pendingGames.push(
+                                new CrosswordGame(roomId, socketId, username, difficulty, GameLobbiesHandler.castHttpToGridWord(words)) );
             }
         }
 
         return null;
     }
 
-    public joinGame(roomId: string, socketId: string, guestName: string): CrosswordGame {
+    public static joinGame(roomId: string, socketId: string, guestName: string): CrosswordGame {
 
-        this._multiplayerGames.push(this.getGameById(roomId));
-        this.deleteGameWithId(this._pendingGames, roomId);
-        const joinedGame: CrosswordGame = this.getGameById(roomId);
+        GameLobbiesHandler._multiplayerGames.push(GameLobbiesHandler.getGameById(roomId));
+        GameLobbiesHandler.deleteGameWithId(GameLobbiesHandler._pendingGames, roomId);
+        const joinedGame: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
         joinedGame.updateGuestInformation(socketId, guestName);
 
         return joinedGame;
     }
 
-    public disconnect(socketId: string): void {
-        if (this.isAlreadyInAGame(socketId)) {
-            const gameType: GameType = this.getGameType(socketId);
-            const game: CrosswordGame = this.getGameById(socketId);
+    public static disconnect(socketId: string): void {
+        if (GameLobbiesHandler.isAlreadyInAGame(socketId)) {
+            const gameType: GameType = GameLobbiesHandler.getGameType(socketId);
+            const game: CrosswordGame = GameLobbiesHandler.getGameById(socketId);
 
             switch (gameType) {
                 case GameType.SOLO:
                 case GameType.PENDING:
-                    this.deleteGameById(game.roomId);
+                    GameLobbiesHandler.deleteGameById(game.roomId);
                     break;
                 case GameType.MULTIPLAYER:
                 default:
@@ -84,27 +89,22 @@ export class GameLobbiesHandler {
                         game.hostId = game.guestId;
                     }
                     game.guestId = null;
-                    // TODO : this.socketServer.to(game.hostId).emit(SocketMessage.DISCONNECTED);
 
-                    this._soloGames.push(game);
-                    this.deleteGameWithId(this._multiplayerGames, socketId);
+                    GameLobbiesHandler._soloGames.push(game);
+                    GameLobbiesHandler.deleteGameWithId(GameLobbiesHandler._multiplayerGames, socketId);
             }
 
         }
     }
 
-    public getGameById(id: string): CrosswordGame {
-        const gameType: GameType = this.getGameType(id);
-        const games: CrosswordGame[] = this.getGameTypeList(gameType);
+    public static getGameById(id: string): CrosswordGame {
+        const gameType: GameType = GameLobbiesHandler.getGameType(id);
+        const games: CrosswordGame[] = GameLobbiesHandler.getGameTypeList(gameType);
 
         return games.find((game: CrosswordGame) => game.isInGame(id));
     }
 
-    public get newRoomIdNumber(): number {
-        return this._soloGames.length + this._multiplayerGames.length + this._pendingGames.length;
-    }
-
-    public castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
+    public static castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
         const words: GridWord[] = [];
         for (const word of httpWords) {
             words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
@@ -113,43 +113,43 @@ export class GameLobbiesHandler {
         return words;
     }
 
-    private createSoloGame(id: string, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): CrosswordGame {
+    private static createSoloGame(id: string, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): CrosswordGame {
         const newGame: CrosswordGame =
-            new CrosswordGame(roomId, id, username, difficulty, this.castHttpToGridWord(words));
-        this._soloGames.push(newGame);
+            new CrosswordGame(roomId, id, username, difficulty, GameLobbiesHandler.castHttpToGridWord(words));
+        GameLobbiesHandler._soloGames.push(newGame);
 
         return newGame;
     }
 
-    private deleteGameById(id: string): void {
-        const gameType: GameType = this.getGameType(id);
-        const games: CrosswordGame[] = this.getGameTypeList(gameType);
+    private static deleteGameById(id: string): void {
+        const gameType: GameType = GameLobbiesHandler.getGameType(id);
+        const games: CrosswordGame[] = GameLobbiesHandler.getGameTypeList(gameType);
 
         games.splice(games.findIndex((game: CrosswordGame) => game.isInGame(id)));
     }
 
-    private deleteGameWithId(games: CrosswordGame[], id: string): void {
+    private static deleteGameWithId(games: CrosswordGame[], id: string): void {
         games.splice(games.findIndex((game: CrosswordGame) => game.isInGame(id)));
     }
 
-    private getGameType(id: string): GameType {
-        if (this._soloGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
+    private static getGameType(id: string): GameType {
+        if (GameLobbiesHandler._soloGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
             return GameType.SOLO;
-        } else if (this._multiplayerGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
+        } else if (GameLobbiesHandler._multiplayerGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
             return GameType.MULTIPLAYER;
         } else {
             return GameType.PENDING;
         }
     }
 
-    private getGameTypeList(gameType: GameType): CrosswordGame[] {
+    private static getGameTypeList(gameType: GameType): CrosswordGame[] {
         switch (gameType) {
             case GameType.SOLO:
-                return this._soloGames;
+                return GameLobbiesHandler._soloGames;
             case GameType.PENDING:
-                return this._pendingGames;
+                return GameLobbiesHandler._pendingGames;
             default:
-                return this._multiplayerGames;
+                return GameLobbiesHandler._multiplayerGames;
         }
     }
 

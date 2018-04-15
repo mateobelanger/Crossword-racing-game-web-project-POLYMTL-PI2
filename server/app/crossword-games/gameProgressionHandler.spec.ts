@@ -12,8 +12,6 @@ const word3: GridWord = new GridWord(1, 1, 1, "word");
 
 const hostId: string = "hostId";
 
-// const gameProgressionHandler: GameProgessionHandler = new GameProgessionHandler();
-
 describe("Game progression handler:", () => {
 
     words.push(word1);
@@ -22,18 +20,11 @@ describe("Game progression handler:", () => {
 
     const game: CrosswordGame = new CrosswordGame("game0", hostId, "hostUsername", Difficulty.EASY, words);
 
-    // it("validated words should not include the words", (done: MochaDone) => {
-    //     assert.equal( GameProgessionHandler.includesWord(word1, game), false);
-    //     assert.equal( GameProgessionHandler.includesWord(word2, game), false);
-    //     assert.equal( GameProgessionHandler.includesWord(word3, game), false);
-    //     done();
-    // });
-
     it("should add the words because they are not validated yet", (done: MochaDone) => {
 
         assert.equal( GameProgessionHandler.isAddValidatedWord(word1, game, hostId), true);
         assert.equal( GameProgessionHandler.isAddValidatedWord(word2, game, hostId), true);
-        assert.equal( GameProgessionHandler.isAddValidatedWord(word2, game, hostId), true);
+        assert.equal( GameProgessionHandler.isAddValidatedWord(word3, game, hostId), true);
 
         done();
     });
@@ -42,15 +33,9 @@ describe("Game progression handler:", () => {
 
         assert.equal( GameProgessionHandler.isAddValidatedWord(word1, game, hostId), false);
         assert.equal( GameProgessionHandler.isAddValidatedWord(word2, game, hostId), false);
-        assert.equal( GameProgessionHandler.isAddValidatedWord(word2, game, hostId), false);
+        assert.equal( GameProgessionHandler.isAddValidatedWord(word3, game, hostId), false);
 
         done();
     });
 
-    // it("validated words should now include the words added", (done: MochaDone) => {
-    //     assert.equal( GameProgessionHandler.includesWord(word1, game), true);
-    //     assert.equal( GameProgessionHandler.includesWord(word2, game), true);
-    //     assert.equal( GameProgessionHandler.includesWord(word3, game), false);
-    //     done();
-    // });
 });
