@@ -4,10 +4,12 @@ import { Car } from "../cars/car/car";
 
 export class CommandNightDay extends CommandFormat  {
 
-    public execute(isKeyDown: boolean, car: Car, service: SceneLoaderService): void {
+    public execute(isKeyDown: boolean, cars: Car[], service: SceneLoaderService): void {
         if (!isKeyDown) {
             service.updateScene();
-            car.switchLights();
+            cars.forEach((car: Car) => {
+                car.switchLights();
+            });
         }
     }
 }
