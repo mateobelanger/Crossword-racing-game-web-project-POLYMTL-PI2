@@ -1,9 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { GameStateService } from "../../game-state.service";
-// import { Difficulty } from "../../../../../../common/constants";
+import { NameValidator } from "../../../../../../common/nameValidator";
 import { SocketService } from "../../socket.service";
-
-// import { Router } from "@angular/router";
 
 @Component({
     selector: "app-create-online-game",
@@ -30,6 +28,10 @@ export class OnlineConfigurationComponent implements OnInit {
     public async createGame(username: string): Promise<void> {
         this.isGameCreated = true;
         await this.socketService.createGame(username, this.gameState.difficulty);
+    }
+
+    public isAlphaNum (keyCode: number): boolean {
+        return NameValidator.isAlphaNumerical(keyCode);
     }
 
 }

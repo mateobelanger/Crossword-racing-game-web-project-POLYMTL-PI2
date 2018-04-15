@@ -1,7 +1,9 @@
 <button routerLink='../..'>Back</button>
 
 <div class="username">
-    <h5> Please enter your username to join a game: <input [(ngModel)]="guestName"></h5>
+    <h5> Please enter your username to join a game:
+        <input [(ngModel)]="guestName" (keypress)="isAlphaNum($event.charCode)">
+    </h5>
 </div>
 
 <div class="container lobby">

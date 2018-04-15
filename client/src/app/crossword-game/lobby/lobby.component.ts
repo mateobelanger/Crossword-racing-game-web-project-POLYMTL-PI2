@@ -22,6 +22,10 @@ export class LobbyComponent implements OnInit  {
         this.socketService.getGameLobbies();
     }
 
+    public isAlphaNum (keyCode: number): boolean {
+        return NameValidator.isAlphaNumerical(keyCode);
+    }
+
     public joinGame(roomId: string): void {
         this.socketService.joinGame(roomId, this.guestName);
     }

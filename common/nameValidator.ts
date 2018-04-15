@@ -35,4 +35,15 @@ export class NameValidator {
                (keyCode >= CHAR_0 && keyCode <= CHAR_9) ||
                keyCode === CHAR_SPACE;
     }
+
+    public static isContainsOnlySpaces(name: string): boolean {
+
+        for (const char of name) {
+            if (char !== SPACE) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

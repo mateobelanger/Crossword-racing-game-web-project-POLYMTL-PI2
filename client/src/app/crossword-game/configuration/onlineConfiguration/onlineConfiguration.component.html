@@ -1,6 +1,6 @@
 <button routerLink="../..">Back</button>
 <p>Username:
-    <input [(ngModel)]="gameState.hostName">
+    <input [(ngModel)]="gameState.hostName" (keypress)="isAlphaNum($event.charCode)">
 </p>
 <p>Difficulty:</p>
 <app-configuration></app-configuration>
