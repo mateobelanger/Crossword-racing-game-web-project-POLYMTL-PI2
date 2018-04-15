@@ -8,6 +8,8 @@ import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
 import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
 import { VirtualPlayerDifficulty } from '../../virtualPlayers/virtualPlayerDifficulty';
 import { TextureLoaderService } from '../../gameRendering/textureLoader/texture-loader.service';
+import { InputHandlerService } from '../controller/input-handler.service';
+import { W_KEYCODE } from '../../../../../../common/constants';
 
 @Injectable()
 export class CarHandlerService {
@@ -15,7 +17,8 @@ export class CarHandlerService {
     private _cars: [string, Car][];
     public constructor( private speedZoneService: SpeedZonesService,
                         private raceProgressionService: RaceProgressionHandlerService,
-                        private textureLoader: TextureLoaderService) {
+                        private textureLoader: TextureLoaderService,
+                        private inputHandler: InputHandlerService) {
         this._cars = [];
     }
 
@@ -74,6 +77,16 @@ export class CarHandlerService {
 
     public virtualPlayerFinished(virtualPlayerName: string): void {
         this.findVirtualPlayer(virtualPlayerName).changeState(GameState.END);
+    }
+
+    public enableControlKeys(): void {
+        this.inputHandler.addListener(W_KEYCODE, true, this.accelerationInput);
+        this.inputHandler.addListener(W_KEYCODE, false, this.accelerationInput);
+    }
+
+    private accelerationInput(isKeyDown: boolean): void {
+        console.log(this);
+        this.cars[1][1].isAcceleratorPressed = isKeyDown;
     }
 
     private findVirtualPlayer(virtualPlayerName: string): Car {

@@ -31,3 +31,13 @@ export enum SocketMessage {
     DISCONNECT = "disconnect",
     CONNECTION = "connection"
 }
+
+export const W_KEYCODE: number = 87;
+export const A_KEYCODE: number = 65;
+export const S_KEYCODE: number = 83;
+export const D_KEYCODE: number = 68;
+export const C_KEYCODE: number = 67;
+export const N_KEYCODE: number = 78;
+export const E_KEYCODE: number = 69;
+export const I_KEYCODE: number = 187;
+export const O_KEYCODE: number = 189;

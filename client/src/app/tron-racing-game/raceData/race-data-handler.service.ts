@@ -12,7 +12,6 @@ import { USERNAME, COUNTDOWN_TIME } from '../constants';
 import { ResultsSimulatorService } from './simulateEndResults/results-simulator.service';
 import { Countdown } from './timer/countdown';
 import { AudioService } from '../audio/audio.service';
-import { InputHandlerService } from '../physics&interactions/controller/input-handler.service';
 import { SpeedZonesService } from '../virtualPlayers/speed-zones.service';
 import { VirtualPlayerDifficulty, BeginnerVirtualPlayer, ExpertVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
 import { PortalsHandlerService } from '../virtualPlayers/teleportation/portals-handler.service';
@@ -37,7 +36,6 @@ export class RaceDataHandlerService {
                         private trackLoaderService: TrackLoaderService,
                         private resultsSimulatorService: ResultsSimulatorService,
                         private audioService: AudioService,
-                        private inputHandlerService: InputHandlerService,
                         private speedZonesService: SpeedZonesService,
                         private portalHandlerService: PortalsHandlerService,
                         private collisionHandler: CollisionHandlerService) {
@@ -115,12 +113,13 @@ export class RaceDataHandlerService {
             },
             (err: Error) => {
                 console.error(err);
-                this.inputHandlerService.enableControlKeys();
+                // this.inputHandlerService.enableControlKeys();
+                this._carsHandlerService.enableControlKeys();
                 this._carsHandlerService.startRace();
             },
             () => {
                 this.audioService.playSound(RACE_START_SOUND);
-                this.inputHandlerService.enableControlKeys();
+                this._carsHandlerService.enableControlKeys();
                 this._carsHandlerService.startRace();
             });
     }
