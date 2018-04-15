@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { GameStateService } from '../game-state.service';
 
-// const DIFFICULTY_LENGTH: number = 11;
+const DIFFICULTY_LENGTH: number = 11;
 
 @Component({
     selector: 'app-informations',
@@ -10,15 +10,9 @@ import { GameStateService } from '../game-state.service';
 })
 export class InformationsComponent{
 
-    // public difficulty: string;
+    public difficulty: string;
 
     public constructor(public gameState: GameStateService) {
-        // this.difficulty = "";
+        this.difficulty = this.gameState.difficulty === null ? "" : this.gameState.difficulty.substring(DIFFICULTY_LENGTH);
     }
-
-    // public ngAfterViewInit(): void {
-    //     this.difficulty = this.gameState.difficulty.substring(DIFFICULTY_LENGTH); // TODO TEST 
-    // }
-
-
 }
