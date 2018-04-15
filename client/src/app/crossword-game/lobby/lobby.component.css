@@ -19,5 +19,8 @@
 }
 
 .username {
-    margin-left: 100px;
+    text-align: center;
+    margin: 0, auto;
+    margin-top: 20px;
+    padding: 20px 0;
 }
