@@ -37,7 +37,8 @@ describe('CountdownComponent', () => {
                         ResultsSimulatorService, AudioService, InputHandlerService, RenderService, CameraService, SceneLoaderService,
                         SkyboxService, SceneLightsService, CollisionHandlerService, OutOfBoundsHandlerService, PortalsHandlerService]
         })
-            .compileComponents();
+            .compileComponents()
+            .catch((error: Error) => { console.error(error); });
     }));
 
     beforeEach(() => {
