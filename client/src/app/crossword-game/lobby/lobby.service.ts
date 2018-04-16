@@ -4,24 +4,24 @@ import { CrosswordGame } from "../../../../../common/crosswordsInterfaces/crossw
 @Injectable()
 export class LobbyService {
 
-    private _onlineGames: CrosswordGame[];
+    private _multiplayerGames: CrosswordGame[];
     private _pendingGames: CrosswordGame[];
 
     public constructor() {
-        this._onlineGames = [];
+        this._multiplayerGames = [];
         this._pendingGames = [];
     }
 
-    public get onlineGames(): CrosswordGame[] {
-        return this._onlineGames;
+    public get multiplayerGames(): CrosswordGame[] {
+        return this._multiplayerGames;
     }
 
     public get pendingGames(): CrosswordGame[] {
         return this._pendingGames;
     }
 
-    public updateGameLists(ongoingGames: CrosswordGame[], waitingGames: CrosswordGame[]): void {
-        this._onlineGames = ongoingGames;
+    public updateGameLists(multiplayerGames: CrosswordGame[], waitingGames: CrosswordGame[]): void {
+        this._multiplayerGames = multiplayerGames;
         this._pendingGames = waitingGames;
     }
 }

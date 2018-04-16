@@ -43,8 +43,8 @@ export class TrackEditorComponent implements AfterViewInit {
                 this.setWaypointsFromProxy();
                 this.renderTrack();
             }
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
     }
 

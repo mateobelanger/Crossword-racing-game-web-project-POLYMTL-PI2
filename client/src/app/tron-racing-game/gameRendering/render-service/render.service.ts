@@ -63,9 +63,9 @@ export class RenderService implements OnDestroy {
             this.raceProgressionService.user.endOfRace$.subscribe(() => {
                 this.ngOnDestroy();
             });
-        } catch (err) {
+        } catch (error) {
             console.error("could not initialize render service");
-            console.error(err);
+            console.error(error);
         }
     }
 

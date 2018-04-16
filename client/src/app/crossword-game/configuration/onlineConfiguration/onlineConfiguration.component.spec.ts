@@ -4,6 +4,8 @@ import { OnlineConfigurationComponent } from "./onlineConfiguration.component";
 import { routes } from "../../../app-routes.module";
 import { AppModule } from "../../../app.module";
 import { APP_BASE_HREF } from "@angular/common";
+import { SocketService } from "../../socket.service";
+import { GameStateService } from "../../game-state.service";
 
 describe("OnlineConfigurationComponent", () => {
     let component: OnlineConfigurationComponent;
@@ -13,7 +15,7 @@ describe("OnlineConfigurationComponent", () => {
         // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }, GameStateService, SocketService]
         })
         .compileComponents();
     }));
@@ -22,9 +24,11 @@ describe("OnlineConfigurationComponent", () => {
         fixture = TestBed.createComponent(OnlineConfigurationComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+
     });
 
     it("should create", () => {
         expect(component).toBeTruthy();
     });
+
 });

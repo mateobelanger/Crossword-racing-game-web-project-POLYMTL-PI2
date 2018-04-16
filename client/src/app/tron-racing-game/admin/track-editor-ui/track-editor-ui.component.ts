@@ -35,16 +35,16 @@ export class TrackEditorUiComponent implements AfterViewInit {
         try {
             await this.proxy.initialize();
             this.setTrack();
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
     }
 
     public async saveTrack(): Promise<void> {
         try {
             await this.proxy.initialize();
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
 
         if (this.isValidTrack() && !this.isAlreadyATrack()) {
