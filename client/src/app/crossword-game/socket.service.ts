@@ -63,6 +63,10 @@ export class SocketService {
         this.isHost = false;
     }
 
+    public disconnect(): void {
+        this.socket.disconnect();
+    }
+
     public getGameLobbies(): void {
         this.socket.emit(SocketMessage.GET_GAME_LOBBIES);
     }

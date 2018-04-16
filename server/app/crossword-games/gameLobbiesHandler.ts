@@ -80,6 +80,8 @@ export class GameLobbiesHandler {
 
             switch (gameType) {
                 case GameType.SOLO:
+                    this.deleteGameWithId(this.getGameTypeList(gameType), socketId);
+                    break;
                 case GameType.PENDING:
                     GameLobbiesHandler.deleteGameById(game.roomId);
                     break;

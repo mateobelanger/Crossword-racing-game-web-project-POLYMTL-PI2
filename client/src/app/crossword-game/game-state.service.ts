@@ -12,7 +12,7 @@ export class GameStateService {
     public guestScore: number;
 
     public difficulty: Difficulty;
-    private state: GameState;
+    public state: GameState;
     private _isMultiplayer: boolean;
     public _isEndOfGame: boolean;
 
