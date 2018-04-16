@@ -49,7 +49,8 @@ export class EndOfGameModalComponent {
         this.isWaitingForOpponent = true;
         this.gameState.isEndOfGame = false;
         this.gameState.waitForOpponent();
-        this.socketService.restartNewGame(this.gameState.difficulty);
+        this.socketService.restartNewGame(this.gameState.difficulty)
+                          .catch( (error: Error) => { console.error(error); });
 
         this.socketService.gameInitialized.subscribe(() => {
             this.gameState.resetGameState();
