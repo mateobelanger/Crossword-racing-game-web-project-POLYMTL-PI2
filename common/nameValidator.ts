@@ -30,10 +30,14 @@ export class NameValidator {
 
     // TODO : demander a Mathieu pour QA
     public static isAlphaNumerical (keyCode: number): boolean {
-        return (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z) ||
-               (keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z) ||
+        return NameValidator.isAlphabetical(keyCode) ||
                (keyCode >= CHAR_0 && keyCode <= CHAR_9) ||
                keyCode === CHAR_SPACE;
+    }
+
+    public static isAlphabetical (keyCode: number): boolean {
+        return (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z) ||
+               (keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z);
     }
 
     public static isContainsOnlySpaces(name: string): boolean {

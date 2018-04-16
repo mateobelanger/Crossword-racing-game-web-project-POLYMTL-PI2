@@ -1,38 +1,32 @@
 <div class="background">
-  <button class="button" routerLink="../..">Back</button>
-  <div class="centered">
+    <button class="button" routerLink="../..">Back</button>
+    <div class="centered">
 
-    <h4 class="configuration">Game Configuration</h4>
+        <h4 class="configuration">Game Configuration</h4>
 
-    <div class="username">
-      Username:
-      <input maxlength="15" [(ngModel)]="gameState.hostName" (keypress)="isAlphaNum($event.charCode)">
+        <div class="username">
+            Username:
+            <input maxlength="15" [(ngModel)]="gameState.hostName" (keypress)="isAlphaNum($event.charCode)">
+        </div>
+
+
+
+        <div class="appConfiguration">
+            <app-configuration></app-configuration>
+        </div>
+
+        <div class="configuration centeredButton">
+            <div *ngIf="isValidConfiguration(); else elseBlock">
+                <button class="create" (click)="createGame(gameState.hostName)">Create Game</button>
+            </div>
+
+            <ng-template #elseBlock>
+                <button class="create" disabled="true">Create Game</button>
+            </ng-template>
+        </div>
     </div>
-
-
-
-    <div class="appConfiguration">
-      <app-configuration></app-configuration>
-    </div>
-
-    <div class="configuration centeredButton">
-      <div *ngIf="isValidConfiguration(); else elseBlock">
-        <button class="create" (click)="createGame(gameState.hostName)">Create Game</button>
-      </div>
-
-      <ng-template #elseBlock>
-        <button class="create" disabled="true">Create Game</button>
-      </ng-template>
-    </div>
-  </div>
-  <div *ngIf="isGameCreated">
+    <div *ngIf="gameState.isWaitingForOpponent">
         <div class="loading-gif"></div>
         <div class="loading-text">Waiting for other player to join the game</div>
-      </div>
+    </div>
 </div>
-
-
-
-
-
-
