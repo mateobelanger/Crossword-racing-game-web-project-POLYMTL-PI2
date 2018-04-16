@@ -24,7 +24,7 @@
 }
 
 .filled {
-    color: #4c4c4c !important;
+    color: rgba(76, 76, 76, 0.8) !important;
     background: #4c4c4c !important;
     font-size: 0px;
     pointer-events: none;
@@ -40,8 +40,8 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     height: 48px !important;
     width: 46px !important;
-    border: 6px solid;
-    border-color: white;
+    border: 3px solid;
+    border-color: rgba(76, 76, 76, 0.8);
     padding: 0;
     margin: 0;
     text-align: center;
@@ -51,11 +51,11 @@
 }
 
 .localSelected {
-    border: 6px solid #62a8ca;
+    border: 3px solid #62a8ca;
 }
 
 .remoteSelected {
-    border: 6px solid #dc6256;
+    border: 3px solid #dc6256;
 }
 
 .bothSelected {
