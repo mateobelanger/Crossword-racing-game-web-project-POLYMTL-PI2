@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { ValidatorService } from './validator.service';
-import { WordService } from './word.service';
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { CrosswordGame } from '../../../../common/crosswordsInterfaces/crosswordGame';
-import { SocketService } from './socket.service';
-import { UserGridService } from './user-grid.service';
-import { Difficulty } from '../../../../common/constants';
-import { LobbyService } from './lobby/lobby.service';
-import { APP_BASE_HREF } from '@angular/common';
-import { AppModule } from '../app.module';
-import { routes } from '../app-routes.module';
+import { TestBed } from "@angular/core/testing";
+import { HttpClientModule } from "@angular/common/http";
+import { ValidatorService } from "./validator.service";
+import { WordService } from "./word.service";
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
+import { CrosswordGame } from "../../../../common/crosswordsInterfaces/crosswordGame";
+import { SocketService } from "./socket.service";
+import { UserGridService } from "./user-grid.service";
+import { Difficulty } from "../../../../common/constants";
+import { LobbyService } from "./lobby/lobby.service";
+import { APP_BASE_HREF } from "@angular/common";
+import { AppModule } from "../app.module";
+import { routes } from "../app-routes.module";
 
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
@@ -22,7 +22,32 @@ const IS_HOST: boolean = true;
 
 const MOCK_STRING: string = "TEST";
 
-describe('ValidatorService', () => {
+const INITIAL_GRID: string[][] = [
+    ["s", "", "t", "", "", "", "", "", "", ""],
+    ["a", "", "o", "", "", "", "", "", "", ""],
+    ["t", "", "m", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""]
+];
+const FILLED_GRID: string[][] = [
+    ["s", "i", "t", "", "", "", "", "", "", ""],
+    ["a", "m", "o", "", "", "", "", "", "", ""],
+    ["t", "a", "m", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""]
+];
+
+describe("ValidatorService", () => {
     let filledGrid: string[][];
     let initialGrid: string[][];
     let wordService: WordService;
@@ -33,11 +58,10 @@ describe('ValidatorService', () => {
     let validatedWords: GridWord[];
     let game: CrosswordGame;
 
-    // tslint:disable-next-line:max-func-body-length
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule, HttpClientModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }, ValidatorService, WordService, UserGridService,
+            providers: [{provide: APP_BASE_HREF, useValue : "/" }, ValidatorService, WordService, UserGridService,
                         SocketService, LobbyService]
         });
 
@@ -52,21 +76,9 @@ describe('ValidatorService', () => {
         socketService = TestBed.get(SocketService);
         socketService.game = game;
 
-        initialGrid = [
-            ["s", "", "t", "", "", "", "", "", "", ""], ["a", "", "o", "", "", "", "", "", "", ""],
-            ["t", "", "m", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""]
-        ];
+        initialGrid = INITIAL_GRID;
+        filledGrid = FILLED_GRID;
 
-        filledGrid = [
-            ["s", "i", "t", "", "", "", "", "", "", ""], ["a", "m", "o", "", "", "", "", "", "", ""],
-            ["t", "a", "m", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
-            [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
-            [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
-            [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""]
-        ];
         validatorService = TestBed.get(ValidatorService);
         validatorService["filledGrid"] = filledGrid;
 
@@ -74,7 +86,7 @@ describe('ValidatorService', () => {
         userGridService.userGrid = initialGrid;
     });
 
-    it('should be created', () => {
+    it("should be created", () => {
         expect(validatorService).toBeTruthy();
     });
 
