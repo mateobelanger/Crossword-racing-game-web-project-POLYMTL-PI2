@@ -19,8 +19,8 @@ export class AdminComponent implements  AfterViewInit {
         try {
             await this.proxy.initialize();
             this.tracks = this.proxy.tracks;
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -29,8 +29,8 @@ export class AdminComponent implements  AfterViewInit {
             await this.proxy.deleteTrack(trackName);
             await this.proxy.initialize();
             this.tracks = this.proxy.tracks;
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
     }
 }

@@ -16,7 +16,6 @@ import { Difficulty } from "../../../../common/constants";
 
 describe("SocketService", () => {
 
-
     // tslint:disable:prefer-const
     const lobbyService: LobbyService = new LobbyService();
     let http: HttpClient;

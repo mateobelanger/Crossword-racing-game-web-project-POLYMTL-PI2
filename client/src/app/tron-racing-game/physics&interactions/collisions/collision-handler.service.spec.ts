@@ -10,7 +10,6 @@ import { AudioService } from "../../audio/audio.service";
 describe("CollisionHandlerService", () => {
 
     const car1: Car = new Car();
-    // const car2: Car = new Car();
     const cars: Car[] = [];
     let collisionHandler: CollisionHandlerService;
 

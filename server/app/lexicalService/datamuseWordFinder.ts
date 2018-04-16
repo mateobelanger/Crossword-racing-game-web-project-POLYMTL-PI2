@@ -37,7 +37,7 @@ module Lexical {
                 } else {
                     res.send(WordSelector.getValidWordsByDifficulty(response, criteria, isCommon, isEasy));
                 }
-            }).catch((err: Error) => console.error(err));
+            }).catch((error: Error) => console.error(error));
         }
 
         private switchHyphensToQuestionMarks (criteria: string): string {

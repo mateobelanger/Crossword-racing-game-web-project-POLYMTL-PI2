@@ -28,10 +28,10 @@ export class MongoDBAccess {
         return new Promise<ITrackData[]>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.find(
-                    (err: Error, trackData: ITrackData[]) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    (error: Error, trackData: ITrackData[]) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         } else {
                             resolve(trackData);
                         }
@@ -74,16 +74,16 @@ export class MongoDBAccess {
         return new Promise<void>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 void TRACK.findOne({ name: trackName })
-                    .remove((err: Error) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    .remove((error: Error) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         }
                     })
-                    .exec((err: Error) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    .exec((error: Error) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         }
                         resolve();
                     });
@@ -106,10 +106,10 @@ export class MongoDBAccess {
                             image: track.image
                         }
                     },
-                    (err: Error, numAffected: number) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    (error: Error, numAffected: number) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         }
                         resolve();
                     }
@@ -129,10 +129,10 @@ export class MongoDBAccess {
                 TRACK.update(
                     { name: trackName },
                     { $inc: { timesPlayed: 1 } },
-                    (err: Function, numAffected: number) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    (error: Function, numAffected: number) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         }
                         resolve();
                     }
