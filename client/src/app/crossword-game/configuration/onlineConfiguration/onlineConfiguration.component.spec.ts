@@ -6,24 +6,25 @@ import { AppModule } from "../../../app.module";
 import { APP_BASE_HREF } from "@angular/common";
 
 describe("OnlineConfigurationComponent", () => {
-  let component: OnlineConfigurationComponent;
-  let fixture: ComponentFixture<OnlineConfigurationComponent>;
+    let component: OnlineConfigurationComponent;
+    let fixture: ComponentFixture<OnlineConfigurationComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [routes, AppModule],
-      providers: [{provide: APP_BASE_HREF, useValue : "/" }]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
+        TestBed.configureTestingModule({
+            imports: [routes, AppModule],
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
+        })
+        .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(OnlineConfigurationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(OnlineConfigurationComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

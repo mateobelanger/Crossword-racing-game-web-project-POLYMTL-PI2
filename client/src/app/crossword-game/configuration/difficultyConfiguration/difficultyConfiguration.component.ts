@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { GameStateService } from "../../game-state.service";
 import { Difficulty } from "../../../../../../common/constants";
 
@@ -8,11 +8,8 @@ import { Difficulty } from "../../../../../../common/constants";
     styleUrls: ["./difficultyConfiguration.component.css"]
 })
 
-export class DifficultyConfigurationComponent implements OnInit {
+export class DifficultyConfigurationComponent {
     public constructor(private gameState: GameStateService) {
-    }
-
-    public ngOnInit(): void {
     }
 
     public set difficulty(difficulty: Difficulty) {

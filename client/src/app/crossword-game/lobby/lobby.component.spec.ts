@@ -6,24 +6,25 @@ import { AppModule } from '../../app.module';
 import { APP_BASE_HREF } from '@angular/common';
 
 describe('LobbyComponent', () => {
-  let component: LobbyComponent;
-  let fixture: ComponentFixture<LobbyComponent>;
+    let component: LobbyComponent;
+    let fixture: ComponentFixture<LobbyComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [routes, AppModule],
-      providers: [{provide: APP_BASE_HREF, useValue : '/' }]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        // tslint:disable-next-line:no-floating-promises
+        TestBed.configureTestingModule({
+            imports: [routes, AppModule],
+            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LobbyComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(LobbyComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

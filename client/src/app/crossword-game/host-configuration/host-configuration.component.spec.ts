@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HostConfigurationComponent } from './host-configuration.component';
 
 describe('HostConfigurationComponent', () => {
@@ -7,6 +6,7 @@ describe('HostConfigurationComponent', () => {
   let fixture: ComponentFixture<HostConfigurationComponent>;
 
   beforeEach(async(() => {
+    // tslint:disable-next-line:no-floating-promises
     TestBed.configureTestingModule({
       declarations: [ HostConfigurationComponent ]
     })

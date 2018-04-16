@@ -128,10 +128,7 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.REMOTE_DESELECTED_WORD, (word: GridWord) => {
-            // TODO : 
-            console.log("ADDDDDDDDDDDDDDDDDDDDDDD");
             if (this.selectionState.localSelectedWord !== null && word.value === this.selectionState.localSelectedWord.value) {
-                console.log("ADDDDDDDDDDDDDDDDDDDDDDD");
                 this.selectionState.unselectWords();
             } else {
                 this.selectionState.remoteSelectedWord = null;
@@ -214,7 +211,6 @@ export class SocketService {
     private initializeGame(game: CrosswordGame): void {
         this.game = this.castGame(game);
         this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
-        console.log(this.game.isMultiplayer());
         this.gameStateService.setGameInfo(game.usernames[0], game.usernames[1], game.difficulty, this.game.isMultiplayer());
     }
 
