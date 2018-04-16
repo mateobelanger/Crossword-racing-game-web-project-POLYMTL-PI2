@@ -87,7 +87,7 @@ export class Io {
     }
 
     private broadcastGameLists(): void {
-        this.socketServer.emit("gameLobbies", GameLobbiesHandler.pendingGames, GameLobbiesHandler.multiplayerGames);
+        this.socketServer.emit(SocketMessage.GAME_LOBBIES, GameLobbiesHandler.pendingGames, GameLobbiesHandler.multiplayerGames);
     }
 
     private createAndJoinNewRoom(socket: SocketIO.Socket): string {

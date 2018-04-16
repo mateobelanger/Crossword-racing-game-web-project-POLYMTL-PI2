@@ -4,6 +4,7 @@ import { GridService } from "../grid.service";
 import { ValidatorService } from "../validator.service";
 import { UserGridService } from '../user-grid.service';
 import { SelectionService } from '../selection/selection.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-game-ui',
@@ -14,8 +15,10 @@ import { SelectionService } from '../selection/selection.service';
 
 export class GameUiComponent implements OnInit {
     public constructor( private selectionService: SelectionService,
-                        public wordService: WordService, public validator: ValidatorService,
-                        public gridService: GridService) {}
+                        public wordService: WordService,
+                        public validator: ValidatorService,
+                        public gridService: GridService,
+                        public router: Router) {}
 
     public async ngOnInit(): Promise<void> {
         this.initialize();
@@ -28,5 +31,10 @@ export class GameUiComponent implements OnInit {
 
     public deselect(): void {
         this.selectionService.deselect();
+    }
+
+    public returnToMenu(): void {
+        this.router.navigate(["/"]);
+        window.location.reload();
     }
 }
