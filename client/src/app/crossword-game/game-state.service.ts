@@ -25,6 +25,11 @@ export class GameStateService {
         return this._isMultiplayer;
     }
 
+    public get isWaitingForOpponent(): boolean {
+        console.log(this.state === GameState.WAITING_FOR_OPPONENT);
+        return this.state === GameState.WAITING_FOR_OPPONENT;
+    }
+
     public initializeGameState(): void {
         this.hostName = "";
         this.guestName = "";
@@ -51,7 +56,7 @@ export class GameStateService {
         return this.state === GameState.ONGOING;
     }
 
-    public waitForGame(): void {
+    public waitForOpponent(): void {
         this.state = GameState.WAITING_FOR_OPPONENT;
     }
 
