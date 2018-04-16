@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HostConfigurationComponent } from './host-configuration.component';
+import { HomeComponent } from './home.component';
 
-describe('HostConfigurationComponent', () => {
-  let component: HostConfigurationComponent;
-  let fixture: ComponentFixture<HostConfigurationComponent>;
+describe('HomeComponent', () => {
+  let component: HomeComponent;
+  let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(async(() => {
     // tslint:disable-next-line:no-floating-promises
     TestBed.configureTestingModule({
-      declarations: [ HostConfigurationComponent ]
+      declarations: [ HomeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HostConfigurationComponent);
+    fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

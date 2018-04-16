@@ -9,7 +9,6 @@
     font-size: 19px;
     font-weight: bold;
     width: 100px;
-    /* background-color: yellow; */
 }
 
 .p1 {
@@ -25,9 +24,6 @@ button {
 }
 
 .scoreBoard {
-    /* justify-content: center;
-    align-items: center;
-    text-align: center; */
     margin: auto;
     width: 20%;
     height: 100px;

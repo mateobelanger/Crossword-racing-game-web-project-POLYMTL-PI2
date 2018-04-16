@@ -10,7 +10,7 @@ import { TrackListComponent } from "./tron-racing-game/track-list.component";
 import { AdminComponent } from "./tron-racing-game/admin/admin.component";
 
 import { GameFrameComponent } from "./tron-racing-game/game-frame/game-frame.component";
-import { HostConfigurationComponent } from "./crossword-game/host-configuration/host-configuration.component";
+import { HomeComponent } from "./crossword-game/home/home.component";
 import { OnlineConfigurationComponent } from "./crossword-game/configuration/onlineConfiguration/onlineConfiguration.component";
 import { LobbyComponent } from "./crossword-game/lobby/lobby.component";
 import { TrackEditorUiComponent } from "./tron-racing-game/admin/track-editor-ui/track-editor-ui.component";
@@ -19,7 +19,7 @@ import { TrackEditorUiComponent } from "./tron-racing-game/admin/track-editor-ui
 export const appRoutes: Routes = [
   { path : "", redirectTo: "homepage", pathMatch: "full" },
   { path : "homepage", component: HomepageComponent },
-  { path : "crossword-game", component: HostConfigurationComponent},
+  { path : "crossword-game", component: HomeComponent},
   { path : "crossword-game/online/create-online-game", component: OnlineConfigurationComponent},
   { path : "crossword-game/online/lobby", component: LobbyComponent},
   { path : "crossword-game/selectDifficulty", component: SoloConfigurationComponent },

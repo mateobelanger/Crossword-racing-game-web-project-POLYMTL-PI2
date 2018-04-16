@@ -39,25 +39,20 @@ button {
 }
 
 .gridContainer {
-    /* background-color: #F5F5F5; */
-    /* background-color: yellow; */
     width: 49%;
     float: left;
     height: 50vh;
 }
 
 .definitionsContainer {
-    /* background-color: green; */
     width: 49%;
     float: left;
 }
 
 .InformationsContainer {
     margin: 0;
-    /* background-color: pink; */
 }
 
 .gameUI {
-    /* background-color: #F5F5F5; */
     margin: 0;
 }
