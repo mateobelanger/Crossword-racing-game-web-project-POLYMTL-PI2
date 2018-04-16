@@ -6,7 +6,7 @@
 
     <div class="username">
       Username:
-      <input [(ngModel)]="gameState.hostName" (keypress)="isAlphaNum($event.charCode)">
+      <input maxlength="15" [(ngModel)]="gameState.hostName" (keypress)="isAlphaNum($event.charCode)">
     </div>
 
 

@@ -4,7 +4,7 @@
 
   <div class="username">
     Please enter your username to join a game:
-    <input [(ngModel)]="guestName" (keypress)="isAlphaNum($event.charCode)">
+    <input [(ngModel)]="guestName" maxlength="15" (keypress)="isAlphaNum($event.charCode)">
   </div>
 
   <div class="container lobby">
