@@ -1,63 +1,66 @@
-<button routerLink='../..'>Back</button>
+<div class="background">
 
-<div class="username">
-    <h5> Please enter your username to join a game:
-        <input [(ngModel)]="guestName" (keypress)="isAlphaNum($event.charCode)">
-    </h5>
-</div>
+  <button class="buttonTop" routerLink="../..">Back</button>
 
-<div class="container lobby">
+  <div class="username">
+    Please enter your username to join a game:
+    <input [(ngModel)]="guestName" (keypress)="isAlphaNum($event.charCode)">
+  </div>
+
+  <div class="container lobby">
 
     <div class="row">
 
-        <div class="col-sm title">
-            <h5> Difficulty </h5>
-        </div>
-        <div class="col-sm title">
-            <h5> Host </h5>
-        </div>
-        <div class="col-sm title"> </div>
+      <div class="col-sm title">
+        <h5> Difficulty </h5>
+      </div>
+      <div class="col-sm title">
+        <h5> Host </h5>
+      </div>
+      <div class="col-sm title"> </div>
 
     </div>
 
     <div *ngFor="let pendingGame of lobbyService.pendingGames ">
-        <div class="row">
-            <div class="col-sm"> {{pendingGame.difficulty}} </div>
-            <div class="col-sm"> {{pendingGame.hostUsername}} </div>
-            <div class="col-sm">
-                <div *ngIf="isValidName(); else elseBlock">
-                    <button (click)="joinGame(pendingGame.roomId)"> Join Game </button>
-                </div>
-                <ng-template #elseBlock>
-                    <button class="create" disabled="true">Join Game</button>
-                </ng-template>
+      <div class="row">
+        <div class="col-sm"> {{pendingGame.difficulty}} </div>
+        <div class="col-sm"> {{pendingGame.hostUsername}} </div>
+        <div class="col-sm">
+          <div *ngIf="isValidName(); else elseBlock">
+            <button class="button" (click)="joinGame(pendingGame.roomId)"> Join Game </button>
+          </div>
+          <ng-template #elseBlock>
+            <button class="create" disabled="true">Join Game</button>
+          </ng-template>
 
-            </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<div class="container lobby">
+  <div class="container lobby">
     <div class="row">
 
-        <div class="col-sm title">
-            <h5> Difficulty </h5>
-        </div>
-        <div class="col-sm title">
-            <h5> Host </h5>
-        </div>
+      <div class="col-sm title">
+        <h5> Difficulty </h5>
+      </div>
+      <div class="col-sm title">
+        <h5> Host </h5>
+      </div>
 
-        <div class="col-sm title">
-            <h5> Opponent </h5>
-        </div>
+      <div class="col-sm title">
+        <h5> Opponent </h5>
+      </div>
 
     </div>
 
     <div *ngFor="let onlineGame of lobbyService.onlineGames ">
-        <div class="row">
-            <div class="col-sm"> {{onlineGame.difficulty}} </div>
-            <div class="col-sm"> {{onlineGame.hostUsername}} </div>
-            <div class="col-sm"> {{onlineGame.guestUsername}} </div>
-        </div>
+      <div class="row">
+        <div class="col-sm"> {{onlineGame.difficulty}} </div>
+        <div class="col-sm"> {{onlineGame.hostUsername}} </div>
+        <div class="col-sm"> {{onlineGame.guestUsername}} </div>
+      </div>
     </div>
+  </div>
+
 </div>
