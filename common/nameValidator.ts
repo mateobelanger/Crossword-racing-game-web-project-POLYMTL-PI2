@@ -27,8 +27,6 @@ export class NameValidator {
         return name.length > 0 && !containsOnlySpaces && containsOnlyAlphaNumericalChars;
     }
 
-
-    // TODO : demander a Mathieu pour QA
     public static isAlphaNumerical (keyCode: number): boolean {
         return NameValidator.isAlphabetical(keyCode) ||
                (keyCode >= CHAR_0 && keyCode <= CHAR_9) ||

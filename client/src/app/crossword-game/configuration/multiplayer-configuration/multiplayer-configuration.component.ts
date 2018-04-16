@@ -4,11 +4,11 @@ import { NameValidator } from "../../../../../../common/nameValidator";
 import { SocketService } from "../../socket.service";
 
 @Component({
-    selector: "app-create-online-game",
-    templateUrl: "./onlineConfiguration.component.html",
-    styleUrls: ["./onlineConfiguration.component.css"]
+    selector: "app-multiplayer-game",
+    templateUrl: "./multiplayer-configuration.component.html",
+    styleUrls: ["./multiplayer-configuration.component.css"]
 })
-export class OnlineConfigurationComponent {
+export class MultiplayerConfigurationComponent {
 
     public constructor( private gameState: GameStateService,
                         private socketService: SocketService) {

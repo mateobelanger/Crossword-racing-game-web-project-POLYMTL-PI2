@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { APP_BASE_HREF } from "@angular/common";
 
-import { SoloConfigurationComponent } from "./soloConfiguration.component";
+import { SoloConfigurationComponent } from "./solo-configuration.component";
 import { routes } from "../../../app-routes.module";
 import { AppModule } from "../../../app.module";
 

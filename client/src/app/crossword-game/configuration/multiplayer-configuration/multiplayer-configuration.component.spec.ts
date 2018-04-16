@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { OnlineConfigurationComponent } from "./onlineConfiguration.component";
+import { MultiplayerConfigurationComponent } from "./multiplayer-configuration.component";
 import { routes } from "../../../app-routes.module";
 import { AppModule } from "../../../app.module";
 import { APP_BASE_HREF } from "@angular/common";
 import { SocketService } from "../../socket.service";
 import { GameStateService } from "../../game-state.service";
 
-describe("OnlineConfigurationComponent", () => {
-    let component: OnlineConfigurationComponent;
-    let fixture: ComponentFixture<OnlineConfigurationComponent>;
+describe("MultiplayerConfigurationComponent", () => {
+    let component: MultiplayerConfigurationComponent;
+    let fixture: ComponentFixture<MultiplayerConfigurationComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -20,7 +20,7 @@ describe("OnlineConfigurationComponent", () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(OnlineConfigurationComponent);
+        fixture = TestBed.createComponent(MultiplayerConfigurationComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
 

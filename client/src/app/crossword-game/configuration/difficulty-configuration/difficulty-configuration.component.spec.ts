@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import {APP_BASE_HREF} from "@angular/common";
 
-import { DifficultyConfigurationComponent } from "./difficultyConfiguration.component";
+import { DifficultyConfigurationComponent } from "./difficulty-configuration.component";
 import { routes } from "../../../app-routes.module";
 import { AppModule } from "../../../app.module";
 

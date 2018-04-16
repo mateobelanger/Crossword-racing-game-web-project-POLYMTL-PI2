@@ -4,8 +4,8 @@ import { Difficulty } from "../../../../../../common/constants";
 
 @Component({
     selector: "app-configuration",
-    templateUrl: "./difficultyConfiguration.component.html",
-    styleUrls: ["./difficultyConfiguration.component.css"]
+    templateUrl: "./difficulty-configuration.component.html",
+    styleUrls: ["./difficulty-configuration.component.css"]
 })
 
 export class DifficultyConfigurationComponent {

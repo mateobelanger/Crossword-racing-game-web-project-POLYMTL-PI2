@@ -4,8 +4,8 @@ import { SocketService } from "../../socket.service";
 
 @Component({
     selector: "app-crossword-game",
-    templateUrl: "./soloConfiguration.component.html",
-    styleUrls: ["./soloConfiguration.component.css"]
+    templateUrl: "./solo-configuration.component.html",
+    styleUrls: ["./solo-configuration.component.css"]
 })
 export class SoloConfigurationComponent {
 

@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { routes } from "../app-routes.module";
 
-import { SoloConfigurationComponent } from "./configuration/soloConfiguration/soloConfiguration.component";
+import { SoloConfigurationComponent } from "./configuration/solo-configuration/solo-configuration.component";
 import { GameUiComponent } from "./game-ui/game-ui.component";
 import { GridComponent } from "./grid/grid.component";
 import { DefinitionsComponent } from "./definitions/definitions.component";
@@ -16,8 +16,8 @@ import { GameStateService } from "./game-state.service";
 import { SocketService } from "./socket.service";
 import { LobbyComponent } from "./lobby/lobby.component";
 import { LobbyService } from "./lobby/lobby.service";
-import { OnlineConfigurationComponent } from "./configuration/onlineConfiguration/onlineConfiguration.component";
-import { DifficultyConfigurationComponent } from "./configuration/difficultyConfiguration/difficultyConfiguration.component";
+import { MultiplayerConfigurationComponent } from "./configuration/multiplayer-configuration/multiplayer-configuration.component";
+import { DifficultyConfigurationComponent } from "./configuration/difficulty-configuration/difficulty-configuration.component";
 import { SelectionService } from "./selection/selection.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
 
@@ -37,7 +37,7 @@ import { SelectionStateService } from "./selection-state/selection-state.service
         EndOfGameModalComponent,
         HomeComponent,
         LobbyComponent,
-        OnlineConfigurationComponent,
+        MultiplayerConfigurationComponent,
         DifficultyConfigurationComponent
     ],
 
