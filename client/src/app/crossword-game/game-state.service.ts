@@ -23,8 +23,6 @@ export class GameStateService {
     }
 
     public get isWaitingForOpponent(): boolean {
-        console.log(this.state === GameState.WAITING_FOR_OPPONENT);
-
         return this.state === GameState.WAITING_FOR_OPPONENT;
     }
 
