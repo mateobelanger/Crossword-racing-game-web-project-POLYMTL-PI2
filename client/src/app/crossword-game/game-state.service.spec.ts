@@ -63,9 +63,13 @@ describe("GameStateService", () => {
     });
 
     it("should start a game", () => {
-
         gameState.startGame();
         expect(gameState.isOngoing()).toBe(true);
+    });
+
+    it("should wait for an opponent", () => {
+        gameState.waitForOpponent();
+        expect(gameState.isWaitingForOpponent).toBe(true);
     });
 
 });

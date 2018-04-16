@@ -113,8 +113,8 @@ export class RaceDataHandlerService {
             () => {
                 this.audioService.playSound(COUNTDOWN_SOUND);
             },
-            (err: Error) => {
-                console.error(err);
+            (error: Error) => {
+                console.error(error);
                 this.inputHandlerService.enableControlKeys();
                 this._carsHandlerService.startRace();
             },
