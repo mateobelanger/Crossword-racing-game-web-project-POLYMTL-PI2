@@ -86,8 +86,9 @@ describe("RacingGameComponent", () => {
     //     async(() => {
     //         fixture.whenStable().then(() => {   // wait for async initialize
     //             expect(component.tracks).toBe(tracks);
-    //         });
+    //         }).catch((error: Error) => { console.error(error); });
     //     });
     // });
+            
 
 });
