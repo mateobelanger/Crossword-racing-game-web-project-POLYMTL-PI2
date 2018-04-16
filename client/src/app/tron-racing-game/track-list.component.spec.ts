@@ -80,14 +80,14 @@ describe("RacingGameComponent", () => {
         expect(spyInitialize.calls.any()).toBe(false, "initialize called");
     });
 
-    it("should have tracks once proxy service returned tracks", () => {
+    // it("should have tracks once proxy service returned tracks", () => {
 
-        fixture.detectChanges();
-        async(() => {
-            fixture.whenStable().then(() => {   // wait for async initialize
-                expect(component.tracks).toBe(tracks);
-            });
-        });
-    });
+    //     fixture.detectChanges();
+    //     async(() => {
+    //         fixture.whenStable().then(() => {   // wait for async initialize
+    //             expect(component.tracks).toBe(tracks);
+    //         });
+    //     });
+    // });
 
 });

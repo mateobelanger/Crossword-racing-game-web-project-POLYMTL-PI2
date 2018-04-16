@@ -14,7 +14,7 @@ describe("OnlineConfigurationComponent", () => {
             imports: [routes, AppModule],
             providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         })
-        .compileComponents()..catch( (error: Error) => console.error(error));
+        .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {
