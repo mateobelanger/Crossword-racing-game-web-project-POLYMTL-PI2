@@ -8,7 +8,6 @@ import { GridWord } from "../../common/crosswordsInterfaces/word";
 import { GameProgessionHandler } from "./crossword-games/gameProgressionHandler";
 import { GameLobbiesHandler } from "./crossword-games/gameLobbiesHandler";
 
-// TODO : @injectable()
 export class Io {
 
     private socketServer: SocketIO.Server;
@@ -59,7 +58,6 @@ export class Io {
         socket.on(SocketMessage.HOST_RESTART_PENDING, (roomId: string, isGuestReady: boolean, newWords: GridWord[]) => {
             this.hostAskForRestart(roomId, isGuestReady, newWords);
         });
-        /// TODO  GAME_RESTART
         socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, newWords: GridWord[], isHostReady: boolean) => {
             this.guestAskForRestart(roomId, socket, isHostReady);
         });
