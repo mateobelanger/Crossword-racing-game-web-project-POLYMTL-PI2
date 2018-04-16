@@ -108,4 +108,14 @@ describe('ValidatorService', () => {
         expect(validatorService.isValidatedCell(0, 1)).toBeFalsy();
     });
 
+    it("should update local grid when a word is validated", () => {
+        validatorService.isValidatedCell(1, 0);
+        expect(validatorService["userGridService"].userGrid[1][0]).toBe("a");
+    });
+
+    it("should update local grid when a word is validated", () => {
+        validatorService["userGridService"].userGrid[0][1] = "i";
+        validatorService.isValidatedCell(1, 0);
+        expect(validatorService["userGridService"].userGrid[0][1]).toBe("i");
+    });
 });
