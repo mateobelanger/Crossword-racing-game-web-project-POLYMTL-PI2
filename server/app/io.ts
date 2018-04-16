@@ -2,13 +2,11 @@ import * as http from "http";
 import * as SocketIo from "socket.io";
 
 import { CrosswordGame } from "../../common/crosswordsInterfaces/crosswordGame";
-import { Difficulty, SocketMessage } from "../../common/constants";
+import { Difficulty, SocketMessage, PlayerType } from "../../common/constants";
 import { GridWord } from "../../common/crosswordsInterfaces/word";
 
 import { GameProgessionHandler } from "./crossword-games/gameProgressionHandler";
 import { GameLobbiesHandler } from "./crossword-games/gameLobbiesHandler";
-
-enum PlayerType { HOST, GUEST }
 
 // TODO : @injectable()
 export class Io {
@@ -52,8 +50,7 @@ export class Io {
         });
 
         socket.on(SocketMessage.DISCONNECT, () => {
-            GameLobbiesHandler.disconnect(socket.id);
-            this.broadcastGameLists();
+            this.socketDisconnected(socket);
         });
     }
 
@@ -100,12 +97,14 @@ export class Io {
     /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre (théoriquement corrigé)
     private hostAskForRestart(roomId: string, isGuestReady: boolean, newWords: GridWord[]): void {
         let game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
-        // TODO: potentiellement a changer , TRESSS SKETCH
+
         if (game === undefined) {
-            game = GameLobbiesHandler.getGameById(roomId);
+            return;
         }
         game.restartGame();
         game._words = GameLobbiesHandler.castHttpToGridWord(newWords);
+        game.isWaitingForRestart[PlayerType.HOST] = true;
+
         this.socketServer.in(roomId).emit(SocketMessage.HOST_ASKED_FOR_RESTART, game);
 
         if (isGuestReady) {
@@ -114,10 +113,24 @@ export class Io {
             this.socketServer.in(roomId).emit(SocketMessage.SENT_GAME_AFTER_JOIN, game);
         }
     }
-    /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre
+
     private guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
         const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
-        socket.to(game.hostId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
+        game.isWaitingForRestart[PlayerType.GUEST] = true;
+        this.socketServer.in(roomId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
     }
 
+    private socketDisconnected(socket: SocketIO.Socket): void {
+        const game: CrosswordGame = GameLobbiesHandler.getGameById(socket.id);
+        console.log("socketDisconnected");
+        console.log(game);
+        if (game === undefined) {
+            return;
+        } else if (game.isAPlayerWaitingForRestart()) {
+            console.log("sending reload to ôther player");
+            this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED);
+        }
+        GameLobbiesHandler.disconnect(socket.id);
+        this.broadcastGameLists();
+    }
 }

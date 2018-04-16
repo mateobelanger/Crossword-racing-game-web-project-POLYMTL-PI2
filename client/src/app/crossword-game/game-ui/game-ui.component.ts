@@ -5,6 +5,7 @@ import { ValidatorService } from "../validator.service";
 import { UserGridService } from '../user-grid.service';
 import { SelectionService } from '../selection/selection.service';
 import { Router } from '@angular/router';
+import { GameStateService } from '../game-state.service';
 
 @Component({
     selector: 'app-game-ui',
@@ -18,6 +19,7 @@ export class GameUiComponent implements OnInit {
                         public wordService: WordService,
                         public validator: ValidatorService,
                         public gridService: GridService,
+                        public gameState: GameStateService,
                         public router: Router) {}
 
     public async ngOnInit(): Promise<void> {
@@ -34,6 +36,7 @@ export class GameUiComponent implements OnInit {
     }
 
     public returnToMenu(): void {
+        this.gameState.isReloading = true;
         this.router.navigate(["/"]);
         window.location.reload();
     }

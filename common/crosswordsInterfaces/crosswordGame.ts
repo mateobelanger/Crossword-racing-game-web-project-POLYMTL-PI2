@@ -12,7 +12,12 @@ export class CrosswordGame  {
     public validatedWords: GridWord[][];
     public isWaitingForRestart: boolean[]; 
 
-    constructor(roomId: string, hostId: string, hostUsername: string, difficulty: Difficulty, words: GridWord[]) {
+    constructor(roomId: string,
+                hostId: string, 
+                hostUsername: string, 
+                difficulty: Difficulty, 
+                words: GridWord[]) {
+                    
         this.roomId = roomId;
 
         this.ids = [];
@@ -111,4 +116,8 @@ export class CrosswordGame  {
         this.hostValidatedWords = []; 
         this._words = []; 
     } 
+
+    public isAPlayerWaitingForRestart(): boolean {
+        return this.isWaitingForRestart[PlayerType.HOST] || this.isWaitingForRestart[PlayerType.GUEST];
+    }
 }

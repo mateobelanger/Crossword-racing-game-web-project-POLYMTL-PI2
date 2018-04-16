@@ -8,7 +8,6 @@ const guestName: string = "guest";
 const hostScore: number = 10;
 const guestScore: number = 2;
 const difficulty: Difficulty = Difficulty.EASY;
-const isMultiplayer: boolean = true;
 
 
 describe("GameStateService", () => {
@@ -34,7 +33,6 @@ describe("GameStateService", () => {
         expect(gameState.guestScore).toBe(0);
 
         expect(gameState.difficulty).toBe(null);
-        expect(gameState.isMultiplayer).toBe(false);
     });
 
     it("should be in an invalid state on construction", () => {
@@ -49,12 +47,11 @@ describe("GameStateService", () => {
     });
 
     it("should set attributes", () => {
-        gameState.setGameInfo(hostName, guestName, difficulty, isMultiplayer);
+        gameState.setGameInfo(hostName, guestName, difficulty);
 
         expect(gameState.hostName).toBe(hostName);
         expect(gameState.guestName).toBe(guestName);
         expect(gameState.difficulty).toBe(difficulty);
-        expect(gameState.isMultiplayer).toBe(isMultiplayer);
     });
 
     it("should be update scores correctly", () => {
