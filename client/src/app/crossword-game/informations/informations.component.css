@@ -1,14 +1,19 @@
 .difficulty {
     display: block;
-    font-weight: bold;
-    font-size: 20px;
-    padding-top: 2em;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    margin-top: 20px;
 }
 
 .player {
-    font-size: 19px;
-    font-weight: bold;
-    width: 100px;
+    float: left;
+    font-size: 45px;
+    width: 500px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .p1 {
@@ -19,24 +24,9 @@
     color: #dc6256;
 }
 
-button {
-    display: block;
-}
-
-.scoreBoard {
-    margin: auto;
-    width: 20%;
-    height: 100px;
-}
-
-.right {
-    position: relative;
-    float: right;
-}
-
-.left {
-    position: relative;
-    float: left;
+.align {
+    display: inline-block;
+    text-align: center;
 }
 
 .clearfix::after {
@@ -46,7 +36,6 @@ button {
     visibility: none;
 }
 
-.scores {
-    width: 50%;
-    float: left;
+.wrapper {
+    text-align: center;
 }

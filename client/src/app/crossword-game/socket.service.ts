@@ -48,6 +48,7 @@ export class SocketService {
     public async createGame(username: string, difficulty: Difficulty): Promise<void> {
         this.selectionState.unselectWords();
         await this.createGrid(difficulty);
+        this.gameStateService.waitForOpponent();
         this.socket.emit(SocketMessage.CREATE_GAME, username, difficulty, this.wordService.words);
         this.isHost = true;
     }

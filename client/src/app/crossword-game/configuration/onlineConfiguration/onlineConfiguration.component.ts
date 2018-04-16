@@ -10,11 +10,8 @@ import { SocketService } from "../../socket.service";
 })
 export class OnlineConfigurationComponent {
 
-    public isGameCreated: boolean;
-
     public constructor( private gameState: GameStateService,
                         private socketService: SocketService) {
-        this.isGameCreated = false;
     }
 
     public isValidConfiguration(): boolean {
@@ -22,7 +19,6 @@ export class OnlineConfigurationComponent {
     }
 
     public async createGame(username: string): Promise<void> {
-        this.isGameCreated = true;
         await this.socketService.createGame(username, this.gameState.difficulty);
     }
 

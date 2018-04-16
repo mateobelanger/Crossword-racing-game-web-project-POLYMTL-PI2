@@ -33,7 +33,7 @@
 #nav li {
 	display: inline;
     list-style: none;
-    margin-left: 60px;
+    margin: 0 30px;
 }
 
 #nav a {
@@ -45,16 +45,14 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-top: -50px;
-    margin-left: -370px;
-  }
-
+    transform: translate(-50%, -50%);
+}
   .title {
     font-size: 60px;
     color: white;
     position: fixed;
-    top: 50%;
+    top: 35%;
     left: 50%;
-    margin-top: -200px;
-    margin-left: -270px;
+    transform: translate(-50%, -50%);
   }
+

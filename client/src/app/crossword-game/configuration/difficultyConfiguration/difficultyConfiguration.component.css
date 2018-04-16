@@ -16,5 +16,11 @@ input[type=radio] {
 
 .difficuly {
     color: white;
-    font-size: 30px
+    font-size: 30px;
+    width: 400px;
+
+}
+
+.text {
+    font-size: 35px;
 }
