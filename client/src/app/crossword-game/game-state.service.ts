@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Difficulty } from '../../../../common/constants';
+import { Injectable } from "@angular/core";
+import { Difficulty, GameState } from "../../../../common/constants";
 import { NameValidator } from "../../../../common/nameValidator";
 
-export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST }
 
 @Injectable()
 export class GameStateService {
@@ -13,16 +12,20 @@ export class GameStateService {
 
     public difficulty: Difficulty;
     public state: GameState;
-    private _isMultiplayer: boolean;
-    public _isEndOfGame: boolean;
+    public isMultiplayer: boolean;
+    public isEndOfGame: boolean;
+
+    public isReloading: boolean;
 
 
     public constructor() {
         this.initializeGameState();
     }
 
-    public get isMultiplayer(): boolean {
-        return this._isMultiplayer;
+    public get isWaitingForOpponent(): boolean {
+        console.log(this.state === GameState.WAITING_FOR_OPPONENT);
+
+        return this.state === GameState.WAITING_FOR_OPPONENT;
     }
 
     public initializeGameState(): void {
@@ -33,8 +36,9 @@ export class GameStateService {
 
         this.difficulty = null;
         this.state = GameState.NO_GAME;
-        this._isMultiplayer = false;
-        this._isEndOfGame = false;
+        this.isMultiplayer = false;
+        this.isEndOfGame = false;
+        this.isReloading = false;
     }
 
     public resetGameState(): void {
@@ -51,7 +55,7 @@ export class GameStateService {
         return this.state === GameState.ONGOING;
     }
 
-    public waitForGame(): void {
+    public waitForOpponent(): void {
         this.state = GameState.WAITING_FOR_OPPONENT;
     }
 
@@ -60,7 +64,7 @@ export class GameStateService {
         this.guestName = guestName;
         this.difficulty = difficulty;
         this.state = GameState.ONGOING;
-        this._isMultiplayer = isMultiplayer;
+        this.isMultiplayer = isMultiplayer;
     }
 
     public updateScores(hostScore: number, guestScore: number): void {

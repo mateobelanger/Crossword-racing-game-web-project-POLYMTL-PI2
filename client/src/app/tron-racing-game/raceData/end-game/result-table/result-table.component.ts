@@ -23,7 +23,7 @@ export class ResultTableComponent implements OnInit {
     }
 
     /* public firstPlayer(): number {
-        // return 
+        // return
     }*/
 
     public get raceTimes(): [string, RaceResults][] {

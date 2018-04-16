@@ -55,7 +55,7 @@ export class ResultsSimulatorService {
         return tracklength;
     }
 
-    private segmentLength(firstWaypoint: [number, number, number], secondWaypoint: [number, number, number]): number{
+    private segmentLength(firstWaypoint: [number, number, number], secondWaypoint: [number, number, number]): number {
         return Math.sqrt((Math.pow(firstWaypoint[0] - secondWaypoint[0], 2) +
                 Math.pow(firstWaypoint[1] - secondWaypoint[1], 2) +
                 Math.pow(firstWaypoint[2] - secondWaypoint[2], 2)));

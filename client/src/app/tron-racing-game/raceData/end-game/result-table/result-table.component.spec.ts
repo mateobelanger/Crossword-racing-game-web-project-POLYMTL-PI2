@@ -14,7 +14,8 @@ describe('ResultTableComponent', () => {
       imports: [routes, AppModule],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
     })
-    .compileComponents();
+    .compileComponents()
+    .catch((error: Error) => { console.error(error); });
   }));
 
   beforeEach(() => {

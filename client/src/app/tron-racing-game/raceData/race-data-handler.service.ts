@@ -109,7 +109,7 @@ export class RaceDataHandlerService {
 
     public async startCountdown(): Promise<void> {
         this.audioService.playSound(COUNTDOWN_SOUND);
-        await this._countdown.start(COUNTDOWN_TIME).subscribe(
+        this._countdown.start(COUNTDOWN_TIME).subscribe(
             () => {
                 this.audioService.playSound(COUNTDOWN_SOUND);
             },
@@ -143,7 +143,8 @@ export class RaceDataHandlerService {
 
     public updateITrackOnServer(): void {
         this._ITrackData.bestTimes = this.bestTimesService.bestTimes;
-        this.tracksProxyService.saveTrack(this._ITrackData);
+        this.tracksProxyService.saveTrack(this._ITrackData)
+                               .catch((error: Error) => { console.error(error); });
     }
 
     // lap done from one player (ai or user)
@@ -167,7 +168,8 @@ export class RaceDataHandlerService {
                 this._carsHandlerService.virtualPlayerFinished(name);
                 this.collisionHandler.stopWatchingForCollision(this._carsHandlerService.getCar(name));
                 this.portalHandlerService.teleport( this._carsHandlerService.getCar(name),
-                                                    new THREE.Vector3(0, 0, 0));
+                                                    new THREE.Vector3(0, 0, 0))
+                                         .catch((error: Error) => { console.error(error); });
             }
         });
     }
