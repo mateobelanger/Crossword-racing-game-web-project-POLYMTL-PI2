@@ -45,6 +45,7 @@ export class MongoDBAccess {
         void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
+        // tslint:disable-next-line:no-any
         const newTrack: any = new TRACK(track);
         newTrack.bestTimes = [];
         newTrack.timesPlayed = 0;
