@@ -24,6 +24,4 @@ export class LobbyService {
         this._onlineGames = ongoingGames;
         this._pendingGames = waitingGames;
     }
-
-
 }

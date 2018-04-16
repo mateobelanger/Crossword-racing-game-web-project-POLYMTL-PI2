@@ -8,7 +8,7 @@ const DIFFICULTY_LENGTH: number = 11;
     templateUrl: './informations.component.html',
     styleUrls: ['./informations.component.css']
 })
-export class InformationsComponent{
+export class InformationsComponent {
 
     public difficulty: string;
 

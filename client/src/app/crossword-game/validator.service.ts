@@ -81,7 +81,6 @@ export class ValidatorService {
                 }
                 if (isValidated) {
                     this.addValidatedWord(word);
-                    // TODO: this.updateEndOfGame();
                 }
             }
         }
@@ -160,19 +159,6 @@ export class ValidatorService {
         }
     }
 
-    /* TODO : 
-    private updateEndOfGame(): void {
-        for (const word of this.wordService.words) {
-            if (!this.socketService.game.hostValidatedWords.includes(word) || !this.socketService.game.guestValidatedWords.includes(word)) {
-                this.isEndOfGame = false;
-
-                return;
-            }
-        }
-
-        this.isEndOfGame = true;
-    }
-*/
     private expectedLetterInCell (row: number, column: number): string {
         for (const word of this.wordService.words) {
             if (word.includesCell(row, column)) {

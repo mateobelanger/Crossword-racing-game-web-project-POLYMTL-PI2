@@ -7,8 +7,6 @@ import { SelectionStateService } from '../selection-state/selection-state.servic
 @Injectable()
 export class SelectionService {
 
-
-
     public constructor(private wordService: WordService,
                        private socketService: SocketService,
                        private selectionState: SelectionStateService) {}
@@ -53,9 +51,7 @@ export class SelectionService {
         }
     }
 
-
     public deselect(): void {
-        console.log("asdfasdgasgg");
         this.socketService.deselectWord(this.selectionState.localSelectedWord);
         if (this.selectionState.remoteSelectedWord !== null &&
                 this.selectionState.localSelectedWord.value === this.selectionState.remoteSelectedWord.value) {

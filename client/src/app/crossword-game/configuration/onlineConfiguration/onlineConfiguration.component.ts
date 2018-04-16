@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { GameStateService } from "../../game-state.service";
 import { NameValidator } from "../../../../../../common/nameValidator";
 import { SocketService } from "../../socket.service";
@@ -8,7 +8,7 @@ import { SocketService } from "../../socket.service";
     templateUrl: "./onlineConfiguration.component.html",
     styleUrls: ["./onlineConfiguration.component.css"]
 })
-export class OnlineConfigurationComponent implements OnInit {
+export class OnlineConfigurationComponent {
 
     public isGameCreated: boolean;
 
@@ -16,10 +16,6 @@ export class OnlineConfigurationComponent implements OnInit {
                         private socketService: SocketService) {
         this.isGameCreated = false;
     }
-
-    public ngOnInit(): void {
-    }
-
 
     public isValidConfiguration(): boolean {
         return this.gameState.isValidState();
