@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Difficulty, GameState } from '../../../../common/constants';
+import { Injectable } from "@angular/core";
+import { Difficulty, GameState } from "../../../../common/constants";
 import { NameValidator } from "../../../../common/nameValidator";
 
 
