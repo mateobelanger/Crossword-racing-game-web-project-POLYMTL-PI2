@@ -7,6 +7,7 @@ const hostName: string = "host";
 const guestName: string = "guest";
 const hostScore: number = 10;
 const guestScore: number = 2;
+const isMultiplayer: boolean = true;
 const difficulty: Difficulty = Difficulty.EASY;
 
 
@@ -47,7 +48,7 @@ describe("GameStateService", () => {
     });
 
     it("should set attributes", () => {
-        gameState.setGameInfo(hostName, guestName, difficulty);
+        gameState.setGameInfo(hostName, guestName, difficulty, isMultiplayer);
 
         expect(gameState.hostName).toBe(hostName);
         expect(gameState.guestName).toBe(guestName);

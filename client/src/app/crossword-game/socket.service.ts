@@ -102,8 +102,6 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.DISCONNECTED, (game: CrosswordGame) => {
-            // TODO :
-            console.log("socket disconnected");
             this.gameStateService.initializeGameState();
         });
 

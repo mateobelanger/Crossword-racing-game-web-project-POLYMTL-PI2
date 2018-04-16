@@ -94,9 +94,8 @@ export class Io {
         return roomId;
     }
 
-    /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre (théoriquement corrigé)
     private hostAskForRestart(roomId: string, isGuestReady: boolean, newWords: GridWord[]): void {
-        let game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+        const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
 
         if (game === undefined) {
             return;
@@ -122,12 +121,9 @@ export class Io {
 
     private socketDisconnected(socket: SocketIO.Socket): void {
         const game: CrosswordGame = GameLobbiesHandler.getGameById(socket.id);
-        console.log("socketDisconnected");
-        console.log(game);
         if (game === undefined) {
             return;
         } else if (game.isAPlayerWaitingForRestart()) {
-            console.log("sending reload to ôther player");
             this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED);
         }
         GameLobbiesHandler.disconnect(socket.id);
