@@ -12,12 +12,11 @@ describe("OnlineConfigurationComponent", () => {
     let fixture: ComponentFixture<OnlineConfigurationComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [{ provide: APP_BASE_HREF, useValue: "/" }, GameStateService, SocketService]
         })
-        .compileComponents();
+        .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {

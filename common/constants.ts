@@ -6,6 +6,9 @@ export enum Difficulty {
     HARD = "hard"
 }
 
+export enum PlayerType { HOST, GUEST };
+export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST };
+
 export const BLACK_CELL: string = "-";
 
 export enum SocketMessage {
@@ -24,6 +27,7 @@ export enum SocketMessage {
     GUEST_RESTART_PENDING = "guest restart pending", 
     HOST_ASKED_FOR_RESTART = "host asked for restart", 
     GUEST_ASKED_FOR_RESTART = "guest asked for restart", 
+    OPPONENT_DISCONNECTED = "opponent disconnected",
 
     GET_GAME_LOBBIES = "get game lobbies",
     GAME_LOBBIES = "game lobbies",

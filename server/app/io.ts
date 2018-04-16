@@ -2,15 +2,12 @@ import * as http from "http";
 import * as SocketIo from "socket.io";
 
 import { CrosswordGame } from "../../common/crosswordsInterfaces/crosswordGame";
-import { Difficulty, SocketMessage } from "../../common/constants";
+import { Difficulty, SocketMessage, PlayerType } from "../../common/constants";
 import { GridWord } from "../../common/crosswordsInterfaces/word";
 
 import { GameProgessionHandler } from "./crossword-games/gameProgressionHandler";
 import { GameLobbiesHandler } from "./crossword-games/gameLobbiesHandler";
 
-enum PlayerType { HOST, GUEST }
-
-// TODO : @injectable()
 export class Io {
 
     private socketServer: SocketIO.Server;
@@ -52,8 +49,7 @@ export class Io {
         });
 
         socket.on(SocketMessage.DISCONNECT, () => {
-            GameLobbiesHandler.disconnect(socket.id);
-            this.broadcastGameLists();
+            this.socketDisconnected(socket);
         });
     }
 
@@ -62,7 +58,6 @@ export class Io {
         socket.on(SocketMessage.HOST_RESTART_PENDING, (roomId: string, isGuestReady: boolean, newWords: GridWord[]) => {
             this.hostAskForRestart(roomId, isGuestReady, newWords);
         });
-        /// TODO  GAME_RESTART
         socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, newWords: GridWord[], isHostReady: boolean) => {
             this.guestAskForRestart(roomId, socket, isHostReady);
         });
@@ -97,15 +92,16 @@ export class Io {
         return roomId;
     }
 
-    /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre (théoriquement corrigé)
     private hostAskForRestart(roomId: string, isGuestReady: boolean, newWords: GridWord[]): void {
-        let game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
-        // TODO: potentiellement a changer , TRESSS SKETCH
+        const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+
         if (game === undefined) {
-            game = GameLobbiesHandler.getGameById(roomId);
+            return;
         }
         game.restartGame();
         game._words = GameLobbiesHandler.castHttpToGridWord(newWords);
+        game.isWaitingForRestart[PlayerType.HOST] = true;
+
         this.socketServer.in(roomId).emit(SocketMessage.HOST_ASKED_FOR_RESTART, game);
 
         if (isGuestReady) {
@@ -114,10 +110,21 @@ export class Io {
             this.socketServer.in(roomId).emit(SocketMessage.SENT_GAME_AFTER_JOIN, game);
         }
     }
-    /// TODO  GAME_RESTART *** Ne devrait pas passer de socket en parametre
+
     private guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
         const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
-        socket.to(game.hostId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
+        game.isWaitingForRestart[PlayerType.GUEST] = true;
+        this.socketServer.in(roomId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
     }
 
+    private socketDisconnected(socket: SocketIO.Socket): void {
+        const game: CrosswordGame = GameLobbiesHandler.getGameById(socket.id);
+        if (game === undefined) {
+            return;
+        } else if (game.isAPlayerWaitingForRestart()) {
+            this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED);
+        }
+        GameLobbiesHandler.disconnect(socket.id);
+        this.broadcastGameLists();
+    }
 }

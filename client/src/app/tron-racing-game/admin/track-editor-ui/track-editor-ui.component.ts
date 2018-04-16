@@ -24,7 +24,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
     public description: string ;
     public track: ITrackData;
 
-    public constructor( private trackEditorService: TrackEditorService, private proxy: TracksProxyService, 
+    public constructor( private trackEditorService: TrackEditorService, private proxy: TracksProxyService,
                         private route: ActivatedRoute, private router: Router) {
         this.name = "";
         this.description = "";

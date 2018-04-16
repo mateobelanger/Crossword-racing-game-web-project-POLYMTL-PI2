@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
 import { words as mockWords } from "./mock-words";
-import { GRID_SIZE } from '../../../../common/constants';
+import { GRID_SIZE } from "../../../../common/constants";
 
 
 export const GRID_GENERATOR_URL: string = "http://localhost:3000/service/gridgenerator/";

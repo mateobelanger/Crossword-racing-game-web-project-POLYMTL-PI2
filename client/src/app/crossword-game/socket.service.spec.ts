@@ -25,6 +25,15 @@ describe("SocketService", () => {
     const selectionState: SelectionStateService = new SelectionStateService();
     const word: GridWord = new GridWord(0, 0, 0, "mot");
 
+    // tslint:disable:prefer-const
+    const lobbyService: LobbyService = new LobbyService();
+    let http: HttpClient;
+    const wordService: WordService = new WordService(http);
+    const gameStateService: GameStateService =  new GameStateService();
+    let router: Router;
+    const selectionState: SelectionStateService = new SelectionStateService();
+    const word: GridWord = new GridWord(0, 0, 0, "mot");
+
     let socketService: SocketService;
 
     beforeEach(async (done: DoneFn) => {
@@ -54,13 +63,10 @@ describe("SocketService", () => {
         expect(socketService.createGame).toHaveBeenCalled();
     }));
 
-    it("createGame method sould have been called", inject(  [SocketService],
-                                                            async (service: SocketService/*, gameStateService: GameStateService*/) => {
+    it("createGame method sould have been called", inject([SocketService], async (service: SocketService) => {
         spyOn(socketService, "createGame");
         await socketService.createGame("barb", Difficulty.EASY);
         expect(socketService.createGame).toHaveBeenCalled();
-        // TODO G.B.
-        // expect(gameStateService.isWaitingForOpponent).toBe(true);
     }));
 
     it("createSoloGame method sould have been called", inject([SocketService], async (service: SocketService) => {
