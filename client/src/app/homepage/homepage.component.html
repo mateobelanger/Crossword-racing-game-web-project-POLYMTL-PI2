@@ -8,3 +8,8 @@
         <a routerLink="../racing-game" class="btn btn-primary">Play</a>
     </div>
 </div>
+
+<div *ngIf="gameState.isReloading">
+    <div class="loading-gif"></div>
+    <div class="loading-text">Loading</div>
+</div>
