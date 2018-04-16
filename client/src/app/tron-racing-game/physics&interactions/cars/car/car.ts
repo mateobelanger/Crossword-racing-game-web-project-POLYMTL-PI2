@@ -114,7 +114,7 @@ export class Car extends Object3D {
         return carDirection;
     }
 
-    public init(texture: THREE.Object3D): void {
+    public init(texture: Object3D = new Object3D()): void {
         this._mesh = texture;
         this._mesh.receiveShadow = true;
         this.carLights.initialize(this._mesh);
