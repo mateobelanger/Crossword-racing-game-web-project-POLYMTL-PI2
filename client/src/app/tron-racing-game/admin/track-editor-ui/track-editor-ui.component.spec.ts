@@ -129,7 +129,7 @@ describe('TrackEditorUiComponent', () => {
         async(() => {
             fixture.whenStable().then(() => {   // wait for async initialize
                 expect(component.track).toBe(fakeTrack);
-            });
+            }).catch( (error: Error) => { console.error(error); });
         });
     });
 
@@ -149,7 +149,7 @@ describe('TrackEditorUiComponent', () => {
                 fixture.detectChanges();
                 component.saveTrack();
                 expect(spySaveTrack.calls.any()).toBe(true, "saveTrack called");
-            });
+            }).catch((error: Error) => { console.error(error); });
         });
     });
 });

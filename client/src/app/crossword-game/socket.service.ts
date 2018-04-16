@@ -19,7 +19,6 @@ export class SocketService {
     public socket: SocketIOClient.Socket;
     public game: CrosswordGame;
     public isHost: boolean;
-    /// TODO  GAME_RESTART
     private _gameInitialized$: Subject<void>;
 
     public constructor(private lobbyService: LobbyService, public wordService: WordService,
@@ -32,11 +31,9 @@ export class SocketService {
         this.initializeSocketGameManager();
         this.initializeSocketGameProgression();
 
-        /// TODO  GAME_RESTART
         this._gameInitialized$ = new Subject();
     }
 
-    /// TODO  GAME_RESTART
     public get gameInitialized(): Subject<void> {
         return this._gameInitialized$;
     }
@@ -105,13 +102,11 @@ export class SocketService {
             this.gameStateService.initializeGameState();
         });
 
-        /// TODO  GAME_RESTART
         this.socket.on(SocketMessage.HOST_ASKED_FOR_RESTART, (game: CrosswordGame) => {
             this.game.isWaitingForRestart[PlayerType.HOST] = true;
             if (!this.gameStateService.isMultiplayer) { this.initializeGridAfterJoin(game); }
         });
 
-        /// TODO  GAME_RESTART
         this.socket.on(SocketMessage.GUEST_ASKED_FOR_RESTART, () => {
             this.game.isWaitingForRestart[PlayerType.GUEST] = true;
         });
@@ -219,20 +214,19 @@ export class SocketService {
         this.gameStateService.setGameInfo(game.usernames[0], game.usernames[1], game.difficulty, this.game.isMultiplayer());
     }
 
-    /// TODO  GAME_RESTART
     public async restartNewGame(difficulty: Difficulty): Promise<void> {
         if (this.isHost) {
             this.game.isWaitingForRestart[PlayerType.HOST] = true;
-            this.hostCreateNewGame(difficulty);
+            this.hostCreateNewGame(difficulty).catch((error: Error) => { console.error(error); });
         } else {
             this.game.isWaitingForRestart[PlayerType.GUEST] = true;
             if (this.game.isWaitingForRestart[PlayerType.HOST]) {
-                this.hostCreateNewGame(difficulty);
+                this.hostCreateNewGame(difficulty).catch((error: Error) => { console.error(error); });
             }
             this.socket.emit(SocketMessage.GUEST_RESTART_PENDING, this.game.roomId, this.game.isWaitingForRestart[PlayerType.HOST]);
         }
     }
-    /// TODO  GAME_RESTART
+
     private async hostCreateNewGame(difficulty: Difficulty): Promise<void> {
         await this.createGrid(difficulty);
         this.socket.emit(SocketMessage.HOST_RESTART_PENDING, this.game.roomId,
