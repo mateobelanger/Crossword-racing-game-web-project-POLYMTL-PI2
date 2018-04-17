@@ -1,31 +1,31 @@
 <div class="informations clearfix">
 
-  <div class="difficulty clearfix"> Difficulty: {{difficulty}}</div>
+    <div class="difficulty clearfix"> Difficulty: {{difficulty}}</div>
 
 
 
-  <div *ngIf="gameState.isMultiplayer; else elseBlock">
-    <div class="wrapper">
-      <div class="align">
-        <div class="player p1">
-          {{gameState.hostName}}: {{gameState.hostScore}}
+    <div *ngIf="gameState.isMultiplayer; else elseBlock">
+        <div class="wrapper">
+            <div class="align">
+                <div class="player p1">
+                    {{gameState.hostName}}: {{gameState.hostScore}}
+                </div>
+                <div class="player p2">
+                    {{gameState.guestName}}: {{gameState.guestScore}}
+                </div>
+            </div>
         </div>
-        <div class="player p2">
-          {{gameState.guestName}}: {{gameState.guestScore}}
-        </div>
-      </div>
     </div>
-  </div>
 
-  <ng-template #elseBlock>
-    <div class="wrapper">
-      <div class="align">
-        <div class="player p1">
-          {{gameState.hostName}}: {{gameState.hostScore}}
+    <ng-template #elseBlock>
+        <div class="wrapper">
+            <div class="align">
+                <div class="player p1">
+                    {{gameState.hostName}}: {{gameState.hostScore}}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </ng-template>
+    </ng-template>
 
 
 

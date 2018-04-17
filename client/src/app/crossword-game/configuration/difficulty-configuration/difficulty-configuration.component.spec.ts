@@ -5,7 +5,6 @@ import { DifficultyConfigurationComponent } from "./difficulty-configuration.com
 import { routes } from "../../../app-routes.module";
 import { AppModule } from "../../../app.module";
 
-
 describe("ConfigurationComponent", () => {
     let component: DifficultyConfigurationComponent;
     let fixture: ComponentFixture<DifficultyConfigurationComponent>;

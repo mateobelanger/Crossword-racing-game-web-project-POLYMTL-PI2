@@ -22,7 +22,7 @@ export class WordService {
         this._words = words;
     }
 
-    // public method to be initialized only once the words are fetched from the server.
+    // public method to be initialize only once the words are fetched from the server.
     public async initialize(difficulty: string = "easy"): Promise<void> {
         await this.fetchWords(difficulty)
                 .then((httpWords: GridWord[]) => { this._words = this.castHttpToGridWordObj(httpWords); })
