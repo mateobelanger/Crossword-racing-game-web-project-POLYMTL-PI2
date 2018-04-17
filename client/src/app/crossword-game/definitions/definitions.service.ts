@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { WordService } from '../word.service';
+import { Injectable } from "@angular/core";
+import { WordService } from "../word.service";
 import { Direction } from "../../../../../common/crosswordsInterfaces/word";
 
 @Injectable()

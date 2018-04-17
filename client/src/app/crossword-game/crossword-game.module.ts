@@ -22,7 +22,6 @@ import { SelectionService } from "./selection/selection.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
 import { DefinitionsService } from "./definitions/definitions.service";
 
-
 @NgModule({
     imports: [
         CommonModule,

@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { WordService } from '../word.service';
+import { Component, OnInit } from "@angular/core";
+import { WordService } from "../word.service";
 import { GridService } from "../grid.service";
 import { ValidatorService } from "../validator.service";
-import { UserGridService } from '../user-grid.service';
-import { SelectionService } from '../selection/selection.service';
-import { Router } from '@angular/router';
-import { GameStateService } from '../game-state.service';
-import { DefinitionsService } from '../definitions/definitions.service';
+import { UserGridService } from "../user-grid.service";
+import { SelectionService } from "../selection/selection.service";
+import { Router } from "@angular/router";
+import { GameStateService } from "../game-state.service";
+import { DefinitionsService } from "../definitions/definitions.service";
 
 @Component({
-    selector: 'app-game-ui',
-    templateUrl: './game-ui.component.html',
-    styleUrls: ['./game-ui.component.css'],
+    selector: "app-game-ui",
+    templateUrl: "./game-ui.component.html",
+    styleUrls: ["./game-ui.component.css"],
     providers: [ValidatorService, GridService, UserGridService]
 })
 

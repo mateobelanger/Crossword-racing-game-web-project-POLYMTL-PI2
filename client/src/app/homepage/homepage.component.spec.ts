@@ -8,7 +8,6 @@ describe("HomepageComponent", () => {
     let fixture: ComponentFixture<HomepageComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             declarations: [HomepageComponent],
             providers: [GameStateService]

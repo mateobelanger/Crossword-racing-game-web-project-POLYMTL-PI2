@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { GRID_SIZE } from '../../../../common/constants';
-import { WordService } from './word.service';
-import { SocketService } from './socket.service';
-import { UserGridService } from './user-grid.service';
-import { SelectionService } from './selection/selection.service';
+import { Injectable } from "@angular/core";
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
+import { GRID_SIZE } from "../../../../common/constants";
+import { WordService } from "./word.service";
+import { SocketService } from "./socket.service";
+import { UserGridService } from "./user-grid.service";
+import { SelectionService } from "./selection/selection.service";
 
 @Injectable()
 export class ValidatorService {

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ViewChild, ElementRef, HostListener } from "@angular/core";
+import * as THREE from "three";
 
 import { TrackEditorService } from "./track-editor.service";
 import { TracksProxyService } from "../tracks-proxy.service";
@@ -6,7 +7,6 @@ import { TracksProxyService } from "../tracks-proxy.service";
 import { ITrackData } from "../../../../../../common/ITrackData";
 import { ActivatedRoute } from "@angular/router";
 import { Waypoint } from "../../tracks/trackData/waypoint";
-import * as THREE from "three";
 
 const LEFT_MOUSE_BTN: number = 0;
 const RIGHT_MOUSE_BTN: number = 2;
@@ -48,7 +48,6 @@ export class TrackEditorComponent implements AfterViewInit {
         }
     }
 
-
     @HostListener("mousedown", ["$event"])
     public onMouseDown(event: MouseEvent): void {
         switch (event.button) {
@@ -65,15 +64,15 @@ export class TrackEditorComponent implements AfterViewInit {
 
     @HostListener("mouseup", ["$event"])
     public onMouseUp(event: MouseEvent): void {
-        if (event.button === LEFT_MOUSE_BTN)
+        if (event.button === LEFT_MOUSE_BTN) {
             this.trackEditorService.handleLeftMouseUp(event);
+        }
     }
 
     @HostListener("mousemove", ["$event"])
     public onMouseMove(event: MouseEvent): void {
         this.trackEditorService.handleMouseMove(event);
     }
-
 
     private setWaypointsFromProxy(): void {
 
@@ -94,6 +93,5 @@ export class TrackEditorComponent implements AfterViewInit {
             this.trackEditorService.addWaypoints(this.waypoints);
             this.trackEditorService.closeTrack();
         }
-
 
 }

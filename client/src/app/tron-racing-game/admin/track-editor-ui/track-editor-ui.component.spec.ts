@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { APP_BASE_HREF } from '@angular/common';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { APP_BASE_HREF } from "@angular/common";
 
-import { TrackEditorUiComponent } from './track-editor-ui.component';
-import { routes } from '../../../app-routes.module';
-import { AppModule } from '../../../app.module';
-import { ITrackData } from '../../../../../../common/ItrackData';
+import { TrackEditorUiComponent } from "./track-editor-ui.component";
+import { routes } from "../../../app-routes.module";
+import { AppModule } from "../../../app.module";
+import { ITrackData } from "../../../../../../common/ItrackData";
 import { TracksProxyService } from "../../tracks/tracks-proxy.service";
 
 const fakeTrack: ITrackData = {
@@ -40,7 +40,7 @@ const tracks: ITrackData[] = [
     }
 ];
 
-describe('TrackEditorUiComponent', () => {
+describe("TrackEditorUiComponent", () => {
     let component: TrackEditorUiComponent;
     let fixture: ComponentFixture<TrackEditorUiComponent>;
     let spyInitialize: jasmine.Spy;
@@ -50,7 +50,7 @@ describe('TrackEditorUiComponent', () => {
         // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         })
         .compileComponents();
     }));
@@ -60,23 +60,23 @@ describe('TrackEditorUiComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
 
-        // TwainService actually injected into the component
+        // proxyService injected into the component
         const proxyService: TracksProxyService = fixture.debugElement.injector.get(TracksProxyService);
 
-        // Set up spy on the "initialize" method
+        // Set up spy on "initialize" method
         spyInitialize = spyOn(proxyService, "initialize")
             .and.returnValue(Promise.resolve(tracks));
 
-        // Set up spy on the "saveTrack" method
+        // Set up spy on "saveTrack" method
         spySaveTrack = spyOn(proxyService, "saveTrack")
             .and.returnValue(Promise.resolve(tracks.push(fakeTrack)));
     });
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 
-    it("shouldn't save a track with a title longer than 30 chars", () => {
+    it("should not save a track with a title longer than 30 chars", () => {
         let longTitle: string = "";
         for (let i: number = 0; i < component.MAX_TITLE_LENGTH; i++) {
             longTitle += "abc";
@@ -86,7 +86,7 @@ describe('TrackEditorUiComponent', () => {
         expect(component.name.length).toBeLessThanOrEqual(component.MAX_TITLE_LENGTH);
     });
 
-    it("shouldn't save a track with a description longer than 300 chars", () => {
+    it("should not save a track with a description longer than 300 chars", () => {
         let longDescription: string = "";
         for (let i: number = 0; i < component.MAX_DESCRIPTION_LENGTH; i++) {
             longDescription += "abc";
@@ -107,7 +107,7 @@ describe('TrackEditorUiComponent', () => {
         }
         expect(acceptsAlphaNum).toBe(true);
 
-        const symbols: string = "-=`~_+[]{};\':\"\\,.<>/?";
+        const symbols: string = "-=`~_+[]{};\":\"\\,.<>/?";
         let acceptsSymbols: boolean = false;
         for (const char of symbols) {
             if (component.isAlphaNum(char.charCodeAt(0))) {
@@ -138,7 +138,6 @@ describe('TrackEditorUiComponent', () => {
         expect(spySaveTrack.calls.any()).toBe(false, "saveTrack not yet called");
     });
 
-
     it("should call delete from proxy when saving track", () => {
 
         async(() => {
@@ -153,4 +152,3 @@ describe('TrackEditorUiComponent', () => {
         });
     });
 });
-

@@ -1,14 +1,13 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
 
-import { SelectionService } from './selection.service';
-import { routes } from '../../app-routes.module';
-import { AppModule } from '../../app.module';
-import { APP_BASE_HREF } from '@angular/common';
-import { GridWord, Direction } from '../../../../../common/crosswordsInterfaces/word';
-import { WordService } from '../word.service';
-import { SocketService } from '../socket.service';
-import { SelectionStateService } from '../selection-state/selection-state.service';
-
+import { SelectionService } from "./selection.service";
+import { routes } from "../../app-routes.module";
+import { AppModule } from "../../app.module";
+import { APP_BASE_HREF } from "@angular/common";
+import { GridWord, Direction } from "../../../../../common/crosswordsInterfaces/word";
+import { WordService } from "../word.service";
+import { SocketService } from "../socket.service";
+import { SelectionStateService } from "../selection-state/selection-state.service";
 
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to . . . on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I . . . on a chair.");
@@ -17,7 +16,7 @@ const word4: GridWord = new GridWord (2, 0, Direction.HORIZONTAL, "tam", "TAM . 
 
 const words: GridWord[] = [word1, word2, word3, word4];
 
-describe('SelectionService', () => {
+describe("SelectionService", () => {
     let selectionService: SelectionService;
     let wordService: WordService;
     let socketService: SocketService;
@@ -26,7 +25,7 @@ describe('SelectionService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         });
         socketService = TestBed.get(SocketService);
 
@@ -38,7 +37,7 @@ describe('SelectionService', () => {
         selectionService = new SelectionService(wordService, socketService, selectionState);
     });
 
-    it('should be created', inject([SelectionService], (service: SelectionService) => {
+    it("should be created", inject([SelectionService], (service: SelectionService) => {
         expect(service).toBeTruthy();
     }));
 
@@ -78,6 +77,5 @@ describe('SelectionService', () => {
         selectionService.selectWord(0, 0);
         expect(selectionService.selectedWord.value).toBe(word2.value);
     });
-
 
 });

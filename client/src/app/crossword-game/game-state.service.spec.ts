@@ -10,7 +10,6 @@ const guestScore: number = 2;
 const isMultiplayer: boolean = true;
 const difficulty: Difficulty = Difficulty.EASY;
 
-
 describe("GameStateService", () => {
 
     let gameState: GameStateService;
@@ -64,7 +63,7 @@ describe("GameStateService", () => {
 
     it("should start a game", () => {
         gameState.startGame();
-        expect(gameState.isOngoing()).toBe(true);
+        expect(gameState.isOngoing).toBe(true);
     });
 
     it("should wait for an opponent", () => {

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { GridWord } from '../../../../../common/crosswordsInterfaces/word';
-import { WordService } from '../word.service';
-import { SocketService } from '../socket.service';
-import { SelectionStateService } from '../selection-state/selection-state.service';
+import { Injectable } from "@angular/core";
+import { GridWord } from "../../../../../common/crosswordsInterfaces/word";
+import { WordService } from "../word.service";
+import { SocketService } from "../socket.service";
+import { SelectionStateService } from "../selection-state/selection-state.service";
 
 @Injectable()
 export class SelectionService {
@@ -10,7 +10,6 @@ export class SelectionService {
     public constructor(private wordService: WordService,
                        private socketService: SocketService,
                        private selectionState: SelectionStateService) {}
-
 
     public get selectedWord(): GridWord {
         return this.selectionState.localSelectedWord;

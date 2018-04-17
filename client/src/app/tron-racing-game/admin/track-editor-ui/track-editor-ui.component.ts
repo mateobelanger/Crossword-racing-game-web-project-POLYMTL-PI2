@@ -1,20 +1,19 @@
 import { AfterViewInit, Component } from "@angular/core";
-import { ActivatedRoute, Router } from '@angular/router';
-import * as THREE from 'three';
+import { ActivatedRoute, Router } from "@angular/router";
+import * as THREE from "three";
 
 import { ITrackData } from "../../../../../../common/ItrackData";
 import { NameValidator } from "../../../../../../common/nameValidator";
 
 import { TracksProxyService } from "../../tracks/tracks-proxy.service";
-import { TrackEditorService } from '../../tracks/track-editor/track-editor.service';
+import { TrackEditorService } from "../../tracks/track-editor/track-editor.service";
 import { Waypoint } from "../../tracks/trackData/waypoint";
 
 @Component({
-    selector: 'app-track-editor-ui',
-    templateUrl: './track-editor-ui.component.html',
-    styleUrls: ['./track-editor-ui.component.css']
+    selector: "app-track-editor-ui",
+    templateUrl: "./track-editor-ui.component.html",
+    styleUrls: ["./track-editor-ui.component.css"]
 })
-
 
 export class TrackEditorUiComponent implements AfterViewInit {
     public readonly MAX_TITLE_LENGTH: number = 30;

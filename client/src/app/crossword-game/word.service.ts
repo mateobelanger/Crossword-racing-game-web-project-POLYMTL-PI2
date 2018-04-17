@@ -4,7 +4,6 @@ import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/wor
 import { words as mockWords } from "./mock-words";
 import { GRID_SIZE } from "../../../../common/constants";
 
-
 export const GRID_GENERATOR_URL: string = "http://localhost:3000/service/gridgenerator/";
 
 @Injectable()

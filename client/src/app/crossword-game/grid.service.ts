@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { WordService } from './word.service';
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { GRID_SIZE } from '../../../../common/constants';
-import { ValidatorService } from './validator.service';
-import { SelectionService } from './selection/selection.service';
-import { UserGridService } from './user-grid.service';
-import { NameValidator } from '../../../../common/nameValidator';
+import { Injectable } from "@angular/core";
+import { WordService } from "./word.service";
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
+import { GRID_SIZE } from "../../../../common/constants";
+import { ValidatorService } from "./validator.service";
+import { SelectionService } from "./selection/selection.service";
+import { UserGridService } from "./user-grid.service";
+import { NameValidator } from "../../../../common/nameValidator";
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;

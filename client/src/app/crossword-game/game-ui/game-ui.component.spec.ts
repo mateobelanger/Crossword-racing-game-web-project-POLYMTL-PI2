@@ -1,18 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { APP_BASE_HREF } from '@angular/common';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { APP_BASE_HREF } from "@angular/common";
 
-import { GameUiComponent } from './game-ui.component';
-import { routes } from '../../app-routes.module';
-import { AppModule } from '../../app.module';
+import { GameUiComponent } from "./game-ui.component";
+import { routes } from "../../app-routes.module";
+import { AppModule } from "../../app.module";
 
-describe('GameUiComponent', () => {
+describe("GameUiComponent", () => {
     let component: GameUiComponent;
     let fixture: ComponentFixture<GameUiComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         })
         .compileComponents().catch( (error: Error) => console.error(error));
     }));
@@ -23,7 +23,7 @@ describe('GameUiComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 });

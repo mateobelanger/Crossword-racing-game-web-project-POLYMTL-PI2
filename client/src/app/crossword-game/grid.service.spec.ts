@@ -1,19 +1,19 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { GridService } from './grid.service';
-import { WordService } from './word.service';
-import { ValidatorService } from './validator.service';
-import { GRID_SIZE, Difficulty } from '../../../../common/constants';
-import { UserGridService } from './user-grid.service';
-import { CrosswordGame } from '../../../../common/crosswordsInterfaces/crosswordGame';
-import { SelectionService } from './selection/selection.service';
-import { SocketService } from './socket.service';
-import { LobbyService } from './lobby/lobby.service';
-import { routes } from '../app-routes.module';
-import { AppModule } from '../app.module';
-import { APP_BASE_HREF } from '@angular/common';
-import { SelectionStateService } from './selection-state/selection-state.service';
+import { TestBed } from "@angular/core/testing";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
+import { GridService } from "./grid.service";
+import { WordService } from "./word.service";
+import { ValidatorService } from "./validator.service";
+import { GRID_SIZE, Difficulty } from "../../../../common/constants";
+import { UserGridService } from "./user-grid.service";
+import { CrosswordGame } from "../../../../common/crosswordsInterfaces/crosswordGame";
+import { SelectionService } from "./selection/selection.service";
+import { SocketService } from "./socket.service";
+import { LobbyService } from "./lobby/lobby.service";
+import { routes } from "../app-routes.module";
+import { AppModule } from "../app.module";
+import { APP_BASE_HREF } from "@angular/common";
+import { SelectionStateService } from "./selection-state/selection-state.service";
 
 const KEY_BACKSPACE: number = 8;
 const KEY_TAB: number = 9;
@@ -38,7 +38,7 @@ const word6: GridWord = new GridWord (2, 0, Direction.HORIZONTAL, "tam", "TAM __
 
 const words: GridWord[] = [word1, word2, word3, word4, word5, word6];
 
-describe('GridService', () => {
+describe("GridService", () => {
     let http: HttpClient;
     let socketService: SocketService;
     let wordService: WordService;
@@ -55,7 +55,7 @@ describe('GridService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule, HttpClientModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }, GridService, ValidatorService, WordService, UserGridService,
+            providers: [{provide: APP_BASE_HREF, useValue : "/" }, GridService, ValidatorService, WordService, UserGridService,
                         SelectionService, SocketService, LobbyService]
 
         });
@@ -92,12 +92,11 @@ describe('GridService', () => {
         userGridService = new UserGridService();
         userGridService.userGrid = userGrid;
 
-
         gridService = new GridService(selectionService, wordService, validatorService, userGridService);
 
     });
 
-    it('should be created', () => {
+    it("should be created", () => {
         expect(gridService).toBeTruthy();
     });
 
