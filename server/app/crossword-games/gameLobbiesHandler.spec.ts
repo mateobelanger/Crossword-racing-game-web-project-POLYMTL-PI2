@@ -35,7 +35,7 @@ describe("Game progression handler, after construction: ", () => {
     });
 
     it("should return no game", (done: MochaDone) => {
-        assert.equal(GameLobbiesHandler.getGameById(hostId), undefined);
+        assert.equal(GameLobbiesHandler.getGame(hostId), undefined);
         done();
     });
 });
@@ -114,7 +114,7 @@ describe("Game progression handler:", () => {
     it("should return the right game game", (done: MochaDone) => {
         GameLobbiesHandler.createGame(roomId, hostId, hostName, Difficulty.EASY, words, false);
 
-        assert.equal(GameLobbiesHandler.getGameById(hostId).roomId, roomId);
+        assert.equal(GameLobbiesHandler.getGame(hostId).roomId, roomId);
         done();
     });
 
