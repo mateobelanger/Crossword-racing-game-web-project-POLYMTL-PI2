@@ -44,10 +44,10 @@ button.create[disabled] {
 
 
 .background {
-    background: url("../../../../assets/game-configuration/wood.jpg") fixed no-repeat;
+    background: url("../../../../assets/game-configuration/wood.jpg") round;
     background-position: center auto;
-    background-size: 200vh;
-    min-height: 130vh;
+    background-size: cover;
+    min-height: 150vh;
     margin: 0;
 }
 
