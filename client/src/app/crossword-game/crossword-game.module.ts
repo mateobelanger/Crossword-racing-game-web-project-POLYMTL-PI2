@@ -20,6 +20,7 @@ import { MultiplayerConfigurationComponent } from "./configuration/multiplayer-c
 import { DifficultyConfigurationComponent } from "./configuration/difficulty-configuration/difficulty-configuration.component";
 import { SelectionService } from "./selection/selection.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
+import { DefinitionsService } from "./definitions/definitions.service";
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { SelectionStateService } from "./selection-state/selection-state.service
         SocketService,
         LobbyService,
         SelectionService,
-        SelectionStateService
+        SelectionStateService,
+        DefinitionsService
     ],
 
     exports: [
