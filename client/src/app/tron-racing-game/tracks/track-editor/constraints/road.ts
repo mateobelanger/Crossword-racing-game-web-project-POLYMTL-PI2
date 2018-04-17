@@ -1,7 +1,7 @@
 import { Point } from "./math/point";
 import { LineEquation } from "./math/lineEquation";
 import * as THREE from "three";
-import { TRACK_WIDTH, DEG_TO_RAD } from '../../../constants';
+import { TRACK_WIDTH, DEG_TO_RAD } from "../../../constants";
 // tslint:disable:no-magic-numbers
 const MAX_ANGLE: number = DEG_TO_RAD * 135;
 const MINIMUM_RATIO: number = 2;
@@ -54,7 +54,6 @@ export class Road {
         return this._lineEquation;
     }
 
-
     public hasValidWidthHeightRatio(): boolean {
         return this.getLength() / TRACK_WIDTH >= MINIMUM_RATIO;
     }
@@ -71,26 +70,6 @@ export class Road {
 
         return hasValidAngle;
     }
-
-    // // tslint:disable:prefer-const
-    // public hasValidAngle(): boolean {
-    //     return this.getAngleBetweenRoads() !== -1 && this.getAngleBetweenRoads() <= MAXANGLE;
-    // }
-
-    // public getAngleBetweenRoads(): number {
-    //     if (this.isDefined(this.previousRoad)) {
-    //         const previousRoadVector: THREE.Vector3 = new THREE.Vector3();
-    //         previousRoadVector.subVectors(this.previousRoad.endPoint, this.previousRoad.beginPoint);
-    //         const thisRoadVector: THREE.Vector3 = new THREE.Vector3();
-    //         thisRoadVector.subVectors(this.endPoint, this.beginPoint);
-
-    //         return thisRoadVector.angleTo(previousRoadVector);
-    //     }
-
-    //     return -1;
-    // }
-
-    // tslint:enable:prefer-const
 
     public intersects(road: Road): boolean {
         let intersects: boolean = false;
@@ -111,8 +90,9 @@ export class Road {
         let intersects: boolean = false;
         if (this.lineEquation.isVerticalLine && road.lineEquation.isVerticalLine) {
             if (this.lineEquation.lineInDomain(road.lineEquation) &&
-                this.lineEquation.lineInImage(road.lineEquation))
+                this.lineEquation.lineInImage(road.lineEquation)) {
                 intersects = true;
+            }
         } else if (this.lineEquation.isVerticalLine) {
             const y: number = road.lineEquation.image(this.lineEquation.beginPoint.x);
             intersects = this.lineEquation.yInImage(y);
@@ -128,8 +108,7 @@ export class Road {
         return this._beginPoint.distanceTo(this._endPoint);
     }
 
-    // tslint:disable:no-any
-    private isDefined(object: any): boolean {
+    private isDefined<T>(object: T): boolean {
         return ((object !== null) && (object !== undefined));
-    }// tslint:enable:no-any
+    }
 }

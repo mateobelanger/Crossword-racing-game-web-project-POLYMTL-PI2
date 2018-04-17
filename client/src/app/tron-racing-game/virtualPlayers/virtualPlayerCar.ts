@@ -24,10 +24,10 @@ export class VirtualPlayerCar extends Car {
                         private speedZonesService: SpeedZonesService,
                         private raceProgressionService: RaceProgressionHandlerService) {
         super();
+        this.aiPlayerName = name;
         this.gameState = GameState.COUTNDOWN;
         this.speedModifier = (Math.random() * MAX_SPEED_MOFIFIER - (MAX_SPEED_MOFIFIER / 2)) + 1;
         this.setDirectionModifier(playerSkill);
-        this.aiPlayerName = name;
     }
 
     public update(detltaTime: number): void {
@@ -57,8 +57,8 @@ export class VirtualPlayerCar extends Car {
     }
 
     private adjustSteer(): void {
-        const crossVector: THREE.Vector3 = this.direction.cross(this.trackDirection());
-        if ( this.direction.angleTo(this.trackDirection()) > ANGLE_THRESHOLD) {
+        const crossVector: THREE.Vector3 = this.direction.cross(this.getTrackDirection());
+        if ( this.direction.angleTo(this.getTrackDirection()) > ANGLE_THRESHOLD) {
             if (crossVector.y > 0) {
                 this.steerLeft();
             } else {
@@ -89,7 +89,7 @@ export class VirtualPlayerCar extends Car {
         this.isAcceleratorPressed = false;
     }
 
-    private trackDirection(): THREE.Vector3 {
+    private getTrackDirection(): THREE.Vector3 {
         return this.applyDirectionModifier(new THREE.Vector3().subVectors(
             this.raceProgressionService.getPlayerProgression(this.aiPlayerName).nextWaypointPosition,
             this.raceProgressionService.getPlayerProgression(this.aiPlayerName).currentWaypointPosition

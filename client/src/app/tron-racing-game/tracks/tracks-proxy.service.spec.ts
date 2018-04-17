@@ -60,7 +60,9 @@ describe("TracksProxyService", () => {
                     url: URI_MONGO_DB,
                     method: "GET"
                 });
-            })));
+            })
+        )
+    );
 
     it("addTrack should send valid data",
        async(inject([TracksProxyService, HttpTestingController],
@@ -77,7 +79,9 @@ describe("TracksProxyService", () => {
                         req.body.waypoints === tracks[0].waypoints
                     );
                 });
-            })));
+            })
+        )
+    );
 
     it("addTrack should add track to tracks array",
        async(inject([TracksProxyService, HttpTestingController],
@@ -90,7 +94,9 @@ describe("TracksProxyService", () => {
                     url: URI_MONGO_DB,
                     method: "POST"
                 })[0].flush(tracks[0]);
-            })));
+            })
+        )
+    );
 
     it("get tracks should return tracks",
        async(inject([TracksProxyService, HttpTestingController],
@@ -103,7 +109,9 @@ describe("TracksProxyService", () => {
                     url: URI_MONGO_DB,
                     method: "POST"
                 })[0].flush(tracks[0]);
-            })));
+            })
+        )
+    );
 
     it("deleteTrack should send valid trackName",
        async(inject([TracksProxyService, HttpTestingController],
@@ -115,7 +123,9 @@ describe("TracksProxyService", () => {
                         req.url === URI_MONGO_DB + "/" + tracks[0].name
                     );
                 });
-            })));
+            })
+        )
+    );
 
     it("saveTrack on track not in database should send valid data",
        async(inject([TracksProxyService, HttpTestingController],
@@ -132,7 +142,9 @@ describe("TracksProxyService", () => {
                         req.body.waypoints === tracks[0].waypoints
                     );
                 });
-            })));
+            })
+        )
+    );
 
     it("saveTrack should only add track to tracks array and send POST request",
        async(inject([TracksProxyService, HttpTestingController],
@@ -145,5 +157,7 @@ describe("TracksProxyService", () => {
                     url: URI_MONGO_DB,
                     method: "POST"
                 })[0].flush(tracks[0]);
-            })));
+            })
+        )
+    );
 });

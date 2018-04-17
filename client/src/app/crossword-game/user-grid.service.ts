@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
-import { GRID_SIZE, BLACK_CELL } from "../../../../common/constants";
+import { GRID_SIZE } from "../../../../common/constants";
+
+const BLACK_CELL: string =  "-";
 
 @Injectable()
 export class UserGridService {

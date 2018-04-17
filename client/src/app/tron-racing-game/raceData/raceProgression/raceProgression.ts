@@ -55,24 +55,27 @@ export class RaceProgression {
 
     public get nextWaypointIndex(): number {
         let index: number = (this._currentWaypointIndex + 1) % this._waypoints.length;
-        if (index < 0)
+        if (index < 0) {
             index += this._waypoints.length;
+        }
 
         return index;
     }
 
     public get currentWaypointIndex(): number {
         let index: number = this._currentWaypointIndex % this._waypoints.length;
-        if (index < 0)
+        if (index < 0) {
             index += this._waypoints.length;
+        }
 
         return index;
     }
 
     public get previousWaypointIndex(): number {
         let index: number = (this._currentWaypointIndex - 1) % this._waypoints.length;
-        if (index < 0)
+        if (index < 0) {
             index += this._waypoints.length;
+        }
 
         return index;
     }
@@ -145,8 +148,9 @@ export class RaceProgression {
 
     private decrementCurrentWaypointIndex(): void {
         let index: number = (this.nextWaypointIndex - 1) % this._waypoints.length;
-        if (index < 0)
+        if (index < 0) {
             index += this._waypoints.length;
+        }
 
         this._currentWaypointIndex = index;
     }
@@ -163,7 +167,6 @@ export class RaceProgression {
             0,
             this._waypoints[this.currentWaypointIndex][2]
         );
-
 
         this._nextWaypointPosition.set(
             this._waypoints[this.nextWaypointIndex][0],

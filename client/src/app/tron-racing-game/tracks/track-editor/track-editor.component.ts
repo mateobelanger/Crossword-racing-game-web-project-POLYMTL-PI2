@@ -55,7 +55,7 @@ export class TrackEditorComponent implements AfterViewInit {
                 this.trackEditorService.handleLeftMouseDown(event);
                 break;
             case RIGHT_MOUSE_BTN:
-                this.trackEditorService.handleRightMouseDown(event);
+                this.trackEditorService.handleRightMouseDown();
                 break;
             default:
                 break;

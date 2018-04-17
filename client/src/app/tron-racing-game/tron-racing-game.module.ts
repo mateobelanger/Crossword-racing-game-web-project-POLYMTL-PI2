@@ -21,89 +21,89 @@ import { SceneLoaderService } from "./gameRendering/scene-loader/scene-loader.se
 import { CameraService } from "./gameRendering/camera.service";
 import { SkyboxService } from "./gameRendering/skybox.service";
 
-import { SpeedComponent } from './raceData/raceInfos/speed/speed.component';
-import { LapComponent } from './raceData/raceInfos/lap/lap.component';
-import { TimeComponent } from './raceData/raceInfos/time/time.component';
-import { PositionComponent } from './raceData/raceInfos/position/position.component';
+import { SpeedComponent } from "./raceData/raceInfos/speed/speed.component";
+import { LapComponent } from "./raceData/raceInfos/lap/lap.component";
+import { TimeComponent } from "./raceData/raceInfos/time/time.component";
+import { PositionComponent } from "./raceData/raceInfos/position/position.component";
 
 import { RaceDataHandlerService } from "./raceData/race-data-handler.service";
 import { BestTimesComponent } from "./raceData/end-game/time-table/time-table.component";
 import { BestTimeHandlerService } from "./raceData/recordedTimes/best-time-handler.service";
-import { RaceResultsService } from './raceData/recordedTimes/race-results.service';
+import { RaceResultsService } from "./raceData/recordedTimes/race-results.service";
 import { TimeShowComponent } from "./raceData/end-game/time-show/time-show.component";
 import { RaceProgressionHandlerService } from "./raceData/raceProgression/race-progression-handler.service";
-import { ResultTableComponent } from './raceData/end-game/result-table/result-table.component';
+import { ResultTableComponent } from "./raceData/end-game/result-table/result-table.component";
 import { EndGameService } from "./raceData/end-game/end-game.service";
-import { PodiumTableComponent } from './raceData/end-game/podium-table/podium-table.component';
+import { PodiumTableComponent } from "./raceData/end-game/podium-table/podium-table.component";
 
-import { CarHandlerService } from './physics&interactions/cars/car-handler.service';
-import { CollisionHandlerService } from './physics&interactions/collisions/collision-handler.service';
+import { CarHandlerService } from "./physics&interactions/cars/car-handler.service";
+import { CollisionHandlerService } from "./physics&interactions/collisions/collision-handler.service";
 import { OutOfBoundsHandlerService } from "./physics&interactions/collisions/out-of-bounds-handler.service";
-import { ResultsSimulatorService } from './raceData/simulateEndResults/results-simulator.service';
-import { SpeedZonesService } from './virtualPlayers/speed-zones.service';
-import { CountdownComponent } from './raceData/raceInfos/countdown/countdown.component';
-import { PortalsHandlerService } from './virtualPlayers/teleportation/portals-handler.service';
+import { ResultsSimulatorService } from "./raceData/simulateEndResults/results-simulator.service";
+import { SpeedZonesService } from "./virtualPlayers/speed-zones.service";
+import { CountdownComponent } from "./raceData/raceInfos/countdown/countdown.component";
+import { PortalsHandlerService } from "./virtualPlayers/teleportation/portals-handler.service";
 import { LandService } from "./gameRendering/land.service";
 import { InputHandlerService } from "./physics&interactions/controller/input-handler.service";
-import { TextureLoaderService } from './gameRendering/textureLoader/texture-loader.service';
+import { TextureLoaderService } from "./gameRendering/textureLoader/texture-loader.service";
 
 @NgModule({
 
-  imports: [
-    CommonModule,
-    BrowserModule,
-    HttpClientModule,
-    routes,
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        HttpClientModule,
+        routes,
+        FormsModule
+    ],
 
-  declarations: [
-    GameUiComponent,
-    TrackListComponent,
-    GameFrameComponent,
-    SpeedComponent,
-    LapComponent,
-    TimeComponent,
-    PositionComponent,
-    BestTimesComponent,
-    TimeShowComponent,
-    ResultTableComponent,
-    PodiumTableComponent,
-    CountdownComponent,
-  ],
+    declarations: [
+        GameUiComponent,
+        TrackListComponent,
+        GameFrameComponent,
+        SpeedComponent,
+        LapComponent,
+        TimeComponent,
+        PositionComponent,
+        BestTimesComponent,
+        TimeShowComponent,
+        ResultTableComponent,
+        PodiumTableComponent,
+        CountdownComponent,
+    ],
 
-  exports: [
-    TrackListComponent,
-  ],
+    exports: [
+        TrackListComponent,
+    ],
 
-  providers: [
-    RenderService,
-    TrackEditorRenderService,
-    TrackEditorService,
-    CameraService,
-    SkyboxService,
-    TracksProxyService,
-    AudioService,
-    BestTimeHandlerService,
-    TrackLoaderService,
-    RaceDataHandlerService,
-    SceneLightsService,
-    SceneLoaderService,
-    BestTimeHandlerService,
-    TrackLoaderService,
-    CollisionHandlerService,
-    RaceResultsService,
-    RaceProgressionHandlerService,
-    CarHandlerService,
-    OutOfBoundsHandlerService,
-    EndGameService,
-    ResultsSimulatorService,
-    SpeedZonesService,
-    PortalsHandlerService,
-    LandService,
-    InputHandlerService,
-    TextureLoaderService
-  ],
+    providers: [
+        RenderService,
+        TrackEditorRenderService,
+        TrackEditorService,
+        CameraService,
+        SkyboxService,
+        TracksProxyService,
+        AudioService,
+        BestTimeHandlerService,
+        TrackLoaderService,
+        RaceDataHandlerService,
+        SceneLightsService,
+        SceneLoaderService,
+        BestTimeHandlerService,
+        TrackLoaderService,
+        CollisionHandlerService,
+        RaceResultsService,
+        RaceProgressionHandlerService,
+        CarHandlerService,
+        OutOfBoundsHandlerService,
+        EndGameService,
+        ResultsSimulatorService,
+        SpeedZonesService,
+        PortalsHandlerService,
+        LandService,
+        InputHandlerService,
+        TextureLoaderService
+    ],
 
 })
 export class TronRacingGameModule { }

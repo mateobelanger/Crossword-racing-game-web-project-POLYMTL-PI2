@@ -61,10 +61,6 @@ export class SocketService {
         this.isHost = false;
     }
 
-    public disconnect(): void {
-        this.socket.disconnect();
-    }
-
     public getGameLobbies(): void {
         this.socket.emit(SocketMessage.GET_GAME_LOBBIES);
     }
@@ -79,6 +75,19 @@ export class SocketService {
 
     public deselectWord(word: GridWord): void {
         this.socket.emit(SocketMessage.DESELECT_WORD, word);
+    }
+
+    public async restartNewGame(difficulty: Difficulty): Promise<void> {
+        if (this.isHost) {
+            this.game.isWaitingForRestart[PlayerType.HOST] = true;
+            this.hostCreateNewGame(difficulty).catch((error: Error) => { console.error(error); });
+        } else {
+            this.game.isWaitingForRestart[PlayerType.GUEST] = true;
+            if (this.game.isWaitingForRestart[PlayerType.HOST]) {
+                this.hostCreateNewGame(difficulty).catch((error: Error) => { console.error(error); });
+            }
+            this.socket.emit(SocketMessage.GUEST_RESTART_PENDING, this.game.roomId, this.game.isWaitingForRestart[PlayerType.HOST]);
+        }
     }
 
     private initializeSocketGameManager(): void {
@@ -136,7 +145,7 @@ export class SocketService {
             this.gameStateService.isMultiplayer = false;
         });
 
-        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING, (game: CrosswordGame) => {
+        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING, () => {
             this.router.navigate(["/"]);
             window.location.reload();
         });
@@ -200,19 +209,6 @@ export class SocketService {
         this.game = this.castGame(game);
         this.router.navigate(["crossword-game/" + this.game.difficulty + "/ui"]);
         this.gameStateService.setGameInfo(game.usernames[0], game.usernames[1], game.difficulty, this.game.isMultiplayer());
-    }
-
-    public async restartNewGame(difficulty: Difficulty): Promise<void> {
-        if (this.isHost) {
-            this.game.isWaitingForRestart[PlayerType.HOST] = true;
-            this.hostCreateNewGame(difficulty).catch((error: Error) => { console.error(error); });
-        } else {
-            this.game.isWaitingForRestart[PlayerType.GUEST] = true;
-            if (this.game.isWaitingForRestart[PlayerType.HOST]) {
-                this.hostCreateNewGame(difficulty).catch((error: Error) => { console.error(error); });
-            }
-            this.socket.emit(SocketMessage.GUEST_RESTART_PENDING, this.game.roomId, this.game.isWaitingForRestart[PlayerType.HOST]);
-        }
     }
 
     private async hostCreateNewGame(difficulty: Difficulty): Promise<void> {

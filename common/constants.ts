@@ -6,9 +6,7 @@ export enum Difficulty {
     HARD = "hard"
 }
 
-export enum PlayerType { HOST, GUEST };
-
-export const BLACK_CELL: string = "-";
+export enum PlayerType { HOST, GUEST }
 
 export enum SocketMessage {
 
@@ -22,19 +20,19 @@ export enum SocketMessage {
     JOIN_GAME = "join game",
     SENT_GAME_AFTER_JOIN = "sent game after join",
 
-    HOST_RESTART_PENDING = "host restart pending", 
-    GUEST_RESTART_PENDING = "guest restart pending", 
-    HOST_ASKED_FOR_RESTART = "host asked for restart", 
-    GUEST_ASKED_FOR_RESTART = "guest asked for restart", 
+    HOST_RESTART_PENDING = "host restart pending",
+    GUEST_RESTART_PENDING = "guest restart pending",
+    HOST_ASKED_FOR_RESTART = "host asked for restart",
+    GUEST_ASKED_FOR_RESTART = "guest asked for restart",
     OPPONENT_DISCONNECTED_WHILE_WAITING = "opponent disconnected while waiting",
     OPPONENT_DISCONNECTED = "opponent disconnected",
 
     GET_GAME_LOBBIES = "get game lobbies",
     GAME_LOBBIES = "game lobbies",
-    
+
     ADD_VALIDATED_WORD = "add validated word",
     UPDATE_VALIDATED_WORD = "update validated word",
-    
+
     REMOTE_SELECTED_WORD = "remote selected word",
     REMOTE_DESELECTED_WORD = "remote deselected word",
     SELECT_WORD = "select word",

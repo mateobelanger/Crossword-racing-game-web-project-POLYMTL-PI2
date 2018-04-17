@@ -8,9 +8,9 @@ import { SelectionService } from "./selection/selection.service";
 
 @Injectable()
 export class ValidatorService {
-    private filledGrid: string[][];
 
     public isEndOfGame: boolean = false;
+    private _filledGrid: string[][];
 
     public constructor(private wordService: WordService,
                        private socketService: SocketService,
@@ -18,7 +18,6 @@ export class ValidatorService {
                        private selectionService: SelectionService) {
     }
 
-    // public method to be initialized only once the words are fetched from the server.
     public initialize(): void {
         this.initializeGrid();
         this.fillGrid();
@@ -71,7 +70,7 @@ export class ValidatorService {
                     word.direction === Direction.HORIZONTAL ?
                         column = word.column + i : row = word.row + i;
 
-                    if (grid[row][column].toLowerCase() !== this.filledGrid[row][column]) {
+                    if (grid[row][column].toLowerCase() !== this._filledGrid[row][column]) {
                         isValidated = false;
                         break;
                     }
@@ -86,25 +85,10 @@ export class ValidatorService {
         }
     }
 
-    public setValidatedWords(local: GridWord[], remote: GridWord[]): void {
-        this.socketService.game.hostValidatedWords = local;
-        this.socketService.game.guestValidatedWords = remote;
-    }
-
-    private addValidatedWord(word: GridWord): void {
-        if (!this.isValidatedWord(word)) {
-            this.socketService.addValidatedWord(word);
-        }
-    }
-
     public isValidatedCell(row: number, column: number): boolean {
         this.updateLocalGrid(row, column);
 
         return this.isHostValidatedCell(row, column) || this.isGuestValidatedCell(row, column);
-    }
-
-    public isBothValidatedCell(row: number, column: number): boolean {
-        return this.isHostValidatedCell(row, column) && this.isGuestValidatedCell(row, column);
     }
 
     public isHostValidatedCell(row: number, column: number): boolean {
@@ -127,6 +111,16 @@ export class ValidatorService {
         return false;
     }
 
+    public isHostAndGuestValidatedCell(row: number, column: number): boolean {
+        return this.isHostValidatedCell(row, column) && this.isGuestValidatedCell(row, column);
+    }
+
+    private addValidatedWord(word: GridWord): void {
+        if (!this.isValidatedWord(word)) {
+            this.socketService.addValidatedWord(word);
+        }
+    }
+
     private updateLocalGrid(row: number, column: number): void {
         const isRemoteValidatedCell: boolean = this.socketService.isHost ?
             this.isGuestValidatedCell(row, column) : this.isHostValidatedCell(row, column);
@@ -136,13 +130,13 @@ export class ValidatorService {
     }
 
     private initializeGrid(): void {
-        this.filledGrid = [];
+        this._filledGrid = [];
         for (let i: number = 0; i < GRID_SIZE; i++) {
             const row: string[] = [];
             for (let j: number = 0; j < GRID_SIZE; j++) {
                 row.push("");
             }
-            this.filledGrid.push(row);
+            this._filledGrid.push(row);
         }
     }
 
@@ -151,7 +145,7 @@ export class ValidatorService {
             let row: number = word.row;
             let column: number = word.column;
             for (const char of word.value) {
-                this.filledGrid[row][column] = char;
+                this._filledGrid[row][column] = char;
 
                 word.direction === Direction.HORIZONTAL ?
                     column += 1 : row += 1;
