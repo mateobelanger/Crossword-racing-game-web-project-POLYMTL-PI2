@@ -1,20 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { RaceDataHandlerService } from '../../race-data-handler.service';
+import { Component } from "@angular/core";
+import { RaceDataHandlerService } from "../../race-data-handler.service";
 
 @Component({
-  selector: 'app-position',
-  templateUrl: './position.component.html',
-  styleUrls: ['./position.component.css']
+    selector: "app-position",
+    templateUrl: "./position.component.html",
+    styleUrls: ["./position.component.css"]
 })
-export class PositionComponent implements OnInit {
+export class PositionComponent {
 
-  public constructor(private raceDataHandlerService: RaceDataHandlerService) { }
+    public constructor(private raceDataHandlerService: RaceDataHandlerService) { }
 
-  public ngOnInit(): void {
-  }
-
-  public get position(): number {
-    return this.raceDataHandlerService.position;
-  }
+    public get position(): number {
+        return this.raceDataHandlerService.position;
+    }
 
 }

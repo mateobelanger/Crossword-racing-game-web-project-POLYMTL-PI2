@@ -26,8 +26,9 @@ export class LineEquation {
             this._endPoint = beginPoint;
             this._beginPoint = endPoint;
         }
-        if ( this.beginPoint.x === this.endPoint.x )
+        if ( this.beginPoint.x === this.endPoint.x ) {
             this._isVerticalLine = true;
+        }
         this.calculateLineEquation(this._beginPoint, this._endPoint);
     }
 

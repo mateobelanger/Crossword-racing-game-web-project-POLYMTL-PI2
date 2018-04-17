@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Portal } from './portal';
+import { Injectable } from "@angular/core";
+import { Portal } from "./portal";
 import * as THREE from "three";
-import { Car } from '../../physics&interactions/cars/car/car';
+import { Car } from "../../physics&interactions/cars/car/car";
 
 @Injectable()
 export class PortalsHandlerService {
@@ -39,9 +39,7 @@ export class PortalsHandlerService {
         portal.destroyPortal();
     }
 
-    // tslint:disable:no-any
-    private isDefined(object: any): boolean {
+    private isDefined<T>(object: T): boolean {
         return ((object !== null) && (object !== undefined));
-    }// tslint:enable:no-any
-
+    }
 }

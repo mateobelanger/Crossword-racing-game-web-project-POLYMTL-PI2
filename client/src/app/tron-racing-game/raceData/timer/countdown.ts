@@ -6,7 +6,6 @@ export class Countdown {
     private _secondDoneStream$: Subject<void>;
     private _timeLeft: number;
 
-
     public constructor() {
         this._secondDoneStream$ = new Subject();
         this._timeLeft = -1;
@@ -33,5 +32,4 @@ export class Countdown {
     public get timeLeft(): number {
         return this._timeLeft;
     }
-
 }

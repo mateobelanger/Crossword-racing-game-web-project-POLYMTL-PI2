@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-import { RaceProgression } from './raceProgression';
+import { Injectable } from "@angular/core";
+import { RaceProgression } from "./raceProgression";
 import { MAX_N_LAPS, USERNAME } from "../../constants";
-import { Subject } from 'rxjs/Subject';
-
-
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class RaceProgressionHandlerService {
@@ -26,8 +24,9 @@ export class RaceProgressionHandlerService {
                 if (carPosition[0] === USERNAME) {
                     this._userProgression = new RaceProgression(carPosition[1], waypoints);
                     this._playersProgression.push([carPosition[0], this._userProgression]);
-                } else
+                } else {
                     this._playersProgression.push([carPosition[0], new RaceProgression(carPosition[1], waypoints)]);
+                }
             });
             this.initializeLapDoneStream();
             this.initializeRaceDoneStream();
@@ -37,8 +36,9 @@ export class RaceProgressionHandlerService {
 
     public update(): void {
         this._playersProgression.forEach((playerProgression: [string, RaceProgression]) => {
-            if (playerProgression[1].nLap < MAX_N_LAPS)
+            if (playerProgression[1].nLap < MAX_N_LAPS) {
                 playerProgression[1].update();
+            }
         });
     }
 
@@ -62,14 +62,15 @@ export class RaceProgressionHandlerService {
         let position: number = 1;
         this._playersProgression.forEach((player) => {
             const playerProgression: RaceProgression = player[1];
-            if (playerProgression.nLap > this.user.nLap)
+            if (playerProgression.nLap > this.user.nLap) {
                 position++;
-            else if (playerProgression.nLap === this.user.nLap) {
-                if (playerProgression.nextWaypointIndex > this.user.nextWaypointIndex)
+            } else if (playerProgression.nLap === this.user.nLap) {
+                if (playerProgression.nextWaypointIndex > this.user.nextWaypointIndex) {
                     position++;
-                else if (playerProgression.nextWaypointIndex === this.user.nextWaypointIndex) {
-                    if (playerProgression.distanceToNextWaypoint() < this.user.distanceToNextWaypoint())
+                } else if (playerProgression.nextWaypointIndex === this.user.nextWaypointIndex) {
+                    if (playerProgression.distanceToNextWaypoint() < this.user.distanceToNextWaypoint()) {
                         position++;
+                    }
                 }
             }
 

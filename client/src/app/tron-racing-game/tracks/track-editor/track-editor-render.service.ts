@@ -46,7 +46,6 @@ export class TrackEditorRenderService {
         this.startRenderingLoop();
     }
 
-
     public getObjectsPointedByMouse(event: MouseEvent): THREE.Intersection[] {
         this.updateRaycastMousePos(event);
 

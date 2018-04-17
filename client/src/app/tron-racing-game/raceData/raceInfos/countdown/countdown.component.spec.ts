@@ -1,18 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { APP_BASE_HREF } from "@angular/common";
 
-import { CountdownComponent } from './countdown.component';
-import { routes } from '../../../../app-routes.module';
-import { AppModule } from '../../../../app.module';
-import { APP_BASE_HREF } from '@angular/common';
+import { CountdownComponent } from "./countdown.component";
+import { routes } from "../../../../app-routes.module";
+import { AppModule } from "../../../../app.module";
 
-describe('CountdownComponent', () => {
+describe("CountdownComponent", () => {
     let component: CountdownComponent;
     let fixture: ComponentFixture<CountdownComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         })
             .compileComponents()
             .catch((error: Error) => { console.error(error); });
@@ -24,7 +24,7 @@ describe('CountdownComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 });

@@ -26,7 +26,8 @@ const DEFAULT_TRACKNAME: string = "test";
 
 export class GameUiComponent implements AfterViewInit {
 
-    public EndGameTable = EndGameTable;
+    // tslint:disable-next-line:typedef
+    public EndGameTable = EndGameTable;     // needed to use the enum in the HTML
 
     @ViewChild("container")
     private containerRef: ElementRef;
@@ -36,7 +37,6 @@ export class GameUiComponent implements AfterViewInit {
                        private inputHandlerService: InputHandlerService,
                        private route: ActivatedRoute,
                        private endGameService: EndGameService) { }
-
 
     @HostListener("window:resize", ["$event"])
     public onResize(): void {
@@ -56,8 +56,9 @@ export class GameUiComponent implements AfterViewInit {
     public async ngAfterViewInit(): Promise<void> {
         this.endGameService.displayTable = EndGameTable.NO_TABLE;
         let trackName: string = this.route.snapshot.paramMap.get("trackName");
-        if (!this.isDefined(trackName))
+        if (!this.isDefined(trackName)) {
             trackName = DEFAULT_TRACKNAME;
+        }
 
         await this.raceDataHandlerService.initialize(trackName, this.choseEasyDifficulty);
         await this.renderService.initialize(this.containerRef.nativeElement);
