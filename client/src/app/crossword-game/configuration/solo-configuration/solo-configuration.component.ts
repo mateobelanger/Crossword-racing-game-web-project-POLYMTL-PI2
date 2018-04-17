@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import { GameStateService } from "../../game-state.service";
 import { SocketService } from "../../socket.service";
 
+const USERNAME: string = "Score";
+
 @Component({
     selector: "app-crossword-game",
     templateUrl: "./solo-configuration.component.html",
@@ -18,6 +20,6 @@ export class SoloConfigurationComponent {
 
     public async createGame(): Promise<void> {
         this.gameState.startGame();
-        await this.socketService.createSoloGame("Score", this.gameState.difficulty);
+        await this.socketService.createSoloGame(USERNAME, this.gameState.difficulty);
     }
 }
