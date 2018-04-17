@@ -4,5 +4,5 @@ import { SceneLoaderService } from "../../gameRendering/scene-loader/scene-loade
 import { RaceDataHandlerService } from "../../raceData/race-data-handler.service";
 
 export abstract class CommandFormat {
-    public abstract execute(isKeyDown: boolean, car?: Car, service?: CameraService | SceneLoaderService | RaceDataHandlerService): void;
+    public abstract execute(isKeyDown: boolean, cars?: Car[], service?: CameraService | SceneLoaderService | RaceDataHandlerService): void;
 }

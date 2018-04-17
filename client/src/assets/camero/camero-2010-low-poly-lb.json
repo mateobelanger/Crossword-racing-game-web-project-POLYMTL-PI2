@@ -55,7 +55,7 @@
             "mapBumpWrap": ["RepeatWrapping","RepeatWrapping"],
             "colorEmissive": [0,0,0],
             "DbgIndex": 0,
-            "mapDiffuse": "camero map-3.png",
+            "mapDiffuse": "camero map-lb.png",
             "transparent": false,
             "visible": true,
             "specularCoef": 50,
@@ -63,13 +63,13 @@
             "mapDiffuseWrap": ["RepeatWrapping","RepeatWrapping"],
             "mapDiffuseRepeat": [1,1],
             "colorDiffuse": [0.878431,0.878431,0.878431],
-            "mapSpecular": "camero map-3.png",
+            "mapSpecular": "camero map-lb.png",
             "mapDiffuseAnisotropy": 1,
             "depthWrite": true,
             "DbgName": "Carcamero_ma",
             "mapSpecularRepeat": [1,1],
             "DbgColor": 15658734,
-            "mapBump": "camero map-3.png",
+            "mapBump": "camero map-lb.png",
             "colorAmbient": [0.878431,0.878431,0.878431],
             "doubleSided": true,
             "mapBumpScale": 1,
@@ -86,7 +86,7 @@
         "minFilter": 1008,
         "image": "B6A6440D-820E-3FF9-BEB3-3FB2F73E7F8A",
         "repeat": [1,1],
-        "uuid": "AE38A956-9AB2-3824-8674-F71A275AFD60",
+        "uuid": "AE38A956-9AB2-3824-8674-F71A275AFD63",
         "magFilter": 1006,
         "wrap": [1000,1000],
         "anisotropy": 1
@@ -96,7 +96,7 @@
         "minFilter": 1008,
         "image": "B6A6440D-820E-3FF9-BEB3-3FB2F73E7F8A",
         "repeat": [1,1],
-        "uuid": "AE38A956-9AB2-3824-8674-F71A275AFD60",
+        "uuid": "AE38A956-9AB2-3824-8674-F71A275AFD63",
         "magFilter": 1006,
         "wrap": [1000,1000],
         "anisotropy": 1
@@ -106,19 +106,19 @@
         "minFilter": 1008,
         "image": "B6A6440D-820E-3FF9-BEB3-3FB2F73E7F8A",
         "repeat": [1,1],
-        "uuid": "AE38A956-9AB2-3824-8674-F71A275AFD60",
+        "uuid": "AE38A956-9AB2-3824-8674-F71A275AFD63",
         "magFilter": 1006,
         "wrap": [1000,1000],
         "anisotropy": 1
     }],
     "materials": [{
-        "bumpMap": "AE38A956-9AB2-3824-8674-F71A275AFD60",
+        "bumpMap": "AE38A956-9AB2-3824-8674-F71A275AFD63",
         "name": "Carcamero_ma",
         "type": "MeshPhongMaterial",
         "blending": "NormalBlending",
         "uuid": "DA2DB727-F766-3434-B879-9034985D99FC",
         "bumpScale": 1,
-        "map": "AE38A956-9AB2-3824-8674-F71A275AFD60",
+        "map": "AE38A956-9AB2-3824-8674-F71A275AFD63",
         "specular": 789516,
         "emissive": 0,
         "ambient": 14737632,
@@ -126,7 +126,7 @@
         "side": 2,
         "color": 14737632,
         "vertexColors": false,
-        "specularMap": "AE38A956-9AB2-3824-8674-F71A275AFD60",
+        "specularMap": "AE38A956-9AB2-3824-8674-F71A275AFD63",
         "depthWrite": true,
         "depthTest": true
     }],
@@ -137,7 +137,7 @@
     },
     "images": [{
         "uuid": "B6A6440D-820E-3FF9-BEB3-3FB2F73E7F8A",
-        "name": "camero map-3.png",
-        "url": "camero map-3.png"
+        "name": "camero map-lb.png",
+        "url": "camero map-lb.png"
     }]
 }

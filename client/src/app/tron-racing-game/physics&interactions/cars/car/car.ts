@@ -1,4 +1,4 @@
-import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion, Box3 } from "three";
+import { Vector3, Matrix4, Object3D, Euler, Quaternion, Box3 } from "three";
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG, GameState } from "../../../constants";
 import { Wheel } from "./wheel";
@@ -114,18 +114,8 @@ export class Car extends Object3D {
         return carDirection;
     }
 
-    // TODO: move loading code outside of car class.
-    private async load(): Promise<Object3D> {
-        return new Promise<Object3D>((resolve, reject) => {
-            const loader: ObjectLoader = new ObjectLoader();
-            loader.load("../../assets/camero/camero-2010-low-poly.json", (object) => {
-                resolve(object);
-            });
-        });
-    }
-
-    public async init(): Promise<void> {
-        this._mesh = await this.load();
+    public init(texture: Object3D = new Object3D()): void {
+        this._mesh = texture;
         this._mesh.receiveShadow = true;
         this.carLights.initialize(this._mesh);
         this.carLights.switchLights();
