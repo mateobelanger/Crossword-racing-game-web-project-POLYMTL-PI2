@@ -9,7 +9,7 @@ import { RaceProgressionHandlerService } from '../../raceData/raceProgression/ra
 import { VirtualPlayerDifficulty } from '../../virtualPlayers/virtualPlayerDifficulty';
 import { TextureLoaderService } from '../../gameRendering/textureLoader/texture-loader.service';
 import { InputHandlerService } from '../controller/input-handler.service';
-import { W_KEYCODE } from '../../../../../../common/constants';
+import { W_KEYCODE, A_KEYCODE, S_KEYCODE, D_KEYCODE } from '../../../../../../common/constants';
 
 @Injectable()
 export class CarHandlerService {
@@ -80,13 +80,41 @@ export class CarHandlerService {
     }
 
     public enableControlKeys(): void {
-        this.inputHandler.addListener(W_KEYCODE, true, this.accelerationInput);
-        this.inputHandler.addListener(W_KEYCODE, false, this.accelerationInput);
+        this.inputHandler.addListener(W_KEYCODE, this.accelerationInput(this._cars));
+        this.inputHandler.addListener(W_KEYCODE, this.accelerationInput(this._cars));
+
+        this.inputHandler.addListener(A_KEYCODE, this.turnLeftInput(this._cars));
+        this.inputHandler.addListener(A_KEYCODE, this.turnLeftInput(this._cars));
+
+        this.inputHandler.addListener(S_KEYCODE, this.brakeInput(this._cars));
+        this.inputHandler.addListener(S_KEYCODE, this.brakeInput(this._cars));
+
+        this.inputHandler.addListener(D_KEYCODE, this.turnRightInput(this._cars));
+        this.inputHandler.addListener(D_KEYCODE, this.turnRightInput(this._cars));
     }
 
-    private accelerationInput(isKeyDown: boolean): void {
-        console.log(this);
-        this.cars[1][1].isAcceleratorPressed = isKeyDown;
+    private accelerationInput(cars: [string, Car][]): Function {
+        return (isKeyDown: boolean) => {
+            cars[1][1].isAcceleratorPressed = isKeyDown;
+        };
+    }
+
+    private turnLeftInput(cars: [string, Car][]): Function {
+        return (isKeyDown: boolean) => {
+            isKeyDown ? cars[1][1].steerLeft() : cars[1][1].releaseSteering();
+        };
+    }
+
+    private brakeInput(cars: [string, Car][]): Function {
+        return (isKeyDown: boolean) => {
+            isKeyDown ? cars[1][1].brake() :  cars[1][1].releaseBrakes();
+        };
+    }
+
+    private turnRightInput(cars: [string, Car][]): Function {
+        return (isKeyDown: boolean) => {
+            isKeyDown ? cars[1][1].steerRight() : cars[1][1].releaseSteering();
+        };
     }
 
     private findVirtualPlayer(virtualPlayerName: string): Car {

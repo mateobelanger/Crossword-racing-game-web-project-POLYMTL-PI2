@@ -13,6 +13,9 @@ import { CollisionHandlerService } from "../../physics&interactions/collisions/c
 import { DEFAULT_MAX_RPM } from "../../physics&interactions/cars/car/engine";
 import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
 import { PortalsHandlerService } from "../../virtualPlayers/teleportation/portals-handler.service";
+import { InputHandlerService } from "../../physics&interactions/controller/input-handler.service";
+import { C_KEYCODE, PLUS_KEYCODE, MINUS_KEYCODE, N_KEYCODE } from "../../../../../../common/constants";
+import { SkyboxService } from "../skybox.service";
 
 const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
 const ENGINE_MIN_VOLUME: number = 0.2;
@@ -41,7 +44,9 @@ export class RenderService implements OnDestroy {
                        private raceProgressionService: RaceProgressionHandlerService,
                        private collisionHandlerService: CollisionHandlerService,
                        private outOfBoundsHandlerService: OutOfBoundsHandlerService,
-                       private portalhandlerService: PortalsHandlerService) {
+                       private portalhandlerService: PortalsHandlerService,
+                       private inputHandler: InputHandlerService,
+                       private skyboxService: SkyboxService) {
         this._car = new Car();
     }
 
@@ -99,6 +104,12 @@ export class RenderService implements OnDestroy {
         });
 
         this.cameraService.initialize(this.container, this._car.mesh);
+
+        this.inputHandler.addListener(C_KEYCODE, this.changeCamera(this.cameraService));
+        this.inputHandler.addListener(PLUS_KEYCODE, this.zoomIn(this.cameraService));
+        this.inputHandler.addListener(MINUS_KEYCODE, this.zoomOut(this.cameraService));
+        this.inputHandler.addListener(N_KEYCODE, this.switchNightAndDay(this.skyboxService, this.carHandlerService));
+
         this.sceneLoaderService.initialize(this.scene);
 
         this.audioService.initialize(this.cameraService.getCamera());
@@ -111,8 +122,6 @@ export class RenderService implements OnDestroy {
     private startRenderingLoop(): void {
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.lastDate = Date.now();
         this.container.appendChild(this.renderer.domElement);
@@ -132,6 +141,37 @@ export class RenderService implements OnDestroy {
 
     public onResize(): void {
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    }
+
+    private changeCamera(cameraService: CameraService): Function {
+        return (isKeyDown: boolean) => {
+            if (isKeyDown) {
+                cameraService.changeCamera();
+            }
+        };
+    }
+
+    private zoomIn(cameraService: CameraService): Function {
+        return (isKeyDown: boolean) => {
+            cameraService.isZoomingIn = isKeyDown;
+        };
+    }
+
+    private zoomOut(cameraService: CameraService): Function {
+        return (isKeyDown: boolean) => {
+            cameraService.isZoomingOut = isKeyDown;
+        };
+    }
+
+    private switchNightAndDay(skyboxService: SkyboxService, carHandler: CarHandlerService): Function {
+        return (isKeyDown: boolean) => {
+            if (isKeyDown) {
+                skyboxService.updateScene();
+                for ( const car of carHandler.carsOnly) {
+                    car.switchLights();
+                }
+            }
+        };
     }
 }
 

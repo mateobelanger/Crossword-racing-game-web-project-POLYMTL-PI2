@@ -39,5 +39,5 @@ export const D_KEYCODE: number = 68;
 export const C_KEYCODE: number = 67;
 export const N_KEYCODE: number = 78;
 export const E_KEYCODE: number = 69;
-export const I_KEYCODE: number = 187;
-export const O_KEYCODE: number = 189;
+export const PLUS_KEYCODE: number = 187;
+export const MINUS_KEYCODE: number = 189;
