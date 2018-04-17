@@ -28,12 +28,6 @@ export class GameUiComponent implements OnInit {
         this.initialize();
     }
 
-    public initialize(): void {
-        this.gridService.initialize();
-        this.validator.initialize();
-        this.definitionsService.initialize();
-    }
-
     public deselect(): void {
         this.selectionService.deselect();
     }
@@ -41,5 +35,11 @@ export class GameUiComponent implements OnInit {
     public returnToMenu(): void {
         this.router.navigate(["/"]);
         window.location.reload();
+    }
+
+    private initialize(): void {
+        this.gridService.initialize();
+        this.validator.initialize();
+        this.definitionsService.initialize();
     }
 }

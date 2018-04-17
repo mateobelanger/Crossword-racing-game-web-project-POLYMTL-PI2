@@ -9,7 +9,6 @@ describe("lineEquation", () => {
     const line: LineEquation = new LineEquation();
     line.initialize(firstPoint, secondPoint);
 
-
     it("should be instanciable with default constructor", () => {
         const aline: LineEquation = new LineEquation();
         expect(aline).toBeDefined();
@@ -95,4 +94,3 @@ describe("lineEquation", () => {
     });
 
 });
-

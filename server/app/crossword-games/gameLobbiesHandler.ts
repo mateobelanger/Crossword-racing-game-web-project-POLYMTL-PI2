@@ -1,7 +1,7 @@
 import { CrosswordGame } from "../../../common/crosswordsInterfaces/crosswordGame";
 import { Difficulty } from "../../../common/constants";
 import { GridWord } from "../../../common/crosswordsInterfaces/word";
-import { castHttpToGridWord } from "../../../common/communication/httpToObjectCasting";
+import { castHttpToGridWords } from "../../../common/communication/httpToObjectCasting";
 
 enum GameType { SOLO, MULTIPLAYER, PENDING }
 
@@ -57,7 +57,7 @@ export class GameLobbiesHandler {
                 return GameLobbiesHandler.createSoloGame(socketId, roomId, username, difficulty, words);
             } else {
                 GameLobbiesHandler._pendingGames.push(
-                                new CrosswordGame(roomId, socketId, username, difficulty, castHttpToGridWord(words)) );
+                                new CrosswordGame(roomId, socketId, username, difficulty, castHttpToGridWords(words)) );
             }
         }
 
@@ -109,7 +109,7 @@ export class GameLobbiesHandler {
 
     private static createSoloGame(id: string, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): CrosswordGame {
         const newGame: CrosswordGame =
-            new CrosswordGame(roomId, id, username, difficulty, castHttpToGridWord(words));
+            new CrosswordGame(roomId, id, username, difficulty, castHttpToGridWords(words));
         GameLobbiesHandler._soloGames.push(newGame);
 
         return newGame;

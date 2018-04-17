@@ -1,18 +1,18 @@
-.loading-gif { 
-    position: fixed; 
-    left: 0px; 
-    top: 0px; 
-    width: 100%; 
-    height: 100%; 
-    z-index: 9998; 
-    background: url("../../../assets/game-configuration/loader.gif") center no-repeat #fff; 
-  } 
-   
-  .loading-text { 
+.loading-gif {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    background: url("../../../assets/game-configuration/loader.gif") center no-repeat #fff;
+}
+
+.loading-text {
     z-index: 9999;
     position: fixed;
     top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 30px;
-  }
+}

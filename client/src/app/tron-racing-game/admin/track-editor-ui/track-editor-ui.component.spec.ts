@@ -12,7 +12,6 @@ const fakeTrack: ITrackData = {
     description: "Test description",
     timesPlayed: 12,
     bestTimes: [],
-    // tslint:disable-next-line:no-magic-numbers
     waypoints: [[1, 1, 1], [2, 2, 2]],
     image: "ab"
 
@@ -24,7 +23,6 @@ const tracks: ITrackData[] = [
         description: "Test description",
         timesPlayed: 12,
         bestTimes: [],
-        // tslint:disable-next-line:no-magic-numbers
         waypoints: [[1, 1, 1], [2, 2, 2]],
         image: "cd"
     },
@@ -32,9 +30,7 @@ const tracks: ITrackData[] = [
         name: "Test2",
         description: "Test description",
         timesPlayed: 12,
-        // tslint:disable-next-line:no-magic-numbers
         bestTimes: [["gen", 2], ["p-o ;)", 1]],
-        // tslint:disable-next-line:no-magic-numbers
         waypoints: [[1, 1, 1], [2, 2, 2]],
         image: "ef"
     }
@@ -47,12 +43,11 @@ describe("TrackEditorUiComponent", () => {
     let spySaveTrack: jasmine.Spy;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         })
-        .compileComponents();
+        .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {

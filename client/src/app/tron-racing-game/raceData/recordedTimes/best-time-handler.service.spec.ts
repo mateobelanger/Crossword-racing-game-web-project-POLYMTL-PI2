@@ -1,9 +1,9 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { BestTimeHandlerService } from './best-time-handler.service';
+import { TestBed, inject } from "@angular/core/testing";
+import { BestTimeHandlerService } from "./best-time-handler.service";
 
 // tslint:disable:no-magic-numbers
 
-describe('BestTimeHandlerService', () => {
+describe("BestTimeHandlerService", () => {
 
   const bestTimes: [string, number][] = [["nolife", 1], ["second", 4], ["fourth", 6], ["third", 5], ["last", 6.5]];
 
@@ -13,7 +13,7 @@ describe('BestTimeHandlerService', () => {
     });
   });
 
-  it('should be created', inject([BestTimeHandlerService], (service: BestTimeHandlerService) => {
+  it("should be created", inject([BestTimeHandlerService], (service: BestTimeHandlerService) => {
     expect(service).toBeTruthy();
   }));
 

@@ -14,7 +14,7 @@
                class="col"
                [class.localValidatedCell]="gridService.isHostValidatedCell(indexR, indexC)"
                [class.remoteValidatedCell]="gridService.isGuestValidatedCell(indexR, indexC)"
-               [class.bothValidatedCell]="gridService.isBothValidatedCell(indexR, indexC)"
+               [class.bothValidatedCell]="gridService.isHostAndGuestValidatedCell(indexR, indexC)"
                [disabled]="gridService.isValidatedCell(indexR, indexC)"
                [class.remoteSelected]="gridService.isGuestSelectedWord(indexR, indexC)"  
                [class.localSelected]="gridService.isHostSelectedWord(indexR, indexC)"

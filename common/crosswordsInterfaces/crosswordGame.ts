@@ -1,7 +1,5 @@
-import { Difficulty } from "../constants";
-import { GridWord } from '../../common/crosswordsInterfaces/word';
-
-enum PlayerType {HOST, GUEST}
+import { Difficulty, PlayerType } from "../constants";
+import { GridWord } from "../../common/crosswordsInterfaces/word";
 
 export class CrosswordGame  {
     public roomId: string;
@@ -10,25 +8,25 @@ export class CrosswordGame  {
     public difficulty: Difficulty;
     public _words: GridWord[];
     public validatedWords: GridWord[][];
-    public isWaitingForRestart: boolean[]; 
+    public isWaitingForRestart: boolean[];
 
     constructor(roomId: string,
-                hostId: string, 
-                hostUsername: string, 
-                difficulty: Difficulty, 
+                hostId: string,
+                hostUsername: string,
+                difficulty: Difficulty,
                 words: GridWord[]) {
-                    
+
         this.roomId = roomId;
 
         this.ids = [];
         this.hostId = hostId;
         this.guestId = null;
-        
+
         this.usernames = [];
         this.hostUsername = hostUsername;
         this.guestUsername = "";
-    
-        this.isWaitingForRestart = [false, false]; 
+
+        this.isWaitingForRestart = [false, false];
 
         this.difficulty = difficulty;
         this._words = words;
@@ -62,7 +60,7 @@ export class CrosswordGame  {
         this.ids[PlayerType.GUEST] = guestId;
     }
 
-    // TODO: Ces getters ne fonctionnent pas
+    // TODO: ces getters ne fonctionnent pas
     public get hostUsername(): string {
         return this.usernames[PlayerType.HOST];
     }
@@ -71,7 +69,7 @@ export class CrosswordGame  {
         this.usernames[PlayerType.HOST] = hostUsername;
     }
 
-    // TODO: Ces getters ne fonctionnent pas    
+    // TODO: ces getters ne fonctionnent pas
     public get guestUsername(): string {
         return this.usernames[PlayerType.GUEST];
     }
@@ -97,7 +95,7 @@ export class CrosswordGame  {
     }
 
     public isMultiplayer(): boolean {
-        return this.usernames[1].length !== 0; 
+        return this.usernames[1].length !== 0;
     }
 
     public updateGuestInformation(socketId: string, guestName: string): void {
@@ -105,17 +103,16 @@ export class CrosswordGame  {
         this.guestUsername = guestName;
     }
 
-    public areAllWordsValidated(): boolean { 
-        return this.guestValidatedWords.length + this.hostValidatedWords.length >= this._words.length; 
-        // TODO: change "1" for this._words.length; 
-    } 
+    public areAllWordsValidated(): boolean {
+        return this.guestValidatedWords.length + this.hostValidatedWords.length >= this._words.length;
+    }
 
-    public restartGame(): void { 
-        this.validatedWords = []; 
-        this.guestValidatedWords = []; 
-        this.hostValidatedWords = []; 
-        this._words = []; 
-    } 
+    public restartGame(): void {
+        this.validatedWords = [];
+        this.guestValidatedWords = [];
+        this.hostValidatedWords = [];
+        this._words = [];
+    }
 
     public isAPlayerWaitingForRestart(): boolean {
         return this.isWaitingForRestart[PlayerType.HOST] || this.isWaitingForRestart[PlayerType.GUEST];

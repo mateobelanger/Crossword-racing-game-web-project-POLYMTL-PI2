@@ -95,8 +95,8 @@ export class GridService {
         return this.validatorService.isValidatedCell(row, column);
     }
 
-    public isBothValidatedCell(row: number, column: number): boolean {
-        return this.validatorService.isBothValidatedCell(row, column);
+    public isHostAndGuestValidatedCell(row: number, column: number): boolean {
+        return this.validatorService.isHostAndGuestValidatedCell(row, column);
     }
 
     public isHostValidatedCell(row: number, column: number): boolean {

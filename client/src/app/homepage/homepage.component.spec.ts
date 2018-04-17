@@ -12,7 +12,7 @@ describe("HomepageComponent", () => {
             declarations: [HomepageComponent],
             providers: [GameStateService]
         })
-        .compileComponents();
+        .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {

@@ -7,6 +7,7 @@ import { GridWord } from "../../common/crosswordsInterfaces/word";
 
 import { GameProgessionHandler } from "./crossword-games/gameProgressionHandler";
 import { GameLobbiesHandler } from "./crossword-games/gameLobbiesHandler";
+import { castHttpToGridWords } from "../../common/communication/httpToObjectCasting";
 
 export class Io {
 
@@ -58,8 +59,8 @@ export class Io {
         socket.on(SocketMessage.HOST_RESTART_PENDING, (roomId: string, isGuestReady: boolean, newWords: GridWord[]) => {
             this.hostAskForRestart(roomId, isGuestReady, newWords);
         });
-        socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, newWords: GridWord[], isHostReady: boolean) => {
-            this.guestAskForRestart(roomId, socket, isHostReady);
+        socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, isHostReady: boolean) => {
+            this.guestAskForRestart(roomId);
         });
     }
 
@@ -99,7 +100,7 @@ export class Io {
             return;
         }
         game.restartGame();
-        game._words = GameLobbiesHandler.castHttpToGridWord(newWords);
+        game._words = castHttpToGridWords(newWords);
         game.isWaitingForRestart[PlayerType.HOST] = true;
 
         this.socketServer.in(roomId).emit(SocketMessage.HOST_ASKED_FOR_RESTART, game);
@@ -111,7 +112,7 @@ export class Io {
         }
     }
 
-    private guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
+    private guestAskForRestart(roomId: string): void {
         const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
         game.isWaitingForRestart[PlayerType.GUEST] = true;
         this.socketServer.in(roomId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
@@ -122,9 +123,12 @@ export class Io {
         if (game === undefined) {
             return;
         } else if (game.isAPlayerWaitingForRestart()) {
+            this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING);
+        } else {
             this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED);
         }
         GameLobbiesHandler.disconnect(socket.id);
+
         this.broadcastGameLists();
     }
 }

@@ -1,6 +1,7 @@
 import { TestBed, inject } from "@angular/core/testing";
 import { RaceResultsService } from "./race-results.service";
 import { PLAYERS_NAME } from "../../constants";
+
 // tslint:disable:no-magic-numbers
 describe("RaceResultsService", () => {
     beforeEach(() => {

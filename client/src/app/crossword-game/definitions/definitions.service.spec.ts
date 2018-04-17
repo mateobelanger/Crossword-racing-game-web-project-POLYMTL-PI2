@@ -1,10 +1,9 @@
 import { TestBed, inject } from "@angular/core/testing";
 
-import { DefinitionsService } from './definitions.service';
-import { WordService } from '../word.service';
-import { GridWord, Direction } from '../../../../../common/crosswordsInterfaces/word';
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
-
+import { DefinitionsService } from "./definitions.service";
+import { WordService } from "../word.service";
+import { GridWord, Direction } from "../../../../../common/crosswordsInterfaces/word";
+import { HttpClient, HttpClientModule, HttpHandler } from "@angular/common/http";
 
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
@@ -15,8 +14,7 @@ const word6: GridWord = new GridWord (2, 0, Direction.HORIZONTAL, "tam", "TAM __
 
 const words: GridWord[] = [word1, word2, word3, word4, word5, word6];
 
-
-describe('DefinitionsService', () => {
+describe("DefinitionsService", () => {
 
     let wordService: WordService;
     let http: HttpClient;

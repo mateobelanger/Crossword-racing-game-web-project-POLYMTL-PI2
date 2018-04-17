@@ -9,9 +9,7 @@ import { SizeError } from "./constraintsErrors/sizeError";
 export class Constraints {
 
     private _invalidPlanesErrors: ConstraintsError[];
-
     private _previousInvalidPlanesErrors: ConstraintsError[];
-
     private roads: Road[];
 
     public constructor () {
@@ -41,8 +39,9 @@ export class Constraints {
             (newError) =>  {
                 let isNew: boolean = true;
                 this._previousInvalidPlanesErrors.forEach((previousError) => {
-                    if (newError.planeId === previousError.planeId)
+                    if (newError.planeId === previousError.planeId) {
                         isNew = false;
+                    }
                 });
 
                 return isNew;
@@ -53,8 +52,9 @@ export class Constraints {
             (previousError) =>  {
                 let isNew: boolean = true;
                 this._invalidPlanesErrors.forEach((newError) => {
-                    if (newError.planeId === previousError.planeId)
+                    if (newError.planeId === previousError.planeId) {
                         isNew = false;
+                    }
                 });
 
                 return isNew;
@@ -112,8 +112,9 @@ export class Constraints {
     private findRoadIndex(id: number): number {
         let index: number = null;
         this.roads.forEach((element, i) => {
-            if (element.id === id)
+            if (element.id === id) {
                 index = i;
+            }
         });
 
         return index;
@@ -121,15 +122,14 @@ export class Constraints {
 
     private getRoad(id: number): Road {
         let road: Road = null;
-        if (this.isDefined(id))
+        if (this.isDefined(id)) {
             road = this.roads[this.findRoadIndex(id)];
+        }
 
         return road;
     }
 
-    /*tslint:disable:no-any*/
-    private isDefined(object: any): boolean {
+    private isDefined<T>(object: T): boolean {
         return ((object !== null) && (object !== undefined));
-    }/*tslint:enable:no-any*/
+    }
 }
-

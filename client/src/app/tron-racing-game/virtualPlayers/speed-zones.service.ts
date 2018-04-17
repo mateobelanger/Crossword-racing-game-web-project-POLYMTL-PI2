@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { TrackSegmentSpeed } from "./trackSegmentSpeed";
 import { VirtualPlayerDifficulty } from "./virtualPlayerDifficulty";
 import * as THREE from "three";
@@ -7,7 +7,6 @@ import { WAYPOINT_RADIUS } from "../constants";
 
 // tslint:disable-next-line:no-magic-numbers
 const CORNER_ZONE: number =  WAYPOINT_RADIUS * 3;
-
 
 @Injectable()
 export class SpeedZonesService {
@@ -71,6 +70,4 @@ export class SpeedZonesService {
   private cornerSlowDownFactor(angle: number): number {
       return Math.sqrt((Math.PI - angle) / Math.PI);
   }
-
-
 }

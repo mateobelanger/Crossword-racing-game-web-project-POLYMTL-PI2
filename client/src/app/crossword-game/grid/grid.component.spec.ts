@@ -15,12 +15,11 @@ describe("GridComponent", () => {
     let fixture: ComponentFixture<GridComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule, FormsModule],
             providers: [GridService, ValidatorService, WordService, UserGridService, {provide: APP_BASE_HREF, useValue : "/" }]
         })
-        .compileComponents();
+        .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {

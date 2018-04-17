@@ -14,12 +14,11 @@ describe("DefinitionsComponent", () => {
     let fixture: ComponentFixture<DefinitionsComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [ValidatorService, UserGridService, WordService, GridService, {provide: APP_BASE_HREF, useValue : "/" }]
         })
-        .compileComponents();
+        .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {
