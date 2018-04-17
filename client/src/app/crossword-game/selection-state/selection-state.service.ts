@@ -4,7 +4,6 @@ import { GridWord } from "../../../../../common/crosswordsInterfaces/word";
 @Injectable()
 export class SelectionStateService {
 
-
     public localSelectedWord: GridWord;
     public remoteSelectedWord: GridWord;
 

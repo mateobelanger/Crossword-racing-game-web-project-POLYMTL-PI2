@@ -4,8 +4,8 @@ import { SocketService } from "../../socket.service";
 
 @Component({
     selector: "app-crossword-game",
-    templateUrl: "./soloConfiguration.component.html",
-    styleUrls: ["./soloConfiguration.component.css"]
+    templateUrl: "./solo-configuration.component.html",
+    styleUrls: ["./solo-configuration.component.css"]
 })
 export class SoloConfigurationComponent {
 
@@ -13,7 +13,7 @@ export class SoloConfigurationComponent {
     }
 
     public get canStartGame(): boolean {
-        return !this.gameState.isOngoing() && this.gameState.difficulty !== null;
+        return !this.gameState.isOngoing && this.gameState.difficulty !== null;
     }
 
     public async createGame(): Promise<void> {

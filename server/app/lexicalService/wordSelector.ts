@@ -65,8 +65,8 @@ export class WordSelector {
         for (const word of words) {
             try {
                 definitionIndex = word.findDefinitionIndex(isEasy);
-            } catch (e) {
-                console.error(e);
+            } catch (error) {
+                console.error(error);
                 continue;
             }
             if (word.isValidWithTemplate(criteria) && word.isCommon() === isCommon) {

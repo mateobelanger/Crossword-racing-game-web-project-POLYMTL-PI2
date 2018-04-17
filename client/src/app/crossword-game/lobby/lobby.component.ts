@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NameValidator } from "../../../../../common/nameValidator";
 import { LobbyService } from './lobby.service';
 import { SocketService } from "../socket.service";
+
 
 @Component({
     selector: 'app-lobby',
@@ -15,9 +17,12 @@ export class LobbyComponent implements OnInit  {
         this.guestName = "";
     }
 
-
     public ngOnInit(): void {
         this.socketService.getGameLobbies();
+    }
+
+    public isAlphaNumerical (keyCode: number): boolean {
+        return NameValidator.isAlphaNumerical(keyCode);
     }
 
     public joinGame(roomId: string): void {
@@ -25,15 +30,7 @@ export class LobbyComponent implements OnInit  {
     }
 
     public isValidName(): boolean {
-        let containsOnlySpaces: boolean = true;
-        for (const char of this.guestName) {
-            if (char !== " ") {
-                containsOnlySpaces = false;
-                break;
-            }
-        }
-
-        return this.guestName.length > 0 && !containsOnlySpaces;
+        return NameValidator.isValidName(this.guestName);
     }
 
 }

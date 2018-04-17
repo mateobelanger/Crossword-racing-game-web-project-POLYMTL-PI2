@@ -1,8 +1,8 @@
+import { NameValidator } from "../../common/nameValidator";
+
 const COMMON_LIMIT: number = 10;
 const FREQUENCY_INDEX: number = 2;
 const QUOTATION_MARKS_ASCII_CODE: number = 34;
-const CHAR_A: number = 97;
-const CHAR_Z: number = 122;
 
 export class DictionaryEntry {
 
@@ -84,8 +84,7 @@ export class DictionaryEntry {
             return false;
         }
         for (let i: number = 0; i < template.length; i++) {
-            // can only contain letters
-            if (this.name.charCodeAt(i) < CHAR_A && this.name.charCodeAt(i) > CHAR_Z) {
+            if (!NameValidator.isAlphabetical(this.name.charCodeAt(i))) {
                 return false;
             }
             if (template[i] !== "?" && template[i] !== this.name[i]) {

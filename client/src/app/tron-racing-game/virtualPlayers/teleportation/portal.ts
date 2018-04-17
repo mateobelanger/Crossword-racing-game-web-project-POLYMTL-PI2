@@ -35,7 +35,7 @@ export class Portal {
         this._scene.remove(this.sphericalMesh);
     }
 
-    public growPortal(): Promise<void> {
+    public async growPortal(): Promise<{}> {
         return new Promise( (resolve, reject) => {
             const id: number = window.setInterval(() => {
                 this.grow();
@@ -53,7 +53,7 @@ export class Portal {
         this.sphericalMesh.scale.set(this.sphereRadius, this.sphereRadius, this.sphereRadius);
     }
 
-    public shrinkPortal(): Promise<void> {
+    public async shrinkPortal(): Promise<{}> {
         return new Promise( (resolve, reject) => {
             const id: number = window.setInterval(() => {
                 if ( this.sphereRadius <= MIN_SPHERE_RADIUS) {

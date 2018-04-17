@@ -1,26 +1,26 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import {APP_BASE_HREF} from "@angular/common";
+import { APP_BASE_HREF } from "@angular/common";
 
-import { DifficultyConfigurationComponent } from "./difficultyConfiguration.component";
+import { SoloConfigurationComponent } from "./solo-configuration.component";
 import { routes } from "../../../app-routes.module";
 import { AppModule } from "../../../app.module";
 
 
-describe("ConfigurationComponent", () => {
-    let component: DifficultyConfigurationComponent;
-    let fixture: ComponentFixture<DifficultyConfigurationComponent>;
+describe("SoloConfigurationComponent", () => {
+    let component: SoloConfigurationComponent;
+    let fixture: ComponentFixture<SoloConfigurationComponent>;
 
     beforeEach(async(() => {
         // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
-        imports: [routes, AppModule],
-        providers: [{provide: APP_BASE_HREF, useValue : "/" }]
+            imports: [routes, AppModule],
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         })
         .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(DifficultyConfigurationComponent);
+        fixture = TestBed.createComponent(SoloConfigurationComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

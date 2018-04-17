@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-// import { ActivatedRoute } from '@angular/router';
 import { WordService } from '../word.service';
 import { GridService } from "../grid.service";
 import { ValidatorService } from "../validator.service";
 import { UserGridService } from '../user-grid.service';
 import { SelectionService } from '../selection/selection.service';
-// TODO : import { SocketService } from "../socket.service";
+import { Router } from '@angular/router';
+import { GameStateService } from '../game-state.service';
+import { DefinitionsService } from '../definitions/definitions.service';
 
 @Component({
     selector: 'app-game-ui',
@@ -16,8 +17,12 @@ import { SelectionService } from '../selection/selection.service';
 
 export class GameUiComponent implements OnInit {
     public constructor( private selectionService: SelectionService,
-                        public wordService: WordService, public validator: ValidatorService,
-                        public gridService: GridService/*, TODO private route: ActivatedRoute, private socketService: SocketService*/) {}
+                        public wordService: WordService,
+                        public validator: ValidatorService,
+                        public gridService: GridService,
+                        public gameState: GameStateService,
+                        public router: Router,
+                        private definitionsService: DefinitionsService) {}
 
     public async ngOnInit(): Promise<void> {
         this.initialize();
@@ -26,9 +31,15 @@ export class GameUiComponent implements OnInit {
     public initialize(): void {
         this.gridService.initialize();
         this.validator.initialize();
+        this.definitionsService.initialize();
     }
 
     public deselect(): void {
         this.selectionService.deselect();
+    }
+
+    public returnToMenu(): void {
+        this.router.navigate(["/"]);
+        window.location.reload();
     }
 }

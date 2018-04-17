@@ -10,12 +10,11 @@ describe('GameUiComponent', () => {
     let fixture: ComponentFixture<GameUiComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
         })
-        .compileComponents();
+        .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {
@@ -23,7 +22,7 @@ describe('GameUiComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
-    // TODO TEST : Cannot read property 'substring' of null
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });

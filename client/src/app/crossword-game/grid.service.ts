@@ -5,11 +5,10 @@ import { GRID_SIZE } from '../../../../common/constants';
 import { ValidatorService } from './validator.service';
 import { SelectionService } from './selection/selection.service';
 import { UserGridService } from './user-grid.service';
+import { NameValidator } from '../../../../common/nameValidator';
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;
-const KEY_A: number = 65;
-const KEY_Z: number = 90;
 
 @Injectable()
 export class GridService {
@@ -26,7 +25,7 @@ export class GridService {
     }
 
     public keyDown(keyCode: number, row: number, column: number): boolean {
-        if (keyCode >= KEY_A && keyCode <= KEY_Z) {
+        if (NameValidator.isAlphabetical(keyCode)) {
             return true;
         } else if (keyCode === KEY_BACKSPACE || keyCode === KEY_DELETE) {
             this.backspace(row, column);

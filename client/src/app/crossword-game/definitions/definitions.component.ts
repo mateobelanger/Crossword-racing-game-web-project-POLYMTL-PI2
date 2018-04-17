@@ -1,9 +1,8 @@
 import { Component } from "@angular/core";
-import { WordService } from "../word.service";
 import { ValidatorService } from "../validator.service";
-import { Direction } from "../../../../../common/crosswordsInterfaces/word";
 import { GridService } from "../grid.service";
 import { SelectionService } from "../selection/selection.service";
+import { DefinitionsService } from "./definitions.service";
 
 @Component({
     selector: "app-definitions",
@@ -12,26 +11,29 @@ import { SelectionService } from "../selection/selection.service";
 })
 export class DefinitionsComponent {
     private isCheatMode: boolean;
-    public horizontalDefinitions: string[][];
-    public verticalDefinitions: string[][];
 
     public constructor(private selectionService: SelectionService,
-                       private wordService: WordService,
                        private validatorService: ValidatorService,
-                       private gridService: GridService) {}
+                       private gridService: GridService,
+                       private definitionsService: DefinitionsService) {
 
+    }
 
     public onSelect(definition: string): void {
         this.selectionService.definition = definition;
         this.gridService.focusOnSelectedWord();
     }
 
-    public getHorizontalDefinitions(): String[][] {
-        return this.wordService.getDefinitions(Direction.HORIZONTAL);
+    public get horizontalDefinitions(): string[][] {
+        return this.definitionsService.horizontalDefinitions;
     }
 
-    public getVerticalDefinitions(): String[][] {
-        return this.wordService.getDefinitions(Direction.VERTICAL);
+    public get verticalDefinitions(): string[][] {
+        return this.definitionsService.verticalDefinitions;
+    }
+
+    public getWordWithDefinition(definition: string): string {
+        return this.definitionsService.getWordWithDefinition(definition);
     }
 
     public isHostValidatedDefinition(definition: string): boolean {

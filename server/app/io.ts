@@ -1,92 +1,130 @@
 import * as http from "http";
-// import { injectable } from "inversify";
 import * as SocketIo from "socket.io";
-import { GameConfiguration } from "../../common/crosswordsInterfaces/gameConfiguration";
-import { Difficulty, SocketMessage } from "../../common/constants";
+
+import { CrosswordGame } from "../../common/crosswordsInterfaces/crosswordGame";
+import { Difficulty, SocketMessage, PlayerType } from "../../common/constants";
 import { GridWord } from "../../common/crosswordsInterfaces/word";
+
 import { GameProgessionHandler } from "./crossword-games/gameProgressionHandler";
 import { GameLobbiesHandler } from "./crossword-games/gameLobbiesHandler";
 
-// enum GameType { SOLO, MULTIPLAYER, PENDING }
-
-// TODO : @injectable()
 export class Io {
 
     private socketServer: SocketIO.Server;
-    private gameProgressionHandler: GameProgessionHandler;
-    private gameLobbiesHandler: GameLobbiesHandler;
 
     constructor(server: http.Server) {
-
-        this.gameLobbiesHandler = new GameLobbiesHandler();
-        this.gameProgressionHandler = new GameProgessionHandler();
 
         this.socketServer = SocketIo(server);
         this.socketServer.on(SocketMessage.CONNECTION, (socket: SocketIO.Socket) => {
             this.initializeServerGameManager(socket);
             this.initializeServerGameProgression(socket);
+            this.initializeServerGameRestarter(socket);
         });
     }
 
-    // tslint:disable-next-line:max-func-body-length
     private initializeServerGameManager(socket: SocketIO.Socket): void {
-
         socket.on(SocketMessage.CREATE_GAME, (username: string, difficulty: Difficulty, words: GridWord[]) => {
-            this.gameLobbiesHandler.createGame(socket, username, difficulty, words, false);
+            const roomId: string = this.createAndJoinNewRoom(socket);
+            GameLobbiesHandler.createGame(roomId, socket.id, username, difficulty, words, false);
             this.broadcastGameLists();
         });
 
         socket.on(SocketMessage.CREATE_SOLO_GAME, (username: string, difficulty: Difficulty, words: GridWord[]) => {
-            this.gameLobbiesHandler.createGame(socket, username, difficulty, words, true);
+            const roomId: string = this.createAndJoinNewRoom(socket);
+            socket.emit(SocketMessage.INITIALIZE_GAME, GameLobbiesHandler.createGame(roomId, socket.id, username, difficulty, words, true));
+        });
+
+        socket.on(SocketMessage.JOIN_GAME, (roomId: string, guestName: string) => {
+            if (!GameLobbiesHandler.isAlreadyInAGame(socket.id)) {
+                socket.join(roomId);
+                const joinedGame: CrosswordGame = GameLobbiesHandler.joinGame(roomId, socket.id, guestName);
+                socket.emit(SocketMessage.SENT_GAME_AFTER_JOIN, joinedGame);
+                socket.to(joinedGame.hostId).emit(SocketMessage.INITIALIZE_GAME, joinedGame);
+                this.broadcastGameLists();
+            }
         });
 
         socket.on(SocketMessage.GET_GAME_LOBBIES, () => {
             this.broadcastGameLists();
         });
 
-        socket.on(SocketMessage.JOIN_GAME, (roomId: string, guestName: string) => {
-            this.gameLobbiesHandler.joinGame(socket, roomId, guestName);
-            this.broadcastGameLists();
-        });
-
-        /// TODO  GAME_RESTART
-        socket.on(SocketMessage.HOST_RESTART_PENDING, (roomId: string, isGuestReady: boolean, newWords: GridWord[]) => {
-            this.gameLobbiesHandler.hostAskForRestart(roomId, socket, isGuestReady, newWords, this.socketServer);
-        });
-        /// TODO  GAME_RESTART
-        socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, newWords: GridWord[], isHostReady: boolean) => {
-            this.gameLobbiesHandler.guestAskForRestart(roomId, socket, isHostReady);
-        });
-
         socket.on(SocketMessage.DISCONNECT, () => {
-            this.gameLobbiesHandler.disconnect(socket.id);
-            this.broadcastGameLists();
+            this.socketDisconnected(socket);
         });
+    }
 
+    private initializeServerGameRestarter(socket: SocketIO.Socket): void {
+
+        socket.on(SocketMessage.HOST_RESTART_PENDING, (roomId: string, isGuestReady: boolean, newWords: GridWord[]) => {
+            this.hostAskForRestart(roomId, isGuestReady, newWords);
+        });
+        socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, newWords: GridWord[], isHostReady: boolean) => {
+            this.guestAskForRestart(roomId, socket, isHostReady);
+        });
     }
 
     private initializeServerGameProgression(socket: SocketIO.Socket): void {
 
         socket.on(SocketMessage.ADD_VALIDATED_WORD, (word: GridWord, roomId: string) => {
-            const game: GameConfiguration = this.gameLobbiesHandler.getGameById(roomId);
-            if (this.gameProgressionHandler.isAddValidatedWord(word, game, socket.id)) {
+            const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+            if (GameProgessionHandler.isAddValidatedWord(word, game, socket.id)) {
                 this.socketServer.in(game.roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, game);
             }
         });
 
         socket.on(SocketMessage.SELECT_WORD, (selectedWord: GridWord) => {
-            // this.gameProgressionHandler.selectWord(this.gameLobbiesHandler.getGameById(socket.id), socket, selectedWord);
-            socket.to(this.gameLobbiesHandler.getGameById(socket.id).roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
+            socket.to(GameLobbiesHandler.getGameById(socket.id).roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
         });
 
         socket.on(SocketMessage.DESELECT_WORD, (word: GridWord) => {
-            // this.gameProgressionHandler.deselectWord(this.gameLobbiesHandler.getGameById(socket.id), socket, word);
-            socket.to(this.gameLobbiesHandler.getGameById(socket.id).roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
+            socket.to(GameLobbiesHandler.getGameById(socket.id).roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
         });
     }
 
     private broadcastGameLists(): void {
-        this.socketServer.emit("gameLobbies", this.gameLobbiesHandler.pendingGames, this.gameLobbiesHandler.multiplayerGames);
+        this.socketServer.emit(SocketMessage.GAME_LOBBIES, GameLobbiesHandler.pendingGames, GameLobbiesHandler.multiplayerGames);
     }
 
+    private createAndJoinNewRoom(socket: SocketIO.Socket): string {
+        const roomId: string = "game" + (GameLobbiesHandler.numberOfGames).toString();
+        socket.join(roomId);
+
+        return roomId;
+    }
+
+    private hostAskForRestart(roomId: string, isGuestReady: boolean, newWords: GridWord[]): void {
+        const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+
+        if (game === undefined) {
+            return;
+        }
+        game.restartGame();
+        game._words = GameLobbiesHandler.castHttpToGridWord(newWords);
+        game.isWaitingForRestart[PlayerType.HOST] = true;
+
+        this.socketServer.in(roomId).emit(SocketMessage.HOST_ASKED_FOR_RESTART, game);
+
+        if (isGuestReady) {
+            game.isWaitingForRestart[PlayerType.HOST] = false;
+            game.isWaitingForRestart[PlayerType.GUEST] = false;
+            this.socketServer.in(roomId).emit(SocketMessage.SENT_GAME_AFTER_JOIN, game);
+        }
+    }
+
+    private guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
+        const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+        game.isWaitingForRestart[PlayerType.GUEST] = true;
+        this.socketServer.in(roomId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
+    }
+
+    private socketDisconnected(socket: SocketIO.Socket): void {
+        const game: CrosswordGame = GameLobbiesHandler.getGameById(socket.id);
+        if (game === undefined) {
+            return;
+        } else if (game.isAPlayerWaitingForRestart()) {
+            this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED);
+        }
+        GameLobbiesHandler.disconnect(socket.id);
+        this.broadcastGameLists();
+    }
 }

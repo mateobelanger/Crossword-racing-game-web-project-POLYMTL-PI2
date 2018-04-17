@@ -1,20 +1,13 @@
 import { AfterViewInit, Component } from "@angular/core";
-import { TracksProxyService } from "../../tracks/tracks-proxy.service";
-import { ITrackData } from "../../../../../../common/ItrackData";
-
-import { TrackEditorService } from '../../tracks/track-editor/track-editor.service';
-import { ActivatedRoute } from '@angular/router';
-
-import { Waypoint } from "../../tracks/trackData/waypoint";
+import { ActivatedRoute, Router } from '@angular/router';
 import * as THREE from 'three';
 
-const UPPERCASE_A: number = 65;
-const UPPERCASE_Z: number = 90;
-const LOWERCASE_A: number = 97;
-const LOWERCASE_Z: number = 122;
-const CHAR_SPACE: number = 32;
-const CHAR_0: number = 48;
-const CHAR_9: number = 57;
+import { ITrackData } from "../../../../../../common/ItrackData";
+import { NameValidator } from "../../../../../../common/nameValidator";
+
+import { TracksProxyService } from "../../tracks/tracks-proxy.service";
+import { TrackEditorService } from '../../tracks/track-editor/track-editor.service';
+import { Waypoint } from "../../tracks/trackData/waypoint";
 
 @Component({
     selector: 'app-track-editor-ui',
@@ -31,7 +24,8 @@ export class TrackEditorUiComponent implements AfterViewInit {
     public description: string ;
     public track: ITrackData;
 
-    public constructor(private trackEditorService: TrackEditorService, private proxy: TracksProxyService, private route: ActivatedRoute) {
+    public constructor( private trackEditorService: TrackEditorService, private proxy: TracksProxyService,
+                        private route: ActivatedRoute, private router: Router) {
         this.name = "";
         this.description = "";
         this.track = null;
@@ -41,57 +35,32 @@ export class TrackEditorUiComponent implements AfterViewInit {
         try {
             await this.proxy.initialize();
             this.setTrack();
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
     }
 
     public async saveTrack(): Promise<void> {
         try {
             await this.proxy.initialize();
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
         }
 
-        if (!this.isValidTrack()) {
-            this.invalidTrackPopup();
-        } else if (this.proxy.findTrack(this.name) !== null && this.track.name !== this.name) {
-            this.alreadyUsedNamePopup();
-        } else {
+        if (this.isValidTrack() && !this.isAlreadyATrack()) {
             this.validateName();
             this.validateDescription();
-            this.validTrackPopup();
             this.updateTrackWaypoints(this.trackEditorService.track.waypoints);
             this.track.name = this.name;
             this.track.description = this.description;
             this.track.image = this.trackEditorService.takeScreenShot();
             void this.proxy.saveTrack(this.track);
+            this.router.navigate(["/admin"]);
         }
     }
 
-    public alreadyUsedNamePopup(): void {
-        document.getElementById("validPopup").classList.remove("show");
-        document.getElementById("invalidTrackPopup").classList.remove("show");
-        document.getElementById("alreadyUsedNamePopup").classList.toggle("show");
-    }
-
-    public invalidTrackPopup(): void {
-        document.getElementById("validPopup").classList.remove("show");
-        document.getElementById("alreadyUsedNamePopup").classList.remove("show");
-        document.getElementById("invalidTrackPopup").classList.toggle("show");
-    }
-
-    public validTrackPopup(): void {
-        document.getElementById("invalidTrackPopup").classList.remove("show");
-        document.getElementById("alreadyUsedNamePopup").classList.remove("show");
-        document.getElementById("validPopup").classList.toggle("show");
-    }
-
     public isAlphaNum (keyCode: number): boolean {
-        return (keyCode >= UPPERCASE_A && keyCode <= UPPERCASE_Z) ||
-               (keyCode >= LOWERCASE_A && keyCode <= LOWERCASE_Z) ||
-               (keyCode >= CHAR_0 && keyCode <= CHAR_9) ||
-               keyCode === CHAR_SPACE;
+        return NameValidator.isAlphaNumerical(keyCode);
     }
 
     public validateName(): void {
@@ -149,11 +118,21 @@ export class TrackEditorUiComponent implements AfterViewInit {
 
     }
 
+    private isAlreadyATrack(): boolean {
+        return this.proxy.findTrack(this.name) !== null && this.track.name !== this.name;
+    }
+
     private isValidTrack(): boolean {
 
-        return  this.name.length > 0 &&
-                this.description.length > 0 &&
+        return  this.isValidNameAndDescription() &&
                 this.trackEditorService.track.isValid &&
                 this.trackEditorService.track.isClosed;
+    }
+
+    private isValidNameAndDescription(): boolean {
+        return  this.name.length > 0 &&
+                this.description.length > 0 &&
+                !NameValidator.isContainsOnlySpaces(this.name) &&
+                !NameValidator.isContainsOnlySpaces(this.description);
     }
 }

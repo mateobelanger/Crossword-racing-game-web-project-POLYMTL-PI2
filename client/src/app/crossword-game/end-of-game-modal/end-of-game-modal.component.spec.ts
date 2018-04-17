@@ -21,7 +21,10 @@ describe("EndOfGameModalComponent", () => {
       providers: [GridService, ValidatorService, UserGridService, WordService,
                   { provide: APP_BASE_HREF, useValue: "/" }]
     })
-    .compileComponents();
+    .compileComponents()
+    .catch( (error: Error) => {
+      console.error(error);
+    });
   }));
 
   beforeEach(() => {
