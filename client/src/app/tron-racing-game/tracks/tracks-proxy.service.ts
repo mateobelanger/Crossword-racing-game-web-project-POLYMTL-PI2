@@ -68,8 +68,4 @@ export class TracksProxyService {
             })
             .catch((error: Error) => console.error(error));
     }
-
-    private isDefined<T>(object: T): boolean {
-        return ((object !== null) && (object !== undefined));
-    }
 }
