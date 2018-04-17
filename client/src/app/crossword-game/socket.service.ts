@@ -6,7 +6,7 @@ import { Difficulty, SocketMessage, PlayerType } from "../../../../common/consta
 import { WordService } from "./word.service";
 
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
-import { castHttpToGridWord, castHttpToArrayOfGridWord } from "../../../../common/communication/httpToObjectCasting";
+import { castHttpToGridWords, castHttpToArrayOfGridWords } from "../../../../common/communication/httpToObjectCasting";
 import { Router } from "@angular/router";
 import { GameStateService } from "./game-state.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
@@ -109,7 +109,7 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.REMOTE_SELECTED_WORD, (selectedWord: GridWord) => {
-            this.selectionState.remoteSelectedWord = castHttpToGridWord([selectedWord])[0];
+            this.selectionState.remoteSelectedWord = castHttpToGridWords([selectedWord])[0];
         });
 
         this.socket.on(SocketMessage.REMOTE_DESELECTED_WORD, (word: GridWord) => {
@@ -139,8 +139,8 @@ export class SocketService {
     }
 
     private castGame(game: CrosswordGame): CrosswordGame {
-        const words: GridWord[] = castHttpToGridWord(game._words);
-        const validatedWords: GridWord[][] = castHttpToArrayOfGridWord(game.validatedWords);
+        const words: GridWord[] = castHttpToGridWords(game._words);
+        const validatedWords: GridWord[][] = castHttpToArrayOfGridWords(game.validatedWords);
         const usernames: string[] = [];
         usernames.push(game.usernames[0]);
         usernames.push(game.usernames[1]);

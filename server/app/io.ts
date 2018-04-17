@@ -7,6 +7,7 @@ import { GridWord } from "../../common/crosswordsInterfaces/word";
 
 import { GameProgessionHandler } from "./crossword-games/gameProgressionHandler";
 import { GameLobbiesHandler } from "./crossword-games/gameLobbiesHandler";
+import { castHttpToGridWords } from "../../common/communication/httpToObjectCasting";
 
 export class Io {
 
@@ -99,7 +100,7 @@ export class Io {
             return;
         }
         game.restartGame();
-        game._words = GameLobbiesHandler.castHttpToGridWord(newWords);
+        game._words = castHttpToGridWords(newWords);
         game.isWaitingForRestart[PlayerType.HOST] = true;
 
         this.socketServer.in(roomId).emit(SocketMessage.HOST_ASKED_FOR_RESTART, game);

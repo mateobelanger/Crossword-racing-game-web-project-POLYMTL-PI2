@@ -1,6 +1,6 @@
 import { GridWord } from "../crosswordsInterfaces/word";
 
-export function castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
+export function castHttpToGridWords(httpWords: GridWord[]): GridWord[] {
     const words: GridWord[] = [];
     for (const word of httpWords) {
         words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
@@ -9,10 +9,10 @@ export function castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
     return words;
 }
 
-export function castHttpToArrayOfGridWord(arrayOfGridWords: GridWord[][]): GridWord[][] {
+export function castHttpToArrayOfGridWords(arrayOfGridWords: GridWord[][]): GridWord[][] {
     const arrayOfWords: GridWord[][] = [];
     for (const words of arrayOfGridWords) {
-        arrayOfWords.push(castHttpToGridWord(words));
+        arrayOfWords.push(castHttpToGridWords(words));
     }
 
     return arrayOfWords;
