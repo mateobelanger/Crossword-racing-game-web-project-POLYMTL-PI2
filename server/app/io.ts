@@ -59,8 +59,8 @@ export class Io {
         socket.on(SocketMessage.HOST_RESTART_PENDING, (roomId: string, isGuestReady: boolean, newWords: GridWord[]) => {
             this.hostAskForRestart(roomId, isGuestReady, newWords);
         });
-        socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, newWords: GridWord[], isHostReady: boolean) => {
-            this.guestAskForRestart(roomId, socket, isHostReady);
+        socket.on(SocketMessage.GUEST_RESTART_PENDING, (roomId: string, isHostReady: boolean) => {
+            this.guestAskForRestart(roomId);
         });
     }
 
@@ -112,7 +112,7 @@ export class Io {
         }
     }
 
-    private guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
+    private guestAskForRestart(roomId: string): void {
         const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
         game.isWaitingForRestart[PlayerType.GUEST] = true;
         this.socketServer.in(roomId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
