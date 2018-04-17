@@ -40,13 +40,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
     }
 
     public async saveTrack(): Promise<void> {
-        try {
-            await this.proxy.initialize();
-        } catch (error) {
-            console.error(error);
-        }
-
-        if (this.isValidTrack() && !this.isAlreadyATrack()) {
+        if (this.isValidTrack()) {
             this.validateName();
             this.validateDescription();
             this.updateTrackWaypoints(this.trackEditorService.track.waypoints);
@@ -115,10 +109,6 @@ export class TrackEditorUiComponent implements AfterViewInit {
             this.track.waypoints.push(position);
         });
 
-    }
-
-    private isAlreadyATrack(): boolean {
-        return this.proxy.findTrack(this.name) !== null && this.track.name !== this.name;
     }
 
     private isValidTrack(): boolean {

@@ -105,7 +105,6 @@ describe("TracksProxyService", () => {
                 })[0].flush(tracks[0]);
             })));
 
-
     it("deleteTrack should send valid trackName",
        async(inject([TracksProxyService, HttpTestingController],
                     (service: TracksProxyService, backEnd: HttpTestingController) => {
@@ -117,7 +116,6 @@ describe("TracksProxyService", () => {
                     );
                 });
             })));
-
 
     it("saveTrack on track not in database should send valid data",
        async(inject([TracksProxyService, HttpTestingController],
@@ -149,4 +147,3 @@ describe("TracksProxyService", () => {
                 })[0].flush(tracks[0]);
             })));
 });
-
