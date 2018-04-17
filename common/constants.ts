@@ -6,9 +6,7 @@ export enum Difficulty {
     HARD = "hard"
 }
 
-export enum PlayerType { HOST, GUEST };
-
-export const BLACK_CELL: string = "-";
+export enum PlayerType { HOST, GUEST }
 
 export enum SocketMessage {
 

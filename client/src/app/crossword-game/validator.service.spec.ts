@@ -80,7 +80,7 @@ describe("ValidatorService", () => {
         filledGrid = FILLED_GRID;
 
         validatorService = TestBed.get(ValidatorService);
-        validatorService["filledGrid"] = filledGrid;
+        validatorService["_filledGrid"] = filledGrid;
 
         userGridService = TestBed.get(UserGridService);
         userGridService.userGrid = initialGrid;

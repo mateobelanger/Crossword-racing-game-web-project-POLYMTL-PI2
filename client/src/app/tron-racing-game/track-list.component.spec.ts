@@ -46,7 +46,6 @@ describe("RacingGameComponent", () => {
             providers: [TracksProxyService, { provide: APP_BASE_HREF, useValue: "/" }]
         });
 
-
         fixture = TestBed.createComponent(TrackListComponent);
         component = fixture.componentInstance;
 
