@@ -50,6 +50,4 @@ describe("Plane", () => {
         const plane: Plane = new Plane(beginingPoint, endPoint);
         expect(plane.centerPoint).toEqual(new THREE.Vector3(2, 2, UPPER_PLANE_POSITION_Z));
     });
-
-
 });

@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core';
-import { EndGameService } from '../end-game.service';
+import { Component, Input } from "@angular/core";
+import { EndGameService } from "../end-game.service";
 
 @Component({
-    selector: 'app-podium-table',
-    templateUrl: './podium-table.component.html',
-    styleUrls: ['./podium-table.component.css']
+    selector: "app-podium-table",
+    templateUrl: "./podium-table.component.html",
+    styleUrls: ["./podium-table.component.css"]
 })
 export class PodiumTableComponent {
 

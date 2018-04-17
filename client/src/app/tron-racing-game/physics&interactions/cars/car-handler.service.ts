@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Car } from './car/car';
+import { Injectable } from "@angular/core";
+import { Car } from "./car/car";
 import { PLAYERS_NAME, USERNAME, GameState, CAR_TEXTURE, NUMBER_OF_TEXURES } from "../../constants";
 import * as THREE from "three";
-import { CarStartPosition } from './carStartPosition';
-import { VirtualPlayerCar } from '../../virtualPlayers/virtualPlayerCar';
-import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
-import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
-import { VirtualPlayerDifficulty } from '../../virtualPlayers/virtualPlayerDifficulty';
-import { TextureLoaderService } from '../../gameRendering/textureLoader/texture-loader.service';
+import { CarStartPosition } from "./carStartPosition";
+import { VirtualPlayerCar } from "../../virtualPlayers/virtualPlayerCar";
+import { SpeedZonesService } from "../../virtualPlayers/speed-zones.service";
+import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
+import { VirtualPlayerDifficulty } from "../../virtualPlayers/virtualPlayerDifficulty";
+import { TextureLoaderService } from "../../gameRendering/textureLoader/texture-loader.service";
+import { InputHandlerService } from "../controller/input-handler.service";
+import { W_KEYCODE, A_KEYCODE, S_KEYCODE, D_KEYCODE } from "../../../../../../common/constants";
 
 @Injectable()
 export class CarHandlerService {
@@ -15,7 +17,8 @@ export class CarHandlerService {
     private _cars: [string, Car][];
     public constructor( private speedZoneService: SpeedZonesService,
                         private raceProgressionService: RaceProgressionHandlerService,
-                        private textureLoader: TextureLoaderService) {
+                        private textureLoader: TextureLoaderService,
+                        private inputHandler: InputHandlerService) {
         this._cars = [];
     }
 
@@ -76,6 +79,44 @@ export class CarHandlerService {
         this.findVirtualPlayer(virtualPlayerName).changeState(GameState.END);
     }
 
+    public enableControlKeys(): void {
+        this.inputHandler.addListener(W_KEYCODE, this.accelerationInput(this._cars));
+        this.inputHandler.addListener(W_KEYCODE, this.accelerationInput(this._cars));
+
+        this.inputHandler.addListener(A_KEYCODE, this.turnLeftInput(this._cars));
+        this.inputHandler.addListener(A_KEYCODE, this.turnLeftInput(this._cars));
+
+        this.inputHandler.addListener(S_KEYCODE, this.brakeInput(this._cars));
+        this.inputHandler.addListener(S_KEYCODE, this.brakeInput(this._cars));
+
+        this.inputHandler.addListener(D_KEYCODE, this.turnRightInput(this._cars));
+        this.inputHandler.addListener(D_KEYCODE, this.turnRightInput(this._cars));
+    }
+
+    private accelerationInput(cars: [string, Car][]): Function {
+        return (isKeyDown: boolean) => {
+            cars[1][1].isAcceleratorPressed = isKeyDown;
+        };
+    }
+
+    private turnLeftInput(cars: [string, Car][]): Function {
+        return (isKeyDown: boolean) => {
+            isKeyDown ? cars[1][1].steerLeft() : cars[1][1].releaseSteering();
+        };
+    }
+
+    private brakeInput(cars: [string, Car][]): Function {
+        return (isKeyDown: boolean) => {
+            isKeyDown ? cars[1][1].brake() :  cars[1][1].releaseBrakes();
+        };
+    }
+
+    private turnRightInput(cars: [string, Car][]): Function {
+        return (isKeyDown: boolean) => {
+            isKeyDown ? cars[1][1].steerRight() : cars[1][1].releaseSteering();
+        };
+    }
+
     private findVirtualPlayer(virtualPlayerName: string): Car {
         return  this._cars.filter( (car: [string, Car]) =>
                 car[0] === virtualPlayerName
@@ -97,8 +138,6 @@ export class CarHandlerService {
     }
 
     private async initializeCars(): Promise<void> {
-        // because await does not work in for-of loop
-        // tslint:disable prefer-for-of
         for ( let i: number = 0; i < this._cars.length; i++) {
             await this.textureLoader.loadCarTexture(this.textureColor(i)).then(
                 (texture: THREE.Object3D) => {

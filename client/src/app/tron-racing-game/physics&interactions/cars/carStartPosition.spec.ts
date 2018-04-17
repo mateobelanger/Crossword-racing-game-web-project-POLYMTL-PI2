@@ -1,6 +1,5 @@
 import { ArrayHelper } from "../../../../../../common/arrayHelper";
 
-
 describe("Car starting position:", () => {
     // test of the shuffling method and not the actual cars
     it("should be randomized", () => {
