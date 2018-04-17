@@ -6,6 +6,7 @@ const NO_RESCALE: number = 1;
 const INTERVAL: number = 100;
 const MIN_SPHERE_RADIUS: number = 1;
 const MAX_SPHERE_RADIUS: number = 12;
+const PORTAL_PATH: string = "../../../../assets/portal/glow.png";
 
 export class Portal {
 
@@ -80,7 +81,7 @@ export class Portal {
     }
 
     private createGlowEffect( ): void {
-        const texture: THREE.Texture = new THREE.TextureLoader().load("../../../../assets/portal/glow.png");
+        const texture: THREE.Texture = new THREE.TextureLoader().load(PORTAL_PATH);
 
         const spriteMaterial: THREE.SpriteMaterial = new THREE.SpriteMaterial({
             map: texture, color: 0x0000FF, transparent: false, blending: THREE.AdditiveBlending

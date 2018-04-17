@@ -162,7 +162,7 @@ export class TrackEditorService {
     private updateValidityOfTrack(): void {
 
         this._constraints.updateInvalidPlanes();
-        this._track.isValid = this._constraints.newInvalidPlanesErrors.length === 0 ? true : false;
+        this._track.isValid = this._constraints.newInvalidPlanesErrors.length === 0;
         this._constraints.newInvalidPlanesErrors.forEach((error) => {
             this.trackEditorRenderService._planeHandler.applyInvalidTexture(error.planeId);
         });
