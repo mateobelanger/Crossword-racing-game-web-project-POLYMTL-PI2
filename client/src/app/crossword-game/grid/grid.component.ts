@@ -15,11 +15,28 @@ export class GridComponent {
         return index;
     }
 
+    public keyDown(keyCode: number, row: number, column: number): void {
+        this.gridService.keyDown(keyCode, row, column);
+    }
+
     public keyUp(row: number, column: number): void {
         this.gridService.keyUp(row, column);
     }
 
     public onSelect(row: number, column: number): void {
         this.gridService.selectWord(row, column);
+        this.focusOnSelectedWord();
     }
+
+    public focusOnSelectedWord(): void {
+        this.focusOnCell(this.gridService.idOfFirstEmptyCell());
+    }
+
+    private focusOnCell(id: number): void {
+        const input: HTMLElement = document.getElementById(id.toString());
+        if (input) {
+            input.focus();
+        }
+    } //component 
+
 }

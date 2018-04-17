@@ -37,10 +37,10 @@ export class GridService {
     public keyUp(row: number, column: number): void {
         if (this.selectionService.selectedWord.direction === Direction.HORIZONTAL &&
             this.selectionService.selectedWord.column + this.selectionService.selectedWord.value.length - 1 !== column) {
-            this.focusOnSelectedWord();
+            // this.focusOnSelectedWord();
 
         } else if (this.selectionService.selectedWord.row + this.selectionService.selectedWord.value.length - 1 !== row) {
-            this.focusOnSelectedWord();
+            // this.focusOnSelectedWord();
         }
 
         this.validatorService.updateValidatedWords(this.userGridService.userGrid);
@@ -48,7 +48,7 @@ export class GridService {
 
     public selectWord(row: number, column: number): void {
         this.selectionService.selectWord(row, column);
-        this.focusOnSelectedWord();
+        // this.focusOnSelectedWord();
     }
 
     public isHostSelectedWord(row: number, column: number): boolean {
@@ -73,9 +73,6 @@ export class GridService {
         return this.isGuestSelectedWord(row, column) && this.isHostSelectedWord(row, column);
     }
 
-    public focusOnSelectedWord(): void {
-        this.focusOnCell(this.idOfFirstEmptyCell());
-    }
 
     public generateId (row: number, column: number): number {
         return row * GRID_SIZE + column;
@@ -114,34 +111,10 @@ export class GridService {
         if (this.userGridService.userGrid[row][column] === "") {
             const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
             this.userGridService.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
-            this.focusOnSelectedWord();
+            // this.focusOnSelectedWord();
         } else {
             this.userGridService.userGrid[row][column] = "";
         }
-    }
-
-    private focusOnCell(id: number): void {
-        const input: HTMLElement = document.getElementById(id.toString());
-        if (input) {
-            input.focus();
-        }
-    }
-
-    private idOfFirstEmptyCell(): number {
-        let row: number = this.selectionService.selectedWord.row;
-        let column: number = this.selectionService.selectedWord.column;
-
-        for (let i: number = 0; i < this.selectionService.selectedWord.value.length; i++) {
-            this.selectionService.selectedWord.direction === Direction.HORIZONTAL ?
-                column = this.selectionService.selectedWord.column + i :
-                row = this.selectionService.selectedWord.row + i;
-
-            if (this.userGridService.userGrid[row][column] === "") {
-                break;
-            }
-        }
-
-        return this.generateId(row, column);
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {
@@ -159,6 +132,23 @@ export class GridService {
         } while (this.validatorService.isValidatedCell(row, column));
 
         return [row, column];
+    }
+
+    public idOfFirstEmptyCell(): number {
+        let row: number = this.selectionService.selectedWord.row;
+        let column: number = this.selectionService.selectedWord.column;
+
+        for (let i: number = 0; i < this.selectionService.selectedWord.value.length; i++) {
+            this.selectionService.selectedWord.direction === Direction.HORIZONTAL ?
+                column = this.selectionService.selectedWord.column + i :
+                row = this.selectionService.selectedWord.row + i;
+
+            if (this.userGridService.userGrid[row][column] === "") {
+                break;
+            }
+        }
+
+        return this.generateId(row, column);
     }
 
 }
