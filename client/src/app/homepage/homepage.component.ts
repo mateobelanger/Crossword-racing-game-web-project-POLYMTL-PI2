@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { GameStateService } from "../crossword-game/game-state.service";
 
 @Component({
     selector: "app-homepage",
@@ -8,6 +7,6 @@ import { GameStateService } from "../crossword-game/game-state.service";
 })
 export class HomepageComponent {
 
-    public constructor(public gameState: GameStateService) { }
+    public constructor() { }
 
 }

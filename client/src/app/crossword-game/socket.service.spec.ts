@@ -11,8 +11,8 @@ import { LobbyService } from "./lobby/lobby.service";
 import { WordService } from "./word.service";
 import { GameStateService } from "./game-state.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
-import { GridWord } from "../../../../common/crosswordsInterfaces/word";
-import { Difficulty } from "../../../../common/constants";
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
+import { Difficulty, PlayerType } from "../../../../common/constants";
 
 describe("SocketService", () => {
 
@@ -80,6 +80,14 @@ describe("SocketService", () => {
     it("gameInitialized getter should return the right subject", inject([SocketService], async (service: SocketService) => {
         selectionState.remoteSelectedWord = word;
         expect(socketService.gameInitialized).toEqual(new Subject());
+    }));
+
+    it("end of game should be triggered when all words are validated", inject([SocketService], async (service: SocketService) => {
+        const aWord: GridWord[] = [new GridWord(0, 0, Direction.HORIZONTAL, "hello", "gudbye")];
+        socketService.game._words = aWord;
+        socketService.game.validatedWords[PlayerType.HOST].push(aWord[0]);
+
+        expect(socketService.game.areAllWordsValidated).toBeTruthy();
     }));
 
 });

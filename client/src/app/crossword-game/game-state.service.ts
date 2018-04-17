@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Difficulty, PlayerType } from "../../../../common/constants";
 import { NameValidator } from "../../../../common/nameValidator";
 
-export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST }
+export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST, RELOADING }
 
 @Injectable()
 export class GameStateService {

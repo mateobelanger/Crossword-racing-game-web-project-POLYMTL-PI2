@@ -66,18 +66,18 @@ export class Io {
     private initializeServerGameProgression(socket: SocketIO.Socket): void {
 
         socket.on(SocketMessage.ADD_VALIDATED_WORD, (word: GridWord, roomId: string) => {
-            const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+            const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
             if (GameProgessionHandler.isAddValidatedWord(word, game, socket.id)) {
                 this.socketServer.in(game.roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, game);
             }
         });
 
         socket.on(SocketMessage.SELECT_WORD, (selectedWord: GridWord) => {
-            socket.to(GameLobbiesHandler.getGameById(socket.id).roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
+            socket.to(GameLobbiesHandler.getGame(socket.id).roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
         });
 
         socket.on(SocketMessage.DESELECT_WORD, (word: GridWord) => {
-            socket.to(GameLobbiesHandler.getGameById(socket.id).roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
+            socket.to(GameLobbiesHandler.getGame(socket.id).roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
         });
     }
 
@@ -93,7 +93,7 @@ export class Io {
     }
 
     private hostAskForRestart(roomId: string, isGuestReady: boolean, newWords: GridWord[]): void {
-        const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+        const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
 
         if (game === undefined) {
             return;
@@ -112,13 +112,13 @@ export class Io {
     }
 
     private guestAskForRestart(roomId: string, socket: SocketIO.Socket, isHostReady: boolean): void {
-        const game: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+        const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
         game.isWaitingForRestart[PlayerType.GUEST] = true;
         this.socketServer.in(roomId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
     }
 
     private socketDisconnected(socket: SocketIO.Socket): void {
-        const game: CrosswordGame = GameLobbiesHandler.getGameById(socket.id);
+        const game: CrosswordGame = GameLobbiesHandler.getGame(socket.id);
         if (game === undefined) {
             return;
         } else if (game.isAPlayerWaitingForRestart()) {
