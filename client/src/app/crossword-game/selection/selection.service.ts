@@ -15,10 +15,6 @@ export class SelectionService {
         return this.selectionState.localSelectedWord;
     }
 
-    public get remoteSelectedWord(): GridWord {
-        return this.socketService.remoteSelectedWord;
-    }
-
     public get definition(): string {
         if (this.selectionState.localSelectedWord === null) {
             return null;

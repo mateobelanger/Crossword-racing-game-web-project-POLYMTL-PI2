@@ -22,7 +22,7 @@ export class MultiplayerConfigurationComponent {
         await this.socketService.createGame(username, this.gameState.difficulty);
     }
 
-    public isAlphaNum (keyCode: number): boolean {
+    public isAlphaNumerical(keyCode: number): boolean {
         return NameValidator.isAlphaNumerical(keyCode);
     }
 

@@ -16,7 +16,6 @@ import { Difficulty, PlayerType } from "../../../../common/constants";
 
 describe("SocketService", () => {
 
-    // tslint:disable:prefer-const
     const lobbyService: LobbyService = new LobbyService();
     let http: HttpClient;
     const wordService: WordService = new WordService(http);
@@ -33,6 +32,9 @@ describe("SocketService", () => {
             providers: [{ provide: APP_BASE_HREF, useValue: "/" }, WordService,
                         SocketService, LobbyService]
         });
+        http =  TestBed.get(HttpClient);
+        router =  TestBed.get(Router);
+
         socketService = new SocketService(lobbyService, wordService, gameStateService, router, selectionState);
         done();
 
