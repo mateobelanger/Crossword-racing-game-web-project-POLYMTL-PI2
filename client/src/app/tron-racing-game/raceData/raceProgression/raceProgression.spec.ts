@@ -1,7 +1,6 @@
 import { RaceProgression } from "./raceProgression";
 import * as THREE from "three";
 
-
 // tslint:disable:no-magic-numbers
 describe("RaceProgression", () => {
 

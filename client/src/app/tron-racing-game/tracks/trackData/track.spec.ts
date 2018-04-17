@@ -1,6 +1,6 @@
 import { Track } from "./track";
 import { Vector3 } from "three";
-import { Waypoint} from './waypoint';
+import { Waypoint} from "./waypoint";
 
 /* tslint:disable: no-magic-numbers */
 describe("Track", () => {

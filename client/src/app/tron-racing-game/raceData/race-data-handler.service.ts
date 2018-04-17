@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { TracksProxyService } from "./../tracks/tracks-proxy.service";
 import { ITrackData } from "../../../../../common/ITrackData";
-import { BestTimeHandlerService } from './recordedTimes/best-time-handler.service';
+import { BestTimeHandlerService } from "./recordedTimes/best-time-handler.service";
 import { RaceResultsService } from "./recordedTimes/race-results.service";
-import { RaceProgressionHandlerService } from './raceProgression/race-progression-handler.service';
-import { CarHandlerService } from './../physics&interactions/cars/car-handler.service';
-import { TrackLoaderService } from '../gameRendering/track-loader.service';
-import { EndGameService } from './end-game/end-game.service';
-import { TimerHandler } from './timer/timerHandler';
-import { USERNAME, COUNTDOWN_TIME } from '../constants';
-import { ResultsSimulatorService } from './simulateEndResults/results-simulator.service';
-import { Countdown } from './timer/countdown';
-import { AudioService } from '../audio/audio.service';
-import { InputHandlerService } from '../physics&interactions/controller/input-handler.service';
-import { SpeedZonesService } from '../virtualPlayers/speed-zones.service';
-import { VirtualPlayerDifficulty, BeginnerVirtualPlayer, ExpertVirtualPlayer } from '../virtualPlayers/virtualPlayerDifficulty';
-import { PortalsHandlerService } from '../virtualPlayers/teleportation/portals-handler.service';
+import { RaceProgressionHandlerService } from "./raceProgression/race-progression-handler.service";
+import { CarHandlerService } from "./../physics&interactions/cars/car-handler.service";
+import { TrackLoaderService } from "../gameRendering/track-loader.service";
+import { EndGameService } from "./end-game/end-game.service";
+import { TimerHandler } from "./timer/timerHandler";
+import { USERNAME, COUNTDOWN_TIME } from "../constants";
+import { ResultsSimulatorService } from "./simulateEndResults/results-simulator.service";
+import { Countdown } from "./timer/countdown";
+import { AudioService } from "../audio/audio.service";
+import { InputHandlerService } from "../physics&interactions/controller/input-handler.service";
+import { SpeedZonesService } from "../virtualPlayers/speed-zones.service";
+import { VirtualPlayerDifficulty, BeginnerVirtualPlayer, ExpertVirtualPlayer } from "../virtualPlayers/virtualPlayerDifficulty";
+import { PortalsHandlerService } from "../virtualPlayers/teleportation/portals-handler.service";
 import * as THREE from "three";
-import { CollisionHandlerService } from '../physics&interactions/collisions/collision-handler.service';
+import { CollisionHandlerService } from "../physics&interactions/collisions/collision-handler.service";
 const COUNTDOWN_SOUND: string = "../../../assets/audio/RG/countdown.wav";
 const RACE_START_SOUND: string = "../../../assets/audio/RG/start.wav";
 
@@ -46,7 +46,6 @@ export class RaceDataHandlerService {
         this._countdown = new Countdown();
         this._timer.reset();
     }
-
 
     public async initialize(trackname: string, choseEasyDifficulty: boolean): Promise<void> {
         try {
@@ -155,8 +154,9 @@ export class RaceDataHandlerService {
     private subscribeToDoneLap(): void {
         this._raceProgressionService.lapDoneStream$.subscribe((name: string) => {
             this.doneLap(name);
-            if (name === USERNAME)
+            if (name === USERNAME) {
                 this._timer.uiDoneLap();
+            }
         });
     }
 

@@ -35,8 +35,9 @@ export class Track {
 
     public getWaypoint(circleId: number): Waypoint {
         const index: number = this.findWaypointIndex(circleId);
-        if (index !== -1)
+        if (index !== -1) {
             return this.waypoints[index];
+        }
 
         return null;
     }
@@ -74,8 +75,9 @@ export class Track {
     private findWaypointIndex(id: number): number {
         let index: number = -1;
         this.waypoints.forEach((element, i) => {
-            if (element.circleId === id)
+            if (element.circleId === id) {
                 index = i;
+            }
         });
 
         return index;

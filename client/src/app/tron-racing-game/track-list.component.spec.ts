@@ -74,6 +74,7 @@ describe("RacingGameComponent", () => {
         expect(spyInitialize.calls.any()).toBe(false, "initialize called");
     });
 
+    // TODO: A enlever?
     // it("should have tracks once proxy service returned tracks", () => {
 
     //     fixture.detectChanges();

@@ -1,20 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { LapComponent } from './lap.component';
-import { AppModule } from '../../../../app.module';
-import { routes } from '../../../../app-routes.module';
-import { APP_BASE_HREF } from '@angular/common';
-import { InputHandlerService } from '../../../physics&interactions/controller/input-handler.service';
+import { LapComponent } from "./lap.component";
+import { AppModule } from "../../../../app.module";
+import { routes } from "../../../../app-routes.module";
+import { APP_BASE_HREF } from "@angular/common";
+import { InputHandlerService } from "../../../physics&interactions/controller/input-handler.service";
 
-
-describe('LapComponent', () => {
+describe("LapComponent", () => {
     let component: LapComponent;
     let fixture: ComponentFixture<LapComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }, InputHandlerService]
+            providers: [{provide: APP_BASE_HREF, useValue : "/" }, InputHandlerService]
         })
             .compileComponents()
             .catch((error: Error) => { console.error(error); });
@@ -26,7 +25,7 @@ describe('LapComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 
