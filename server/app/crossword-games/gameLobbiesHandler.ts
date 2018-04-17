@@ -1,6 +1,7 @@
 import { CrosswordGame } from "../../../common/crosswordsInterfaces/crosswordGame";
 import { Difficulty } from "../../../common/constants";
 import { GridWord } from "../../../common/crosswordsInterfaces/word";
+import { castHttpToGridWord } from "../../../common/communication/httpToObjectCasting";
 
 enum GameType { SOLO, MULTIPLAYER, PENDING }
 
@@ -56,7 +57,7 @@ export class GameLobbiesHandler {
                 return GameLobbiesHandler.createSoloGame(socketId, roomId, username, difficulty, words);
             } else {
                 GameLobbiesHandler._pendingGames.push(
-                                new CrosswordGame(roomId, socketId, username, difficulty, GameLobbiesHandler.castHttpToGridWord(words)) );
+                                new CrosswordGame(roomId, socketId, username, difficulty, castHttpToGridWord(words)) );
             }
         }
 
@@ -106,18 +107,9 @@ export class GameLobbiesHandler {
         return games.find((game: CrosswordGame) => game.isInGame(id));
     }
 
-    public static castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
-        const words: GridWord[] = [];
-        for (const word of httpWords) {
-            words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
-        }
-
-        return words;
-    }
-
     private static createSoloGame(id: string, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): CrosswordGame {
         const newGame: CrosswordGame =
-            new CrosswordGame(roomId, id, username, difficulty, GameLobbiesHandler.castHttpToGridWord(words));
+            new CrosswordGame(roomId, id, username, difficulty, castHttpToGridWord(words));
         GameLobbiesHandler._soloGames.push(newGame);
 
         return newGame;
