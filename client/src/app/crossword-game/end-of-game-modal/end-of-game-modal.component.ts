@@ -5,6 +5,7 @@ import { SocketService } from "../socket.service";
 import { ValidatorService } from "../validator.service";
 import { Router } from "@angular/router";
 import { GameState } from "../../../../../common/constants";
+import { DefinitionsService } from "../definitions/definitions.service";
 
 @Component({
     selector: "app-end-of-game-modal",
@@ -19,7 +20,8 @@ export class EndOfGameModalComponent {
                        public router: Router,
                        private gridService: GridService,
                        private gameState: GameStateService,
-                       private socketService: SocketService) {
+                       private socketService: SocketService,
+                       private definitionsService: DefinitionsService) {
         this.isWaitingForOpponent = false;
     }
 
@@ -35,7 +37,6 @@ export class EndOfGameModalComponent {
             return true;
         }
     }
-
 
     public returnToMenu(): void {
         this.gameState.isEndOfGame = false;
@@ -56,6 +57,7 @@ export class EndOfGameModalComponent {
             this.gameState.resetGameState();
             this.validator.initialize();
             this.gridService.initialize();
+            this.definitionsService.initialize();
             this.isWaitingForOpponent = false;
         });
     }
