@@ -65,9 +65,9 @@ export class GameLobbiesHandler {
 
     public static joinGame(roomId: string, socketId: string, guestName: string): CrosswordGame {
 
-        GameLobbiesHandler._multiplayerGames.push(GameLobbiesHandler.getGameById(roomId));
+        GameLobbiesHandler._multiplayerGames.push(GameLobbiesHandler.getGame(roomId));
         GameLobbiesHandler.deleteGameWithId(GameLobbiesHandler._pendingGames, roomId);
-        const joinedGame: CrosswordGame = GameLobbiesHandler.getGameById(roomId);
+        const joinedGame: CrosswordGame = GameLobbiesHandler.getGame(roomId);
         joinedGame.updateGuestInformation(socketId, guestName);
 
         return joinedGame;
@@ -76,14 +76,14 @@ export class GameLobbiesHandler {
     public static disconnect(socketId: string): void {
         if (GameLobbiesHandler.isAlreadyInAGame(socketId)) {
             const gameType: GameType = GameLobbiesHandler.getGameType(socketId);
-            const game: CrosswordGame = GameLobbiesHandler.getGameById(socketId);
+            const game: CrosswordGame = GameLobbiesHandler.getGame(socketId);
 
             switch (gameType) {
                 case GameType.SOLO:
-                    this.deleteGameWithId(this.getGameTypeList(gameType), socketId);
+                    this.deleteGameWithId(this.getGameList(gameType), socketId);
                     break;
                 case GameType.PENDING:
-                    GameLobbiesHandler.deleteGameById(game.roomId);
+                    GameLobbiesHandler.deleteGame(game.roomId);
                     break;
                 case GameType.MULTIPLAYER:
                 default:
@@ -99,9 +99,9 @@ export class GameLobbiesHandler {
         }
     }
 
-    public static getGameById(id: string): CrosswordGame {
+    public static getGame(id: string): CrosswordGame {
         const gameType: GameType = GameLobbiesHandler.getGameType(id);
-        const games: CrosswordGame[] = GameLobbiesHandler.getGameTypeList(gameType);
+        const games: CrosswordGame[] = GameLobbiesHandler.getGameList(gameType);
 
         return games.find((game: CrosswordGame) => game.isInGame(id));
     }
@@ -123,9 +123,9 @@ export class GameLobbiesHandler {
         return newGame;
     }
 
-    private static deleteGameById(id: string): void {
+    private static deleteGame(id: string): void {
         const gameType: GameType = GameLobbiesHandler.getGameType(id);
-        const games: CrosswordGame[] = GameLobbiesHandler.getGameTypeList(gameType);
+        const games: CrosswordGame[] = GameLobbiesHandler.getGameList(gameType);
 
         games.splice(games.findIndex((game: CrosswordGame) => game.isInGame(id)));
     }
@@ -144,7 +144,7 @@ export class GameLobbiesHandler {
         }
     }
 
-    private static getGameTypeList(gameType: GameType): CrosswordGame[] {
+    private static getGameList(gameType: GameType): CrosswordGame[] {
         switch (gameType) {
             case GameType.SOLO:
                 return GameLobbiesHandler._soloGames;
