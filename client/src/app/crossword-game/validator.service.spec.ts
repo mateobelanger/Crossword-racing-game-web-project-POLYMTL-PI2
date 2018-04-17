@@ -11,6 +11,7 @@ import { LobbyService } from "./lobby/lobby.service";
 import { APP_BASE_HREF } from "@angular/common";
 import { AppModule } from "../app.module";
 import { routes } from "../app-routes.module";
+import { SelectionService } from "./selection/selection.service";
 
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
@@ -50,6 +51,7 @@ const FILLED_GRID: string[][] = [
 describe("ValidatorService", () => {
     let filledGrid: string[][];
     let initialGrid: string[][];
+    let selectionService: SelectionService;
     let wordService: WordService;
     let socketService: SocketService;
     let userGridService: UserGridService;
@@ -64,9 +66,10 @@ describe("ValidatorService", () => {
             providers: [{provide: APP_BASE_HREF, useValue : "/" }, ValidatorService, WordService, UserGridService,
                         SocketService, LobbyService]
         });
-
         wordService = TestBed.get(WordService);
         wordService["_words"] = words;
+
+        selectionService = TestBed.get(SelectionService);
 
         validatedWords = [word2, word3];
 
@@ -79,7 +82,9 @@ describe("ValidatorService", () => {
         initialGrid = INITIAL_GRID;
         filledGrid = FILLED_GRID;
 
-        validatorService = TestBed.get(ValidatorService);
+        socketService = TestBed.get(SocketService);
+
+        validatorService = new ValidatorService(wordService, socketService, userGridService, selectionService);
         validatorService["filledGrid"] = filledGrid;
 
         userGridService = TestBed.get(UserGridService);
@@ -125,9 +130,25 @@ describe("ValidatorService", () => {
         expect(validatorService["userGridService"].userGrid[1][0]).toBe("a");
     });
 
-    it("should update local grid when a word is validated", () => {
+    it("should update local grid when a new word is validated", () => {
         validatorService["userGridService"].userGrid[0][1] = "i";
         validatorService.isValidatedCell(1, 0);
         expect(validatorService["userGridService"].userGrid[0][1]).toBe("i");
+    });
+
+    it("should return true if the host has validated the definition", () => {
+        socketService.game.hostValidatedWords.push(word1);
+        validatorService.isHostValidatedDefinition(word1.value);
+    });
+
+    it("should return true if the guest has validated the definition", () => {
+        socketService.game.guestValidatedWords.push(word1);
+        validatorService.isGuestValidatedDefinition(word1.value);
+    });
+
+    it("should return false if the guest has not validated the definition", () => {
+        socketService.game.guestValidatedWords.push(word1);
+        socketService.game.hostValidatedWords.push(word2);
+        validatorService.isGuestValidatedDefinition(word2.value);
     });
 });
