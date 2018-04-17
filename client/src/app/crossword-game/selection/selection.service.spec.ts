@@ -8,6 +8,9 @@ import { GridWord, Direction } from "../../../../../common/crosswordsInterfaces/
 import { WordService } from "../word.service";
 import { SocketService } from "../socket.service";
 import { SelectionStateService } from "../selection-state/selection-state.service";
+import { GameStateService } from "../game-state.service";
+import { LobbyService } from "../lobby/lobby.service";
+import { Router } from "@angular/router";
 
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to . . . on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I . . . on a chair.");
@@ -21,13 +24,22 @@ describe("SelectionService", () => {
     let wordService: WordService;
     let socketService: SocketService;
     let selectionState: SelectionStateService;
+    let lobbyService: LobbyService;
+    let gameStateService: GameStateService;
+    let router: Router;
+    let selectionStateService: SelectionStateService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         });
-        socketService = TestBed.get(SocketService);
+
+        lobbyService = TestBed.get(LobbyService);
+        gameStateService = TestBed.get(GameStateService);
+        router = TestBed.get(Router);
+        selectionStateService = TestBed.get(SelectionStateService);
+        socketService = new SocketService(lobbyService, wordService, gameStateService, router, selectionStateService);
 
         wordService = TestBed.get(WordService);
         wordService.words = words;
@@ -76,6 +88,23 @@ describe("SelectionService", () => {
         selectionService.selectWord(0, 0);
         selectionService.selectWord(0, 0);
         expect(selectionService.selectedWord.value).toBe(word2.value);
+    });
+
+    it("should return the right selected word if the local user is the host", () => {
+        socketService.isHost = true;
+        selectionState.localSelectedWord = word1;
+        selectionState.remoteSelectedWord = word2;
+        expect(selectionService.hostSelectedWord).toEqual(word1);
+        expect(selectionService.guestSelectedWord).toEqual(word2);
+
+    });
+
+    it("should return the right remote selected word if the local user is the guest", () => {
+        socketService.isHost = false;
+        selectionState.localSelectedWord = word1;
+        selectionState.remoteSelectedWord = word2;
+        expect(selectionService.hostSelectedWord).toEqual(word2);
+        expect(selectionService.guestSelectedWord).toEqual(word1);
     });
 
 });
