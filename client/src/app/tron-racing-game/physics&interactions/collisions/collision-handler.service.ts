@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as THREE from "three";
 
 import { Car } from "../cars/car/car";
@@ -101,6 +101,5 @@ export class CollisionHandlerService {
             }
             collision.remainingFrames--;
         });
-
     }
 }

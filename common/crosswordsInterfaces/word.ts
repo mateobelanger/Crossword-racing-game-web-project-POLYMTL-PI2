@@ -1,4 +1,4 @@
-export enum Direction { VERTICAL, HORIZONTAL };
+export enum Direction { VERTICAL, HORIZONTAL }
 
 export interface IWord {
     value: string;
@@ -12,17 +12,17 @@ export class GridWord implements IWord {
     public column: number;
     public direction: Direction;
 
-    constructor(row: number, column: number, direction: Direction, 
+    constructor(row: number, column: number, direction: Direction,
                 value: string, definition: string = "") {
         this.row = row;
-        this.column = column
+        this.column = column;
         this.direction = direction;
         this.value = value;
         this.definition = definition;
     }
 
     public includesCell(row: number, column: number): boolean {
-        return this.direction === Direction.HORIZONTAL? 
+        return this.direction === Direction.HORIZONTAL?
                     row === this.row && column >= this.column && column < this.column + this.value.length :
                     column === this.column && row >= this.row && row < this.row + this.value.length;
     }

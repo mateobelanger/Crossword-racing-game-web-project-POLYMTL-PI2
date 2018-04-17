@@ -1,7 +1,6 @@
 const MAX_NB_LAPS: number = 3;
 
 export class RaceResults {
-
     private _laps: number[];
 
     public constructor() {

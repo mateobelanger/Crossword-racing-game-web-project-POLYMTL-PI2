@@ -27,8 +27,9 @@ export class Waypoint {
     }
 
     public bindCircle( id: number): void {
-        if (this._circleId === null)
+        if (this._circleId === null) {
             this._circleId = id;
+        }
     }
 
     public get circleId(): number {
@@ -40,8 +41,9 @@ export class Waypoint {
     }
 
     public bindIncomingPlane(id: number): void {
-        if (this._incomingPlaneId === null)
-        this._incomingPlaneId = id;
+        if (this._incomingPlaneId === null) {
+            this._incomingPlaneId = id;
+        }
     }
 
     public unbindIncomingPlane(): void {
@@ -53,8 +55,9 @@ export class Waypoint {
     }
 
     public bindOutgoingPlane(id: number): void {
-        if (this._outgoingPlaneId === null)
-        this._outgoingPlaneId = id;
+        if (this._outgoingPlaneId === null) {
+            this._outgoingPlaneId = id;
+        }
     }
 
     public unbindOutgoingPlane(): void {

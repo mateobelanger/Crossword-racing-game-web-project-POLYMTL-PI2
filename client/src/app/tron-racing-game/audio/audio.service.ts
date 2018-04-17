@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from 'three';
+import { Injectable } from "@angular/core";
+import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from "three"; 
 
 const DEFAULT_VOLUME_VALUE: number = 0.5;
 

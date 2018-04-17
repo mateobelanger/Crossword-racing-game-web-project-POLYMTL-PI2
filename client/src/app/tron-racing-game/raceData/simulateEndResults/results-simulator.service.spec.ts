@@ -1,17 +1,17 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
 
-import { ResultsSimulatorService } from './results-simulator.service';
-import { RaceProgressionHandlerService } from '../raceProgression/race-progression-handler.service';
-import { RaceResultsService } from '../recordedTimes/race-results.service';
+import { ResultsSimulatorService } from "./results-simulator.service";
+import { RaceProgressionHandlerService } from "../raceProgression/race-progression-handler.service";
+import { RaceResultsService } from "../recordedTimes/race-results.service";
 
-describe('ResultsSimulatorService', () => {
+describe("ResultsSimulatorService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ResultsSimulatorService, RaceProgressionHandlerService, RaceResultsService]
     });
   });
 
-  it('should be created', inject([ResultsSimulatorService], (service: ResultsSimulatorService) => {
+  it("should be created", inject([ResultsSimulatorService], (service: ResultsSimulatorService) => {
     expect(service).toBeTruthy();
   }));
 });

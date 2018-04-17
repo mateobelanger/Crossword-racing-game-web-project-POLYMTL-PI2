@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Car } from './car/car';
+import { Injectable } from "@angular/core";
+import { Car } from "./car/car";
 import { PLAYERS_NAME, USERNAME, GameState, CAR_TEXTURE, NUMBER_OF_TEXURES } from "../../constants";
 import * as THREE from "three";
-import { CarStartPosition } from './carStartPosition';
-import { VirtualPlayerCar } from '../../virtualPlayers/virtualPlayerCar';
-import { SpeedZonesService } from '../../virtualPlayers/speed-zones.service';
-import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
-import { VirtualPlayerDifficulty } from '../../virtualPlayers/virtualPlayerDifficulty';
-import { TextureLoaderService } from '../../gameRendering/textureLoader/texture-loader.service';
+import { CarStartPosition } from "./carStartPosition";
+import { VirtualPlayerCar } from "../../virtualPlayers/virtualPlayerCar";
+import { SpeedZonesService } from "../../virtualPlayers/speed-zones.service";
+import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
+import { VirtualPlayerDifficulty } from "../../virtualPlayers/virtualPlayerDifficulty";
+import { TextureLoaderService } from "../../gameRendering/textureLoader/texture-loader.service";
 
 @Injectable()
 export class CarHandlerService {
@@ -97,8 +97,6 @@ export class CarHandlerService {
     }
 
     private async initializeCars(): Promise<void> {
-        // because await does not work in for-of loop
-        // tslint:disable prefer-for-of
         for ( let i: number = 0; i < this._cars.length; i++) {
             await this.textureLoader.loadCarTexture(this.textureColor(i)).then(
                 (texture: THREE.Object3D) => {

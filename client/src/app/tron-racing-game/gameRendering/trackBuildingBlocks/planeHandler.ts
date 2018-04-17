@@ -1,6 +1,6 @@
-import {Waypoint} from "../../tracks/trackData/waypoint";
-import {Plane} from "./plane";
-import { UPPER_PLANE_POSITION_Z, TRACK_WIDTH, PlaneType, LOWER_PLANE_POSITION_Z } from '../../constants';
+import { Waypoint } from "../../tracks/trackData/waypoint";
+import { Plane } from "./plane";
+import { UPPER_PLANE_POSITION_Z, TRACK_WIDTH, PlaneType, LOWER_PLANE_POSITION_Z } from "../../constants";
 import * as THREE from "three";
 
 const RATIO_IMAGE_PER_PLANE_LENGTH: number = 40;
@@ -13,7 +13,6 @@ export const TRACK_LENGTH: number = 1;
 const EVEN_NUMBER: number = 2;
 
 export class PlaneHandler {
-
 
     private _planes: Plane[];
     private _firstPlaneId: number;
@@ -103,8 +102,9 @@ export class PlaneHandler {
     private findPlaneIndex(id: number): number {
         let index: number = null;
         this._planes.forEach((element, i) => {
-            if (element.id === id)
+            if (element.id === id) {
                 index = i;
+            }
         });
 
         return index;
@@ -112,8 +112,9 @@ export class PlaneHandler {
 
     private getPlane(id: number): Plane {
         let plane: Plane = null;
-        if (this.isDefined(id))
+        if (this.isDefined(id)) {
             plane = this._planes[this.findPlaneIndex(id)];
+        }
 
         return plane;
     }
@@ -124,7 +125,6 @@ export class PlaneHandler {
         waypoint2.bindIncomingPlane(plane.id);
 
         this.connectPlaneWithWaypoint(planeId);
-
     }
 
     private orientPlaneWithWaypoint(plane: Plane): void {
@@ -142,8 +142,9 @@ export class PlaneHandler {
     }
 
     private resizePlane(plane: Plane): void {
-        if (plane.length === 0)
+        if (plane.length === 0) {
             return;
+        }
         plane.mesh.scale.x = plane.length;
     }
 
@@ -160,12 +161,12 @@ export class PlaneHandler {
 
     private generatePlaneGeometry(nPlanes: number): THREE.PlaneGeometry[] {
         const planeGeometries: THREE.PlaneGeometry[] = [];
-        for (let i: number = 0 ; i < nPlanes; i++)
+        for (let i: number = 0 ; i < nPlanes; i++) {
             planeGeometries.push(new THREE.PlaneGeometry(TRACK_LENGTH, TRACK_WIDTH));
+        }
 
         return planeGeometries;
     }
-
 
     private getPlaneMaterial(planeLength: number, planeType: PlaneType): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture = new THREE.TextureLoader().load(ASSETS_FOLDER + ASSETS_NAME[planeType]);
@@ -178,8 +179,7 @@ export class PlaneHandler {
         return new THREE.MeshPhongMaterial({ map: createTexture, side: THREE.DoubleSide});
     }
 
-    // tslint:disable:no-any
-    private isDefined(object: any): boolean {
+    private isDefined<T>(object: T): boolean {
         return ((object !== null) && (object !== undefined));
-    }// tslint:enable:no-any
+    }
 }

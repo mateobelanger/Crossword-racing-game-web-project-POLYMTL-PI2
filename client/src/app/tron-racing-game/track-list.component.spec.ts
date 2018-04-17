@@ -46,7 +46,6 @@ describe("RacingGameComponent", () => {
             providers: [TracksProxyService, { provide: APP_BASE_HREF, useValue: "/" }]
         });
 
-
         fixture = TestBed.createComponent(TrackListComponent);
         component = fixture.componentInstance;
 
@@ -75,6 +74,7 @@ describe("RacingGameComponent", () => {
         expect(spyInitialize.calls.any()).toBe(false, "initialize called");
     });
 
+    // TODO: A enlever?
     // it("should have tracks once proxy service returned tracks", () => {
 
     //     fixture.detectChanges();

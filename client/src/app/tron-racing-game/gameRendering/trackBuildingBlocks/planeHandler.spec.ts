@@ -1,6 +1,6 @@
 import { Waypoint } from "../../tracks/trackData/waypoint";
 import { PlaneHandler } from "./planeHandler";
-import * as THREE from 'three';
+import * as THREE from "three";
 
 /* tslint:disable: no-magic-numbers */
 describe("PlaneHandlerHandler", () => {
@@ -24,7 +24,6 @@ describe("PlaneHandlerHandler", () => {
         planeHandler = null;
     });
 
-
     it("should be instantiated correctly when passing parameters", () => {
         expect(planeHandler).toBeDefined();
     });
@@ -37,6 +36,4 @@ describe("PlaneHandlerHandler", () => {
         planeHandler.removePlane(waypoints[2].getIncomingPlaneId());
         expect(planeHandler.planes.length).toEqual(8);
     });
-
-
 });

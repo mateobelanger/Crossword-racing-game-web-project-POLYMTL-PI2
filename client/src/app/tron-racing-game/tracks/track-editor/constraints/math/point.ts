@@ -18,7 +18,4 @@ export  class Point {
     public get y(): number {
         return this._y;
     }
-
-
 }
-

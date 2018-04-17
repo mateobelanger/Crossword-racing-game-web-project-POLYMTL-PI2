@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { RaceResults } from "./raceResults";
 import {PLAYERS_NAME } from "../../constants";
 @Injectable()
@@ -26,9 +26,11 @@ export class RaceResultsService {
 
     public get raceFinalResults(): [string, RaceResults][] {
         const raceFinalResults: [string, RaceResults][] = [];
-        // tslint:disable-next-line:forin
+
         for (const key in this._raceResults) {
-            raceFinalResults.push([key, this._raceResults[key]]);
+            if (this._raceResults.hasOwnProperty(key)) {
+                raceFinalResults.push([key, this._raceResults[key]]);
+            }
         }
         raceFinalResults.sort(
             (result1: [string, RaceResults], result2: [string, RaceResults]) =>
@@ -38,14 +40,11 @@ export class RaceResultsService {
         return raceFinalResults;
     }
 
-
     public doneLap( name: string, time: number): void {
         this.getPlayerRaceResults(name).doneLap(time);
     }
 
-    /*tslint:disable:no-any*/
-    private isDefined(object: any): boolean {
+    private isDefined<T>(object: T): boolean {
         return ((object !== null) && (object !== undefined));
-    }/*tslint:enable:no-any*/
-
+    }
 }
