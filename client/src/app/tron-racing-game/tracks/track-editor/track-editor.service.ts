@@ -109,7 +109,7 @@ export class TrackEditorService {
 
     }
 
-    public handleRightMouseDown(event: MouseEvent): void {
+    public handleRightMouseDown(): void {
         if (this._track.isClosed) {
             this.uncloseTrack();
         } else {

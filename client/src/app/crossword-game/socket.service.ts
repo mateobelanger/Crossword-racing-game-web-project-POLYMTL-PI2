@@ -136,7 +136,7 @@ export class SocketService {
             this.gameStateService.isMultiplayer = false;
         });
 
-        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING, (game: CrosswordGame) => {
+        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING, () => {
             this.router.navigate(["/"]);
             window.location.reload();
         });
