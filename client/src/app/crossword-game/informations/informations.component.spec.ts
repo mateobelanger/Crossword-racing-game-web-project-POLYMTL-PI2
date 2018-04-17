@@ -1,20 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { APP_BASE_HREF } from '@angular/common';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { APP_BASE_HREF } from "@angular/common";
 
-import { InformationsComponent } from './informations.component';
-import { routes } from '../../app-routes.module';
-import { AppModule } from '../../app.module';
+import { InformationsComponent } from "./informations.component";
+import { routes } from "../../app-routes.module";
+import { AppModule } from "../../app.module";
 
-
-describe('InformationsComponent', () => {
+describe("InformationsComponent", () => {
     let component: InformationsComponent;
     let fixture: ComponentFixture<InformationsComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }]
+            providers: [{provide: APP_BASE_HREF, useValue : "/" }]
         })
         .compileComponents();
     }));
@@ -25,7 +23,7 @@ describe('InformationsComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 });

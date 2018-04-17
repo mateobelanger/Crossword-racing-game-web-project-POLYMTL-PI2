@@ -3,6 +3,8 @@ import { GridService } from "../grid.service";
 import { GameStateService } from "../game-state.service";
 import { SocketService } from "../socket.service";
 import { ValidatorService } from "../validator.service";
+import { Router } from "@angular/router";
+import { DefinitionsService } from "../definitions/definitions.service";
 
 @Component({
     selector: "app-end-of-game-modal",
@@ -13,19 +15,21 @@ export class EndOfGameModalComponent {
 
     public isWaitingForOpponent: boolean;
 
-    public constructor(private gridService: GridService,
+    public constructor(public validator: ValidatorService,
+                       public router: Router,
+                       private gridService: GridService,
                        private gameState: GameStateService,
                        private socketService: SocketService,
-                       public validator: ValidatorService) {
+                       private definitionsService: DefinitionsService) {
         this.isWaitingForOpponent = false;
     }
 
     public isEndOfGame(): boolean {
-        return this.gameState._isEndOfGame;
+        return this.gameState.isEndOfGame;
     }
 
     public isVictorious(): boolean {
-        if (this.gameState.isMultiplayer) {
+        if (this.gameState.isOngoing) {
             return this.socketService.isHost ? this.gameState.hostScore > this.gameState.guestScore :
                                            this.gameState.guestScore > this.gameState.hostScore;
         } else {
@@ -33,17 +37,24 @@ export class EndOfGameModalComponent {
         }
     }
 
+    public returnToMenu(): void {
+        this.gameState.endGame();
+        this.router.navigate(["/"]);
+        window.location.reload();
+    }
+
     public restart(): void {
         this.isWaitingForOpponent = true;
-        this.gameState._isEndOfGame = false;
-        this.gameState.waitForGame();
-        this.socketService.restartNewGame(this.gameState.difficulty);
+        this.gameState.isEndOfGame = false;
+        this.gameState.waitForOpponent();
+        this.socketService.restartNewGame(this.gameState.difficulty)
+                          .catch( (error: Error) => { console.error(error); });
 
         this.socketService.gameInitialized.subscribe(() => {
-            console.log("AAAAAAAAAAAAAAA");
-            this.gameState.resetGameState();
+            this.gameState.resetScores();
             this.validator.initialize();
             this.gridService.initialize();
+            this.definitionsService.initialize();
             this.isWaitingForOpponent = false;
         });
     }

@@ -1,4 +1,4 @@
-{    
+{
     "rulesDirectory": [
         "node_modules/codelyzer",
         "node_modules/tslint-microsoft-contrib"
@@ -11,7 +11,7 @@
             true,
             "check-space"
         ],
-        "curly": false,
+        "curly": true,
         "deprecation": {
             "severity": "warn"
         },
@@ -88,7 +88,9 @@
         ],
         "prefer-const": true,
         "quotemark": [
-            false
+            true,
+            "double",
+            "avoid-escape"
         ],
         "radix": true,
         "semicolon": [
@@ -192,7 +194,7 @@
         "newline-before-return": true,
         "no-angle-bracket-type-assertion": true,
         "no-boolean-literal-compare": true,
-        "no-consecutive-blank-lines": false,
+        "no-consecutive-blank-lines": true,
         "number-literal-format": true,
         "prefer-method-signature": true,
         "return-undefined": true,

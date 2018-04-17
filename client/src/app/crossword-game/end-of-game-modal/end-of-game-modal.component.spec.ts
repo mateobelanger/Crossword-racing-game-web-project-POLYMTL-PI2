@@ -1,6 +1,4 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
-
 import { APP_BASE_HREF } from "@angular/common";
 
 import { EndOfGameModalComponent } from "./end-of-game-modal.component";
@@ -21,7 +19,10 @@ describe("EndOfGameModalComponent", () => {
       providers: [GridService, ValidatorService, UserGridService, WordService,
                   { provide: APP_BASE_HREF, useValue: "/" }]
     })
-    .compileComponents();
+    .compileComponents()
+    .catch( (error: Error) => {
+      console.error(error);
+    });
   }));
 
   beforeEach(() => {

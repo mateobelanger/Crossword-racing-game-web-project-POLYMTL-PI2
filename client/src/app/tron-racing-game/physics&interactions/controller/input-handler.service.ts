@@ -8,11 +8,13 @@ import { CommandCameraZoomOut } from "./commandCameraZoomOut";
 import { CommandCameraZoomIn } from "./commandCameraZoomIn";
 import { CommandCamera } from "./commandCamera";
 import { CommandNightDay } from "./commandNightDay";
-import { RenderService } from "../../gameRendering/render-service/render.service";
 import { CameraService } from "../../gameRendering/camera.service";
 import { SceneLoaderService } from "../../gameRendering/scene-loader/scene-loader.service";
 // import { CommandEndOfGame } from "./commandEndOfGame";
 import { CommandNull } from "./commandNull";
+import { Car } from "../cars/car/car";
+import { RenderService } from "../../gameRendering/render-service/render.service";
+import { CarHandlerService } from "../cars/car-handler.service";
 
 const W_KEYCODE: number = 87;
 const A_KEYCODE: number = 65;
@@ -36,7 +38,7 @@ export class InputHandlerService {
     private keyO: CommandFormat;
 
     public constructor(private renderService: RenderService, private cameraService: CameraService ,
-                       private sceneLoaderService: SceneLoaderService) {
+                       private sceneLoaderService: SceneLoaderService, private carHandler: CarHandlerService) {
         this.keyA = new CommandNull();
         this.keyW = new CommandNull();
         this.keyS = new CommandNull();
@@ -48,23 +50,25 @@ export class InputHandlerService {
     }
 
     public handleInput(event: KeyboardEvent, isKeyDown: boolean): void {
+        const cars: Car[] = [];
+        cars.push(this.renderService.car);
         switch (event.keyCode) {
             case A_KEYCODE:
-                this.keyA.execute(isKeyDown, this.renderService.car); break;
+                this.keyA.execute(isKeyDown, cars); break;
             case W_KEYCODE:
-                this.keyW.execute(isKeyDown, this.renderService.car); break;
+                this.keyW.execute(isKeyDown, cars); break;
             case S_KEYCODE:
-                this.keyS.execute(isKeyDown, this.renderService.car); break;
+                this.keyS.execute(isKeyDown, cars); break;
             case D_KEYCODE:
-                this.keyD.execute(isKeyDown, this.renderService.car); break;
+                this.keyD.execute(isKeyDown, cars); break;
             case C_KEYCODE:
-                this.keyC.execute(isKeyDown, this.renderService.car, this.cameraService); break;
+                this.keyC.execute(isKeyDown, cars, this.cameraService); break;
             case N_KEYCODE:
-                this.keyN.execute(isKeyDown, this.renderService.car, this.sceneLoaderService); break;
+                this.keyN.execute(isKeyDown, this.carHandler.carsOnly, this.sceneLoaderService); break;
             case I_KEYCODE:
-                this.keyI.execute(isKeyDown, this.renderService.car, this.cameraService); break;
+                this.keyI.execute(isKeyDown, cars, this.cameraService); break;
             case O_KEYCODE:
-                this.keyO.execute(isKeyDown, this.renderService.car, this.cameraService); break;
+                this.keyO.execute(isKeyDown, cars, this.cameraService); break;
             default: break;
         }
     }

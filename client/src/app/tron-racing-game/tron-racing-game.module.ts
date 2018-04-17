@@ -45,6 +45,7 @@ import { CountdownComponent } from './raceData/raceInfos/countdown/countdown.com
 import { PortalsHandlerService } from './virtualPlayers/teleportation/portals-handler.service';
 import { LandService } from "./gameRendering/land.service";
 import { InputHandlerService } from "./physics&interactions/controller/input-handler.service";
+import { TextureLoaderService } from './gameRendering/textureLoader/texture-loader.service';
 
 @NgModule({
 
@@ -100,7 +101,8 @@ import { InputHandlerService } from "./physics&interactions/controller/input-han
     SpeedZonesService,
     PortalsHandlerService,
     LandService,
-    InputHandlerService
+    InputHandlerService,
+    TextureLoaderService
   ],
 
 })

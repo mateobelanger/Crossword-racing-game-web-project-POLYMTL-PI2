@@ -7,9 +7,8 @@ const hostName: string = "host";
 const guestName: string = "guest";
 const hostScore: number = 10;
 const guestScore: number = 2;
-const difficulty: Difficulty = Difficulty.EASY;
 const isMultiplayer: boolean = true;
-
+const difficulty: Difficulty = Difficulty.EASY;
 
 describe("GameStateService", () => {
 
@@ -34,7 +33,6 @@ describe("GameStateService", () => {
         expect(gameState.guestScore).toBe(0);
 
         expect(gameState.difficulty).toBe(null);
-        expect(gameState.isMultiplayer).toBe(false);
     });
 
     it("should be in an invalid state on construction", () => {
@@ -54,7 +52,6 @@ describe("GameStateService", () => {
         expect(gameState.hostName).toBe(hostName);
         expect(gameState.guestName).toBe(guestName);
         expect(gameState.difficulty).toBe(difficulty);
-        expect(gameState.isMultiplayer).toBe(isMultiplayer);
     });
 
     it("should be update scores correctly", () => {
@@ -65,9 +62,13 @@ describe("GameStateService", () => {
     });
 
     it("should start a game", () => {
-
         gameState.startGame();
-        expect(gameState.isOngoing()).toBe(true);
+        expect(gameState.isOngoing).toBe(true);
+    });
+
+    it("should wait for an opponent", () => {
+        gameState.waitForOpponent();
+        expect(gameState.isWaitingForOpponent).toBe(true);
     });
 
 });

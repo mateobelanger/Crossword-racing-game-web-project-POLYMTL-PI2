@@ -1,31 +1,18 @@
-import { GameConfiguration } from "../../../common/crosswordsInterfaces/gameConfiguration";
+import { CrosswordGame } from "../../../common/crosswordsInterfaces/crosswordGame";
 import { GridWord } from "../../../common/crosswordsInterfaces/word";
 
 export class GameProgessionHandler {
 
-    // constructor() { }
-
-    // public selectWord(game: GameConfiguration, socket: SocketIO.Socket, selectedWord: GridWord): void {
-
-    //     socket.to(game.roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
-    // }
-
-    // public deselectWord(game: GameConfiguration, socket: SocketIO.Socket, word: GridWord): void {
-
-    //     socket.to(game.roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
-    // }
-
-    public isAddValidatedWord(word: GridWord, game: GameConfiguration, socketId: string): boolean {
+    public static isAddValidatedWord(word: GridWord, game: CrosswordGame, socketId: string): boolean {
         const isNewValidatedWord: boolean = !this.includesWord(word, game);
         if (isNewValidatedWord) {
             this.addValidatedWord(socketId, game, word);
-            // this.socketServer.in(game.roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, game);
         }
 
         return isNewValidatedWord;
     }
 
-    public includesWord(wordToFind: GridWord, game: GameConfiguration): boolean {
+    private static includesWord(wordToFind: GridWord, game: CrosswordGame): boolean {
         for (const word of game.hostValidatedWords) {
             if (word.value === wordToFind.value) {
                 return true;
@@ -40,7 +27,7 @@ export class GameProgessionHandler {
         return false;
     }
 
-    private addValidatedWord(socketId: string, game: GameConfiguration, word: GridWord): void {
+    private static addValidatedWord(socketId: string, game: CrosswordGame, word: GridWord): void {
         if (socketId === game.hostId) {
             game.hostValidatedWords.push(word);
         } else {

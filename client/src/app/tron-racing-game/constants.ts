@@ -41,3 +41,8 @@ export enum VIRTUAL_PLAYER_SKILL {BEGGINER, EXPERT}
 export const COUNTDOWN_TIME: number = 3;
 export const enum GameState {COUTNDOWN, RACE, END}
 
+
+// TEXTURE LOADER
+export enum CAR_TEXTURE {LIGHT_BLUE, DARK_BLUE, RED, YELLOW, GREEN}
+export const NUMBER_OF_TEXURES: number = 5;
+

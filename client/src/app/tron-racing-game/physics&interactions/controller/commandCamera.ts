@@ -4,7 +4,7 @@ import { Car } from "../cars/car/car";
 
 export class CommandCamera extends CommandFormat  {
 
-    public execute(isKeyDown: boolean, car: Car,  service: CameraService): void {
+    public execute(isKeyDown: boolean, cars: Car[],  service: CameraService): void {
         if (!isKeyDown) {
             service.changeCamera();
         }

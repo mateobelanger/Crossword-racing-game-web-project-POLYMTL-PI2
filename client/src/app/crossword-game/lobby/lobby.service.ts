@@ -1,21 +1,27 @@
-import { Injectable } from '@angular/core';
-
-import { GameConfiguration } from "../../../../../common/crosswordsInterfaces/gameConfiguration";
+import { Injectable } from "@angular/core";
+import { CrosswordGame } from "../../../../../common/crosswordsInterfaces/crosswordGame";
 
 @Injectable()
 export class LobbyService {
 
-    public onlineGames: GameConfiguration[];
-    public waitingGames: GameConfiguration[];
+    private _multiplayerGames: CrosswordGame[];
+    private _pendingGames: CrosswordGame[];
 
     public constructor() {
-        this.onlineGames = [];
-        this.waitingGames = [];
+        this._multiplayerGames = [];
+        this._pendingGames = [];
     }
 
-    public updateGameLists(ongoingGames: GameConfiguration[], waitingGames: GameConfiguration[]): void {
-        this.onlineGames = ongoingGames;
-        this.waitingGames = waitingGames;
+    public get multiplayerGames(): CrosswordGame[] {
+        return this._multiplayerGames;
     }
 
+    public get pendingGames(): CrosswordGame[] {
+        return this._pendingGames;
+    }
+
+    public updateGameLists(multiplayerGames: CrosswordGame[], waitingGames: CrosswordGame[]): void {
+        this._multiplayerGames = multiplayerGames;
+        this._pendingGames = waitingGames;
+    }
 }

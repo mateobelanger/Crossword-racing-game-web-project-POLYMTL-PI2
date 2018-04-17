@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { GRID_SIZE } from '../../../../common/constants';
-import { WordService } from './word.service';
-import { SocketService } from './socket.service';
-import { UserGridService } from './user-grid.service';
-import { SelectionService } from './selection/selection.service';
+import { Injectable } from "@angular/core";
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
+import { GRID_SIZE } from "../../../../common/constants";
+import { WordService } from "./word.service";
+import { SocketService } from "./socket.service";
+import { UserGridService } from "./user-grid.service";
+import { SelectionService } from "./selection/selection.service";
 
 @Injectable()
 export class ValidatorService {
@@ -81,7 +81,6 @@ export class ValidatorService {
                 }
                 if (isValidated) {
                     this.addValidatedWord(word);
-                    // TODO: this.updateEndOfGame();
                 }
             }
         }
@@ -108,14 +107,6 @@ export class ValidatorService {
         return this.isHostValidatedCell(row, column) && this.isGuestValidatedCell(row, column);
     }
 
-    public updateLocalGrid(row: number, column: number): void {
-        const isRemoteValidatedCell: boolean = this.socketService.isHost ?
-            this.isGuestValidatedCell(row, column) : this.isHostValidatedCell(row, column);
-        if (isRemoteValidatedCell) {
-            this.userGridService.userGrid[row][column] = this.expectedLetterInCell(row, column);
-        }
-    }
-
     public isHostValidatedCell(row: number, column: number): boolean {
         for (const word of this.socketService.game.hostValidatedWords) {
             if (word.includesCell(row, column)) {
@@ -134,6 +125,14 @@ export class ValidatorService {
         }
 
         return false;
+    }
+
+    private updateLocalGrid(row: number, column: number): void {
+        const isRemoteValidatedCell: boolean = this.socketService.isHost ?
+            this.isGuestValidatedCell(row, column) : this.isHostValidatedCell(row, column);
+        if (isRemoteValidatedCell) {
+            this.userGridService.userGrid[row][column] = this.expectedLetterInCell(row, column);
+        }
     }
 
     private initializeGrid(): void {
@@ -160,19 +159,6 @@ export class ValidatorService {
         }
     }
 
-    /* TODO : 
-    private updateEndOfGame(): void {
-        for (const word of this.wordService.words) {
-            if (!this.socketService.game.hostValidatedWords.includes(word) || !this.socketService.game.guestValidatedWords.includes(word)) {
-                this.isEndOfGame = false;
-
-                return;
-            }
-        }
-
-        this.isEndOfGame = true;
-    }
-*/
     private expectedLetterInCell (row: number, column: number): string {
         for (const word of this.wordService.words) {
             if (word.includesCell(row, column)) {

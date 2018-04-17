@@ -1,85 +1,89 @@
-import { Injectable } from '@angular/core';
-import { Difficulty } from '../../../../common/constants';
+import { Injectable } from "@angular/core";
+import { Difficulty, PlayerType } from "../../../../common/constants";
+import { NameValidator } from "../../../../common/nameValidator";
 
-export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST }
+export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST, RELOADING }
 
 @Injectable()
 export class GameStateService {
+
+    private _scores: number[];
+    private _state: GameState;
+    private _isMultiplayer: boolean;
+
     public hostName: string;
     public guestName: string;
-    public hostScore: number;
-    public guestScore: number;
-
     public difficulty: Difficulty;
-    private state: GameState;
-    private _isMultiplayer: boolean;
-    public _isEndOfGame: boolean;
-
+    public isEndOfGame: boolean;
 
     public constructor() {
         this.initializeGameState();
+    }
+
+    public get hostScore(): number {
+        return this._scores[PlayerType.HOST];
+    }
+
+    public get guestScore(): number {
+        return this._scores[PlayerType.GUEST];
     }
 
     public get isMultiplayer(): boolean {
         return this._isMultiplayer;
     }
 
+    public get isWaitingForOpponent(): boolean {
+        return this._state === GameState.WAITING_FOR_OPPONENT;
+    }
+
+    public get isOngoing(): boolean {
+        return this._state === GameState.ONGOING;
+    }
+
     public initializeGameState(): void {
         this.hostName = "";
         this.guestName = "";
-        this.hostScore = 0;
-        this.guestScore = 0;
+        this._scores = [0, 0];
 
         this.difficulty = null;
-        this.state = GameState.NO_GAME;
+        this._state = GameState.NO_GAME;
         this._isMultiplayer = false;
-        this._isEndOfGame = false;
+        this.isEndOfGame = false;
     }
 
-    public resetGameState(): void {
-        this.hostScore = 0;
-        this.guestScore = 0;
-        this.state = GameState.ONGOING;
+    public resetScores(): void {
+        this._scores = [0, 0];
+        this._state = GameState.ONGOING;
     }
 
     public startGame(): void {
-        this.state = GameState.ONGOING;
+        this._state = GameState.ONGOING;
     }
 
-    public isOngoing(): boolean {
-        return this.state === GameState.ONGOING;
+    public endGame(): void {
+        this.isEndOfGame = false;
+        this._state = GameState.NO_GAME;
+        this._isMultiplayer = false;
     }
 
-    public waitForGame(): void {
-        this.state = GameState.WAITING_FOR_OPPONENT;
+    public waitForOpponent(): void {
+        this._state = GameState.WAITING_FOR_OPPONENT;
     }
 
     public setGameInfo(hostName: string, guestName: string, difficulty: Difficulty, isMultiplayer: boolean): void {
         this.hostName = hostName;
         this.guestName = guestName;
         this.difficulty = difficulty;
-        this.state = GameState.ONGOING;
+        this._state = GameState.ONGOING;
         this._isMultiplayer = isMultiplayer;
     }
 
     public updateScores(hostScore: number, guestScore: number): void {
-        this.hostScore = hostScore;
-        this.guestScore = guestScore;
+        this._scores = [hostScore, guestScore];
     }
 
     public isValidState(): boolean {
-        return this.difficulty !== null && this.isValidHostName() && this.state === GameState.NO_GAME;
+        return this.difficulty !== null && NameValidator.isValidName(this.hostName) && this._state === GameState.NO_GAME;
     }
 
-    private isValidHostName(): boolean {
-        let containsOnlySpaces: boolean = true;
-        for (const char of this.hostName) {
-            if (char !== " ") {
-                containsOnlySpaces = false;
-                break;
-            }
-        }
-
-        return this.hostName.length > 0 && !containsOnlySpaces;
-    }
 }

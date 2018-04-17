@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { ValidatorService } from './validator.service';
-import { WordService } from './word.service';
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { GameConfiguration } from '../../../../common/crosswordsInterfaces/gameConfiguration';
-import { SocketService } from './socket.service';
-import { UserGridService } from './user-grid.service';
-import { Difficulty } from '../../../../common/constants';
-import { LobbyService } from './lobby/lobby.service';
-import { APP_BASE_HREF } from '@angular/common';
-import { AppModule } from '../app.module';
-import { routes } from '../app-routes.module';
+import { TestBed } from "@angular/core/testing";
+import { HttpClientModule } from "@angular/common/http";
+import { ValidatorService } from "./validator.service";
+import { WordService } from "./word.service";
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
+import { CrosswordGame } from "../../../../common/crosswordsInterfaces/crosswordGame";
+import { SocketService } from "./socket.service";
+import { UserGridService } from "./user-grid.service";
+import { Difficulty } from "../../../../common/constants";
+import { LobbyService } from "./lobby/lobby.service";
+import { APP_BASE_HREF } from "@angular/common";
+import { AppModule } from "../app.module";
+import { routes } from "../app-routes.module";
 
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
@@ -22,7 +22,32 @@ const IS_HOST: boolean = true;
 
 const MOCK_STRING: string = "TEST";
 
-describe('ValidatorService', () => {
+const INITIAL_GRID: string[][] = [
+    ["s", "", "t", "", "", "", "", "", "", ""],
+    ["a", "", "o", "", "", "", "", "", "", ""],
+    ["t", "", "m", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""]
+];
+const FILLED_GRID: string[][] = [
+    ["s", "i", "t", "", "", "", "", "", "", ""],
+    ["a", "m", "o", "", "", "", "", "", "", ""],
+    ["t", "a", "m", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""],
+    [ "",  "",  "", "", "", "", "", "", "", ""]
+];
+
+describe("ValidatorService", () => {
     let filledGrid: string[][];
     let initialGrid: string[][];
     let wordService: WordService;
@@ -31,13 +56,12 @@ describe('ValidatorService', () => {
 
     let validatorService: ValidatorService;
     let validatedWords: GridWord[];
-    let game: GameConfiguration;
+    let game: CrosswordGame;
 
-    // tslint:disable-next-line:max-func-body-length
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule, HttpClientModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }, ValidatorService, WordService, UserGridService,
+            providers: [{provide: APP_BASE_HREF, useValue : "/" }, ValidatorService, WordService, UserGridService,
                         SocketService, LobbyService]
         });
 
@@ -46,27 +70,15 @@ describe('ValidatorService', () => {
 
         validatedWords = [word2, word3];
 
-        game = new GameConfiguration(MOCK_STRING, MOCK_STRING, MOCK_STRING, Difficulty.EASY, words);
+        game = new CrosswordGame(MOCK_STRING, MOCK_STRING, MOCK_STRING, Difficulty.EASY, words);
         game.hostValidatedWords = validatedWords;
 
         socketService = TestBed.get(SocketService);
         socketService.game = game;
 
-        initialGrid = [
-            ["s", "", "t", "", "", "", "", "", "", ""], ["a", "", "o", "", "", "", "", "", "", ""],
-            ["t", "", "m", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""], [ "", "",  "", "", "", "", "", "", "", ""]
-        ];
+        initialGrid = INITIAL_GRID;
+        filledGrid = FILLED_GRID;
 
-        filledGrid = [
-            ["s", "i", "t", "", "", "", "", "", "", ""], ["a", "m", "o", "", "", "", "", "", "", ""],
-            ["t", "a", "m", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
-            [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
-            [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""],
-            [ "",  "",  "", "", "", "", "", "", "", ""], [ "",  "",  "", "", "", "", "", "", "", ""]
-        ];
         validatorService = TestBed.get(ValidatorService);
         validatorService["filledGrid"] = filledGrid;
 
@@ -74,7 +86,7 @@ describe('ValidatorService', () => {
         userGridService.userGrid = initialGrid;
     });
 
-    it('should be created', () => {
+    it("should be created", () => {
         expect(validatorService).toBeTruthy();
     });
 
@@ -108,4 +120,14 @@ describe('ValidatorService', () => {
         expect(validatorService.isValidatedCell(0, 1)).toBeFalsy();
     });
 
+    it("should update local grid when a word is validated", () => {
+        validatorService.isValidatedCell(1, 0);
+        expect(validatorService["userGridService"].userGrid[1][0]).toBe("a");
+    });
+
+    it("should update local grid when a word is validated", () => {
+        validatorService["userGridService"].userGrid[0][1] = "i";
+        validatorService.isValidatedCell(1, 0);
+        expect(validatorService["userGridService"].userGrid[0][1]).toBe("i");
+    });
 });

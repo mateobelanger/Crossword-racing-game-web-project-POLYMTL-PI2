@@ -22,16 +22,16 @@ const TRACK: Model<Document> = MONGOOSE.model("Track", trackSchema);
 export class MongoDBAccess {
 
     public static async getAll(): Promise<ITrackData[]> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         return new Promise<ITrackData[]>((resolve: Function, reject: Function) => {
             db.once("open", () => {
                 TRACK.find(
-                    (err: Error, trackData: ITrackData[]) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    (error: Error, trackData: ITrackData[]) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         } else {
                             resolve(trackData);
                         }
@@ -42,9 +42,10 @@ export class MongoDBAccess {
     }
 
     public static async addTrack(track: ITrackData): Promise<ITrackData> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
+        // tslint:disable-next-line:no-any
         const newTrack: any = new TRACK(track);
         newTrack.bestTimes = [];
         newTrack.timesPlayed = 0;
@@ -67,22 +68,22 @@ export class MongoDBAccess {
     }
 
     public static async remove(trackName: string): Promise<void> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         return new Promise<void>((resolve: Function, reject: Function) => {
             db.once("open", () => {
-                TRACK.findOne({ name: trackName })
-                    .remove((err: Error) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                void TRACK.findOne({ name: trackName })
+                    .remove((error: Error) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         }
                     })
-                    .exec((err: Error) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    .exec((error: Error) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         }
                         resolve();
                     });
@@ -91,7 +92,7 @@ export class MongoDBAccess {
     }
 
     public static async updateExistingTrack(track: ITrackData): Promise<void> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         return new Promise<void>((resolve: Function, reject: Function) => {
@@ -105,10 +106,10 @@ export class MongoDBAccess {
                             image: track.image
                         }
                     },
-                    (err: Error, numAffected: number) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    (error: Error, numAffected: number) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         }
                         resolve();
                     }
@@ -120,7 +121,7 @@ export class MongoDBAccess {
     }
 
     public static async incrementTimesPlayed(trackName: string): Promise<void> {
-        MONGOOSE.connect(MONGODB_URI);
+        void MONGOOSE.connect(MONGODB_URI);
         const db: Connection = MONGOOSE.connection;
 
         return new Promise<void>((resolve: Function, reject: Function) => {
@@ -128,10 +129,10 @@ export class MongoDBAccess {
                 TRACK.update(
                     { name: trackName },
                     { $inc: { timesPlayed: 1 } },
-                    (err: Function, numAffected: number) => {
-                        if (err) {
-                            console.error(err);
-                            reject(err);
+                    (error: Function, numAffected: number) => {
+                        if (error) {
+                            console.error(error);
+                            reject(error);
                         }
                         resolve();
                     }

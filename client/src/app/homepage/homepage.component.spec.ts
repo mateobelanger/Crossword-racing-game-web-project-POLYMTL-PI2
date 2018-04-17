@@ -1,15 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { HomepageComponent } from './homepage.component';
+import { HomepageComponent } from "./homepage.component";
+import { GameStateService } from "../crossword-game/game-state.service";
 
-describe('HomepageComponent', () => {
+describe("HomepageComponent", () => {
     let component: HomepageComponent;
     let fixture: ComponentFixture<HomepageComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
-            declarations: [HomepageComponent]
+            declarations: [HomepageComponent],
+            providers: [GameStateService]
         })
         .compileComponents();
     }));
@@ -20,7 +21,7 @@ describe('HomepageComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 });
