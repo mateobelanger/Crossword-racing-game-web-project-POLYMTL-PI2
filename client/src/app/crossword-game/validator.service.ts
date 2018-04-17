@@ -18,7 +18,6 @@ export class ValidatorService {
                        private selectionService: SelectionService) {
     }
 
-    // public method to be initialized only once the words are fetched from the server.
     public initialize(): void {
         this.initializeGrid();
         this.fillGrid();
