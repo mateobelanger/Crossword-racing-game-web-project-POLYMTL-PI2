@@ -47,7 +47,7 @@ export class AudioService {
     }
 
     public stopAllSounds(): void {
-        this._sounds.forEach( (sound: ISound, index: number) => {
+        this._sounds.forEach( (sound: ISound) => {
             this.stopSound(sound.path);
         });
     }
@@ -87,9 +87,9 @@ export class AudioService {
 
 // null object of THREE.Audio
 class NullAudio extends Audio {
-    public play(): Audio { return null; }
-    public stop(): Audio { return null; }
-    public setVolume(volume: number): Audio { return null; }
-    public setPlaybackRate(value: number): Audio { return null; }
+    public play(): Audio { return this; }
+    public stop(): Audio { return this; }
+    public setVolume(volume: number): Audio { return this; }
+    public setPlaybackRate(value: number): Audio { return this; }
     public setLoop(value: boolean): void {}
 }

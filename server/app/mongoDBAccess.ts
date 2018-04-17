@@ -1,7 +1,7 @@
 import { ITrackData } from "../../common/ITrackData";
 import { Schema, Connection, Mongoose, Error, Model, Document } from "mongoose";
 
-// Connection URL
+// URL connection
 const userName: string = "admin";
 const password: string = "admin";
 const dbName: string = "log2990-equipe4";
