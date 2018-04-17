@@ -1,21 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { GameFrameComponent } from './game-frame.component';
-import { routes } from '../../app-routes.module';
-import { AppModule } from '../../app.module';
-import { APP_BASE_HREF } from '@angular/common';
+import { GameFrameComponent } from "./game-frame.component";
+import { routes } from "../../app-routes.module";
+import { AppModule } from "../../app.module";
+import { APP_BASE_HREF } from "@angular/common";
 
-describe('RacingGameSceneComponent', () => {
+describe("RacingGameSceneComponent", () => {
     let component: GameFrameComponent;
     let fixture: ComponentFixture<GameFrameComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         })
-            .compileComponents();
+            .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {
@@ -24,7 +23,7 @@ describe('RacingGameSceneComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 });

@@ -2,10 +2,12 @@ import { Component } from "@angular/core";
 import { GameStateService } from "../../game-state.service";
 import { SocketService } from "../../socket.service";
 
+const USERNAME: string = "Score";
+
 @Component({
     selector: "app-crossword-game",
-    templateUrl: "./soloConfiguration.component.html",
-    styleUrls: ["./soloConfiguration.component.css"]
+    templateUrl: "./solo-configuration.component.html",
+    styleUrls: ["./solo-configuration.component.css"]
 })
 export class SoloConfigurationComponent {
 
@@ -13,11 +15,11 @@ export class SoloConfigurationComponent {
     }
 
     public get canStartGame(): boolean {
-        return !this.gameState.isOngoing() && this.gameState.difficulty !== null;
+        return !this.gameState.isOngoing && this.gameState.difficulty !== null;
     }
 
     public async createGame(): Promise<void> {
         this.gameState.startGame();
-        await this.socketService.createSoloGame("Score", this.gameState.difficulty);
+        await this.socketService.createSoloGame(USERNAME, this.gameState.difficulty);
     }
 }

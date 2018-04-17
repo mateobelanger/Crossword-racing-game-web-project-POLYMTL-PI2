@@ -1,24 +1,23 @@
-<button routerLink='../..'>Back to config</button>
+<div class="background" (click)="deselect()">
+    <button class="buttonTop" (click)="returnToMenu()">Back to menu</button>
 
-<div class="gameUI">
-  <div class="InformationsContainer">
-    <app-informations class="informations"></app-informations>
-  </div>
+    <div class="gameUI">
+        <div class="InformationsContainer clearfix">
+            <app-informations class="informations"></app-informations>
+        </div>
 
-  <div *ngIf="wordService.words.length != 0" (click)="deselect()">
-    <div class="gridContainer">
-      <div class="grid">
-        <app-grid></app-grid>
-      </div>
+        <div *ngIf="wordService.words.length != 0">
+            <div class="gridContainer">
+                <div class="grid">
+                    <app-grid></app-grid>
+                </div>
+            </div>
+
+            <div class="definitionsContainer">
+                <app-definitions class="definitions"></app-definitions>
+            </div>
+        </div>
+
+        <app-end-of-game-modal></app-end-of-game-modal>
     </div>
-
-
-
-    <div class="definitionsContainer">
-      <app-definitions class="definitions"></app-definitions>
-    </div>
-
-  </div>
-
-  <app-end-of-game-modal></app-end-of-game-modal>
 </div>

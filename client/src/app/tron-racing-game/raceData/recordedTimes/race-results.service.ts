@@ -17,9 +17,9 @@ export class RaceResultsService {
     }
 
     public getPlayerRaceResults(name: string): RaceResults {
-        if ( this.isDefined(this._raceResults[name]))
+        if ( this.isDefined(this._raceResults[name])) {
             return this._raceResults[name];
-        else {
+        } else {
             return new RaceResults();
         }
     }

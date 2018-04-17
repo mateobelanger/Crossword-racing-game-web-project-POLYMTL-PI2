@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
 import { words as mockWords } from "./mock-words";
-import { GRID_SIZE } from '../../../../common/constants';
-
+import { GRID_SIZE } from "../../../../common/constants";
 
 export const GRID_GENERATOR_URL: string = "http://localhost:3000/service/gridgenerator/";
 
@@ -13,7 +12,6 @@ export class WordService {
 
     public constructor(private _http: HttpClient) {
         this._words = [];
-
     }
 
     public get words(): GridWord[] {
@@ -24,14 +22,12 @@ export class WordService {
         this._words = words;
     }
 
-
-    // public method to be initialized only once the words are fetched from the server.
+    // public method to be initialize only once the words are fetched from the server.
     public async initialize(difficulty: string = "easy"): Promise<void> {
         await this.fetchWords(difficulty)
                 .then((httpWords: GridWord[]) => { this._words = this.castHttpToGridWordObj(httpWords); })
                 .catch(() => { this._words = mockWords; });  // default grid if any problem occurs.
     }
-
 
     public getDefinitions(direction: Direction): string[][] {
         const definitions: string[][] = [];

@@ -16,7 +16,8 @@ describe('LapComponent', () => {
             imports: [routes, AppModule],
             providers: [{provide: APP_BASE_HREF, useValue : '/' }, InputHandlerService]
         })
-            .compileComponents();
+            .compileComponents()
+            .catch((error: Error) => { console.error(error); });
     }));
 
     beforeEach(() => {

@@ -1,19 +1,19 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
-import { GridService } from './grid.service';
-import { WordService } from './word.service';
-import { ValidatorService } from './validator.service';
-import { GRID_SIZE, Difficulty } from '../../../../common/constants';
-import { UserGridService } from './user-grid.service';
-import { GameConfiguration } from '../../../../common/crosswordsInterfaces/gameConfiguration';
-import { SelectionService } from './selection/selection.service';
-import { SocketService } from './socket.service';
-import { LobbyService } from './lobby/lobby.service';
-import { routes } from '../app-routes.module';
-import { AppModule } from '../app.module';
-import { APP_BASE_HREF } from '@angular/common';
-import { SelectionStateService } from './selection-state/selection-state.service';
+import { TestBed } from "@angular/core/testing";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
+import { GridService } from "./grid.service";
+import { WordService } from "./word.service";
+import { ValidatorService } from "./validator.service";
+import { GRID_SIZE, Difficulty } from "../../../../common/constants";
+import { UserGridService } from "./user-grid.service";
+import { CrosswordGame } from "../../../../common/crosswordsInterfaces/crosswordGame";
+import { SelectionService } from "./selection/selection.service";
+import { SocketService } from "./socket.service";
+import { LobbyService } from "./lobby/lobby.service";
+import { routes } from "../app-routes.module";
+import { AppModule } from "../app.module";
+import { APP_BASE_HREF } from "@angular/common";
+import { SelectionStateService } from "./selection-state/selection-state.service";
 
 const KEY_BACKSPACE: number = 8;
 const KEY_TAB: number = 9;
@@ -21,12 +21,25 @@ const KEY_9: number = 57;
 const KEY_LEFT_WINDOW: number = 91;
 const KEY_QUOTE: number = 222;
 
-const KEY_A: number = 65;
-const KEY_Z: number = 90;
+const UPPERCASE_A: number = 65;
+const UPPERCASE_Z: number = 90;
+const LOWERCASE_A: number = 97;
+const LOWERCASE_Z: number = 122;
 
 const MOCK_STRING: string = "TEST";
 
-// tslint:disable:no-magic-numbers
+const USER_GRID: string[][] = [
+    ["s", "", "t", "q", "", "", "", "", "", ""],
+    ["a", "", "o", "", "", "", "", "", "", ""],
+    ["t", "", "m",  "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "",  "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "",  "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "",  "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""] ];
+
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
 const word3: GridWord = new GridWord (0, 1, Direction.VERTICAL, "image", "JPEG, PNG, GIF");
@@ -36,7 +49,7 @@ const word6: GridWord = new GridWord (2, 0, Direction.HORIZONTAL, "tam", "TAM __
 
 const words: GridWord[] = [word1, word2, word3, word4, word5, word6];
 
-describe('GridService', () => {
+describe("GridService", () => {
     let http: HttpClient;
     let socketService: SocketService;
     let wordService: WordService;
@@ -45,30 +58,19 @@ describe('GridService', () => {
     let validatorService: ValidatorService;
     let validatedWords: GridWord[];
     let userGridService: UserGridService;
-    let game: GameConfiguration;
+    let game: CrosswordGame;
     let selectionService: SelectionService;
     let selectionState: SelectionStateService;
 
-    // tslint:disable-next-line:max-func-body-length
+    // tslint:disable:no-magic-numbers
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule, HttpClientModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }, GridService, ValidatorService, WordService, UserGridService,
+            providers: [{provide: APP_BASE_HREF, useValue : "/" }, GridService, ValidatorService, WordService, UserGridService,
                         SelectionService, SocketService, LobbyService]
 
         });
-        userGrid = [
-            ["s", "", "t", "q", "", "", "", "", "", ""],
-            ["a", "", "o", "", "", "", "", "", "", ""],
-            ["t", "", "m",  "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "",  "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "",  "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "",  "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""]
-        ];
+        userGrid = USER_GRID;
         http =  TestBed.get(HttpClient);
 
         validatorService = TestBed.get(ValidatorService);
@@ -77,7 +79,7 @@ describe('GridService', () => {
         wordService["_words"] = words;
 
         validatedWords = [word2, word4];
-        game = new GameConfiguration(MOCK_STRING, MOCK_STRING, MOCK_STRING, Difficulty.EASY, words);
+        game = new CrosswordGame(MOCK_STRING, MOCK_STRING, MOCK_STRING, Difficulty.EASY, words);
         game.hostValidatedWords = validatedWords;
 
         socketService = TestBed.get(SocketService);
@@ -90,19 +92,17 @@ describe('GridService', () => {
         userGridService = new UserGridService();
         userGridService.userGrid = userGrid;
 
-
         gridService = new GridService(selectionService, wordService, validatorService, userGridService);
-
     });
 
-    it('should be created', () => {
+    it("should be created", () => {
         expect(gridService).toBeTruthy();
     });
 
     it("should accept letters input from A to Z", () => {
         let isValidinput: boolean = true;
 
-        for (let input: number = KEY_A; input <= KEY_Z && isValidinput; input++) {
+        for (let input: number = UPPERCASE_A; input <= UPPERCASE_Z && isValidinput; input++) {
           isValidinput = gridService.keyDown(input, 0, 0);
         }
         expect(isValidinput).toBeTruthy();
@@ -114,7 +114,10 @@ describe('GridService', () => {
         for (let input: number = KEY_TAB; input <= KEY_9 && !isValidInput; input++) {
             isValidInput = gridService.keyDown(input, 0, 0);
         }
-        for (let input: number = KEY_LEFT_WINDOW; input <= KEY_QUOTE && !isValidInput; input++) {
+        for (let input: number = KEY_LEFT_WINDOW; input < LOWERCASE_A && !isValidInput; input++) {
+            isValidInput = gridService.keyDown(input, 0, 0);
+        }
+        for (let input: number = LOWERCASE_Z + 1; input <= KEY_QUOTE && !isValidInput; input++) {
             isValidInput = gridService.keyDown(input, 0, 0);
         }
 

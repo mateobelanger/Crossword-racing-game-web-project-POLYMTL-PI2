@@ -21,11 +21,7 @@ export class ResultTableComponent implements OnInit {
     public displayPodiumTable(): void {
         this.endGameService.displayPodiumTable();
     }
-
-    /* public firstPlayer(): number {
-        // return 
-    }*/
-
+    
     public get raceTimes(): [string, RaceResults][] {
         return this.endGameService.raceResults;
     }

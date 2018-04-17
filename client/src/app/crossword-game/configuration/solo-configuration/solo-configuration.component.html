@@ -1,0 +1,20 @@
+<div class="background">
+    <button class="button" routerLink="../">Back</button>
+    <div class="centered">
+
+        <h4 class="configuration">Game Configuration</h4>
+        <div class="appConfiguration">
+            <app-configuration></app-configuration>
+        </div>
+
+        <div class="configuration centeredButton">
+            <div *ngIf="canStartGame; else elseBlock">
+                <button class="create" (click)="createGame()">Create Game</button>
+            </div>
+
+            <ng-template #elseBlock>
+                <button class="create" disabled="true">Create Game</button>
+            </ng-template>
+        </div>
+    </div>
+</div>

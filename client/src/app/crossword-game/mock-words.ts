@@ -1,4 +1,4 @@
-import { GridWord, Direction } from '../../../../common/crosswordsInterfaces/word';
+import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
 
 // tslint:disable:no-magic-numbers
 export const words: GridWord[] = [

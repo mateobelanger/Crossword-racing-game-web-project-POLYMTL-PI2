@@ -1,25 +1,18 @@
-import { Injectable } from '@angular/core';
-import { GridWord } from '../../../../../common/crosswordsInterfaces/word';
-import { WordService } from '../word.service';
-import { SocketService } from '../socket.service';
-import { SelectionStateService } from '../selection-state/selection-state.service';
+import { Injectable } from "@angular/core";
+import { GridWord } from "../../../../../common/crosswordsInterfaces/word";
+import { WordService } from "../word.service";
+import { SocketService } from "../socket.service";
+import { SelectionStateService } from "../selection-state/selection-state.service";
 
 @Injectable()
 export class SelectionService {
-
-
 
     public constructor(private wordService: WordService,
                        private socketService: SocketService,
                        private selectionState: SelectionStateService) {}
 
-
     public get selectedWord(): GridWord {
         return this.selectionState.localSelectedWord;
-    }
-
-    public get remoteSelectedWord(): GridWord {
-        return this.socketService.remoteSelectedWord;
     }
 
     public get definition(): string {
@@ -53,9 +46,7 @@ export class SelectionService {
         }
     }
 
-
     public deselect(): void {
-        console.log("asdfasdgasgg");
         this.socketService.deselectWord(this.selectionState.localSelectedWord);
         if (this.selectionState.remoteSelectedWord !== null &&
                 this.selectionState.localSelectedWord.value === this.selectionState.remoteSelectedWord.value) {

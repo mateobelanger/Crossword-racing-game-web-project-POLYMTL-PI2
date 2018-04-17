@@ -4,6 +4,7 @@ import { BACKGROUND_PLANE, BACKGROUND_PLANE_POSITION_Z, EDITOR_LAND_WIDTH, EDITO
 
 const REPEAT_IMAGE_X: number = 10;
 const REPEAT_IMAGE_Z: number = 8;
+const BACKGROUND_PATH: string = "../../../../assets/track_editor_texture/cell_bg_3.jpg";
 
 export class BackgroundPlane {
 
@@ -30,7 +31,7 @@ export class BackgroundPlane {
 
     private getBackgroundMaterial(): THREE.MeshPhongMaterial {
         const createTexture: THREE.Texture =
-                         new THREE.TextureLoader().load("../../../../assets/track_editor_texture/cell_bg_3.jpg");
+                         new THREE.TextureLoader().load(BACKGROUND_PATH);
 
         createTexture.wrapS = THREE.RepeatWrapping;
         createTexture.wrapT = THREE.RepeatWrapping;

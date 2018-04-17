@@ -3,7 +3,7 @@ import { GridWord } from '../../common/crosswordsInterfaces/word';
 
 enum PlayerType {HOST, GUEST}
 
-export class GameConfiguration  {
+export class CrosswordGame  {
     public roomId: string;
     public ids: string[];
     public usernames: string[];
@@ -12,7 +12,12 @@ export class GameConfiguration  {
     public validatedWords: GridWord[][];
     public isWaitingForRestart: boolean[]; 
 
-    constructor(roomId: string, hostId: string, hostUsername: string, difficulty: Difficulty, words: GridWord[]) {
+    constructor(roomId: string,
+                hostId: string, 
+                hostUsername: string, 
+                difficulty: Difficulty, 
+                words: GridWord[]) {
+                    
         this.roomId = roomId;
 
         this.ids = [];
@@ -101,8 +106,7 @@ export class GameConfiguration  {
     }
 
     public areAllWordsValidated(): boolean { 
-        return this.guestValidatedWords.length + this.hostValidatedWords.length >= 1; 
-        // TODO: change "1" for this._words.length; 
+        return this.guestValidatedWords.length + this.hostValidatedWords.length >= this._words.length; 
     } 
 
     public restartGame(): void { 
@@ -111,4 +115,8 @@ export class GameConfiguration  {
         this.hostValidatedWords = []; 
         this._words = []; 
     } 
+
+    public isAPlayerWaitingForRestart(): boolean {
+        return this.isWaitingForRestart[PlayerType.HOST] || this.isWaitingForRestart[PlayerType.GUEST];
+    }
 }

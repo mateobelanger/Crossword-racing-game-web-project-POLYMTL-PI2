@@ -20,7 +20,6 @@ export class TrackEditorService {
     private _selectedWaypointInitialPos: THREE.Vector3;
     private _constraints: Constraints;
 
-
     public constructor(private trackEditorRenderService: TrackEditorRenderService) {
         this._container = null;
         this._track = null;
@@ -29,7 +28,6 @@ export class TrackEditorService {
         this._selectedWaypointInitialPos = null;
         this._constraints = null;
      }
-
 
     public initialize(container: HTMLDivElement): void {
         this._container = container;
@@ -55,12 +53,13 @@ export class TrackEditorService {
         });
         this.trackEditorRenderService._circleHandler.generateCircles(waypoints, false);
         if (this._track.getTrackSize() > 1) {
-            if (waypoints.length === 1)
+            if (waypoints.length === 1) {
                 waypoints.unshift(this._track.getPreviousToLastWaypoint());
+            }
             this.trackEditorRenderService._planeHandler.generatePlanes(waypoints, false);
             this._constraints.addRoads(waypoints);
         }
-      }
+    }
 
     public moveWaypoint(circleId: number, newPos: THREE.Vector3): void {
         const waypoint: Waypoint = this._track.getWaypoint(circleId);
@@ -98,7 +97,6 @@ export class TrackEditorService {
         this._track.isClosed = true;
     }
 
-
     public uncloseTrack(): void {
         this._track.isClosed = false;
 
@@ -119,7 +117,6 @@ export class TrackEditorService {
         }
         this.updateValidityOfTrack();
     }
-
 
     public handleLeftMouseDown(event: MouseEvent): void {
         const objectsSelected: THREE.Intersection[] = this.trackEditorRenderService.getObjectsPointedByMouse(event);
@@ -162,7 +159,7 @@ export class TrackEditorService {
     private updateValidityOfTrack(): void {
 
         this._constraints.updateInvalidPlanes();
-        this._track.isValid = this._constraints.newInvalidPlanesErrors.length === 0 ? true : false;
+        this._track.isValid = this._constraints.newInvalidPlanesErrors.length === 0;
         this._constraints.newInvalidPlanesErrors.forEach((error) => {
             this.trackEditorRenderService._planeHandler.applyInvalidTexture(error.planeId);
         });
@@ -174,4 +171,3 @@ export class TrackEditorService {
     }
 
 }
-

@@ -27,7 +27,6 @@ describe("TrackEditorService", () => {
         editorService.addWaypoints(waypoints);
     });
 
-
     it("should be created", inject([TrackEditorService], (service: TrackEditorService) => {
         expect(service).toBeTruthy();
     }));

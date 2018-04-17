@@ -62,7 +62,6 @@ export class Engine {
             transmissionEfficiency = DEFAULT_TRANSMISSION_EFFICIENCY;
         }
 
-        // TODO: check all interactions with RPM values, such as downshift vs minimumrpm, upshift maximum, etc.
         this.gearRatios = gearRatios;
         this.driveRatio = driveRatio;
         this.downshiftRPM = downshiftRPM;

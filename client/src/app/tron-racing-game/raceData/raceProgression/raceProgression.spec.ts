@@ -5,6 +5,7 @@ import * as THREE from "three";
 // tslint:disable:no-magic-numbers
 describe("RaceProgression", () => {
 
+    let raceProgression: RaceProgression;
     // tslint:disable-next-line
     function fullLap(carPosition: THREE.Vector3): void {
         carPosition.set(10, 0, 10);
@@ -25,7 +26,6 @@ describe("RaceProgression", () => {
         raceProgression.update();
     }
 
-    let raceProgression: RaceProgression;
     const waypoints: [number, number, number][] = [
         [10, 0, 10], [40, 0, 40], [60, 0, 60], [80, 0, 80], [100, 0, 100]
     ];
@@ -59,10 +59,4 @@ describe("RaceProgression", () => {
     it("distanceToNextWaypoint", () => {
         expect(raceProgression.distanceToNextWaypoint()).toEqual(Math.sqrt(3200));
     });
-
-    // TODO: enlever
-//     it("", () => {
-
-//     });
-
 });

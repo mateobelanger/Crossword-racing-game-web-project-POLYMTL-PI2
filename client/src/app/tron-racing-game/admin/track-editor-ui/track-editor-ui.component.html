@@ -1,43 +1,40 @@
 <div class="containerTrackEditorUI">
 
-  <h1> Track Edition </h1>
+    <h1> Track Edition </h1>
 
-  <div class="left">
-    <div class="">
-      <div class="caneva right">
+    <div class="left">
         <div class="">
-          <div class="canevaHeader clearfix">
-            <h4 class="trackName "> Track name </h4>
+            <div class="caneva right">
+                <div class="">
+                    <div class="canevaHeader clearfix">
+                        <h4 class="trackName "> Track name </h4>
 
-            <input class="trackName" type="text" [attr.maxlength]="MAX_TITLE_LENGTH" value=track.name [(ngModel)]="name" (keypress)="isAlphaNum($event.charCode)">
+                        <input class="trackName" type="text" [attr.maxlength]="MAX_TITLE_LENGTH" value=track.name [(ngModel)]="name" (keypress)="isAlphaNum($event.charCode)">
 
-          </div>
+                    </div>
 
-          <div class="descriptionBlock">
-            <div class="descriptionTitleBlock">
-              <div>
-                <h5 class="descriptionTitle"> Description </h5>
-              </div>
+                    <div class="descriptionBlock">
+                        <div class="descriptionTitleBlock">
+                            <div>
+                                <h5 class="descriptionTitle"> Description </h5>
+                            </div>
+                        </div>
+                        <textarea class="descriptionText" rows="10" cols="25" [attr.maxlength]="MAX_DESCRIPTION_LENGTH" value=track.description [(ngModel)]="description"></textarea>
+                    </div>
+                    <div (click)="saveTrack()" class="btn btn-success popup btn-save">
+                        Save track
+                    </div>
+                    <a routerLink="/admin" class="btn-warning btn admin-btn">Admin homepage</a>
+
+                </div>
             </div>
-            <textarea class="descriptionText" rows="10" cols="25" [attr.maxlength]="MAX_DESCRIPTION_LENGTH" value=track.description [(ngModel)]="description"></textarea>
-          </div>
-          <div (click)="saveTrack()" class="btn btn-success popup btn-save">
-            Save track
-            <span class="popuptext" id="invalidTrackPopup"> Sorry, can't save an invalid track! </span>
-            <span class="popuptext" id="validPopup"> Your track has been saved! </span>
-            <span class="popuptext" id="alreadyUsedNamePopup">This track name is already used!</span>
-          </div>
-          <a routerLink="/admin" class="btn-warning btn admin-btn">Admin homepage</a>
-
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="right">
-    <div class="track-editor">
-      <app-track-editor></app-track-editor>
+    <div class="right">
+        <div class="track-editor">
+            <app-track-editor></app-track-editor>
+        </div>
     </div>
-  </div>
 
 </div>

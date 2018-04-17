@@ -10,7 +10,6 @@ import { CommandCamera } from "./commandCamera";
 import { CommandNightDay } from "./commandNightDay";
 import { CameraService } from "../../gameRendering/camera.service";
 import { SceneLoaderService } from "../../gameRendering/scene-loader/scene-loader.service";
-// import { CommandEndOfGame } from "./commandEndOfGame";
 import { CommandNull } from "./commandNull";
 import { Car } from "../cars/car/car";
 import { RenderService } from "../../gameRendering/render-service/render.service";
