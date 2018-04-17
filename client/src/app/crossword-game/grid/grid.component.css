@@ -1,7 +1,13 @@
 #header {
+    background-color: #64b0a1 !important;
+    cursor: default !important;
+}
+
+.header {
     background-color: #64b0a1;
     cursor: default !important;
 }
+
 
 .localValidatedCell {
     background-color: #62a8ca !important;

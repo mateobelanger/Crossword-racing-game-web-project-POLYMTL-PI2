@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChildren, ElementRef, QueryList } from "@angular/core";
 import { GridService } from "../grid.service";
 
 @Component({
@@ -8,6 +8,7 @@ import { GridService } from "../grid.service";
 })
 
 export class GridComponent {
+    @ViewChildren("inputs") private inputs: QueryList<ElementRef>;
 
     public constructor(private gridService: GridService) {}
 
@@ -16,10 +17,16 @@ export class GridComponent {
     }
 
     public keyDown(keyCode: number, row: number, column: number): void {
+        if (this.gridService.isEmptyCell(row, column)) {
+            this.focusOnSelectedWord();
+        }
         this.gridService.keyDown(keyCode, row, column);
     }
 
     public keyUp(row: number, column: number): void {
+        if (this.gridService.isSelectedWordInColumnRange(column) || this.gridService.isSelectedWordInRowRange(row)) {
+            this.focusOnSelectedWord();
+        }
         this.gridService.keyUp(row, column);
     }
 
@@ -33,10 +40,7 @@ export class GridComponent {
     }
 
     private focusOnCell(id: number): void {
-        const input: HTMLElement = document.getElementById(id.toString());
-        if (input) {
-            input.focus();
-        }
-    } //component 
+        this.inputs.toArray()[id].nativeElement.focus();
+    }
 
 }
