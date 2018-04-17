@@ -7,7 +7,6 @@ export enum Difficulty {
 }
 
 export enum PlayerType { HOST, GUEST };
-export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, WON, LOST };
 
 export const BLACK_CELL: string = "-";
 

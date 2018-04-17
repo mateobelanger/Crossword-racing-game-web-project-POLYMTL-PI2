@@ -89,6 +89,5 @@ describe("RacingGameComponent", () => {
     //         }).catch((error: Error) => { console.error(error); });
     //     });
     // });
-            
 
 });

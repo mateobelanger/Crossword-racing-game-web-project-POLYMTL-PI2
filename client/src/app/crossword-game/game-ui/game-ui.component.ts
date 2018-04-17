@@ -36,7 +36,6 @@ export class GameUiComponent implements OnInit {
     }
 
     public returnToMenu(): void {
-        this.gameState.isReloading = true;
         this.router.navigate(["/"]);
         window.location.reload();
     }

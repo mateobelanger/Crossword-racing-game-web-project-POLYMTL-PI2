@@ -4,7 +4,6 @@ import { GameStateService } from "../game-state.service";
 import { SocketService } from "../socket.service";
 import { ValidatorService } from "../validator.service";
 import { Router } from "@angular/router";
-import { GameState } from "../../../../../common/constants";
 
 @Component({
     selector: "app-end-of-game-modal",
@@ -28,7 +27,7 @@ export class EndOfGameModalComponent {
     }
 
     public isVictorious(): boolean {
-        if (this.gameState.state = GameState.ONGOING) {
+        if (this.gameState.isOngoing) {
             return this.socketService.isHost ? this.gameState.hostScore > this.gameState.guestScore :
                                            this.gameState.guestScore > this.gameState.hostScore;
         } else {
@@ -38,13 +37,11 @@ export class EndOfGameModalComponent {
 
 
     public returnToMenu(): void {
-        this.gameState.isEndOfGame = false;
-        this.gameState.state = GameState.NO_GAME;
-        this.gameState.isMultiplayer = false;
-        this.gameState.isReloading = true;
+        this.gameState.endGame();
         this.router.navigate(["/"]);
         window.location.reload();
     }
+
     public restart(): void {
         this.isWaitingForOpponent = true;
         this.gameState.isEndOfGame = false;
@@ -53,7 +50,7 @@ export class EndOfGameModalComponent {
                           .catch( (error: Error) => { console.error(error); });
 
         this.socketService.gameInitialized.subscribe(() => {
-            this.gameState.resetGameState();
+            this.gameState.resetScores();
             this.validator.initialize();
             this.gridService.initialize();
             this.isWaitingForOpponent = false;

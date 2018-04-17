@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
 import { CrosswordGame } from "../../../../common/crosswordsInterfaces/crosswordGame";
 import { LobbyService } from "./lobby/lobby.service";
-import { Difficulty, SocketMessage } from "../../../../common/constants";
+import { Difficulty, SocketMessage, PlayerType } from "../../../../common/constants";
 import { WordService } from "./word.service";
 
 import { GridWord } from "../../../../common/crosswordsInterfaces/word";
@@ -10,8 +10,6 @@ import { Router } from "@angular/router";
 import { GameStateService } from "./game-state.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
 import { Subject } from "rxjs/Subject";
-
-enum PlayerType { HOST, GUEST }
 
 @Injectable()
 export class SocketService {
@@ -124,7 +122,7 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.REMOTE_SELECTED_WORD, (selectedWord: GridWord) => {
-            this.selectionState.remoteSelectedWord = this.castHttpToGridWord([selectedWord])[0];
+            this.selectionState.remoteSelectedWord = this.castHttpMessageToGridWord([selectedWord])[0];
         });
 
         this.socket.on(SocketMessage.REMOTE_DESELECTED_WORD, (word: GridWord) => {
@@ -137,7 +135,7 @@ export class SocketService {
     }
 
     private castGame(game: CrosswordGame): CrosswordGame {
-        const words: GridWord[] = this.castHttpToGridWord(game._words);
+        const words: GridWord[] = this.castHttpMessageToGridWord(game._words);
         const validatedWords: GridWord[][] = this.castHttpToArrayOfGridWord(game.validatedWords);
         const usernames: string[] = [];
         usernames.push(game.usernames[0]);
@@ -154,7 +152,7 @@ export class SocketService {
         return castedGame;
     }
 
-    private castHttpToGridWord(httpWords: GridWord[]): GridWord[] {
+    private castHttpMessageToGridWord(httpWords: GridWord[]): GridWord[] {
         const words: GridWord[] = [];
         for (const word of httpWords) {
             words.push(new GridWord(word.row, word.column, word.direction, word.value, word.definition));
@@ -166,7 +164,7 @@ export class SocketService {
     private castHttpToArrayOfGridWord(arrayOfGridWords: GridWord[][]): GridWord[][] {
         const arrayOfWords: GridWord[][] = [];
         for (const words of arrayOfGridWords) {
-            arrayOfWords.push(this.castHttpToGridWord(words));
+            arrayOfWords.push(this.castHttpMessageToGridWord(words));
         }
 
         return arrayOfWords;

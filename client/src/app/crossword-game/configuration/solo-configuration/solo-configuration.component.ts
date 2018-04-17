@@ -13,7 +13,7 @@ export class SoloConfigurationComponent {
     }
 
     public get canStartGame(): boolean {
-        return !this.gameState.isOngoing() && this.gameState.difficulty !== null;
+        return !this.gameState.isOngoing && this.gameState.difficulty !== null;
     }
 
     public async createGame(): Promise<void> {
