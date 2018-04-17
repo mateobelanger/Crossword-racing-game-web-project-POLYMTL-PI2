@@ -12,7 +12,6 @@ export class ResultTableComponent implements OnInit {
     public MOCKDATA: [string, RaceResults][];
     public SHOWMOCK: boolean = false;
 
-
     public constructor(private endGameService: EndGameService) { }
 
     public ngOnInit(): void {
@@ -21,7 +20,7 @@ export class ResultTableComponent implements OnInit {
     public displayPodiumTable(): void {
         this.endGameService.displayPodiumTable();
     }
-    
+
     public get raceTimes(): [string, RaceResults][] {
         return this.endGameService.raceResults;
     }

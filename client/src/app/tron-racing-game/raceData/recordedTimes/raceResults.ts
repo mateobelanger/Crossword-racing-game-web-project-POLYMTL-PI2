@@ -13,16 +13,12 @@ export class RaceResults {
     }
 
     public get totalTime(): number {
-        return this.calculateTotalTime();
+        return this._laps.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     }
 
     public doneLap(time: number): void {
         if (this._laps.length < MAX_NB_LAPS) {
-            this._laps.push(time - this.calculateTotalTime());
+            this._laps.push(time - this.totalTime);
         }
-    }
-
-    public calculateTotalTime(): number {
-        return this._laps.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     }
 }
