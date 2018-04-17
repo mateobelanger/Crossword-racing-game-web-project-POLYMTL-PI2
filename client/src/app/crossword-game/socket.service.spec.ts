@@ -19,7 +19,6 @@ describe("SocketService", () => {
     const lobbyService: LobbyService = new LobbyService();
     let http: HttpClient;
     const wordService: WordService = new WordService(http);
-    const gameStateService: GameStateService =  new GameStateService();
     let router: Router;
     const selectionState: SelectionStateService = new SelectionStateService();
     const word: GridWord = new GridWord(0, 0, 0, "mot");
@@ -33,6 +32,9 @@ describe("SocketService", () => {
                         SocketService, LobbyService]
         });
         http =  TestBed.get(HttpClient);
+        const gameStateService: GameStateService = new GameStateService();
+
+        // gameStateService = TestBed.get(GameStateService);
         router =  TestBed.get(Router);
 
         socketService = new SocketService(lobbyService, wordService, gameStateService, router, selectionState);
@@ -50,22 +52,15 @@ describe("SocketService", () => {
         expect(socketService.deselectWord).toHaveBeenCalled();
     }));
 
-    it("createGame method sould have been called", inject([SocketService], async (service: SocketService) => {
-        spyOn(socketService, "createGame");
+    it("createGame should make the user wait for an opponent and make him host", inject([SocketService], async (service: SocketService) => {
         await socketService.createGame("barb", Difficulty.EASY);
-        expect(socketService.createGame).toHaveBeenCalled();
-    }));
-
-    it("createGame method sould have been called", inject([SocketService], async (service: SocketService) => {
-        spyOn(socketService, "createGame");
-        await socketService.createGame("barb", Difficulty.EASY);
-        expect(socketService.createGame).toHaveBeenCalled();
+        expect(socketService["gameStateService"].isWaitingForOpponent).toBe(true);
+        expect(socketService.isHost).toBe(true);
     }));
 
     it("createSoloGame method sould have been called", inject([SocketService], async (service: SocketService) => {
-        spyOn(socketService, "createSoloGame");
         await socketService.createSoloGame("bob", Difficulty.EASY);
-        expect(socketService.createSoloGame).toHaveBeenCalled();
+        expect(socketService.isHost).toBe(true);
     }));
 
     it("joinGame method sould have been called", inject([SocketService], (service: SocketService) => {
