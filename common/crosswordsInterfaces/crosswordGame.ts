@@ -107,7 +107,6 @@ export class CrosswordGame  {
 
     public areAllWordsValidated(): boolean { 
         return this.guestValidatedWords.length + this.hostValidatedWords.length >= this._words.length; 
-        // TODO: change "1" for this._words.length; 
     } 
 
     public restartGame(): void { 

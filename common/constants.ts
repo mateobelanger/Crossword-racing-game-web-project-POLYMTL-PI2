@@ -26,6 +26,7 @@ export enum SocketMessage {
     GUEST_RESTART_PENDING = "guest restart pending", 
     HOST_ASKED_FOR_RESTART = "host asked for restart", 
     GUEST_ASKED_FOR_RESTART = "guest asked for restart", 
+    OPPONENT_DISCONNECTED_WHILE_WAITING = "opponent disconnected while waiting",
     OPPONENT_DISCONNECTED = "opponent disconnected",
 
     GET_GAME_LOBBIES = "get game lobbies",

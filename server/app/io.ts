@@ -123,9 +123,12 @@ export class Io {
         if (game === undefined) {
             return;
         } else if (game.isAPlayerWaitingForRestart()) {
+            this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING);
+        } else {
             this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED);
         }
         GameLobbiesHandler.disconnect(socket.id);
+
         this.broadcastGameLists();
     }
 }

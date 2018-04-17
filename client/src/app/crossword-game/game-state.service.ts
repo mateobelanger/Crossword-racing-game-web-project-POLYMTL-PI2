@@ -7,14 +7,14 @@ export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING }
 @Injectable()
 export class GameStateService {
 
-    private _scores: number[];
-    private _state: GameState;
-    private _isMultiplayer: boolean;
-
     public hostName: string;
     public guestName: string;
     public difficulty: Difficulty;
     public isEndOfGame: boolean;
+    public isMultiplayer: boolean;
+
+    private _scores: number[];
+    private _state: GameState;
 
     public constructor() {
         this.initializeGameState();
@@ -26,10 +26,6 @@ export class GameStateService {
 
     public get guestScore(): number {
         return this._scores[PlayerType.GUEST];
-    }
-
-    public get isMultiplayer(): boolean {
-        return this._isMultiplayer;
     }
 
     public get isWaitingForOpponent(): boolean {
@@ -47,7 +43,7 @@ export class GameStateService {
 
         this.difficulty = null;
         this._state = GameState.NO_GAME;
-        this._isMultiplayer = false;
+        this.isMultiplayer = false;
         this.isEndOfGame = false;
     }
 
@@ -63,7 +59,7 @@ export class GameStateService {
     public endGame(): void {
         this.isEndOfGame = false;
         this._state = GameState.NO_GAME;
-        this._isMultiplayer = false;
+        this.isMultiplayer = false;
     }
 
     public waitForOpponent(): void {
@@ -75,7 +71,7 @@ export class GameStateService {
         this.guestName = guestName;
         this.difficulty = difficulty;
         this._state = GameState.ONGOING;
-        this._isMultiplayer = isMultiplayer;
+        this.isMultiplayer = isMultiplayer;
     }
 
     public updateScores(hostScore: number, guestScore: number): void {
@@ -85,5 +81,4 @@ export class GameStateService {
     public isValidState(): boolean {
         return this.difficulty !== null && NameValidator.isValidName(this.hostName) && this._state === GameState.NO_GAME;
     }
-
 }

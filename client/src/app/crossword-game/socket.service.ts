@@ -132,7 +132,11 @@ export class SocketService {
             this.game.isWaitingForRestart[PlayerType.GUEST] = true;
         });
 
-        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED, (game: CrosswordGame) => {
+        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED, () => {
+            this.gameStateService.isMultiplayer = false;
+        });
+
+        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING, (game: CrosswordGame) => {
             this.router.navigate(["/"]);
             window.location.reload();
         });
