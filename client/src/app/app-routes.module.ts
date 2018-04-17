@@ -16,7 +16,6 @@ import { MultiplayerConfigurationComponent } from "./crossword-game/configuratio
 import { LobbyComponent } from "./crossword-game/lobby/lobby.component";
 import { TrackEditorUiComponent } from "./tron-racing-game/admin/track-editor-ui/track-editor-ui.component";
 
-
 export const appRoutes: Routes = [
   { path : "", redirectTo: "homepage", pathMatch: "full" },
   { path : "homepage", component: HomepageComponent },
@@ -43,4 +42,3 @@ export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);
     declarations: []
 })
 export class AppRoutesModule { }
-

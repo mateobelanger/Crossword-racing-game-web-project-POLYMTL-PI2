@@ -17,7 +17,7 @@ describe('TimeShowComponent', () => {
            imports: [routes, AppModule],
            providers: [{ provide: APP_BASE_HREF, useValue: '/' }, Input]
        })
-       .compileComponents();
+       .compileComponents().catch( (error: Error) => console.error(error));
    }));
 
    beforeEach(() => {

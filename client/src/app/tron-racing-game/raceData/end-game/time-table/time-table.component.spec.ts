@@ -16,14 +16,13 @@ describe('TimeTableComponent', () => {
  let fixture: ComponentFixture<BestTimesComponent>;
 
  beforeEach(async(() => {
-   // tslint:disable-next-line:no-floating-promises
    TestBed.configureTestingModule({
      imports: [HttpClientTestingModule, routes, AppModule],
      providers: [BestTimeHandlerService, RaceDataHandlerService, TracksProxyService,
                  RaceResultsService, { provide: APP_BASE_HREF, useValue: '/' }]
 
    })
-   .compileComponents();
+   .compileComponents().catch( (error: Error) => console.error(error));
  }));
 
  beforeEach(() => {

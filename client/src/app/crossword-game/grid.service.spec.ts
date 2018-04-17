@@ -28,7 +28,18 @@ const LOWERCASE_Z: number = 122;
 
 const MOCK_STRING: string = "TEST";
 
-// tslint:disable:no-magic-numbers
+const USER_GRID: string[][] = [
+    ["s", "", "t", "q", "", "", "", "", "", ""],
+    ["a", "", "o", "", "", "", "", "", "", ""],
+    ["t", "", "m",  "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "",  "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "",  "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""],
+    [ "", "",  "",  "", "", "", "", "", "", ""],
+    [ "", "",  "", "", "", "", "", "", "", ""] ];
+
 const word1: GridWord = new GridWord (0, 0, Direction.HORIZONTAL, "sit", "I like to ___ on my chair.");
 const word2: GridWord = new GridWord (0, 0, Direction.VERTICAL, "sat", "I ___ on a chair.");
 const word3: GridWord = new GridWord (0, 1, Direction.VERTICAL, "image", "JPEG, PNG, GIF");
@@ -51,7 +62,7 @@ describe("GridService", () => {
     let selectionService: SelectionService;
     let selectionState: SelectionStateService;
 
-    // tslint:disable-next-line:max-func-body-length
+    // tslint:disable:no-magic-numbers
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule, HttpClientModule],
@@ -59,18 +70,7 @@ describe("GridService", () => {
                         SelectionService, SocketService, LobbyService]
 
         });
-        userGrid = [
-            ["s", "", "t", "q", "", "", "", "", "", ""],
-            ["a", "", "o", "", "", "", "", "", "", ""],
-            ["t", "", "m",  "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "",  "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "",  "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""],
-            [ "", "",  "",  "", "", "", "", "", "", ""],
-            [ "", "",  "", "", "", "", "", "", "", ""]
-        ];
+        userGrid = USER_GRID;
         http =  TestBed.get(HttpClient);
 
         validatorService = TestBed.get(ValidatorService);
@@ -93,7 +93,6 @@ describe("GridService", () => {
         userGridService.userGrid = userGrid;
 
         gridService = new GridService(selectionService, wordService, validatorService, userGridService);
-
     });
 
     it("should be created", () => {

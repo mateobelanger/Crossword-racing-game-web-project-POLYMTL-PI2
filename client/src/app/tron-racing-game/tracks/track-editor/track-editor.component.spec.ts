@@ -17,14 +17,13 @@ describe("TrackEditorComponent", () => {
     let fixture: ComponentFixture<TrackEditorComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             declarations: [TrackEditorComponent],
             imports: [HttpClientTestingModule],
             providers: [TrackEditorService, TrackEditorRenderService,
                         TracksProxyService, { provide: ActivatedRoute, useValue: fakeActivatedRoute }]
         })
-            .compileComponents();
+            .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {

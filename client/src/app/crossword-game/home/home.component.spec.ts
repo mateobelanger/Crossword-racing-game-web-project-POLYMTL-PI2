@@ -6,11 +6,10 @@ describe("HomeComponent", () => {
     let fixture: ComponentFixture<HomeComponent>;
 
     beforeEach(async(() => {
-        // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             declarations: [HomeComponent]
         })
-            .compileComponents();
+            .compileComponents().catch( (error: Error) => console.error(error));
     }));
 
     beforeEach(() => {

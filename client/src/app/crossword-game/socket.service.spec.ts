@@ -66,9 +66,9 @@ describe("SocketService", () => {
         expect(socketService.createSoloGame).toHaveBeenCalled();
     }));
 
-    it("joinGame method sould have been called", inject([SocketService], async (service: SocketService) => {
+    it("joinGame method sould have been called", inject([SocketService], (service: SocketService) => {
         spyOn(socketService, "joinGame");
-        await socketService.joinGame("game0", "barb");
+        socketService.joinGame("game0", "barb");
         expect(socketService.joinGame).toHaveBeenCalled();
     }));
 

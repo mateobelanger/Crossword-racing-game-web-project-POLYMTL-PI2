@@ -29,6 +29,7 @@ export class SocketService {
 
         this.initializeSocketGameManager();
         this.initializeSocketGameProgression();
+        this.initializeSocketGameRestart();
 
         this._gameInitialized$ = new Subject();
     }
@@ -80,7 +81,6 @@ export class SocketService {
         this.socket.emit(SocketMessage.DESELECT_WORD, word);
     }
 
-    // tslint:disable-next-line:max-func-body-length
     private initializeSocketGameManager(): void {
 
         this.socket.on(SocketMessage.GAME_LOBBIES, (waitingGames: CrosswordGame[], ongoingGames: CrosswordGame[]) => {
@@ -100,20 +100,6 @@ export class SocketService {
         this.socket.on(SocketMessage.DISCONNECTED, (game: CrosswordGame) => {
             this.gameStateService.initializeGameState();
         });
-
-        this.socket.on(SocketMessage.HOST_ASKED_FOR_RESTART, (game: CrosswordGame) => {
-            this.game.isWaitingForRestart[PlayerType.HOST] = true;
-            if (!this.gameStateService.isMultiplayer) { this.initializeGridAfterJoin(game); }
-        });
-
-        this.socket.on(SocketMessage.GUEST_ASKED_FOR_RESTART, () => {
-            this.game.isWaitingForRestart[PlayerType.GUEST] = true;
-        });
-
-        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED, (game: CrosswordGame) => {
-            this.router.navigate(["/"]);
-            window.location.reload();
-        });
     }
 
     private initializeSocketGameProgression(): void {
@@ -132,6 +118,23 @@ export class SocketService {
             } else {
                 this.selectionState.remoteSelectedWord = null;
             }
+        });
+    }
+
+    private initializeSocketGameRestart(): void {
+
+        this.socket.on(SocketMessage.HOST_ASKED_FOR_RESTART, (game: CrosswordGame) => {
+            this.game.isWaitingForRestart[PlayerType.HOST] = true;
+            if (!this.gameStateService.isMultiplayer) { this.initializeGridAfterJoin(game); }
+        });
+
+        this.socket.on(SocketMessage.GUEST_ASKED_FOR_RESTART, () => {
+            this.game.isWaitingForRestart[PlayerType.GUEST] = true;
+        });
+
+        this.socket.on(SocketMessage.OPPONENT_DISCONNECTED, (game: CrosswordGame) => {
+            this.router.navigate(["/"]);
+            window.location.reload();
         });
     }
 
