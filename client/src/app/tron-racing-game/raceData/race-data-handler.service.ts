@@ -114,21 +114,23 @@ export class RaceDataHandlerService {
                 console.error(err);
                 this._carsHandlerService.enableControlKeys();
                 this._carsHandlerService.startRace();
+                this.startRace();
             },
             () => {
                 this.audioService.playSound(RACE_START_SOUND);
                 this._carsHandlerService.enableControlKeys();
                 this._carsHandlerService.startRace();
+                this.startRace();
             });
     }
 
-    public startRace(): void {
+    private startRace(): void {
         this._timer.reset();
         this._timer.start();
         this._ITrackData.timesPlayed++;
     }
 
-    public doneRace(): void {
+    private doneRace(): void {
         this._timer.stop();
         this._carsHandlerService.endRace();
         this.simulateEndRaceResult();
@@ -138,7 +140,7 @@ export class RaceDataHandlerService {
             });
     }
 
-    public updateITrackOnServer(): void {
+    private updateITrackOnServer(): void {
         this._ITrackData.bestTimes = this.bestTimesService.bestTimes;
         this.tracksProxyService.saveTrack(this._ITrackData)
                                .catch((error: Error) => { console.error(error); });

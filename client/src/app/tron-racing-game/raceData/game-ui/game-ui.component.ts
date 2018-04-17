@@ -63,7 +63,6 @@ export class GameUiComponent implements AfterViewInit {
         await this.raceDataHandlerService.initialize(trackName, this.choseEasyDifficulty);
         await this.renderService.initialize(this.containerRef.nativeElement);
         await this.raceDataHandlerService.startCountdown();
-        this.raceDataHandlerService.startRace();
     }
 
     public get choseEasyDifficulty(): boolean {
