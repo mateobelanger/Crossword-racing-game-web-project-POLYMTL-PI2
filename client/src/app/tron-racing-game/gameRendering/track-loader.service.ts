@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as THREE from "three";
 
-import { Waypoint } from '../tracks/trackData/waypoint';
-import { PlaneHandler } from '../gameRendering/trackBuildingBlocks/planeHandler';
-import { CircleHandler } from '../gameRendering/trackBuildingBlocks/circleHandler';
+import { Waypoint } from "../tracks/trackData/waypoint";
+import { PlaneHandler } from "../gameRendering/trackBuildingBlocks/planeHandler";
+import { CircleHandler } from "../gameRendering/trackBuildingBlocks/circleHandler";
 
 const X: number = 0;
 const Y: number = 1;
 const Z: number = 2;
-
 
 const SCENE_SCALE: number = 1;
 
@@ -20,7 +19,6 @@ export class TrackLoaderService {
     private planeHandler: PlaneHandler;
     private circleHandler: CircleHandler;
     private scene: THREE.Scene;
-
 
     public constructor() {
         this.points = [];
@@ -50,7 +48,6 @@ export class TrackLoaderService {
         });
     }
 
-
     private addTrackToScene(): void {
       this.planeHandler = new PlaneHandler(this.scene);
       this.planeHandler.generatePlanes(this._waypoints, true);
@@ -60,10 +57,8 @@ export class TrackLoaderService {
       this.addWaypointsToScene();
     }
 
-
     private addWaypointsToScene(): void {
         this.circleHandler = new CircleHandler(this.scene);
         this.circleHandler.generateCircles(this._waypoints, true);
     }
-
 }

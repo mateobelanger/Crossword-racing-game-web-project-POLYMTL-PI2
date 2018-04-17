@@ -16,9 +16,9 @@ describe("CollisionHandlerService", () => {
     beforeEach( async (done: DoneFn) => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
         });
-        await car1.init();
+        car1.init();
         cars.push(car1);
         collisionHandler = new CollisionHandlerService(new AudioService());
 

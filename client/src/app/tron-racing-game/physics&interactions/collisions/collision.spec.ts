@@ -9,9 +9,9 @@ describe("Collision", () => {
     const car2: Car = new Car();
     let collision: Collision;
 
-    beforeEach( async (done: DoneFn) => {
-        await car1.init();
-        await car2.init();
+    beforeEach( (done: DoneFn) => {
+        car1.init();
+        car2.init();
         done();
     });
 

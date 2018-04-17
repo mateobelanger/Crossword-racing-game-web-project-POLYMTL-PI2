@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import { BestTimeHandlerService } from '../recordedTimes/best-time-handler.service';
-import { RaceResultsService } from '../recordedTimes/race-results.service';
-import { RaceResults } from '../recordedTimes/raceResults';
-import { USERNAME } from '../../constants';
-import { Subject } from 'rxjs/Subject';
-
+import { Injectable } from "@angular/core";
+import { BestTimeHandlerService } from "../recordedTimes/best-time-handler.service";
+import { RaceResultsService } from "../recordedTimes/race-results.service";
+import { RaceResults } from "../recordedTimes/raceResults";
+import { USERNAME } from "../../constants";
+import { Subject } from "rxjs/Subject";
 
 export enum EndGameTable {
     NO_TABLE,
@@ -18,11 +17,9 @@ export class EndGameService {
 
     public displayTable: EndGameTable = EndGameTable.NO_TABLE;
 
-
     public isFirst: boolean;
     public playerTime: number;
     public endGameCycleFinished: Subject<void>;
-
 
     public constructor( private bestTimesService: BestTimeHandlerService,
                         private raceResultService: RaceResultsService) {

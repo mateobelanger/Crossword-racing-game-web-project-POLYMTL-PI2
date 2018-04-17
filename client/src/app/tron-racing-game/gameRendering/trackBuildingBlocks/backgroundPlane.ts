@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { BACKGROUND_PLANE, BACKGROUND_PLANE_POSITION_Z, EDITOR_LAND_WIDTH, EDITOR_LAND_HEIGHT } from "../../constants";
 
-
 const REPEAT_IMAGE_X: number = 10;
 const REPEAT_IMAGE_Z: number = 8;
 const BACKGROUND_PATH: string = "../../../../assets/track_editor_texture/cell_bg_3.jpg";
