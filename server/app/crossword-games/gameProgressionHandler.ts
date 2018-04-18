@@ -4,7 +4,7 @@ import { GridWord } from "../../../common/crosswordsInterfaces/word";
 export class GameProgessionHandler {
 
     public static isAddValidatedWord(word: GridWord, game: CrosswordGame, socketId: string): boolean {
-        const isNewValidatedWord: boolean = !this.includesWord(word, game);
+        const isNewValidatedWord: boolean = !this.includesWord(game, word);
         if (isNewValidatedWord) {
             this.addValidatedWord(socketId, game, word);
         }
@@ -12,7 +12,7 @@ export class GameProgessionHandler {
         return isNewValidatedWord;
     }
 
-    private static includesWord(wordToFind: GridWord, game: CrosswordGame): boolean {
+    private static includesWord(game: CrosswordGame, wordToFind: GridWord): boolean {
         for (const word of game.hostValidatedWords) {
             if (word.value === wordToFind.value) {
                 return true;

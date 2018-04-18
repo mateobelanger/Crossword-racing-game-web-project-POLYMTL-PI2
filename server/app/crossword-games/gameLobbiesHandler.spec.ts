@@ -124,6 +124,18 @@ describe("Game lobbies handler:", () => {
         done();
     });
 
+    it("should have two pending games with hosts' names", (done: MochaDone) => {
+        expectedPendingGamesLength++;
+        GameLobbiesHandler.createGame(roomId, guestId, name, Difficulty.EASY, words, false);
+        expectedPendingGamesLength++;
+
+        assert.equal(GameLobbiesHandler.pendingGames.length, expectedPendingGamesLength);
+        assert.equal(GameLobbiesHandler.pendingGames[0].hostUsername, name);
+        assert.equal(GameLobbiesHandler.pendingGames[1].hostUsername, name);
+
+        done();
+    });
+
     it("should have two multiplayer games with difficulties", (done: MochaDone) => {
         GameLobbiesHandler.joinGame(roomId, guestId, name);
         expectedMultiplayerGamesLength++;

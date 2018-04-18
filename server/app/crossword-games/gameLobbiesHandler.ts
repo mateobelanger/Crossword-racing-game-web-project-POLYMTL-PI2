@@ -27,7 +27,7 @@ export class GameLobbiesHandler {
                                 difficulty: Difficulty, words: GridWord[], isSolo: boolean): CrosswordGame {
         if (!GameLobbiesHandler.isAlreadyInAGame(socketId)) {
             if (isSolo) {
-                return GameLobbiesHandler.createSoloGame(socketId, roomId, username, difficulty, words);
+                return GameLobbiesHandler.createSoloGame(roomId, socketId, username, difficulty, words);
             } else {
                 GameLobbiesHandler._pendingGames.push(
                                 new CrosswordGame(roomId, socketId, username, difficulty, castHttpToGridWords(words)) );
@@ -41,7 +41,7 @@ export class GameLobbiesHandler {
 
         try {
             GameLobbiesHandler._multiplayerGames.push(GameLobbiesHandler.getGame(roomId));
-            GameLobbiesHandler.deleteGameWithId(GameLobbiesHandler._pendingGames, roomId);
+            GameLobbiesHandler.deleteGameWithId(roomId, GameLobbiesHandler._pendingGames);
             const joinedGame: CrosswordGame = GameLobbiesHandler.getGame(roomId);
             joinedGame.updateGuestInformation(socketId, guestName);
 
@@ -60,7 +60,7 @@ export class GameLobbiesHandler {
 
             switch (gameType) {
                 case GameType.SOLO:
-                    this.deleteGameWithId(this.getGameList(gameType), socketId);
+                    this.deleteGameWithId(socketId, this.getGameList(gameType));
                     break;
                 case GameType.PENDING:
                     GameLobbiesHandler.deleteGame(game.roomId);
@@ -73,7 +73,7 @@ export class GameLobbiesHandler {
                     game.guestId = null;
 
                     GameLobbiesHandler._soloGames.push(game);
-                    GameLobbiesHandler.deleteGameWithId(GameLobbiesHandler._multiplayerGames, socketId);
+                    GameLobbiesHandler.deleteGameWithId(socketId, GameLobbiesHandler._multiplayerGames);
             }
 
         } catch (error) {
@@ -102,7 +102,7 @@ export class GameLobbiesHandler {
         }
     }
 
-    private static createSoloGame(id: string, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): CrosswordGame {
+    private static createSoloGame(roomId: string, id: string, username: string, difficulty: Difficulty, words: GridWord[]): CrosswordGame {
         const newGame: CrosswordGame =
             new CrosswordGame(roomId, id, username, difficulty, castHttpToGridWords(words));
         GameLobbiesHandler._soloGames.push(newGame);
@@ -121,7 +121,7 @@ export class GameLobbiesHandler {
         }
     }
 
-    private static deleteGameWithId(games: CrosswordGame[], id: string): void {
+    private static deleteGameWithId(id: string, games: CrosswordGame[]): void {
         games.splice(games.findIndex((game: CrosswordGame) => game.isInGame(id)));
     }
 

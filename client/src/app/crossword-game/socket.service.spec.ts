@@ -13,6 +13,13 @@ import { GameStateService } from "./game-state.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
 import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
 import { Difficulty, PlayerType } from "../../../../common/constants";
+import { CrosswordGame } from "../../../../common/crosswordsInterfaces/crosswordGame";
+
+const WORD1: GridWord = new GridWord(0, 0, 0, "computer");
+const WORD2: GridWord = new GridWord(0, 0, 1, "car");
+const WORD3: GridWord = new GridWord(1, 1, 1, "word");
+
+const HOST_ID: string = "hostId";
 
 describe("SocketService", () => {
 
@@ -22,8 +29,12 @@ describe("SocketService", () => {
     let router: Router;
     const selectionState: SelectionStateService = new SelectionStateService();
     const word: GridWord = new GridWord(0, 0, 0, "mot");
-
     let socketService: SocketService;
+
+    const words: GridWord[] = [];
+    words.push(WORD1);
+    words.push(WORD2);
+    words.push(WORD3);
 
     beforeEach(async (done: DoneFn) => {
         TestBed.configureTestingModule({
@@ -31,13 +42,12 @@ describe("SocketService", () => {
             providers: [{ provide: APP_BASE_HREF, useValue: "/" }, WordService,
                         SocketService, LobbyService]
         });
-        http =  TestBed.get(HttpClient);
+
         const gameStateService: GameStateService = new GameStateService();
-
-        // gameStateService = TestBed.get(GameStateService);
+        http =  TestBed.get(HttpClient);
         router =  TestBed.get(Router);
-
         socketService = new SocketService(lobbyService, wordService, gameStateService, router, selectionState);
+
         done();
 
     });
@@ -52,10 +62,10 @@ describe("SocketService", () => {
         expect(socketService.deselectWord).toHaveBeenCalled();
     }));
 
-    it("createGame should make the user wait for an opponent and make him host", inject([SocketService], async (service: SocketService) => {
-        await socketService.createGame("barb", Difficulty.EASY);
-        expect(socketService["gameStateService"].isWaitingForOpponent).toBe(true);
-        expect(socketService.isHost).toBe(true);
+    it("selectWord method sould have been called", inject([SocketService], (service: SocketService) => {
+        spyOn(socketService, "selectWord");
+        socketService.selectWord(word);
+        expect(socketService.selectWord).toHaveBeenCalled();
     }));
 
     it("createSoloGame method sould have been called", inject([SocketService], async (service: SocketService) => {
@@ -63,10 +73,36 @@ describe("SocketService", () => {
         expect(socketService.isHost).toBe(true);
     }));
 
+    it("createGame should make the user wait for an opponent and make him host", inject([SocketService], async (service: SocketService) => {
+        await socketService.createGame("barb", Difficulty.EASY);
+        expect(socketService["gameStateService"].isWaitingForOpponent).toBe(true);
+        expect(socketService.isHost).toBe(true);
+    }));
+
     it("joinGame method sould have been called", inject([SocketService], (service: SocketService) => {
         spyOn(socketService, "joinGame");
         socketService.joinGame("game0", "barb");
         expect(socketService.joinGame).toHaveBeenCalled();
+    }));
+
+    it("startGameAfterJoin should initialize words and start a game", inject([SocketService], (service: SocketService) => {
+
+        const game: CrosswordGame = new CrosswordGame("game0", HOST_ID, "hostUsername", Difficulty.EASY, words);
+        // simulate this.socket.on(SocketMessage.SENT_GAME_AFTER_JOIN, ...)
+        socketService["startGameAfterJoin"](game);
+        expect(socketService["gameStateService"].isOngoing).toBe(true);
+        expect(socketService["gameStateService"].isMultiplayer).toBe(true);
+        expect(socketService["wordService"].words.length).toBe(words.length);
+    }));
+
+    it("initializeGame should initialize words and start a game", inject([SocketService], (service: SocketService) => {
+        const game: CrosswordGame = new CrosswordGame("game0", HOST_ID, "hostUsername", Difficulty.EASY, words);
+
+        // simulate this.socket.on(SocketMessage.INITIALIZE_GAME, ...)
+        socketService["initializeGame"](game);
+        expect(socketService["gameStateService"].isOngoing).toBe(true);
+        expect(socketService["gameStateService"].isMultiplayer).toBe(game.isMultiplayer());
+        expect(socketService["wordService"].words.length).toBe(words.length);
     }));
 
     it("remoteSelectedWord getter should return the right word", inject([SocketService], async (service: SocketService) => {

@@ -39,7 +39,13 @@ describe("GameStateService", () => {
         expect(gameState.isValidState()).toBe(false);
     });
 
-    it("should be in a valid state after setting attributes", () => {
+    it("should be in a valid state after setting attributes if the game isn't started", () => {
+        gameState.hostName = "0";
+        gameState.difficulty = Difficulty.EASY;
+        expect(gameState.isValidState()).toBe(true);
+    });
+
+    it("should be in a invalid state after starting a game", () => {
         gameState.hostName = "0";
         gameState.difficulty = Difficulty.EASY;
         gameState.startGame();

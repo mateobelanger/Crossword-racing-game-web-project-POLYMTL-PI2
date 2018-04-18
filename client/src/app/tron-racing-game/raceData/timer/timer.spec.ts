@@ -32,12 +32,12 @@ describe("Timer", () => {
         expect(timer.millisecondsElapsed).toBeGreaterThan(stoppedTime);
     });
 
-    // it("should reset", () => {
-    //     timer.start();
-    //     wait( SECONDS );
-    //     timer.reset();
-    //     expect(timer.millisecondsElapsed).toEqual(0);
-    // });
+    it("should reset", () => {
+        timer.start();
+        wait( SECONDS );
+        timer.reset();
+        expect(timer.millisecondsElapsed).toEqual(0);
+    });
 
     it("should stop and continue", () => {
         timer.start();

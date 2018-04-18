@@ -56,7 +56,6 @@ export class Server {
     }
 
     // Se produit lorsque le serveur se met à écouter sur le port.
-
     private  onListening(): void {
         const addr: IServerAddress = this.server.address();
         const bind: string = (typeof addr === "string") ? `pipe ${addr}` : `port ${addr.port}`;
