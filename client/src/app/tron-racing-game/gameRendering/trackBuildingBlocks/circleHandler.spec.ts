@@ -2,7 +2,7 @@ import { Waypoint } from "../../tracks/trackData/waypoint";
 import { CircleHandler } from "./circleHandler";
 import * as THREE from "three";
 
-/* tslint:disable: no-magic-numbers */
+// tslint:disable: no-magic-numbers 
 describe("CircleHandler", () => {
 
     let waypoints: Waypoint[] = [];

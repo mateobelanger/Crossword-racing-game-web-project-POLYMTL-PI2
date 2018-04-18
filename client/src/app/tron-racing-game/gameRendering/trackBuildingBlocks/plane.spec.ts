@@ -3,7 +3,7 @@ import { Plane, PIVOT_POINT_SHIFT } from "./plane";
 import * as THREE from "three";
 import { UPPER_PLANE_POSITION_Z } from "../../constants";
 
-/* tslint:disable: no-magic-numbers */
+// tslint:disable: no-magic-numbers
 describe("Plane", () => {
 
     it("should be instantiated correctly using default constructor", () => {

@@ -1,6 +1,6 @@
 import { Wheel, DEFAULT_WHEEL_MASS, DEFAULT_WHEEL_RADIUS, DEFAULT_FRICTION_COEFFICIENT } from "./wheel";
 
-/* tslint:disable: no-magic-numbers */
+// tslint:disable: no-magic-numbers
 describe("Wheel", () => {
     it("should be instantiated correctly using default constructor", () => {
         const wheel: Wheel = new Wheel();

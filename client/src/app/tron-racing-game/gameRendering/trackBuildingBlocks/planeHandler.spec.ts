@@ -2,7 +2,7 @@ import { Waypoint } from "../../tracks/trackData/waypoint";
 import { PlaneHandler } from "./planeHandler";
 import * as THREE from "three";
 
-/* tslint:disable: no-magic-numbers */
+// tslint:disable: no-magic-numbers
 describe("PlaneHandlerHandler", () => {
 
     let waypoints: Waypoint[] = [];

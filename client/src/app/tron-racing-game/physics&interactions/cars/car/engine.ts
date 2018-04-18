@@ -7,7 +7,7 @@ export const DEFAULT_MINIMUM_RPM: number = 800;
 export const DEFAULT_SHIFT_RPM: number = 5500;
 export const DEFAULT_TRANSMISSION_EFFICIENCY: number = 0.7;
 export const DEFAULT_MAX_RPM: number = 7000;
-/* tslint:disable: no-magic-numbers */
+// tslint:disable: no-magic-numbers
 export const DEFAULT_GEAR_RATIOS: number[] = [
     4.4,
     2.59,
@@ -113,7 +113,7 @@ export class Engine {
 
     private getTorque(): number {
         // Polynomial function to approximage a torque curve from the rpm.
-        /* tslint:disable: no-magic-numbers */
+        // tslint:disable: no-magic-numbers
         return -Math.pow(this._rpm, 6) * 0.0000000000000000001
             + Math.pow(this._rpm, 5) * 0.000000000000003
             - Math.pow(this._rpm, 4) * 0.00000000003
@@ -121,7 +121,7 @@ export class Engine {
             - Math.pow(this._rpm, 2) * 0.0006
             + this._rpm * 0.9905
             - 371.88;
-        /* tslint:enable: no-magic-numbers */
+        // tslint:enable: no-magic-numbers
     }
 
     private shouldShift(): boolean {

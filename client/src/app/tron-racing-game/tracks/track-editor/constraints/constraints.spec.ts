@@ -4,6 +4,7 @@ import { Constraints } from "./constraints";
 
 const NUMBER_OF_WAYPOINTS: number = 10;
 
+// tslint:disable:no-magic-numbers
 describe("ConstraintsHandler", () => {
 
     let waypoints: Waypoint[] = [];
