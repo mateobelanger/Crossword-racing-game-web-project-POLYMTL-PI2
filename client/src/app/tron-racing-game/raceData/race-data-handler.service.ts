@@ -59,9 +59,9 @@ export class RaceDataHandlerService {
             this.speedZonesService.initialize( playerDifficulty,
                                                this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
-            await this._carsHandlerService.initialize( playerDifficulty );
-            await this._raceProgressionService.initialize( this._carsHandlerService.playersPosition,
-                                                           this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
+            await this.carsHandlerService.initialize( playerDifficulty );
+            await this.raceProgressionService.initialize(   this.carsHandlerService.playersPosition,
+                                                            this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
             this.carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
             this.raceResultService.initialize();
@@ -114,14 +114,14 @@ export class RaceDataHandlerService {
             },
             (err: Error) => {
                 console.error(err);
-                this._carsHandlerService.enableControlKeys();
-                this._carsHandlerService.startRace();
+                this.carsHandlerService.enableControlKeys();
+                this.carsHandlerService.startRace();
                 this.startRace();
             },
             () => {
                 this.audioService.playSound(RACE_START_SOUND);
-                this._carsHandlerService.enableControlKeys();
-                this._carsHandlerService.startRace();
+                this.carsHandlerService.enableControlKeys();
+                this.carsHandlerService.startRace();
                 this.startRace();
             });
     }
@@ -167,10 +167,10 @@ export class RaceDataHandlerService {
             if (name === USERNAME) {
                 this.doneRace();
             } else {
-                this._carsHandlerService.virtualPlayerFinished(name);
-                this.collisionHandler.stopWatchingForCollision(this._carsHandlerService.getCar(name));
-                this.outOfBoundService.stopWatchingForCollision(this._carsHandlerService.getCar(name));
-                this.portalHandlerService.teleport( this._carsHandlerService.getCar(name),
+                this.carsHandlerService.virtualPlayerFinished(name);
+                this.collisionHandler.stopWatchingForCollision(this.carsHandlerService.getCar(name));
+                this.outOfBoundService.stopWatchingForCollision(this.carsHandlerService.getCar(name));
+                this.portalHandlerService.teleport( this.carsHandlerService.getCar(name),
                                                     new THREE.Vector3(0, 0, 0))
                                          .catch((error: Error) => { console.error(error); });
             }
