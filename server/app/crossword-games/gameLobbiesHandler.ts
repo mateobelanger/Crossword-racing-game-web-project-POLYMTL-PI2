@@ -130,7 +130,7 @@ export class GameLobbiesHandler {
             return GameType.SOLO;
         } else if (GameLobbiesHandler._multiplayerGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
             return GameType.MULTIPLAYER;
-        } else  if (GameLobbiesHandler._pendingGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined){
+        } else  if (GameLobbiesHandler._pendingGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
             return GameType.PENDING;
         } else {
             throw new Error("id is not in a game");
