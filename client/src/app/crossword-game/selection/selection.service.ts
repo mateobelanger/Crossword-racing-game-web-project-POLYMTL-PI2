@@ -3,13 +3,22 @@ import { GridWord } from "../../../../../common/crosswordsInterfaces/word";
 import { WordService } from "../word.service";
 import { SocketService } from "../socket.service";
 import { SelectionStateService } from "../selection-state/selection-state.service";
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class SelectionService {
 
+    private _definitionSelected$: Subject<void>;
+
     public constructor(private wordService: WordService,
                        private socketService: SocketService,
-                       private selectionState: SelectionStateService) {}
+                       private selectionState: SelectionStateService) {
+        this._definitionSelected$ = new Subject();
+    }
+
+    public get definitionSelected(): Subject<void> {
+        return this._definitionSelected$;
+    }
 
     public get selectedWord(): GridWord {
         return this.selectionState.localSelectedWord;
@@ -28,6 +37,7 @@ export class SelectionService {
             if (word.definition === definition) {
                 this.selectionState.localSelectedWord = word;
                 this.socketService.selectWord(this.selectionState.localSelectedWord);
+                this._definitionSelected$.next();
                 break;
             }
         }

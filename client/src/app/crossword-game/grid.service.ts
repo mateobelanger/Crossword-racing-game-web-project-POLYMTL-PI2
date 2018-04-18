@@ -6,6 +6,7 @@ import { ValidatorService } from "./validator.service";
 import { SelectionService } from "./selection/selection.service";
 import { UserGridService } from "./user-grid.service";
 import { NameValidator } from "../../../../common/nameValidator";
+import { Subject } from "rxjs/Subject";
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;
@@ -24,6 +25,10 @@ export class GridService {
         this.fillGrid();
     }
 
+    public get definitionSelected(): Subject<void> {
+        return this.selectionService.definitionSelected;
+    }
+
     public keyDown(keyCode: number, row: number, column: number): boolean {
         if (NameValidator.isAlphabetical(keyCode)) {
             return true;
@@ -36,16 +41,6 @@ export class GridService {
 
     public keyUp(row: number, column: number): void {
         this.validatorService.updateValidatedWords(this.userGridService.userGrid);
-    }
-
-    public isSelectedWordInColumnRange(column: number): boolean {
-        return this.selectionService.selectedWord.direction === Direction.HORIZONTAL &&
-            this.selectionService.selectedWord.column + this.selectionService.selectedWord.value.length - 1 !== column;
-    }
-
-    public isSelectedWordInRowRange(row: number): boolean {
-        return this.selectionService.selectedWord.direction === Direction.VERTICAL &&
-            this.selectionService.selectedWord.row + this.selectionService.selectedWord.value.length - 1 !== row;
     }
 
     public selectWord(row: number, column: number): void {
@@ -131,6 +126,7 @@ export class GridService {
     private backspace(row: number, column: number): void {
         if (this.userGridService.isEmptyCell(row, column)) {
             const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
+            this.userGridService.userGrid[row][column] = "";
             this.userGridService.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
             // this.focusOnSelectedWord();
         } else {
