@@ -47,7 +47,6 @@ describe("AdminComponent", () => {
             providers: [TracksProxyService, { provide: APP_BASE_HREF, useValue: "/" }]
         });
 
-
         fixture = TestBed.createComponent(AdminComponent);
         component = fixture.componentInstance;
 
@@ -77,16 +76,21 @@ describe("AdminComponent", () => {
         fixture.detectChanges();
         // initialize service is async => still has not returned with tracks
         expect(component.tracks.length).toBe(0);
-        expect(spyInitialize.calls.any()).toBe(true, 'initialize called');
+        expect(spyInitialize.calls.any()).toBe(true, "initialize called");
     });
 
     it("should have tracks once proxy service returned tracks", () => {
 
         fixture.detectChanges();
         async(() => {
-            fixture.whenStable().then(() => {   // wait for async initialize
-                expect(component.tracks).toBe(tracks);
-            });
+            fixture.whenStable()
+                .then(() => {   // wait for async initialize
+                    expect(component.tracks).toBe(tracks);
+                })
+                .catch((err) => {
+                    console.error(err);
+                    expect(false).toBe(true);   // to make the test fail
+                });
         });
     });
 
@@ -95,20 +99,22 @@ describe("AdminComponent", () => {
         expect(spyDelete.calls.any()).toBe(false, "delete not yet called");
     });
 
-
     it("should call delete from proxy when deleting track", () => {
-
         async(() => {
             fixture.detectChanges();
 
-            fixture.whenStable().then(() => {       // wait for async delete
-                fixture.detectChanges();
-                component.deleteTrack("test3");
-                expect(spyDelete.calls.any()).toBe(true, 'delete called');
-                tracks.pop();
-                expect(component.tracks).toBe(tracks);
-            });
+            fixture.whenStable()
+                .then(async () => {       // wait for async delete
+                    fixture.detectChanges();
+                    await component.deleteTrack("test3");
+                    expect(spyDelete.calls.any()).toBe(true, "delete called");
+                    tracks.pop();
+                    expect(component.tracks).toBe(tracks);
+                })
+                .catch((err) => {
+                    console.error(err);
+                    expect(false).toBe(true);
+                });
         });
     });
-
 });

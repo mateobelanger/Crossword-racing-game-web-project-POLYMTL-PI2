@@ -8,7 +8,6 @@ const NEAR_CLIPPING_PLANE: number = 1;
 const FAR_CLIPPING_PLANE: number = 500;
 const PERSPECTIVE_FIELD_OF_VIEW: number = 40;
 
-
 // ORTHOGRAPHIC_CAMERA
 export const ORTHOGRAPHIC_INITIAL_POSITION_Y: number = 15;
 export const ORTHOGRAPHIC_FIELD_OF_VIEW: number = 50;
@@ -34,7 +33,6 @@ export class CameraService {
     private zoomFactor: number;
     private _isZoomingIn: boolean;
     private _isZoomingOut: boolean;
-
 
     public constructor() {
         this.camera = CameraType.PERSPECTIVE;
@@ -168,5 +166,4 @@ export class CameraService {
         this.perspectiveCamera.zoom = this.zoomFactor;
         this.perspectiveCamera.updateProjectionMatrix();
     }
-
 }

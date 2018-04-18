@@ -24,7 +24,6 @@ describe("CircleHandler", () => {
         circleHandler = null;
     });
 
-
     it("should be instantiated correctly when passing parameters", () => {
         expect(circleHandler).toBeDefined();
     });
@@ -37,6 +36,5 @@ describe("CircleHandler", () => {
         circleHandler.removeCircle(waypoints[2].circleId);
         expect(circleHandler.getCircles().length).toEqual(9);
     });
-
 
 });

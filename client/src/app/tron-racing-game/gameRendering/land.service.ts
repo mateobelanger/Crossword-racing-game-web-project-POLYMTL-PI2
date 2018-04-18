@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { LAND_WIDTH, LAND_HEIGHT } from "../constants";
 

@@ -67,18 +67,30 @@ export class Io {
     private initializeServerGameProgression(socket: SocketIO.Socket): void {
 
         socket.on(SocketMessage.ADD_VALIDATED_WORD, (word: GridWord, roomId: string) => {
-            const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
-            if (GameProgessionHandler.isAddValidatedWord(word, game, socket.id)) {
-                this.socketServer.in(game.roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, game);
+            try {
+                const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
+                if (GameProgessionHandler.isAddValidatedWord(word, game, socket.id)) {
+                    this.socketServer.in(game.roomId).emit(SocketMessage.UPDATE_VALIDATED_WORD, game);
+                }
+            } catch (error) {
+                console.error(error);
             }
         });
 
         socket.on(SocketMessage.SELECT_WORD, (selectedWord: GridWord) => {
-            socket.to(GameLobbiesHandler.getGame(socket.id).roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
+            try {
+                socket.to(GameLobbiesHandler.getGame(socket.id).roomId).emit(SocketMessage.REMOTE_SELECTED_WORD, selectedWord);
+            } catch (error) {
+                console.error(error);
+            }
         });
 
         socket.on(SocketMessage.DESELECT_WORD, (word: GridWord) => {
-            socket.to(GameLobbiesHandler.getGame(socket.id).roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
+            try {
+                socket.to(GameLobbiesHandler.getGame(socket.id).roomId).emit(SocketMessage.REMOTE_DESELECTED_WORD, word);
+            } catch (error) {
+                console.error(error);
+            }
         });
     }
 
@@ -94,41 +106,48 @@ export class Io {
     }
 
     private hostAskForRestart(roomId: string, isGuestReady: boolean, newWords: GridWord[]): void {
-        const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
+        try {
+            const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
+            game.restartGame();
+            game._words = castHttpToGridWords(newWords);
+            game.isWaitingForRestart[PlayerType.HOST] = true;
 
-        if (game === undefined) {
-            return;
-        }
-        game.restartGame();
-        game._words = castHttpToGridWords(newWords);
-        game.isWaitingForRestart[PlayerType.HOST] = true;
+            this.socketServer.in(roomId).emit(SocketMessage.HOST_ASKED_FOR_RESTART, game);
 
-        this.socketServer.in(roomId).emit(SocketMessage.HOST_ASKED_FOR_RESTART, game);
-
-        if (isGuestReady) {
-            game.isWaitingForRestart[PlayerType.HOST] = false;
-            game.isWaitingForRestart[PlayerType.GUEST] = false;
-            this.socketServer.in(roomId).emit(SocketMessage.SENT_GAME_AFTER_JOIN, game);
+            if (isGuestReady) {
+                game.isWaitingForRestart[PlayerType.HOST] = false;
+                game.isWaitingForRestart[PlayerType.GUEST] = false;
+                this.socketServer.in(roomId).emit(SocketMessage.SENT_GAME_AFTER_JOIN, game);
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 
     private guestAskForRestart(roomId: string): void {
-        const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
-        game.isWaitingForRestart[PlayerType.GUEST] = true;
-        this.socketServer.in(roomId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
+        try {
+            const game: CrosswordGame = GameLobbiesHandler.getGame(roomId);
+            game.isWaitingForRestart[PlayerType.GUEST] = true;
+            this.socketServer.in(roomId).emit(SocketMessage.GUEST_ASKED_FOR_RESTART, game);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     private socketDisconnected(socket: SocketIO.Socket): void {
-        const game: CrosswordGame = GameLobbiesHandler.getGame(socket.id);
-        if (game === undefined) {
-            return;
-        } else if (game.isAPlayerWaitingForRestart()) {
-            this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING);
-        } else {
-            this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED);
-        }
-        GameLobbiesHandler.disconnect(socket.id);
+        try {
+            const game: CrosswordGame = GameLobbiesHandler.getGame(socket.id);
 
-        this.broadcastGameLists();
+            if (game.isAPlayerWaitingForRestart()) {
+                this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING);
+            } else {
+                this.socketServer.in(game.roomId).emit(SocketMessage.OPPONENT_DISCONNECTED);
+            }
+            GameLobbiesHandler.disconnect(socket.id);
+
+            this.broadcastGameLists();
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

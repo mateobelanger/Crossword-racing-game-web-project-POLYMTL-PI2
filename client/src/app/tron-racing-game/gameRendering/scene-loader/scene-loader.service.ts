@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { SkyboxService } from '../skybox.service';
-import { SceneLightsService } from '../scene-lights/scene-lights.service';
-import { LandService } from '../land.service';
+import { Injectable } from "@angular/core";
+import { SkyboxService } from "../skybox.service";
+import { SceneLightsService } from "../scene-lights/scene-lights.service";
+import { LandService } from "../land.service";
 
 @Injectable()
 export class SceneLoaderService {

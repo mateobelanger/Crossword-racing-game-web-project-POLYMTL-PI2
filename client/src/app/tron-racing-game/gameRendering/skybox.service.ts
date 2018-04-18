@@ -21,7 +21,6 @@ export class SkyboxService {
     public skyboxName: string;
     public sceneState: string;
 
-
     private daySkybox: THREE.CubeTexture;
     private nightSkybox: THREE.CubeTexture;
 
@@ -67,14 +66,12 @@ export class SkyboxService {
       return new THREE.CubeTextureLoader()
                  .setPath(SKYBOXES_PATH + this.skyboxName + "/" + sceneState + "/")
                  .load([
-                   RIGHT_IMAGE,
-                   LEFT_IMAGE,
-                   TOP_IMAGE,
-                   BOTTOM_IMAGE,
-                   BACK_IMAGE,
-                   FRONT_IMAGE
+                    RIGHT_IMAGE,
+                    LEFT_IMAGE,
+                    TOP_IMAGE,
+                    BOTTOM_IMAGE,
+                    BACK_IMAGE,
+                    FRONT_IMAGE
                  ]);
     }
 }
-
-

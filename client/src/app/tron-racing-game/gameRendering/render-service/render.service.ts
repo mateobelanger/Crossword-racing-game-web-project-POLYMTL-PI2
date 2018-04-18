@@ -79,8 +79,8 @@ export class RenderService implements OnDestroy {
     private initStats(): void {
         this.stats = new Stats();
         this.stats.dom.style.position = "absolute";
-        this.stats.dom.style.top = 'initial';
-        this.stats.dom.style.bottom = '0px';
+        this.stats.dom.style.top = "initial";
+        this.stats.dom.style.bottom = "0px";
         this.container.appendChild(this.stats.dom);
     }
 
@@ -176,5 +176,3 @@ export class RenderService implements OnDestroy {
         };
     }
 }
-
-

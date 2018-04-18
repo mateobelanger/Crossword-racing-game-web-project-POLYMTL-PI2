@@ -9,7 +9,7 @@ describe("RenderService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
-            providers: [{provide: APP_BASE_HREF, useValue : '/' }]
+            providers: [{provide: APP_BASE_HREF, useValue : "/" }]
         });
     });
 

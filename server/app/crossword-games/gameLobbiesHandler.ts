@@ -11,12 +11,6 @@ export class GameLobbiesHandler {
     private static _multiplayerGames: CrosswordGame[] = [];
     private static _pendingGames: CrosswordGame[] = [];
 
-    // public constructor() {
-    //     GameLobbiesHandler._soloGames = [];
-    //     GameLobbiesHandler._multiplayerGames = [];
-    //     GameLobbiesHandler._pendingGames = [];
-    // }
-
     public static get multiplayerGames(): CrosswordGame[] {
         return GameLobbiesHandler._multiplayerGames;
     }
@@ -27,27 +21,6 @@ export class GameLobbiesHandler {
 
     public static get numberOfGames(): number {
         return GameLobbiesHandler._soloGames.length + GameLobbiesHandler._multiplayerGames.length + GameLobbiesHandler._pendingGames.length;
-    }
-
-    public static isAlreadyInAGame(id: string): boolean {
-        let isInAGame: boolean = false;
-        GameLobbiesHandler._soloGames.forEach((game: CrosswordGame) => {
-            if (game.isInGame(id)) {
-                isInAGame = true;
-            }
-        });
-        GameLobbiesHandler._multiplayerGames.forEach((game: CrosswordGame) => {
-            if (game.isInGame(id)) {
-                isInAGame = true;
-            }
-        });
-        GameLobbiesHandler._pendingGames.forEach((game: CrosswordGame) => {
-            if (game.isInGame(id)) {
-                isInAGame = true;
-            }
-        });
-
-        return isInAGame;
     }
 
     public static createGame(   roomId: string, socketId: string, username: string,
@@ -66,17 +39,23 @@ export class GameLobbiesHandler {
 
     public static joinGame(roomId: string, socketId: string, guestName: string): CrosswordGame {
 
-        GameLobbiesHandler._multiplayerGames.push(GameLobbiesHandler.getGame(roomId));
-        GameLobbiesHandler.deleteGameWithId(GameLobbiesHandler._pendingGames, roomId);
-        const joinedGame: CrosswordGame = GameLobbiesHandler.getGame(roomId);
-        joinedGame.updateGuestInformation(socketId, guestName);
+        try {
+            GameLobbiesHandler._multiplayerGames.push(GameLobbiesHandler.getGame(roomId));
+            GameLobbiesHandler.deleteGameWithId(GameLobbiesHandler._pendingGames, roomId);
+            const joinedGame: CrosswordGame = GameLobbiesHandler.getGame(roomId);
+            joinedGame.updateGuestInformation(socketId, guestName);
 
-        return joinedGame;
+            return joinedGame;
+        } catch (error) {
+            console.error(error);
+
+            return null;
+        }
     }
 
     public static disconnect(socketId: string): void {
-        if (GameLobbiesHandler.isAlreadyInAGame(socketId)) {
-            const gameType: GameType = GameLobbiesHandler.getGameType(socketId);
+        try {
+            const gameType: GameType = GameLobbiesHandler.getExistingGameType(socketId);
             const game: CrosswordGame = GameLobbiesHandler.getGame(socketId);
 
             switch (gameType) {
@@ -97,14 +76,30 @@ export class GameLobbiesHandler {
                     GameLobbiesHandler.deleteGameWithId(GameLobbiesHandler._multiplayerGames, socketId);
             }
 
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    public static isAlreadyInAGame(id: string): boolean {
+        try {
+            this.getExistingGameType(id);
+
+            return true;
+        } catch (error) {
+            return false;
         }
     }
 
     public static getGame(id: string): CrosswordGame {
-        const gameType: GameType = GameLobbiesHandler.getGameType(id);
-        const games: CrosswordGame[] = GameLobbiesHandler.getGameList(gameType);
+        try {
+            const gameType: GameType = GameLobbiesHandler.getExistingGameType(id);
+            const games: CrosswordGame[] = GameLobbiesHandler.getGameList(gameType);
 
-        return games.find((game: CrosswordGame) => game.isInGame(id));
+            return games.find((game: CrosswordGame) => game.isInGame(id));
+        } catch (error) {
+            throw new Error("no game with this id");
+        }
     }
 
     private static createSoloGame(id: string, roomId: string, username: string, difficulty: Difficulty, words: GridWord[]): CrosswordGame {
@@ -116,23 +111,29 @@ export class GameLobbiesHandler {
     }
 
     private static deleteGame(id: string): void {
-        const gameType: GameType = GameLobbiesHandler.getGameType(id);
-        const games: CrosswordGame[] = GameLobbiesHandler.getGameList(gameType);
+        try {
+            const gameType: GameType = GameLobbiesHandler.getExistingGameType(id);
+            const games: CrosswordGame[] = GameLobbiesHandler.getGameList(gameType);
 
-        games.splice(games.findIndex((game: CrosswordGame) => game.isInGame(id)));
+            games.splice(games.findIndex((game: CrosswordGame) => game.isInGame(id)));
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     private static deleteGameWithId(games: CrosswordGame[], id: string): void {
         games.splice(games.findIndex((game: CrosswordGame) => game.isInGame(id)));
     }
 
-    private static getGameType(id: string): GameType {
+    private static getExistingGameType(id: string): GameType {
         if (GameLobbiesHandler._soloGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
             return GameType.SOLO;
         } else if (GameLobbiesHandler._multiplayerGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
             return GameType.MULTIPLAYER;
-        } else {
+        } else  if (GameLobbiesHandler._pendingGames.find((game: CrosswordGame) => game.isInGame(id)) !== undefined) {
             return GameType.PENDING;
+        } else {
+            throw new Error("id is not in a game");
         }
     }
 

@@ -1,17 +1,17 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
 
-import { LandService, LAND_TEXTURE } from './land.service';
-import { ASSETS_FOLDER, ASSETS_NAME } from './trackBuildingBlocks/planeHandler';
-import { PlaneType, CircleType } from '../constants';
+import { LandService, LAND_TEXTURE } from "./land.service";
+import { ASSETS_FOLDER, ASSETS_NAME } from "./trackBuildingBlocks/planeHandler";
+import { PlaneType, CircleType } from "../constants";
 
-describe('LandService', () => {
+describe("LandService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [LandService]
         });
     });
 
-    it('should be created', inject([LandService], (service: LandService) => {
+    it("should be created", inject([LandService], (service: LandService) => {
         expect(service).toBeTruthy();
     }));
 
@@ -29,4 +29,3 @@ describe('LandService', () => {
         expect(LAND_TEXTURE === ASSETS_FOLDER + ASSETS_NAME[CircleType.TRACK_FIRST_CRICLE]).toBeFalsy();
     });
 });
-

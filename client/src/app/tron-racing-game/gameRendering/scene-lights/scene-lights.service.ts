@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import { EDITOR_LAND_HEIGHT, EDITOR_LAND_WIDTH } from '../../constants';
-
+import { EDITOR_LAND_HEIGHT, EDITOR_LAND_WIDTH } from "../../constants";
 
 const EDITOR_LAND_DIVISOR: number = 4;
 const middlePointX: number = EDITOR_LAND_WIDTH / EDITOR_LAND_DIVISOR ;
@@ -34,7 +33,6 @@ export class SceneLightsService {
     private ambientLight: THREE.AmbientLight;
     private hemisphereLight: THREE.HemisphereLight;
     private directionalLight: THREE.DirectionalLight;
-
 
     public constructor() {
         this.scene = null;

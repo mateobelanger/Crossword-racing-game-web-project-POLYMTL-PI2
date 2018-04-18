@@ -2,6 +2,7 @@
 import * as THREE from "three";
 
 const FRONT_LIGHT_COLOR: number = 0x7DFDFE;
+const BACK_LIGHT_COLOR: number = 0xF66A35;
 
 const FRONT_TARGET_POSITION_X: number = 0;
 const FRONT_TARGET_POSITION_Y: number = 3;
@@ -9,7 +10,7 @@ const FRONT_TARGET_POSITION_Z: number = -20;
 
 const FRONT_LIGHT_ITENSITY: number = 20;
 const FRONT_LIGHT_DISTANCE: number = 70;
-        // tslint:disable-next-line:no-magic-numbers
+// tslint:disable-next-line:no-magic-numbers
 const FRONT_LIGHT_ANGLE: number = Math.PI / 3;
 const FRONT_LIGHT_PENUMBRA: number = 0.5;
 const FRONT_LIGHT_DECAY: number = 3;
@@ -18,16 +19,13 @@ const FRONT_LIGHT_POSITION_X: number = 0.6;
 const FRONT_LIGHT_POSITION_Y: number = 3;
 const FRONT_LIGHT_POSITION_Z: number = -0.2;
 
-
-const BACK_LIGHT_COLOR: number = 0xF66A35;
-
 const BACK_TARGET_POSITION_X: number = 0;
 const BACK_TARGET_POSITION_Y: number = 3;
 const BACK_TARGET_POSITION_Z: number = 20;
 
 const BACK_LIGHT_ITENSITY: number = 10;
 const BACK_LIGHT_DISTANCE: number = 40;
-        // tslint:disable-next-line:no-magic-numbers
+// tslint:disable-next-line:no-magic-numbers
 const BACK_LIGHT_ANGLE: number = Math.PI / 8;
 const BACK_LIGHT_PENUMBRA: number = 0.5;
 const BACK_LIGHT_DECAY: number = 3;
@@ -36,14 +34,12 @@ const BACK_LIGHT_POSITION_X: number = 1.5;
 const BACK_LIGHT_POSITION_Y: number = 3;
 const BACK_LIGHT_POSITION_Z: number = -4.5;
 
-
 export class CarLights {
 
     private frontLeftLight: THREE.SpotLight;
     private frontRightLight: THREE.SpotLight;
     private backLeftLight: THREE.SpotLight;
     private backRightLight: THREE.SpotLight;
-
     private car: THREE.Object3D;
 
     public constructor() {
@@ -99,7 +95,6 @@ export class CarLights {
         return frontTarget;
     }
 
-
     private generateBackLights(): void {
         this.generateFrontTarget();
         this.backLeftLight = this.generateBackLight(BACK_LIGHT_POSITION_X);
@@ -127,6 +122,4 @@ export class CarLights {
 
         return backTarget;
     }
-
-
 }
