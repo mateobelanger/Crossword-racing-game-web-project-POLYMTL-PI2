@@ -10,13 +10,14 @@ import { LobbyService } from "../lobby/lobby.service";
 import { WordService } from "../word.service";
 import { GameStateService } from "../game-state.service";
 import { SelectionStateService } from "../selection-state/selection-state.service";
-import { GridWord, Direction } from "../../../../../common/crosswordsInterfaces/word";
 import { EndOfGameModalComponent } from "./end-of-game-modal.component";
 import { ValidatorService } from "../validator.service";
 import { UserGridService } from "../user-grid.service";
 import { SelectionService } from "../selection/selection.service";
 import { GridService } from "../grid.service";
-import { PlayerType } from "../../../../../common/constants";
+import { Difficulty } from "../../../../../common/constants";
+import { CrosswordGame } from "../../../../../common/crosswordsInterfaces/crosswordGame";
+import { GridWord } from "../../../../../common/crosswordsInterfaces/word";
 
 describe("endOfGameModalComponent", () => {
     let component: EndOfGameModalComponent;
@@ -28,13 +29,9 @@ describe("endOfGameModalComponent", () => {
     let router: Router;
     const selectionState: SelectionStateService = new SelectionStateService();
 
-    const userGridService: UserGridService = new UserGridService();
-    const selectionStateService: SelectionStateService = new SelectionStateService();
     const gameStateService: GameStateService = new GameStateService();
 
-    let selectionService: SelectionService;
     let socketService: SocketService;
-    let validatorService: ValidatorService;
 
     beforeEach(async (done: DoneFn) => {
 
@@ -49,15 +46,13 @@ describe("endOfGameModalComponent", () => {
                         SelectionStateService,
                         UserGridService,
                         GridService]
-        });
+        }).compileComponents().catch( (error: Error) => console.error(error));
         http =  TestBed.get(HttpClient);
 
         // gameStateService = TestBed.get(GameStateService);
         router =  TestBed.get(Router);
 
         socketService = new SocketService(lobbyService, wordService, gameStateService, router, selectionState);
-        selectionService = new SelectionService(wordService, socketService, selectionStateService);
-        validatorService = new ValidatorService(wordService, socketService, userGridService, selectionService);
 
         fixture = TestBed.createComponent(EndOfGameModalComponent);
         component = fixture.componentInstance;
@@ -70,9 +65,19 @@ describe("endOfGameModalComponent", () => {
         expect(component).toBeTruthy();
     });
 
-    it("end of game should trigger modal", inject([SocketService], (service: SocketService) => {
-        socketService["gameStateService"]["isEndOfGame"] = true;
+    it("Restart button should start the procedure and call for a new grid", inject([SocketService], (service: SocketService) => {
 
+        socketService.isHost = true;
+        const words: GridWord[] = [new GridWord(0, 0, 0, "helda", "oihoih")];
+        const game: CrosswordGame = new CrosswordGame("test", "test", "test", Difficulty.EASY, words);
+        socketService.game = game;
+
+        // tslint:disable:no-any
+        spyOn<any>(socketService, "hostCreateNewGame");
+
+        socketService.restartNewGame(Difficulty.EASY).catch((error: Error) => console.error(error));
+
+        expect(socketService["hostCreateNewGame"]).toHaveBeenCalled();
     }));
 
 });
