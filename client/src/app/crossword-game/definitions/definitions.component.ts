@@ -1,9 +1,7 @@
 import { Component } from "@angular/core";
 import { ValidatorService } from "../validator.service";
-// TODO : import { GridService } from "../grid.service";
 import { SelectionService } from "../selection/selection.service";
 import { DefinitionsService } from "./definitions.service";
-
 
 @Component({
     selector: "app-definitions",
@@ -21,7 +19,6 @@ export class DefinitionsComponent {
 
     public onSelect(definition: string): void {
         this.selectionService.definition = definition;
-        // this.gridService.focusOnSelectedWord();
     }
 
     public get horizontalDefinitions(): string[][] {

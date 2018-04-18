@@ -11,7 +11,7 @@ export class GridComponent {
     @ViewChildren("inputs") private inputs: QueryList<ElementRef>;
 
     public constructor(private gridService: GridService) {
-        this.gridService.definitionSelected.subscribe(() => {this.focusOnSelectedWord();});
+        this.gridService.definitionSelected.subscribe(() => { this.focusOnSelectedWord(); });
     }
 
     public trackByIndex(index: number): number {
