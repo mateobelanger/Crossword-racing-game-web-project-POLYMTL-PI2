@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { Car } from "../cars/car/car";
 import { TRACK_WIDTH, WAYPOINT_RADIUS } from "../../constants";
-import { RaceProgression } from '../../raceData/raceProgression/raceProgression';
-import { AudioService } from '../../audio/audio.service';
-import { CarHandlerService } from '../cars/car-handler.service';
-import { RaceProgressionHandlerService } from '../../raceData/raceProgression/race-progression-handler.service';
+import { RaceProgression } from "../../raceData/raceProgression/raceProgression";
+import { AudioService } from "../../audio/audio.service";
+import { CarHandlerService } from "../cars/car-handler.service";
+import { RaceProgressionHandlerService } from "../../raceData/raceProgression/race-progression-handler.service";
 import { Vector3, Quaternion } from "three";
 
 const FORCE_FIELD_SOUND: string = "../../../assets/audio/RG/force-field.wav";
@@ -49,7 +49,7 @@ export class OutOfBoundsHandlerService {
         // relative rotation quaternion to bring the car parallel to the track
         const rotationQuaternion: Quaternion = new Quaternion().setFromUnitVectors(car.direction, trackDirection);
 
-        // calculates absolute rotation quaternion from car's current quaternion
+        // calculates absolute rotation quaternion from car"s current quaternion
         rotationQuaternion.multiply(car.mesh.quaternion);
 
         // translate car a bit towards center of track to prevent getting stuck outside the limit

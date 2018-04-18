@@ -60,7 +60,6 @@ export class CrosswordGame  {
         this.ids[PlayerType.GUEST] = guestId;
     }
 
-    // TODO: ces getters ne fonctionnent pas
     public get hostUsername(): string {
         return this.usernames[PlayerType.HOST];
     }
@@ -69,7 +68,6 @@ export class CrosswordGame  {
         this.usernames[PlayerType.HOST] = hostUsername;
     }
 
-    // TODO: ces getters ne fonctionnent pas
     public get guestUsername(): string {
         return this.usernames[PlayerType.GUEST];
     }

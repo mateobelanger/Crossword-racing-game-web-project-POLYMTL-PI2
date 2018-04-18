@@ -30,7 +30,6 @@ export class CircleHandler {
             const axis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
             hasReversedAxes ? mesh.rotateOnAxis(axis, Math.PI / 2) : mesh.rotateOnAxis(axis, 0);
 
-
             this.bindMesh(mesh, waypoints[index]);
         });
         this.meshs.forEach((mesh) => {
@@ -61,8 +60,9 @@ export class CircleHandler {
     private findMeshIndex(id: number): number {
         let index: number = null;
         this.meshs.forEach((element, i) => {
-            if (element.id === id)
+            if (element.id === id) {
                 index = i;
+            }
         });
 
         return index;

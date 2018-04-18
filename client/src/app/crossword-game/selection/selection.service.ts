@@ -70,7 +70,7 @@ export class SelectionService {
         if (this.socketService.isHost) {
             return this.selectionState.localSelectedWord;
         } else {
-            return this.socketService.remoteSelectedWord;
+            return this.selectionState.remoteSelectedWord;
         }
     }
 
@@ -78,7 +78,7 @@ export class SelectionService {
         if (!this.socketService.isHost) {
             return this.selectionState.localSelectedWord;
         } else {
-            return this.socketService.remoteSelectedWord;
+            return this.selectionState.remoteSelectedWord;
         }
     }
 }

@@ -71,4 +71,10 @@ describe("GameStateService", () => {
         expect(gameState.isWaitingForOpponent).toBe(true);
     });
 
+    it("should reset scores", () => {
+        gameState.resetScores();
+        expect(gameState.hostScore).toBe(0);
+        expect(gameState.guestScore).toBe(0);
+    });
+
 });

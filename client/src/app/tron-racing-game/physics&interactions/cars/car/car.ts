@@ -7,7 +7,6 @@ export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
 export const DEFAULT_DRAG_COEFFICIENT: number = 0.35;
 
-
 const MAXIMUM_STEERING_ANGLE: number = 0.25;
 const INITIAL_MODEL_ROTATION: Euler = new Euler(0, PI_OVER_2, 0);
 const INITIAL_WEIGHT_DISTRIBUTION: number = 0.5;
@@ -68,8 +67,6 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
-
-        // this.box = new Box3().setFromObject(this._mesh);
     }
 
     public getPosition(): Vector3 {

@@ -1,5 +1,5 @@
 import { Waypoint } from "../../tracks/trackData/waypoint";
-import { UPPER_PLANE_POSITION_Z } from '../../constants';
+import { UPPER_PLANE_POSITION_Z } from "../../constants";
 import * as THREE from "three";
 
 const EXPOSANT_CARRE: number = 2;
@@ -7,7 +7,6 @@ const DIVISEUR_MOYENNE: number = 2;
 export const PIVOT_POINT_SHIFT: number = 0;
 const REFERENCE_VECTOR: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
 const DEFAULT_WAYPOINT_VECTOR: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-
 
 export class Plane {
 
@@ -49,8 +48,7 @@ export class Plane {
     public get centerPoint(): THREE.Vector3 {
         const centerPoint: THREE.Vector3 = new THREE.Vector3((this._endPoint.x - this._beginingPoint.x) / DIVISEUR_MOYENNE,
                                                              (this._endPoint.y - this._beginingPoint.y) / DIVISEUR_MOYENNE,
-                                                             (this._endPoint.z - this._beginingPoint.z) / DIVISEUR_MOYENNE
-                                                    );
+                                                             (this._endPoint.z - this._beginingPoint.z) / DIVISEUR_MOYENNE);
 
         return centerPoint.add(this._beginingPoint);
     }
@@ -84,8 +82,9 @@ export class Plane {
         const directionVector: THREE.Vector3 = new THREE.Vector3();
         directionVector.subVectors(this._endPoint, this._beginingPoint);
         let angle: number = directionVector.angleTo(REFERENCE_VECTOR);
-        if (directionVector.y < REFERENCE_VECTOR.y)
+        if (directionVector.y < REFERENCE_VECTOR.y) {
             angle *= -1;
+        }
 
         return angle;
     }
