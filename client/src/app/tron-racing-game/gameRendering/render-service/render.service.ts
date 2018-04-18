@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import _stats = require("stats.js");
+import Stats = require("stats.js");
 import * as THREE from "three";
 
 import { Car } from "../../physics&interactions/cars/car/car";
@@ -27,7 +27,7 @@ export class RenderService implements OnDestroy {
     private _container: HTMLDivElement;
     private _renderer: THREE.WebGLRenderer;
     private _scene: THREE.Scene;
-    private _stats: _stats;
+    private _stats: Stats;
     private _lastDate: number;
     private _destroyed: boolean = false;
     private _car: Car;
@@ -76,7 +76,7 @@ export class RenderService implements OnDestroy {
     }
 
     private initStats(): void {
-        this._stats = new _stats();
+        this._stats = new Stats();
         this._stats.dom.style.position = "absolute";
         this._stats.dom.style.top = "initial";
         this._stats.dom.style.bottom = "0px";
