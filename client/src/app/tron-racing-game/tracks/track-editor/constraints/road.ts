@@ -2,10 +2,9 @@ import { Point } from "./math/point";
 import { LineEquation } from "./math/lineEquation";
 import * as THREE from "three";
 import { TRACK_WIDTH, DEG_TO_RAD } from "../../../constants";
-// tslint:disable:no-magic-numbers
+// tslint:disable-next-line:no-magic-numbers
 const MAX_ANGLE: number = DEG_TO_RAD * 135;
 const MINIMUM_RATIO: number = 2;
-// tslint:enable:no-magic-numbers
 
 export class Road {
 

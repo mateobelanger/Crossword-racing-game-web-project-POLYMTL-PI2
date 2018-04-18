@@ -1,10 +1,10 @@
+import { APP_BASE_HREF } from "@angular/common";
 import { TestBed, inject } from "@angular/core/testing";
 
 import { CollisionHandlerService } from "./collision-handler.service";
 import { Car } from "../cars/car/car";
 import { routes } from "../../../app-routes.module";
 import { AppModule } from "../../../app.module";
-import { APP_BASE_HREF } from "@angular/common";
 import { AudioService } from "../../audio/audio.service";
 
 describe("CollisionHandlerService", () => {

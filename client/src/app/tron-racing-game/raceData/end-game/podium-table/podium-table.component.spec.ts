@@ -1,7 +1,7 @@
+import { APP_BASE_HREF } from "@angular/common";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { PodiumTableComponent } from "./podium-table.component";
-import { APP_BASE_HREF } from "@angular/common";
 import { AppModule } from "../../../../app.module";
 import { routes } from "../../../../app-routes.module";
 import { EndGameService } from "../end-game.service";

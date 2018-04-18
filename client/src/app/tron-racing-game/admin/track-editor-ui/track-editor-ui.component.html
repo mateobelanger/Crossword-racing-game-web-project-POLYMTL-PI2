@@ -9,7 +9,7 @@
                     <div class="canevaHeader clearfix">
                         <h4 class="trackName "> Track name </h4>
 
-                        <input class="trackName" type="text" [attr.maxlength]="MAX_TITLE_LENGTH" value=track.name [(ngModel)]="name" (keypress)="isAlphaNum($event.charCode)">
+                        <input class="trackName" type="text" [attr.maxlength]="MAX_TITLE_LENGTH" value=track.name [(ngModel)]="name" (keypress)="isAlphaNumerical($event.charCode)">
 
                     </div>
 

@@ -6,14 +6,14 @@ import { AppModule } from "../../../app.module";
 import { APP_BASE_HREF } from "@angular/common";
 
 describe("InputHandlerService", () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [routes, AppModule],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [routes, AppModule],
+            providers: [{ provide: APP_BASE_HREF, useValue: "/" }]
+        });
     });
-  });
 
-  it("should be created", inject([InputHandlerService], (service: InputHandlerService) => {
-    expect(service).toBeTruthy();
-  }));
+    it("should be created", inject([InputHandlerService], (service: InputHandlerService) => {
+        expect(service).toBeTruthy();
+    }));
 });

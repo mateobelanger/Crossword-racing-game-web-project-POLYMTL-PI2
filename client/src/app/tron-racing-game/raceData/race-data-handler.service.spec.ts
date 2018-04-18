@@ -7,7 +7,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { InputHandlerService } from "../physics&interactions/controller/input-handler.service";
 import { SpeedZonesService } from "../virtualPlayers/speed-zones.service";
 import { TracksProxyService } from "../tracks/tracks-proxy.service";
-// tslint:disable:no-magic-numbers
+
 describe("RaceDataHandlerService", () => {
 
     beforeEach(() => {

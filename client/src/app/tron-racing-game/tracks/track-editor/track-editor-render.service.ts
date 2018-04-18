@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
+import * as THREE from "three";
 
-// import { Track } from "../track/trackData/track";
 import { CircleHandler } from "../../gameRendering/trackBuildingBlocks/circleHandler";
 import { PlaneHandler } from "../../gameRendering/trackBuildingBlocks/planeHandler";
 import { BackgroundPlane } from "../../gameRendering/trackBuildingBlocks/backgroundPlane";
-import * as THREE from "three";
 
 const INITIAL_CAMERA_POSITION_Z: number = 50;
 const ORTHOGRAPHIC_CAMERA_NEAR_PLANE: number = 0;
@@ -57,10 +56,9 @@ export class TrackEditorRenderService {
     }
 
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
-        // tslint:disable:no-magic-numbers
         this._mouse.x = ( event.offsetX / this._container.clientWidth ) * 2 - 1;
         this._mouse.y = -( event.offsetY / this._container.clientHeight ) * 2 + 1;
-        // tslint:enable:no-magic-numbers
+
         this._raycaster.setFromCamera(this._mouse, this._camera);
 
         return this._mouse;
@@ -75,7 +73,7 @@ export class TrackEditorRenderService {
 
         this._raycaster = new THREE.Raycaster();
         this._mouse = new THREE.Vector2();
-        // tslint:disable:no-magic-numbers
+
         this._camera = new THREE.OrthographicCamera (
           this._container.clientWidth / -2,
           this._container.clientWidth / 2,
@@ -84,7 +82,6 @@ export class TrackEditorRenderService {
           ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
           ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
-        // tslint:enable:no-magic-numbers
         this._camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
         this._camera.lookAt(new THREE.Vector3(0, 0, 0));
 

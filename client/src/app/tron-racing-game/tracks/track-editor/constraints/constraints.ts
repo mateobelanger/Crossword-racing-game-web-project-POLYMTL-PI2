@@ -1,5 +1,6 @@
-import { Road } from "./road";
 import * as THREE from "three";
+
+import { Road } from "./road";
 import { Waypoint } from "../../../tracks/trackData/waypoint";
 import { ConstraintsError } from "./constraintsErrors/constraintsError";
 import { IntersectionError } from "./constraintsErrors/intersectionError";
@@ -10,28 +11,28 @@ export class Constraints {
 
     private _invalidPlanesErrors: ConstraintsError[];
     private _previousInvalidPlanesErrors: ConstraintsError[];
-    private roads: Road[];
+    private _roads: Road[];
 
     public constructor () {
-        this.roads = [];
+        this._roads = [];
         this._invalidPlanesErrors = [];
         this._previousInvalidPlanesErrors = [];
     }
 
     public addRoads(waypoints: Waypoint[]): void {
-        let previousRoad: Road = this.roads[this.roads.length - 1];
+        let previousRoad: Road = this._roads[this._roads.length - 1];
         for (let i: number = 0; i < waypoints.length - 1; i++) {
             const road: Road = new Road(waypoints[i].position, waypoints[i + 1].position,
                                         waypoints[i].getOutgoingPlaneId(), previousRoad);
             road.initialize();
-            this.roads.push(road);
+            this._roads.push(road);
             previousRoad = road;
 
         }
     }
 
     public closeRoad(): void {
-        this.roads[0].previousRoad = this.roads[this.roads.length - 1];
+        this._roads[0].previousRoad = this._roads[this._roads.length - 1];
     }
 
     public get newInvalidPlanesErrors(): ConstraintsError[] {
@@ -67,7 +68,7 @@ export class Constraints {
 
     public removeRoad(roadId: number): void {
         const index: number = this.findRoadIndex(roadId);
-        this.roads.splice(index, 1);
+        this._roads.splice(index, 1);
     }
 
     public movedWaypoint(waypoint: Waypoint, newPos: THREE.Vector3): void {
@@ -87,7 +88,7 @@ export class Constraints {
     public updateInvalidPlanes(): void {
         this._previousInvalidPlanesErrors = this._invalidPlanesErrors;
         this._invalidPlanesErrors = [];
-        this.roads.forEach((road) => {
+        this._roads.forEach((road) => {
             road.initialize();
             this.validityCheck(road);
         });
@@ -102,7 +103,7 @@ export class Constraints {
         if (!road.hasValidWidthHeightRatio()) {
             this._invalidPlanesErrors.push(new SizeError(road.id));
         }
-        this.roads.forEach((element) => {
+        this._roads.forEach((element) => {
             if (element.intersects(road)) {
                 this._invalidPlanesErrors.push(new IntersectionError(road.id));
             }
@@ -111,7 +112,7 @@ export class Constraints {
 
     private findRoadIndex(id: number): number {
         let index: number = null;
-        this.roads.forEach((element, i) => {
+        this._roads.forEach((element, i) => {
             if (element.id === id) {
                 index = i;
             }
@@ -123,7 +124,7 @@ export class Constraints {
     private getRoad(id: number): Road {
         let road: Road = null;
         if (this.isDefined(id)) {
-            road = this.roads[this.findRoadIndex(id)];
+            road = this._roads[this.findRoadIndex(id)];
         }
 
         return road;

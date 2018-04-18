@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
+import * as THREE from "three";
+
 import { Car } from "./car/car";
 import { PLAYERS_NAME, USERNAME, GameState, CAR_TEXTURE, NUMBER_OF_TEXURES } from "../../constants";
-import * as THREE from "three";
 import { CarStartPosition } from "./carStartPosition";
 import { VirtualPlayerCar } from "../../virtualPlayers/virtualPlayerCar";
 import { SpeedZonesService } from "../../virtualPlayers/speed-zones.service";

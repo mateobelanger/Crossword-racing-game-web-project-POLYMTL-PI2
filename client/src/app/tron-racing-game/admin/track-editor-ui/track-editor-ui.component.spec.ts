@@ -95,7 +95,7 @@ describe("TrackEditorUiComponent", () => {
         const alphaNumerical: string = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         let acceptsAlphaNum: boolean = true;
         for (const char of alphaNumerical) {
-            if (!component.isAlphaNum(char.charCodeAt(0))) {
+            if (!component.isAlphaNumerical(char.charCodeAt(0))) {
                 acceptsAlphaNum = false;
                 break;
             }
@@ -105,7 +105,7 @@ describe("TrackEditorUiComponent", () => {
         const symbols: string = "-=`~_+[]{};\":\"\\,.<>/?";
         let acceptsSymbols: boolean = false;
         for (const char of symbols) {
-            if (component.isAlphaNum(char.charCodeAt(0))) {
+            if (component.isAlphaNumerical(char.charCodeAt(0))) {
                 acceptsSymbols = true;
                 break;
             }

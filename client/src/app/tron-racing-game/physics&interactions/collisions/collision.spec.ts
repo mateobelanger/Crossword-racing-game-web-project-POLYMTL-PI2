@@ -2,7 +2,6 @@ import { Collision } from "./collision";
 import { Car } from "../cars/car/car";
 import { CollisionType } from "../../constants";
 
-/* tslint:disable: no-magic-numbers */
 describe("Collision", () => {
 
     const car1: Car = new Car();

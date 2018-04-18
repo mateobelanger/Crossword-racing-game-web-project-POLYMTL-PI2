@@ -19,7 +19,7 @@ export const POINT: string = "point";
 export const EDITOR_LAND_WIDTH: number = 1000;
 export const EDITOR_LAND_HEIGHT: number = 800;
 
-// SKYBOX for now & others in the future
+// SKYBOX
 export const LAND_WIDTH: number = 1000;
 export const LAND_HEIGHT: number = 800;
 export const BACKGROUND_PLANE_POSITION_Y: number = -1;

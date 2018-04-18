@@ -1,9 +1,11 @@
 const MILLISECONDS_TO_HUNDRETH_SECONDS: number = 10;
 
 export class UiTimer {
+
     private _id: number;
     private _totalTime: number;
     private _lapTime: number;
+
     public constructor() {
         this._totalTime = 0;
     }

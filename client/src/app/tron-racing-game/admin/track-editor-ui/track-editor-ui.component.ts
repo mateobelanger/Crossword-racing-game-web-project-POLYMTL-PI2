@@ -58,7 +58,7 @@ export class TrackEditorUiComponent implements AfterViewInit {
         }
     }
 
-    public isAlphaNum (keyCode: number): boolean {
+    public isAlphaNumerical (keyCode: number): boolean {
         return NameValidator.isAlphaNumerical(keyCode);
     }
 

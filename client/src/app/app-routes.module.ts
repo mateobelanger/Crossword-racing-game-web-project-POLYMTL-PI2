@@ -17,17 +17,17 @@ import { LobbyComponent } from "./crossword-game/lobby/lobby.component";
 import { TrackEditorUiComponent } from "./tron-racing-game/admin/track-editor-ui/track-editor-ui.component";
 
 export const appRoutes: Routes = [
-  { path : "", redirectTo: "homepage", pathMatch: "full" },
-  { path : "homepage", component: HomepageComponent },
-  { path : "crossword-game", component: HomeComponent},
-  { path : "crossword-game/create-multiplayer-game", component: MultiplayerConfigurationComponent},
-  { path : "crossword-game/lobby", component: LobbyComponent},
-  { path : "crossword-game/selectDifficulty", component: SoloConfigurationComponent },
-  { path : "crossword-game/:difficulty/ui", component: GameUiComponent },
-  { path : "racing-game", component: TrackListComponent },
-  { path : "admin", component: AdminComponent },
-  { path : "admin/track-editor/:trackName", component: TrackEditorUiComponent },
-  { path : "racing-game-scene/:trackName/:difficulty", component: GameFrameComponent },
+    { path : "", redirectTo: "homepage", pathMatch: "full" },
+    { path : "homepage", component: HomepageComponent },
+    { path : "crossword-game", component: HomeComponent},
+    { path : "crossword-game/create-multiplayer-game", component: MultiplayerConfigurationComponent},
+    { path : "crossword-game/lobby", component: LobbyComponent},
+    { path : "crossword-game/selectDifficulty", component: SoloConfigurationComponent },
+    { path : "crossword-game/:difficulty/ui", component: GameUiComponent },
+    { path : "racing-game", component: TrackListComponent },
+    { path : "admin", component: AdminComponent },
+    { path : "admin/track-editor/:trackName", component: TrackEditorUiComponent },
+    { path : "racing-game-scene/:trackName/:difficulty", component: GameFrameComponent },
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);

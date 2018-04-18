@@ -4,7 +4,7 @@ import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from "three";
 const DEFAULT_VOLUME_VALUE: number = 0.5;
 
 interface ISound {
-    path: string;       /* Id to distinguish between different Audio objects */
+    path: string;       // Id to distinguish between different Audio objects
     audio: Audio;
 }
 

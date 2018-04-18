@@ -4,6 +4,7 @@ import { Point } from "./point";
 
 describe("point", () => {
     let point: Point;
+
     beforeEach(() => {
         point = new Point( new THREE.Vector3(8, 1, 87));
     });

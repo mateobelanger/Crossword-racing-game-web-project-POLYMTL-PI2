@@ -21,12 +21,12 @@ export const DEFAULT_GEAR_RATIOS: number[] = [
 export class Engine {
     private _currentGear: number;
     private _rpm: number;
-    private gearRatios: number[];
-    private driveRatio: number;
-    private downshiftRPM: number;
-    private minimumRPM: number;
-    private shiftRPM: number;
-    private transmissionEfficiency: number;
+    private _gearRatios: number[];
+    private _driveRatio: number;
+    private _downshiftRPM: number;
+    private _minimumRPM: number;
+    private _shiftRPM: number;
+    private _transmissionEfficiency: number;
 
     public get currentGear(): number {
         return this._currentGear;
@@ -62,15 +62,15 @@ export class Engine {
             transmissionEfficiency = DEFAULT_TRANSMISSION_EFFICIENCY;
         }
 
-        this.gearRatios = gearRatios;
-        this.driveRatio = driveRatio;
-        this.downshiftRPM = downshiftRPM;
-        this.minimumRPM = minimumRpm;
-        this.shiftRPM = shiftRPM;
-        this.transmissionEfficiency = transmissionEfficiency;
+        this._gearRatios = gearRatios;
+        this._driveRatio = driveRatio;
+        this._downshiftRPM = downshiftRPM;
+        this._minimumRPM = minimumRpm;
+        this._shiftRPM = shiftRPM;
+        this._transmissionEfficiency = transmissionEfficiency;
 
         this._currentGear = 0;
-        this._rpm = this.minimumRPM;
+        this._rpm = this._minimumRPM;
     }
 
     public update(speed: number, wheelRadius: number): void {
@@ -79,7 +79,7 @@ export class Engine {
     }
 
     public getDriveTorque(): number {
-        return this.getTorque() * this.driveRatio * this.gearRatios[this.currentGear] * this.transmissionEfficiency;
+        return this.getTorque() * this._driveRatio * this._gearRatios[this.currentGear] * this._transmissionEfficiency;
     }
 
     private handleTransmission(speed: number, wheelRadius: number): void {
@@ -104,8 +104,8 @@ export class Engine {
 
         const wheelAngularVelocity: number = speed / wheelRadius;
         // tslint:disable-next-line: no-magic-numbers
-        let rpm: number = (wheelAngularVelocity / (Math.PI * 2)) * MIN_TO_SEC * this.driveRatio * this.gearRatios[this._currentGear];
-        rpm = rpm < this.minimumRPM ? this.minimumRPM : rpm;
+        let rpm: number = (wheelAngularVelocity / (Math.PI * 2)) * MIN_TO_SEC * this._driveRatio * this._gearRatios[this._currentGear];
+        rpm = rpm < this._minimumRPM ? this._minimumRPM : rpm;
 
         return rpm > DEFAULT_MAX_RPM ? DEFAULT_MAX_RPM : rpm;
 
@@ -125,10 +125,10 @@ export class Engine {
     }
 
     private shouldShift(): boolean {
-        return this._rpm > this.shiftRPM && this._currentGear < this.gearRatios.length - 1;
+        return this._rpm > this._shiftRPM && this._currentGear < this._gearRatios.length - 1;
     }
 
     private shouldDownshift(): boolean {
-        return this._rpm <= this.downshiftRPM && this._currentGear > 0;
+        return this._rpm <= this._downshiftRPM && this._currentGear > 0;
     }
 }

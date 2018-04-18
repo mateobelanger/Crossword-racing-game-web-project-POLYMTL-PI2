@@ -1,30 +1,31 @@
 <div class="resultTable background">
-  <div class="clearfix">
-    <li class="tableTitleBlock left">
-      <h4 class="trackName">Podium</h4>
-    </li>
-  </div>
-
-  <div class="resultsBlock container">
-
-    <div *ngIf="isNewBestTime()">
-      <br/>
-      <br/>
-      <h4>Congratulation, you have scored one of the top 5 times on this track!</h4>
-      <br/>
-      <p>Enter Your Name: </p>
-
-      <input [(ngModel)]="playerName" (keyup)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" class="form-control"type="text" required minlength="1" maxlength="10" autofocus />
-
+    <div class="clearfix">
+            <li class="tableTitleBlock left">
+                <h4 class="trackName">Podium</h4>
+            </li>
     </div>
 
-    <div *ngIf="!isNewBestTime()">
-      You still need a bit of pratice to make it in the top 5 times of this track!
-    </div>
-  </div>
+    <div class="resultsBlock container">
 
-  <div class="tableFooter clearfix background">
-    <div class="buttons btn-sm col-2" (click)="saveUserName()">Next</div>
-    <div class="buttons btn-sm col-2" (click)="displayResultTable()">Previous</div>
-  </div>
+            <div *ngIf="isNewBestTime()">
+                <br/>
+                <br/>
+                <h4>Congratulation, you have scored one of the top 5 times on this track!</h4>
+                <br/>
+                <p>Enter Your Name: </p>
+
+                <input [(ngModel)]="playerName" (keyup)="$event.stopPropagation()" (keydown)="$event.stopPropagation()" class="form-control"
+                    type="text" required minlength="1" maxlength="10" autofocus />
+
+            </div>
+
+            <div *ngIf="!isNewBestTime()">
+                You still need a bit of pratice to make it in the top 5 times of this track!
+            </div>
+    </div>
+
+    <div class="tableFooter clearfix background">
+            <div class="buttons btn-sm col-2" (click)="saveUserName()">Next</div>
+            <div class="buttons btn-sm col-2" (click)="displayResultTable()">Previous</div>
+    </div>
 </div>

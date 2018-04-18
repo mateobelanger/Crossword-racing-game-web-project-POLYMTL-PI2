@@ -1,8 +1,9 @@
+import * as THREE from "three";
 import { Waypoint } from "../../../tracks/trackData/waypoint";
 import { Constraints } from "./constraints";
-import * as THREE from "three";
 
-// tslint:disable: no-magic-numbers
+const NUMBER_OF_WAYPOINTS: number = 10;
+
 describe("ConstraintsHandler", () => {
 
     let waypoints: Waypoint[] = [];
@@ -10,8 +11,8 @@ describe("ConstraintsHandler", () => {
     let waypoint: Waypoint;
 
     beforeEach( () => {
-        for (let i: number = 0; i < 10 ; i++) {
-            waypoint = new Waypoint(new THREE.Vector3(i * 10, 0, 0));
+        for (let i: number = 0; i < NUMBER_OF_WAYPOINTS ; i++) {
+            waypoint = new Waypoint(new THREE.Vector3(i * NUMBER_OF_WAYPOINTS, 0, 0));
             waypoint.bindOutgoingPlane(i);
             waypoints.push(waypoint);
         }
