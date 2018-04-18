@@ -29,7 +29,7 @@
     font-size: 0px;
     pointer-events: none;
 
-    /* hide text behind black cells when ctrl-a, dont touch */
+    /* hide text behind black cells when ctrl-a */
     text-indent: 100%;
     white-space: nowrap;
     overflow: hidden;
