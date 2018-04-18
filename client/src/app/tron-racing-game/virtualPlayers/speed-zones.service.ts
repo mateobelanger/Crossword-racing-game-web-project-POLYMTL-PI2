@@ -64,7 +64,7 @@ export class SpeedZonesService {
 
   private createTrackSpeedZone(playerSkill: VirtualPlayerDifficulty, angle: number): TrackSegmentSpeed {
       return {cornerSpeed: playerSkill.cornerSpeed() * this.cornerSlowDownFactor(angle),
-              defaultSpeed: playerSkill.defaultSpeed() * this.cornerSlowDownFactor(angle)};
+              defaultSpeed: playerSkill.defaultSpeed()};
   }
 
   private cornerSlowDownFactor(angle: number): number {

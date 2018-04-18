@@ -17,17 +17,15 @@ export class VirtualPlayerCar extends Car {
     private speedModifier: number;
     private directionModifier: number;
     private gameState: GameState;
-    private aiPlayerName: string;
 
     public constructor( playerSkill: VirtualPlayerDifficulty,
-                        name: string,
+                        private aiPlayerName: string,
                         private speedZonesService: SpeedZonesService,
                         private raceProgressionService: RaceProgressionHandlerService) {
         super();
-        this.aiPlayerName = name;
         this.gameState = GameState.COUTNDOWN;
-        this.speedModifier = (Math.random() * MAX_SPEED_MOFIFIER - (MAX_SPEED_MOFIFIER / 2)) + 1;
         this.setDirectionModifier(playerSkill);
+        this.setSpeedModifier();
     }
 
     public update(detltaTime: number): void {
@@ -98,6 +96,10 @@ export class VirtualPlayerCar extends Car {
 
     private applyDirectionModifier(vector: THREE.Vector3): THREE.Vector3 {
         return vector.applyAxisAngle(ROTATION_AXIS, this.directionModifier);
+    }
+
+    private setSpeedModifier(): void {
+        this.speedModifier = (Math.random() * MAX_SPEED_MOFIFIER - (MAX_SPEED_MOFIFIER / 2)) + 1;
     }
 
     private setDirectionModifier( playerSkill: VirtualPlayerDifficulty ): void {
