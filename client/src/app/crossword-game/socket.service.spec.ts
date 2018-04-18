@@ -13,6 +13,7 @@ import { GameStateService } from "./game-state.service";
 import { SelectionStateService } from "./selection-state/selection-state.service";
 import { GridWord, Direction } from "../../../../common/crosswordsInterfaces/word";
 import { Difficulty, PlayerType } from "../../../../common/constants";
+import { CrosswordGame } from "../../../../common/crosswordsInterfaces/crosswordGame";
 
 describe("SocketService", () => {
 
@@ -85,6 +86,22 @@ describe("SocketService", () => {
         socketService.game.validatedWords[PlayerType.HOST].push(aWord[0]);
 
         expect(socketService.game.areAllWordsValidated).toBeTruthy();
+    }));
+
+    it("updateValidatedWord should sync the local validated words with the game received",
+       inject([SocketService], (service: SocketService) => {
+        const words: GridWord[] = [];
+        words.push(word);
+        const game: CrosswordGame = new CrosswordGame("test", "test", "test", Difficulty.EASY, words);
+        socketService.game = game;
+
+        const expectedValidatedWords: GridWord[][] = [[word], []];
+        game.validatedWords = expectedValidatedWords;
+
+        socketService["updateValidatedWord"](game);
+
+        expect(socketService.game.validatedWords).toEqual(expectedValidatedWords);
+
     }));
 
 });
