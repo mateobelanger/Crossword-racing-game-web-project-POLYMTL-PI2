@@ -23,4 +23,8 @@ export class UserGridService {
         }
     }
 
+    public isEmptyCell(row: number, column: number): boolean {
+        return this.userGrid[row][column] === "";
+    }
+
 }

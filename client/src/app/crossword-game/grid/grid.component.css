@@ -1,8 +1,3 @@
-#header {
-    background-color: #64b0a1;
-    cursor: default !important;
-}
-
 .localValidatedCell {
     background-color: #62a8ca !important;
     color: white !important;
@@ -61,3 +56,14 @@
 .bothSelected {
     border-image: url("../../../assets/grid/dashed.jpg") 1 1 1 1;
 }
+
+.header {
+    background-color: #528f83;
+    cursor: default !important;
+}
+
+#header {
+    background-color: #528f83 !important;
+    cursor: default !important;
+}
+

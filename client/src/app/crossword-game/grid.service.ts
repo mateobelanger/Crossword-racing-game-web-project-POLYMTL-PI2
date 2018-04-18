@@ -6,6 +6,7 @@ import { ValidatorService } from "./validator.service";
 import { SelectionService } from "./selection/selection.service";
 import { UserGridService } from "./user-grid.service";
 import { NameValidator } from "../../../../common/nameValidator";
+import { Subject } from "rxjs/Subject";
 
 const KEY_BACKSPACE: number = 8;
 const KEY_DELETE: number = 46;
@@ -24,6 +25,10 @@ export class GridService {
         this.fillGrid();
     }
 
+    public get definitionSelected(): Subject<void> {
+        return this.selectionService.definitionSelected;
+    }
+
     public keyDown(keyCode: number, row: number, column: number): boolean {
         if (NameValidator.isAlphabetical(keyCode)) {
             return true;
@@ -35,20 +40,11 @@ export class GridService {
     }
 
     public keyUp(row: number, column: number): void {
-        if (this.selectionService.selectedWord.direction === Direction.HORIZONTAL &&
-            this.selectionService.selectedWord.column + this.selectionService.selectedWord.value.length - 1 !== column) {
-            this.focusOnSelectedWord();
-
-        } else if (this.selectionService.selectedWord.row + this.selectionService.selectedWord.value.length - 1 !== row) {
-            this.focusOnSelectedWord();
-        }
-
         this.validatorService.updateValidatedWords(this.userGridService.userGrid);
     }
 
     public selectWord(row: number, column: number): void {
         this.selectionService.selectWord(row, column);
-        this.focusOnSelectedWord();
     }
 
     public isHostSelectedWord(row: number, column: number): boolean {
@@ -71,10 +67,6 @@ export class GridService {
 
     public isBothSelectedWord(row: number, column: number): boolean {
         return this.isGuestSelectedWord(row, column) && this.isHostSelectedWord(row, column);
-    }
-
-    public focusOnSelectedWord(): void {
-        this.focusOnCell(this.idOfFirstEmptyCell());
     }
 
     public generateId (row: number, column: number): number {
@@ -110,24 +102,7 @@ export class GridService {
         return this.validatorService.isGuestValidatedCell(row, column);
     }
 
-    private backspace(row: number, column: number): void {
-        if (this.userGridService.userGrid[row][column] === "") {
-            const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
-            this.userGridService.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
-            this.focusOnSelectedWord();
-        } else {
-            this.userGridService.userGrid[row][column] = "";
-        }
-    }
-
-    private focusOnCell(id: number): void {
-        const input: HTMLElement = document.getElementById(id.toString());
-        if (input) {
-            input.focus();
-        }
-    }
-
-    private idOfFirstEmptyCell(): number {
+    public idOfFirstEmptyCell(): number {
         let row: number = this.selectionService.selectedWord.row;
         let column: number = this.selectionService.selectedWord.column;
 
@@ -136,12 +111,27 @@ export class GridService {
                 column = this.selectionService.selectedWord.column + i :
                 row = this.selectionService.selectedWord.row + i;
 
-            if (this.userGridService.userGrid[row][column] === "") {
+            if (this.userGridService.isEmptyCell(row, column)) {
                 break;
             }
         }
 
         return this.generateId(row, column);
+    }
+
+    public isEmptyCell(row: number, column: number): boolean {
+        return this.userGridService.isEmptyCell(row, column);
+    }
+
+    private backspace(row: number, column: number): void {
+        if (this.userGridService.isEmptyCell(row, column)) {
+            const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
+            this.userGridService.userGrid[row][column] = "";
+            this.userGridService.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
+            // this.focusOnSelectedWord();
+        } else {
+            this.userGridService.userGrid[row][column] = "";
+        }
     }
 
     private positionOfLastUnvalidatedCell(row: number, column: number): number[] {

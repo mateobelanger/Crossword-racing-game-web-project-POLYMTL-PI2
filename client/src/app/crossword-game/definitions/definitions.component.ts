@@ -1,8 +1,9 @@
 import { Component } from "@angular/core";
 import { ValidatorService } from "../validator.service";
-import { GridService } from "../grid.service";
+// TODO : import { GridService } from "../grid.service";
 import { SelectionService } from "../selection/selection.service";
 import { DefinitionsService } from "./definitions.service";
+
 
 @Component({
     selector: "app-definitions",
@@ -14,14 +15,13 @@ export class DefinitionsComponent {
 
     public constructor(private selectionService: SelectionService,
                        private validatorService: ValidatorService,
-                       private gridService: GridService,
                        private definitionsService: DefinitionsService) {
 
     }
 
     public onSelect(definition: string): void {
         this.selectionService.definition = definition;
-        this.gridService.focusOnSelectedWord();
+        // this.gridService.focusOnSelectedWord();
     }
 
     public get horizontalDefinitions(): string[][] {
