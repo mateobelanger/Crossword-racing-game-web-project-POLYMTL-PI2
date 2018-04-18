@@ -1,33 +1,35 @@
 import { Injectable } from "@angular/core";
 import { RaceProgression } from "./raceProgression";
-import { MAX_N_LAPS, USERNAME } from "../../constants";
+import { USERNAME } from "../../constants";
 import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class RaceProgressionHandlerService {
 
-    private _playersProgression: [string, RaceProgression][];
+    private _playersProgression: {[playerName: string]: RaceProgression};
     private _userProgression: RaceProgression;
     private _lapDoneStream$: Subject<string>;
     private _raceDoneStream$: Subject<string>;
 
     public constructor() {
-        this._playersProgression = [];
+        this._playersProgression = {};
         this._lapDoneStream$ = new Subject();
         this._raceDoneStream$ = new Subject();
         this._userProgression = new RaceProgression();
     }
 
-    public async initialize(carsPosition: [string, THREE.Vector3][], waypoints: [number, number, number][]): Promise<void> {
+    public async initialize(carsPosition: {[playerName: string]: THREE.Vector3}, waypoints: [number, number, number][]): Promise<void> {
         return new Promise<void>( (resolve: Function, reject: Function) => {
-            carsPosition.forEach( (carPosition: [string, THREE.Vector3]) => {
-                if (carPosition[0] === USERNAME) {
-                    this._userProgression = new RaceProgression(carPosition[1], waypoints);
-                    this._playersProgression.push([carPosition[0], this._userProgression]);
-                } else {
-                    this._playersProgression.push([carPosition[0], new RaceProgression(carPosition[1], waypoints)]);
+            for (const playerName in carsPosition) {
+                if (carsPosition.hasOwnProperty(playerName)) {
+                    if (playerName === USERNAME) {
+                        this._userProgression = new RaceProgression(carsPosition[playerName], waypoints);
+                        this._playersProgression[playerName] = this._userProgression;
+                    } else {
+                        this._playersProgression[playerName] = new RaceProgression(carsPosition[playerName], waypoints);
+                    }
                 }
-            });
+            }
             this.initializeLapDoneStream();
             this.initializeRaceDoneStream();
             resolve();
@@ -35,15 +37,11 @@ export class RaceProgressionHandlerService {
     }
 
     public update(): void {
-        this._playersProgression.forEach((playerProgression: [string, RaceProgression]) => {
-            if (playerProgression[1].nLap < MAX_N_LAPS) {
-                playerProgression[1].update();
+        for (const playerName in this._playersProgression) {
+            if (this._playersProgression.hasOwnProperty(playerName)) {
+                    this._playersProgression[playerName].update();
             }
-        });
-    }
-
-    public get playersProgression(): [string, RaceProgression][] {
-        return this._playersProgression;
+        }
     }
 
     public get lapDoneStream$(): Subject<string> {
@@ -60,21 +58,21 @@ export class RaceProgressionHandlerService {
 
     public get userPosition(): number {
         let position: number = 1;
-        this._playersProgression.forEach((player) => {
-            const playerProgression: RaceProgression = player[1];
-            if (playerProgression.nLap > this.user.nLap) {
-                position++;
-            } else if (playerProgression.nLap === this.user.nLap) {
-                if (playerProgression.nextWaypointIndex > this.user.nextWaypointIndex) {
+        for (const playerName in this._playersProgression) {
+            if (this._playersProgression.hasOwnProperty(playerName)) {
+                if (this._playersProgression[playerName].nLap > this.user.nLap) {
                     position++;
-                } else if (playerProgression.nextWaypointIndex === this.user.nextWaypointIndex) {
-                    if (playerProgression.distanceToNextWaypoint() < this.user.distanceToNextWaypoint()) {
+                } else if (this._playersProgression[playerName].nLap === this.user.nLap) {
+                    if (this._playersProgression[playerName].nextWaypointIndex > this.user.nextWaypointIndex) {
                         position++;
+                    } else if (this._playersProgression[playerName].nextWaypointIndex === this.user.nextWaypointIndex) {
+                        if (this._playersProgression[playerName].distanceToNextWaypoint() < this.user.distanceToNextWaypoint()) {
+                            position++;
+                        }
                     }
                 }
             }
-
-        });
+        }
 
         return position;
     }
@@ -84,33 +82,40 @@ export class RaceProgressionHandlerService {
     }
 
     public get unfinishedPlayers(): [string, RaceProgression][] {
-        return this._playersProgression.filter( (playerProgression) => playerProgression[1].nLap < MAX_N_LAPS );
-    }
+        const unfinishedPlayers: [string, RaceProgression][] = [];
+        for (const key in this._playersProgression) {
+            if (this._playersProgression.hasOwnProperty(key)) {
+                if (this._playersProgression[key].isFinished) {
+                    unfinishedPlayers.push([key, this._playersProgression[key]]);
+                }
+            }
+        }
 
-    public get finishedPlayers(): [string, RaceProgression][] {
-        return this._playersProgression.filter( (playerProgression) => playerProgression[1].nLap === MAX_N_LAPS );
+        return unfinishedPlayers;
     }
 
     public getPlayerProgression(playerName: string): RaceProgression {
-        return this._playersProgression.find((player) => {
-            return player[0] === playerName;
-        })[1];
+        return this._playersProgression[playerName];
     }
 
     private initializeLapDoneStream(): void {
-        this._playersProgression.forEach( (playerProgression: [string, RaceProgression]) => {
-            playerProgression[1].lapDone$.subscribe( () => {
-                this._lapDoneStream$.next(playerProgression[0]);
-            });
-        });
+        for (const playerName in this._playersProgression) {
+            if (this._playersProgression.hasOwnProperty(playerName)) {
+                this._playersProgression[playerName].lapDone$.subscribe( () => {
+                    this._lapDoneStream$.next(playerName);
+                });
+            }
+        }
     }
 
     private initializeRaceDoneStream(): void {
-        this._playersProgression.forEach( (playerProgression: [string, RaceProgression]) => {
-            playerProgression[1].endOfRace$.subscribe( () => {
-                this._raceDoneStream$.next(playerProgression[0]);
-            });
-        });
+        for (const playerName in this._playersProgression) {
+            if (this._playersProgression.hasOwnProperty(playerName)) {
+                this._playersProgression[playerName].endOfRace$.subscribe( () => {
+                    this._raceDoneStream$.next(playerName);
+                });
+            }
+        }
     }
 
 }

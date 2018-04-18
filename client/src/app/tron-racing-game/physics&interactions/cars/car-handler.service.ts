@@ -14,7 +14,7 @@ import { W_KEYCODE, A_KEYCODE, S_KEYCODE, D_KEYCODE } from "../../../../../../co
 @Injectable()
 export class CarHandlerService {
 
-    private _cars: {[name: string]: Car};
+    private _cars: {[playerName: string]: Car};
     public constructor( private speedZoneService: SpeedZonesService,
                         private raceProgressionService: RaceProgressionHandlerService,
                         private textureLoader: TextureLoaderService,
@@ -27,42 +27,42 @@ export class CarHandlerService {
         await this.initializeCars();
     }
 
-    public get cars(): {[name: string]: Car} {
+    public get cars(): {[playerName: string]: Car} {
         return this._cars;
     }
 
     public update(deltaTime: number): void {
-        for (const key in this._cars) {
-            if (this._cars.hasOwnProperty(key)) {
-                this._cars[key].update(deltaTime);
+        for (const playerName in this._cars) {
+            if (this._cars.hasOwnProperty(playerName)) {
+                this._cars[playerName].update(deltaTime);
             }
         }
     }
 
     public get carsOnly(): Car[] {
         const cars: Car[] = [];
-        for (const key in this._cars) {
-            if (this._cars.hasOwnProperty(key)) {
-                cars.push(this._cars[key]);
+        for (const playerName in this._cars) {
+            if (this._cars.hasOwnProperty(playerName)) {
+                cars.push(this._cars[playerName]);
             }
         }
 
         return cars;
     }
 
-    public get playersPosition(): [string, THREE.Vector3][] {
-        const playersPosition: [string, THREE.Vector3][] = [];
-        for (const key in this._cars) {
-            if (this._cars.hasOwnProperty(key)) {
-                playersPosition.push([key, this._cars[key].mesh.position]);
+    public get playersPosition(): {[playerName: string]: THREE.Vector3} {
+        const playersPosition: {[playerName: string]: THREE.Vector3} = {};
+        for (const playerName in this._cars) {
+            if (this._cars.hasOwnProperty(playerName)) {
+                playersPosition[playerName] = this._cars[playerName].mesh.position;
             }
         }
 
         return playersPosition;
     }
 
-    public getCar(name: string): Car {
-        return this._cars[name];
+    public getCar(playerName: string): Car {
+        return this._cars[playerName];
     }
 
     public moveCarsToStart(waypoints: [number, number, number ][]): void {
@@ -71,17 +71,17 @@ export class CarHandlerService {
     }
 
     public startRace(): void {
-        for (const key in this._cars) {
-            if (this._cars.hasOwnProperty(key)) {
-                this._cars[key].changeState(GameState.RACE);
+        for (const playerName in this._cars) {
+            if (this._cars.hasOwnProperty(playerName)) {
+                this._cars[playerName].changeState(GameState.RACE);
             }
         }
     }
 
     public endRace(): void {
-        for (const key in this._cars) {
-            if (this._cars.hasOwnProperty(key)) {
-                this._cars[key].changeState(GameState.END);
+        for (const playerName in this._cars) {
+            if (this._cars.hasOwnProperty(playerName)) {
+                this._cars[playerName].changeState(GameState.END);
             }
         }
     }
@@ -122,29 +122,29 @@ export class CarHandlerService {
         };
     }
 
-    private turnRightInput(cars: {[name: string]: Car}): Function {
+    private turnRightInput(cars: {[playerName: string]: Car}): Function {
         return (isKeyDown: boolean) => {
             isKeyDown ? this.cars[USERNAME].steerRight() : this.cars[USERNAME].releaseSteering();
         };
     }
 
     private fillCarArray( playerSkill: VirtualPlayerDifficulty ): void {
-        PLAYERS_NAME.forEach( (name: string) => {
-            const newCar: Car = name !== USERNAME ?
-                        new VirtualPlayerCar(playerSkill, name, this.speedZoneService, this.raceProgressionService) :
+        PLAYERS_NAME.forEach( (playerName: string) => {
+            const newCar: Car = playerName !== USERNAME ?
+                        new VirtualPlayerCar(playerSkill, playerName, this.speedZoneService, this.raceProgressionService) :
                         new Car();
 
-            this._cars[name] = newCar;
+            this._cars[playerName] = newCar;
         });
     }
 
     private async initializeCars(): Promise<void> {
         let carTexture: CAR_TEXTURE = CAR_TEXTURE.LIGHT_BLUE;
-        for (const key in this._cars) {
-            if (this._cars.hasOwnProperty(key)) {
+        for (const playerName in this._cars) {
+            if (this._cars.hasOwnProperty(playerName)) {
                 await this.textureLoader.loadCarTexture(carTexture++).then(
                     (texture: THREE.Object3D) => {
-                        this._cars[key].init(texture);
+                        this._cars[playerName].init(texture);
                     });
             }
         }

@@ -41,8 +41,8 @@ export class RaceProgression {
         return this._nLap;
     }
 
-    public get remainingNLap(): number {
-        return MAX_N_LAPS - this._nLap;
+    public isFinished(): boolean {
+        return this._nLap === MAX_N_LAPS;
     }
 
     public get lapDone$(): Subject<void> {
@@ -97,12 +97,14 @@ export class RaceProgression {
     }
 
     public update(): void {
-        if (this.reachedNextWaypoint()) {
-            this.incrementNextWaypointPosition();
-            this.updateNLap();
-            this.updateEndOfRace();
-        } else if (this.reachedPreviousWaypoint()) {
-            this.decrementNextWaypointPosition();
+        if (this.nLap < MAX_N_LAPS) {
+            if (this.reachedNextWaypoint()) {
+                this.incrementNextWaypointPosition();
+                this.updateNLap();
+                this.updateEndOfRace();
+            } else if (this.reachedPreviousWaypoint()) {
+                this.decrementNextWaypointPosition();
+            }
         }
     }
 
@@ -185,7 +187,6 @@ export class RaceProgression {
     private updateEndOfRace(): void {
         if (this.nLap === MAX_N_LAPS) {
             this._endOfRace$.next();
-            this._endOfRace$.complete();
             this._lapDone$.complete();
         }
     }

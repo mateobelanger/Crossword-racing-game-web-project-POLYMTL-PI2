@@ -135,7 +135,9 @@ export class RaceDataHandlerService {
     private doneRace(): void {
         this._timer.stop();
         this._carsHandlerService.endRace();
+        console.log("1")
         this.simulateEndRaceResult();
+        console.log("2")
         this.endGameService.endGame(this._raceProgressionService.isUserFirst())
             .subscribe(() => {
                 this.updateITrackOnServer();
@@ -164,6 +166,7 @@ export class RaceDataHandlerService {
 
     private subscribeToEndOfRace(): void {
         this._raceProgressionService.raceDoneStream$.subscribe((name: string) => {
+            console.log("signal recu");
             if (name === USERNAME) {
                 this.doneRace();
             } else {
