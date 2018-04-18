@@ -139,9 +139,9 @@ describe("TrackEditorUiComponent", () => {
             fixture.detectChanges();
             component.track = fakeTrack;
 
-            fixture.whenStable().then(() => {       // wait for async saveTrack
+            fixture.whenStable().then(async () => {       // wait for async saveTrack
                 fixture.detectChanges();
-                component.saveTrack();
+                await component.saveTrack();
                 expect(spySaveTrack.calls.any()).toBe(true, "saveTrack called");
             }).catch((error: Error) => { console.error(error); });
         });

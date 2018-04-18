@@ -1,11 +1,20 @@
 import { Injectable } from "@angular/core";
-import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from "three"; 
+import { Audio, AudioLoader, AudioListener, AudioBuffer, Camera } from "three";
 
 const DEFAULT_VOLUME_VALUE: number = 0.5;
 
 interface ISound {
     path: string;       /* Id to distinguish between different Audio objects */
     audio: Audio;
+}
+
+// null object of THREE.Audio
+class NullAudio extends Audio {
+    public play(): Audio { return this; }
+    public stop(): Audio { return this; }
+    public setVolume(volume: number): Audio { return this; }
+    public setPlaybackRate(value: number): Audio { return this; }
+    public setLoop(value: boolean): void {}
 }
 
 @Injectable()
@@ -83,13 +92,4 @@ export class AudioService {
             () => { console.error("Error while loading sound."); }
         );
     }
-}
-
-// null object of THREE.Audio
-class NullAudio extends Audio {
-    public play(): Audio { return this; }
-    public stop(): Audio { return this; }
-    public setVolume(volume: number): Audio { return this; }
-    public setPlaybackRate(value: number): Audio { return this; }
-    public setLoop(value: boolean): void {}
 }

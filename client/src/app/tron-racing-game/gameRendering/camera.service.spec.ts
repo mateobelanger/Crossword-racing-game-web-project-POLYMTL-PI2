@@ -28,13 +28,12 @@ describe("CameraService", () => {
     let target: THREE.Object3D = new THREE.Object3D();
     let initialCamera: THREE.Camera = new THREE.Camera();
 
-
     beforeEach(async (done: () => void) => {
         TestBed.configureTestingModule({
             providers: [CameraService]
         });
         car = new Car(new MockEngine());
-        await car.init();
+        car.init();
 
         target = car.mesh;
 
@@ -65,7 +64,6 @@ describe("CameraService", () => {
         expect(cameraService.orthographicCamera.position.y).toBe(ORTHOGRAPHIC_INITIAL_POSITION_Y);
         expect(cameraService.orthographicCamera.position.z).toBe(target.position.z);
     });
-
 
     it("should have the expected position after car moved for perspective camera and target", () => {
         car.mesh.position.x = DELTA_X;

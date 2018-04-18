@@ -1,17 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Object3D, ObjectLoader } from 'three';
+import { Injectable } from "@angular/core";
+import { Object3D, ObjectLoader } from "three";
 import { CAR_TEXTURE } from "../../constants";
 
 const CAR_TEXTURE_FOLDER: string = "../../../../assets/camero/";
 
 @Injectable()
 export class TextureLoaderService {
-
     public constructor() { }
 
-
-
-    public loadCarTexture(carColor: CAR_TEXTURE): Promise<Object3D> {
+    public async loadCarTexture(carColor: CAR_TEXTURE): Promise<Object3D> {
         return this.load(this.carTextureName(carColor));
     }
 
@@ -32,7 +29,7 @@ export class TextureLoaderService {
         }
     }
 
-    private load( textureName: string ): Promise<Object3D> {
+    private async load( textureName: string ): Promise<Object3D> {
         return new Promise<Object3D>((resolve, reject) => {
             const loader: ObjectLoader = new ObjectLoader();
             loader.load( CAR_TEXTURE_FOLDER + textureName, (object) => {
