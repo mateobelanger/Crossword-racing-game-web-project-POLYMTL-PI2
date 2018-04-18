@@ -33,11 +33,11 @@ describe("Timer", () => {
     });
 
     it("should reset", () => {
-        timer.start();
-        wait( SECONDS );
-        timer.reset();
-        expect(timer.millisecondsElapsed).toEqual(0);
-    });
+         timer.start();
+         wait( SECONDS );
+         timer.reset();
+         expect(timer.millisecondsElapsed).toEqual(0);
+     });
 
     it("should stop and continue", () => {
         timer.start();

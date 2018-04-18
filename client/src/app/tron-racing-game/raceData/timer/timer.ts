@@ -25,7 +25,7 @@ export class Timer {
 
     public reset(): void {
         this._pausedTime = 0;
-        this._stopped = false;
+        this._stopped = true;
     }
 
 }

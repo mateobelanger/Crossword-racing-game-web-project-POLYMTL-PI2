@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
-
 import { Car } from "./car/car";
 import { PLAYERS_NAME, USERNAME, GameState, CAR_TEXTURE } from "../../constants";
 import { CarStartPosition } from "./carStartPosition";
