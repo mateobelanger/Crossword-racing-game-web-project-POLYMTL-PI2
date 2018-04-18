@@ -80,12 +80,15 @@ describe("SocketService", () => {
         expect(socketService.gameInitialized).toEqual(new Subject());
     }));
 
-    it("end of game should be triggered when all words are validated", inject([SocketService], async (service: SocketService) => {
-        const aWord: GridWord[] = [new GridWord(0, 0, Direction.HORIZONTAL, "hello", "gudbye")];
-        socketService.game._words = aWord;
-        socketService.game.validatedWords[PlayerType.HOST].push(aWord[0]);
+    it("end of game should be triggered when all words are validated", inject([SocketService], (service: SocketService) => {
+        const aWord: GridWord = new GridWord(0, 0, Direction.HORIZONTAL, "hello", "gudbye");
+        const game: CrosswordGame = new CrosswordGame("test", "test", "test", Difficulty.EASY, [aWord]);
+        socketService.game = game;
+        socketService.game.validatedWords[PlayerType.HOST].push(aWord);
 
-        expect(socketService.game.areAllWordsValidated).toBeTruthy();
+        socketService["updateValidatedWord"](socketService.game);
+
+        expect(socketService["gameStateService"].isEndOfGame).toBe(true);
     }));
 
     it("updateValidatedWord should sync the local validated words with the game received",

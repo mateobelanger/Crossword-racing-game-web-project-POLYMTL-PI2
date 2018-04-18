@@ -2,6 +2,10 @@ import { Difficulty, PlayerType } from "../constants";
 import { GridWord } from "../../common/crosswordsInterfaces/word";
 
 export class CrosswordGame  {
+
+    // Présence d'attributs publics car la classe agit surtout à titre d'interface.
+    // Lors des échanges serveurs les méthodes sont innaccessible il est donc impossible
+    // de passer par des attributs privés (car ce sont les getters/setters qui sont appelés)
     public roomId: string;
     public ids: string[];
     public usernames: string[];
