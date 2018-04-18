@@ -7,11 +7,13 @@ import { RaceResults } from "../../recordedTimes/raceResults";
     styleUrls: ["./time-show.component.css"]
 })
 export class TimeShowComponent {
-    public showLapsTime: boolean = false;
     @Input()
     public raceTime: RaceResults;
+    public showLapsTime: boolean;
 
-    public constructor() { }
+    public constructor() {
+        this.showLapsTime = false;
+     }
 
     public showLapTime(): void {
         if (!this.showLapsTime) {
