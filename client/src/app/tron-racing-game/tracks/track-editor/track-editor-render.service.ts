@@ -57,10 +57,7 @@ export class TrackEditorRenderService {
     }
 
     public updateRaycastMousePos(event: MouseEvent): THREE.Vector2 {
-        // tslint:disable:no-magic-numbers
-        this._mouse.x = ( event.offsetX / this._container.clientWidth ) * 2 - 1;
-        this._mouse.y = -( event.offsetY / this._container.clientHeight ) * 2 + 1;
-        // tslint:enable:no-magic-numbers
+        this.updateMousePos(event);
         this._raycaster.setFromCamera(this._mouse, this._camera);
 
         return this._mouse;
@@ -75,30 +72,9 @@ export class TrackEditorRenderService {
 
         this._raycaster = new THREE.Raycaster();
         this._mouse = new THREE.Vector2();
-        // tslint:disable:no-magic-numbers
-        this._camera = new THREE.OrthographicCamera (
-          this._container.clientWidth / -2,
-          this._container.clientWidth / 2,
-          this._container.clientHeight / 2,
-          this._container.clientHeight / -2,
-          ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
-          ORTHOGRAPHIC_CAMERA_FAR_PLANE
-        );
-        // tslint:enable:no-magic-numbers
-        this._camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
-        this._camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY);
-        this._scene.add(this.ambientLight);
-
-        this._circleHandler = new CircleHandler(this._scene);
-
-        this._planeHandler = new PlaneHandler(this._scene);
-
-        this._backgroundPlane = new BackgroundPlane(this._scene);
-
-        this._backgroundPlane.generateBackgroundPlane();
-
+        this.createCamera();
+        this.createAmbientLight();
+        this.create3DObjectHandlers();
     }
 
     private startRenderingLoop(): void {
@@ -114,4 +90,35 @@ export class TrackEditorRenderService {
         this._renderer.render(this._scene, this._camera);
     }
 
+    private createCamera(): void {
+        // tslint:disable:no-magic-numbers
+        this._camera = new THREE.OrthographicCamera (
+            this._container.clientWidth / -2,
+            this._container.clientWidth / 2,
+            this._container.clientHeight / 2,
+            this._container.clientHeight / -2,
+            ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
+            ORTHOGRAPHIC_CAMERA_FAR_PLANE
+        );
+        // tslint:enable:no-magic-numbers
+        this._camera.position.set(0, 0, INITIAL_CAMERA_POSITION_Z);
+        this._camera.lookAt(new THREE.Vector3(0, 0, 0));
+    }
+
+    private createAmbientLight(): void {
+        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY);
+        this._scene.add(this.ambientLight);
+    }
+
+    private create3DObjectHandlers(): void {
+        this._circleHandler = new CircleHandler(this._scene);
+        this._planeHandler = new PlaneHandler(this._scene);
+        this._backgroundPlane = new BackgroundPlane(this._scene);
+        this._backgroundPlane.generateBackgroundPlane();
+    }
+
+    private updateMousePos(event: MouseEvent): void {
+        this._mouse.x = ( event.offsetX / this._container.clientWidth ) * 2 - 1;
+        this._mouse.y = -( event.offsetY / this._container.clientHeight ) * 2 + 1;
+    }
 }

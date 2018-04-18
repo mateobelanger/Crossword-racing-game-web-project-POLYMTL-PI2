@@ -75,7 +75,6 @@ export class RenderService implements OnDestroy {
         }
     }
 
-    // TO DO: DOM
     private initStats(): void {
         this.stats = new Stats();
         this.stats.dom.style.position = "absolute";
@@ -89,42 +88,26 @@ export class RenderService implements OnDestroy {
         this.carHandlerService.update(timeSinceLastFrame);
 
         this.outOfBoundsHandlerService.update();
-        this.collisionHandlerService.handleCarCollisions();
+        this.collisionHandlerService.update();
 
         const carEngineVolume: number = Math.max(ENGINE_MIN_VOLUME, Math.min(ENGINE_MAX_VOLUME, this._car.rpm / DEFAULT_MAX_RPM));
         this.audioService.playSound(CAR_ENGINE_SOUND, carEngineVolume, true);
 
-        this.lastDate = Date.now();
         this.raceProgressionService.update();
+
+        this.lastDate = Date.now();
     }
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
-
         this.carHandlerService.carsOnly.forEach((car: Car) => {
             this.scene.add(car);
         });
-
-        this.cameraService.initialize(this.container, this._car.mesh);
-
-        this.inputHandler.addListener(C_KEYCODE, this.changeCamera(this.cameraService));
-        this.inputHandler.addListener(PLUS_KEYCODE, this.zoomIn(this.cameraService));
-        this.inputHandler.addListener(MINUS_KEYCODE, this.zoomOut(this.cameraService));
-        this.inputHandler.addListener(N_KEYCODE, this.switchNightAndDay(this.skyboxService, this.carHandlerService));
-
-        this.sceneLoaderService.initialize(this.scene);
-
-        this.audioService.initialize(this.cameraService.getCamera());
-
-        this.trackLoaderService.initialize(this.scene);
-
-        this.cameraService.updatePosition();
+        this.initializeServices();
     }
 
     private startRenderingLoop(): void {
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setPixelRatio(devicePixelRatio);
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+        this.initializeRenderer();
         this.lastDate = Date.now();
         this.container.appendChild(this.renderer.domElement);
         this.render();
@@ -174,5 +157,29 @@ export class RenderService implements OnDestroy {
                 }
             }
         };
+    }
+
+    private initializeRenderer(): void {
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setPixelRatio(devicePixelRatio);
+        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+
+    }
+
+    private initializeServices(): void {
+        this.cameraService.initialize(this.container, this._car.mesh);
+        this.initializeController();
+        this.sceneLoaderService.initialize(this.scene);
+        this.audioService.initialize(this.cameraService.getCamera());
+        this.trackLoaderService.initialize(this.scene);
+        this.cameraService.updatePosition();
+    }
+
+    private initializeController(): void {
+        this.inputHandler.addListener(C_KEYCODE, this.changeCamera(this.cameraService));
+        this.inputHandler.addListener(PLUS_KEYCODE, this.zoomIn(this.cameraService));
+        this.inputHandler.addListener(MINUS_KEYCODE, this.zoomOut(this.cameraService));
+        this.inputHandler.addListener(N_KEYCODE, this.switchNightAndDay(this.skyboxService, this.carHandlerService));
+
     }
 }

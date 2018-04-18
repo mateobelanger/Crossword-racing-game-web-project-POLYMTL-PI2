@@ -33,10 +33,10 @@ describe("CollisionHandlerService", () => {
         expect(service).toBeTruthy();
     }));
 
-    it("handleCarCollisions method sould have been called", inject([CollisionHandlerService], (service: CollisionHandlerService) => {
-        spyOn(collisionHandler, "handleCarCollisions");
-        collisionHandler.handleCarCollisions();
-        expect(collisionHandler.handleCarCollisions).toHaveBeenCalled();
+    it("update method sould have been called", inject([CollisionHandlerService], (service: CollisionHandlerService) => {
+        spyOn(collisionHandler, "update");
+        collisionHandler.update();
+        expect(collisionHandler.update).toHaveBeenCalled();
     }));
 
     it("initialize method sould have been called", inject([CollisionHandlerService], (service: CollisionHandlerService) => {
