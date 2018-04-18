@@ -22,7 +22,7 @@ export class CollisionHandlerService {
         this._cars = cars;
     }
 
-    public handleCarCollisions(): void {
+    public update(): void {
         this.updateCollisions();
 
         // go through all possibilities of cars colliding

@@ -27,7 +27,6 @@ export class AdminComponent implements  AfterViewInit {
     public async deleteTrack(trackName: string): Promise<void>  {
         try {
             await this.proxy.deleteTrack(trackName);
-            await this.proxy.initialize();
             this.tracks = this.proxy.tracks;
         } catch (error) {
             console.error(error);

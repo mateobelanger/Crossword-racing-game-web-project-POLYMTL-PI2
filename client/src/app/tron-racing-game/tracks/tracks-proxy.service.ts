@@ -30,13 +30,8 @@ export class TracksProxyService {
     }
 
     public async deleteTrack(trackName: string): Promise<void> {
-        const url: string = URI_MONGO_DB + "/" + trackName;
-
-        return this._http.delete<ITrackData>(url).toPromise()
-            .then(() => {
-                this._tracks.splice(1, this._tracks.indexOf(this.findTrack(trackName)));
-            })
-            .catch((error: Error) => console.error(error));
+        await this.delete(trackName);
+        await this.initialize();
     }
 
     public async saveTrack(track: ITrackData): Promise<void> {
@@ -64,4 +59,13 @@ export class TracksProxyService {
         return this._http.get<ITrackData[]>(URI_MONGO_DB).toPromise();
     }
 
+    private async delete(trackName: string): Promise<void> {
+        const url: string = URI_MONGO_DB + "/" + trackName;
+
+        return this._http.delete<ITrackData>(url).toPromise()
+            .then(() => {
+                this._tracks.splice(1, this._tracks.indexOf(this.findTrack(trackName)));
+            })
+            .catch((error: Error) => console.error(error));
+    }
 }

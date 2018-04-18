@@ -23,9 +23,13 @@ export class OutOfBoundsHandlerService {
                         private raceProgressionService: RaceProgressionHandlerService) { }
 
     public initialize(): void {
-        this.carsHandlerService.cars.forEach( (car: [string, Car]) => {
-            this._cars.push([this.raceProgressionService.getPlayerProgression(car[0]), car[1]]);
-        });
+        for (const key in this.carsHandlerService.cars) {
+            if (this.carsHandlerService.cars.hasOwnProperty(key)) {
+                this._cars.push(
+                    [this.raceProgressionService.getPlayerProgression(key),
+                     this.carsHandlerService.cars[key]]);
+            }
+        }
     }
 
     public update(): void {
@@ -42,6 +46,11 @@ export class OutOfBoundsHandlerService {
             }
             this.handleWallCollision(car, progression);
         });
+    }
+
+    public stopWatchingForCollision( car: Car): void {
+        const index: number = this._cars.findIndex((carInArray: [RaceProgression, Car]) => car === carInArray[1]);
+        this._cars.splice(index, 1);
     }
 
     private handleWallCollision(car: Car, progression: RaceProgression): void {
