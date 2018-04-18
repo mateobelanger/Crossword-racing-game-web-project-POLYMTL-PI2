@@ -22,30 +22,30 @@ const HEMISPHERE_SKY_COLOR: number = 0x000000;
 const HEMISPHERE_GROUND_COLOR: number = 0xFFFFFF;
 const HEMISPHERE_LIGHT_DISTANCE_OPACITY: number = 700;
 
-export enum SceneState { DAY, NIGHT }
+export enum _sceneState { DAY, NIGHT }
 
 @Injectable()
 export class SceneLightsService {
 
-    private scene: THREE.Scene;
-    private sceneState: SceneState;
-    private pointLights: Array<THREE.PointLight>;
-    private ambientLight: THREE.AmbientLight;
-    private hemisphereLight: THREE.HemisphereLight;
-    private directionalLight: THREE.DirectionalLight;
+    private _scene: THREE.Scene;
+    private _sceneState: _sceneState;
+    private _pointLights: Array<THREE.PointLight>;
+    private _ambientLight: THREE.AmbientLight;
+    private _hemisphereLight: THREE.HemisphereLight;
+    private _directionalLight: THREE.DirectionalLight;
 
     public constructor() {
-        this.scene = null;
-        this.pointLights = [];
-        this.ambientLight = null;
-        this.directionalLight = null;
-        this.hemisphereLight = null;
-        this.sceneState = SceneState.DAY;
+        this._scene = null;
+        this._pointLights = [];
+        this._ambientLight = null;
+        this._directionalLight = null;
+        this._hemisphereLight = null;
+        this._sceneState = _sceneState.DAY;
     }
 
-    public initialize(scene: THREE.Scene): void {
-        this.scene = scene;
-        this.pointLights  = new Array<THREE.PointLight>();
+    public initialize(_scene: THREE.Scene): void {
+        this._scene = _scene;
+        this._pointLights  = new Array<THREE.PointLight>();
         this.generateSceneLights();
     }
 
@@ -55,15 +55,15 @@ export class SceneLightsService {
     }
 
     private switchLights(): void {
-        this.ambientLight.visible = !this.ambientLight.visible;
-        this.directionalLight.visible = !this.directionalLight.visible;
-        this.pointLights.forEach((light) => {
+        this._ambientLight.visible = !this._ambientLight.visible;
+        this._directionalLight.visible = !this._directionalLight.visible;
+        this._pointLights.forEach((light) => {
             light.visible = !light.visible;
         });
     }
 
     private changeSceneState(): void {
-        this.sceneState = this.sceneState === SceneState.DAY ? SceneState.NIGHT : SceneState.DAY;
+        this._sceneState = this._sceneState === _sceneState.DAY ? _sceneState.NIGHT : _sceneState.DAY;
     }
 
     private generateSceneLights(): void {
@@ -75,22 +75,22 @@ export class SceneLightsService {
 
     private addAmbientLight(): void {
         this.generateAmbientLight();
-        this.scene.add(this.ambientLight);
+        this._scene.add(this._ambientLight);
     }
 
     private generateAmbientLight(): void {
-        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY);
+        this._ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY);
     }
 
     private addPointLights(): void {
-        this.pointLights.push(this.generatePointLight(0, 0));
-        this.pointLights.push(this.generatePointLight(middlePointX, middlePointZ));
-        this.pointLights.push(this.generatePointLight(-middlePointX, middlePointZ));
-        this.pointLights.push(this.generatePointLight(middlePointX, -middlePointZ));
-        this.pointLights.push(this.generatePointLight(-middlePointX, -middlePointZ));
+        this._pointLights.push(this.generatePointLight(0, 0));
+        this._pointLights.push(this.generatePointLight(middlePointX, middlePointZ));
+        this._pointLights.push(this.generatePointLight(-middlePointX, middlePointZ));
+        this._pointLights.push(this.generatePointLight(middlePointX, -middlePointZ));
+        this._pointLights.push(this.generatePointLight(-middlePointX, -middlePointZ));
 
-        this.pointLights.forEach((light) => {
-            this.scene.add(light);
+        this._pointLights.forEach((light) => {
+            this._scene.add(light);
         });
     }
 
@@ -106,25 +106,25 @@ export class SceneLightsService {
 
     private addDirectionalLight(): void {
         this.generateDirectionalLight();
-        this.scene.add(this.directionalLight);
+        this._scene.add(this._directionalLight);
     }
 
     private generateDirectionalLight(): void {
-        this.directionalLight = new THREE.DirectionalLight(DIRECTIONAL_LIGHT_COLOR, DIRECTIONAL_LIGHT_OPACITY);
-        this.directionalLight.position.set( 0, DIRECTIONAL_LIGHT_DISTANCE_Y, 0 );
+        this._directionalLight = new THREE.DirectionalLight(DIRECTIONAL_LIGHT_COLOR, DIRECTIONAL_LIGHT_OPACITY);
+        this._directionalLight.position.set( 0, DIRECTIONAL_LIGHT_DISTANCE_Y, 0 );
     }
 
     private addHemisphereLight(): void {
         this.generateHemisphereLight();
-        this.scene.add(this.hemisphereLight);
+        this._scene.add(this._hemisphereLight);
     }
 
     private generateHemisphereLight(): void {
-        this.hemisphereLight = new THREE.HemisphereLight(HEMISPHERE_SKY_COLOR,
-                                                         HEMISPHERE_GROUND_COLOR,
-                                                         HEMISPHERE_LIGHT_OPACITY);
+        this._hemisphereLight = new THREE.HemisphereLight(  HEMISPHERE_SKY_COLOR,
+                                                            HEMISPHERE_GROUND_COLOR,
+                                                            HEMISPHERE_LIGHT_OPACITY);
 
-        this.hemisphereLight.position.set(0, HEMISPHERE_LIGHT_DISTANCE_OPACITY, 0);
+        this._hemisphereLight.position.set(0, HEMISPHERE_LIGHT_DISTANCE_OPACITY, 0);
 
     }
 }

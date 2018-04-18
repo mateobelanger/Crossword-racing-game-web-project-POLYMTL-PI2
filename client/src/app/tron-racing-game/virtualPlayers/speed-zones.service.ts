@@ -11,9 +11,9 @@ const CORNER_ZONE: number =  WAYPOINT_RADIUS * 3;
 @Injectable()
 export class SpeedZonesService {
 
-  private speedZones: TrackSegmentSpeed[];
-  public constructor( private raceProgressionService: RaceProgressionHandlerService) {
-      this.speedZones = [];
+  private _speedZones: TrackSegmentSpeed[];
+  public constructor( private _raceProgressionService: RaceProgressionHandlerService) {
+      this._speedZones = [];
   }
 
   public initialize(playerSkill: VirtualPlayerDifficulty, waypoints: [number, number, number][]): void {
@@ -21,22 +21,22 @@ export class SpeedZonesService {
           const angle: number = this.calculateRadianAngle(waypoint,
                                                           waypoints[(index + 1) % waypoints.length],
                                                           waypoints[(index + 2) % waypoints.length]);
-          this.speedZones.push(this.createTrackSpeedZone(playerSkill, angle));
+          this._speedZones.push(this.createTrackSpeedZone(playerSkill, angle));
       });
   }
 
   public speedZone(name: string): number {
       return this.isInCornerZone(name) ?
-                        this.speedZones[this.currentTrackIndex(name)].cornerSpeed :
-                        this.speedZones[this.currentTrackIndex(name)].defaultSpeed;
+                        this._speedZones[this.currentTrackIndex(name)].cornerSpeed :
+                        this._speedZones[this.currentTrackIndex(name)].defaultSpeed;
   }
 
   private isInCornerZone(name: string): boolean {
-      return this.raceProgressionService.getPlayerProgression(name).distanceToNextWaypoint() < CORNER_ZONE;
+      return this._raceProgressionService.getPlayerProgression(name).distanceToNextWaypoint() < CORNER_ZONE;
   }
 
   private currentTrackIndex(name: string): number {
-      return this.raceProgressionService.getPlayerProgression(name).currentWaypointIndex;
+      return this._raceProgressionService.getPlayerProgression(name).currentWaypointIndex;
   }
 
   private calculateRadianAngle( firstWaypoint: [number, number, number],

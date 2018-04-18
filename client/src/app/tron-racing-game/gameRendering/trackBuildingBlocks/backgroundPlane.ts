@@ -7,24 +7,24 @@ const BACKGROUND_PATH: string = "../../../../assets/track_editor_texture/cell_bg
 
 export class BackgroundPlane {
 
-    private backgroundPlane: THREE.Mesh;
+    private _backgroundPlane: THREE.Mesh;
 
     public constructor(private scene: THREE.Scene) {
-        this.backgroundPlane = null;
+        this._backgroundPlane = null;
     }
 
     public getBackgroundPlane (): THREE.Mesh {
-        return this.backgroundPlane;
+        return this._backgroundPlane;
     }
 
     public generateBackgroundPlane (): void {
         const material: THREE.MeshPhongMaterial = this.getBackgroundMaterial();
-        this.backgroundPlane = new THREE.Mesh(
+        this._backgroundPlane = new THREE.Mesh(
             new THREE.PlaneGeometry(EDITOR_LAND_WIDTH, EDITOR_LAND_HEIGHT), material
         );
-        this.backgroundPlane.position.z = BACKGROUND_PLANE_POSITION_Z;
-        this.backgroundPlane.name = BACKGROUND_PLANE;
-        this.scene.add(this.backgroundPlane);
+        this._backgroundPlane.position.z = BACKGROUND_PLANE_POSITION_Z;
+        this._backgroundPlane.name = BACKGROUND_PLANE;
+        this.scene.add(this._backgroundPlane);
 
     }
 

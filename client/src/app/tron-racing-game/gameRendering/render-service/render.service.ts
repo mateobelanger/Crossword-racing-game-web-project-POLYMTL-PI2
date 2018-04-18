@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import Stats = require("stats.js");
+import _stats = require("_stats.js");
 import * as THREE from "three";
 
 import { Car } from "../../physics&interactions/cars/car/car";
@@ -24,16 +24,16 @@ const ENGINE_MAX_VOLUME: number = 0.65;
 
 @Injectable()
 export class RenderService implements OnDestroy {
-    private container: HTMLDivElement;
-    private renderer: THREE.WebGLRenderer;
-    private scene: THREE.Scene;
-    private stats: Stats;
-    private lastDate: number;
-    private destroyed: boolean = false;
+    private _container: HTMLDivElement;
+    private _renderer: THREE.WebGLRenderer;
+    private _scene: THREE.Scene;
+    private _stats: _stats;
+    private _lastDate: number;
+    private _destroyed: boolean = false;
     private _car: Car;
 
     public ngOnDestroy(): void {
-        this.destroyed = true;
+        this._destroyed = true;
         this.audioService.stopAllSounds();
     }
 
@@ -55,17 +55,17 @@ export class RenderService implements OnDestroy {
         return this._car;
     }
 
-    public async initialize(container: HTMLDivElement): Promise<void> {
+    public async initialize(_container: HTMLDivElement): Promise<void> {
         try {
             this._car = this.carHandlerService.getCar(USERNAME);
             this.collisionHandlerService.initialize(this.carHandlerService.carsOnly);
             this.outOfBoundsHandlerService.initialize();
-            this.container = container;
+            this._container = _container;
             await this.createScene();
-            this.portalhandlerService.initialize(this.scene);
+            this.portalhandlerService.initialize(this._scene);
             this.initStats();
             this.startRenderingLoop();
-            this.destroyed = false;
+            this._destroyed = false;
             this.raceProgressionService.user.endOfRace$.subscribe(() => {
                 this.ngOnDestroy();
             });
@@ -76,15 +76,15 @@ export class RenderService implements OnDestroy {
     }
 
     private initStats(): void {
-        this.stats = new Stats();
-        this.stats.dom.style.position = "absolute";
-        this.stats.dom.style.top = "initial";
-        this.stats.dom.style.bottom = "0px";
-        this.container.appendChild(this.stats.dom);
+        this._stats = new _stats();
+        this._stats.dom.style.position = "absolute";
+        this._stats.dom.style.top = "initial";
+        this._stats.dom.style.bottom = "0px";
+        this._container.appendChild(this._stats.dom);
     }
 
     private update(): void {
-        const timeSinceLastFrame: number = Date.now() - this.lastDate;
+        const timeSinceLastFrame: number = Date.now() - this._lastDate;
         this.carHandlerService.update(timeSinceLastFrame);
 
         this.outOfBoundsHandlerService.update();
@@ -95,37 +95,37 @@ export class RenderService implements OnDestroy {
 
         this.raceProgressionService.update();
 
-        this.lastDate = Date.now();
+        this._lastDate = Date.now();
     }
 
     private async createScene(): Promise<void> {
-        this.scene = new THREE.Scene();
+        this._scene = new THREE.Scene();
         this.carHandlerService.carsOnly.forEach((car: Car) => {
-            this.scene.add(car);
+            this._scene.add(car);
         });
         this.initializeServices();
     }
 
     private startRenderingLoop(): void {
         this.initializeRenderer();
-        this.lastDate = Date.now();
-        this.container.appendChild(this.renderer.domElement);
+        this._lastDate = Date.now();
+        this._container.appendChild(this._renderer.domElement);
         this.render();
     }
 
     private render(): void {
-        if (!this.destroyed) {
+        if (!this._destroyed) {
             requestAnimationFrame(() => this.render());
             this.update();
 
             this.cameraService.updatePosition();
-            this.renderer.render(this.scene, this.cameraService.getCamera());
+            this._renderer.render(this._scene, this.cameraService.getCamera());
         }
-        this.stats.update();
+        this._stats.update();
     }
 
     public onResize(): void {
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+        this._renderer.setSize(this._container.clientWidth, this._container.clientHeight);
     }
 
     private changeCamera(cameraService: CameraService): Function {
@@ -160,18 +160,18 @@ export class RenderService implements OnDestroy {
     }
 
     private initializeRenderer(): void {
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setPixelRatio(devicePixelRatio);
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+        this._renderer = new THREE.WebGLRenderer();
+        this._renderer.setPixelRatio(devicePixelRatio);
+        this._renderer.setSize(this._container.clientWidth, this._container.clientHeight);
 
     }
 
     private initializeServices(): void {
-        this.cameraService.initialize(this.container, this._car.mesh);
+        this.cameraService.initialize(this._container, this._car.mesh);
         this.initializeController();
-        this.sceneLoaderService.initialize(this.scene);
+        this.sceneLoaderService.initialize(this._scene);
         this.audioService.initialize(this.cameraService.getCamera());
-        this.trackLoaderService.initialize(this.scene);
+        this.trackLoaderService.initialize(this._scene);
         this.cameraService.updatePosition();
     }
 

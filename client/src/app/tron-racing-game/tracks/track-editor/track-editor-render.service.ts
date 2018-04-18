@@ -26,7 +26,7 @@ export class TrackEditorRenderService {
     private _raycaster: THREE.Raycaster;
     private _scene: THREE.Scene;
     private _backgroundPlane: BackgroundPlane;
-    private ambientLight: THREE.AmbientLight;
+    private _ambientLight: THREE.AmbientLight;
 
     public constructor() {
         this._container = null;
@@ -36,7 +36,7 @@ export class TrackEditorRenderService {
         this._raycaster = null;
         this._scene = null;
         this._backgroundPlane = null;
-        this.ambientLight = null;
+        this._ambientLight = null;
     }
 
     public initialize(container: HTMLDivElement): void {
@@ -104,8 +104,8 @@ export class TrackEditorRenderService {
     }
 
     private createAmbientLight(): void {
-        this.ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY);
-        this._scene.add(this.ambientLight);
+        this._ambientLight = new THREE.AmbientLight( AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_OPACITY);
+        this._scene.add(this._ambientLight);
     }
 
     private create3DObjectHandlers(): void {
