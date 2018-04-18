@@ -17,7 +17,7 @@ const SCENE_STATE_NIGHT: string = "night";
 @Injectable()
 export class SkyboxService {
 
-    private scene: THREE.Scene;
+    private _scene: THREE.Scene;
     public skyboxName: string;
     public sceneState: string;
 
@@ -25,20 +25,20 @@ export class SkyboxService {
     private nightSkybox: THREE.CubeTexture;
 
     public constructor() {
-        this.scene = null;
+        this._scene = null;
         this.skyboxName = "";
         this.sceneState = "";
     }
 
     public initialize(scene: THREE.Scene): void {
-      this.scene = scene;
+      this._scene = scene;
       this.skyboxName = SKYBOX_NAME;
 
       this.sceneState = SCENE_STATE_DAY;
 
       this.daySkybox = this.generateDaySkybox();
       this.nightSkybox = this.generateNightSkybox();
-      this.scene.background = this.daySkybox;
+      this._scene.background = this.daySkybox;
     }
 
     public updateScene(): void {
@@ -51,7 +51,7 @@ export class SkyboxService {
     }
 
     private changeSceneSkybox(): void {
-        this.scene.background = this.sceneState === SCENE_STATE_DAY ? this.daySkybox : this.nightSkybox;
+        this._scene.background = this.sceneState === SCENE_STATE_DAY ? this.daySkybox : this.nightSkybox;
     }
 
     private generateDaySkybox(): THREE.CubeTexture {

@@ -28,19 +28,19 @@ export class RaceDataHandlerService {
     private _countdown: Countdown;
     private _ITrackData: ITrackData;
 
-    public constructor( private tracksProxyService: TracksProxyService,
-                        private bestTimesService: BestTimeHandlerService,
-                        private raceResultService: RaceResultsService,
-                        private raceProgressionService: RaceProgressionHandlerService,
-                        private carsHandlerService: CarHandlerService,
-                        private endGameService: EndGameService,
-                        private trackLoaderService: TrackLoaderService,
-                        private resultsSimulatorService: ResultsSimulatorService,
-                        private audioService: AudioService,
-                        private speedZonesService: SpeedZonesService,
-                        private portalHandlerService: PortalsHandlerService,
-                        private collisionHandler: CollisionHandlerService,
-                        private outOfBoundService: OutOfBoundsHandlerService) {
+    public constructor( private _tracksProxyService: TracksProxyService,
+                        private _bestTimesService: BestTimeHandlerService,
+                        private _raceResultService: RaceResultsService,
+                        private _raceProgressionService: RaceProgressionHandlerService,
+                        private _carsHandlerService: CarHandlerService,
+                        private _endGameService: EndGameService,
+                        private _trackLoaderService: TrackLoaderService,
+                        private _resultsSimulatorService: ResultsSimulatorService,
+                        private _audioService: AudioService,
+                        private _speedZonesService: SpeedZonesService,
+                        private _portalHandlerService: PortalsHandlerService,
+                        private _collisionHandler: CollisionHandlerService,
+                        private _outOfBoundService: OutOfBoundsHandlerService) {
 
         this._timer = new TimerHandler();
         this._countdown = new Countdown();
@@ -50,21 +50,21 @@ export class RaceDataHandlerService {
     public async initialize(trackname: string, choseEasyDifficulty: boolean): Promise<void> {
         try {
             const playerDifficulty: VirtualPlayerDifficulty = choseEasyDifficulty ? new BeginnerVirtualPlayer() : new ExpertVirtualPlayer();
-            await this.tracksProxyService.initialize();
+            await this._tracksProxyService.initialize();
 
-            this._ITrackData = this.tracksProxyService.findTrack(trackname);
-            this.bestTimesService.bestTimes = this._ITrackData.bestTimes;
-            this.trackLoaderService.points = this._ITrackData.waypoints;
+            this._ITrackData = this._tracksProxyService.findTrack(trackname);
+            this._bestTimesService.bestTimes = this._ITrackData.bestTimes;
+            this._trackLoaderService.points = this._ITrackData.waypoints;
 
-            this.speedZonesService.initialize( playerDifficulty,
-                                               this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
+            this._speedZonesService.initialize( playerDifficulty,
+                                                this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
-            await this.carsHandlerService.initialize( playerDifficulty );
-            await this.raceProgressionService.initialize(   this.carsHandlerService.playersPosition,
+            await this._carsHandlerService.initialize( playerDifficulty );
+            await this._raceProgressionService.initialize(  this._carsHandlerService.playersPosition,
                                                             this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
-            this.carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
-            this.raceResultService.initialize();
+            this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
+            this._raceResultService.initialize();
             this.subscribeToDoneLap();
             this.subscribeToEndOfRace();
         } catch (err) {
@@ -84,7 +84,7 @@ export class RaceDataHandlerService {
     }
 
     public get lapElapsed(): number {
-        return this.raceProgressionService.user.nLap;
+        return this._raceProgressionService.user.nLap;
     }
 
     public get totalTimeElapsed(): number {
@@ -103,25 +103,25 @@ export class RaceDataHandlerService {
     }
 
     public get position(): number {
-        return this.raceProgressionService.userPosition;
+        return this._raceProgressionService.userPosition;
     }
 
     public async startCountdown(): Promise<void> {
-        this.audioService.playSound(COUNTDOWN_SOUND);
+        this._audioService.playSound(COUNTDOWN_SOUND);
         this._countdown.start(COUNTDOWN_TIME).subscribe(
             () => {
-                this.audioService.playSound(COUNTDOWN_SOUND);
+                this._audioService.playSound(COUNTDOWN_SOUND);
             },
             (err: Error) => {
                 console.error(err);
-                this.carsHandlerService.enableControlKeys();
-                this.carsHandlerService.startRace();
+                this._carsHandlerService.enableControlKeys();
+                this._carsHandlerService.startRace();
                 this.startRace();
             },
             () => {
-                this.audioService.playSound(RACE_START_SOUND);
-                this.carsHandlerService.enableControlKeys();
-                this.carsHandlerService.startRace();
+                this._audioService.playSound(RACE_START_SOUND);
+                this._carsHandlerService.enableControlKeys();
+                this._carsHandlerService.startRace();
                 this.startRace();
             });
     }
@@ -134,27 +134,27 @@ export class RaceDataHandlerService {
 
     private doneRace(): void {
         this._timer.stop();
-        this.carsHandlerService.endRace();
+        this._carsHandlerService.endRace();
         this.simulateEndRaceResult();
-        this.endGameService.endGame(this.raceProgressionService.isUserFirst())
+        this._endGameService.endGame(this._raceProgressionService.isUserFirst())
             .subscribe(() => {
                 this.updateITrackOnServer();
             });
     }
 
     private updateITrackOnServer(): void {
-        this._ITrackData.bestTimes = this.bestTimesService.bestTimes;
-        this.tracksProxyService.saveTrack(this._ITrackData)
+        this._ITrackData.bestTimes = this._bestTimesService.bestTimes;
+        this._tracksProxyService.saveTrack(this._ITrackData)
                                .catch((error: Error) => { console.error(error); });
     }
 
     // lap done from one player (ai or user)
     private doneLap(name: string): void {
-        this.raceResultService.doneLap(name, this._timer.millisecondsElapsed);
+        this._raceResultService.doneLap(name, this._timer.millisecondsElapsed);
     }
 
     private subscribeToDoneLap(): void {
-        this.raceProgressionService.lapDoneStream$.subscribe((name: string) => {
+        this._raceProgressionService.lapDoneStream$.subscribe((name: string) => {
             this.doneLap(name);
             if (name === USERNAME) {
                 this._timer.uiDoneLap();
@@ -163,14 +163,14 @@ export class RaceDataHandlerService {
     }
 
     private subscribeToEndOfRace(): void {
-        this.raceProgressionService.raceDoneStream$.subscribe((name: string) => {
+        this._raceProgressionService.raceDoneStream$.subscribe((name: string) => {
             if (name === USERNAME) {
                 this.doneRace();
             } else {
-                this.carsHandlerService.virtualPlayerFinished(name);
-                this.collisionHandler.stopWatchingForCollision(this.carsHandlerService.getCar(name));
-                this.outOfBoundService.stopWatchingForCollision(this.carsHandlerService.getCar(name));
-                this.portalHandlerService.teleport( this.carsHandlerService.getCar(name),
+                this._carsHandlerService.virtualPlayerFinished(name);
+                this._collisionHandler.stopWatchingForCollision(this._carsHandlerService.getCar(name));
+                this._outOfBoundService.stopWatchingForCollision(this._carsHandlerService.getCar(name));
+                this._portalHandlerService.teleport(this._carsHandlerService.getCar(name),
                                                     new THREE.Vector3(0, 0, 0))
                                          .catch((error: Error) => { console.error(error); });
             }
@@ -178,7 +178,7 @@ export class RaceDataHandlerService {
     }
 
     private simulateEndRaceResult(): void {
-        this.resultsSimulatorService.simulateEndResults(this._timer.millisecondsElapsed);
+        this._resultsSimulatorService.simulateEndResults(this._timer.millisecondsElapsed);
     }
 
 }

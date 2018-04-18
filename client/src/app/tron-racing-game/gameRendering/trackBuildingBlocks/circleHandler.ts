@@ -10,10 +10,10 @@ const CIRCLE_QUALITY: number = 15;
 
 export class CircleHandler {
 
-    private meshs: THREE.Mesh[];
+    private _meshs: THREE.Mesh[];
 
     public constructor(private scene: THREE.Scene) {
-        this.meshs = [];
+        this._meshs = [];
     }
 
     public generateCircles(waypoints: Waypoint[], hasReversedAxes: boolean): void {
@@ -21,9 +21,9 @@ export class CircleHandler {
 
         const material: THREE.MeshBasicMaterial = this.getCircleMaterial(!hasReversedAxes);
         circleGeometries.forEach((geometry, index) => {
-            const mesh: THREE.Mesh = new THREE.Mesh( geometry, this.meshs.length === 0 ?
+            const mesh: THREE.Mesh = new THREE.Mesh( geometry, this._meshs.length === 0 ?
                                                      this.getFirstCircleMaterial(!hasReversedAxes) : material );
-            this.meshs.push(mesh);
+            this._meshs.push(mesh);
             mesh.name = POINT;
 
             mesh.position.z = CIRCLE_POSITION_Z;
@@ -32,7 +32,7 @@ export class CircleHandler {
 
             this.bindMesh(mesh, waypoints[index]);
         });
-        this.meshs.forEach((mesh) => {
+        this._meshs.forEach((mesh) => {
             this.scene.add(mesh);
         });
 
@@ -40,12 +40,12 @@ export class CircleHandler {
 
     public removeCircle(meshId: number): void {
         const index: number = this.findMeshIndex(meshId);
-        this.scene.remove(this.meshs[index]);
-        this.meshs.splice(index, 1);
+        this.scene.remove(this._meshs[index]);
+        this._meshs.splice(index, 1);
     }
 
     public moveCircle(id: number, absolutePosition: THREE.Vector3): void {
-        const mesh: THREE.Mesh = this.meshs[this.findMeshIndex(id)];
+        const mesh: THREE.Mesh = this._meshs[this.findMeshIndex(id)];
         const relativeMovement: THREE.Vector3 = new THREE.Vector3();
         relativeMovement.subVectors(absolutePosition, mesh.position);
         mesh.translateX(relativeMovement.x);
@@ -54,12 +54,12 @@ export class CircleHandler {
     }
 
     public getCircles(): THREE.Mesh[] {
-        return this.meshs;
+        return this._meshs;
     }
 
     private findMeshIndex(id: number): number {
         let index: number = null;
-        this.meshs.forEach((element, i) => {
+        this._meshs.forEach((element, i) => {
             if (element.id === id) {
                 index = i;
             }

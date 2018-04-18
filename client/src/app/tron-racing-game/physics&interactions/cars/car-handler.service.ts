@@ -15,10 +15,10 @@ import { W_KEYCODE, A_KEYCODE, S_KEYCODE, D_KEYCODE } from "../../../../../../co
 export class CarHandlerService {
 
     private _cars: {[playerName: string]: Car};
-    public constructor( private speedZoneService: SpeedZonesService,
-                        private raceProgressionService: RaceProgressionHandlerService,
-                        private textureLoader: TextureLoaderService,
-                        private inputHandler: InputHandlerService) {
+    public constructor( private _speedZoneService: SpeedZonesService,
+                        private _raceProgressionService: RaceProgressionHandlerService,
+                        private _textureLoader: TextureLoaderService,
+                        private _inputHandler: InputHandlerService) {
         this._cars = {};
     }
 
@@ -91,17 +91,17 @@ export class CarHandlerService {
     }
 
     public enableControlKeys(): void {
-        this.inputHandler.addListener(W_KEYCODE, this.accelerationInput());
-        this.inputHandler.addListener(W_KEYCODE, this.accelerationInput());
+        this._inputHandler.addListener(W_KEYCODE, this.accelerationInput());
+        this._inputHandler.addListener(W_KEYCODE, this.accelerationInput());
 
-        this.inputHandler.addListener(A_KEYCODE, this.turnLeftInput());
-        this.inputHandler.addListener(A_KEYCODE, this.turnLeftInput());
+        this._inputHandler.addListener(A_KEYCODE, this.turnLeftInput());
+        this._inputHandler.addListener(A_KEYCODE, this.turnLeftInput());
 
-        this.inputHandler.addListener(S_KEYCODE, this.brakeInput());
-        this.inputHandler.addListener(S_KEYCODE, this.brakeInput());
+        this._inputHandler.addListener(S_KEYCODE, this.brakeInput());
+        this._inputHandler.addListener(S_KEYCODE, this.brakeInput());
 
-        this.inputHandler.addListener(D_KEYCODE, this.turnRightInput(this._cars));
-        this.inputHandler.addListener(D_KEYCODE, this.turnRightInput(this._cars));
+        this._inputHandler.addListener(D_KEYCODE, this.turnRightInput(this._cars));
+        this._inputHandler.addListener(D_KEYCODE, this.turnRightInput(this._cars));
     }
 
     private accelerationInput(): Function {
@@ -131,7 +131,7 @@ export class CarHandlerService {
     private fillCarArray( playerSkill: VirtualPlayerDifficulty ): void {
         PLAYERS_NAME.forEach( (playerName: string) => {
             const newCar: Car = playerName !== USERNAME ?
-                        new VirtualPlayerCar(playerSkill, playerName, this.speedZoneService, this.raceProgressionService) :
+                        new VirtualPlayerCar(playerSkill, playerName, this._speedZoneService, this._raceProgressionService) :
                         new Car();
 
             this._cars[playerName] = newCar;
@@ -142,7 +142,7 @@ export class CarHandlerService {
         let carTexture: CAR_TEXTURE = CAR_TEXTURE.LIGHT_BLUE;
         for (const playerName in this._cars) {
             if (this._cars.hasOwnProperty(playerName)) {
-                await this.textureLoader.loadCarTexture(carTexture++).then(
+                await this._textureLoader.loadCarTexture(carTexture++).then(
                     (texture: THREE.Object3D) => {
                         this._cars[playerName].init(texture);
                     });

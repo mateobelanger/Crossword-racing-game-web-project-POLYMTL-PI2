@@ -18,16 +18,16 @@ export class OutOfBoundsHandlerService {
 
     private _cars: [RaceProgression, Car][] = [];
 
-    public constructor( private audioService: AudioService,
-                        private carsHandlerService: CarHandlerService,
-                        private raceProgressionService: RaceProgressionHandlerService) { }
+    public constructor( private _audioService: AudioService,
+                        private _carsHandlerService: CarHandlerService,
+                        private _raceProgressionService: RaceProgressionHandlerService) { }
 
     public initialize(): void {
-        for (const key in this.carsHandlerService.cars) {
-            if (this.carsHandlerService.cars.hasOwnProperty(key)) {
+        for (const key in this._carsHandlerService.cars) {
+            if (this._carsHandlerService.cars.hasOwnProperty(key)) {
                 this._cars.push(
-                    [this.raceProgressionService.getPlayerProgression(key),
-                     this.carsHandlerService.cars[key]]);
+                    [this._raceProgressionService.getPlayerProgression(key),
+                     this._carsHandlerService.cars[key]]);
             }
         }
     }
@@ -71,7 +71,7 @@ export class OutOfBoundsHandlerService {
         car.speed = car.speed.setLength(car.speed.length() * (1 - SLOWING_FACTOR));
 
         // play wall collision sound
-        this.audioService.playSound(FORCE_FIELD_SOUND);
+        this._audioService.playSound(FORCE_FIELD_SOUND);
     }
 
     private isCarInTrack(car: Car, progression: RaceProgression): boolean {

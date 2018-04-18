@@ -16,9 +16,9 @@ export class TrackLoaderService {
 
     public points: number[][];
     private _waypoints: Waypoint[];
-    private planeHandler: PlaneHandler;
-    private circleHandler: CircleHandler;
-    private scene: THREE.Scene;
+    private _planeHandler: PlaneHandler;
+    private _circleHandler: CircleHandler;
+    private _scene: THREE.Scene;
 
     public constructor() {
         this.points = [];
@@ -30,7 +30,7 @@ export class TrackLoaderService {
     }
 
     public initialize(scene: THREE.Scene): void {
-        this.scene = scene;
+        this._scene = scene;
         this._waypoints = [];
         this.setWaypointsFromPoints();
         this.addTrackToScene();
@@ -49,16 +49,16 @@ export class TrackLoaderService {
     }
 
     private addTrackToScene(): void {
-      this.planeHandler = new PlaneHandler(this.scene);
-      this.planeHandler.generatePlanes(this._waypoints, true);
+      this._planeHandler = new PlaneHandler(this._scene);
+      this._planeHandler.generatePlanes(this._waypoints, true);
       // generate the last segment between last and first waypoints to close track
       const waypoints: Waypoint[] = [this._waypoints[this._waypoints.length - 1], this._waypoints[0]];
-      this.planeHandler.generatePlanes(waypoints, true);
+      this._planeHandler.generatePlanes(waypoints, true);
       this.addWaypointsToScene();
     }
 
     private addWaypointsToScene(): void {
-        this.circleHandler = new CircleHandler(this.scene);
-        this.circleHandler.generateCircles(this._waypoints, true);
+        this._circleHandler = new CircleHandler(this._scene);
+        this._circleHandler.generateCircles(this._waypoints, true);
     }
 }

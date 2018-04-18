@@ -13,7 +13,7 @@ export class CollisionHandlerService {
     private _collisions: Collision[];
     private _cars: Car[];
 
-    public constructor(private audioService: AudioService) {
+    public constructor(private _audioService: AudioService) {
         this._collisions = [];
     }
 
@@ -63,7 +63,7 @@ export class CollisionHandlerService {
 
             this.switchCarsSpeed(car1, car2);
 
-            this.audioService.playSound(CAR_COLLISION_SOUND);
+            this._audioService.playSound(CAR_COLLISION_SOUND);
         }
     }
 
