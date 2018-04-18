@@ -17,6 +17,7 @@ import { VirtualPlayerDifficulty, BeginnerVirtualPlayer, ExpertVirtualPlayer } f
 import { PortalsHandlerService } from "../virtualPlayers/teleportation/portals-handler.service";
 import * as THREE from "three";
 import { CollisionHandlerService } from "../physics&interactions/collisions/collision-handler.service";
+import { OutOfBoundsHandlerService } from "../physics&interactions/collisions/out-of-bounds-handler.service";
 const COUNTDOWN_SOUND: string = "../../../assets/audio/RG/countdown.wav";
 const RACE_START_SOUND: string = "../../../assets/audio/RG/start.wav";
 
@@ -38,7 +39,8 @@ export class RaceDataHandlerService {
                         private audioService: AudioService,
                         private speedZonesService: SpeedZonesService,
                         private portalHandlerService: PortalsHandlerService,
-                        private collisionHandler: CollisionHandlerService) {
+                        private collisionHandler: CollisionHandlerService,
+                        private outOfBoundService: OutOfBoundsHandlerService) {
 
         this._timer = new TimerHandler();
         this._countdown = new Countdown();
@@ -58,7 +60,7 @@ export class RaceDataHandlerService {
                                                this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
             await this._carsHandlerService.initialize( playerDifficulty );
-            await this._raceProgressionService.initialize( this._carsHandlerService.carsPosition,
+            await this._raceProgressionService.initialize( this._carsHandlerService.playersPosition,
                                                            this.castPointsToSceneWaypoints(this._ITrackData.waypoints) );
 
             this._carsHandlerService.moveCarsToStart(this.castPointsToSceneWaypoints(this._ITrackData.waypoints));
@@ -167,6 +169,7 @@ export class RaceDataHandlerService {
             } else {
                 this._carsHandlerService.virtualPlayerFinished(name);
                 this.collisionHandler.stopWatchingForCollision(this._carsHandlerService.getCar(name));
+                this.outOfBoundService.stopWatchingForCollision(this._carsHandlerService.getCar(name));
                 this.portalHandlerService.teleport( this._carsHandlerService.getCar(name),
                                                     new THREE.Vector3(0, 0, 0))
                                          .catch((error: Error) => { console.error(error); });

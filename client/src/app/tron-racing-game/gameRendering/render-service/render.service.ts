@@ -16,6 +16,7 @@ import { PortalsHandlerService } from "../../virtualPlayers/teleportation/portal
 import { InputHandlerService } from "../../physics&interactions/controller/input-handler.service";
 import { C_KEYCODE, PLUS_KEYCODE, MINUS_KEYCODE, N_KEYCODE } from "../../../../../../common/constants";
 import { SkyboxService } from "../skybox.service";
+import { USERNAME} from "../../constants";
 
 const CAR_ENGINE_SOUND: string = "../../../assets/audio/RG/car-engine.wav";
 const ENGINE_MIN_VOLUME: number = 0.2;
@@ -56,7 +57,7 @@ export class RenderService implements OnDestroy {
 
     public async initialize(container: HTMLDivElement): Promise<void> {
         try {
-            this._car = this.carHandlerService.cars[1][1];
+            this._car = this.carHandlerService.getCar(USERNAME);
             this.collisionHandlerService.initialize(this.carHandlerService.carsOnly);
             this.outOfBoundsHandlerService.initialize();
             this.container = container;
@@ -74,6 +75,7 @@ export class RenderService implements OnDestroy {
         }
     }
 
+    // TO DO: DOM
     private initStats(): void {
         this.stats = new Stats();
         this.stats.dom.style.position = "absolute";
