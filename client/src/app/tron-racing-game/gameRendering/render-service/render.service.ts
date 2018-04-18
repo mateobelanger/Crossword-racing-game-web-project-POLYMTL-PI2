@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import _stats = require("_stats.js");
+import _stats = require("stats.js");
 import * as THREE from "three";
 
 import { Car } from "../../physics&interactions/cars/car/car";
