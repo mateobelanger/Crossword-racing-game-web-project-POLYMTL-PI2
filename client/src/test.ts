@@ -1,4 +1,4 @@
-/* tslint:disable */
+// tslint:disable
 // Disable tslint in this file because it is given by angular cli
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 

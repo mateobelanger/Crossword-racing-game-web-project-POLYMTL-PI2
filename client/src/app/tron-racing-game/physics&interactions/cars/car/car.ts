@@ -189,12 +189,12 @@ export class Car extends Object3D {
 
     private getWeightDistribution(): number {
         const acceleration: number = this.getAcceleration().length();
-        /* tslint:disable:no-magic-numbers */
+        // tslint:disable:no-magic-numbers
         const distribution: number =
             this.mass + (1 / this.wheelbase) * this.mass * acceleration / 2;
 
         return Math.min(Math.max(0.25, distribution), 0.75);
-        /* tslint:enable:no-magic-numbers */
+        // tslint:enable:no-magic-numbers
     }
 
     private getLongitudinalForce(): Vector3 {

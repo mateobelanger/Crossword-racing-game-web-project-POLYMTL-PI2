@@ -3,7 +3,7 @@ import {
     DEFAULT_MINIMUM_RPM, DEFAULT_SHIFT_RPM, DEFAULT_MAX_RPM, DEFAULT_TRANSMISSION_EFFICIENCY
 } from "./engine";
 
-/* tslint:disable: no-magic-numbers */
+// tslint:disable: no-magic-numbers
 describe("Engine", () => {
     let engine: Engine;
 

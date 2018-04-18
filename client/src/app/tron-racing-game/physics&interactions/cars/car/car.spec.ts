@@ -5,7 +5,7 @@ import { Vector3 } from "three";
 
 const MS_BETWEEN_FRAMES: number = 16.6667;
 
-/* tslint:disable: no-magic-numbers */
+// tslint:disable: no-magic-numbers
 class MockEngine extends Engine {
     public getDriveTorque(): number {
         return 10000;
