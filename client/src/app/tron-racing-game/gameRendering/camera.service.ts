@@ -30,7 +30,7 @@ export class CameraService {
     private _perspectiveCamera: THREE.PerspectiveCamera;
     private _target: THREE.Object3D;
     private _container: HTMLDivElement;
-    private _zoomFactor: number;
+    public zoomFactor: number;
     private _isZoomingIn: boolean;
     private _isZoomingOut: boolean;
 
@@ -40,7 +40,7 @@ export class CameraService {
         this._perspectiveCamera = null;
         this._target = null;
         this._container = null;
-        this._zoomFactor = CAMERA_INITIAL_ZOOM;
+        this.zoomFactor = CAMERA_INITIAL_ZOOM;
         this.isZoomingIn = false;
         this.isZoomingOut = false;
      }
@@ -92,15 +92,15 @@ export class CameraService {
     }
 
     public zoomIn(): void {
-        if (this._zoomFactor < CAMERA_MAX_ZOOM) {
-            this._zoomFactor += CAMERA_ZOOM_ADJUSTMENT;
+        if (this.zoomFactor < CAMERA_MAX_ZOOM) {
+            this.zoomFactor += CAMERA_ZOOM_ADJUSTMENT;
             this.updateZooms();
         }
     }
 
     public zoomOut(): void {
-        if (this._zoomFactor > CAMERA_MIN_ZOOM) {
-            this._zoomFactor -= CAMERA_ZOOM_ADJUSTMENT;
+        if (this.zoomFactor > CAMERA_MIN_ZOOM) {
+            this.zoomFactor -= CAMERA_ZOOM_ADJUSTMENT;
             this.updateZooms();
         }
     }
@@ -158,12 +158,12 @@ export class CameraService {
     }
 
     private updateOrthographicZoom(): void {
-        this.orthographicCamera.zoom = this._zoomFactor;
+        this.orthographicCamera.zoom = this.zoomFactor;
         this.orthographicCamera.updateProjectionMatrix();
     }
 
     private updatePerspectiveZoom(): void {
-        this.perspectiveCamera.zoom = this._zoomFactor;
+        this.perspectiveCamera.zoom = this.zoomFactor;
         this.perspectiveCamera.updateProjectionMatrix();
     }
 }
