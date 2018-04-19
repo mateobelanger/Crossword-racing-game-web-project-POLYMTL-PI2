@@ -7,7 +7,6 @@ import { routes } from "../../../../app-routes.module";
 import { Input } from "@angular/core";
 
 describe("TimeShowComponent", () => {
-   // let component: TimeShowComponent;
    let fixture: ComponentFixture<TimeShowComponent>;
 
    beforeEach(async(() => {
@@ -21,7 +20,6 @@ describe("TimeShowComponent", () => {
 
    beforeEach(() => {
        fixture = TestBed.createComponent(TimeShowComponent);
-       // component = fixture.componentInstance;
        fixture.detectChanges();
    });
 });

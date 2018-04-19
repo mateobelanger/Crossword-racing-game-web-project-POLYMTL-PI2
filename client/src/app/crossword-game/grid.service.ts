@@ -128,7 +128,6 @@ export class GridService {
             const positionToEmpty: number[] = this.positionOfLastUnvalidatedCell(row, column);
             this.userGridService.userGrid[row][column] = "";
             this.userGridService.userGrid[positionToEmpty[0]][positionToEmpty[1]] = "";
-            // this.focusOnSelectedWord();
         } else {
             this.userGridService.userGrid[row][column] = "";
         }
