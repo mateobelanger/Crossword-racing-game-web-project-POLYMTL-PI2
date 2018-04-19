@@ -10,16 +10,16 @@ const PORTAL_PATH: string = "../../../../assets/portal/glow.png";
 
 export class Portal {
 
-    private sphereRadius: number;
-    private spriteRadius: number;
-    private sphericalMesh: THREE.Mesh;
-    private sprite: THREE.Sprite;
+    private _sphereRadius: number;
+    private _spriteRadius: number;
+    private _sphericalMesh: THREE.Mesh;
+    private _sprite: THREE.Sprite;
 
     public constructor(private _scene: THREE.Scene) {
-        this.sphereRadius = MIN_SPHERE_RADIUS;
-        this.spriteRadius = INITIAL_SCALE_SIZE;
-        this.sphericalMesh = new THREE.Mesh();
-        this.sprite = new THREE.Sprite();
+        this._sphereRadius = MIN_SPHERE_RADIUS;
+        this._spriteRadius = INITIAL_SCALE_SIZE;
+        this._sphericalMesh = new THREE.Mesh();
+        this._sprite = new THREE.Sprite();
     }
 
     public async portalAnimation(): Promise<void> {
@@ -33,14 +33,14 @@ export class Portal {
     }
 
     public destroyPortal(): void {
-        this._scene.remove(this.sphericalMesh);
+        this._scene.remove(this._sphericalMesh);
     }
 
     public async growPortal(): Promise<{}> {
         return new Promise( (resolve, reject) => {
             const id: number = window.setInterval(() => {
                 this.grow();
-                if ( this.sphereRadius >= MAX_SPHERE_RADIUS) {
+                if ( this._sphereRadius >= MAX_SPHERE_RADIUS) {
                     window.clearInterval(id);
                     resolve();
                 }
@@ -50,14 +50,14 @@ export class Portal {
     }
 
     private grow(): void {
-        this.sphereRadius++;
-        this.sphericalMesh.scale.set(this.sphereRadius, this.sphereRadius, this.sphereRadius);
+        this._sphereRadius++;
+        this._sphericalMesh.scale.set(this._sphereRadius, this._sphereRadius, this._sphereRadius);
     }
 
     public async shrinkPortal(): Promise<{}> {
         return new Promise( (resolve, reject) => {
             const id: number = window.setInterval(() => {
-                if ( this.sphereRadius <= MIN_SPHERE_RADIUS) {
+                if ( this._sphereRadius <= MIN_SPHERE_RADIUS) {
                     window.clearInterval(id);
                     resolve();
                 } else {
@@ -68,16 +68,16 @@ export class Portal {
     }
 
     private shrink(): void {
-        this.sphereRadius--;
-        this.sphericalMesh.scale.set(this.sphereRadius, this.sphereRadius, this.sphereRadius);
+        this._sphereRadius--;
+        this._sphericalMesh.scale.set(this._sphereRadius, this._sphereRadius, this._sphereRadius);
     }
 
     private createSphere( position: THREE.Vector3 ): void {
-        const geometry: THREE.SphereGeometry = new THREE.SphereGeometry( this.sphereRadius, NUMBER_OF_SEGMENTS, NUMBER_OF_SEGMENTS );
+        const geometry: THREE.SphereGeometry = new THREE.SphereGeometry( this._sphereRadius, NUMBER_OF_SEGMENTS, NUMBER_OF_SEGMENTS );
         const material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial( { color: 0x000088 } );
-        this.sphericalMesh = new THREE.Mesh( geometry, material );
-        this.sphericalMesh.position.set(position.x, position.y, position.z);
-        this._scene.add(this.sphericalMesh);
+        this._sphericalMesh = new THREE.Mesh( geometry, material );
+        this._sphericalMesh.position.set(position.x, position.y, position.z);
+        this._scene.add(this._sphericalMesh);
     }
 
     private createGlowEffect( ): void {
@@ -86,9 +86,9 @@ export class Portal {
         const spriteMaterial: THREE.SpriteMaterial = new THREE.SpriteMaterial({
             map: texture, color: 0x0000FF, transparent: false, blending: THREE.AdditiveBlending
         });
-        this.sprite = new THREE.Sprite( spriteMaterial );
-        this.sprite.scale.set(this.spriteRadius, this.spriteRadius, NO_RESCALE);
-        this.sphericalMesh.add(this.sprite);
+        this._sprite = new THREE.Sprite( spriteMaterial );
+        this._sprite.scale.set(this._spriteRadius, this._spriteRadius, NO_RESCALE);
+        this._sphericalMesh.add(this._sprite);
     }
 
 }

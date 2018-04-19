@@ -9,19 +9,19 @@ const AVERAGE_SPEED: number = 0.1;
 @Injectable()
 export class ResultsSimulatorService {
 
-    public constructor( private raceProgressionService: RaceProgressionHandlerService,
-                        private raceResultsService: RaceResultsService) { }
+    public constructor( private _raceProgressionService: RaceProgressionHandlerService,
+                        private _raceResultsService: RaceResultsService) { }
 
     public simulateEndResults(endTime: number): void {
-        this.raceProgressionService.unfinishedPlayers.forEach( (player: [string, RaceProgression]) => {
+        this._raceProgressionService.unfinishedPlayers.forEach( (player: [string, RaceProgression]) => {
             let time: number = endTime;
 
             time += this.time(this.lapDistanceLeft(player[1]));
-            this.raceResultsService.doneLap(player[0], time);
+            this._raceResultsService.doneLap(player[0], time);
 
             for (let i: number = 0; i < MAX_N_LAPS - (player[1].nLap + 1); i++) {
                 time += this.time(this.trackLength(player[1].waypoints));
-                this.raceResultsService.doneLap(player[0], time);
+                this._raceResultsService.doneLap(player[0], time);
             }
         });
     }

@@ -25,21 +25,21 @@ enum CameraType { PERSPECTIVE, ORTHOGRAPHIC }
 @Injectable()
 export class CameraService {
 
-    private camera: CameraType;
+    private _camera: CameraType;
     private _orthographicCamera: THREE.OrthographicCamera;
     private _perspectiveCamera: THREE.PerspectiveCamera;
-    private target: THREE.Object3D;
-    private container: HTMLDivElement;
-    private zoomFactor: number;
+    private _target: THREE.Object3D;
+    private _container: HTMLDivElement;
+    public zoomFactor: number;
     private _isZoomingIn: boolean;
     private _isZoomingOut: boolean;
 
     public constructor() {
-        this.camera = CameraType.PERSPECTIVE;
+        this._camera = CameraType.PERSPECTIVE;
         this._orthographicCamera = null;
         this._perspectiveCamera = null;
-        this.target = null;
-        this.container = null;
+        this._target = null;
+        this._container = null;
         this.zoomFactor = CAMERA_INITIAL_ZOOM;
         this.isZoomingIn = false;
         this.isZoomingOut = false;
@@ -61,9 +61,9 @@ export class CameraService {
         this._isZoomingOut = isZoomingOut;
     }
 
-    public initialize(container: HTMLDivElement, target: THREE.Object3D): void {
-        this.container = container;
-        this.target = target;
+    public initialize(_container: HTMLDivElement, _target: THREE.Object3D): void {
+        this._container = _container;
+        this._target = _target;
         this.initializeCameras();
     }
 
@@ -84,11 +84,11 @@ export class CameraService {
     }
 
     public getCamera(): THREE.Camera {
-        return this.camera === CameraType.ORTHOGRAPHIC ? this._orthographicCamera : this._perspectiveCamera;
+        return this._camera === CameraType.ORTHOGRAPHIC ? this._orthographicCamera : this._perspectiveCamera;
     }
 
     public changeCamera(): void {
-        this.camera = this.camera === CameraType.PERSPECTIVE ? CameraType.ORTHOGRAPHIC : CameraType.PERSPECTIVE;
+        this._camera = this._camera === CameraType.PERSPECTIVE ? CameraType.ORTHOGRAPHIC : CameraType.PERSPECTIVE;
     }
 
     public zoomIn(): void {
@@ -114,11 +114,11 @@ export class CameraService {
             ORTHOGRAPHIC_CAMERA_NEAR_PLANE,
             ORTHOGRAPHIC_CAMERA_FAR_PLANE
         );
-        this._orthographicCamera.position.x = this.target.position.x;
+        this._orthographicCamera.position.x = this._target.position.x;
         this._orthographicCamera.position.y = ORTHOGRAPHIC_INITIAL_POSITION_Y;
-        this._orthographicCamera.position.z = this.target.position.z;
+        this._orthographicCamera.position.z = this._target.position.z;
 
-        this._orthographicCamera.lookAt(this.target.position);
+        this._orthographicCamera.lookAt(this._target.position);
     }
 
     private initializePerspectiveCamera(): void {
@@ -128,28 +128,28 @@ export class CameraService {
             NEAR_CLIPPING_PLANE,
             FAR_CLIPPING_PLANE
         );
-        this._perspectiveCamera.position.x = this.target.position.x;
-        this._perspectiveCamera.position.y = this.target.position.y;
-        this._perspectiveCamera.position.z = this.target.position.z;
+        this._perspectiveCamera.position.x = this._target.position.x;
+        this._perspectiveCamera.position.y = this._target.position.y;
+        this._perspectiveCamera.position.z = this._target.position.z;
     }
 
     private updateOrhographicCameraPosition(): void {
-        this._orthographicCamera.position.x = this.target.position.x;
-        this._orthographicCamera.position.z = this.target.position.z;
+        this._orthographicCamera.position.x = this._target.position.x;
+        this._orthographicCamera.position.z = this._target.position.z;
     }
 
     private updatePerspectiveCameraPosition(): void {
         const relativeCameraOffset: THREE.Vector3 = new THREE.Vector3(0, PERSPECTIVE_INITIAL_POSITION_Y, PERSPECTIVE_INITIAL_POSITION_Z);
-        const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4( this.target.matrix );
+        const cameraOffset: THREE.Vector3 = relativeCameraOffset.applyMatrix4( this._target.matrix );
 
         this._perspectiveCamera.position.x = cameraOffset.x;
         this._perspectiveCamera.position.z = cameraOffset.z;
         this._perspectiveCamera.position.y = cameraOffset.y;
-        this._perspectiveCamera.lookAt(this.target.position);
+        this._perspectiveCamera.lookAt(this._target.position);
     }
 
     private getAspectRatio(): number {
-        return this.container.clientWidth / this.container.clientHeight;
+        return this._container.clientWidth / this._container.clientHeight;
     }
 
     private updateZooms(): void {

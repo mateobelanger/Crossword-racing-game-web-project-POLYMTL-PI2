@@ -8,9 +8,9 @@ export class SceneLoaderService {
 
     private scene: THREE.Scene;
 
-    public constructor(private skyboxService: SkyboxService,
-                       private sceneLightsService: SceneLightsService,
-                       private landService: LandService) { }
+    public constructor(private _skyboxService: SkyboxService,
+                       private _sceneLightsService: SceneLightsService,
+                       private _landService: LandService) { }
 
     public initialize(scene: THREE.Scene): void {
         this.scene = scene;
@@ -18,14 +18,14 @@ export class SceneLoaderService {
     }
 
     private generateScene(): void {
-        this.skyboxService.initialize(this.scene);
-        this.sceneLightsService.initialize(this.scene);
-        this.landService.initialize(this.scene);
+        this._skyboxService.initialize(this.scene);
+        this._sceneLightsService.initialize(this.scene);
+        this._landService.initialize(this.scene);
     }
 
     public updateScene(): void {
-        this.skyboxService.updateScene();
-        this.sceneLightsService.updateScene();
+        this._skyboxService.updateScene();
+        this._sceneLightsService.updateScene();
     }
 
 }

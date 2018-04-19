@@ -21,8 +21,8 @@ export class EndGameService {
     public playerTime: number;
     public endGameCycleFinished: Subject<void>;
 
-    public constructor( private bestTimesService: BestTimeHandlerService,
-                        private raceResultService: RaceResultsService) {
+    public constructor( private _bestTimesService: BestTimeHandlerService,
+                        private _raceResultService: RaceResultsService) {
                             this.endGameCycleFinished = new Subject();
                         }
 
@@ -31,18 +31,18 @@ export class EndGameService {
     }
 
     public get raceResults(): [string, RaceResults][] {
-        return this.raceResultService.raceFinalResults;
+        return this._raceResultService.raceFinalResults;
     }
 
     public updateBestTimes(playerName: string): void {
         if (this.isFirst) {
-            this.bestTimesService.addTime([playerName, this.playerTime]);
+            this._bestTimesService.addTime([playerName, this.playerTime]);
             this.endGameCycleFinished.next();
         }
     }
 
     public get bestTimes(): [string, number][] {
-        return this.bestTimesService.bestTimes;
+        return this._bestTimesService.bestTimes;
     }
 
     public displayResultTable(): void {
@@ -55,7 +55,7 @@ export class EndGameService {
 
     public endGame(isFirst: boolean): Subject<void> {
         this.isFirst = isFirst;
-        this.playerTime = this.raceResultService.getPlayerRaceResults(USERNAME).totalTime;
+        this.playerTime = this._raceResultService.getPlayerRaceResults(USERNAME).totalTime;
         this.displayResultTable();
 
         return this.endGameCycleFinished;

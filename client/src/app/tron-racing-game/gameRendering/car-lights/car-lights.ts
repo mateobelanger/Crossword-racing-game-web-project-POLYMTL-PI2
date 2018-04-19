@@ -36,17 +36,17 @@ const BACK_LIGHT_POSITION_Z: number = -4.5;
 
 export class CarLights {
 
-    private frontLeftLight: THREE.SpotLight;
-    private frontRightLight: THREE.SpotLight;
-    private backLeftLight: THREE.SpotLight;
-    private backRightLight: THREE.SpotLight;
+    private _frontLeftLight: THREE.SpotLight;
+    private _frontRightLight: THREE.SpotLight;
+    private _backLeftLight: THREE.SpotLight;
+    private _backRightLight: THREE.SpotLight;
     private car: THREE.Object3D;
 
     public constructor() {
-        this.frontLeftLight = null;
-        this.frontRightLight = null;
-        this.backLeftLight = null;
-        this.backRightLight = null;
+        this._frontLeftLight = null;
+        this._frontRightLight = null;
+        this._backLeftLight = null;
+        this._backRightLight = null;
     }
 
     public initialize(car: THREE.Object3D): void {
@@ -56,10 +56,10 @@ export class CarLights {
     }
 
     public switchLights(): void {
-        this.frontLeftLight.visible = !this.frontLeftLight.visible;
-        this.frontRightLight.visible = !this.frontRightLight.visible;
-        this.backLeftLight.visible = !this.backLeftLight.visible;
-        this.backRightLight.visible = !this.backRightLight.visible;
+        this._frontLeftLight.visible = !this._frontLeftLight.visible;
+        this._frontRightLight.visible = !this._frontRightLight.visible;
+        this._backLeftLight.visible = !this._backLeftLight.visible;
+        this._backRightLight.visible = !this._backRightLight.visible;
     }
 
     private generateLights(): void {
@@ -69,8 +69,8 @@ export class CarLights {
 
     private generateFrontLights(): void {
         this.generateFrontTarget();
-        this.frontLeftLight = this.generateFrontLight(FRONT_LIGHT_POSITION_X);
-        this.frontRightLight = this.generateFrontLight(-FRONT_LIGHT_POSITION_X);
+        this._frontLeftLight = this.generateFrontLight(FRONT_LIGHT_POSITION_X);
+        this._frontRightLight = this.generateFrontLight(-FRONT_LIGHT_POSITION_X);
     }
 
     private generateFrontLight(positionX: number): THREE.SpotLight {
@@ -97,8 +97,8 @@ export class CarLights {
 
     private generateBackLights(): void {
         this.generateFrontTarget();
-        this.backLeftLight = this.generateBackLight(BACK_LIGHT_POSITION_X);
-        this.backRightLight = this.generateBackLight(-BACK_LIGHT_POSITION_X);
+        this._backLeftLight = this.generateBackLight(BACK_LIGHT_POSITION_X);
+        this._backRightLight = this.generateBackLight(-BACK_LIGHT_POSITION_X);
     }
 
     private generateBackLight(positionX: number): THREE.SpotLight {
