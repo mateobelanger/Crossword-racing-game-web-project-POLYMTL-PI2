@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Difficulty, PlayerType } from "../../../../common/constants";
 import { NameValidator } from "../../../../common/nameValidator";
 
-export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING }
+export enum GameState { NO_GAME, WAITING_FOR_OPPONENT, ONGOING, OPPONENT_LEFT }
 
 @Injectable()
 export class GameStateService {
@@ -36,6 +36,10 @@ export class GameStateService {
         return this._state === GameState.ONGOING;
     }
 
+    public get hasOponentLeft(): boolean {
+        return this._state === GameState.OPPONENT_LEFT;
+    }
+
     public initializeGameState(): void {
         this.hostName = "";
         this.guestName = "";
@@ -64,6 +68,10 @@ export class GameStateService {
 
     public waitForOpponent(): void {
         this._state = GameState.WAITING_FOR_OPPONENT;
+    }
+
+    public oponentLeft(): void {
+        this._state = GameState.OPPONENT_LEFT;
     }
 
     public setGameInfo(hostName: string, guestName: string, difficulty: Difficulty, isMultiplayer: boolean): void {
