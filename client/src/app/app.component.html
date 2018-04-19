@@ -1,19 +1,19 @@
 <div class="nav-container">
     <nav class="navbar navbar-expand-sm navbar-light bg-faded">
 
-        <a class="navbar-brand" routerLink="homepage">LOG2990-04</a>
+        <a class="navbar-brand btn btn-lg" (click)="homepage()">LOG2990-04</a>
 
 
         <div class="collapse navbar-collapse" id="nav-content">
             <ul class="navbar-nav">
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" routerLink="homepage">Homepage</a>
+                    <a class="nav-link btn btn-lg"  (click)="homepage()">Homepage</a>
                 </li>
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" routerLink="crossword-game">Crossword Game</a>
+                    <a class="nav-link btn btn-lg" (click)="crosswordGame()">Crossword Game</a>
                 </li>
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" routerLink="racing-game">Racing Game</a>
+                    <a class="nav-link btn btn-lg" (click)="racingGame()" >Racing Game</a>
                 </li>
             </ul>
         </div>

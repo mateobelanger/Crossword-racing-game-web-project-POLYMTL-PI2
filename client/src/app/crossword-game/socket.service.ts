@@ -142,7 +142,7 @@ export class SocketService {
         });
 
         this.socket.on(SocketMessage.OPPONENT_DISCONNECTED, () => {
-            this.gameStateService.isMultiplayer = false;
+            this.gameStateService.oponentLeft();
         });
 
         this.socket.on(SocketMessage.OPPONENT_DISCONNECTED_WHILE_WAITING, () => {
