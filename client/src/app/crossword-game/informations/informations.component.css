@@ -18,10 +18,12 @@
 
 .p1 {
     color: #62a8ca;
+    text-shadow: 2px 2px #000000;
 }
 
 .p2 {
     color: #dc6256;
+    text-shadow: 2px 2px #000000;
 }
 
 .align {
