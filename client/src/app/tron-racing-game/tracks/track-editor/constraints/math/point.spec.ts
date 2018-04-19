@@ -1,7 +1,7 @@
-// tslint:disable:no-magic-numbers
 import * as THREE from "three";
 import { Point } from "./point";
 
+// tslint:disable:no-magic-numbers
 describe("point", () => {
     let point: Point;
 

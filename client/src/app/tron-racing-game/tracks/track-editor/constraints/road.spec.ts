@@ -1,7 +1,7 @@
 import { Road } from "./road";
 import * as THREE from "three";
-// tslint:disable:no-magic-numbers
 
+// tslint:disable:no-magic-numbers
 describe("Road", () => {
 
     const road: Road = new Road(new THREE.Vector3(0, 0, 0), new THREE.Vector3(4, 4, 0), 0);

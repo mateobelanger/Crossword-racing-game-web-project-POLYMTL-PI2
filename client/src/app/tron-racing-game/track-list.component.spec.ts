@@ -40,7 +40,6 @@ describe("RacingGameComponent", () => {
     let spyInitialize: jasmine.Spy;
 
     beforeEach(async(() => {
-    // tslint:disable-next-line:no-floating-promises
         TestBed.configureTestingModule({
             imports: [routes, AppModule],
             providers: [TracksProxyService, { provide: APP_BASE_HREF, useValue: "/" }]

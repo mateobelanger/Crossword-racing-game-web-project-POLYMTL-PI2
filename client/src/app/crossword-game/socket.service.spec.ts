@@ -128,12 +128,10 @@ describe("SocketService", () => {
 
     it("updateValidatedWord should sync the local validated words with the game received",
        inject([SocketService], (service: SocketService) => {
-        const words: GridWord[] = [];
-        words.push(word);
         const game: CrosswordGame = new CrosswordGame("test", "test", "test", Difficulty.EASY, words);
         socketService.game = game;
 
-        const expectedValidatedWords: GridWord[][] = [[word], []];
+        const expectedValidatedWords: GridWord[][] = [[WORD1, WORD2, WORD3], []];
         game.validatedWords = expectedValidatedWords;
 
         socketService["updateValidatedWord"](game);
