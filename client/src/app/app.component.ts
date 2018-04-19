@@ -11,17 +11,17 @@ export class AppComponent {
     public constructor(public router: Router) {}
 
     public crosswordGame(): void {
-        this.router.navigate(["/crossword-game"]);
+        this.router.navigate(["/crossword-game"]).catch( (error: Error) => console.error(error));
         window.location.reload();
     }
 
     public racingGame(): void {
-        this.router.navigate(["/racing-game"]);
+        this.router.navigate(["/racing-game"]).catch( (error: Error) => console.error(error));
         window.location.reload();
     }
 
     public homepage(): void {
-        this.router.navigate(["/"]);
+        this.router.navigate(["/"]).catch( (error: Error) => console.error(error));
         window.location.reload();
     }
 }

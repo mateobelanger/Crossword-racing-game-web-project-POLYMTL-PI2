@@ -49,7 +49,6 @@ describe("endOfGameModalComponent", () => {
         }).compileComponents().catch( (error: Error) => console.error(error));
         http =  TestBed.get(HttpClient);
 
-        // gameStateService = TestBed.get(GameStateService);
         router =  TestBed.get(Router);
 
         socketService = new SocketService(lobbyService, wordService, gameStateService, router, selectionState);
